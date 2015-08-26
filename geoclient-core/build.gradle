@@ -1,0 +1,7 @@
+dependencies {
+  compile project(':geoclient-jni')
+  compile("org.slf4j:slf4j-api:${slf4jVersion}")
+  compile("ch.qos.logback:logback-core:${logbackVersion}")
+  compile("ch.qos.logback:logback-classic:${logbackVersion}")
+  compile("com.thoughtworks.xstream:xstream:${xstreamVersion}")
+}

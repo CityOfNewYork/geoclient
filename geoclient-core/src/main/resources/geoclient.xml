@@ -1,0 +1,1765 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<geoclient>
+
+
+	<filters id="allFilters">
+        <!-- References to filters can either reference the entire "filters" 
+             element id, selectively choose from this list or define their
+             own locally:
+
+             Reference all:         <outputFilters reference="allFilters" />
+
+             Reference selectively: <outputFilters>
+                                      <filter reference="fillerFilter" />
+                                      <filter reference="internalUseFilter" />
+                                    </outputFilters>
+
+             Define locally:        <outputFilters>
+                                      <filter pattern="(foo|bar)" />
+                                    </outputFilters>            
+         -->
+	    <filter id="angleToFilter" pattern="angleTo(From|To)Node(Alpha|Beta)Value" /><!-- specific to 1B -->
+		<filter id="attributeBytesFilter" pattern="attributeBytes" />
+		<filter id="fillerFilter" pattern="\w*[fF]iller\d*\w*" />
+	    <filter id="fractionForCurveCalculationFilter" pattern="fractionForCurveCalculation" /><!-- specific to 1B -->
+		<!-- <filter id="hiLoCrossStreetB5SCFilter" pattern="(low|high)CrossStreetB5SC\d\d?" /> -->
+		<filter id="internalUseFilter" pattern="\w*[Ii]nternalUse\w*" />
+		<filter id="lowHouseNumberFilter" pattern="lowHouseNumber(In|SortFormat|SortFormatIn)?" />
+		<filter id="ninFilter" pattern="nin" />
+		<!-- <filter id="numberOfCrossStreetB5SCFilter" pattern="numberOfCrossStreetB5SCs(Low|High)AddressEnd" /> -->
+		<filter id="reasonCodeQualifierFilter" pattern="reasonCodeQualifier(.)?" />
+		<filter id="reservedForFilter" pattern="reservedFor\w*" />
+		<filter id="streetAttributeIndicatorFilter" pattern="streetAttributeIndicator" />
+		<filter id="taxLotVersionNumberFilter" pattern="taxLotVersionNumber\w*" />
+	</filters>
+	<workAreas>
+		<!-- The "alias" attribute of the field tag currently applies to
+		     to WA1 input fields. The alias allows calling clients to use
+		     the alias as an input parameter name. The output name for all 
+		     fields, always uses the id. 
+		     
+			 For configuration purposes, Fields with the same start and length
+			 values are considered equal. Currently, warning messages are 
+			 logged at start-up when a work area configuration contains multiple 
+			 equal fields. Equal fields occurring later in this file are 
+			 ignored.
+		     
+		     Unless there is a good reason to do otherwise, Field id's should 
+		     be unique across each WA1/WA2 function configuration. There are 
+		     currently a few field id duplicates (mostly relating to BBL) 
+		     between WA1 and WA2. Since WA2 fields are parsed after WA1, the WA2
+		     field id duplicates will overwrite the WA1 field values when the
+		     response is parsed. Currently, warning messages are logged at
+		     start-up when a function configuration contains duplicate id's.
+
+		     The following naming conventions have been used:
+		     
+		       - WA1 input field id's have "In" added to the name with the
+		         sole exception of geosupportFunctionCode
+		         
+		       - All WA1 fields have been aliased to exclude the "In" suffix
+		       
+		       - Where there are multiple fields with the same name in the same
+		         work area, numbers starting with 1 have been appended. For 
+		         input fields, the number occurs before the "In" suffix
+		         
+		 -->
+		<workArea id="WA1" isWA1="true">
+			<!-- <description><p>Work Area 1 is used in all function calls. It contains input fields used as function arguments as well as output fields.</p></description> -->
+			<length>1200</length>
+			<outputFilters reference="allFilters" />
+			<fields>
+				<!-- WA1 input fields -->
+				<field id="geosupportFunctionCode" start="1" length="2" input="true"><!-- item doc by id --></field>
+				<field id="houseNumberIn" start="3" length="16" input="true" alias="houseNumber"><!-- item doc by id --></field>
+				<field id="houseNumberSortFormatIn" start="19" length="11" input="true" alias="houseNumberSortFormat"><!-- needs doc --></field>
+				<field id="lowHouseNumberIn" start="30" length="16" input="true" alias="lowHouseNumber"><!-- needs doc --></field>
+				<field id="lowHouseNumberSortFormatIn" start="46" length="11" input="true" alias="lowHouseNumberSortFormat"><!-- needs doc --></field>
+				<field id="boroughCode1In" start="57" length="1" input="true" alias="boroughCode"><!-- item doc by id --></field>
+				<field id="streetCode1In" start="58" length="10" input="true" alias="streetCode"><!-- item doc by id --></field>
+				<field id="streetName1In" start="68" length="32" input="true" alias="streetName"><!-- item doc by id --></field>
+				<field id="boroughCode2In" start="100" length="1" input="true" alias="boroughCode2"><!-- item doc by id --></field>
+				<field id="streetCode2In" start="101" length="10" input="true" alias="streetCode2"><!-- item doc by id --></field>
+				<field id="streetName2In" start="111" length="32" input="true" alias="streetName2"><!-- item doc by id --></field>
+				<field id="boroughCode3In" start="143" length="1" input="true" alias="boroughCode3"><!-- item doc by id --></field>
+				<field id="streetCode3In" start="144" length="10" input="true" alias="streetCode3"><!-- item doc by id --></field>
+				<field id="streetName3In" start="154" length="32" input="true" alias="streetName3"><!-- item doc by id --></field>
+				<field id="bblBoroughCodeIn" start="186" length="1" input="true" alias="bblBoroughCode"><!-- item doc by id --></field>
+				<field id="bblTaxBlockIn" start="187" length="5" input="true" alias="bblTaxBlock"><!-- item doc by id --></field>
+				<field id="bblTaxLotIn" start="192" length="4" input="true" alias="bblTaxLot"><!-- item doc by id --></field>
+				<field id="fillerForTaxLotVersionNumberIn" start="196" length="1" input="true" alias="fillerForTaxLotVersionNumber"><!-- filtered --></field>
+				<field id="buildingIdentificationNumberIn" start="197" length="7" input="true" alias="bin"><!-- item doc by id --></field>
+				<field id="compassDirectionIn" start="204" length="1" input="true" alias="compassDirection"><!-- item doc by id --></field>
+				<field id="compassDirection2In" start="205" length="1" input="true" alias="compassDirection2"><!-- item doc by id --></field>
+				<field id="nodeNumberIn" start="206" length="7" input="true"><!-- not aliased because of out field --></field>
+                <field id="workAreaFormatIndicatorIn" start="213" length="1" input="true" alias="workAreaFormatIndicator"></field>
+				<field id="zipCodeIn" start="214" length="5" input="true" alias="zipCode"><!-- FIXME: Needs doc --></field>
+				<field id="filler1In" start="219" length="96" input="true" alias="filler2"><!-- filtered --></field>
+				<field id="longWorkArea2FlagIn" start="315" length="1" input="true" alias="longWorkArea2Flag"></field>
+				<field id="houseNumberJustificationFlagIn" start="316" length="1" input="true" alias="houseNumberJustificationFlag"></field>
+				<field id="houseNumberNormalizationLengthIn" start="317" length="2" input="true" alias="houseNumberNormalizationLength"></field>
+				<field id="houseNumberNormalizationOverrideFlagIn" start="319" length="1" input="true" alias="houseNumberNormalizationOverrideFlag"></field>
+				<field id="streetNameNormalizationLengthLimitIn" start="320" length="2" input="true" alias="streetNameNormalizationLengthLimit"></field>
+				<field id="streetNameNormalizationFormatFlagIn" start="322" length="1" input="true" alias="streetNameNormalizationFormatFlag"></field>
+				<field id="crossStreetNamesFlagIn" start="323" length="1" input="true" alias="crossStreetNamesFlag"></field>
+				<field id="roadbedRequestSwitchIn" start="324" length="1" input="true" alias="roadbedRequestSwitch"></field>
+				<field id="filler2In" start="325" length="5" input="true" alias="filler3"><!-- filtered --></field>
+				<field id="modeSwitchIn" start="330" length="1" input="true" alias="modeSwitch"></field>
+				<field id="filler3In" start="331" length="30" input="true" alias="filler4"><!-- filtered --></field>
+				<!-- WA1 output fields -->
+				<field id="firstBoroughName" start="361" length="9"><!-- item doc by id --></field>
+				<field id="houseNumber" start="370" length="16"><!-- item doc by id --></field>
+				<field id="houseNumberSortFormat" start="386" length="11"><!-- item doc by id --></field>
+				<field id="firstStreetCode" start="397" length="11"><!-- item doc by id --></field>
+				<field id="firstStreetNameNormalized" start="408" length="32"><!-- item doc by id --></field>
+				<field id="secondStreetCode" start="440" length="11"><!-- item doc by id --></field>
+				<field id="secondStreetNameNormalized" start="451" length="32"><!-- item doc by id --></field>
+				<field id="thirdStreetCode" start="483" length="11"><!-- item doc by id --></field>
+				<field id="thirdStreetNameNormalized" start="494" length="32"><!-- item doc by id --></field>
+				<field id="bbl" start="526" length="10" type="COMP"><!-- item doc by id --></field>
+				<field id="bblBoroughCode" start="526" length="1"><!-- item doc by id --></field>
+				<field id="bblTaxBlock" start="527" length="5"><!-- item doc by id --></field>
+				<field id="bblTaxLot" start="532" length="4"><!-- item doc by id --></field>
+				<field id="fillerForTaxLotVersionNumber" start="536" length="1"><!-- filtered --></field>
+				<field id="lowHouseNumber" start="537" length="16"></field>
+				<field id="lowHouseNumberSortFormat" start="553" length="11"></field>
+				<field id="buildingIdentificationNumber" start="564" length="7"><!-- item doc by id --></field>
+				<field id="attributeBytes" start="571" length="3"></field>
+				<field id="reasonCode2" start="574" length="1"><!-- item doc by id --></field>
+				<field id="reasonCodeQualifier2" start="575" length="1"><!-- item doc by id --></field>
+				<field id="filler1" start="576" length="2"><!-- filtered --></field>
+				<field id="geosupportReturnCode2" start="578" length="2"><!-- item doc by id --></field>
+				<field id="message2" start="580" length="80"><!-- item doc by id --></field>
+                <field id="nodeNumberOut" start="660" length="7"></field>
+				<field id="filler2" start="667" length="39"><!-- filtered --></field>
+				<field id="nin" start="706" length="6"></field>
+				<field id="streetAttributeIndicator" start="712" length="1"></field>
+				<field id="reasonCode" start="713" length="1"><!-- item doc by id --></field>
+				<field id="reasonCodeQualifier" start="714" length="1"></field>
+				<field id="filler3" start="715" length="2"><!-- filtered --></field>
+				<field id="geosupportReturnCode" start="717" length="2"><!-- item doc by id --></field>
+				<field id="message" start="719" length="80"><!-- item doc by id --></field>
+				<field id="numberOfStreetCodesAndNamesInList" start="799" length="2"><!-- groupId="listOfStreetNamesWa1" --></field>
+				<field id="streetCode1" start="801" length="8"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetCode2" start="809" length="8"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetCode3" start="817" length="8"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetCode4" start="825" length="8"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetCode5" start="833" length="8"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetCode6" start="841" length="8"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetCode7" start="849" length="8"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetCode8" start="857" length="8"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetCode9" start="865" length="8"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetCode10" start="873" length="8"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetName1" start="881" length="32"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetName2" start="913" length="32"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetName3" start="945" length="32"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetName4" start="977" length="32"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetName5" start="1009" length="32"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetName6" start="1041" length="32"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetName7" start="1073" length="32"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetName8" start="1105" length="32"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetName9" start="1137" length="32"><!-- groupId="listOfStreetNamesWa1"--></field>
+				<field id="streetName10" start="1169" length="32"><!-- groupId="listOfStreetNamesWa1"--></field>
+			</fields>
+		</workArea>
+		<workArea id="WA2_F1">
+			<!-- <description><p>Used by functions 1 and 1E. Returns a total of 300 bytes in Work Area 2.</p></description> -->
+			<length>300</length>
+            <outputFilters reference="allFilters" />
+			<fields>
+				<field id="internalUse" start="1" length="21"></field>
+				<field id="continuousParityIndicator" start="22" length="1"></field>
+				<field id="lowHouseNumberOfBlockfaceSortFormat" start="23" length="11"></field>
+				<field id="highHouseNumberOfBlockfaceSortFormat" start="34" length="11"></field>
+				<field id="dcpPreferredLgc" start="45" length="2"></field>
+				<field id="numberOfCrossStreetB5SCsLowAddressEnd" start="47" length="1"></field>
+				<field id="lowCrossStreetB5SC1" start="48" length="6"></field>
+				<field id="lowCrossStreetB5SC2" start="54" length="6"></field>
+				<field id="lowCrossStreetB5SC3" start="60" length="6"></field>
+				<field id="lowCrossStreetB5SC4" start="66" length="6"></field>
+				<field id="lowCrossStreetB5SC5" start="72" length="6"></field>
+				<field id="numberOfCrossStreetB5SCsHighAddressEnd" start="78" length="1"></field>
+				<field id="highCrossStreetB5SC1" start="79" length="6"></field>
+				<field id="highCrossStreetB5SC2" start="85" length="6"></field>
+				<field id="highCrossStreetB5SC3" start="91" length="6"></field>
+				<field id="highCrossStreetB5SC4" start="97" length="6"></field>
+				<field id="highCrossStreetB5SC5" start="103" length="6"></field>
+				<field id="lionKey" start="109" length="10" type="COMP"><!-- item doc by id --></field>
+				<field id="lionBoroughCode" start="109" length="1"><!-- item doc by id --></field>
+				<field id="lionFaceCode" start="110" length="4"><!-- item doc by id --></field>
+				<field id="lionSequenceNumber" start="114" length="5"><!-- item doc by id --></field>
+				<field id="specialAddressGeneratedRecordFlag" start="119" length="1"></field>
+				<field id="sideOfStreetIndicator" start="120" length="1"></field>
+				<field id="segmentLengthInFeet" start="121" length="5"></field>
+				<field id="xCoordinate" start="126" length="7"><!-- item doc by id --></field>
+				<field id="yCoordinate" start="133" length="7"><!-- item doc by id --></field>
+				<field id="zCoordinate" start="140" length="7"><!-- item doc by id --></field>
+				<field id="interimAssistanceEligibilityIndicator" start="147" length="1"></field>
+				<field id="alternativeBoroughFlag" start="148" length="1"><!-- item doc by id --></field>
+				<field id="dotStreetLightContractorArea" start="149" length="1"><!-- item doc by id --></field>
+				<field id="communityDistrict" start="150" length="3" type="COMP"><!-- item doc by id --></field>
+				<field id="communityDistrictBoroughCode" start="150" length="1"><!-- item doc by id --></field>
+				<field id="communityDistrictNumber" start="151" length="2"><!-- item doc by id --></field>
+				<field id="zipCode" start="153" length="5"></field>
+				<field id="electionDistrict" start="158" length="3"></field>
+				<field id="assemblyDistrict" start="161" length="2"></field>
+				<field id="splitElectionDistrictFlag" start="163" length="1"></field>
+				<field id="congressionalDistrict" start="164" length="2"></field>
+				<field id="stateSenatorialDistrict" start="166" length="2"></field>
+				<field id="civilCourtDistrict" start="168" length="2"></field>
+				<field id="cityCouncilDistrict" start="170" length="2"></field>
+				<field id="healthCenterDistrict" start="172" length="2"></field>
+				<field id="healthArea" start="174" length="4"></field>
+				<field id="sanitationDistrict" start="178" length="3"></field>
+				<field id="sanitationCollectionSchedulingSectionAndSubsection" start="181" length="2"></field>
+				<field id="sanitationRegularCollectionSchedule" start="183" length="5"></field>
+				<field id="sanitationRecyclingCollectionSchedule" start="188" length="3"></field>
+				<field id="policePatrolBoroughCommand" start="191" length="1"></field>
+				<field id="policePrecinct" start="192" length="3"></field>
+				<field id="fireDivision" start="195" length="2"></field>
+				<field id="fireBattalion" start="197" length="2"></field>
+				<field id="fireCompanyType" start="199" length="1"></field>
+				<field id="fireCompanyNumber" start="200" length="3"></field>
+				<field id="filler4" start="203" length="1"></field>
+				<field id="communitySchoolDistrict" start="204" length="2"></field>
+				<field id="dynamicBlock" start="206" length="3"></field>
+				<field id="instructionalRegion" start="209" length="2"></field>
+				<field id="featureTypeCode" start="211" length="1"></field>
+				<field id="segmentTypeCode" start="212" length="1"></field>
+				<field id="alleyCrossStreetsFlag" start="213" length="1"></field>
+				<field id="coincidentSegmentCount" start="214" length="1"></field>
+				<field id="filler5" start="215" length="3"></field>
+				<field id="censusTract1990" start="218" length="6" whitespace="true"><!-- item doc by id --></field>
+				<field id="censusTract2010" start="224" length="6" whitespace="true"><!-- item doc by id --></field>
+				<field id="censusBlock2010" start="230" length="4"><!-- needs doc --></field>
+				<field id="censusBlockSuffix2010" start="234" length="1"><!-- needs doc --></field>
+				<field id="censusTract2000" start="235" length="6" whitespace="true"><!-- item doc by id --></field>
+				<field id="censusBlock2000" start="241" length="4"><!-- item doc by id --></field>
+				<field id="censusBlockSuffix2000" start="245" length="1"><!-- needs doc --></field>
+				<field id="nta" start="246" length="4"><!-- needs doc --></field>
+				<field id="sanitationSnowPriorityCode" start="250" length="1"><!-- needs doc --></field>
+				<field id="sanitationOrganicsCollectionSchedule" start="251" length="5"><!--  needs doc --></field>
+				<field id="filler6" start="256" length="5"><!-- filtered --></field>
+                <field id="hurricaneEvacuationZone" start="261" length="2"><!-- filtered --></field>
+                <field id="filler7" start="263" length="11"><!-- filtered --></field>
+				<field id="underlyingHnsOnTrueStreet" start="274" length="11"><!-- needs doc --></field>
+				<field id="underlyingStreetCode" start="285" length="8"><!-- needs doc --></field>
+				<field id="segmentIdentifier" start="293" length="7"><!-- needs doc --></field>
+				<field id="curveFlag" start="300" length="1"><!-- item doc by id --></field>
+			</fields>
+		</workArea>
+		<workArea id="WA2_F1A">
+			<!-- <description><p>Used by function 1A, BL ,BN. Returns a total of 1363 bytes in Work Area 2.</p></description> -->
+			<length>1363</length>
+            <outputFilters reference="allFilters" />
+			<fields>
+				<field id="internalUse1" start="1" length="21"></field>
+				<field id="continuousParityIndicator" start="22" length="1"></field>
+				<field id="lowHouseNumberOfDefiningAddressRange" start="23" length="11"><!-- item doc by id --></field>
+				<field id="bbl" start="34" length="10" type="COMP"></field>
+				<field id="bblBoroughCode" start="34" length="1"></field>
+				<field id="bblTaxBlock" start="35" length="5"></field>
+				<field id="bblTaxLot" start="40" length="4"></field>
+				<field id="fillerForTaxLotVersionNumber" start="44" length="1"></field>
+				<field id="rpadSelfCheckCodeForBbl" start="45" length="1"></field>
+				<field id="filler4" start="46" length="1"></field>
+				<field id="rpadBuildingClassificationCode" start="47" length="2"></field>
+				<field id="cornerCode" start="49" length="2"></field>
+				<field id="numberOfExistingStructuresOnLot" start="51" length="4"></field>
+				<field id="numberOfStreetFrontagesOfLot" start="55" length="2"></field>
+				<field id="interiorLotFlag" start="57" length="1"></field>
+				<field id="vacantLotFlag" start="58" length="1"></field>
+				<field id="irregularlyShapedLotFlag" start="59" length="1"></field>
+				<field id="alternativeBoroughFlag" start="60" length="1"><!-- item doc by id --></field>
+				<field id="listOfGeographicIdentifiersOverflowFlag" start="61" length="1"></field>
+				<field id="filler5" start="62" length="19"></field>
+				<field id="reservedForInternalUse" start="81" length="1"></field>
+				<field id="buildingIdentificationNumber" start="82" length="7"></field>
+				<field id="condominiumFlag" start="89" length="1"></field>
+				<field id="filler6" start="90" length="1"></field>
+				<field id="dofCondominiumIdentificationNumber" start="91" length="4"></field>
+				<field id="condominiumUnitIdNumber" start="95" length="7"></field>
+				<field id="condominiumBillingBbl" start="102" length="10"></field>
+				<field id="taxLotVersionNumberForBillingBbl" start="112" length="1"></field>
+				<field id="selfCheckCodeOfBillingBbl" start="113" length="1"></field>
+				<field id="lowBblOfThisBuildingsCondominiumUnits" start="114" length="10"></field>
+				<field id="taxLotVersionNumberOfLowBbl" start="124" length="1"></field>
+				<field id="highBblOfThisBuildingsCondominiumUnits" start="125" length="10"></field>
+				<field id="taxLogVersionNumberOfHighBbl" start="135" length="1"></field>
+				<field id="filler7" start="136" length="15"></field>
+				<field id="cooperativeIdNumber" start="151" length="4"></field>
+				<field id="sanbornBoroughCode" start="155" length="1"></field>
+				<field id="sanbornVolumeNumber" start="156" length="2"></field>
+				<field id="sanbornVolumeNumberSuffix" start="158" length="1"></field>
+				<field id="sanbornPageNumber" start="159" length="3"></field>
+				<field id="sanbornPageNumberSuffix" start="162" length="1"></field>
+				<field id="dcpCommercialStudyArea" start="163" length="5"></field>
+				<field id="taxMapNumberSectionAndVolume" start="168" length="5"></field>
+				<field id="reservedForTaxMapPageNumber" start="173" length="4"></field>
+				<field id="filler8" start="177" length="3"></field>
+                <field id="latitudeInternalLabel" start="180" length="9"></field>
+                <field id="longitudeInternalLabel" start="189" length="11"></field>
+				<field id="internalLabelXCoordinate" start="200" length="7"></field>
+				<field id="internalLabelYCoordinate" start="207" length="7"></field>
+				<field id="filler9" start="214" length="25"></field>
+				<field id="internalUse2" start="239" length="8"></field>
+				<field id="numberOfEntriesInListOfGeographicIdentifiers" start="247" length="4"></field>
+				<field id="giLowHouseNumber1" start="251" length="16"></field>
+				<field id="giHighHouseNumber1" start="267" length="16"></field>
+				<field id="giStreetCode1" start="283" length="8" type="COMP"></field>
+				<field id="giBoroughCode1" start="283" length="1"></field>
+				<field id="gi5DigitStreetCode1" start="284" length="5"></field>
+				<field id="giDcpPreferredLgc1" start="289" length="2"></field>
+				<field id="giBuildingIdentificationNumber1" start="291" length="7"></field>
+				<field id="giSideOfStreetIndicator1" start="298" length="1"></field>
+				<field id="giGeographicIdentifier1" start="299" length="1"></field>
+				<field id="giFiller1" start="300" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber2" start="304" length="16"></field>
+				<field id="giHighHouseNumber2" start="320" length="16"></field>
+				<field id="giStreetCode2" start="336" length="8" type="COMP"></field>
+				<field id="giBoroughCode2" start="336" length="1"></field>
+				<field id="gi5DigitStreetCode2" start="337" length="5"></field>
+				<field id="giDcpPreferredLgc2" start="342" length="2"></field>
+				<field id="giBuildingIdentificationNumber2" start="344" length="7"></field>
+				<field id="giSideOfStreetIndicator2" start="351" length="1"></field>
+				<field id="giGeographicIdentifier2" start="352" length="1"></field>
+				<field id="giFiller2" start="353" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber3" start="357" length="16"></field>
+				<field id="giHighHouseNumber3" start="373" length="16"></field>
+				<field id="giStreetCode3" start="389" length="8" type="COMP"></field>
+				<field id="giBoroughCode3" start="389" length="1"></field>
+				<field id="gi5DigitStreetCode3" start="390" length="5"></field>
+				<field id="giDcpPreferredLgc3" start="395" length="2"></field>
+				<field id="giBuildingIdentificationNumber3" start="397" length="7"></field>
+				<field id="giSideOfStreetIndicator3" start="404" length="1"></field>
+				<field id="giGeographicIdentifier3" start="405" length="1"></field>
+				<field id="giFiller3" start="406" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber4" start="410" length="16"></field>
+				<field id="giHighHouseNumber4" start="426" length="16"></field>
+				<field id="giStreetCode4" start="442" length="8" type="COMP"></field>
+				<field id="giBoroughCode4" start="442" length="1"></field>
+				<field id="gi5DigitStreetCode4" start="443" length="5"></field>
+				<field id="giDcpPreferredLgc4" start="448" length="2"></field>
+				<field id="giBuildingIdentificationNumber4" start="450" length="7"></field>
+				<field id="giSideOfStreetIndicator4" start="457" length="1"></field>
+				<field id="giGeographicIdentifier4" start="458" length="1"></field>
+				<field id="giFiller4" start="459" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber5" start="463" length="16"></field>
+				<field id="giHighHouseNumber5" start="479" length="16"></field>
+				<field id="giStreetCode5" start="495" length="8" type="COMP"></field>
+				<field id="giBoroughCode5" start="495" length="1"></field>
+				<field id="gi5DigitStreetCode5" start="496" length="5"></field>
+				<field id="giDcpPreferredLgc5" start="501" length="2"></field>
+				<field id="giBuildingIdentificationNumber5" start="503" length="7"></field>
+				<field id="giSideOfStreetIndicator5" start="510" length="1"></field>
+				<field id="giGeographicIdentifier5" start="511" length="1"></field>
+				<field id="giFiller5" start="512" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber6" start="516" length="16"></field>
+				<field id="giHighHouseNumber6" start="532" length="16"></field>
+				<field id="giStreetCode6" start="548" length="8" type="COMP"></field>
+				<field id="giBoroughCode6" start="548" length="1"></field>
+				<field id="gi5DigitStreetCode6" start="549" length="5"></field>
+				<field id="giDcpPreferredLgc6" start="554" length="2"></field>
+				<field id="giBuildingIdentificationNumber6" start="556" length="7"></field>
+				<field id="giSideOfStreetIndicator6" start="563" length="1"></field>
+				<field id="giGeographicIdentifier6" start="564" length="1"></field>
+				<field id="giFiller6" start="565" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber7" start="569" length="16"></field>
+				<field id="giHighHouseNumber7" start="585" length="16"></field>
+				<field id="giStreetCode7" start="601" length="8" type="COMP"></field>
+				<field id="giBoroughCode7" start="601" length="1"></field>
+				<field id="gi5DigitStreetCode7" start="602" length="5"></field>
+				<field id="giDcpPreferredLgc7" start="607" length="2"></field>
+				<field id="giBuildingIdentificationNumber7" start="609" length="7"></field>
+				<field id="giSideOfStreetIndicator7" start="616" length="1"></field>
+				<field id="giGeographicIdentifier7" start="617" length="1"></field>
+				<field id="giFiller7" start="618" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber8" start="622" length="16"></field>
+				<field id="giHighHouseNumber8" start="638" length="16"></field>
+				<field id="giStreetCode8" start="654" length="8" type="COMP"></field>
+				<field id="giBoroughCode8" start="654" length="1"></field>
+				<field id="gi5DigitStreetCode8" start="655" length="5"></field>
+				<field id="giDcpPreferredLgc8" start="660" length="2"></field>
+				<field id="giBuildingIdentificationNumber8" start="662" length="7"></field>
+				<field id="giSideOfStreetIndicator8" start="669" length="1"></field>
+				<field id="giGeographicIdentifier8" start="670" length="1"></field>
+				<field id="giFiller8" start="671" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber9" start="675" length="16"></field>
+				<field id="giHighHouseNumber9" start="691" length="16"></field>
+				<field id="giStreetCode9" start="707" length="8" type="COMP"></field>
+				<field id="giBoroughCode9" start="707" length="1"></field>
+				<field id="gi5DigitStreetCode9" start="708" length="5"></field>
+				<field id="giDcpPreferredLgc9" start="713" length="2"></field>
+				<field id="giBuildingIdentificationNumber9" start="715" length="7"></field>
+				<field id="giSideOfStreetIndicator9" start="722" length="1"></field>
+				<field id="giGeographicIdentifier9" start="723" length="1"></field>
+				<field id="giFiller9" start="724" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber10" start="728" length="16"></field>
+				<field id="giHighHouseNumber10" start="744" length="16"></field>
+				<field id="giStreetCode10" start="760" length="8" type="COMP"></field>
+				<field id="giBoroughCode10" start="760" length="1"></field>
+				<field id="gi5DigitStreetCode10" start="761" length="5"></field>
+				<field id="giDcpPreferredLgc10" start="766" length="2"></field>
+				<field id="giBuildingIdentificationNumber10" start="768" length="7"></field>
+				<field id="giSideOfStreetIndicator10" start="775" length="1"></field>
+				<field id="giGeographicIdentifier10" start="776" length="1"></field>
+				<field id="giFiller10" start="777" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber11" start="781" length="16"></field>
+				<field id="giHighHouseNumber11" start="797" length="16"></field>
+				<field id="giStreetCode11" start="813" length="8" type="COMP"></field>
+				<field id="giBoroughCode11" start="813" length="1"></field>
+				<field id="gi5DigitStreetCode11" start="814" length="5"></field>
+				<field id="giDcpPreferredLgc11" start="819" length="2"></field>
+				<field id="giBuildingIdentificationNumber11" start="821" length="7"></field>
+				<field id="giSideOfStreetIndicator11" start="828" length="1"></field>
+				<field id="giGeographicIdentifier11" start="829" length="1"></field>
+				<field id="giFiller11" start="830" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber12" start="834" length="16"></field>
+				<field id="giHighHouseNumber12" start="850" length="16"></field>
+				<field id="giStreetCode12" start="866" length="8" type="COMP"></field>
+				<field id="giBoroughCode12" start="866" length="1"></field>
+				<field id="gi5DigitStreetCode12" start="867" length="5"></field>
+				<field id="giDcpPreferredLgc12" start="872" length="2"></field>
+				<field id="giBuildingIdentificationNumber12" start="874" length="7"></field>
+				<field id="giSideOfStreetIndicator12" start="881" length="1"></field>
+				<field id="giGeographicIdentifier12" start="882" length="1"></field>
+				<field id="giFiller12" start="883" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber13" start="887" length="16"></field>
+				<field id="giHighHouseNumber13" start="903" length="16"></field>
+				<field id="giStreetCode13" start="919" length="8" type="COMP"></field>
+				<field id="giBoroughCode13" start="919" length="1"></field>
+				<field id="gi5DigitStreetCode13" start="920" length="5"></field>
+				<field id="giDcpPreferredLgc13" start="925" length="2"></field>
+				<field id="giBuildingIdentificationNumber13" start="927" length="7"></field>
+				<field id="giSideOfStreetIndicator13" start="934" length="1"></field>
+				<field id="giGeographicIdentifier13" start="935" length="1"></field>
+				<field id="giFiller13" start="936" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber14" start="940" length="16"></field>
+				<field id="giHighHouseNumber14" start="956" length="16"></field>
+				<field id="giStreetCode14" start="972" length="8" type="COMP"></field>
+				<field id="giBoroughCode14" start="972" length="1"></field>
+				<field id="gi5DigitStreetCode14" start="973" length="5"></field>
+				<field id="giDcpPreferredLgc14" start="978" length="2"></field>
+				<field id="giBuildingIdentificationNumber14" start="980" length="7"></field>
+				<field id="giSideOfStreetIndicator14" start="987" length="1"></field>
+				<field id="giGeographicIdentifier14" start="988" length="1"></field>
+				<field id="giFiller14" start="989" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber15" start="993" length="16"></field>
+				<field id="giHighHouseNumber15" start="1009" length="16"></field>
+				<field id="giStreetCode15" start="1025" length="8" type="COMP"></field>
+				<field id="giBoroughCode15" start="1025" length="1"></field>
+				<field id="gi5DigitStreetCode15" start="1026" length="5"></field>
+				<field id="giDcpPreferredLgc15" start="1031" length="2"></field>
+				<field id="giBuildingIdentificationNumber15" start="1033" length="7"></field>
+				<field id="giSideOfStreetIndicator15" start="1040" length="1"></field>
+				<field id="giGeographicIdentifier15" start="1041" length="1"></field>
+				<field id="giFiller15" start="1042" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber16" start="1046" length="16"></field>
+				<field id="giHighHouseNumber16" start="1062" length="16"></field>
+				<field id="giStreetCode16" start="1078" length="8" type="COMP"></field>
+				<field id="giBoroughCode16" start="1078" length="1"></field>
+				<field id="gi5DigitStreetCode16" start="1079" length="5"></field>
+				<field id="giDcpPreferredLgc16" start="1084" length="2"></field>
+				<field id="giBuildingIdentificationNumber16" start="1086" length="7"></field>
+				<field id="giSideOfStreetIndicator16" start="1093" length="1"></field>
+				<field id="giGeographicIdentifier16" start="1094" length="1"></field>
+				<field id="giFiller16" start="1095" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber17" start="1099" length="16"></field>
+				<field id="giHighHouseNumber17" start="1115" length="16"></field>
+				<field id="giStreetCode17" start="1131" length="8" type="COMP"></field>
+				<field id="giBoroughCode17" start="1131" length="1"></field>
+				<field id="gi5DigitStreetCode17" start="1132" length="5"></field>
+				<field id="giDcpPreferredLgc17" start="1137" length="2"></field>
+				<field id="giBuildingIdentificationNumber17" start="1139" length="7"></field>
+				<field id="giSideOfStreetIndicator17" start="1146" length="1"></field>
+				<field id="giGeographicIdentifier17" start="1147" length="1"></field>
+				<field id="giFiller17" start="1148" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber18" start="1152" length="16"></field>
+				<field id="giHighHouseNumber18" start="1168" length="16"></field>
+				<field id="giStreetCode18" start="1184" length="8" type="COMP"></field>
+				<field id="giBoroughCode18" start="1184" length="1"></field>
+				<field id="gi5DigitStreetCode18" start="1185" length="5"></field>
+				<field id="giDcpPreferredLgc18" start="1190" length="2"></field>
+				<field id="giBuildingIdentificationNumber18" start="1192" length="7"></field>
+				<field id="giSideOfStreetIndicator18" start="1199" length="1"></field>
+				<field id="giGeographicIdentifier18" start="1200" length="1"></field>
+				<field id="giFiller18" start="1201" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber19" start="1205" length="16"></field>
+				<field id="giHighHouseNumber19" start="1221" length="16"></field>
+				<field id="giStreetCode19" start="1237" length="8" type="COMP"></field>
+				<field id="giBoroughCode19" start="1237" length="1"></field>
+				<field id="gi5DigitStreetCode19" start="1238" length="5"></field>
+				<field id="giDcpPreferredLgc19" start="1243" length="2"></field>
+				<field id="giBuildingIdentificationNumber19" start="1245" length="7"></field>
+				<field id="giSideOfStreetIndicator19" start="1252" length="1"></field>
+				<field id="giGeographicIdentifier19" start="1253" length="1"></field>
+				<field id="giFiller19" start="1254" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber20" start="1258" length="16"></field>
+				<field id="giHighHouseNumber20" start="1274" length="16"></field>
+				<field id="giStreetCode20" start="1290" length="8" type="COMP"></field>
+				<field id="giBoroughCode20" start="1290" length="1"></field>
+				<field id="gi5DigitStreetCode20" start="1291" length="5"></field>
+				<field id="giDcpPreferredLgc20" start="1296" length="2"></field>
+				<field id="giBuildingIdentificationNumber20" start="1298" length="7"></field>
+				<field id="giSideOfStreetIndicator20" start="1305" length="1"></field>
+				<field id="giGeographicIdentifier20" start="1306" length="1"></field>
+				<field id="giFiller20" start="1307" length="4"><!-- filtered --></field>
+				<field id="giLowHouseNumber21" start="1311" length="16"></field>
+				<field id="giHighHouseNumber21" start="1327" length="16"></field>
+				<field id="giStreetCode21" start="1343" length="8" type="COMP"></field>
+				<field id="giBoroughCode21" start="1343" length="1"></field>
+				<field id="gi5DigitStreetCode21" start="1344" length="5"></field>
+				<field id="giDcpPreferredLgc21" start="1349" length="2"></field>
+				<field id="giBuildingIdentificationNumber21" start="1351" length="7"></field>
+				<field id="giSideOfStreetIndicator21" start="1358" length="1"></field>
+				<field id="giGeographicIdentifier21" start="1359" length="1"></field>
+				<field id="giFiller21" start="1360" length="4"><!-- filtered --></field>
+			</fields>
+		</workArea>
+		<workArea id="WA2_F1AX">
+			<!-- <description><p>Extended version of 1A returning 2800 bytes in work area 2.</p></description> -->
+			<length>2800</length>
+            <outputFilters reference="allFilters" />
+			<fields>
+				<field id="internalUse1" start="1" length="21"></field>
+				<field id="continuousParityIndicator" start="22" length="1"></field>
+				<field id="lowHouseNumberOfDefiningAddressRange" start="23" length="11"><!-- item doc by id --></field>
+				<field id="bbl" start="34" length="10" type="COMP"></field>
+				<field id="bblBoroughCode" start="34" length="1"></field>
+				<field id="bblTaxBlock" start="35" length="5"></field>
+				<field id="bblTaxLot" start="40" length="4"></field>
+				<field id="fillerForTaxLotVersionNumber" start="44" length="1"></field>
+				<field id="rpadSelfCheckCodeForBbl" start="45" length="1"></field>
+				<field id="filler4" start="46" length="1"></field>
+				<field id="rpadBuildingClassificationCode" start="47" length="2"></field>
+				<field id="cornerCode" start="49" length="2"></field>
+				<field id="numberOfExistingStructuresOnLot" start="51" length="4"></field>
+				<field id="numberOfStreetFrontagesOfLot" start="55" length="2"></field>
+				<field id="interiorLotFlag" start="57" length="1"></field>
+				<field id="vacantLotFlag" start="58" length="1"></field>
+				<field id="irregularlyShapedLotFlag" start="59" length="1"></field>
+				<field id="alternativeBoroughFlag" start="60" length="1"><!-- item doc by id --></field>
+				<field id="listOfGeographicIdentifiersOverflowFlag" start="61" length="1"></field>
+				<field id="filler5" start="62" length="19"></field>
+				<field id="reservedForInternalUse" start="81" length="1"></field>
+				<field id="buildingIdentificationNumber" start="82" length="7"></field>
+				<field id="condominiumFlag" start="89" length="1"></field>
+				<field id="filler6" start="90" length="1"></field>
+				<field id="dofCondominiumIdentificationNumber" start="91" length="4"></field>
+				<field id="condominiumUnitIdNumber" start="95" length="7"></field>
+				<field id="condominiumBillingBbl" start="102" length="10"></field>
+				<field id="taxLotVersionNumberForBillingBbl" start="112" length="1"></field>
+				<field id="selfCheckCodeOfBillingBbl" start="113" length="1"></field>
+				<field id="lowBblOfThisBuildingsCondominiumUnits" start="114" length="10"></field>
+				<field id="taxLotVersionNumberOfLowBbl" start="124" length="1"></field>
+				<field id="highBblOfThisBuildingsCondominiumUnits" start="125" length="10"></field>
+				<field id="taxLogVersionNumberOfHighBbl" start="135" length="1"></field>
+				<field id="filler7" start="136" length="15"></field>
+				<field id="cooperativeIdNumber" start="151" length="4"></field>
+				<field id="sanbornBoroughCode" start="155" length="1"></field>
+				<field id="sanbornVolumeNumber" start="156" length="2"></field>
+				<field id="sanbornVolumeNumberSuffix" start="158" length="1"></field>
+				<field id="sanbornPageNumber" start="159" length="3"></field>
+				<field id="sanbornPageNumberSuffix" start="162" length="1"></field>
+				<field id="dcpCommercialStudyArea" start="163" length="5"></field>
+				<field id="taxMapNumberSectionAndVolume" start="168" length="5"></field>
+				<field id="reservedForTaxMapPageNumber" start="173" length="4"></field>
+                <field id="filler8" start="177" length="3"></field>
+                <field id="latitudeInternalLabel" start="180" length="9"></field>
+                <field id="longitudeInternalLabel" start="189" length="11"></field>
+				<field id="internalLabelXCoordinate" start="200" length="7"></field>
+				<field id="internalLabelYCoordinate" start="207" length="7"></field>
+				<field id="businessImprovementDistrict" start="214" length="6"></field>
+				<field id="tpadBinStatus" start="220" length="1"></field>
+				<field id="tpadNewBin" start="221" length="7"></field>
+				<field id="tpadNewBinStatus" start="228" length="1"></field>
+				<field id="tpadConflictFlag" start="229" length="1"></field>
+				<field id="filler15" start="230" length="9"></field>
+				<field id="internalUse3" start="239" length="8"></field>
+				<field id="reasonCode1a" start="247" length="1"></field>
+				<field id="filler16" start="248" length="1"></field>
+				<field id="warningCode1a" start="249" length="2"></field>
+				<field id="returnCode1a" start="251" length="2"></field>
+				<field id="filler17" start="253" length="108"></field>
+				<field id="numberOfEntriesInListOfGeographicIdentifiers" start="361" length="4"></field>
+				<field id="giLowHouseNumber1" start="365" length="16"></field>
+				<field id="giHighHouseNumber1" start="381" length="16"></field>
+				<field id="giStreetCode1" start="397" length="8" type="COMP"></field>
+				<field id="giBoroughCode1" start="397" length="1"></field>
+				<field id="gi5DigitStreetCode1" start="398" length="5"></field>
+				<field id="giDcpPreferredLgc1" start="403" length="2"></field>
+				<field id="giBuildingIdentificationNumber1" start="405" length="7"></field>
+				<field id="giSideOfStreetIndicator1" start="412" length="1"></field>
+				<field id="giGeographicIdentifier1" start="413" length="1"></field>
+				<field id="giTpadBinStatus1" start="414" length="1"></field>
+				<field id="giStreetName1" start="415" length="32"></field>
+				<field id="giFiller1" start="447" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber2" start="481" length="16"></field>
+				<field id="giHighHouseNumber2" start="497" length="16"></field>
+				<field id="giStreetCode2" start="513" length="8" type="COMP"></field>
+				<field id="giBoroughCode2" start="513" length="1"></field>
+				<field id="gi5DigitStreetCode2" start="514" length="5"></field>
+				<field id="giDcpPreferredLgc2" start="519" length="2"></field>
+				<field id="giBuildingIdentificationNumber2" start="521" length="7"></field>
+				<field id="giSideOfStreetIndicator2" start="528" length="1"></field>
+				<field id="giGeographicIdentifier2" start="529" length="1"></field>
+				<field id="giTpadBinStatus2" start="530" length="1"></field>
+				<field id="giStreetName2" start="531" length="32"></field>
+				<field id="giFiller2" start="563" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber3" start="597" length="16"></field>
+				<field id="giHighHouseNumber3" start="613" length="16"></field>
+				<field id="giStreetCode3" start="629" length="8" type="COMP"></field>
+				<field id="giBoroughCode3" start="629" length="1"></field>
+				<field id="gi5DigitStreetCode3" start="630" length="5"></field>
+				<field id="giDcpPreferredLgc3" start="635" length="2"></field>
+				<field id="giBuildingIdentificationNumber3" start="637" length="7"></field>
+				<field id="giSideOfStreetIndicator3" start="644" length="1"></field>
+				<field id="giGeographicIdentifier3" start="645" length="1"></field>
+				<field id="giTpadBinStatus3" start="646" length="1"></field>
+				<field id="giStreetName3" start="647" length="32"></field>
+				<field id="giFiller3" start="679" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber4" start="713" length="16"></field>
+				<field id="giHighHouseNumber4" start="729" length="16"></field>
+				<field id="giStreetCode4" start="745" length="8" type="COMP"></field>
+				<field id="giBoroughCode4" start="745" length="1"></field>
+				<field id="gi5DigitStreetCode4" start="746" length="5"></field>
+				<field id="giDcpPreferredLgc4" start="751" length="2"></field>
+				<field id="giBuildingIdentificationNumber4" start="753" length="7"></field>
+				<field id="giSideOfStreetIndicator4" start="760" length="1"></field>
+				<field id="giGeographicIdentifier4" start="761" length="1"></field>
+				<field id="giTpadBinStatus4" start="762" length="1"></field>
+				<field id="giStreetName4" start="763" length="32"></field>
+				<field id="giFiller4" start="795" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber5" start="829" length="16"></field>
+				<field id="giHighHouseNumber5" start="845" length="16"></field>
+				<field id="giStreetCode5" start="861" length="8" type="COMP"></field>
+				<field id="giBoroughCode5" start="861" length="1"></field>
+				<field id="gi5DigitStreetCode5" start="862" length="5"></field>
+				<field id="giDcpPreferredLgc5" start="867" length="2"></field>
+				<field id="giBuildingIdentificationNumber5" start="869" length="7"></field>
+				<field id="giSideOfStreetIndicator5" start="876" length="1"></field>
+				<field id="giGeographicIdentifier5" start="877" length="1"></field>
+				<field id="giTpadBinStatus5" start="878" length="1"></field>
+				<field id="giStreetName5" start="879" length="32"></field>
+				<field id="giFiller5" start="911" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber6" start="945" length="16"></field>
+				<field id="giHighHouseNumber6" start="961" length="16"></field>
+				<field id="giStreetCode6" start="977" length="8" type="COMP"></field>
+				<field id="giBoroughCode6" start="977" length="1"></field>
+				<field id="gi5DigitStreetCode6" start="978" length="5"></field>
+				<field id="giDcpPreferredLgc6" start="983" length="2"></field>
+				<field id="giBuildingIdentificationNumber6" start="985" length="7"></field>
+				<field id="giSideOfStreetIndicator6" start="992" length="1"></field>
+				<field id="giGeographicIdentifier6" start="993" length="1"></field>
+				<field id="giTpadBinStatus6" start="994" length="1"></field>
+				<field id="giStreetName6" start="995" length="32"></field>
+				<field id="giFiller6" start="1027" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber7" start="1061" length="16"></field>
+				<field id="giHighHouseNumber7" start="1077" length="16"></field>
+				<field id="giStreetCode7" start="1093" length="8" type="COMP"></field>
+				<field id="giBoroughCode7" start="1093" length="1"></field>
+				<field id="gi5DigitStreetCode7" start="1094" length="5"></field>
+				<field id="giDcpPreferredLgc7" start="1099" length="2"></field>
+				<field id="giBuildingIdentificationNumber7" start="1101" length="7"></field>
+				<field id="giSideOfStreetIndicator7" start="1108" length="1"></field>
+				<field id="giGeographicIdentifier7" start="1109" length="1"></field>
+				<field id="giTpadBinStatus7" start="1110" length="1"></field>
+				<field id="giStreetName7" start="1111" length="32"></field>
+				<field id="giFiller7" start="1143" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber8" start="1177" length="16"></field>
+				<field id="giHighHouseNumber8" start="1193" length="16"></field>
+				<field id="giStreetCode8" start="1209" length="8" type="COMP"></field>
+				<field id="giBoroughCode8" start="1209" length="1"></field>
+				<field id="gi5DigitStreetCode8" start="1210" length="5"></field>
+				<field id="giDcpPreferredLgc8" start="1215" length="2"></field>
+				<field id="giBuildingIdentificationNumber8" start="1217" length="7"></field>
+				<field id="giSideOfStreetIndicator8" start="1224" length="1"></field>
+				<field id="giGeographicIdentifier8" start="1225" length="1"></field>
+				<field id="giTpadBinStatus8" start="1226" length="1"></field>
+				<field id="giStreetName8" start="1227" length="32"></field>
+				<field id="giFiller8" start="1259" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber9" start="1293" length="16"></field>
+				<field id="giHighHouseNumber9" start="1309" length="16"></field>
+				<field id="giStreetCode9" start="1325" length="8" type="COMP"></field>
+				<field id="giBoroughCode9" start="1325" length="1"></field>
+				<field id="gi5DigitStreetCode9" start="1326" length="5"></field>
+				<field id="giDcpPreferredLgc9" start="1331" length="2"></field>
+				<field id="giBuildingIdentificationNumber9" start="1333" length="7"></field>
+				<field id="giSideOfStreetIndicator9" start="1340" length="1"></field>
+				<field id="giGeographicIdentifier9" start="1341" length="1"></field>
+				<field id="giTpadBinStatus9" start="1342" length="1"></field>
+				<field id="giStreetName9" start="1343" length="32"></field>
+				<field id="giFiller9" start="1375" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber10" start="1409" length="16"></field>
+				<field id="giHighHouseNumber10" start="1425" length="16"></field>
+				<field id="giStreetCode10" start="1441" length="8" type="COMP"></field>
+				<field id="giBoroughCode10" start="1441" length="1"></field>
+				<field id="gi5DigitStreetCode10" start="1442" length="5"></field>
+				<field id="giDcpPreferredLgc10" start="1447" length="2"></field>
+				<field id="giBuildingIdentificationNumber10" start="1449" length="7"></field>
+				<field id="giSideOfStreetIndicator10" start="1456" length="1"></field>
+				<field id="giGeographicIdentifier10" start="1457" length="1"></field>
+				<field id="giTpadBinStatus10" start="1458" length="1"></field>
+				<field id="giStreetName10" start="1459" length="32"></field>
+				<field id="giFiller10" start="1491" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber11" start="1525" length="16"></field>
+				<field id="giHighHouseNumber11" start="1541" length="16"></field>
+				<field id="giStreetCode11" start="1557" length="8" type="COMP"></field>
+				<field id="giBoroughCode11" start="1557" length="1"></field>
+				<field id="gi5DigitStreetCode11" start="1558" length="5"></field>
+				<field id="giDcpPreferredLgc11" start="1563" length="2"></field>
+				<field id="giBuildingIdentificationNumber11" start="1565" length="7"></field>
+				<field id="giSideOfStreetIndicator11" start="1572" length="1"></field>
+				<field id="giGeographicIdentifier11" start="1573" length="1"></field>
+				<field id="giTpadBinStatus11" start="1574" length="1"></field>
+				<field id="giStreetName11" start="1575" length="32"></field>
+				<field id="giFiller11" start="1607" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber12" start="1641" length="16"></field>
+				<field id="giHighHouseNumber12" start="1657" length="16"></field>
+				<field id="giStreetCode12" start="1673" length="8" type="COMP"></field>
+				<field id="giBoroughCode12" start="1673" length="1"></field>
+				<field id="gi5DigitStreetCode12" start="1674" length="5"></field>
+				<field id="giDcpPreferredLgc12" start="1679" length="2"></field>
+				<field id="giBuildingIdentificationNumber12" start="1681" length="7"></field>
+				<field id="giSideOfStreetIndicator12" start="1688" length="1"></field>
+				<field id="giGeographicIdentifier12" start="1689" length="1"></field>
+				<field id="giTpadBinStatus12" start="1690" length="1"></field>
+				<field id="giStreetName12" start="1691" length="32"></field>
+				<field id="giFiller12" start="1723" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber13" start="1757" length="16"></field>
+				<field id="giHighHouseNumber13" start="1773" length="16"></field>
+				<field id="giStreetCode13" start="1789" length="8" type="COMP"></field>
+				<field id="giBoroughCode13" start="1789" length="1"></field>
+				<field id="gi5DigitStreetCode13" start="1790" length="5"></field>
+				<field id="giDcpPreferredLgc13" start="1795" length="2"></field>
+				<field id="giBuildingIdentificationNumber13" start="1797" length="7"></field>
+				<field id="giSideOfStreetIndicator13" start="1804" length="1"></field>
+				<field id="giGeographicIdentifier13" start="1805" length="1"></field>
+				<field id="giTpadBinStatus13" start="1806" length="1"></field>
+				<field id="giStreetName13" start="1807" length="32"></field>
+				<field id="giFiller13" start="1839" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber14" start="1873" length="16"></field>
+				<field id="giHighHouseNumber14" start="1889" length="16"></field>
+				<field id="giStreetCode14" start="1905" length="8" type="COMP"></field>
+				<field id="giBoroughCode14" start="1905" length="1"></field>
+				<field id="gi5DigitStreetCode14" start="1906" length="5"></field>
+				<field id="giDcpPreferredLgc14" start="1911" length="2"></field>
+				<field id="giBuildingIdentificationNumber14" start="1913" length="7"></field>
+				<field id="giSideOfStreetIndicator14" start="1920" length="1"></field>
+				<field id="giGeographicIdentifier14" start="1921" length="1"></field>
+				<field id="giTpadBinStatus14" start="1922" length="1"></field>
+				<field id="giStreetName14" start="1923" length="32"></field>
+				<field id="giFiller14" start="1955" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber15" start="1989" length="16"></field>
+				<field id="giHighHouseNumber15" start="2005" length="16"></field>
+				<field id="giStreetCode15" start="2021" length="8" type="COMP"></field>
+				<field id="giBoroughCode15" start="2021" length="1"></field>
+				<field id="gi5DigitStreetCode15" start="2022" length="5"></field>
+				<field id="giDcpPreferredLgc15" start="2027" length="2"></field>
+				<field id="giBuildingIdentificationNumber15" start="2029" length="7"></field>
+				<field id="giSideOfStreetIndicator15" start="2036" length="1"></field>
+				<field id="giGeographicIdentifier15" start="2037" length="1"></field>
+				<field id="giTpadBinStatus15" start="2038" length="1"></field>
+				<field id="giStreetName15" start="2039" length="32"></field>
+				<field id="giFiller15" start="2071" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber16" start="2105" length="16"></field>
+				<field id="giHighHouseNumber16" start="2121" length="16"></field>
+				<field id="giStreetCode16" start="2137" length="8" type="COMP"></field>
+				<field id="giBoroughCode16" start="2137" length="1"></field>
+				<field id="gi5DigitStreetCode16" start="2138" length="5"></field>
+				<field id="giDcpPreferredLgc16" start="2143" length="2"></field>
+				<field id="giBuildingIdentificationNumber16" start="2145" length="7"></field>
+				<field id="giSideOfStreetIndicator16" start="2152" length="1"></field>
+				<field id="giGeographicIdentifier16" start="2153" length="1"></field>
+				<field id="giTpadBinStatus16" start="2154" length="1"></field>
+				<field id="giStreetName16" start="2155" length="32"></field>
+				<field id="giFiller16" start="2187" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber17" start="2221" length="16"></field>
+				<field id="giHighHouseNumber17" start="2237" length="16"></field>
+				<field id="giStreetCode17" start="2253" length="8" type="COMP"></field>
+				<field id="giBoroughCode17" start="2253" length="1"></field>
+				<field id="gi5DigitStreetCode17" start="2254" length="5"></field>
+				<field id="giDcpPreferredLgc17" start="2259" length="2"></field>
+				<field id="giBuildingIdentificationNumber17" start="2261" length="7"></field>
+				<field id="giSideOfStreetIndicator17" start="2268" length="1"></field>
+				<field id="giGeographicIdentifier17" start="2269" length="1"></field>
+				<field id="giTpadBinStatus17" start="2270" length="1"></field>
+				<field id="giStreetName17" start="2271" length="32"></field>
+				<field id="giFiller17" start="2303" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber18" start="2337" length="16"></field>
+				<field id="giHighHouseNumber18" start="2353" length="16"></field>
+				<field id="giStreetCode18" start="2369" length="8" type="COMP"></field>
+				<field id="giBoroughCode18" start="2369" length="1"></field>
+				<field id="gi5DigitStreetCode18" start="2370" length="5"></field>
+				<field id="giDcpPreferredLgc18" start="2375" length="2"></field>
+				<field id="giBuildingIdentificationNumber18" start="2377" length="7"></field>
+				<field id="giSideOfStreetIndicator18" start="2384" length="1"></field>
+				<field id="giGeographicIdentifier18" start="2385" length="1"></field>
+				<field id="giTpadBinStatus18" start="2386" length="1"></field>
+				<field id="giStreetName18" start="2387" length="32"></field>
+				<field id="giFiller18" start="2419" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber19" start="2453" length="16"></field>
+				<field id="giHighHouseNumber19" start="2469" length="16"></field>
+				<field id="giStreetCode19" start="2485" length="8" type="COMP"></field>
+				<field id="giBoroughCode19" start="2485" length="1"></field>
+				<field id="gi5DigitStreetCode19" start="2486" length="5"></field>
+				<field id="giDcpPreferredLgc19" start="2491" length="2"></field>
+				<field id="giBuildingIdentificationNumber19" start="2493" length="7"></field>
+				<field id="giSideOfStreetIndicator19" start="2500" length="1"></field>
+				<field id="giGeographicIdentifier19" start="2501" length="1"></field>
+				<field id="giTpadBinStatus19" start="2502" length="1"></field>
+				<field id="giStreetName19" start="2503" length="32"></field>
+				<field id="giFiller19" start="2535" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber20" start="2569" length="16"></field>
+				<field id="giHighHouseNumber20" start="2585" length="16"></field>
+				<field id="giStreetCode20" start="2601" length="8" type="COMP"></field>
+				<field id="giBoroughCode20" start="2601" length="1"></field>
+				<field id="gi5DigitStreetCode20" start="2602" length="5"></field>
+				<field id="giDcpPreferredLgc20" start="2607" length="2"></field>
+				<field id="giBuildingIdentificationNumber20" start="2609" length="7"></field>
+				<field id="giSideOfStreetIndicator20" start="2616" length="1"></field>
+				<field id="giGeographicIdentifier20" start="2617" length="1"></field>
+				<field id="giTpadBinStatus20" start="2618" length="1"></field>
+				<field id="giStreetName20" start="2619" length="32"></field>
+				<field id="giFiller20" start="2651" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber21" start="2685" length="16"></field>
+				<field id="giHighHouseNumber21" start="2701" length="16"></field>
+				<field id="giStreetCode21" start="2717" length="8" type="COMP"></field>
+				<field id="giBoroughCode21" start="2717" length="1"></field>
+				<field id="gi5DigitStreetCode21" start="2718" length="5"></field>
+				<field id="giDcpPreferredLgc21" start="2723" length="2"></field>
+				<field id="giBuildingIdentificationNumber21" start="2725" length="7"></field>
+				<field id="giSideOfStreetIndicator21" start="2732" length="1"></field>
+				<field id="giGeographicIdentifier21" start="2733" length="1"></field>
+				<field id="giTpadBinStatus21" start="2734" length="1"></field>
+				<field id="giStreetName21" start="2735" length="32"></field>
+				<field id="giFiller21" start="2767" length="34"><!-- filtered --></field>
+			</fields>
+		</workArea>
+		<workArea id="WA2_F1B">
+			<!-- <description><p>Used by function 1B. Returns a total of 4300 bytes in Work Area 2. The first 1500 are for the Block Face (Function 1E) portion of the call. The next 2800 bytes are for the Property Level (1A) portion of the call.</p></description> -->
+			<length>4300</length>
+            <outputFilters reference="allFilters" />
+			<fields>
+			    <!-- F1E fields -->
+				<field id="internalUse1" start="1" length="21"><!-- filtered --></field>
+				<field id="continuousParityIndicator1e" start="22" length="1"><!-- item doc by id --></field>
+				<field id="lowHouseNumberOfBlockfaceSortFormat" start="23" length="11"><!-- filtered --></field>
+				<field id="highHouseNumberOfBlockfaceSortFormat" start="34" length="11"><!-- filtered --></field>
+				<field id="dcpPreferredLgc" start="45" length="2"><!-- item doc by id --></field>
+				<field id="numberOfCrossStreetB5SCsLowAddressEnd" start="47" length="1"><!-- filtered --></field>
+				<field id="lowCrossStreetB5SC1" start="48" length="6"><!-- filtered --></field>
+				<field id="lowCrossStreetB5SC2" start="54" length="6"><!-- filtered --></field>
+				<field id="lowCrossStreetB5SC3" start="60" length="6"><!-- filtered --></field>
+				<field id="lowCrossStreetB5SC4" start="66" length="6"><!-- filtered --></field>
+				<field id="lowCrossStreetB5SC5" start="72" length="6"><!-- filtered --></field>
+				<field id="numberOfCrossStreetB5SCsHighAddressEnd" start="78" length="1"><!-- filtered --></field>
+				<field id="highCrossStreetB5SC1" start="79" length="6"><!-- filtered --></field>
+				<field id="highCrossStreetB5SC2" start="85" length="6"><!-- filtered --></field>
+				<field id="highCrossStreetB5SC3" start="91" length="6"><!-- filtered --></field>
+				<field id="highCrossStreetB5SC4" start="97" length="6"><!-- filtered --></field>
+				<field id="highCrossStreetB5SC5" start="103" length="6"><!-- filtered --></field>
+				<field id="lionKey" start="109" length="10" type="COMP"><!-- item doc by id --></field>
+				<field id="lionBoroughCode" start="109" length="1"><!-- item doc by id --></field>
+				<field id="lionFaceCode" start="110" length="4"><!-- item doc by id --></field>
+				<field id="lionSequenceNumber" start="114" length="5"><!-- item doc by id --></field>
+				<field id="specialAddressGeneratedRecordFlag" start="119" length="1"><!-- item doc by id --></field>
+				<field id="sideOfStreetIndicator" start="120" length="1"><!-- item doc by id --></field>
+				<field id="segmentLengthInFeet" start="121" length="5"><!-- item doc by id --></field>
+				<field id="xCoordinate" start="126" length="7"><!-- item doc by id --></field>
+				<field id="yCoordinate" start="133" length="7"><!-- item doc by id --></field>
+				<field id="zCoordinate" start="140" length="7"><!-- item doc by id --></field>
+				<field id="interimAssistanceEligibilityIndicator" start="147" length="1"><!-- item doc by id --></field>
+				<field id="alternativeBoroughFlag" start="148" length="1"><!-- item doc by id --></field>
+				<field id="dotStreetLightContractorArea" start="149" length="1"><!-- item doc by id --></field>
+				<field id="communityDistrict" start="150" length="3" type="COMP"><!-- item doc by id --></field>
+				<field id="communityDistrictBoroughCode" start="150" length="1"><!-- item doc by id --></field>
+				<field id="communityDistrictNumber" start="151" length="2"><!-- item doc by id --></field>
+				<field id="zipCode" start="153" length="5"><!-- item doc by id --></field>
+				<field id="electionDistrict" start="158" length="3"><!-- item doc by id --></field>
+				<field id="assemblyDistrict" start="161" length="2"><!-- item doc by id --></field>
+				<field id="splitElectionDistrictFlag" start="163" length="1"><!-- item doc by id --></field>
+				<field id="congressionalDistrict" start="164" length="2"><!-- item doc by id --></field>
+				<field id="stateSenatorialDistrict" start="166" length="2"><!-- item doc by id --></field>
+				<field id="civilCourtDistrict" start="168" length="2"><!-- item doc by id --></field>
+				<field id="cityCouncilDistrict" start="170" length="2"><!-- item doc by id --></field>
+				<field id="healthCenterDistrict" start="172" length="2"><!-- item doc by id --></field>
+				<field id="healthArea" start="174" length="4"><!-- item doc by id --></field>
+				<field id="sanitationDistrict" start="178" length="3"><!-- item doc by id --></field>
+				<field id="sanitationCollectionSchedulingSectionAndSubsection" start="181" length="2"><!-- item doc by id --></field>
+				<field id="sanitationRegularCollectionSchedule" start="183" length="5"><!-- item doc by id --></field>
+				<field id="sanitationRecyclingCollectionSchedule" start="188" length="3"><!-- item doc by id --></field>
+				<field id="policePatrolBoroughCommand" start="191" length="1"><!-- item doc by id --></field>
+				<field id="policePrecinct" start="192" length="3"><!-- item doc by id --></field>
+				<field id="fireDivision" start="195" length="2"><!-- item doc by id --></field>
+				<field id="fireBattalion" start="197" length="2"><!-- item doc by id --></field>
+				<field id="fireCompanyType" start="199" length="1"><!-- item doc by id --></field>
+				<field id="fireCompanyNumber" start="200" length="3"><!-- item doc by id --></field>
+				<field id="filler4" start="203" length="1"><!-- filtered --></field>
+				<field id="communitySchoolDistrict" start="204" length="2"><!-- item doc by id --></field>
+				<field id="dynamicBlock" start="206" length="3"><!-- item doc by id --></field>
+				<field id="instructionalRegion" start="209" length="2"><!-- item doc by id --></field>
+				<field id="featureTypeCode" start="211" length="1"><!-- item doc by id --></field>
+				<field id="segmentTypeCode" start="212" length="1"><!-- item doc by id --></field>
+				<field id="alleyCrossStreetsFlag" start="213" length="1"><!-- item doc by id --></field>
+				<field id="coincidentSegmentCount" start="214" length="1"><!-- needs doc --></field>
+				<field id="filler5" start="215" length="3"><!-- filtered --></field>
+				<field id="censusTract1990" start="218" length="6" whitespace="true"><!-- item doc by id --></field>
+				<field id="censusTract2010" start="224" length="6" whitespace="true"><!-- item doc by id --></field>
+				<field id="censusBlock2010" start="230" length="4"><!-- needs doc --></field>
+				<field id="censusBlockSuffix2010" start="234" length="1"><!-- not implemented --></field>
+				<field id="censusTract2000" start="235" length="6" whitespace="true"><!-- item doc by id --></field>
+				<field id="censusBlock2000" start="241" length="4"><!-- item doc by id --></field>
+				<field id="censusBlockSuffix2000" start="245" length="1"><!-- needs doc --></field>
+				<field id="nta" start="246" length="4"><!-- needs doc --></field>
+				<field id="sanitationSnowPriorityCode" start="250" length="1"><!-- needs doc --></field>
+				<field id="sanitationOrganicsCollectionSchedule" start="251" length="5"><!--  needs doc --></field>
+                <field id="filler6" start="256" length="5"><!-- filtered --></field>
+                <field id="hurricaneEvacuationZone" start="261" length="2"><!-- filtered --></field>
+                <field id="filler7" start="263" length="11"><!-- filtered --></field>
+				<field id="underlyingHnsOnTrueStreet" start="274" length="11"><!-- needs doc --></field>
+				<field id="underlyingStreetCode" start="285" length="8"><!-- needs doc --></field>
+				<field id="segmentIdentifier" start="293" length="7"><!-- needs doc --></field>
+				<field id="curveFlag" start="300" length="1"><!-- item doc by id --></field>
+				<field id="listOf4Lgcs" start="301" length="8"><!-- needs doc --></field>
+				<field id="boardOfElectionsPreferredLgc" start="309" length="1"><!-- item doc by id --></field>
+				<field id="segmentAzimuth" start="310" length="3"><!-- item doc by id --></field>
+				<field id="segmentOrientation" start="313" length="1"><!-- item doc by id --></field>
+				<field id="xCoordinateLowAddressEnd" start="314" length="7"><!-- item doc by id --></field>
+				<field id="yCoordinateLowAddressEnd" start="321" length="7"><!-- item doc by id --></field>
+				<field id="zCoordinateLowAddressEnd" start="328" length="7"><!-- item doc by id --></field>
+				<field id="xCoordinateHighAddressEnd" start="335" length="7"><!-- item doc by id --></field>
+				<field id="yCoordinateHighAddressEnd" start="342" length="7"><!-- item doc by id --></field>
+				<field id="zCoordinateHighAddressEnd" start="349" length="7"><!-- item doc by id --></field>
+				<field id="xCoordinateOfCenterofCurvature" start="356" length="7"><!-- item doc by id --></field>
+				<field id="yCoordinateOfCenterofCurvature" start="363" length="7"><!-- item doc by id --></field>
+				<field id="zCoordinateOfCenterofCurvature" start="370" length="7"><!-- item doc by id --></field>
+				<field id="radiusOfCircle" start="377" length="7"><!-- needs doc --></field>
+				<field id="secantLocationRelatedToCurve" start="384" length="1"><!-- needs doc --></field>
+				<field id="angleToFromNodeBetaValue" start="385" length="5"><!-- filtered --></field>
+				<field id="angleToToNodeAlphaValue" start="390" length="5"><!-- filtered --></field>
+				<field id="fromLionNodeId" start="395" length="7"><!-- needs doc --></field>
+				<field id="toLionNodeId" start="402" length="7"><!-- needs doc --></field>
+				<field id="lionKeyForVanityAddress" start="409" length="10" type="COMP"><!-- item doc by id --></field>
+				<field id="lionBoroughCodeForVanityAddress" start="409" length="1"><!-- item doc by id --></field>
+				<field id="lionFaceCodeForVanityAddress" start="410" length="4"><!-- item doc by id --></field>
+				<field id="lionSequenceNumberForVanityAddress" start="414" length="5"><!-- item doc by id --></field>
+				<field id="sideOfStreetOfVanityAddress" start="419" length="1"><!-- item doc by id --></field>
+				<field id="splitLowHouseNumber" start="420" length="11"><!-- needs doc --></field>
+				<field id="trafficDirection" start="431" length="1"><!-- needs doc --></field>
+				<field id="turnRestrictions" start="432" length="10"><!-- not implemented --></field>
+				<field id="fractionForCurveCalculation" start="442" length="3"><!-- filtered --></field>
+				<field id="roadwayType" start="445" length="2"><!-- needs doc --></field>
+				<field id="physicalId" start="447" length="7"><!-- needs doc --></field>
+				<field id="genericId" start="454" length="7"><!-- needs doc --></field>
+				<field id="nypdId" start="461" length="7"><!-- needs doc --></field>
+				<field id="fdnyId" start="468" length="7"><!-- needs doc --></field>
+				<field id="blockfaceId" start="475" length="7"><!-- not implemented --></field>
+				<field id="streetStatus" start="482" length="1"><!-- needs doc --></field>
+				<field id="streetWidth" start="483" length="3"><!-- not implemented --></field>
+				<field id="streetWidthIrregular" start="486" length="1"><!-- not implemented --></field>
+				<field id="bikeLane" start="487" length="1"><!-- needs doc --></field>
+				<field id="federalClassificationCode" start="488" length="2"><!-- not implemented --></field>
+				<field id="rowType" start="490" length="1"><!-- needs doc --></field>
+				<field id="listOfSecondSetOf5Lgcs" start="491" length="10"><!-- needs doc --></field>
+				<field id="legacySegmentId" start="501" length="7"><!-- needs doc --></field>
+				<field id="fromPreferredLgcsFirstSetOf5" start="508" length="10"><!-- needs doc --></field>
+				<field id="toPreferredLgcsFirstSetOf5" start="518" length="10"><!-- needs doc --></field>
+				<field id="fromPreferredLgcsSecondSetOf5" start="528" length="10"><!-- needs doc --></field>
+				<field id="toPreferredLgcsSecondSetOf5" start="538" length="10"><!-- needs doc --></field>
+				<field id="noCrossStreetCalculationFlag" start="548" length="1"><!-- internal use --></field>
+				<field id="individualSegmentLength" start="549" length="5"><!-- internal use --></field>
+				<field id="ntaName" start="554" length="75"><!-- needs doc --></field>
+                <field id="uspsPreferredCityName" start="629" length="25"></field>
+                <field id="latitude" start="654" length="9"></field>
+                <field id="longitude" start="663" length="11"></field>
+                <field id="filler8" start="674" length="327"><!-- filtered --></field>
+                <field id="reasonCode1e" start="1001" length="1"><!-- item doc by id --></field>
+				<field id="reasonCode1eFiller" start="1002" length="1"><!-- filtered --></field>
+				<field id="warningCode1eFiller" start="1003" length="2"><!-- filtered --></field>
+				<field id="returnCode1e" start="1005" length="2"><!-- item doc by id --></field>
+				<field id="numberOfCrossStreetsLowAddressEnd" start="1007" length="1"><!-- groupId="listOfLowCrossStreets1b"--></field>
+				<field id="lowCrossStreetCode1" start="1008" length="8"><!-- groupId="listOfLowCrossStreets1b"--></field>
+				<field id="lowCrossStreetCode2" start="1016" length="8"><!-- groupId="listOfLowCrossStreets1b"--></field>
+				<field id="lowCrossStreetCode3" start="1024" length="8"><!-- groupId="listOfLowCrossStreets1b"--></field>
+				<field id="lowCrossStreetCode4" start="1032" length="8"><!-- groupId="listOfLowCrossStreets1b"--></field>
+				<field id="lowCrossStreetCode5" start="1040" length="8"><!-- groupId="listOfLowCrossStreets1b"--></field>
+				<field id="numberOfCrossStreetsHighAddressEnd" start="1048" length="1"><!-- groupId="listOfHighCrossStreets1b"--></field>
+				<field id="highCrossStreetCode1" start="1049" length="8"><!-- groupId="listOfHighCrossStreets1b"--></field>
+				<field id="highCrossStreetCode2" start="1057" length="8"><!-- groupId="listOfHighCrossStreets1b"--></field>
+				<field id="highCrossStreetCode3" start="1065" length="8"><!-- groupId="listOfHighCrossStreets1b"--></field>
+				<field id="highCrossStreetCode4" start="1073" length="8"><!-- groupId="listOfHighCrossStreets1b"--></field>
+				<field id="highCrossStreetCode5" start="1081" length="8"><!-- groupId="listOfHighCrossStreets1b"--></field>
+				<field id="lowCrossStreetName1" start="1089" length="32"><!-- groupId="listOfLowCrossStreets1b"--></field>
+				<field id="lowCrossStreetName2" start="1121" length="32"><!-- groupId="listOfLowCrossStreets1b"--></field>
+				<field id="lowCrossStreetName3" start="1153" length="32"><!-- groupId="listOfLowCrossStreets1b"--></field>
+				<field id="lowCrossStreetName4" start="1185" length="32"><!-- groupId="listOfLowCrossStreets1b"--></field>
+				<field id="lowCrossStreetName5" start="1217" length="32"><!-- groupId="listOfLowCrossStreets1b"--></field>
+				<field id="highCrossStreetName1" start="1249" length="32"><!-- groupId="listOfHighCrossStreets1b"--></field>
+				<field id="highCrossStreetName2" start="1281" length="32"><!-- groupId="listOfHighCrossStreets1b"--></field>
+				<field id="highCrossStreetName3" start="1313" length="32"><!-- groupId="listOfHighCrossStreets1b"--></field>
+				<field id="highCrossStreetName4" start="1345" length="32"><!-- groupId="listOfHighCrossStreets1b"--></field>
+				<field id="highCrossStreetName5" start="1377" length="32"><!-- groupId="listOfHighCrossStreets1b"--></field>
+				<field id="boePreferredstreetCode" start="1409" length="8"><!-- needs doc --></field>
+				<field id="boePreferredStreetName" start="1417" length="32"><!-- needs doc --></field>
+				<field id="filler9" start="1449" length="52"><!-- filtered --></field>
+				<!-- F1A fields -->
+				<field id="internalUse2" start="1501" length="21"><!-- filtered --></field>
+				<field id="continuousParityIndicator1a" start="1522" length="1"><!-- item doc by id --></field>
+				<field id="lowHouseNumberOfDefiningAddressRange" start="1523" length="11"><!-- item doc by id --></field>
+				<field id="bbl" start="1534" length="10" type="COMP"></field>
+				<field id="bblBoroughCode" start="1534" length="1"></field>
+				<field id="bblTaxBlock" start="1535" length="5"></field>
+				<field id="bblTaxLot" start="1540" length="4"></field>
+				<field id="fillerForTaxLotVersionNumber" start="1544" length="1"></field>
+				<field id="rpadSelfCheckCodeForBbl" start="1545" length="1"></field>
+				<field id="filler10" start="1546" length="1"></field>
+				<field id="rpadBuildingClassificationCode" start="1547" length="2"></field>
+				<field id="cornerCode" start="1549" length="2"></field>
+				<field id="numberOfExistingStructuresOnLot" start="1551" length="4"></field>
+				<field id="numberOfStreetFrontagesOfLot" start="1555" length="2"></field>
+				<field id="interiorLotFlag" start="1557" length="1"></field>
+				<field id="vacantLotFlag" start="1558" length="1"></field>
+				<field id="irregularlyShapedLotFlag" start="1559" length="1"></field>
+				<field id="alternativeBoroughFlag" start="1560" length="1"><!-- item doc by id --></field>
+				<field id="listOfGeographicIdentifiersOverflowFlag" start="1561" length="1"></field>
+				<field id="filler11" start="1562" length="19"></field>
+				<field id="reservedForInternalUse" start="1581" length="1"></field>
+				<field id="buildingIdentificationNumber" start="1582" length="7"></field>
+				<field id="condominiumFlag" start="1589" length="1"></field>
+				<field id="filler12" start="1590" length="1"></field>
+				<field id="dofCondominiumIdentificationNumber" start="1591" length="4"></field>
+				<field id="condominiumUnitIdNumber" start="1595" length="7"></field>
+				<field id="condominiumBillingBbl" start="1602" length="10"></field>
+				<field id="taxLotVersionNumberForBillingBbl" start="1612" length="1"></field>
+				<field id="selfCheckCodeOfBillingBbl" start="1613" length="1"></field>
+				<field id="lowBblOfThisBuildingsCondominiumUnits" start="1614" length="10"></field>
+				<field id="taxLotVersionNumberOfLowBbl" start="1624" length="1"></field>
+				<field id="highBblOfThisBuildingsCondominiumUnits" start="1625" length="10"></field>
+				<field id="taxLogVersionNumberOfHighBbl" start="1635" length="1"></field>
+				<field id="filler13" start="1636" length="15"></field>
+				<field id="cooperativeIdNumber" start="1651" length="4"></field>
+				<field id="sanbornBoroughCode" start="1655" length="1"></field>
+				<field id="sanbornVolumeNumber" start="1656" length="2"></field>
+				<field id="sanbornVolumeNumberSuffix" start="1658" length="1"></field>
+				<field id="sanbornPageNumber" start="1659" length="3"></field>
+				<field id="sanbornPageNumberSuffix" start="1662" length="1"></field>
+				<field id="dcpCommercialStudyArea" start="1663" length="5"></field>
+				<field id="taxMapNumberSectionAndVolume" start="1668" length="5"></field>
+				<field id="reservedForTaxMapPageNumber" start="1673" length="4"></field>
+    			<field id="filler14" start="1677" length="3"></field>			
+                <field id="latitudeInternalLabel" start="1680" length="9"></field>
+                <field id="longitudeInternalLabel" start="1689" length="11"></field>
+                <field id="internalLabelXCoordinate" start="1700" length="7"></field>
+				<field id="internalLabelYCoordinate" start="1707" length="7"></field>
+				<field id="businessImprovementDistrict" start="1714" length="6"></field>
+				<field id="tpadBinStatus" start="1720" length="1"></field>
+				<field id="tpadNewBin" start="1721" length="7"></field>
+				<field id="tpadNewBinStatus" start="1728" length="1"></field>
+				<field id="tpadConflictFlag" start="1729" length="1"></field>
+				<field id="filler15" start="1730" length="9"></field>
+				<field id="internalUse3" start="1739" length="8"></field>
+				<field id="reasonCode1a" start="1747" length="1"></field>
+				<field id="filler16" start="1748" length="1"></field>
+				<field id="warningCode1a" start="1749" length="2"></field>
+				<field id="returnCode1a" start="1751" length="2"></field>
+				<field id="filler17" start="1753" length="108"></field>
+				<field id="numberOfEntriesInListOfGeographicIdentifiers" start="1861" length="4"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giLowHouseNumber1" start="1865" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber1" start="1881" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode1" start="1897" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode1" start="1897" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode1" start="1898" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc1" start="1903" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber1" start="1905" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator1" start="1912" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier1" start="1913" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus1" start="1914" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName1" start="1915" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller1" start="1947" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber2" start="1981" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber2" start="1997" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode2" start="2013" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode2" start="2013" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode2" start="2014" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc2" start="2019" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber2" start="2021" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator2" start="2028" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier2" start="2029" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus2" start="2030" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName2" start="2031" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller2" start="2063" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber3" start="2097" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber3" start="2113" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode3" start="2129" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode3" start="2129" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode3" start="2130" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc3" start="2135" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber3" start="2137" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator3" start="2144" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier3" start="2145" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus3" start="2146" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName3" start="2147" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller3" start="2179" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber4" start="2213" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber4" start="2229" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode4" start="2245" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode4" start="2245" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode4" start="2246" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc4" start="2251" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber4" start="2253" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator4" start="2260" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier4" start="2261" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus4" start="2262" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName4" start="2263" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller4" start="2295" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber5" start="2329" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber5" start="2345" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode5" start="2361" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode5" start="2361" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode5" start="2362" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc5" start="2367" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber5" start="2369" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator5" start="2376" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier5" start="2377" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus5" start="2378" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName5" start="2379" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller5" start="2411" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber6" start="2445" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber6" start="2461" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode6" start="2477" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode6" start="2477" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode6" start="2478" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc6" start="2483" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber6" start="2485" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator6" start="2492" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier6" start="2493" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus6" start="2494" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName6" start="2495" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller6" start="2527" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber7" start="2561" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber7" start="2577" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode7" start="2593" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode7" start="2593" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode7" start="2594" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc7" start="2599" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber7" start="2601" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator7" start="2608" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier7" start="2609" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus7" start="2610" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName7" start="2611" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller7" start="2643" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber8" start="2677" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber8" start="2693" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode8" start="2709" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode8" start="2709" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode8" start="2710" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc8" start="2715" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber8" start="2717" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator8" start="2724" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier8" start="2725" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus8" start="2726" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName8" start="2727" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller8" start="2759" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber9" start="2793" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber9" start="2809" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode9" start="2825" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode9" start="2825" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode9" start="2826" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc9" start="2831" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber9" start="2833" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator9" start="2840" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier9" start="2841" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus9" start="2842" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName9" start="2843" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller9" start="2875" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber10" start="2909" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber10" start="2925" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode10" start="2941" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode10" start="2941" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode10" start="2942" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc10" start="2947" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber10" start="2949" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator10" start="2956" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier10" start="2957" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus10" start="2958" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName10" start="2959" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller10" start="2991" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber11" start="3025" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber11" start="3041" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode11" start="3057" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode11" start="3057" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode11" start="3058" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc11" start="3063" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber11" start="3065" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator11" start="3072" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier11" start="3073" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus11" start="3074" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName11" start="3075" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller11" start="3107" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber12" start="3141" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber12" start="3157" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode12" start="3173" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode12" start="3173" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode12" start="3174" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc12" start="3179" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber12" start="3181" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator12" start="3188" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier12" start="3189" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus12" start="3190" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName12" start="3191" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller12" start="3223" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber13" start="3257" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber13" start="3273" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode13" start="3289" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode13" start="3289" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode13" start="3290" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc13" start="3295" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber13" start="3297" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator13" start="3304" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier13" start="3305" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus13" start="3306" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName13" start="3307" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller13" start="3339" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber14" start="3373" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber14" start="3389" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode14" start="3405" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode14" start="3405" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode14" start="3406" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc14" start="3411" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber14" start="3413" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator14" start="3420" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier14" start="3421" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus14" start="3422" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName14" start="3423" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller14" start="3455" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber15" start="3489" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber15" start="3505" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode15" start="3521" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode15" start="3521" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode15" start="3522" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc15" start="3527" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber15" start="3529" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator15" start="3536" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier15" start="3537" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus15" start="3538" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName15" start="3539" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller15" start="3571" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber16" start="3605" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber16" start="3621" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode16" start="3637" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode16" start="3637" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode16" start="3638" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc16" start="3643" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber16" start="3645" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator16" start="3652" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier16" start="3653" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus16" start="3654" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName16" start="3655" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller16" start="3687" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber17" start="3721" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber17" start="3737" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode17" start="3753" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode17" start="3753" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode17" start="3754" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc17" start="3759" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber17" start="3761" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator17" start="3768" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier17" start="3769" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus17" start="3770" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName17" start="3771" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller17" start="3803" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber18" start="3837" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber18" start="3853" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode18" start="3869" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode18" start="3869" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode18" start="3870" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc18" start="3875" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber18" start="3877" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator18" start="3884" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier18" start="3885" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus18" start="3886" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName18" start="3887" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller18" start="3919" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber19" start="3953" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber19" start="3969" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode19" start="3985" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode19" start="3985" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode19" start="3986" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc19" start="3991" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber19" start="3993" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator19" start="4000" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier19" start="4001" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus19" start="4002" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName19" start="4003" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller19" start="4035" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber20" start="4069" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber20" start="4085" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode20" start="4101" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode20" start="4101" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode20" start="4102" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc20" start="4107" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber20" start="4109" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator20" start="4116" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier20" start="4117" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus20" start="4118" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName20" start="4119" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller20" start="4151" length="34"><!-- filtered --></field>
+				<field id="giLowHouseNumber21" start="4185" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giHighHouseNumber21" start="4201" length="16"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetCode21" start="4217" length="8" type="COMP"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBoroughCode21" start="4217" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="gi5DigitStreetCode21" start="4218" length="5"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giDcpPreferredLgc21" start="4223" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giBuildingIdentificationNumber21" start="4225" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giSideOfStreetIndicator21" start="4232" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giGeographicIdentifier21" start="4233" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giTpadBinStatus21" start="4234" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giStreetName21" start="4235" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
+				<field id="giFiller21" start="4267" length="34"><!-- filtered --></field>
+			</fields>
+		</workArea>
+		<workArea id="WA2_F2">
+			<!-- <description><p>Used by function 2. Returns a total of 200 bytes in Work Area 2. The first 1500 are for the Block Face (Function 1E) portion of the call. The next 2800 bytes are for the Property Level (1A) portion of the call.</p></description> -->
+			<length>200</length>
+            <outputFilters reference="allFilters" />
+			<fields>
+				<field id="internalUse" start="1" length="21"></field>
+				<field id="intersectionReplicationCounter" start="22" length="1"></field>
+				<field id="dcpPreferredLgcForStreet1" start="23" length="2"></field>
+				<field id="dcpPreferredLgcForStreet2" start="25" length="2"></field>
+				<field id="numberOfIntersectingStreets" start="27" length="1"></field>
+				<field id="intersectingStreet1" start="28" length="6"></field>
+				<field id="intersectingStreet2" start="34" length="6"></field>
+				<field id="intersectingStreet3" start="40" length="6"></field>
+				<field id="intersectingStreet4" start="46" length="6"></field>
+				<field id="intersectingStreet5" start="52" length="6"></field>
+				<field id="compassDirection" start="58" length="1"></field>
+				<field id="filler4" start="59" length="5"></field>
+				<field id="lionNodeNumber" start="64" length="7"></field>
+				<field id="xCoordinate" start="71" length="7"><!-- item doc by id --></field>
+				<field id="yCoordinate" start="78" length="7"><!-- item doc by id --></field>
+				<field id="filler5" start="85" length="7"></field>
+				<field id="sanbornBoroughCode1" start="92" length="1"></field>
+				<field id="sanbornVolumeNumber1" start="93" length="2"></field>
+				<field id="sanbornVolumeNumberSuffix1" start="95" length="1"></field>
+				<field id="sanbornPageNumber1" start="96" length="3"></field>
+				<field id="sanbornPageNumberSuffix1" start="99" length="1"></field>
+				<field id="sanbornBoroughCode2" start="100" length="1"></field>
+				<field id="sanbornVolumeNumber2" start="101" length="2"></field>
+				<field id="sanbornVolumeNumberSuffix2" start="103" length="1"></field>
+				<field id="sanbornPageNumber2" start="104" length="3"></field>
+				<field id="sanbornPageNumberSuffix2" start="107" length="1"></field>
+				<field id="alternativeBoroughFlag" start="108" length="1"><!-- item doc by id --></field>
+				<field id="dotStreetLightContractorArea" start="109" length="1"><!-- item doc by id --></field>
+				<field id="communityDistrict" start="110" length="3" type="COMP"></field>
+				<field id="communityDistrictBoroughCode" start="110" length="1"><!-- item doc by id --></field>
+				<field id="communityDistrictNumber" start="111" length="2"><!-- item doc by id --></field>
+				<field id="zipCode" start="113" length="5"></field>
+				<field id="healthArea" start="118" length="4"></field>
+				<field id="policePatrolBoroughCommand" start="122" length="1"></field>
+				<field id="policePrecinct" start="123" length="3"></field>
+				<field id="fireDivision" start="126" length="2"></field>
+				<field id="fireBattalion" start="128" length="2"></field>
+				<field id="fireCompanyType" start="130" length="1"></field>
+				<field id="fireCompanyNumber" start="131" length="3"></field>
+				<field id="communitySchoolDistrict" start="134" length="2"></field>
+				<field id="censusTract2010" start="136" length="6" whitespace="true"><!-- item doc by id --></field>
+				<field id="censusTract1990" start="142" length="6" whitespace="true"><!-- item doc by id --></field>
+				<field id="listOfPairsOfLevelCodes" start="148" length="10"></field>
+				<field id="instructionalRegion" start="158" length="2"></field>
+				<field id="assemblyDistrict" start="160" length="2"></field>
+				<field id="congressionalDistrict" start="162" length="2"></field>
+				<field id="stateSenatorialDistrict" start="164" length="2"></field>
+				<field id="civilCourtDistrict" start="166" length="2"></field>
+				<field id="cityCouncilDistrict" start="168" length="2"></field>
+				<field id="interimAssistanceEligibilityIndicator" start="170" length="1"></field>
+				<field id="filler6" start="171" length="5"></field>
+				<field id="censusTract2000" start="176" length="6" whitespace="true"><!-- item doc by id --></field>
+				<field id="healthCenterDistrict" start="182" length="2"></field>
+				<field id="sanitationDistrict" start="184" length="3"></field>
+				<field id="sanitationCollectionSchedulingSectionAndSubsection" start="187" length="2"></field>
+				<field id="filler7" start="189" length="12"></field>
+			</fields>
+		</workArea>
+		<workArea id="WA2_F3">
+			<!-- <description><p>Used by function 3. Returns a total of 1000 bytes in Work Area 2. The first 1500 are for the Block Face (Function 1E) portion of the call. The next 2800 bytes are for the Property Level (1A) portion of the call.</p></description> -->
+			<length>1000</length>
+            <outputFilters reference="allFilters" />
+			<fields>
+				<field id="internalUse" start="1" length="21"></field>
+				<field id="duplicateKeyFlagOrContinuousParity" start="22" length="1"></field>
+				<field id="locationalStatusOfSegment" start="23" length="1"></field>
+				<field id="countyBoundaryIndicator" start="24" length="1"></field>
+				<field id="dcpPreferredLgcForStreet1" start="25" length="2"></field>
+				<field id="dcpPreferredLgcForStreet2" start="27" length="2"></field>
+				<field id="dcpPreferredLgcForStreet3" start="29" length="2"></field>
+				<field id="numberOfCrossStreetB5SCsLowAddressEnd" start="31" length="1"></field>
+				<field id="lowCrossStreetB5SC1" start="32" length="6"></field>
+				<field id="lowCrossStreetB5SC2" start="38" length="6"></field>
+				<field id="lowCrossStreetB5SC3" start="44" length="6"></field>
+				<field id="lowCrossStreetB5SC4" start="50" length="6"></field>
+				<field id="lowCrossStreetB5SC5" start="56" length="6"></field>
+				<field id="numberOfCrossStreetB5SCsHighAddressEnd" start="62" length="1"></field>
+				<field id="highCrossStreetB5SC1" start="63" length="6"></field>
+				<field id="highCrossStreetB5SC2" start="69" length="6"></field>
+				<field id="highCrossStreetB5SC3" start="75" length="6"></field>
+				<field id="highCrossStreetB5SC4" start="81" length="6"></field>
+				<field id="highCrossStreetB5SC5" start="87" length="6"></field>
+				<field id="crossStreetReversalFlag" start="93" length="1"></field>
+				<field id="lionKey" start="94" length="10" type="COMP"><!-- item doc by id --></field>
+				<field id="lionBoroughCode" start="94" length="1"><!-- item doc by id --></field>
+				<field id="lionFaceCode" start="95" length="4"><!-- item doc by id --></field>
+				<field id="lionSequenceNumber" start="99" length="5"><!-- item doc by id --></field>
+				<field id="generatedRecordFlag" start="104" length="1"></field>
+				<field id="lengthOfSegmentInFeet" start="105" length="5"></field>
+				<field id="segmentAzimuth" start="110" length="3"><!-- item doc by id --></field>
+				<field id="segmentOrientation" start="113" length="1"><!-- item doc by id --></field>
+				<field id="alternativeBoroughFlag" start="114" length="1"><!-- item doc by id --></field>
+				<field id="fromNode" start="115" length="7"><!-- needs doc --></field>
+				<field id="toNode" start="122" length="7"><!-- needs doc --></field>
+				<field id="sanitationSnowPriorityCode" start="129" length="1"><!-- needs doc --></field>
+				<field id="filler4" start="130" length="4"><!-- filtered --></field>
+				<field id="segmentIdentifier" start="134" length="7"><!-- needs doc --></field>
+				<field id="dotStreetLightContractorArea" start="141" length="1"><!-- item doc by id --></field>
+				<field id="curveFlag" start="142" length="1"><!-- item doc by id --></field>
+				<field id="dogLegFlag" start="143" length="1"></field>
+				<field id="featureTypeCode" start="144" length="1"></field>
+				<field id="segmentTypeCode" start="145" length="1"></field>
+				<field id="coincidentSegmentCount" start="146" length="1"></field>
+				<field id="filler5" start="147" length="4"></field>
+				<field id="leftSegmentCommunityDistrict" start="151" length="3" type="COMP"></field>
+				<field id="leftSegmentCommunityDistrictBoroughCode" start="151" length="1"></field>
+				<field id="leftSegmentCommunityDistrictNumber" start="152" length="2"></field>
+				<field id="leftSegmentLowHouseNumber" start="154" length="16"></field>
+				<field id="leftSegmentHighHouseNumber" start="170" length="16"></field>
+				<field id="leftSegmentReservedForGeosupportUse" start="186" length="32"></field>
+				<field id="leftSegmentInterimAssistanceEligibilityIndicator" start="218" length="1"></field>
+				<field id="leftSegmentZipCode" start="219" length="5"></field>
+				<field id="leftSegmentHealthArea" start="224" length="4"></field>
+				<field id="leftSegmentPolicePatrolBoroughCommand" start="228" length="1"></field>
+				<field id="leftSegmentPolicePrecinct" start="229" length="3"></field>
+				<field id="leftSegmentFireDivision" start="232" length="2"></field>
+				<field id="leftSegmentFireBattalion" start="234" length="2"></field>
+				<field id="leftSegmentFireCompanyType" start="236" length="1"></field>
+				<field id="leftSegmentFireCompanyNumber" start="237" length="3"></field>
+				<field id="leftSegmentCommunitySchoolDistrict" start="240" length="2"></field>
+				<field id="leftSegmentDynamicBlock" start="242" length="3"></field>
+				<field id="leftSegmentElectionDistrict" start="245" length="3"></field>
+				<field id="leftSegmentAssemblyDistrict" start="248" length="2"></field>
+				<field id="leftSegmentFiller1" start="250" length="4"></field>
+				<field id="leftSegment1990CensusTract" start="254" length="6" whitespace="true"></field>
+				<field id="leftSegment2010CensusTract" start="260" length="6" whitespace="true"></field>
+				<field id="leftSegment2010CensusBlock" start="266" length="4"></field>
+				<field id="leftSegment2010CensusBlockSuffix" start="270" length="1"></field>
+				<field id="leftSegment2000CensusTract" start="271" length="6" whitespace="true"></field>
+				<field id="leftSegment2000CensusBlock" start="277" length="4"></field>
+				<field id="leftSegment2000CensusBlockSuffix" start="281" length="1"></field>
+				<field id="leftSegmentBlockfaceId" start="282" length="7"></field>
+				<field id="leftSegmentNta" start="289" length="4"></field>
+				<field id="leftSegmentFiller2" start="293" length="8"></field>
+				<field id="rightSegmentCommunityDistrict" start="301" length="3" type="COMP"></field>
+				<field id="rightSegmentCommunityDistrictBoroughCode" start="301" length="1"></field>
+				<field id="rightSegmentCommunityDistrictNumber" start="302" length="2"></field>
+				<field id="rightSegmentLowHouseNumber" start="304" length="16"></field>
+				<field id="rightSegmentHighHouseNumber" start="320" length="16"></field>
+				<field id="rightSegmentReservedForGeosupportUse" start="336" length="32"></field>
+				<field id="rightSegmentInterimAssistanceEligibilityIndicator" start="368" length="1"></field>
+				<field id="rightSegmentZipCode" start="369" length="5"></field>
+				<field id="rightSegmentHealthArea" start="374" length="4"></field>
+				<field id="rightSegmentPolicePatrolBoroughCommand" start="378" length="1"></field>
+				<field id="rightSegmentPolicePrecinct" start="379" length="3"></field>
+				<field id="rightSegmentFireDivision" start="382" length="2"></field>
+				<field id="rightSegmentFireBattalion" start="384" length="2"></field>
+				<field id="rightSegmentFireCompanyType" start="386" length="1"></field>
+				<field id="rightSegmentFireCompanyNumber" start="387" length="3"></field>
+				<field id="rightSegmentCommunitySchoolDistrict" start="390" length="2"></field>
+				<field id="rightSegmentDynamicBlock" start="392" length="3"></field>
+				<field id="rightSegmentElectionDistrict" start="395" length="3"></field>
+				<field id="rightSegmentAssemblyDistrict" start="398" length="2"></field>
+				<field id="rightSegmentFiller1" start="400" length="4"></field>
+				<field id="rightSegment1990CensusTract" start="404" length="6" whitespace="true"></field>
+				<field id="rightSegment2010CensusTract" start="410" length="6" whitespace="true"></field>
+				<field id="rightSegment2010CensusBlock" start="416" length="4"></field>
+				<field id="rightSegment2010CensusBlockSuffix" start="420" length="1"></field>
+				<field id="rightSegment2000CensusTract" start="421" length="6" whitespace="true"></field>
+				<field id="rightSegment2000CensusBlock" start="427" length="4"></field>
+				<field id="rightSegment2000CensusBlockSuffix" start="431" length="1"></field>
+				<field id="rightSegmentBlockfaceId" start="432" length="7"></field>
+				<field id="rightSegmentNta" start="439" length="4"></field>
+				<field id="rightSegmentFiller2" start="443" length="8"></field>
+				<field id="lgc1" start="451" length="2"></field>
+				<field id="lgc2" start="453" length="2"></field>
+				<field id="lgc3" start="455" length="2"></field>
+				<field id="lgc4" start="457" length="2"></field>
+				<field id="fromLgc1" start="459" length="2"></field>
+				<field id="fromLgc2" start="461" length="2"></field>
+				<field id="fromLgc3" start="463" length="2"></field>
+				<field id="fromLgc4" start="465" length="2"></field>
+				<field id="toLgc1" start="467" length="2"></field>
+				<field id="toLgc2" start="469" length="2"></field>
+				<field id="toLgc3" start="471" length="2"></field>
+				<field id="toLgc4" start="473" length="2"></field>
+				<field id="leftSegmentHealthCenterDistrict" start="475" length="2"></field>
+				<field id="rightSegmentHealthCenterDistrict" start="477" length="2"></field>
+				<field id="filler6" start="479" length="1"></field>
+				<field id="trafficDirection" start="480" length="1"><!-- needs doc --></field>
+				<field id="roadwayType" start="481" length="2"><!-- needs doc --></field>
+				<field id="physicalId" start="483" length="7"><!-- needs doc --></field>
+				<field id="genericId" start="490" length="7"><!-- needs doc --></field>
+				<field id="nypdId" start="497" length="7"><!-- needs doc --></field>
+				<field id="fdnyId" start="504" length="7"><!-- needs doc --></field>
+				<field id="streetStatus" start="511" length="1"><!-- needs doc --></field>
+				<field id="streetWidth" start="512" length="3"><!-- needs doc --></field>
+				<field id="streetWidthIrregular" start="515" length="1"><!-- needs doc --></field>
+				<field id="bikeLane" start="516" length="1"><!-- needs doc --></field>
+				<field id="federalClassificationCode" start="517" length="2"><!-- needs doc --></field>
+				<field id="rightOfWarType" start="519" length="1"></field>
+				<field id="csclLgc1" start="520" length="2"></field>
+				<field id="csclLgc2" start="522" length="2"></field>
+				<field id="csclLgc3" start="524" length="2"></field>
+				<field id="csclLgc4" start="526" length="2"></field>
+				<field id="csclLgc5" start="528" length="2"></field>
+				<field id="legacyId" start="530" length="7"></field>
+				<field id="leftSegmentNtaName" start="537" length="75"></field>
+				<field id="rightSegmentNtaName" start="612" length="75"></field>
+                <field id="fromXCoordinate" start="687" length="7"></field>
+                <field id="fromYCoordinate" start="694" length="7"></field>
+                <field id="toXCoordinate" start="701" length="7"></field>
+                <field id="toYCoordinate" start="708" length="7"></field>
+                <field id="filler7" start="715" length="286"></field>
+			</fields>
+		</workArea>
+		<workArea id="WA2_HR">
+			<length>5026</length>
+			<!--  <outputFilters reference="allFilters" /> -->
+ 			<fields>
+ 				<!-- geoFileInfo 1 -->
+ 				<field id="geoFileRecordType1" start="1" length="4"></field>
+ 				<field id="geoFileTag1" start="5" length="4"></field>
+ 				<field id="geoFileDate1" start="9" length="6"></field>
+ 				<field id="geoFileRelease1" start="15" length="4"></field>
+ 				<field id="geoFileRecordCount1" start="19" length="8"></field>
+ 				<!-- geoFileInfo 2 -->
+ 				<field id="geoFileRecordType2" start="27" length="4"></field>
+ 				<field id="geoFileTag2" start="31" length="4"></field>
+ 				<field id="geoFileDate2" start="35" length="6"></field>
+ 				<field id="geoFileRelease2" start="41" length="4"></field>
+ 				<field id="geoFileRecordCount2" start="45" length="8"></field>
+ 				<!-- geoFileInfo 3 -->
+ 				<field id="geoFileRecordType3" start="53" length="4"></field>
+ 				<field id="geoFileTag3" start="57" length="4"></field>
+ 				<field id="geoFileDate3" start="61" length="6"></field>
+ 				<field id="geoFileRelease3" start="67" length="4"></field>
+ 				<field id="geoFileRecordCount3" start="71" length="8"></field>
+ 				<!-- geoFileInfo 4 -->
+ 				<field id="geoFileRecordType4" start="79" length="4"></field>
+ 				<field id="geoFileTag4" start="83" length="4"></field>
+ 				<field id="geoFileDate4" start="87" length="6"></field>
+ 				<field id="geoFileRelease4" start="93" length="4"></field>
+ 				<field id="geoFileRecordCount4" start="97" length="8"></field>
+ 				<!-- geoFileInfo 5 -->
+ 				<field id="geoFileRecordType5" start="105" length="4"></field>
+ 				<field id="geoFileTag5" start="109" length="4"></field>
+ 				<field id="geoFileDate5" start="113" length="6"></field>
+ 				<field id="geoFileRelease5" start="119" length="4"></field>
+ 				<field id="geoFileRecordCount5" start="123" length="8"></field>
+ 				<!-- geoFileInfo 6 --> 				<field id="geoFile6RecordType" start="131" length="4"></field>
+ 				<field id="geoFileTag6" start="135" length="4"></field>
+ 				<field id="geoFileDate6" start="139" length="6"></field>
+ 				<field id="geoFileRelease6" start="145" length="4"></field>
+ 				<field id="geoFileRecordCount6" start="149" length="8"></field>
+ 				<!-- geoFileInfo 7 -->
+ 				<field id="geoFileRecordType7" start="157" length="4"></field>
+ 				<field id="geoFileTag7" start="161" length="4"></field>
+ 				<field id="geoFileDate7" start="165" length="6"></field>
+ 				<field id="geoFileRelease7" start="171" length="4"></field>
+ 				<field id="geoFileRecordCount7" start="175" length="8"></field>
+ 				<!-- geoFileInfo 8 -->
+ 				<field id="geoFileRecordType8" start="183" length="4"></field>
+ 				<field id="geoFileTag8" start="187" length="4"></field>
+ 				<field id="geoFileDate8" start="191" length="6"></field>
+ 				<field id="geoFileRelease8" start="197" length="4"></field>
+ 				<field id="geoFileRecordCount8" start="201" length="8"></field>
+ 				<!-- geoFileInfo 9 -->
+ 				<field id="geoFileRecordType9" start="209" length="4"></field>
+ 				<field id="geoFileTag9" start="213" length="4"></field>
+ 				<field id="geoFileDate9" start="217" length="6"></field>
+ 				<field id="geoFileRelease9" start="223" length="4"></field>
+ 				<field id="geoFileRecordCount9" start="227" length="8"></field>
+ 				<!-- thinInfo -->
+ 				<field id="thinFileRecordType1" start="235" length="4"></field>
+ 				<field id="thinFileTag" start="239" length="4"></field>
+ 				<field id="thinFileDate" start="243" length="6"></field>
+ 				<field id="thinFiller1" start="249" length="12"></field>
+ 				<field id="thinFileRecordType2" start="261" length="4"></field>
+ 				<field id="thinFileRelease" start="265" length="4"></field>
+ 				<field id="thinFileFiller2" start="269" length="18"></field>
+ 				<field id="thinFileRecordType3" start="287" length="4"></field>
+ 				<field id="thinFileRecordCount" start="291" length="8"></field>
+ 				<field id="thinFileFiller3" start="299" length="14"></field>
+ 				<!-- grid1RFileInfo -->
+ 				<field id="grid1RFileRecordType" start="313" length="4"></field>
+ 				<field id="grid1RFileTag" start="317" length="4"></field>
+ 				<field id="grid1RFileDate" start="321" length="6"></field>
+ 				<field id="grid1RFileRelease" start="327" length="4"></field>
+ 				<field id="grid1RFileRecordCount" start="331" length="8"></field>
+ 				<!-- auxSegFileInfo -->
+ 				<field id="auxSegFileRecordType" start="339" length="4"></field>
+ 				<field id="auxSegFileTag" start="343" length="4"></field>
+ 				<field id="auxSegFileDate" start="347" length="6"></field>
+ 				<field id="auxSegFileRelease" start="353" length="4"></field>
+ 				<field id="auxSegFileRecordCount" start="357" length="8"></field>
+ 				<!-- tpadFileInfo -->
+ 				<field id="tpadFileRecordType" start="365" length="4"></field>
+ 				<field id="tpadFileTag" start="369" length="4"></field>
+ 				<field id="tpadFileDate" start="373" length="6"></field>
+ 				<field id="tpadFileRelease" start="379" length="4"></field>
+ 				<field id="tpadFileRecordCount" start="383" length="8"></field>
+ 				<!-- apequivFileInfo -->
+ 				<field id="apequivFileRecordType" start="391" length="4"></field>
+ 				<field id="apequivFileTag" start="395" length="4"></field>
+ 				<field id="apequivFileDate" start="399" length="6"></field>
+ 				<field id="apequivFileRelease" start="405" length="4"></field>
+ 				<field id="apequivFileRecordCount" start="409" length="8"></field>			
+ 				<!-- dsNames -->
+ 				<field id="dsName1" start="417" length="60"></field>
+				<field id="dsName2" start="477" length="60"></field>
+				<field id="dsName3" start="537" length="60"></field>
+				<field id="dsName4" start="597" length="60"></field>
+				<field id="dsName5" start="657" length="60"></field>
+				<field id="dsName6" start="717" length="60"></field>
+				<field id="dsName7" start="777" length="60"></field>
+				<field id="dsName8" start="837" length="60"></field>
+				<field id="dsName9" start="897" length="60"></field>
+				<field id="dsName10" start="957" length="60"></field>
+				<field id="dsName11" start="1017" length="60"></field>
+				<field id="dsName12" start="1077" length="60"></field>
+				<field id="dsName13" start="1137" length="60"></field>
+				<field id="dsName14" start="1197" length="60"></field>
+				<field id="dsName15" start="1257" length="60"></field>
+				<field id="dsName16" start="1317" length="60"></field>
+				<!-- In the W_FHR header file, there are only 16 dsNames, -->
+				<!-- but the data seems to include at least two more. -->
+				<field id="dsName17" start="1377" length="60"></field>
+				<field id="dsName18" start="1437" length="60"></field>
+				<field id="dsName19" start="1497" length="60"></field>
+				<field id="dsName20" start="1557" length="60"></field>
+				<field id="filler1" start="1617" length="3410"></field>
+			</fields>
+		</workArea>		
+	</workAreas>
+	<functions>
+		<function id="HR">
+			<workAreaOne reference="WA1" />
+			<workAreaTwo reference="WA2_HR" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="HR"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+            </configuration>
+		</function>
+		<function id="1">
+			<workAreaOne reference="WA1" />
+			<workAreaTwo reference="WA2_F1" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="1"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+                <requiredArgument name="crossStreetNamesFlag" value="E" />
+            </configuration>
+		</function>
+		<function id="1E">
+			<workAreaOne reference="WA1" />
+			<workAreaTwo reference="WA2_F1" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="1E"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+                <requiredArgument name="crossStreetNamesFlag" value="E" />
+            </configuration>
+		</function>
+		<function id="1A">
+			<workAreaOne reference="WA1" />
+			<workAreaTwo reference="WA2_F1A" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="1A"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+                <requiredArgument name="crossStreetNamesFlag" value="E" />
+            </configuration>
+		</function>
+		<function id="1AX">
+			<workAreaOne reference="WA1" />
+			<workAreaTwo reference="WA2_F1AX" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="1AX"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+                <requiredArgument name="modeSwitch" value="X" />
+            </configuration>
+		</function>
+		<function id="1B">
+			<workAreaOne reference="WA1" />
+			<workAreaTwo reference="WA2_F1B" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="1B"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+                <requiredArgument name="crossStreetNamesFlag" value="E" />
+            </configuration>
+		</function>
+		<function id="BL">
+			<workAreaOne reference="WA1" />
+			<workAreaTwo reference="WA2_F1AX" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="BL"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+                <requiredArgument name="modeSwitch" value="X" />
+            </configuration>
+		</function>
+		<function id="BN">
+			<workAreaOne reference="WA1" />
+			<workAreaTwo reference="WA2_F1AX" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="BN"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+                <requiredArgument name="modeSwitch" value="X" />
+            </configuration>
+		</function>
+		<function id="2">
+			<workAreaOne reference="WA1" />
+			<workAreaTwo reference="WA2_F2" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="2"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+                <requiredArgument name="crossStreetNamesFlag" value="E" />
+            </configuration>
+		</function>
+		<function id="3">
+			<workAreaOne reference="WA1" />
+			<workAreaTwo reference="WA2_F3" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="3"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+                <requiredArgument name="crossStreetNamesFlag" value="E" />
+                <requiredArgument name="modeSwitch" value="X" />
+            </configuration>
+		</function>
+		<function id="DG">
+			<workAreaOne reference="WA1" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="DG"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+            </configuration>
+		</function>
+        <function id="BF">
+            <workAreaOne reference="WA1" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="BF"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+            </configuration>
+        </function>
+        <function id="BB">
+            <workAreaOne reference="WA1" />
+            <configuration>
+                <requiredArgument name="geosupportFunctionCode" value="BB"/>
+                <requiredArgument name="workAreaFormatIndicator" value="C"/>
+            </configuration>
+        </function>
+	</functions>
+</geoclient>

@@ -1,0 +1,33 @@
+# Intellij
+*.iml
+*.ipr
+*.iws
+.idea
+*.eml
+
+# Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+# VisualStudio
+.vs
+vs/
+
+# Vim
+*.swp
+
+# Gradle & other common build artifacts
+build
+target
+out
+.gradle
+classes
+.gradletasknamecache
+
+# Local native development artifacts
+libgeo-devel/
+!libgeo-devel/README.md
+
+*.log

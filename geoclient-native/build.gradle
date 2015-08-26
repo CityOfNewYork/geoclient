@@ -1,0 +1,153 @@
+apply plugin: 'c'
+
+// Currently, the 'mingw64Home' property must be set. It can be defaulted in
+// <rootProject dir>\gradle.properties or set on command-line with something
+// like:
+//  C:\repo\geoclient\gradlew -Pmingw64Home="c:/path/to/mingw64/dir/containing/gcc"
+// NOTE: this is a bad idea for several reasons and will be changing soon!
+
+model {
+  platforms {
+    linux_x64 {
+       architecture "x86_64"
+       operatingSystem "linux"
+    }
+    windows_x64 {
+       architecture "x86_64"
+       operatingSystem "windows"
+    }
+  }
+
+  toolChains {
+    gcc(Gcc) {
+      eachPlatform { 
+        if (platform.operatingSystem == "windows" && 
+               platform.architecture == "x86_64") {
+          path "${mingw64Home}/bin"
+        }
+      }
+    }
+  }
+
+  repositories {
+    libs(PrebuiltLibraries) {
+      geosupport {
+        headers.srcDir gsIncludePath
+        binaries.withType(SharedLibraryBinary) {
+          if (targetPlatform.operatingSystem.windows) {
+            // Visual C++ uses a .dll file with a different .lib file for linking 
+            // (This does not apply to Cygwin or MinGW)
+            sharedLibraryFile = file("${gsLibraryPath}/NYCgeo.dll")
+            sharedLibraryLinkFile = file("${gsLibraryPath}/NYCgeo.lib")
+          } else {
+            sharedLibraryFile = file("${gsLibraryPath}/libgeo.so")
+          }
+        }
+      }
+
+      jni_jdk {
+        binaries.withType(NativeBinary) {
+          if (targetPlatform.operatingSystem.windows) {
+            headers.srcDirs "${javaHome}/include", "${javaHome}/include/win32"
+            binaries.withType(StaticLibraryBinary) {
+              staticLibraryFile = file("${javaHome}/lib/jvm.lib")
+            }
+          } else {
+            headers.srcDirs "${javaHome}/include", "${javaHome}/include/linux"
+          }
+        }
+      }
+    }
+  } // repositories
+
+  binaries { modelMap ->
+    withType(NativeBinary) {
+      if (toolChain in Gcc) {
+        cCompiler.args  "-fPIC", "-o0", "-g3", "-Wall", "-std=c99"
+        // TODO Without the following, the geoclient_test build fails for 
+        // linux_x64 unless the LD_LIBRARY_PATH and friends are set in the 
+        // envoironment.
+        //if (targetPlatform.operatingSystem.linux) {
+        //linker.args "-fPIC", "-L${gsLibraryPath}", "-lc", "-lm", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+        //}
+      }
+    }
+    //withType(SharedLibraryBinarySpec) {
+    withType(NativeLibraryBinarySpec) {
+      if (toolChain in Gcc) {
+        if (targetPlatform.operatingSystem.windows) {
+          linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+        } else {
+          linker.args "-fPIC", "-L${gsLibraryPath}", "-lc", "-lm", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+        }
+      }
+    }
+  }
+} // model
+
+model {
+  components {
+    geoclient(NativeLibrarySpec) {
+      targetPlatform "linux_x64"
+      targetPlatform "windows_x64"
+      sources {
+        c {
+          source {
+            srcDir "src/main/c"
+            include "**/*.c"
+          }
+          exportedHeaders {
+            srcDir "src/main/headers"
+            include "**/*.h"
+          }
+          lib library: 'geosupport', linkage: 'api'
+        }
+      }
+    }
+
+    geoclient_test(NativeExecutableSpec) {
+      targetPlatform "linux_x64"
+      targetPlatform "windows_x64"
+      sources {
+        c {
+          source {
+            srcDir "src/test/c"
+            include "**/*.c"
+          }
+          exportedHeaders {
+            srcDir "src/test/headers"
+            include "**/*.h"
+          }
+          lib library: 'geosupport', linkage: 'api'
+          lib library: 'geoclient'
+        }
+      }
+    }
+
+    geoclient_jni(NativeLibrarySpec) {
+      targetPlatform "linux_x64"
+      targetPlatform "windows_x64"
+      sources {
+        c {
+          source {
+            srcDir "src/generated/c"
+            include "geoclient_jni.c"
+          }
+          // TODO Gradle v2.10 does not seem to perform transitive
+          // resolution of native project dependencies. In this case,
+          // even though the generated JNI C code only depends on geoclient.h,
+          // the build fails without this dependency because geoclient.h
+          // includes geo.h (and NYCgeo.h on Windows)
+          lib library: 'geosupport', linkage: 'api' 
+          lib library: 'geoclient', linkage: 'static'
+          lib library: 'jni_jdk', linkage: 'api'
+          // FIXME What is the correct way to establish native task dependencies
+          // on "legacy" (Gradle's term for pre-v2.6 builds) Java projects (e.g.,
+          // geoclient-generate in this case)?
+          builtBy(project(':geoclient-generate').tasks.assemble)
+        }
+      }
+    } // geoclient_jni
+
+  } // components
+} // model

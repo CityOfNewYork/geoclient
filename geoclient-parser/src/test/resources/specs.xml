@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<specs>
+
+	<!-- 
+	  Spec Attributes
+	  ===============
+	  id - arbitrary id for identifying specs in test cases 
+	  test - for individual Parser tests should be the value returned 
+	         by Parser#getName() for the Parser class under test
+ 
+ 	  Spec Body Format 
+	  ================
+	  <input string>=<ChunkType1>(<start>-<end>:<TokenType1>{<occurrence},<TokenType2>...)|<ChunkType2>... 
+	  
+	     input string - input string with expected tokens bracketed by '[]'
+	       ChunkTypes - pipe delimited chunk definition where each element contains:
+	        ChunkType - name of the ChunkType (toString() value)
+	        start/end - expected start/end of Chunk input based on positions in 
+	                    input string WITHOUT delimiters. Note that parsers which
+                        create a new subchunk will strip leading and trailing
+                        punctuation and spaces
+           occurrence - comma delimited TokenType{occurrence} list where occurrence
+                        refers to delimited tokens in the input string (1-based index) 	
+	-->
+	<spec id="bbl1" test="BblParser">[1][01889][0001]=BBL(0-10:BOROUGH_CODE{1},BLOCK{2},LOT{3})</spec>	
+	<spec id="bbl4" test="BblParser">21018890001</spec>	
+	<spec id="bbl5" test="BblParser">1A18890001</spec>	
+    <spec id="bin1" test="BinParser">[1234567]=BIN(0-7:BIN{1})</spec>  
+    <spec id="bin2" test="BinParser">[2000000]=BIN(0-7:BIN{1})</spec>  
+    <spec id="bin3" test="BinParser">123456</spec>  
+    <spec id="bin4" test="BinParser">8234567</spec>  
+    <spec id="bin5" test="BinParser">A234567</spec>  
+    <spec id="bin6" test="BinParser">12345678</spec>  
+ 	<spec id="country1" test="CountryParser">ABC [US]=COUNTY(0-6:COUNTRY{1})|SUBSTRING(0-3)</spec>	
+	<spec id="country2" test="CountryParser">ABC [U.S.]=COUNTY(0-8:COUNTRY{1})|SUBSTRING(0-3)</spec>	
+	<spec id="country3" test="CountryParser">ABC [USA]=COUNTY(0-7:COUNTRY{1})|SUBSTRING(0-3)</spec>	
+	<spec id="country4" test="CountryParser">ABC [U.S.A.]=COUNTY(0-10:COUNTRY{1})|SUBSTRING(0-3)</spec>	
+	<spec id="country5" test="CountryParser">ABC [United States]=COUNTY(0-17:COUNTRY{1})|SUBSTRING(0-3)</spec>	
+	<spec id="country6" test="CountryParser">ABC [United States of America]=COUNTY(0-28:COUNTRY{1})|SUBSTRING(0-3)</spec>	
+	<spec id="country7" test="CountryParser">ABC [AMeriCA]=COUNTY(0-11:COUNTRY{1})|SUBSTRING(0-3)</spec>	
+	<spec id="country8" test="CountryParser">[U.S.]=COUNTY(0-4:COUNTRY{1})</spec>	
+ 	<spec id="country9" test="CountryParser">[US.A]=COUNTY(0-4:COUNTRY{1})</spec>	
+	<spec id="country10" test="CountryParser">59 Maiden Ln, NY, NY 10038, [USA]=COUNTY(0-31:COUNTRY{1})|SUBSTRING(0-26)</spec>	
+	<spec id="country11" test="CountryParser">The U.S. Marine Corps.</spec>	
+	<spec id="zip1" test="ZipParser">59 Maiden Ln, NY, NY, [10025][-9016]=COUNTY(0-32:ZIP{1},PLUS4{2})|SUBSTRING(0-20)</spec>	
+	<spec id="zip3" test="ZipParser">59 Maiden Ln, NY, NY , [10025]=COUNTY(0-28:ZIP{1})|SUBSTRING(0-20)</spec>	
+	<spec id="zip4" test="ZipParser">59 Maiden Ln, NY, NY</spec>	
+	<spec id="zip6" test="ZipParser">59 Maiden Ln, NY, NY, -9016</spec>	
+	<spec id="zip7" test="ZipParser">59 Maiden Ln, NY, NY, 190161</spec>	
+ 	<spec id="borough1" test="BoroughParser">59 Maiden Ln, [Manhattan]=COUNTY(0-23:BOROUGH_NAME{1})|SUBSTRING(0-12)</spec>	
+	<spec id="borough2" test="BoroughParser">59 Maiden Ln, [Manhattan],[NY]=COUNTY(0-26:BOROUGH_NAME{1},STATE{2})|SUBSTRING(0-12)</spec>	
+    <spec id="borough3" test="BoroughParser">59 Maiden Ln [SI] [NY]=COUNTY(0-18:BOROUGH_NAME{1},STATE{2})|SUBSTRING(0-12)</spec>   
+	<spec id="borough4" test="BoroughParser">59 Maiden Ln [BX],[NY]=COUNTY(0-18:BOROUGH_NAME{1},STATE{2})|SUBSTRING(0-12)</spec>	
+    <spec id="borough5" test="BoroughParser">59 Maiden Ln [QN], [NY]=COUNTY(0-19:BOROUGH_NAME{1},STATE{2})|SUBSTRING(0-12)</spec>  
+    <spec id="borough6" test="BoroughParser">59 Maiden Ln [BK]=COUNTY(0-15:BOROUGH_NAME{1})|SUBSTRING(0-12)</spec>  
+    <spec id="borough7" test="BoroughParser">59 Maiden Ln [STATEN ISLAND]=COUNTY(0-26:BOROUGH_NAME{1})|SUBSTRING(0-12)</spec>  
+    <spec id="borough8" test="BoroughParser">59 Maiden Ln NYC</spec>    
+    <spec id="borough9" test="BoroughParser">59 Maiden Ln NY NY</spec>
+    <spec id="borough10" test="BoroughParser">59 Maiden Ln NYC NY</spec>
+    <spec id="borough11" test="BoroughParser">59 Maiden Ln NY</spec>
+    <spec id="borough12" test="BoroughParser">59 Maiden Ln</spec>
+    <spec id="borough13" test="BoroughParser">59 Maiden Ln, [Manhattan] [New York]=COUNTY(0-32:BOROUGH_NAME{1},STATE{2})|SUBSTRING(0-12)</spec>    
+    <spec id="borough14" test="BoroughParser">59 Maiden Ln, [StateN Island], [Nyc]=COUNTY(0-32:BOROUGH_NAME{1},CITY_NAME{2})|SUBSTRING(0-12)</spec>    
+    <spec id="city1" test="CityParser">845 e 138th street bronx</spec>  
+    <spec id="city2" test="CityParser">10-51 49th Ave [Long Island City]=COUNTY(0-31:CITY_NAME{1})|SUBSTRING(0-14)</spec>  
+    <spec id="city3" test="CityParser">10-51 49th Ave [Long Island City] [ny]=COUNTY(0-34:CITY_NAME{1},STATE{2})|SUBSTRING(0-14)</spec>    
+    <spec id="city4" test="CityParser">10-51 49th Ave [Long Island City],[new york]=COUNTY(0-40:CITY_NAME{1},STATE{2})|SUBSTRING(0-14)</spec>
+    <spec id="city5" test="CityParser">111 Manhattan Ave [NY]=COUNTY(0-20:CITY_NAME{1})|SUBSTRING(0-17)</spec>
+    <spec id="city6" test="CityParser">111 Manhattan Ave [N.Y.]=COUNTY(0-22:CITY_NAME{1})|SUBSTRING(0-17)</spec>
+    <spec id="city7" test="CityParser">111 Manhattan Ave [Nyc]=COUNTY(0-21:CITY_NAME{1})|SUBSTRING(0-17)</spec>
+    <spec id="city8" test="CityParser">111 Manhattan Ave [N.Y.C.]=COUNTY(0-24:CITY_NAME{1})|SUBSTRING(0-17)</spec>
+    <spec id="city9" test="CityParser">111 Manhattan Ave [NY] [Ny]=COUNTY(0-23:CITY_NAME{1},STATE{2})|SUBSTRING(0-17)</spec>
+    <spec id="city10" test="CityParser">111 Manhattan Ave [NYC] [Ny]=COUNTY(0-24:CITY_NAME{1},STATE{2})|SUBSTRING(0-17)</spec>
+    <spec id="city11" test="CityParser">10-51 49th Ave [Long Island City],[nyc]=COUNTY(0-35:CITY_NAME{1},CITY_NAME{2})|SUBSTRING(0-14)</spec>
+    <spec id="blockface1" test="BlockfaceParser">[broadway] [between] [w 100 st] [and] [w 101 st]=BLOCKFACE(0-38:ON_STREET{1},BETWEEN{2},CROSS_STREET_ONE{3},AND{4},CROSS_STREET_TWO{5})</spec>
+    <spec id="blockface2" test="BlockfaceParser">[on] [broadway] [between] [w 100 st] [and] [w 101 st]=BLOCKFACE(0-41:ON{1},ON_STREET{2},BETWEEN{3},CROSS_STREET_ONE{4},AND{5},CROSS_STREET_TWO{6})</spec>
+    <spec id="blockface3" test="BlockfaceParser">[broadway] [bet] [w 100 st] [&amp;] [w 101 st]=BLOCKFACE(0-32:ON_STREET{1},BETWEEN{2},CROSS_STREET_ONE{3},AND{4},CROSS_STREET_TWO{5})</spec>
+    <spec id="intersection1" test="IntersectionParser">[broadway] [and] [w 100 st]=INTERSECTION(0-21:CROSS_STREET_ONE{1},AND{2},CROSS_STREET_TWO{3})</spec>
+    <spec id="intersection2" test="IntersectionParser">[broadway] [&amp;] [w 100 st]=INTERSECTION(0-19:CROSS_STREET_ONE{1},AND{2},CROSS_STREET_TWO{3})</spec>
+    <spec id="intersection3" test="IntersectionParser">[broadway] [&amp;&amp;] [w 100 st]=INTERSECTION(0-20:CROSS_STREET_ONE{1},AND{2},CROSS_STREET_TWO{3})</spec>
+    <spec id="address1" test="AddressParser">[59] [Maiden Ln]=ADDRESS(0-12:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address2" test="AddressParser">[1] [1]=ADDRESS(0-3:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address3" test="AddressParser">[1][A] [1 ST]=ADDRESS(0-7:HOUSE_NUMBER{1},HOUSE_NUMBER_SUFFIX{2},STREET_NAME{3})</spec>
+    <!-- <spec id="address4" test="AddressParser">[1][ A] [1 ST]=ADDRESS(0-8:HOUSE_NUMBER{1},HOUSE_NUMBER_SUFFIX{2},STREET_NAME{3})</spec> -->
+    <spec id="address5" test="AddressParser">[1] [N 1 ST]=ADDRESS(0-8:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address6" test="AddressParser">[1] [S 1 ST]=ADDRESS(0-8:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address7" test="AddressParser">[1] [E 1 ST]=ADDRESS(0-8:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address8" test="AddressParser">[1] [W 1 ST]=ADDRESS(0-8:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address9" test="AddressParser">[1] [E1st]=ADDRESS(0-6:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <!-- <spec id="address10" test="AddressParser">[1][E1St]=ADDRESS(0-5:HOUSE_NUMBER{1},STREET_NAME{2})</spec> -->
+    <spec id="address11" test="AddressParser">[1][E] [1St]=ADDRESS(0-6:HOUSE_NUMBER{1},HOUSE_NUMBER_SUFFIX{2},STREET_NAME{3})</spec>
+    <!-- <spec id="address12" test="AddressParser">[1][W1 St]=ADDRESS(0-6:HOUSE_NUMBER{1},STREET_NAME{2})</spec> -->
+    <spec id="address13" test="AddressParser">[1] [E.1St]=ADDRESS(0-7:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address14" test="AddressParser">[1] [E.1St]=ADDRESS(0-7:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address15" test="AddressParser">[1-1] [120 St]=ADDRESS(0-10:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address16" test="AddressParser">[01-01] [120 St]=ADDRESS(0-12:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address17" test="AddressParser">[1-01] [120 St]=ADDRESS(0-11:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address18" test="AddressParser">[01-1] [120 St]=ADDRESS(0-11:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address19" test="AddressParser">[01-01][A] [120 St]=ADDRESS(0-13:HOUSE_NUMBER{1},HOUSE_NUMBER_SUFFIX{2},STREET_NAME{3})</spec>
+    <spec id="address20" test="AddressParser">[519][ Front] [East 12th Street]=ADDRESS(0-26:HOUSE_NUMBER{1},HOUSE_NUMBER_SUFFIX{2},STREET_NAME{3})</spec>
+    <spec id="address21" test="AddressParser">[519] [Front Street]=ADDRESS(0-16:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="address22" test="AddressParser">[625][ Rear] [Smith Street]=ADDRESS(0-21:HOUSE_NUMBER{1},HOUSE_NUMBER_SUFFIX{2},STREET_NAME{3})</spec>
+    <!-- <spec id="address23" test="AddressParser">[625] [Rear Av]=ADDRESS(0-11:HOUSE_NUMBER{1},STREET_NAME{2})</spec> -->
+    <spec id="address24" test="AddressParser">[120][ 1/2] [First Avenue]=ADDRESS(0-20:HOUSE_NUMBER{1},HOUSE_NUMBER_SUFFIX{2},STREET_NAME{3})</spec>
+    <spec id="address25" test="AddressParser">[240-55][ 1/3] [Depew Avenue]=ADDRESS(0-23:HOUSE_NUMBER{1},HOUSE_NUMBER_SUFFIX{2},STREET_NAME{3})</spec>
+    <spec id="address26" test="AddressParser">[469][ 1/4] [Father Capodanno Blvd.]=ADDRESS(0-30:HOUSE_NUMBER{1},HOUSE_NUMBER_SUFFIX{2},STREET_NAME{3})</spec>
+    <!-- <spec id="address27" test="AddressParser">[470][ A] [West 43rd Street]=ADDRESS(0-22:HOUSE_NUMBER{1},HOUSE_NUMBER_SUFFIX{2},STREET_NAME{3})</spec> -->
+    <spec id="address28" test="AddressParser">[171][C] [Auburn Avenue]=ADDRESS(0-18:HOUSE_NUMBER{1},HOUSE_NUMBER_SUFFIX{2},STREET_NAME{3})</spec>
+    <spec id="address29" test="AddressParser">[20-29][ Garage] [120th Street]=ADDRESS(0-25:HOUSE_NUMBER{1},HOUSE_NUMBER_SUFFIX{2},STREET_NAME{3})</spec>
+
+    <spec id="all1" test="AllParsers">[59] [Maiden Lane] [Manhattan]=COUNTY(0-24:BOROUGH_NAME{3})|ADDRESS(0-14:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="all2" test="AllParsers">[59] [Maiden Lane] [NY], [NY] [10025]=COUNTY(0-27:ZIP{5})|COUNTY(0-21:CITY_NAME{3},STATE{4})|ADDRESS(0-14:HOUSE_NUMBER{1},STREET_NAME{2})</spec>
+    <spec id="all3" test="AllParsers">[Empire State Bldg.], [Manhattan]=COUNTY(0-29:BOROUGH_NAME{2})|UNRECOGNIZED(0-18:UNRECOGNIZED{1})</spec>
+
+</specs>

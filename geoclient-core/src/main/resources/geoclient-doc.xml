@@ -1,0 +1,2823 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<geoclientDocumentation>
+<!-- Data Dictionary Documentation -->
+<dataDictionary>
+<documentation id="alleyCrossStreetsFlag">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>Indicates if the segment has been split by alleys, or if the cross streets named in the
+segment have been copied from a previous or subsequent segment because the
+segment itself has no cross streets.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>A</td><td>Split by Alley(s)</td></tr>
+    <tr><td>X</td><td>Cross Streets Modified</td></tr>
+    <tr><td>Blank</td><td>Neither Split by Alleys or Cross Streets Modified</td></tr>
+</table>
+</documentation>
+<documentation id="alternateLowAndHighHouseNumbers">
+<functionNames>
+    <functionName>3C</functionName>
+</functionNames>
+<format>See HOUSE NUMBER</format>
+<description>
+<p>These two fields are non-blank only if this block face has addresses of both parities
+(the parity of a number is its attribute of being odd or even). Such a block face is
+said to have 'continuous parity'. If the block face has continuous parity, the
+Continuous Parity Indicator is non-blank, the Low and High House Number fields
+contain the address range for one parity, and the Alternate Low and High House
+Number fields contain the address range for the other parity. (Which parity is in
+which set of house number fields is unpredictable.)</p>
+</description>
+</documentation>
+<documentation id="alternativeBoroughFlag">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>This flag indicates either that the input address is in Marble Hill or Rikers Island
+and the alternative (rather than the legal) borough was specified (see UPG Section V.7),
+or that the input address is on Ruby Street in Brooklyn but it was specified using
+the alternative (Queens) street name 75 Street (see UPG Section V.8).</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>C</td><td>Ruby Street address specified using 75 Street</td></tr>
+    <tr><td>M</td><td>Marble Hill address with Bronx specified</td></tr>
+    <tr><td>R</td><td>Rikers Island address with Queens specified</td></tr>
+</table>
+</documentation>
+<documentation id="assemblyDistrict">
+<functionNames>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>2 bytes. RJZF</format>
+<description>
+<p>A district of the lower house of the New York State legislature. Consists of an
+aggregation of Election Districts</p>
+</description>
+</documentation>
+<documentation id="b7scOfTrueStreet">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>8 bytes (B7SC)</format>
+<description>
+<p>This item contains the B7SC of the street segment upon which the address specified
+is actually located. This is the street segment that is identified by the field
+SEGMENT-ID and by the fields LION FACE CODE and LION SEQUENCE
+NUMBER. In most cases, the B5SC portion of this item is identical to the B5SC
+specified in the key. However, the two B5SCs differ when the SPECIAL
+ADDRESS GENERATED RECORD FLAG is either 'B' or 'V'.</p>
+</description>
+</documentation>
+<documentation id="bbl">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>10 bytes in standard version, Numeric.</format>
+<description>
+<p>The first 6 bytes of the standard BBL consists of the 1-byte borough code followed
+by the 5-byte tax block field, which contains the tax block value right-justified and
+zero-filled. The last 4 bytes of the 10-byte standard BBL is the standard tax lot
+field, which contains the tax lot value right-justified and zero-filled. See UPG Section
+VI.8.</p>
+<p>The BBL ("borough-block-and-lot") identifies a parcel of real property in New
+York City, called a tax lot. The BBL is composed of the concatenation of the
+Borough Code, Tax Block and Tax Lot. If the property is a condominium
+(indicated by the Condominium Flag), the WA2 BBL field contains the billing BBL
+of the condominium (see UPG Section VI.4).</p>
+</description>
+<table>
+    <tr><th>Field</th><th>Length</th><th>Position</th><th>Format</th></tr>
+    <tr><td>Boro</td><td>1</td><td>1-1</td><td></td></tr>
+    <tr><td>Tax Block</td><td>5</td><td>2-6</td><td>RJZF</td></tr>
+    <tr><td>Tax Lot</td><td>4</td><td>7-10</td><td>RJZF</td></tr>
+</table>
+</documentation>
+<documentation id="bblBoroughCode">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>The borough code for the borough on which this lot is located. See UPG Section VI.2.</p>
+</description>
+<seeAlso>
+  <documentationId>bbl</documentationId>
+</seeAlso>
+</documentation>
+<documentation id="bblBoroughCodeIn">
+<functionNames>
+    <functionName>BL</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>Input borough code for calling function BL.</p>
+</description>
+<seeAlso>
+  <documentationId>bbl</documentationId>
+</seeAlso>
+</documentation>
+<documentation id="bblTaxBlock">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>5 bytes</format>
+<description>
+<p>The tax block on which this property is located. See UPG Section VI.2.</p>
+</description>
+</documentation>
+<documentation id="bblTaxBlockIn">
+<functionNames>
+    <functionName>BL</functionName>
+</functionNames>
+<format>5 bytes. Numberic.</format>
+<description>
+<p>Input tax block for calling function BL.</p>
+</description>
+<seeAlso>
+  <documentationId>bbl</documentationId>
+</seeAlso>
+</documentation>
+<documentation id="bblTaxLot">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>4 bytes</format>
+<description>
+<p>The tax lot on which this property is located. See UPG Section VI.2.</p>
+</description>
+</documentation>
+<documentation id="bblTaxLotIn">
+<functionNames>
+    <functionName>BL</functionName>
+</functionNames>
+<format>4 bytes. Numberic.</format>
+<description>
+<p>Input tax lot for calling function BL.</p>
+</description>
+<seeAlso>
+  <documentationId>bbl</documentationId>
+</seeAlso>
+</documentation>
+<documentation id="boardOfElectionsPreferredLgc">
+<functionNames>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>2 bytes. RJZF</format>
+<description>
+<p>This item is the LGC (the sixth and seventh digits of the 10-digit street code) that
+corresponds to the NYC Board of Elections' preferred street name for a given
+location.</p>
+</description>
+</documentation>
+<documentation id="boroughCode">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>1 byte. Numeric.</format>
+<description></description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>1</td><td>Manhattan</td></tr>
+    <tr><td>2</td><td>Bronx</td></tr>
+    <tr><td>3</td><td>Brooklyn</td></tr>
+    <tr><td>4</td><td>Queens</td></tr>
+    <tr><td>5</td><td>Staten Island</td></tr>
+</table>
+</documentation>
+<documentation id="boroughCodeIn">
+  <aliases>
+    <alias>boroughCode1In</alias>
+    <alias>boroughCode2In</alias>
+    <alias>boroughCode3In</alias>
+  </aliases>
+  <seeAlso>
+    <documentationId>boroughCode</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>1 byte. Numeric.</format>
+<description><p>Borough code for first, second or third input  street argument.</p></description>
+</documentation>
+<documentation id="boroughName">
+  <aliases>
+    <alias>firstBoroughName</alias>
+  </aliases>
+<!-- NOT GENERATED -->
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>9 bytes. Alphabetic.</format>
+<description><p>Normalized borough name</p></description>
+<table>
+    <tr><th>Normalized Borough Names</th></tr>
+    <tr><td>MANHATTAN</td></tr>
+    <tr><td>BRONX</td></tr>
+    <tr><td>BROOKLYN</td></tr>
+    <tr><td>QUEENS</td></tr>
+    <tr><td>STATEN IS</td></tr>
+</table>
+</documentation>
+<documentation id="buildingIdentificationNumber">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>7 bytes. Numeric</format>
+<description>
+<p>Building Identification Number. A permanent BIN is a seven-digit numerical
+identifier unique to each building in the City of New York. The first digit is the
+Borough Code. There are also two types of temporary BINs; those maintained by
+the Dept. of Buildings (DOB) and those maintained by the Dept. of City Planning
+(DCP). The temporary BINs assigned by DOB contain the number '8' as the
+second digit, and the temporary BINs assigned by DCP contain a '9' in the same
+position. DCP is currently in the process of phasing out all of its temporary BINs.</p>
+</description>
+</documentation>
+<documentation id="buildingIdentificationNumberIn">
+<functionNames>
+    <functionName>BN</functionName>
+</functionNames>
+<format>7 bytes. Numeric</format>
+<description>
+<p>Input Building Identification Number for calling function BN.</p>
+</description>
+<seeAlso>
+  <documentationId>buildingIdentificationNumber</documentationId>
+</seeAlso>
+</documentation>
+<documentation id="censusBlock2000">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>4 bytes. First 3 bytes are numeric. 4th byte contains an alpha suffix (A, B or C).</format>
+<description>
+<p>Smallest geographic area defined by the U.S. Census Bureau for tabulating the 2000
+census. Generally (but not always) corresponds to a physical city block as of 2000.
+Each 2000 census block is numbered uniquely within its 2000 census tract.</p>
+</description>
+</documentation>
+<documentation id="censusTract">
+  <aliases>
+    <alias>censusTract1990</alias>
+    <alias>censusTract2000</alias>
+    <alias>censusTract2010</alias>
+  </aliases>
+<!-- <xref>CENSUS TRACT 1990 , LEFT 1990 CENSUS TRACT, RIGHT 1990 CENSUS TRACT, CENSUS TRACT 2000 , LEFT 2000 CENSUS TRACT, RIGHT 2000 CENSUS TRACT</xref> -->
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>6 bytes, consisting of numeric 4-digit root followed by numeric 2-digit suffix. The root subfield is RJBF and the suffix subfield is RJZF if any. If the tract number contains no suffix, then the suffix subfield is blank.</format>
+<description>
+<p>Geographic area defined by the U.S. Census Bureau for the various decennial
+censuses. Census tracts for a particular census year are numbered uniquely within
+borough.</p>
+</description>
+</documentation>
+<documentation id="cityCouncilDistrict">
+<functionNames>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>2 bytes.</format>
+<description>
+<p>A district represented by a member of the New York City Council. Consists of an
+aggregation of Election Districts. There are currently 51 City Council Districts.</p>
+</description>
+</documentation>
+<documentation id="civilCourtDistrict">
+<functionNames>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>2 bytes.</format>
+<description>
+<p>A district from which a Civil Court judge is elected. Consists of an aggregation of
+Election Districts.</p>
+</description>
+</documentation>
+<documentation id="communityDistrict">
+  <aliases>
+    <alias>communityDistrictBoroughCode</alias>
+    <alias>communityDistrictNumber</alias>
+  </aliases>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>3 bytes. Numeric. RJZF.</format>
+<description>
+  <p>The first byte is the Community District Borough Code, and the second and third bytes are the Community District Number.</p><p>There are 59 community districts in the City of New York, as well as 12 Joint
+Interest Areas (JIAs). The JIAs are major parks and airports that are not contained
+within any CD.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>101-112</td><td>Manhattan except Marble Hill</td></tr>
+    <tr><td>164</td><td>Central Park</td></tr>
+    <tr><td>201-212</td><td>Bronx except Rikers Island (Note: the Marble Hill section of Manhattan is in Bronx CDs 7 and 8)</td></tr>
+    <tr><td>226</td><td>Van Cortlandt Park</td></tr>
+    <tr><td>227</td><td>Bronx Park</td></tr>
+    <tr><td>228</td><td>Pelham Bay Park</td></tr>
+    <tr><td>301-318</td><td>Brooklyn</td></tr>
+    <tr><td>355</td><td>Prospect Park</td></tr>
+    <tr><td>356</td><td>Brooklyn Gateway National Recreational Area</td></tr>
+    <tr><td>401-414</td><td>Queens (Note: the Rikers Island section of the Bronx is in Queens CD 1)</td></tr>
+    <tr><td>480</td><td>LaGuardia Airport</td></tr>
+    <tr><td>481</td><td>Flushing Meadows - Corona Park</td></tr>
+    <tr><td>482</td><td>Forest Park</td></tr>
+    <tr><td>483</td><td>JFK International Airport</td></tr>
+    <tr><td>484</td><td>Queens Gateway National Recreational Area</td></tr>
+    <tr><td>501-503</td><td>Staten Island</td></tr>
+    <tr><td>595</td><td>Staten Island Gateway National Recreational Area</td></tr>
+</table>
+</documentation>
+<documentation id="communitySchoolDistrict">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>2 bytes</format>
+<description>
+<p>If the block face or the side of the street segment is split between two or more
+school districts, the corresponding school district field contains 'SP' rather than a
+valid school district code.</p>
+</description>
+</documentation>
+<documentation id="compassDirection">
+  <aliases>
+    <alias>compassDirectionIn</alias>
+    <alias>compassDirection2In</alias>
+  </aliases>
+<functionNames>
+    <functionName>2</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+</functionNames>
+<format>1 byte.</format>
+<description>
+<p>In the case of Function 2, the compass direction identifies, for a pair of input streets
+that intersect at two distinct locations, which of those two intersections is to be
+processed. (See UPG Section VII.2)
+In the case of Function 3C, the compass direction identifies which side of the street
+is to be processed. (See UPG Section VII.5)
+In the case of Function 3S, if the 'on' street intersects the first cross street at two
+distinct locations, the compass direction identifies which of those two intersections
+is to be processed. (See UPG Section VII.6)</p>
+</description>
+</documentation>
+<documentation id="compassDirectionForIntersectionKey">
+<functionNames>
+    <functionName>2</functionName>
+</functionNames>
+<format>1 byte.</format>
+<description>
+<p>If the first two entries in the LIST OF INTERSECTING STREETS are an instance
+of the two-node case (i.e., they intersect twice), this field contains a compass
+direction value identifying the intersection in terms of those two streets. If the two
+streets are not an instance of the two-node case, this field is blank. If both a
+'longitudinal' compass direction ('N' or 'S') and a 'latitudinal' compass direction
+('E' or 'W') are valid for this intersection, the longitudinal compass direction value
+appears in this field.</p>
+</description>
+</documentation>
+<documentation id="compassDirectionFor2ndIntersection">
+<functionNames>
+    <functionName>3S</functionName>
+</functionNames>
+<format>1 byte.</format>
+<description>
+<p>If the 'on' street intersects the second cross street at two distinct locations, this
+compass direction identifies which of those two intersections is to be processed.
+(See UPG Section VII.6)</p>
+</description>
+</documentation>
+<documentation id="condominiumFlag">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>1 byte.</format>
+<description></description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>C</td><td>Property is a condominium</td></tr>
+    <tr><td>Blank</td><td>Property is not a condo.</td></tr>
+</table>
+</documentation>
+<documentation id="condominiumIdentificationNumber">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>4 bytes</format>
+<description>
+<p>An identification number assigned by the Department of Finance to each
+condominium in the city. This field is blank for non-condominiums.</p>
+</description>
+</documentation>
+<documentation id="congressionalDistrict">
+<functionNames>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>2 bytes.</format>
+<description>
+<p>A district of the U.S. House of Representatives. Consists of an aggregation of
+Election Districts.</p>
+</description>
+</documentation>
+<documentation id="continuousParityIndicator">
+  <aliases>
+    <alias>continuousParityIndicator1a</alias>
+    <alias>continuousParityIndicator1e</alias>
+  </aliases>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>An 'address range' is a sequence of house numbers along an 'on' street between
+(and including) a Low House Number and a High House Number. Every address
+range has one of three possible parities: odd, even or continuous. An address range
+of odd parity consists of all odd house numbers along the 'on' street between the
+Low and High House Numbers. An even-parity range consists of all even house
+numbers between the Low and High House Numbers. A continuous-parity range
+consists of all house numbers (both even and odd) between the Low and High
+House Numbers. Most New York City block faces contain an address range that is
+either of even or odd parity. However, some block faces have a continuous-parity
+address range, usually where the opposite side of the street is non-addressable
+because it is a park, a body of water, etc. Some examples of the continuous parity
+case in Manhattan are Central Park West (the east side of the street runs along
+Central Park and is non-addressable, while the west side has both odd and even
+addresses); Riverside Drive; and the portion of Fifth Avenue that runs alongside
+Central Park.</p>
+<p>If a New York City block face has a continuous parity address range, Geosupport
+represents this range as two separate ranges, an odd-parity range and an even-parity
+range. The practical effect of this depends on the Geosupport function. For
+Functions 1 and 1E, if an input address lies on a continuous-parity block face, only
+the range (i.e., the Low and High House Numbers) whose parity is the same as that
+of the input address is returned in WA2. For Function 3, if an input street segment
+contains a continuous parity address range, both the odd and the even ranges are
+returned, in the WA2 fields called Left Low House Number and Left High House
+Number for the range of one parity, and in the fields Right Low and High House
+Numbers for the range of the other parity; note that in this case, in reality both the
+odd and the even ranges are on the same side of the street, even though they are
+returned in fields called 'left' and 'right'. For Function 3C, if an input block face is
+on a street segment containing a continuous parity address range (regardless of
+whether the input block face is on the addressable or the non-addressable side of the
+segment), both the odd and the even ranges are returned, in the WA2 fields called
+Low House Number and High House Number for the range of one parity, and in the
+fields Alternate Low House Number and Alternate High House Number for the
+range of the other parity.</p>
+<p>The field Continuous Parity Indicator indicates, for Functions 1, 1B, 1E, 3 and 3C,
+whether the street segment containing or corresponding to the user input is of the
+continuous parity type, and if so, which side of the segment is addressable.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>Blank</td><td>The street segment does not have a continuous parity address range</td></tr>
+    <tr><td>L, R</td><td>The street segment has continuous parity. In this case, the Continuous Parity Indicator indicates which side of the street segment, the left or the right, is addressable. (Left and right are specified with respect to the direction of increasing addresses along the segment)</td></tr>
+</table>
+</documentation>
+<documentation id="cooperativeIdentificationNumber">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>4 bytes</format>
+<description>
+<p>This is an identification number assigned by the Department of Finance to each
+cooperative in the city. This field is blank for non-coops.</p>
+</description>
+</documentation>
+<documentation id="cornerCode">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>2 bytes</format>
+<description></description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>SE, SW, NE, NW</td><td>Tax lot occupies the indicated corner of the physical block</td></tr>
+    <tr><td>CR</td><td>Tax lot occupies more than one corner</td></tr>
+    <tr><td>Blank</td><td>Tax lot occupies no corners</td></tr>
+</table>
+</documentation>
+<documentation id="countyBoundaryIndicator">
+<functionNames>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>This field is non-blank when the street segment lies along a borough boundary.
+The value of this field indicates which side of the segment is out of borough.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>L</td><td>Left side of segment is out of borough</td></tr>
+    <tr><td>R</td><td>Right side of segment is out of borough</td></tr>
+    <tr><td>Blank</td><td>Neither side is out of borough</td></tr>
+</table>
+</documentation>
+<documentation id="crossStreetNamesFlag">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte character.</format>
+<description>
+<p>When this flag is set to 'E', the LIST OF STREET NAMES is used to return street
+names corresponding to the street codes in the LIST OF CROSS STREETS
+(Functions 1, 1B, 1E, 3 and 3C) or in the LIST OF INTERSECTING STREETS
+(Function 2). The cross street names feature incurs processing overhead, and
+should only be used when necessary. See LIST OF STREET NAMES for related
+details.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>Blank</td><td>The names of cross or intersecting streets are not returned in the LIST OF STREET NAMES</td></tr>
+    <tr><td>E</td><td>The names of cross or intersecting streets are returned in the LIST OF STREET NAMES</td></tr>
+</table>
+</documentation>
+<documentation id="crossStreetReversalFlag">
+<functionNames>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>This flag indicates the relationship between the order in which the user specified the
+input cross streets and the direction of increasing addresses along the 'on' street.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>Blank</td><td>The direction from Street Name 2 to Street Name 3 (the two input cross street fields) conforms to the direction of increasing addresses</td></tr>
+    <tr><td>R</td><td>The direction from Street Name 2 to Street Name 3 is opposite to the direction of increasing addresses</td></tr>
+</table>
+</documentation>
+<documentation id="curveFlag">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte character</format>
+<description>
+<p>This flag indicates whether the given geographic feature segment is in reality
+curved. If so, the curve may be an arc of a circle or an irregular curve. When the
+segment specified by the input data is an arc of a circle, Functions 1 and 1E return
+Spatial Coordinates that are positioned relative to this arc rather than to the
+segment's chord (the imaginary straight line joining the curved feature's endpoints).
+When the segment specified by the input data is an irregular curve, Functions 1 and
+1E return blanks in the Spatial Coordinate fields (q.v.), and issue a warning with
+Reason Code value 'P'. In the case of Functions 3 and 3C, if the input data define a
+street stretch encompassing more than one segment (because of a T-intersection or
+bend), the Curve Flag is set 'on' (non-blank) if at least one of the constituent
+segments of the stretch is curved. See also discussion of Segment Length.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>Blank</td><td>Segment is not curved</td></tr>
+    <tr><td>I</td><td>Segment is an irregular curve, i.e., it is curved but it is not an arc of a circle</td></tr>
+    <tr><td>L</td><td>Segment is an arc of a circle on the left side of the line joining the segment's FROM and TO nodes</td></tr>
+    <tr><td>R</td><td>Segment is an arc of a circle on the right side of the line joining the segment's FROM and TO nodes</td></tr>
+</table>
+</documentation>
+<documentation id="dcpPreferredLgc">
+  <aliases>
+    <alias>dcpPreferredLgcForStreet1</alias>
+    <alias>dcpPreferredLgcForStreet2</alias>
+    <alias>dcpPreferredLgcForStreet3</alias>
+    <alias>fromPreferredLgcsFirstSetOf5</alias>
+    <alias>fromPreferredLgcsSecondSetOf5</alias>
+    <alias>toPreferredLgcsFirstSetOf5</alias>
+    <alias>toPreferredLgcsSecondSetOf5</alias>
+  </aliases>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>2 bytes RJZF</format>
+<description>
+<p>Identifies the local group of street names designated by the Department of City
+Planning as 'preferred' for display purposes for a specific location on a street.</p>
+</description>
+</documentation>
+<documentation id="doglegFlag">
+<functionNames>
+    <functionName>3</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>A dogleg is a street configuration in which a street has a displacement or offset as it
+crosses another street. A non-blank value in the Dogleg Flag indicates that at least
+one of the cross streets forms a dogleg as it crosses the 'on' street, in such a way
+that at least one side of the 'on' street has a block face encompassing more than one
+segment.</p>
+<p>When Function 3 returns a non-blank value in this flag, the work area represents the
+'innermost' segment of the dogleg configuration.
+The Dogleg Flag value indicates which side or sides of the street has (or have) the
+long block face(s).</p>
+<p>A Function 3C call will return information on the long block face when the user
+input data specifies a side of a street where there is a long block face formed by a
+dogleg or doglegs. The Dogleg Flag will not be set in response to a function 3C
+call.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>Blank</td><td>Not a dogleg</td></tr>
+    <tr><td>B</td><td>Both sides of the 'on' street have long block faces formed by doglegs. This can only occur if both cross streets form doglegs as they cross the 'on' street.</td></tr>
+    <tr><td>L</td><td>The left side of the street has a long block face formed by a dogleg</td></tr>
+    <tr><td>R</td><td>The right side of the street has a long block face formed by a dogleg</td></tr>
+</table>
+</documentation>
+<documentation id="dotStreetLightContractorArea">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>Department of Transportation Street light contractor information.</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>1</td><td>Street lights serviced by Manhattan contractors</td></tr>
+    <tr><td>2</td><td>Street lights serviced by Bronx contractors</td></tr>
+    <tr><td>3</td><td>Street lights serviced by Brooklyn contractors</td></tr>
+    <tr><td>4</td><td>Street lights serviced by Queens contractors</td></tr>
+    <tr><td>5</td><td>Street lights serviced by Staten Island contractors</td></tr>
+    <tr><td>X</td><td>Street light is located on the Brooklyn, Queens boundary</td></tr>
+    <tr><td>N</td><td>Street light is located in one borough, but serviced by a different borough</td></tr>
+</table>
+</documentation>
+<documentation id="dynamicBlock">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>3 bytes RJZF</format>
+<description>
+<p>A dynamic block is an un-subdivided polygon formed by LION segments.
+Dynamic blocks are numbered uniquely within 2000 census tract.</p>
+</description>
+</documentation>
+<documentation id="electionDistrict">
+<functionNames>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>3 bytes</format>
+<description>
+<p>A set of districts defined by the NYC Board of Elections to conduct elections.
+There are approximately 6,000 Election Districts (EDs) in NYC. Each ED is
+numbered uniquely within its Assembly District. All of NYC's higher-level
+political districts, namely Assembly Districts, City Council Districts, Municipal
+Court Districts, Congressional Districts and State Senatorial Districts, are defined as
+aggregates of Eds.</p>
+</description>
+</documentation>
+<documentation id="featureTypeCode">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>Identifies the type of geographic feature represented by the work area</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>Blank</td><td>Public street that exists physically, other than a type 'W' feature (see below)</td></tr>
+    <tr><td>1</td><td>Railroad</td></tr>
+    <tr><td>2</td><td>Shoreline</td></tr>
+    <tr><td>3</td><td>Census block boundary without physical existence</td></tr>
+    <tr><td>4</td><td>Other non-street feature</td></tr>
+    <tr><td>5</td><td>'Paper street', i.e., a public street that is legally 'mapped' but does not exist physically</td></tr>
+    <tr><td>6</td><td>Private street that exists physically</td></tr>
+    <tr><td>7</td><td>Physically nonexistent district boundary, other than a type '3' feature (see above)</td></tr>
+    <tr><td>8</td><td>Physical Boundary such as a cemetery wall</td></tr>
+    <tr><td>9</td><td>Paper street' that coincides with a non-physical boundary such as a Census block</td></tr>
+    <tr><td>W</td><td>Path, non-vehicular, addressable</td></tr>
+</table>
+</documentation>
+<documentation id="fireBattalion">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>2 bytes</format>
+<description>
+<p>An administrative fire district composed of Fire Companies.</p>
+</description>
+</documentation>
+<documentation id="fireCompanyNumber">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>3 bytes. Numeric RJZF</format>
+<description>
+<p>The smallest kind of administrative fire district defined by the NYC Fire
+Department. There are two types, indicated by the Fire Company Type: engine
+companies and ladder companies.</p>
+</description>
+</documentation>
+<documentation id="fireCompanyType">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>Fire companies are characterized by the type of apparatus they use to fight fires.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>E</td><td>Engine Company</td></tr>
+    <tr><td>L</td><td>Ladder Company</td></tr>
+</table>
+</documentation>
+<documentation id="fireDivision">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>2 bytes</format>
+<description>
+<p>An administrative fire district composed of Fire Battalions.</p>
+</description>
+</documentation>
+<documentation id="fromToNodeCoordinate">
+<aliases>
+    <alias>fromXCoordinate</alias>
+    <alias>fromYCoordinate</alias>
+    <alias>toXCoordinate</alias>
+    <alias>toYCoordinate</alias>
+</aliases>
+  <seeAlso>
+    <documentationId>spatialCoordinates</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>3</functionName>
+</functionNames>
+<format>Spatial coordinates consist of two fields, an X Coordinate and a Y Coordinate, each 7 bytes RJZF.</format>
+<description>
+<p>"fromNode" and "toNode" XY coordinates.</p>
+<p>Internal Label Points have also been known as Annotation Points.
+See SPATIAL COORDINATES for a description of the coordinate system (SPC)
+used by Geosupport.</p>
+<p>NOTE: these fields are only available when Function 3 is called with the
+extended mode switch.</p>
+</description>
+</documentation>
+<documentation id="gapFlag">
+<functionNames>
+    <functionName>3S</functionName>
+</functionNames>
+<format>1 byte</format>
+<description></description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>Blank</td><td>No gap, i.e., the 'on' street connects this intersection with its predecessor in list</td></tr>
+    <tr><td>G</td><td>A gap exists along the 'on' street between this intersection and its predecessor</td></tr>
+</table>
+</documentation>
+<documentation id="geosupportFunctionCode">
+<!-- NOT GENERATED -->
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>2 bytes. Alphanumeric</format>
+<description><p>Input argument which names the Geosupport function to be called.</p></description>
+<table>
+    <tr><th>Currently Supported Functions</th></tr>
+    <tr><td>1</td></tr>
+    <tr><td>1A</td></tr>
+    <tr><td>1AX</td></tr>
+    <tr><td>1B</td></tr>
+    <tr><td>2</td></tr>
+    <tr><td>3</td></tr>
+    <tr><td>BL</td></tr>
+    <tr><td>BN</td></tr>
+    <tr><td>DG</td></tr>
+</table>
+</documentation>
+<documentation id="generatedRecordFlag">
+<functionNames>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>This flag indicates that the geography defined by the input 'on' street and two cross
+streets is not a conventional street segment. There are several cases: a segment one
+of whose cross-features is a pseudo-street name (codes C, D); a street stretch
+formed by consolidating more than one consecutive LION segment (codes B, L, M,
+R, S and T); or a segment that is part of such a street stretch (types F, G). If the
+input data simultaneously satisfy the criteria for a Generated Record Flag value of
+C or D and for some other value, the flag contains the value other than C or D.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>B</td><td>Record has been generated by consolidating several LION segments to represent a stretch of a street where there is a node that is not at an intersection, such as a bending point (or a consecutive sequence of such nodes).</td></tr>
+    <tr><td>C</td><td>Record generated because one or both nodes of segment lie on the City Limit (Bronx-Westchester or Queens- Nassau border), but segment itself lies entirely within the City. The cross street list for a node on the City Limit contains the special street code assigned to the pseudo- street name CITY LIMIT in the Bronx or Queens, as appropriate.</td></tr>
+    <tr><td>D</td><td>Record has been generated for a dead end segment, i.e. a segment at least one of whose nodes either has no other segments incident at it, or has segments of non-street features only. The cross street list at such a node contains only the special street code assigned to the pseudo-street name DEAD END in the given borough.</td></tr>
+    <tr><td>F</td><td>Record represents a segment that is part of a street stretch that either contains a bending point at which there are no cross streets, or the left side of which is the long block face of a T-intersection or a consecutive sequence of T- intersections.</td></tr>
+    <tr><td>G</td><td>Record represents a segment that is part of a street stretch, that either contains a bending point at which there are no cross streets, or the right side of which is the long block face of a T-intersection or a consecutive sequence of T- intersections.</td></tr>
+    <tr><td>L</td><td>Record has been generated to represent the long block face on the left side of a T-intersection.</td></tr>
+    <tr><td>M</td><td>Record has been generated by consolidating two or more LION segments to represent a stretch of a street containing a node or a consecutive sequence of nodes at which the 'on' feature intersects with no streets but intersects with more than one type of non-street feature.</td></tr>
+    <tr><td>R</td><td>Record has been generated to represent the long block face on the right side of a T-intersection.</td></tr>
+    <tr><td>S</td><td>Record has been generated by consolidating two or more LION segments to represent a stretch of a street containing a node or a consecutive sequence of nodes at which the 'on' feature intersects with no streets but intersects with one or more shorelines.</td></tr>
+    <tr><td>T</td><td>Record has been generated by consolidating two or more LION segments to represent a stretch of a street containing a node or a consecutive sequence of nodes at which the 'on' feature intersects with no streets but intersects with one or more train tracks.</td></tr>
+</table>
+</documentation>
+<documentation id="healthArea">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>4 bytes</format>
+<description>
+<p>Districts defined by the NYC Department of Health and used to report statistics on
+births, deaths, communicable diseases etc. Health Areas are aggregates of Census
+Tracts.</p>
+</description>
+</documentation>
+<documentation id="healthCenterDistrict">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>2 bytes</format>
+<description>
+<p>Districts defined by the NYC Department of Health for administrative purposes.
+Health Center Districts are aggregates of Health Areas.</p>
+</description>
+</documentation>
+<documentation id="houseNumber">
+  <aliases>
+    <alias>houseNumberSortFormat</alias>
+  </aliases>
+<!-- <xref>HOUSE NUMBER (WA1 input field, Functions 1, 1A, 1B, 1E); NORMALIZED HOUSE NUMBER (WA1 output field, Functions 1, 1A, 1B, 1E); LOW HOUSE NUMBER, HIGH HOUSE NUMBER (WA2 output fields, Functions 1, 1A, 1B, 1E, 3C); LEFT LOW HOUSE NUMBER, LEFT HIGH HOUSE NUMBER, RIGHT LOW HOUSE NUMBER, RIGHT HIGH HOUSE NUMBER (WA2 output fields, Function 3) ALTERNATE LOW HOUSE NUMBER, ALTERNATE HIGH HOUSE NUMBER (WA2 output fields, Function 3C) UNDERLYING HOUSE NUMBER FOR VANITY ADDRESSES (WA2, 1, 1B, 1E)</xref> -->
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>See UPG Section V.2.</format>
+<description>
+<p>If the field name indicates the house number is normalized, it is in HNS format; otherwise, it is in HND format (see UPG Section V.2).</p>
+</description>
+</documentation>
+<documentation id="houseNumberIn">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>See HND format in UPG Section V.2.</format>
+<description>
+<p>House number input argument in "display" (HND) format required by address-related functions.</p>
+</description>
+</documentation>
+<documentation id="houseNumberJustificationFlag">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>Indicates whether the HOUSE NUMBERS IN DISPLAY format (HNDs) in the
+output area should be left-justified or right-justified.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>Blank</td><td>Left-justify Normalized House Numbers (default)</td></tr>
+    <tr><td>L</td><td>Left-justify Normalized House Numbers</td></tr>
+    <tr><td>R</td><td>Right-justify Normalized House Numbers</td></tr>
+</table>
+</documentation>
+<documentation id="houseNumberNormalizationLength">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>2 bytes, numeric</format>
+<description>
+<p>Indicates the length requested for the HOUSE NUMBERS IN DISPLAY format
+(HNDs) in the output area. Valid values are between 12 and 16. If the field is left
+blank, the default is 12. For more information, see UPG Section V.2.</p>
+</description>
+</documentation>
+<documentation id="hurricaneEvacuationZone">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>Hurricane evacuation zones are the areas of the city that may need to be evacuated due to life safety-related threats from hurricane storm surge. These areas may be inundated by storm surge or isolated by storm surge waters. There are six zones, ranked by the risk of storm surge impact, with zone 1 being the most likely to flood. In the event of a hurricane or tropical storm, residents in these zones may be ordered to evacuate. Areas with a zone value of 'X' are not in any evacuation zone. Areas with a zone value of '0' are either water, small piers, or uninhabited islands.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>1</td><td>Zone 1</td></tr>
+    <tr><td>2</td><td>Zone 2</td></tr>
+    <tr><td>3</td><td>Zone 3</td></tr>
+    <tr><td>4</td><td>Zone 4</td></tr>
+    <tr><td>5</td><td>Zone 5</td></tr>
+    <tr><td>6</td><td>Zone 6</td></tr>
+    <tr><td>X</td><td>Not in a hurricane zone</td></tr>
+    <tr><td>0</td><td>Water or pier</td></tr>
+</table>
+<seeAlso><externalLink>http://www1.nyc.gov/assets/em/html/know-your-zone/knowyourzone.html</externalLink></seeAlso>
+</documentation>
+<documentation id="instructionalRegion">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>2 bytes</format>
+<description>
+<p>The Department of Education has divided the city into Instructional Regions which
+group together two or more Community School Districts for administrative
+purposes. (Instructional Regions have also been known as Instructional Divisions.)</p>
+</description>
+</documentation>
+<documentation id="interimAssistanceEligibilityIndicator">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>Indicates whether the input location is in a census tract that is Community
+Development eligible.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>E</td><td>Input location is in a CD-eligible census tract</td></tr>
+    <tr><td>I</td><td>Location is not in a CD-eligible census tract</td></tr>
+    <tr><td>Blank</td><td>Location is in a census tract, the CD-eligibility status of which is unknown to the Geosupport System. (Note: This is an error condition and should be reported).</td></tr>
+</table>
+</documentation>
+<documentation id="internalLabelCoordinate">
+<aliases>
+    <alias>internalLabelXCoordinate</alias>
+    <alias>internalLabelYCoordinate</alias>
+</aliases>
+  <seeAlso>
+    <documentationId>spatialCoordinates</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>Spatial coordinates consist of two fields, an X Coordinate and a Y Coordinate, each 7 bytes RJZF.</format>
+<description>
+<p>The Internal Label Point is a location within a tax lot selected by the Department of
+City Planning as the location where information could be displayed about the
+property in a mapping application. The coordinates associated with the Internal
+Label Point are guaranteed to be within the property, unlike the coordinates
+returned by either Function 1 or Function 1E, where the Spatial Coordinates are an
+approximation based in the address range of the particular street the address is on.
+In addition, the Function 1/1E Spatial Coordinates always fall in the street bed and
+not within a tax lot, and most likely will not be adjacent to the tax lot the address is
+in. Additionally, when using Function 1A, the same coordinates will be returned no
+matter which of a tax lot's addresses is used as input. There are a few properties
+which do not have an Internal Label Point; consequently, no coordinates will be
+returned for these properties.</p>
+<p>Internal Label Points have also been known as Annotation Points.
+See SPATIAL COORDINATES for a description of the coordinate system (SPC)
+used by Geosupport.</p>
+</description>
+</documentation>
+<documentation id="intersectionReplicationCounter">
+<functionNames>
+    <functionName>2</functionName>
+</functionNames>
+<format>1 byte, numeric</format>
+<description>
+<p>The Intersection Replication Counter is non-blank only if the two streets intersect
+more than once, in which case this field contains the number of such intersections.</p>
+</description>
+</documentation>
+<documentation id="interiorLotFlag">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>1 byte</format>
+<description></description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>I</td><td>Tax lot is interior to physical block, ie., it has no street frontages.</td></tr>
+    <tr><td>Blank</td><td>Tax lot has at least one street frontage</td></tr>
+</table>
+</documentation>
+<documentation id="irregularlyShapedLotFlag">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>1 byte</format>
+<description></description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>I</td><td>Tax lot is irregularly-shaped, i.e., non-rectangular</td></tr>
+    <tr><td>Blank</td><td>Tax lot is rectangular</td></tr>
+</table>
+</documentation>
+<documentation id="latitude">
+  <seeAlso>
+    <documentationId>spatialCoordinates</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>1B</functionName>
+    <functionName>1EX</functionName>
+    <functionName>1X</functionName>
+    <!-- <functionName>2</functionName> -->
+</functionNames>
+<format>9 bytes. Numeric.</format>
+<description>
+<p>Value of Y coordinate converted to decimal degrees.</p>
+</description>
+</documentation>
+<documentation id="latitudeInternalLabel">
+  <seeAlso>
+    <documentationId>spatialCoordinates</documentationId>
+    <documentationId>internalLabelCoordinate</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1AX</functionName>
+    <functionName>1B</functionName>
+</functionNames>
+<format>9 bytes. Numeric.</format>
+<description>
+<p>Value of internal label Y coordinate converted to decimal degrees.</p>
+</description>
+</documentation>
+<documentation id="lengthInFeetFromPreviousNode">
+<functionNames>
+    <functionName>3S</functionName>
+</functionNames>
+<format>5 bytes numeric RJZF</format>
+<description>
+<p>The length between two nodes.</p>
+</description>
+</documentation>
+<documentation id="lgiOverflowFlag">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>If set to 'E' indicates that the number of geographic identifiers for the given tax lot
+exceeds 21, the maximum capacity of the List of Geographic Identifiers; otherwise
+it is blank. If this flag is set to 'E', the user can obtain a comprehensive list of BINs
+for the tax lot by using the long Work Area 2 option when calling the same function
+with the same input data.</p>
+</description>
+</documentation>
+<documentation id="lionFaceCode">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>4 bytes. Numeric</format>
+<description>
+<p>A LION Face Code is assigned to each linear geographic feature represented in the
+LION file. These consist of streets and certain non-street features, such as census
+boundaries, shorelines and railroad tracks. Face Codes serve as part of LION keys,
+which identify a unique LION record. Face Code values are assigned uniquely
+within borough.</p>
+</description>
+</documentation>
+<documentation id="lionKey">
+  <aliases>
+    <alias>lionBoroughCode</alias>
+    <alias>lionBoroughCodeForVanityAddress</alias>
+    <alias>lionFaceCode</alias>
+    <alias>lionFaceCodeForVanityAddress</alias>
+    <alias>lionKeyForVanityAddress</alias>
+    <alias>lionSequenceNumber</alias>
+    <alias>lionSequenceNumberForVanityAddress</alias>
+  </aliases>
+<!-- NOT GENERATED -->
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>10 bytes. Numeric</format>
+<table>
+    <tr><th>Field</th><th>Length</th><th>Position</th></tr>
+    <tr><td>LION Boro Code</td><td>1</td><td>1-1</td></tr>
+    <tr><td>LION Face Code</td><td>4</td><td>2-5</td></tr>
+    <tr><td>LION Sequence Number</td><td>5</td><td>6-10</td></tr>
+</table>
+</documentation>
+<documentation id="lionNodeNumber">
+<functionNames>
+    <functionName>2</functionName>
+    <functionName>3S</functionName>
+</functionNames>
+<format>7 bytes. Numeric</format>
+<description>
+<p>A LION node is an endpoint of a geographic feature segment represented in LION.
+Most nodes in LION are points where a feature bends or terminates or where two
+features intersect. Each LION node has a node number assigned to it, which is
+unique in the entire city. Node number assignments are permanent; if a node is
+deleted from LION, its node number is retired and is never reassigned to a different
+node.</p>
+</description>
+</documentation>
+<documentation id="lionSegmentId">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>7 bytes. RJZF</format>
+<description>
+<p>Identifies, uniquely within the entire city, a geographic feature segment represented
+in the LION file.</p>
+</description>
+</documentation>
+<documentation id="lionSequenceNumber">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>5 bytes</format>
+<description>
+<p>Identifies a LION record uniquely within Face Code. Generally, Sequence
+Numbers are assigned in the geographic order in which the corresponding LION
+segments occur along the geographic feature identified by the given face code. The
+Borough Code, Face Code and Sequence Number concatenated form the LION key,
+which serves as a unique identifier for one LION record.</p>
+</description>
+</documentation>
+<documentation id="listOfBuildingsOnTaxLot">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+</functionNames>
+<format>17,500 bytes, consisting of 2,500 slots for 7-byte BINs</format>
+<description>
+<p><!-- long WA2 only -->
+See UPG Section VI.6.</p>
+</description>
+</documentation>
+<documentation id="listOfCrossStreetCodes">
+<functionNames>
+    <functionName>3S</functionName>
+</functionNames>
+<format>40 bytes, numeric, consisting of 5 slots for intersecting B7SCs.</format>
+<description>
+<p>For each intersecting street, this is a list of up to five B7SCs, starting with
+the lowest B7SC, followed by the next lowest, followed by the remaining B7SCs in
+any order.</p>
+</description>
+</documentation>
+<documentation id="listOfCrossStreets">
+<!-- <xref>LIST OF CROSS STREETS AT LOW ADDRESS END, LIST OF CROSS STREETS AT HIGH ADDRESS END</xref> -->
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>30 bytes, consisting of slots for up to five 6-byte B5SCs. 'Empty' slots contain either numeric zeros or blanks.</format>
+<description>
+<p>A list of B5SCs, for up to five streets incident
+upon a delimiting node (endpoint) of a block face or street segment. The number of
+non-empty list entries is returned in the corresponding WA2 field NUMBER OF
+CROSS STREETS AT (LOW or HIGH) ADDRESS END. It is possible for the list
+to be entirely empty. If the node lies on a borough boundary, the list may contain
+streets from both boroughs. Subject to the space limitation, the list may include the
+input cross street corresponding to the given node, and may include the pseudo-
+streets 'City Limit', 'Dead End' and 'Bend'. The inclusion of 'Bend' in the list
+indicates that the node is a bending point of the 'on' street, not that it is a bending
+point of a cross street (although that may be true).</p>
+</description>
+</documentation>
+<documentation id="listOfGeographicIdentifiers">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>756 bytes total, consisting of space for 21 36-byte entries, each entry having fields for the following data items: Low House Number of Address Range, High House Number of Address Range, B5SC, DCP-Preferred LGC, BIN, Entry Type Code, Side of Street Indicator.</format>
+<description>
+<p>The List of Geographic Identifiers (LGI) is intended to provide a comprehensive
+geographic profile of a tax lot by listing, so far as the information is known and
+space allows, all of the lot's buildings; all of the street addresses and non-
+addressable street frontages of each building; all of the lot's 'vacant frontages' (i.e.,
+street frontages of the lot not associated with buildings); and any NAPs associated
+with the lot. The LGI contains space for up to 21 entries. The number of non-
+empty entries is indicated in the WA2 field NUMBER OF GEOGRAPHIC
+IDENTIFIERS.</p>
+<p>The first table describes possible entry types. The second table shows, based
+on entry type which fields will contain information.</p>
+</description>
+<table>
+<caption>List of Geographic Identifiers - Possible Entry Types</caption>
+    <tr><th>Entry Type Code</th><th>Represents</th><th>Description</th></tr>
+    <tr><td>Blank</td><td>Address range</td><td>A real address range of a building on a given tax lot. There are values in the Low House Number, High House Number, B5SC, DCP-Preferred LGC, Side of Street Indicator and BIN fields. A single address is represented as an address range in which the low and high house numbers are identical.</td></tr>
+    <tr><td>B</td><td>NAUB</td><td>A Non-Addressable Un-named Building (NAUB) (see UPG Section VI.3).</td></tr>
+    <tr><td>F</td><td>Vacant Street Frontage</td><td>A street frontage of the tax lot at which there are no buildings (including NAUBs) and to which no pseudo-addresses have been assigned. The Low and High House Number, BIN and Side of Street Indicator fields are empty. There are values in the B5SC and DCP- Preferred LGC fields.</td></tr>
+    <tr><td>G</td><td>NAP of a Complex</td><td>A Non-Addressable Place name (NAP) of a complex of buildings and/or other geographic features, usually on a large site or superblock (see UPG Section III.6). The house number and BIN fields are empty. The B5SC, DCP-Preferred LGC, and Side of Street Indicator fields contain the values of these items assigned to the NAP.</td></tr>
+    <tr><td>N</td><td>NAP of a Simplex</td><td>A NAP of a building or other geographic feature that is not part of a complex (see UPG Section III.6). The house number fields are empty.</td></tr>
+    <tr><td>Q</td><td>Pseudo-Address Range</td><td>A pseudo-address range assigned to a vacant street frontage of the tax lot. There are values in the Low House Number, High House Number, B5SC, DCP-Preferred LGC and Side of Street Indicator fields. A single address is represented as an address range in which the low and high house numbers are identical. The BIN field is empty.</td></tr>
+    <tr><td>R</td><td>Real Street of a Vanity Address</td><td>Entry indicates the street and the side of that street on which the building entrance having a vanity address is really located and for which no other address for that building exists. For a discussion of vanity addresses, see UPG Section V.9. In a type R entry, the Low and High House Number fields are empty, and there are non-empty values in the B5SC, DCP-Preferred LGC, Side of Street Indicator and BIN fields. Whenever the LGI contains a type R entry, it also contains a type V entry for the associated vanity address.</td></tr>
+    <tr><td>V</td><td>Vanity Address</td><td>A vanity address or address range. For a detailed discussion of vanity addresses, see UPG Section V.9. There are non-empty values in the Low House Number, High House Number, B5SC, DCP-Preferred LGC, Side of Street Indicator and BIN fields. A single address is represented as an address range in which the low and high house numbers are identical. Whenever the LGI contains a type V entry, it also contains an either an address range entry or a type R entry that indicates the street on which the associated building entrance is really located.</td></tr>
+    <tr><td>W</td><td>Blank-Wall Bldg Frontage</td><td>A building frontage along a street that is not associated with any addresses, such as some building facades with no entrances. The Low and High House Number and Side of Street Indicator fields are blank. There are values in the B5SC and DCP-Preferred LGC fields.</td></tr>
+    <tr><td>X</td><td>NAP of a Constituent Entity of a Complex</td><td>A NAP of a constituent entity of a complex. (The NAP of the entire complex is represented by a separate entry of type G.) The house number fields are empty. The B5SC, DCP-Preferred LGC and Side of Street Indicator fields contain the values of these items assigned to the NAP. The BIN field is non-empty only if the NAP represents a building.</td></tr>
+</table>
+<table>
+<caption>List of Geographic Identifiers - Which Fields Contain Values By Entry Type</caption>
+    <tr><th>Entry Type Code</th><th>Entry Type</th><th>Low and High House Numbers</th><th>B5SC</th><th>LGC</th><th>Side of Street Indicator</th><th>BIN</th></tr>
+    <tr><td>Blank</td><td>Real Address Range</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+    <tr><td>B</td><td>NAUB</td><td></td><td><sup position="4">1</sup>Note</td><td><sup position="4">1</sup>Note</td><td></td><td>Yes</td></tr>
+    <tr><td>F</td><td>Vacant Street Frontage</td><td></td><td>Yes</td><td>Yes</td><td></td><td></td></tr>
+    <tr><td>G</td><td>NAP of a complex</td><td></td><td>Yes</td><td>Yes</td><td>Yes</td><td></td></tr>
+    <tr><td>N</td><td>NAP of a simplex</td><td></td><td>Yes</td><td>Yes</td><td>Yes</td><td><sup position="4">2</sup>Note</td></tr>
+    <tr><td>Q</td><td>Pseudo-Address Range</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td></td></tr>
+    <tr><td>R</td><td>Real Street of Vanity Address</td><td></td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+    <tr><td>V</td><td>Vanity Address</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+    <tr><td>W</td><td>Blank-Wall Building Facade</td><td></td><td>Yes</td><td>Yes</td><td></td><td>Yes</td></tr>
+    <tr><td>X</td><td>NAP of a constituent entity of a complex</td><td></td><td>Yes</td><td>Yes</td><td>Yes</td><td><sup position="4">2</sup>Note</td></tr>
+    <tr><td colspan="7"><sup position="0">1</sup>NAUB entries may or may not contain B5SC and LGC values. An entry for a NAUB contains a B5SC value and an LGC value only if the GSS staff has determined that the NAUB fronts on, is adjacent to or is principally accessible from a particular street.</td>
+</tr>
+    <tr><td colspan="7"><sup position="0">2</sup>The BIN field is non-empty only if the NAP represents a building.</td>
+</tr>
+</table>
+</documentation>
+<documentation id="listOfIntersectingStreets">
+<functionNames>
+    <functionName>2</functionName>
+</functionNames>
+<format>30 bytes, consisting of slots for up to five 6-byte B5SCs. 'Empty' slots contain numeric zeros or blanks.</format>
+<description>
+<p>A list of B5SCs for up to five streets incident
+upon the intersection. The field NUMBER OF INTERSECTING STREETS
+contains the number of non-empty entries in the list. If the intersection lies on a
+borough boundary, the list may contain streets from both boroughs. Subject to the
+space limitation, the list may include the two input streets, and may include the
+pseudo-streets 'City Limit' and 'Dead End'. The list never includes the pseudo-
+street 'Bend'. The list always contains at least one entry (it contains precisely one
+entry in the case of a bending point of a street at which there are no other streets).</p>
+</description>
+</documentation>
+<documentation id="listOfStreetCodes">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+</functionNames>
+<format>80 bytes, consisting of 10 fields for B7SCs</format>
+<description>
+<p>List of borough and 7-byte street codes, corresponding to the LIST OF STREET
+NAMES. The number of street codes in the list is returned in the WA1 output field
+NUMBER OF STREET CODES AND STREET NAMES IN LIST.</p>
+</description>
+</documentation>
+<documentation id="listOfStreetNames">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+</functionNames>
+<format>320 bytes, consisting of 10 fields for street names, each 32 bytes.</format>
+<description>
+<p><!-- WA1 output field -->
+This field is used by several Geosupport features (see below) to return a list of
+street names. The number of street names in the list is returned in the WA1 output
+field NUMBER OF STREET CODES AND STREET NAMES IN LIST.
+The similar names feature uses the List of Street Names to return up to ten street
+names deemed 'similar' to a rejected input street name (see UPG Section III.5).
+The browse functions, Functions BB and BF, use the List of Street Names to return
+up to ten normalized street names in alphabetical order as part of a street name
+browse (see UPG Section III.7).</p>
+<p>The local street name validation feature uses the List of Street Names to return up to
+four locally valid alias street names corresponding to a street name rejected as
+locally invalid (see UPG Section IV.5).</p>
+<p>The cross street names feature (see CROSS STREET NAMES FLAG) uses the List
+of Street Names to return street names corresponding to the street codes in the LIST
+OF CROSS STREETS (Functions 1, 1B, 1E, 3 and 3C) or the LIST OF
+INTERSECTING STREETS (Function 2). In the case of Functions 1, 1B, 1E, 3 and
+3C, the first five 32-byte street name fields in the List of Street Names are used for
+the street names corresponding to the street codes in the LIST OF CROSS
+STREETS AT LOW ADDRESS END; the second five 32-byte street name fields
+in the List of Street Names are used for the street names corresponding to the street
+codes in the LIST OF CROSS STREETS AT HIGH ADDRESS END.</p>
+</description>
+</documentation>
+<documentation id="localGroupCode">
+  <aliases>
+    <alias>listOf4Lgcs</alias>
+    <alias>listOfSecondSetOf5Lgcs</alias>
+    <alias>csclLgc1</alias>
+    <alias>csclLgc2</alias>
+    <alias>csclLgc3</alias>
+    <alias>csclLgc4</alias>
+    <alias>csclLgc5</alias>
+    <alias>fromLgc1</alias>
+    <alias>fromLgc2</alias>
+    <alias>fromLgc3</alias>
+    <alias>fromLgc4</alias>
+    <alias>lgc1</alias>
+    <alias>lgc2</alias>
+    <alias>lgc3</alias>
+    <alias>lgc4</alias>
+    <alias>toLgc1</alias>
+    <alias>toLgc2</alias>
+    <alias>toLgc3</alias>
+    <alias>toLgc4</alias>
+  </aliases>
+  <seeAlso>
+    <documentationId>streetCode</documentationId>
+    <documentationId>streetName</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>2 bytes. Numeric.</format>
+<description>
+<p>Local street name validity is reflected in the sixth and seventh digits of the 10SC, which constitute the Local
+Group Code (LGC). Street codes are assigned in such a way that two names for a street have the same LGC
+value if and only if those names are valid for the same portion (possibly all) of the street. Note that if two
+names are valid for overlapping portions of a street, or one is valid for a subset of the portion where the other
+is valid, then those names are in different local groups. In order to be in the same local group, names must be
+valid for exactly the same portion of the street.</p>
+<p>Conceptually, the set of all street names for a given street can be viewed as being partitioned into subsets
+called ‘local street name groups’, each group identified by its LGC value and consisting of all the names that
+are valid for a particular portion (possibly all) of the street. (Most New York City streets only have one local
+street name group.)</p>
+<p>A LGC value is meaningful only relative to its B5SC value. The B5SC identifies the street, and the LGC
+identifies a local street name group for the given street, that is, the group of all names for the given street that
+are valid for a particular portion (possibly all) of the street. The B5SC concatenated with the LGC, that is,
+the first eight bytes of the B10SC, constitute the Borough and Seven-Digit Street Code (B7SC). Two street
+names have the same B7SC value if and only if they are names for the same street (same B5SC value) and
+are valid for the same portion of the street (same LGC value relative to the given B5SC value).</p>
+<p>For a detailed discussion of local group codes, street codes, and street names please see UPG Section IV.</p>
+</description>
+</documentation>
+<documentation id="locationalStatusOfSegment">
+<functionNames>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>Indicates locational status of segment per codes below.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>H</td><td>Segment internal to a block, but not a Dead End (A Land Hook)</td></tr>
+    <tr><td>I</td><td>Dead End Segment</td></tr>
+    <tr><td>X</td><td>Tract Boundary Segment (other than borough boundary)</td></tr>
+    <tr><td>1</td><td>Segment bordering Manhattan</td></tr>
+    <tr><td>2</td><td>Segment bordering Bronx</td></tr>
+    <tr><td>3</td><td>Segment bordering Brooklyn</td></tr>
+    <tr><td>4</td><td>Segment bordering Queens</td></tr>
+    <tr><td>5</td><td>Segment bordering Staten Island</td></tr>
+    <tr><td>9</td><td>Segment bordering City Limits</td></tr>
+</table>
+</documentation>
+<documentation id="longitude">
+  <seeAlso>
+    <documentationId>spatialCoordinates</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>1B</functionName>
+    <functionName>1EX</functionName>
+    <functionName>1X</functionName>
+    <!-- <functionName>2</functionName> -->
+</functionNames>
+<format>11 bytes. Numeric.</format>
+<description>
+<p>Value of X coordinate converted to decimal degrees.</p>
+</description>
+</documentation>
+<documentation id="longitudeInternalLabel">
+  <seeAlso>
+    <documentationId>spatialCoordinates</documentationId>
+    <documentationId>internalLabelCoordinate</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1AX</functionName>
+    <functionName>1B</functionName>
+</functionNames>
+<format>11 bytes. Numeric.</format>
+<description>
+<p>Value of internal label X coordinate converted to decimal degrees.</p>
+</description>
+</documentation>
+<documentation id="lowHouseNumberOfDefiningAddressRange">
+  <!-- NOT GENERATED -->
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>11 bytes. Alphanumeric.</format>
+<description>
+<p>Low house number of the defining address range in sort format.</p>
+</description>
+</documentation>
+<documentation id="numberOfBuildingsOnTaxLot">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+</functionNames>
+<format>4 bytes numeric.</format>
+<description>
+<p><!-- long WA2 only -->
+Indicates the number of entries in the LIST OF BUILDINGS. Maximum value is 2,500.</p>
+</description>
+</documentation>
+<documentation id="numberOfCrossStreets">
+<!-- <xref>NUMBER OF CROSS STREETS AT LOW ADDRESS END, NUMBER OF CROSS STREETS AT HIGH ADDRESS END</xref> -->
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>One byte, containing a numeric digit from 0 to 5.</format>
+<description>
+<p>Indicates the number of non-empty entries in the corresponding LIST OF CROSS STREETS.</p>
+</description>
+</documentation>
+<documentation id="numberOfGeographicIdentifiers">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>4 bytes</format>
+<description>
+<p>Indicates the number of entries in the LIST OF GEOGRAPHIC IDENTIFIERS.</p>
+</description>
+</documentation>
+<documentation id="numberOfIntersectingStreets">
+<functionNames>
+    <functionName>2</functionName>
+</functionNames>
+<format>One byte, containing a numeric digit from 1 to 5.</format>
+<description>
+<p>Indicates the number of non-empty entries in the LIST OF INTERSECTING STREETS.</p>
+</description>
+</documentation>
+<documentation id="numberOfStreetFrontagesOfLot">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>2 bytes, RJZF.</format>
+<description>
+<p>Indicates the number of streets on which the given lot has at least one frontage.</p>
+</description>
+</documentation>
+<documentation id="numberOfStreetCodesAndStreetNamesInList">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+</functionNames>
+<format>2 bytes, Numeric</format>
+<description>
+<p>Indicates the number of street names returned in the LIST OF STREET NAMES,
+corresponding to the number of street codes returned in the LIST OF STREET
+CODES..</p>
+</description>
+</documentation>
+<documentation id="numberOfStreetNamesInList">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+</functionNames>
+<format>2 bytes, packed decimal</format>
+<description>
+<p><!-- WA1 output field -->
+Indicates the number of street names returned in the LIST OF STREET NAMES.</p>
+</description>
+</documentation>
+<documentation id="policePatrolBoroughCommand">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>These are sub-borough geographic areas defined by the Police Department. They are composed of Police Precincts.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>1</td><td>Manhattan South</td></tr>
+    <tr><td>2</td><td>Manhattan North</td></tr>
+    <tr><td>3</td><td>Bronx</td></tr>
+    <tr><td>4</td><td>Brooklyn South</td></tr>
+    <tr><td>5</td><td>Brooklyn North</td></tr>
+    <tr><td>6</td><td>Queens North</td></tr>
+    <tr><td>7</td><td>Staten Island</td></tr>
+    <tr><td>8</td><td>Queens South</td></tr>
+</table>
+</documentation>
+<documentation id="policePrecinct">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>3 bytes. RJZF.</format>
+<description>
+<p>Police Patrol Borough Commands are sub-divided into Police Precincts which are defined by the Police Department.</p>
+</description>
+</documentation>
+<documentation id="returnCodes">
+  <aliases>
+    <alias>geosupportReturnCode</alias>
+    <alias>geosupportReturnCode2</alias>
+    <alias>message</alias>
+    <alias>message2</alias>
+    <alias>reasonCode</alias>
+    <alias>reasonCode1a</alias>
+    <alias>reasonCode1e</alias>
+    <alias>reasonCode2</alias>
+    <alias>reasonCodeQualifier</alias>
+    <alias>reasonCodeQualifier2</alias>
+    <alias>returnCode1a</alias>
+    <alias>returnCode1e</alias>
+  </aliases>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+  </functionNames>
+  <format>2 byte return code optionally followed by 1 byte reason code.</format>
+  <description><p>Indicates success or failure of all function calls. Also indicates warnings and provides warning message where applicable.</p><p>See UPG Appendix 4.</p></description>
+<table>
+  <tr><th>Field</th><th>Format</th><th>Meaning</th></tr>
+  <tr><td>geosupportReturnCode</td><td>2 bytes. Alphanumeric.</td><td>Indicates overall success or failure.</td></tr>
+  <tr><td>reasonCode</td><td>1 byte. Alphanumeric.</td><td>Qualifies the geosupportReturnCode to provide more detailed error or warning information.</td></tr>
+  <tr><td>message</td><td>80 bytes. Alphanumeric.</td><td>Detailed error or warning message.</td></tr>
+</table>
+</documentation>
+<documentation id="rpadBuildingClassificationCode">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>2 bytes</format>
+<description>
+<p>This is a set of land use/building classification codes defined by the Real Property
+Assessment Division (RPAD) of the Department of Finance. If a tax lot has more
+than one building or land use, RPAD assigns the building class code they deem to
+describe best the 'principal' building or the 'predominant' land use on the tax lot.
+The values and meanings of this set of codes can be obtained from the Department
+of Finance.</p>
+</description>
+</documentation>
+<documentation id="rpadCondoIdentificationNumber">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>4 bytes</format>
+<description>
+<p>This is an identification number assigned by the Department of Finance to each
+condominium in the city. It identifies the condominium as a whole and not a
+specific condominium unit.</p>
+</description>
+</documentation>
+<documentation id="rpadSelfCheckCodeForBbl">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>For each BBL value, the Department of Finance has computed a Self-Check Code
+(SCC). This is a one-digit number computed from the BBL value using a algorithm
+chosen by DOF. The purpose of the SCC is to assist in validating key-entered
+BBLs. For more information on SCCs inquire to the information technology
+division of the Department of Finance.</p>
+</description>
+</documentation>
+<documentation id="roadbedRequestSwitch">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>Indicated request for Roadbed information for roads that are divided into two or
+more roadbeds. If Roadbed information if requested for a street that is not divided,
+Geosupport returns the generic information. The Segment Type Code will indicate
+the type of information that is being returned.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>R</td><td>Roadbed information requested</td></tr>
+    <tr><td>Blank</td><td>Generic (non-roadbed) information requested (default)</td></tr>
+</table>
+</documentation>
+<documentation id="sanbornVolumeAndPage">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+    <functionName>2</functionName>
+</functionNames>
+<format>The Volume field is 3 bytes (2-digit volume number + 1-digit character suffix). The Page field is 4 bytes (3-digit page number + 1-digit character suffix).</format>
+<description>
+<p>The Sanborn Map Company maintains a 79 volume atlas of New York City
+geography that is widely used by New York city agencies. The atlases contain
+approximately 6000 maps covering all five boroughs.</p>
+</description>
+</documentation>
+<documentation id="sanitationDistrict">
+<!-- NOT GENERATED -->
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+</functionNames>
+<format>3 bytes</format>
+<description>
+<p>Sanitation district is defined by the Department of Sanitation for waste collection.</p>
+</description>
+</documentation>
+<documentation id="sanitationCollectionSchedulingSectionAndSubsection">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>2 bytes</format>
+<description>
+<p>Districts defined by the Department of Sanitation for waste collection.</p>
+</description>
+</documentation>
+<documentation id="sanitationRecyclingCollectionSchedule">
+  <aliases>
+    <alias>sanitationRecyclingCollectionSchedule</alias>
+  </aliases>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>3 bytes</format>
+<description>
+<p>Indicates which days of the week the Department of Sanitation will pick up recycling at the given address.</p>
+</description>
+</documentation>
+<documentation id="sanitationRegularCollectionSchedule">
+  <aliases>
+    <alias>sanitationRegularCollectionSchedule</alias>
+  </aliases>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>3 bytes</format>
+<description>
+<p>Indicates which days of the week the Department of Sanitation will pick up non-recycling waste at the given address.</p>
+</description>
+</documentation>
+<documentation id="sanitationOrganicsCollectionSchedule">
+  <aliases>
+    <alias>sanitationOrganicsCollectionSchedule</alias>
+  </aliases>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>5 bytes</format>
+<description>
+<p>Indicates which days of the week the Department of Sanitation will pick up organic waste at the given address. Not available in all locations.</p>
+</description>
+</documentation>
+<documentation id="segmentAzimuth">
+<functionNames>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>3 bytes</format>
+<description>
+<p>This item represents the direction in which the segment lies on the earth's surface,
+expressed as an angle in degrees measured counterclockwise from due east. The
+segment is considered to be pointing in the direction of increasing addresses, and
+the azimuth value can range from 0 to 359 degrees, inclusive. For example, a
+segment pointing due east has an azimuth of 0; one pointing due north has an
+azimuth of 90; one pointing due west has an azimuth of 180; one pointing halfway
+between due west and due south (i.e, pointing due southwest) has an azimuth of
+225.</p>
+</description>
+</documentation>
+<documentation id="segmentLengthInFeet">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>5 bytes numeric</format>
+<description>
+<p>Except for curved segments (see Curve Flag), the Segment Length is computed
+from the Spatial Coordinates of the segment's endpoints, as digitized in the LION
+file. For curved segments, the Segment Length is computed by summing the
+lengths of the small straight line segments that approximate the curve in the GIS
+version of LION; this is a more accurate approximation to the true arc length of the
+curve than would be the segment's 'secant length', that is, the straight line distance
+between the curve's extreme endpoints. In the case of Functions 3 and 3C, if the
+input data define a street stretch encompassing more than one segment (because of a
+T-intersection or bend), the Segment Length returned is the sum of the lengths of
+the constituent segments of the stretch. In all cases, the Segment Length has a very
+approximate level of accuracy only, and should not be used in applications
+requiring high precision.</p>
+</description>
+</documentation>
+<documentation id="segmentOrientation">
+<functionNames>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte character</format>
+<description>
+<p>This item is a set of codes grouping the possible azimuth values of a segment into
+eight categories. The categories are "approximately" due north, south, east and
+west, and the four quadrants of the rectangular coordinate system for segments that
+do not lie approximately due north, south, east or west. "Approximately" as used
+here means "within 5 degrees". In Manhattan, all orientation codes are defined with
+a 30-degree clockwise shift (i.e., 30 is subtracted from the azimuth value) in order
+to conform to the conventional concept that the midtown streets and avenues lie due
+east-west and due north-south, respectively. For example, "approximately due
+north" means "within 5 degrees of due north"; for the boroughs other than
+Manhattan, this corresponds to the range of azimuth values from 85 to 95; in
+Manhattan, the corresponding azimuth value range is 55 to 65. There is a ninth
+orientation category, with a code value of 'U', meaning Geosupport could not
+determine the segment's orientation because of a problem with the segment's
+Spatial Coordinates. All occurrences of an orientation code of 'U' should be
+reported to Geographic Systems Section staff.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th><th><sup position="9">1</sup>Manhattan</th><th><sup position="14">1</sup>Other Boroughs</th></tr>
+    <tr><td>U</td><td colspan="3">Orientation is undefined</td></tr>
+    <tr><td>E</td><td>Approximately due east</td><td>0-5 and 355-359</td><td>325-335</td></tr>
+    <tr><td>1</td><td>First quadrant, i.e. northeasterly</td><td>6-84</td><td>336-359 and 0-54</td></tr>
+    <tr><td>N</td><td>Approximately due north</td><td>85-95</td><td>55-65</td></tr>
+    <tr><td>2</td><td>Second quadrant, i.e. northwesterly</td><td>96-174</td><td>66-144</td></tr>
+    <tr><td>W</td><td>Approximately due west</td><td>175-185</td><td>145-155</td></tr>
+    <tr><td>3</td><td>Third quadrant, i.e. southwesterly</td><td>186-264</td><td>156-234</td></tr>
+    <tr><td>S</td><td>Approximately due south</td><td>265-275</td><td>235-245</td></tr>
+    <tr><td>4</td><td>Fourth quadrant, i.e. southeasterly</td><td>276-354</td><td>246-324</td></tr>
+    <tr><td colspan="4"><sup position="0">1</sup>Corresponding Range of Azimuth Values</td>
+</tr>
+</table>
+</documentation>
+<documentation id="segmentTypeCode">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>Indicates type of segment.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>U</td><td>Undivided</td></tr>
+    <tr><td>G</td><td>Generic</td></tr>
+    <tr><td>B</td><td>Both Generic and Roadbed</td></tr>
+    <tr><td>R</td><td>Roadbed</td></tr>
+    <tr><td>C</td><td>Connector</td></tr>
+    <tr><td>E</td><td>Exit/Entrance Ramp</td></tr>
+    <tr><td>T</td><td>Terminator</td></tr>
+    <tr><td>F</td><td>Faux Ramps (ramp segments connecting the roadbed segments to the generic segments)</td></tr>
+</table>
+</documentation>
+<documentation id="sideOfStreetIndicator">
+  <aliases>
+    <alias>sideOfStreetOfVanityAddress</alias>
+  </aliases>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>1 byte character</format>
+<description>
+<p>This field indicates on which side of the street, left or right, the block face
+containing the input address lies. Left and right are defined with respect to the
+direction of increasing addresses along the 'on' street.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>L</td><td>Block face is on left side of street with respect to direction of increasing address</td></tr>
+    <tr><td>R</td><td>Block face is on right with respect to direction of increasing address</td></tr>
+</table>
+</documentation>
+<documentation id="spatialCoordinates">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+</functionNames>
+<format>Spatial coordinates consist of two fields, an X Coordinate and a Y Coordinate, each 7 bytes RJZF.</format>
+<description>
+<p>Spatial coordinates are a pair of numbers that specify a location on the earth's
+surface. Geosupport returns spatial coordinates for an input address (Functions 1
+and 1E) or intersection (Function 2). Spatial coordinates are often used in
+conjunction with separate computer mapping and Geographic Information System
+(GIS) software to generate maps and for spatial analysis, although the Geosupport
+System does not itself provide users with such capabilities. Note: For Functions 1
+and 1E, the spatial coordinates that Geosupport returns are imprecise
+approximations of real-world locations, and are not appropriate for use in
+applications that require a high level of spatial accuracy.</p>
+<p>Spatial coordinates are expressed various geodetic coordinate systems, of which
+latitude/longitude is a well-known example. The coordinate system that
+Geosupport uses is known as the State Plane Coordinate (SPC) system. The SPC
+system is based upon the fact that, in a small enough geographic area, the earth's
+surface can be assumed to be flat without introducing a significant error. In the
+SPC system, each state of the U.S. is subdivided into zones small enough to model
+as planar areas. In each SPC zone, a Cartesian coordinate system is established,
+with the X and Y coordinate axes oriented due east and due north, respectively, and
+the origin selected to be a point well to the southwest of the entire zone. (The
+origin is so selected to insure that the X and Y coordinates of all points within the
+zone are positive values.) The SPC zone that New York City is in, and which
+Geosupport uses, is called the New York-Long Island zone, NAD 83. In the SPC
+system, one unit of X or Y represents one foot of distance on the ground. A major
+advantage of the SPC system over other map projection systems is the ease of
+calculating the distance between two points.</p>
+<p>In the case of Functions 1 and 1E, if the street segment on which the input address
+lies is a straight line segment or an arc of a circle, Geosupport computes and returns
+output spatial coordinates using a complex algorithm, a detailed description of
+which is beyond the scope of this document. If, however, the input address lies on
+a irregularly curved geographic feature (see Curve Flag), Functions 1 and 1E
+return blanks in the spatial coordinate fields.</p>
+<p>Function 1/1E's spatial coordinates algorithm produces a point position based on
+how the input address is prorated with respect to the administrative address range
+allocated to the entire block face. In addition, the computed point is positioned
+slightly set off from the segment, on the side of the street where the input address is
+located. This offset is graphically desirable and also insures that the point will fall
+within the interiors of the proper political and administrative district boundary
+polygons for the given address. The computed point is a rough approximation to
+the location of the input address, intended to be used only for thematic mapping and
+other purposes that do not require a high level of spatial accuracy. If the input
+address is a vanity address (see UPG Section V.9), the computed point is based on the
+street segment where the address is actually located. In general, points computed
+for vanity addresses have even less spatial accuracy than points computed for
+conventional addresses.</p>
+<p>In the case of Function 2, the spatial coordinates returned are those of the LION
+node that corresponds to the input street intersection. Those coordinates represent
+an approximate center point of the intersection.</p>
+</description>
+</documentation>
+<documentation id="specialAddressGeneratedRecordFlag">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>1 byte character</format>
+<description>
+<p>A non-blank value in this flag indicates one of a variety of special addressing situations.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>A</td><td>The address range returned in this work area is alternative to the address range that is stored in LION for this block face. This case arises most commonly when the input address is an old (superseded) address on a block face on which the buildings were re-numbered at some time in the past. For such an input address, the address range returned in this work area is the old address range, whereas the current address range is stored in LION. Another situation in which this flag is 'A' is when the given street segment has continuous parity address ranges on both sides of the street, such as when buildings are numbered consecutively around the arc of a cul-de-sac.</td></tr>
+    <tr><td>B</td><td>The input street name or five-digit street code is different from that stored in LION for this block face. This case arises when two street names having different B5SCs are both valid along a street or portion of a street. These are situations in which treating the two street names as aliases would result in an address range overlap.</td></tr>
+    <tr><td>C</td><td>The input address pertains to Ruby Street, a street along the Brooklyn-Queens border that has a unique addressing situation. See UPG SectionV.8.</td></tr>
+    <tr><td>D</td><td>The input address involves a duplicate address situation. See UPG Section V.6.</td></tr>
+    <tr><td>E</td><td>The input address is in one of the neighborhoods in which the name of the neighborhood can serve as an alternative street name for the streets in that neighborhood. Two Bronx neighborhoods, Edgewater Park and Harding Park, have this characteristic.</td></tr>
+    <tr><td>G</td><td>The input name or street code corresponds to a non-addressable place name of a complex. A complex is a geographic feature that contains constituent entities that are separately geographically identifiable. Typical examples of complexes include airports, housing projects and university and hospital campuses. See UPG Section III.6.</td></tr>
+    <tr><td>N</td><td>The input name or street code corresponds to a non-addressable place name of a "stand-alone" geographic feature (a geographic feature that is neither a complex nor a constituent entity of a complex). Typical examples are individual named buildings, such as Empire State Building, Shea Stadium, Carnegie Hall. See UPG Section III.6.</td></tr>
+    <tr><td>O</td><td>The block face contains out-of-sequence and/or opposite-parity addresses. An out-of-sequence address contains a house number that is out of sequence with those of the immediately adjacent buildings. An opposite-parity address contains a house number that is of the opposite parity to the predominant parity on the block face. See UPG Section V.10.</td></tr>
+    <tr><td>P</td><td>The input address contains an addressable place name. Example: 2 Penn Plaza. See UPG Section III.6.</td></tr>
+    <tr><td>S</td><td>The input address contains a house number suffix and is either the first or last address on this block face.</td></tr>
+    <tr><td>V</td><td>The input address is a 'vanity address', that is, an address in which the street name refers to a different street than the one on which the referenced building entrance is actually located. See UPG Section V.9.</td></tr>
+    <tr><td>X</td><td>The input data specify a non-addressable place name of a constituent entity of a complex. Examples: AVERY FISHER HALL and NEW YORK STATE THEATER are names of constituent entities of the complex LINCOLN CENTER. See UPG Section III.6.</td></tr>
+</table>
+</documentation>
+<documentation id="splitCommunitySchoolDistrictFlag">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>1 byte.</format>
+<description></description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>S</td><td>Block face is split among two or more school districts</td></tr>
+    <tr><td>Blank</td><td>Block face lies entirely within a single school district</td></tr>
+</table>
+</documentation>
+<documentation id="splitElectionDistrictFlag">
+<functionNames>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>1 byte.</format>
+<description></description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>S</td><td>Block face is split among two or more election districts</td></tr>
+    <tr><td>Blank</td><td>Block face lies entirely within an election district</td></tr>
+</table>
+</documentation>
+<documentation id="stateSenatorialDistrict">
+<functionNames>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>2 bytes. Numeric.</format>
+<description>
+<p>A district of the upper house of the New York State legislature. Consists of an aggregation of Election Districts</p>
+</description>
+</documentation>
+<documentation id="streetAttributeIndicator">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>1 byte character</format>
+<description>
+<p><!-- WA1 output filed -->
+Indicates certain characteristics of selected streets.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>E</td><td>Input street is entirely in Edgewater Park (a Bronx neighborhood that has special addressing characteristics).</td></tr>
+    <tr><td>F</td><td>Input street is partly in Edgewater Park and partly outside of it.</td></tr>
+    <tr><td>G</td><td>NAP of a complex.</td></tr>
+    <tr><td>H</td><td>All house numbers on input street are hyphenated.</td></tr>
+    <tr><td>I</td><td>Named Intersection</td></tr>
+    <tr><td>M</td><td>House numbers on input street are of mixed hyphenation, i.e., some are hyphenated and some are not.</td></tr>
+    <tr><td>N</td><td>Input street is a Non-Addressable Place Name (NAP).</td></tr>
+    <tr><td>S</td><td>Front Truncated Street Name.</td></tr>
+    <tr><td>X</td><td>Nap Of a Constituent Entity of a Complex</td></tr>
+    <tr><td>Blank</td><td>None of the above. In particular, all addresses on the input street are un-hyphenated.</td></tr>
+</table>
+</documentation>
+<documentation id="streetCode">
+  <aliases>
+    <alias>firstStreetCode</alias>
+    <alias>secondStreetCode</alias>
+    <alias>thirdStreetCode</alias>
+  </aliases>
+<!-- NOT GENERATED -->
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>5, 7, or 10 bytes. Numeric.</format>
+<description><p>See UPG Section IV.0 of the UPG for a complete discussion of DCP street codes.</p><p>In the case of first, second and thirdStreetCodes, indcates the street code of the corresponding input street.</p></description>
+</documentation>
+<documentation id="streetCodeIn">
+  <aliases>
+    <alias>streetCode1In</alias>
+    <alias>streetCode2In</alias>
+    <alias>streetCode3In</alias>
+  </aliases>
+  <seeAlso>
+    <documentationId>streetCode</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>10 bytes. Numeric.</format>
+<description><p>Street code for the first, second or third input street that can be used in place of the street name. NOTE: this field does not include the borough code.</p></description>
+</documentation>
+<documentation id="streetName">
+  <aliases>
+    <alias>firstStreetNameNormalized</alias>
+    <alias>secondStreetNameNormalized</alias>
+    <alias>thirdStreetNameNormalized</alias>
+  </aliases>
+<!-- NOT GENERATED -->
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>32 bytes. Alphanumeric.</format>
+<description><p>See UPG Section III.1 of the UPG for a complete discussion of DCP street names.</p><p>In the case of first, second, and thirdStreetNameNormalized, indicates the normalized street name of the corresponding input street.</p></description>
+</documentation>
+<documentation id="streetNameIn">
+  <aliases>
+    <alias>streetName1In</alias>
+    <alias>streetName2In</alias>
+    <alias>streetName3In</alias>
+  </aliases>
+  <seeAlso>
+    <documentationId>streetName</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>32 bytes. Alphanumeric.</format>
+<description><p>Street name for the first, second or third input street.</p></description>
+</documentation>
+<documentation id="streetNameNormalizationFormatFlag">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>1 byte.</format>
+<description>
+<p>Specifies the format in which Geosupport is to return output normalized street names. The default is to return street names in the sort format.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>Blank</td><td>Return normalized street names in the sort format</td></tr>
+    <tr><td>C</td><td>Return normalized street names in the compact format</td></tr>
+    <tr><td>S</td><td>Return normalized street names in the sort format</td></tr>
+</table>
+</documentation>
+<documentation id="streetNameNormalizationLengthLimit">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>2 bytes, blank or numeric, either LJBF or RJZF.</format>
+<description>
+<p><!-- WA1 input field -->
+Specifies the maximum length in bytes within which Geosupport is to normalize
+street names. The minimum and maximum permissible SNL values are 4 and 32.
+The default that is in effect if the application does not specify an SNL value is 32.</p>
+</description>
+</documentation>
+<documentation id="taxMapSection">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>2 bytes</format>
+<description>
+<p>The Department of Finance real property tax maps are organized into sections; each
+section is organized into volumes; and each volume consists of pages. Tax Map
+Section values are unique within borough.</p>
+</description>
+</documentation>
+<documentation id="taxMapVolume">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+</functionNames>
+<format>2 bytes</format>
+<description>
+<p>See description at Tax Map Section. Tax Map Volume values are unique within Tax Map Section.</p>
+</description>
+</documentation>
+<documentation id="vacantLotFlag">
+<functionNames>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>BL</functionName>
+</functionNames>
+<format>1 byte.</format>
+<description></description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>V</td><td>Tax lot is currently vacant, i.e., it has no existing buildings</td></tr>
+    <tr><td>Blank</td><td>Tax lot has at least one existing building</td></tr>
+</table>
+</documentation>
+<documentation id="workAreaFormatIndicator">
+  <aliases>
+    <alias>workAreaFormatIndicatorIn</alias>
+  </aliases>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1A</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>1N</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+    <functionName>3S</functionName>
+    <functionName>BB</functionName>
+    <functionName>BF</functionName>
+    <functionName>BL</functionName>
+    <functionName>BN</functionName>
+    <functionName>D</functionName>
+    <functionName>DG</functionName>
+    <functionName>DN</functionName>
+</functionNames>
+<format>1 byte</format>
+<description>
+<p>This indicator specifies which work area layouts are to be used in an API call. Note: This indicator is also known as the Platform Indicator.</p>
+</description>
+<table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>Blank</td><td>The IBM mainframe specific work areas (MSWs) are used. The MSWs contain packed decimal fields. In general, these work areas are the ones described throughout this manual.</td></tr>
+    <tr><td>C</td><td>The platform-independent work areas known as the Character-Only Work Areas (COWs) are used. These contain no packed decimal fields. For information on using COWs on the mainframe and the differences from the MSWs, see Appendix 12. For the work area layouts of the COWs, see Appendix 13.</td></tr>
+</table>
+</documentation>
+<documentation id="xCoordinate">
+  <aliases>
+    <alias>xCoordinateLowAddressEnd</alias>
+    <alias>xCoordinateHighAddressEnd</alias>
+    <alias>xCoordinateOfCenterofCurvature</alias>
+  </aliases>
+  <seeAlso>
+    <documentationId>spatialCoordinates</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+</functionNames>
+<format>7 bytes RJZF. Numeric.</format>
+<description>
+<p>X coordinate (longitude) in the State Plane Coordinate system.</p>
+</description>
+</documentation>
+<documentation id="yCoordinate">
+  <aliases>
+    <alias>yCoordinateLowAddressEnd</alias>
+    <alias>yCoordinateHighAddressEnd</alias>
+    <alias>yCoordinateOfCenterofCurvature</alias>
+  </aliases>
+  <seeAlso>
+    <documentationId>spatialCoordinates</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+</functionNames>
+<format>7 bytes RJZF. Numeric.</format>
+<description>
+<p>Y coordinate (latitude) in the State Plane Coordinate system.</p>
+</description>
+</documentation>
+<documentation id="zCoordinate">
+  <aliases>
+    <alias>zCoordinateLowAddressEnd</alias>
+    <alias>zCoordinateHighAddressEnd</alias>
+    <alias>zCoordinateOfCenterofCurvature</alias>
+  </aliases>
+  <seeAlso>
+    <documentationId>spatialCoordinates</documentationId>
+  </seeAlso>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+</functionNames>
+<format>7 bytes RJZF. Numeric.</format>
+<description>
+<p>Z coordinate is currently not implemented.</p>
+</description>
+</documentation>
+<documentation id="uspsPreferredCityName">
+<functionNames>
+    <functionName>1B</functionName>
+    <functionName>1EX</functionName>
+    <functionName>1X</functionName>
+</functionNames>
+<format>25 bytes.</format>
+<description>
+<p>U.S. Postal Service preferred city name.</p>
+<p>For Queens, the USPS Preferred City Name is based on the ZIP code associated
+with the input address.  In the rare, and unexpected, instance where there is no
+city name available, then the City Name will be set to a default of QUEENS and
+the following warning message will be issued. For all the other boroughs, unless
+there is a special ZIP code, the default for that borough will appear in the
+City Name field. See the defaults listed below.</p>
+</description>
+<table>
+    <tr><th>Borough</th><th>Default USPS Preferred City Name</th></tr>
+    <tr><td>Bronx</td><td>BRONX</td></tr>
+    <tr><td>Brooklyn</td><td>BROOKLYN</td></tr>
+    <tr><td>Manhattan</td><td>NEW YORK</td></tr>
+    <tr><td>Queens</td><td>QUEENS</td></tr>
+    <tr><td>Staten Island</td><td>STATEN ISLAND</td></tr>
+</table>
+</documentation>
+<documentation id="zipCode">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+    <functionName>3</functionName>
+    <functionName>3C</functionName>
+</functionNames>
+<format>5 bytes. Numeric.</format>
+<description>
+<p>U.S. Postal Service's 5-digit zip code.</p>
+</description>
+</documentation>
+</dataDictionary>
+<!-- Field Documentation Groups -->
+<fieldGroups>
+    <!-- WARNING: Order of groupDocumentation elements matters!!             -->
+    <!--          Due to an apparent bug in XStream, the ordering of these   -->
+    <!--          affects whether XStream can parse this section. The        -->
+    <!--          "listOf..." groups seem particularly prone to this error?! -->
+    <groupDocumentation id="listOfHighCrossStreets1b">
+      <description><p>List of up to 5 groups of high-address-end cross street code/name pairs.</p></description>
+        <documentation reference="listOfCrossStreets" />
+        <max>5</max>
+        <groupMembers>
+            <groupMember id="numberOfCrossStreetsHighAddressEnd" sizeIndicator="true"><description><p>Indicates the actual number of high-address-end cross streets returned for this location.</p></description></groupMember>
+            <!-- FIXME XStream Bug requiring certain ordering of groupd otherwise second reference to streetCode or streetName causes error-->
+            <groupMember id="highCrossStreetCode"><documentation reference="streetCode" /><description><p>8-digit B7SC street code.</p></description></groupMember>
+            <groupMember id="highCrossStreetName"><documentation reference="streetName" /><description><p>Street name.</p></description></groupMember>
+        </groupMembers>
+    </groupDocumentation>
+
+    <groupDocumentation id="listOfHighCrossStreetB5SCs">
+      <description><p>List of up to 5 groups of high-address-end cross street B5SC codes.</p></description>
+        <documentation reference="listOfCrossStreets" />
+        <max>5</max>
+        <groupMembers>
+            <groupMember id="numberOfCrossStreetB5SCsHighAddressEnd" sizeIndicator="true"><description><p>Indicates the actual number of high-address-end cross street B5SCs returned for this location.</p></description></groupMember>
+            <groupMember id="highCrossStreetB5SC"><documentation reference="streetCode" /><description><p>6-digit B5SC street code.</p></description></groupMember>
+        </groupMembers>
+    </groupDocumentation>
+    <groupDocumentation id="listOfLowCrossStreetB5SCs">
+      <description><p>List of up to 5 groups of low-address-end cross street B5SC codes.</p></description>
+        <documentation reference="listOfCrossStreets" />
+        <max>5</max>
+        <groupMembers>
+            <groupMember id="numberOfCrossStreetB5SCsLowAddressEnd" sizeIndicator="true"><description><p>Indicates the actual number of low-address-end cross street B5SCs returned for this location.</p></description></groupMember>
+            <groupMember id="lowCrossStreetB5SC"><documentation reference="streetCode" /><description><p>6-digit B5SC street code.</p></description></groupMember>
+        </groupMembers>
+    </groupDocumentation>
+
+    <groupDocumentation id="listOfGeographicIdentifiers">
+        <description><p>List of up to 21 groups of the following fields.</p></description>
+        <!-- Group-level DataDictionary item reference -->
+        <documentation reference="listOfGeographicIdentifiers" />
+        <max>21</max>
+        <groupMembers>
+            <groupMember id="numberOfEntriesInListOfGeographicIdentifiers" sizeIndicator="true"><description><p>Indicates the actual number of groups for this location.</p></description></groupMember>
+            <groupMember id="giLowHouseNumber"><description><p>Low house number of segment.</p></description></groupMember>
+            <groupMember id="giHighHouseNumber"><description><p>High house number of segment.</p></description></groupMember>
+            <groupMember id="giStreetCode"><documentation reference="streetCode" /><description><p>6-digit B5SC (1 digit borough + 5-digit street code)</p></description></groupMember>
+            <groupMember id="giBoroughCode"><documentation reference="boroughCode" /></groupMember>
+            <groupMember id="gi5DigitStreetCode"><documentation reference="streetCode" /><description><p>5-digit street code.</p></description></groupMember>
+            <groupMember id="giDcpPreferredLgc"><documentation reference="dcpPreferredLgc"/></groupMember>
+            <groupMember id="giBuildingIdentificationNumber"><documentation reference="buildingIdentificationNumber" /></groupMember>
+            <groupMember id="giSideOfStreetIndicator"><documentation reference="sideOfStreetIndicator" /></groupMember>
+            <groupMember id="giGeographicIdentifier"><documentation reference="listOfGeographicIdentifiers" /></groupMember>
+            <groupMember id="giTpadBinStatus"><documentation reference="listOfGeographicIdentifiers" /></groupMember>
+            <groupMember id="giStreetName"><documentation reference="listOfGeographicIdentifiers" /></groupMember>
+        </groupMembers>
+    </groupDocumentation>
+    <groupDocumentation id="listOfLowCrossStreets1b">
+      <description><p>List of up to 5 groups of low-address-end cross street code/name pairs.</p></description>
+        <documentation reference="listOfCrossStreets" />
+        <max>5</max>
+         <groupMembers>
+            <groupMember id="numberOfCrossStreetsLowAddressEnd" sizeIndicator="true"><description><p>Indicates the actual number of low-address-end cross streets returned for this location.</p></description></groupMember>
+            <!-- FIXME XStream Bug causes error when this group is listed after the next one -->
+            <groupMember id="lowCrossStreetCode"><documentation reference="streetCode" /><description><p>8-digit B7SC street code.</p></description></groupMember>
+            <groupMember id="lowCrossStreetName"><documentation reference="streetName" /><description><p>Street name.</p></description></groupMember>
+         </groupMembers>
+    </groupDocumentation>
+    <groupDocumentation id="listOfStreetNamesWa1">
+      <description><p>List of up to 10 groups of street code/name pairs.</p></description>
+        <documentation reference="listOfStreetNames" />
+        <max>10</max>
+        <groupMembers>
+            <groupMember id="numberOfStreetCodesAndNamesInList" sizeIndicator="true"><description><p>Indicates the actual number of streets returned for this location.</p></description></groupMember>
+            <groupMember id="streetCode"><documentation reference="streetCode" /></groupMember>
+            <groupMember id="streetName"><documentation reference="streetName" /></groupMember>
+        </groupMembers>
+    </groupDocumentation>
+ </fieldGroups>
+<functions>
+    <functionDocumentation id="HR">
+        <description>
+            <p>Function HR returns metadata about the Geosupport installation.</p>
+        </description>
+    </functionDocumentation>
+    <functionDocumentation id="1">
+        <description>
+            <p>Function 1 returns blockface-level information associated
+                with an address.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+     		<groupDocumentation reference="listOfHighCrossStreetB5SCs" />
+	       	<groupDocumentation reference="listOfLowCrossStreetB5SCs" />
+        </groups>
+    </functionDocumentation>
+    <functionDocumentation id="1E">
+        <description>
+            <p>Function 1E returns blockface-level information
+                associated with an address including political
+                information.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+            <groupDocumentation reference="listOfHighCrossStreetB5SCs" />
+            <groupDocumentation reference="listOfLowCrossStreetB5SCs" />
+        </groups>
+    </functionDocumentation>
+    <functionDocumentation id="1A">
+        <description>
+            <p>Function 1A returns property level information for a
+                given borough or zip code, address number if needed, and
+                street name or street code.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+        </groups>
+    </functionDocumentation>
+    <functionDocumentation id="1AX">
+        <description>
+            <p>Function 1AX returns 1A data and some additional property
+                level information for a given borough or zip code,
+                address number if needed, and street name or street
+                code.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+        </groups>
+    </functionDocumentation>
+    <functionDocumentation id="1B">
+        <description>
+            <p>Function 1B returns blockface-level information and
+                political geography, followed by property level
+                information for a given input. Work Area 2 consists of
+                the output of a Function 1E call with Mode Switch = 'X'
+                followed by the output of a Function 1A call with Mode
+                Switch = 'X'. The input requires borough or zip code,
+                address number if needed, and street name or street
+                code. Function 1B retrieves the tax lot and building
+                information from the PAD file based on the input. The
+                block face and political data are then retrieved from
+                the GRID and the Election files for the address set by
+                the building level information.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+            <groupDocumentation reference="listOfHighCrossStreets1b" />
+            <groupDocumentation reference="listOfLowCrossStreets1b" />
+ 			<groupDocumentation reference="listOfHighCrossStreetB5SCs" />
+			<groupDocumentation reference="listOfLowCrossStreetB5SCs" />
+            <groupDocumentation reference="listOfGeographicIdentifiers" />
+        </groups>
+    </functionDocumentation>
+    <functionDocumentation id="BL">
+        <description>
+            <p>Function BL returns property level information for the
+                given BBL (borough, block and tax lot).</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+            <groupDocumentation reference="listOfGeographicIdentifiers" />
+        </groups>
+    </functionDocumentation>
+    <functionDocumentation id="BN">
+        <description>
+            <p>Function BN returns property level information for the
+                given BIN (building identification code).</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+            <groupDocumentation reference="listOfGeographicIdentifiers" />
+        </groups>
+    </functionDocumentation>
+    <functionDocumentation id="2">
+        <description>
+            <p>Function 2 returns information about an intersection
+                defined by two intersecting streets.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+        </groups>
+    </functionDocumentation>
+    <functionDocumentation id="3">
+        <description>
+            <p>Function 3 returns information about a street segment
+                defined by an 'on-street' and two cross streets. This implmentation
+                supports calling function 3 in extended mode which provides some
+                attributes not returned by a regular function 3.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+ 			<groupDocumentation reference="listOfHighCrossStreetB5SCs" />
+			<groupDocumentation reference="listOfLowCrossStreetB5SCs" />
+        </groups>
+    </functionDocumentation>
+    <functionDocumentation id="DG">
+        <description>
+            <p>Function DG returns street names for the given input
+                street code.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+        </groups>
+    </functionDocumentation>
+    <functionDocumentation id="BF">
+        <description>
+            <p>Function BF implements the Geosupport "browse forward" functionality
+            allowing one to provide the initial characters of a street name and
+            to get back up to ten streets which match a lexical forward search.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+        </groups>
+    </functionDocumentation>
+    <functionDocumentation id="BB">
+        <description>
+            <p>Function BF implements the Geosupport "browse backwards" functionality
+            allowing one to provide the initial characters of a street name and
+            to get back up to ten streets which match a lexical backwards search.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+        </groups>
+    </functionDocumentation>
+</functions>
+</geoclientDocumentation>

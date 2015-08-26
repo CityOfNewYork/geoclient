@@ -1,0 +1,165 @@
+buildscript {
+  repositories {
+    jcenter()
+    maven { url "https://plugins.gradle.org/m2/" }
+  }
+  dependencies {
+    classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.12.1"
+  }
+}
+
+allprojects {
+  group = rootProject.group
+  version = rootProject.version
+
+  repositories {
+    jcenter()
+  }
+
+  ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
+
+  apply from: "${gradleScriptDir}/env.gradle"
+  apply from: "${gradleScriptDir}/dependencies.gradle"
+  apply from: "${gradleScriptDir}/license.gradle"
+  apply plugin: 'maven-publish'
+
+  ext.javadocLinks = [
+          "http://docs.oracle.com/javase/8/docs/api/",
+          "http://docs.oracle.com/javaee/7/api/"
+  ] as String[]
+
+  configurations {
+    all*.exclude group: "commons-logging", module: "commons-logging"
+  }
+
+  publishing {
+    repositories {
+      maven {
+        url "${rootProject.buildDir}/repo"
+      }
+    }
+  }
+
+} //allprojects
+
+def javaPluginProjects = [
+      project(':geoclient-generate'),
+      project(':geoclient-jni'),
+      project(':geoclient-core'),
+      project(':geoclient-parser'),
+      project(':geoclient-service')
+] as Set
+
+def codeGeneratingProjects = [
+      project('geoclient-generate'),
+      project('geoclient-jni')
+] as Set
+
+configure(javaPluginProjects) { p ->
+
+  apply plugin: 'java'
+
+  if(p == project(':geoclient-service')) {
+    apply plugin: 'war'
+    apply plugin: 'jetty'
+  }
+
+  sourceCompatibility = 1.7
+  targetCompatibility = 1.7
+
+  dependencies {
+    testCompile("junit:junit:${junitVersion}") {
+      exclude group:'org.hamcrest', module:'hamcrest-core'
+    }
+    testCompile("org.mockito:mockito-all:${mockitoVersion}") {
+      exclude group:'org.hamcrest', module:'hamcrest-core'
+    }
+    testCompile("org.hamcrest:hamcrest-all:${hamcrestVersion}")
+  }
+
+  tasks.withType(Test) { task ->
+    task.systemProperties = execSystemProperties
+    task.environment = execEnvironmentVars
+    task.dependsOn('reportRuntime')
+   // addNativeLibraryPath(task)
+  }
+
+  jar {
+    manifest {
+      attributes(
+        'Implementation-Title': p.name,
+        'Implementation-Version': p.version,
+        'Built-By': System.getProperty('user.name'),
+        'Built-Date': new Date(),
+        'Built-JDK': System.getProperty('java.version'),
+        'Built-Gradle': gradle.gradleVersion
+      )
+    }
+
+    from("${rootProject.projectDir}/src/dist") {
+      include "LICENSE.txt"
+      include "NOTICE.txt"
+      into "META-INF"
+      expand(copyright: new Date().format("yyyy"), version: p.version)
+    }
+  }
+
+  javadoc {
+    description = "Generates javadoc for Java projects for use with -javadoc jar"
+
+    options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+    options.author = true
+    options.header = project.name
+    //options.links(javadocLinks)
+    options.quiet()
+    // Suppress cross-module @see and @link reference warnings
+    logging.captureStandardError LogLevel.INFO
+    // suppress "## warnings"
+    logging.captureStandardOutput LogLevel.INFO
+  }
+
+  task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+  }
+
+  task javadocJar(type: Jar) {
+    classifier = "javadoc"
+    from javadoc
+  }
+
+  artifacts {
+    archives sourcesJar
+    archives javadocJar
+  }
+
+  publishing {
+    publications {
+      mavenJava(MavenPublication) {
+        from components.java
+        artifact sourcesJar {
+          classifier "sources"
+        }
+        artifact javadocJar {
+          classifier "javadoc"
+        }
+      }
+    }
+  }
+
+} // javaPluginProjects
+
+configure(codeGeneratingProjects) {
+
+  configurations {
+    execGluegen
+    jniRuntime
+  }
+
+  dependencies {
+    execGluegen "org.jogamp.gluegen:gluegen:$gluegenVersion", "antlr:antlr:$antlrVersion"
+    jniRuntime(configurations.execGluegen) {
+      exlude(module: "antlr")
+    }
+  }
+}

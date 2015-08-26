@@ -1,0 +1,52 @@
+evaluationDependsOn(':geoclient-native')
+
+sourceSets {
+  generated
+}
+
+dependencies {
+  generatedCompile(configurations.jniRuntime)
+  compile configurations.generatedCompile
+}
+
+compileGeneratedJava {
+  //dependsOn(':geoclient-generate:generateJni')
+  // TODO Determine the best way to have the geolcient-jni project depend
+  // on the geoclient-native project's assemble task outputs.
+  //
+  // Adding the dependency to the native project's tasks.build object
+  // (whatever that is) allows this project to insure the native binaries
+  // built before this task runs. However, this seems like a terrible hack
+  // because it is mucking with an internal API. Tried many other hacks 
+  // which did not work but it seems part of the issue is that Gradle v2.10
+  // is halfway between it's "legacy" framework and new Model-based
+  // approach.
+  //
+  dependsOn([':geoclient-generate:generateSource',
+             project(':geoclient-native').tasks.build])
+}
+
+compileJava {
+  dependsOn(compileGeneratedJava)
+  classpath = files(classpath, sourceSets.generated.output.classesDir)
+}
+
+task runJni (type: JavaExec, dependsOn: ['compileJava',':geoclient-native:assemble']) {
+  classpath = sourceSets.main.runtimeClasspath + sourceSets.generated.runtimeClasspath
+  main = 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest'
+  executable = "${javaHome}/bin/java"
+  systemProperties =  execSystemProperties
+  environment = execEnvironmentVars
+}
+
+test.dependsOn(runJni)
+
+jar {
+  from sourceSets.main.output
+  from sourceSets.generated.output.classesDir
+}
+
+artifacts {
+  archives jar
+}
+

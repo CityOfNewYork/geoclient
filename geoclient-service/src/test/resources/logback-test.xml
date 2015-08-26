@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="20 seconds">
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<Target>System.out</Target>
+		<encoder>
+			<pattern>%-54(%d{HH:mm:ss.SSS} [%thread] %-5level %logger{0}) - %msg%n</pattern>
+		</encoder>
+	</appender>
+    <logger name="gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl" level="DEBUG" />
+	<root level="WARN">
+		<appender-ref ref="stdout" />
+	</root>
+</configuration>

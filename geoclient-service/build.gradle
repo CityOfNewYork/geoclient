@@ -1,0 +1,62 @@
+repositories {
+  maven { url "http://download.osgeo.org/webdav/geotools/" }
+}
+
+sourceSets {
+  main {
+    java {
+      srcDir 'src/main/java'
+      srcDir 'src/main/external'
+    }
+  }
+}
+
+dependencies {
+  compile project(":geoclient-jni")
+  compile project(":geoclient-core")
+  compile project(":geoclient-parser")
+  compile("net.sf.dozer:dozer:$dozerVersion") {
+    exclude(module: "slf4j-log4j12")
+  }
+  compile("org.springframework:spring-core:$springVersion") {
+    exclude(module: "commons-logging")
+  }
+  compile("org.springframework:spring-context:$springVersion") {
+    exclude(module: "commons-logging")
+  }
+  compile("org.springframework:spring-context-support:$springVersion")
+  compile("org.springframework:spring-webmvc:$springVersion")
+  compile("org.springframework:spring-oxm:$springVersion") {
+    exclude(module: "commons-lang")
+  }
+  compile("org.springframework:spring-test:$springVersion")
+  compile("org.hibernate:hibernate-validator:$hibernateValidatorVersion")
+  compile("org.aspectj:aspectjrt:$aspectjrtVersion")
+  compile("org.slf4j:slf4j-api:$slf4jVersion")
+  compile("com.thoughtworks.xstream:xstream:$xstreamVersion")
+  compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+  compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+  compile("com.intera.util:spring-jsonp-support:$springJsonpSupportVersion") {
+    exclude(module: "servlet-api")
+    exclude(module: "log4j")
+    exclude(module: "slf4j-log4j12")
+  }
+  compile("javax.inject:javax.inject:$javaxInjectVersion")
+  compile("javax.servlet:jstl:$jstlVersion")
+  compile("org.thymeleaf:thymeleaf:$thymeleafVersion")
+  compile("org.thymeleaf:thymeleaf-spring4:$thymeleafVersion")
+  compile("joda-time:joda-time:$jodaTimeVersion")
+
+  compile("org.geotools:gt-main:$geotoolsVersion") {
+    exclude(module: "xerces")
+  }
+  compile("org.geotools:gt-epsg-wkt:$geotoolsVersion")
+
+  runtime("org.slf4j:jcl-over-slf4j:$slf4jVersion")
+  runtime("org.slf4j:log4j-over-slf4j:$slf4jVersion")
+  runtime("ch.qos.logback:logback-core:$logbackVersion")
+  runtime("ch.qos.logback:logback-classic:$logbackVersion")
+  testCompile("com.jayway.jsonpath:json-path:$jsonPathVersion")
+  providedCompile("javax.servlet:javax.servlet-api:$javaxServletApiVersion")
+  providedCompile("javax.servlet.jsp:jsp-api:$jspApiVersion")
+}

@@ -1,0 +1,72 @@
+import org.apache.tools.ant.filters.FixCrLfFilter
+import org.apache.tools.ant.filters.ReplaceTokens
+
+// TODO How to reference native subproject file/directory paths using
+// component, sourceSet, etc. reference? 
+
+dependencies {
+  compile(configurations.execGluegen)
+}
+
+ext.nativeOutputDir = "$buildDir/generated/c"
+ext.javaOutputDir   = "$buildDir/generated/java"
+ext.targetNativeSourceDir = project.generatedJniNativeSrcDir
+ext.targetJavaSourceDir = project.generatedJniJavaSrcDir
+
+processResources {
+  description = 'Prepares the Gluegen config file'
+  group 'Code Generation'
+  outputs.dir nativeOutputDir
+  outputs.dir javaOutputDir
+  expand(nativeOutputDir: nativeOutputDir, javaOutputDir: javaOutputDir)
+  filter(FixCrLfFilter)
+}
+
+task generateSource (type: JavaExec, dependsOn: processResources) {
+  description 'Generates *.java, *.c JNI files using Gluegen'
+  group 'Code Generation'
+  ext.gluegenConfigFile = "$buildDir/resources/main/gluegen.cfg"
+  ext.geoclientHeader   = rootProject.geoclientHeaderFile
+  inputs.file gluegenConfigFile
+  inputs.file rootProject.geoclientHeaderFile
+  outputs.dir nativeOutputDir
+  outputs.dir javaOutputDir
+  classpath = files(configurations.runtime.files)
+  main      = 'com.jogamp.gluegen.GlueGen'
+  args "-I${gsIncludePath}"
+  args '-Ecom.jogamp.gluegen.JavaEmitter'
+  args "-C${gluegenConfigFile}"
+  args "${geoclientHeader}"
+  doFirst { logger.info "** Generating C and Java source files for JNI **" }
+}
+
+task refreshGeneratedNativeSource(type: Copy, dependsOn: generateSource) {
+  description = 'Create/overwrite generated C source files in :geoclient-native'
+  group 'Code Generation'
+  inputs.dir  nativeOutputDir
+  outputs.dir targetNativeSourceDir
+  from(nativeOutputDir)
+  into(targetNativeSourceDir)
+  rename 'GeoclientImpl_JNI.c', 'geoclient_jni.c'
+}
+
+task refreshGeneratedJavaSource(type: Copy, dependsOn: generateSource) {
+  description = 'Create/overwrite generated Java source files in :geoclient-jni'
+  group 'Code Generation'
+  inputs.dir  javaOutputDir
+  outputs.dir targetJavaSourceDir
+  from(javaOutputDir)
+  into(targetJavaSourceDir)
+}
+
+task refreshGeneratedSource(dependsOn: ['refreshGeneratedJavaSource', 'refreshGeneratedNativeSource']) {
+  description = 'Create/overwrite generated C and Java source files in other subprojects'
+  group 'Code Generation'
+  outputs.files refreshGeneratedJavaSource.outputs.files, refreshGeneratedNativeSource.outputs.files
+}
+
+classes.dependsOn(refreshGeneratedSource)
+
+clean {
+  delete refreshGeneratedSource.outputs.files
+}

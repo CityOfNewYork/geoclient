@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+  	<title>GEOSUPPORT SYSTEM RETURN CODES, REASON CODES AND MESSAGES</title>
+	<style>
+	  table
+	  {
+		border-collapse:collapse;
+	  }
+	  table, th, td
+	  {
+		border: 1px solid black;
+	  }
+	  .underAndItal
+	  {
+	  	text-decoration: underline;
+	  	font-style: italic;
+	  }
+	</style>
+  </head>
+  <body>
+
+  <table>
+	<tr><th colspan="4">GEOSUPPORT SYSTEM RETURN CODES, REASON CODES AND MESSAGES</th></tr>
+	<tr><th>GRC</th><th>REASON CODE</th><th>FUNCTION (* = wildcard)</th><th>MESSAGE (LITERAL TEXT IN UPPERCASE, &lt;Variable values in angled brackets&gt;, [Comments in Square Brackets &amp; Mixed Case])</th></tr>
+	<tr><td colspan="4"></td></tr>
+	<tr><td>00</td><td></td><td>All</td><td>[Processing was unconditionally successful-no message issued]</td></tr>
+	<tr><th colspan="4">[GRC 01s are warnings]</th></tr>
+	<tr><td rowspan="35">01</td><td>1</td><td>1, 1A, 1B, 1E</td><td>ADDR NUMBER ALTERED: RANGE ASSUMED.USING DIGITS BEFORE DASH ONLY</td></tr>
+	<tr><td>2</td><td>1, 1A, 1B, 1E</td><td>ADDR NUMBER ALTERED: HYPHEN INSERTED</td></tr>
+	<tr><td>3</td><td>1, 1A, 1B, 1E</td><td>ADDR NUMBER ALTERED: HYPHEN DELETED</td></tr>
+	<tr><td>4</td><td>BB, BF</td><td>YOU HAVE REACHED THE &lt;FIRST or LAST&gt; STREET NAME IN THE BOROUGH OF &lt;boro. name&gt;</td></tr>
+	<tr><td>5</td><td>1, 1A, 1B, 1E</td><td>INPUT IS A COMPLEX. OUTPUT DATA MAY PERTAIN TO ONLY PART OF THE COMPLEX</td></tr>
+	<tr><td>6</td><td>1, 1A, 1B, 1E</td><td>OUTPUT STREET NAME/CODE DIFFER FROM INPUT</td></tr>
+	<tr><td>7</td><td>1, 1A, 1B, 1E</td><td>OUTPUT STREET NAME/CODE DIFFER FROM INPUT. ADDR NUMBER ALTERED: RANGE ASSUMED<br/>OUTPUT STREET NAME/CODE DIFFER FROM INPUT. ADDR NUMBER ALTERED: HYPHEN INSERTED<br/>OUTPUT STREET NAME/CODE DIFFER FROM INPUT. ADDR NUMBER ALTERED: HYPHEN DELETED<br/></td></tr>
+	<tr><td>8</td><td>1A, 1B</td><td>INPUT ADDRESS IS A PSEUDO-ADDRESS</td></tr>
+	<tr><td>9</td><td>1A, 1B</td><td>INPUT ADDRESS IS A PSEUDO-ADDRESS. ADDR NUMBER ALTERED: RANGE ASSUMED<br/>INPUT ADDRESS IS A PSEUDO-ADDRESS. ADDR NUMBER ALTERED: HYPHEN INSERTED<br/>INPUT ADDRESS IS A PSEUDO-ADDRESS. ADDR NUMBER ALTERED: HYPHEN DELETED<br/></td></tr>
+	<tr><td>A</td><td>1A, 1B, BL</td><td>LOT HAS MORE ITEMS THAN LISTED</td></tr>
+	<tr><td>B</td><td>1A, 1B</td><td>LOT HAS MORE ITEMS THAN LISTED.ADDR NUMBER ALTERED: RANGE ASSUMED<br/>LOT HAS MORE ITEMS THAN LISTED.ADDR NUMBER ALTERED: HYPHEN INSERTED<br/>LOT HAS MORE ITEMS THAN LISTED.ADDR NUMBER ALTERED: HYPHEN DELETED<br/></td></tr>
+	<tr><td rowspan="2">C</td><td rowspan="2">1, 1A, 1B, 1E</td><td>IN MARBLE HILL B LEGAL BORO IS MANHATTAN<br/>IN MARBLE HILL - LEGAL BORO IS MANHATTAN. ADDR NUMBER ALTERED: RANGE ASSUMED<br/>IN MARBLE HILL - LEGAL BORO IS MANHATTAN. ADDR NUMBER ALTERED: HYPHEN INSERTED<br/>IN MARBLE HILL - LEGAL BORO IS MANHATTAN. ADDR NUMBER ALTERED: HYPHEN DELETED<br/></td></tr>
+	<tr><td>ON RIKERS ISL - LEGAL BORO IS THE BRONX<br/>ON RIKERS ISL - LEGAL BORO IS THE BRONX. ADDR NUMBER ALTERED: RANGE ASSUMED<br/>ON RIKERS ISL - LEGAL BORO IS THE BRONX. ADDR NUMBER ALTERED: HYPHEN INSERTED<br/>ON RIKERS ISL - LEGAL BORO IS THE BRONX. ADDR NUMBER ALTERED: HYPHEN DELETED<br/></td></tr>
+	<tr><td>D</td><td>1*, 2, 3*</td><td>PARTIAL STREET NAME USED TO MEET SNL REQUIREMENT</td></tr>
+	<tr><td rowspan="3">E</td><td>1, 1B, 1E</td><td>OUTPUT ADDRESS RANGE IS SPLIT BY SCHOOL DISTRICT BOUNDARY</td></tr>
+	<tr><td rowspan="2">1B, 1E</td><td>OUTPUT ADDRESS RANGE IS SPLIT BY ELECTION DISTRICT BOUNDARY</td></tr>
+	<tr><td>OUTPUT ADDRESS RANGE IS SPLIT BY SCHOOL &amp; ELECTION DISTRICT BOUNDARIES</td></tr>
+	<tr><td>F</td><td>BN</td><td>THIS BIN IS TEMPORARY AND WILL BE REPLACED IN THE FUTURE</td></tr>
+	<tr><td>G</td><td>1, 1A, 1B, 1E</td><td>ADDR NUMBER ALTERED: RANGE ASSUMED. NOTE: INCONSISTENT ODD/EVEN ADDR RANGE</td></tr>
+	<tr><td>H</td><td>2, 3S</td><td>THESE STREETS INTERSECT ONCE-COMPASS DIRECTION IGNORED</td></tr>
+	<tr><td>I</td><td>1, 1A, 1B, 1E</td><td>INPUT IS NON-ADDRESSABLE PLACE NAME - ADDRESS NUMBER IGNORED</td></tr>
+	<tr><td rowspan="3">J [not impl.]</td><td>1, 1A, 1B, 1E, 2, 3*</td><td>&lt;Full street name including EAST or WEST as first word&gt; ASSUMED<br/>[An input Bronx or Manhattan street name is missing EAST or WEST as its first word, and the intended full street name is unambiguous]</td></tr>
+	<tr><td>2, 3*</td><td>&lt;Full street name&gt; AND &lt;other full street name&gt; ASSUMED<br/>[Two input Bronx or Manhattan street names are missing EAST or WEST as their first words, and the intended names are unambiguous]</td></tr>
+	<tr><td>3*</td><td> &lt;Full street name&gt;, &lt;second full street name&gt; AND &lt;third full street name&gt; ASSUMED<br/>[Three input Bronx or Manhattan street names are missing EAST or WEST as their first words, and the intended names are unambiguous]</td></tr>
+	<tr><td>K</td><td>1, 1A, 1B, 1E</td><td>EMBEDDED BLANK IN ADDRESS NUMBER HAS BEEN REPLACED WITH A HYPHEN</td></tr>
+	<tr><td>L or R</td><td>3, 3C</td><td>&lt;LEFT or RIGHT&gt; SIDE OF SEGMENT IS IN &lt;BROOKLYN or QUEENS&gt;<br/>or<br/>&lt;LEFT or RIGHT&gt; SIDE OF SEGMENT IS IN &lt;NASSAU or WESTCHESTER&gt; - NO INFO RETURNED FOR THAT SIDE</td></tr>
+	<tr><td>M</td><td>1, 1A, 1B, 1E</td><td>INPUT ADDRESS NUMBER IS ZERO</td></tr>
+	<tr><td>N</td><td>1, 1A, 1B, 1E, 2, 3*, D*</td><td>STREET NAME(S) AND STREET CODE(S) BOTH SPECIFIED AS INPUT - &lt;CODE(S) or NAMES&gt; IGNORED</td></tr>
+	<tr><td>O</td><td>1, 1A, 1B, 1E</td><td>CAUTION: &lt;BLOCK FACE or ADDR RANGE&gt; CONTAINS OUT-OF-SEQUENCE AND/OR OPPOSITE PARITY ADDRESSES</td></tr>
+	<tr><td>P</td><td>1, 1B, 1E</td><td>IRREGULARLY CURVED STREET SEGMENT - SPATIAL COORDINATES RETURNED AS BLANKS</td></tr>
+	<tr><td>Q</td><td>3</td><td>THESE STREETS INVOLVE A `DOGLEG' - SHORTEST STRETCH PROVIDED</td></tr>
+	<tr><td>S</td><td>1, 1A, 1B, 1E</td><td>&lt;HNI or HNS&gt; DISPLAY ADDRESS NUMBER BOTH SPECIFIED AS INPUT-&lt;HNI or HNS&gt; IGNORED</td></tr>
+	<tr><td>T</td><td>2</td><td>NON-INTERSECTION NAME IGNORED</td></tr>
+	<tr><td>U</td><td>3S</td><td>STRETCH HAS MORE ITEMS THAN LISTED</td></tr>
+	<tr><td>V</td><td>1, 1B, 1E</td><td>&lt;Normalized input address number&gt; &lt;Norm'd input street name&gt; IS ON &lt;LEFT or RIGHT&gt; SIDE OF &lt;True street name&gt;<br/>[This warning is issued for vanity addresses, NAPs other than complexes (for which an underlying address is not available), and certain alternative addresses known as type `B' addresses.]<br/>or<br/>&lt;Address number&gt; &lt;Street name&gt; IS THE UNDERLYING ADDRESS OF &lt;Normalized input NAP&gt;<br/>[This warning is issued for NAPs other than complexes, for which an underlying address is available.]</td></tr>
+	<tr><th colspan="4">[GRCs greater than 01 are rejects or errors]</th></tr>
+	<tr><td>02</td><td></td><td>2</td><td>THESE STREETS INTERSECT TWICE-COMPASS DIRECTION REQUIRED</td></tr>
+	<tr><td>03</td><td>3 thru 9</td><td>2</td><td>THESE STREETS INTERSECT MORE THAN TWICE-CANNOT BE PROCESSED<br/>[Reason Code value indicates number of times the streets intersect. The value `9' signifies 9 or more.]</td></tr>
+	<tr><td>04</td><td></td><td>1A, 1B, BL</td><td>1A/BL VERSION SWITCH INVALID - MUST BE S. ONLY STANDARD IS SUPPORTED</td></tr>
+	<tr><td>05</td><td></td><td>3S</td><td>FOR FUNCTION 3S, ONLY FIRST BOROUGH CODE IS PERMITTED</td></tr>
+	<tr><td>07</td><td></td><td>1, 1A, 1B, 1E</td><td>FOR A NAME OF A COMPLEX, 5-DIGIT STREET CODE INPUT IS NOT PERMITTED</td></tr>
+	<tr><td>08</td><td></td><td>All but B*</td><td>INVALID STREET NAME NORMALIZATION FORMAT FLAG - MUST BE BLANK, C OR S</td></tr>
+	<tr><td>09</td><td></td><td>3C</td><td>&lt;Compass direction&gt; SIDE OF STREET SEGMENT IS NOT IN &lt;borough name&gt;</td></tr>
+	<tr><td>10</td><td></td><td>All but B*</td><td>INVALID SNL VALUE - MUST BE BETWEEN 4 AND 32 INCLUSIVE</td></tr>
+	<tr><td>11</td><td></td><td>1*, 2, 3*</td><td>&lt;Street name&gt; NOT RECOGNIZED. THERE ARE NO SIMILAR NAMES<br/><span class="underAndItal">As of Version 10.0 this message is used for batch in addition to CICS</span></td></tr>
+	<tr><td>12</td><td></td><td>2</td><td>INTERSECTION NAME NOT FOUND</td></tr>
+	<tr><td rowspan="15">13</td><td>1</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NBR &lt;value&gt; CONTAINS AN INVALID CHARACTER &lt;character&gt; IN POSITION &lt;position number&gt;</td></tr>
+	<tr><td>2</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NBR &lt;value&gt; HAS MORE THAN 3 DIGITS AFTER DASH</td></tr>
+	<tr><td>3</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NBR &lt;value&gt; HAS TOO MANY DASHES</td></tr>
+	<tr><td>4</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NBR &lt;value&gt; HAS NO DIGITS AFTER THE DASH</td></tr>
+	<tr><td>6</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NBR &lt;value&gt; HAS TOO MANY DIGITS (MORE THAN 5)</td></tr>
+	<tr><td>7</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NBR &lt;value&gt; IS NOT COMPLETE AS ENTERED</td></tr>
+	<tr><td>8</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NBR &lt;value&gt; - PORTION AFTER HYPHEN EXCEEDS ALLOWABLE MAXIMUM</td></tr>
+	<tr><td>9</td><td>1, 1A, 1B, 1E, D*</td><td>ADDRESS NBR &lt;hse nr value&gt; INVALID INTERNAL FORMAT</td></tr>
+	<tr><td>A</td><td>1, 1A, 1B, 1E, D*</td><td>ADDRESS NBR &lt;value&gt; HAS AN UNKNOWN OR INVALID SUFFIX/ENDING</td></tr>
+	<tr><td>B</td><td>1, 1A, 1B, 1E</td><td>INPUT CONTAINS NO ADDRESS NUMBER</td></tr>
+	<tr><td>C</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NBR &lt;value&gt; HAS AN EMBEDDED BLANK</td></tr>
+	<tr><td>D</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NBR HAS INVALID FORMAT FOR EDGEWATER PARK</td></tr>
+	<tr><td>E</td><td>1, 1A, 1B, 1E</td><td>THIS STREET HAS HYPHENATED ADDRESS NBRS ONLY. TRY &lt;address nbr with hyphen inserted to left of penultimate digit&gt; OR &lt;address nbr with hyphen inserted to left of plusquepenultimate digit&gt;</td></tr>
+	<tr><td>F</td><td>1, 1A, 1B, 1E</td><td>THIS STREET HAS UNHYPHENATED ADDRESS NBRS ONLY. TRY &lt;digits of address number to left of dash only&gt; OR &lt;digits to left and right of dash concatenated without the dash&gt;</td></tr>
+	<tr><td>G</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NUMBER HAS INVALID HYPHENATION FOR THIS STREET<br/>[Input address number is an unhyphenated 2-digit number, but the input street has hyphenated address numbers only.]</td></tr>
+	<tr><td>14</td><td></td><td>3S</td><td>INPUT DOES NOT DEFINE A STREET STRETCH, SINCE INPUT INTERSECTIONS ARE IDENTICAL</td></tr>
+	<tr><td>15</td><td></td><td>All but B*</td><td>STREET NAME CANNOT BE NORMALIZED</td></tr>
+	<tr><td>16</td><td></td><td>1*</td><td>STREET NAME IS MISSING</td></tr>
+	<tr><td>17</td><td></td><td>All</td><td>BOROUGH CODE IS MISSING</td></tr>
+	<tr><td>18</td><td></td><td>BL</td><td>TAX BLOCK NOT NUMERIC</td></tr>
+	<tr><td>19</td><td></td><td>BL</td><td>TAX LOT NOT NUMERIC</td></tr>
+	<tr><td>20</td><td></td><td>BN</td><td>BUILDING IDENTIFICATION NUMBER (BIN) IS MISSING</td></tr>
+	<tr><td>21</td><td></td><td>BN</td><td>BUILDING IDENTIFICATION NUMBER (BIN) NOT FOUND</td></tr>
+	<tr><td>22</td><td></td><td>BN</td><td>INVALID BIN FORMAT: NON-NUMERIC, FIRST DIGIT NOT 1-5 OR REST OF DIGITS ALL ZERO</td></tr>
+	<tr><td>23</td><td></td><td>BN</td><td>TEMPORARY DEPARTMENT OF BUILDINGS BIN: EXISTS ONLY IN D.O.B FILES</td></tr>
+	<tr><td>24</td><td></td><td>3*</td><td>ON STREET IS MISSING</td></tr>
+	<tr><td>25</td><td></td><td>2, 3*</td><td>CROSS STREET 1 IS MISSING </td></tr>
+	<tr><td>26</td><td></td><td>2, 3*</td><td>CROSS STREET 2 IS MISSING </td></tr>
+	<tr><td>27</td><td></td><td>All</td><td>INVALID WORK AREA FORMAT INDICATOR - MUST BE C OR BLANK </td></tr>
+	<tr><td>28</td><td></td><td>1,1A, 1B, 1E</td><td>A PARTIAL STREET NAME MAY NOT BE USED IN A FREE-FORM ADDRESS</td></tr>
+	<tr><td>29</td><td></td><td>1,1A, 1B, 1E, 3*</td><td>INTERSECTION &lt;INTERSECTION NAME&gt; MAY NOT SERVE AS ON-STREET</td></tr>
+	<tr><td>30</td><td></td><td>2</td><td>&lt;STREET NAME&gt; IS NOT PART OF &lt;INTERSECTION NAME&gt;</td></tr>
+	<tr><td>31-37</td><td></td><td></td><td class="underAndItal">As of Version 10.0 GRC 31 through GRC 37 are replaced by GRC 11 and GRC EE. See descriptions of GRC 11 and GRC EE.</td></tr>
+	<tr><td>38</td><td></td><td>3S</td><td>&lt;Compass direction value&gt; IS AN INVALID COMPASS DIRECTION VALUE FOR &lt;FIRST or SECOND&gt; INPUT INTERSECTION</td></tr>
+	<tr><td>39</td><td></td><td>2, 3C</td><td>INVALID COMPASS DIRECTION VALUE - MUST BE N, S, E OR W</td></tr>
+	<tr><td>40</td><td></td><td>2, 3C</td><td>COMPASS DIRECTION VALUE IS INVALID FOR THIS INPUT LOCATION</td></tr>
+	<tr><td>41</td><td></td><td>1, 1A, 1B, 1E</td><td>THIS STREET HAS NO ADDRESSES</td></tr>
+	<tr><td rowspan="3">42</td><td>blank</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NUMBER OUT OF RANGE</td>  </tr>
+	<tr><td>1</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NUMBER OUT OF RANGE. CORRECT DIGITS OR INSERT HYPHEN AS &lt;AB-CD&gt; OR &lt;A-BCD&gt;<br/>[where input was of the form ABCD]</td>  </tr>
+	<tr><td>2</td><td>1, 1A, 1B, 1E</td><td>ADDRESS NUMBER OUT OF RANGE. CORRECT DIGITS OR TRY &lt;AB&gt; OR &lt;ABCD&gt;<br/>[where input was of the form AB-CD]</td>  </tr>
+	<tr><td>44</td><td></td><td>3C</td><td>INPUT DOES NOT DEFINE A BLOCK FACE</td></tr>
+	<tr><td>45</td><td></td><td>3</td><td>INPUT DOES NOT DEFINE A STREET SEGMENT</td></tr>
+	<tr><td>46</td><td></td><td>3, 3C </td><td>STREET COMBINATION NOT UNIQUE<br/>[The input is ambiguous, i.e., it describes more than one valid street segment.]</td>  </tr>
+	<tr><td>47</td><td></td><td>1, 1A, 1B, 1E</td><td>INVALID HNL VALUE - MUST BE BETWEEN 12 AND 16 INCLUSIVE</td></tr>
+	<tr><td>48</td><td></td><td>1, 1A, 1B, 1E</td><td>INVALID HOUSE NUMBER JUSTIFICATION VALUE - MUST BE L, R OR BLANK</td></tr>
+	<tr><td>49</td><td></td><td>1, 1A, 1B, 1E</td><td>ADDRESS NUMBER CANNOT BE NORMALIZED WITHIN REQUESTED HNL</td></tr>
+	<tr><td>50</td><td>1 thru 4</td><td>1, 1A, 1B, 1E, 2, 3*</td><td>&lt;Input street name&gt; IS AN INVALID STREET NAME FOR THIS LOCATION<br/>[The Reason Code indicates the number of valid street names returned in the Similar Names list.]</td></tr>
+	<tr><td>51</td><td></td><td>1, 1B, 1E, 2, 3, 3C</td><td>CROSS STREET NAMES FLAG MUST BE E OR BLANK</td></tr>
+	<tr><td>52</td><td></td><td>All but 1, 1E, 2, 3, 3C</td><td>CROSS STREET NAMES OPTION IS INVALID FOR THIS FUNCTION</td></tr>
+	<tr><td>55</td><td></td><td>2,3*</td><td>NON-ADDRESSABLE PLACE NAME PROCESSING IS NOT AVAILABLE FOR THIS FUNCTION</td></tr>
+	<tr><td>56</td><td></td><td>1B, 1E</td><td>ADDRESS IS SPLIT AMONG MULTIPLE ELECTION DISTRICTS. ADDRESS NBR SUFFIX REQUIRED<br/>[The input address is associated with more than one Election District (ED). Function 1E requires an address number suffix to be included with this address to identify a portion of the building specific to one ED.]</td></tr>
+	<tr><td>57</td><td></td><td></td><td class="underAndItal">As of Version 10.0 GRC 57 is replaced by GRC 67. See description of GRC 67.</td></tr>
+	<tr><td>58</td><td></td><td>1, 1A, 1B, 1E</td><td>NON-ADDRESSABLE PLACE NAME NOT FOUND</td></tr>
+	<tr><td>59</td><td></td><td>1*,2,3*</td><td>STREET NAME CANNOT BE NORMALIZED WITHIN REQUESTED SNL</td></tr>
+	<tr><td>61</td><td></td><td>3S</td><td>STREET STRETCH NOT FOUND</td></tr>
+	<tr><td>62</td><td></td><td>2, 3S</td><td>&lt;Street name&gt; &amp; &lt;other street name&gt; DO NOT INTERSECT</td></tr>
+	<tr><td>64</td><td></td><td>1, 1A, 1B, 1E, 2, 3*, D*</td><td>STREET CODE NOT FOUND</td></tr>
+	<tr><td>65</td><td></td><td>1,1E</td><td>INVALID ROADBED REQUEST SWITCH. MUST BE R OR BLANK</td></tr>
+	<tr><td>66</td><td></td><td>3S</td><td>&lt;Street name&gt; &amp; &lt;other street name&gt; INTERSECT MORE THAN TWICE-CANNOT BE PROCESSED</td></tr>
+	<tr><td>67</td><td>E, G, P, R, S, T</td><td>All batch only</td><td>ERROR ACCESSING GEOSUPPORT FILE: &lt;file name&gt; NOTIFY SYSTEM SUPPORT<br/>[This can be an installation error or a system error Notify System Support.]<br/><span class="underAndItal">As of Version 10.0 this message is used for batch in addition to CICS</span></td></tr>
+	<tr><td>68</td><td></td><td>3S</td><td>&lt;Street name&gt; &amp; &lt;other street name&gt; INTERSECT TWICE-COMPASS DIRECTION REQ'D</td></tr>
+	<tr><td>73</td><td></td><td>1A, 1B, BL</td><td>LEGACY VERSION OF FUNCTIONS 1A AND BL IS DISCONTINUED. SEE TECH BULLETIN 05-1 </td></tr>
+	<tr><td>75</td><td></td><td>1, 1A, 1B, 1E</td><td>DUPLICATE ADDRESS-USE &lt;pseudo-streetname1&gt; OR &lt;pseudo-streetname2&gt;</td></tr>
+	<tr><td>76</td><td></td><td>All but 1, 1E</td><td>ROADBED REQUEST SWITCH NOT IMPLEMENTED FOR THIS FUNCTION </td></tr>
+	<tr><td>77</td><td></td><td>BL</td><td>TAX LOT NOT FOUND</td></tr>
+	<tr><td rowspan="5">88</td><td>blank</td><td>All</td><td>GEOSUPPORT SYSTEM ERROR. NOTIFY DCP/GSS USER SUPPORT<br/>[An internal Geosupport problem, not a user error.]</td></tr>
+	<tr><td>1-8, C-H</td><td>All</td><td>GEOSUPPORT SYSTEM ERROR. NOTIFY DCP/GSS USER SUPPORT &amp; REPORT REASON CODE = &lt;value&gt;<br/>[An internal Geosupport problem, not a user error.]</td></tr>
+	<tr><td>9</td><td>All, CICS only</td><td>CICS ERROR. NOTIFY DATA CENTER TECHNICAL SUPPORT<br/>[A system error, not a user error.]</td></tr>
+	<tr><td>A</td><td>All</td><td>MODULE HAS NOT LOADED. NOTIFY TECHNICAL SUPPORT<br/>[A system error, not a user error.]</td></tr>
+	<tr><td>B</td><td>All</td><td>SYSTEM ERROR. NOTIFY TECHNICAL SUPPORT &amp; REPORT REASON CODE = B<br/>[An internal Geosupport problem or a system error, not user error.]</td></tr>
+	<tr><td>89</td><td></td><td>1, 1B, 1E, 2, 3, 3C, 3S, BN</td><td>LONG WORK-AREA-2 OPTION IS INVALID FOR THIS FUNCTION</td></tr>
+	<tr><td>90</td><td></td><td>1, 1A, 1B, 1E, 3, BL</td><td>LONG WORK-AREA-2 FLAG MUST BE L OR BLANK</td></tr>
+	<tr><td>96</td><td></td><td>All, CICS only</td><td>AN I/O ERROR HAS OCCURRED. TRY AGAIN</td></tr>
+	<tr><td>97</td><td></td><td>BB, BF</td><td>INPUT IS BEYOND THE LAST STREET NAME IN THE BOROUGH OF &lt;borough name&gt;</td></tr>
+	<tr><td>98</td><td></td><td>All</td><td>NO INPUT DATA RECEIVED</td></tr>
+	<tr><td>99</td><td></td><td>All</td><td>INVALID BOROUGH CODE. MUST BE 1, 2, 3, 4 OR 5</td></tr>
+	<tr><td rowspan="2">EE</td><td>1</td><td>1*, 2, 3*</td><td>&lt;Street name&gt; NOT RECOGNIZED. IS IT &lt;similar street name&gt;?<br/>[Issued when there is precisely one similar name.]<br/><span class="underAndItal">As of Version 10.0 this message is used for batch in addition to CICS</span></td></tr>
+	<tr><td>2 thru 9, A</td><td>1*, 2, 3*</td><td>&lt;Street name&gt; NOT RECOGNIZED. THERE ARE &lt;number&gt; SIMILAR NAMES<br/>[Issued when there is more than one similar name. Reason Code indicates number of similar names. Reason Code 'A' signifies 10 similar names. The similar names are returned in WA1.]<br/><span class="underAndItal">As of Version 10.0 this message is used for batch in addition to CICS</span></td></tr>
+	<tr><td>??</td><td></td><td>N/A</td><td>INVALID FUNCTION CODE</td></tr>
+</table>  	
+
+  </body>
+</html>

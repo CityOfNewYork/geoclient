@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+  <context-param>
+    <param-name>spring.profiles.active</param-name>
+    <param-value>nokey</param-value>
+  </context-param>
+  
+  <context-param>
+    <param-name>contextClass</param-name>
+    <param-value>org.springframework.web.context.support.AnnotationConfigWebApplicationContext</param-value>
+  </context-param>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>gov.nyc.doitt.gis.geoclient.service.configuration.WebConfig</param-value>
+  </context-param>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>appServlet</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value></param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>appServlet</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+    
+    <!-- 
+    Support for JSONP
+    =================
+    This filter allows browser clients to make cross-domain calls to this service
+    using JSONP. If the following conditions are true about the client request:
+    
+        - URL matches the pattern: *.json
+        
+        - A query string parameter named "callback" is given with a value
+    
+    This filter then:
+    
+    	- Makes the call to get JSON data from "regular" JSON providers
+    	
+    	- Returns "myCallback(" + normal JSON response + ");" where the value
+    	  given for the callback query string parameter was "myCallback"
+    	
+    	- Returns a Content-Type as "text/javascript" instead of 
+    	  "application/json" as is normally done for regular JSON responses
+    	  
+    JQuery provides automatic built-in compatibility for this use-case.
+    
+           $.ajax({
+               url : "http://other.domain.com/geoclient/v1/address.json",
+               data : {"houseNumber":"100", "street":"centre st.", etc...},
+               type : "GET",
+               dataType : "jsonp",        // This is the key! 
+               success : successCallback,
+               error : handleCallError
+           });
+           
+    Since the dataType was "jsonp" and an explicit jsonpCallback was not given,
+    JQuery automatically synthesizes a unique function and adds the callback
+	query string parameter set to its name.
+	-->
+    <filter>
+        <filter-name>jsonpCallbackFilter</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>jsonpCallbackFilter</filter-name>
+        <url-pattern>*.json</url-pattern>
+    </filter-mapping>    
+</web-app>

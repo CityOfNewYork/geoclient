@@ -1,0 +1,29 @@
+v1.0.10
+=======
+- Added BBL to default tests in jni-test.conf
+- Upgrade to Geosupport v14.3.1 release 14D
+- Upgrade to Gluegen 2.2.4
+- Removed local copies of Geosupport headers and libs
+- Added versioned C binaries to project dist folder
+- Makefile fixes
+- Removed Makefiles hardcoded dependency on pom.xml execution
+
+v1.0.9
+======
+- Recompile against pac.h v13d2 for Sanitation organic recycling schedule
+- Cleaned up geoclient c files, removing unnecessary includes
+- Added manifest entries for implementation name and version
+- Updated Windows libs for desktop version 13.2
+
+v1.0.8
+======
+- Cross-platform Makefile that will build on MinGWin32 against Desktop Geosupport
+- Upgrade to parent pom gis-common-maven v1.0.5 making Java 7 the default 
+- Updated deploy.sh script for deployment to staging directory on Linux 
+- Enhanced JniTest to support a config file for test case data and better logging
+
+v1.0.7
+======
+- Added this file :)
+- Makefile enhancement to generate and stage geoclient-jni lib and jar installation 
+- Added pac.h to this project since the one in the latest Geosupport distributions are broken

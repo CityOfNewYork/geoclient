@@ -1,0 +1,7 @@
+include 'geoclient-generate'
+include 'geoclient-native'
+include 'geoclient-jni'
+include 'geoclient-core'
+include 'geoclient-parser'
+include 'geoclient-service'
+rootProject.name = 'geoclient'
