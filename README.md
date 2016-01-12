@@ -18,6 +18,14 @@ Department of City Planning. **Geoclient** is maintained by the DoITT/Citywide G
 
 **NOTE:** Before you read more about Geoclient, it is important to be aware of the difference between Geo*client* (this project) and Geo*support*. Geoclient is basically just a proxy API for accessing the Geosupport application which is the actual Geocoder and data repository. The former is like a JDBC/ODBC/DBI/etc. driver, whereas the latter is the database itself (*with application logic*, in this case).
 
+**CAUTION:** In the next few days, as the Geoclient v1.0 codebase is re-organized for v2.0, this repository may potentially undergo some Git branch and rebasing changes that can orphan your fork. This is a temporary situation that will result in a more stable and usable project.
+
+### Documentation ###
+
+* [BetaNYC](http://betanyc.us/) [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/geoclient-service/doc/presentations/BetaNYC-nyc-doitt-geoclient.pdf)
+* [Code4LibNyc](http://code4lib.org/) [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/geoclient-service/doc/presentations/Code4LibNYC-geoclient-overview.pdf)
+* [GeoNYC](http://www.meetup.com/geonyc)x [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/geoclient-service/doc/presentations/nyc-geoclient-api.pdf)
+
 ### Installation of the Geoclient Service ###
 
 The geoclient-service subproject provides the code to run Geoclient in a Java Servlet container. If you are just looking to run Geoclient as a REST service on your own servers, this section describes the high-level concepts that you need to understand to run the provided binary distribution.
@@ -30,18 +38,36 @@ The big picture:
 
 Geoclient is written in Java and Geosupport is written in C. Java applications use the Java Native Interface (JNI) to call C applications.
 
+* Before you run/build Geoclient, download and extract Geosupport binaries and C header files. 
+
 * Platforms
   * Currently - Linux x86_64
   * Unsupported but working - Windows x86_64
+
+### Install Geosupport ###
+
+* Download the Linux version of Geosupport Desktop files [here](http://www.nyc.gov/html/dcp/html/bytes/applbyte.shtml#geocoding_application)
+
+* *details in flux but coming shortly...*
 
 ### Building ###
 
 **WARNING** The latest build is somewhat unstable but should be buildable on standard 64bit Linux systems. 
 
-* Gradle v2.10
 * JDK 1.7
 * gcc 4.+
 * g++ also required for Gradle
+* Gradle v2.10 (pre-install not required if your build machine has Internet connectivity)
+
+```bash
+
+$ git clone https://github.com/CityOfNewYork/geoclient
+
+$ cd geoclient
+
+$ ./gradlew build
+
+```
 
 ### History ###
 
@@ -58,10 +84,14 @@ In 2013, at the request of DoITT/Citywide GIS, the programmers at DCP compiled G
 
 ### Contributing ###
 
-* Writing tests for new code
-* Updating tests for exist code
-* Platforms
+* The source is rife with FIXME and TODO comments. Real milestone and release plans coming soon...
 
 ### Support ###
 
-* TBD
+* Found a bug (*..gasp..*)? Please [let us know](https://github.com/cityofnewyork/geoclient/issues)
+* Unanswered technical questions? mlipper at doitt.nyc.gov 
+
+### License ###
+
+[Apache 2.0](https://github.com/CityOfNewYork/geoclient/blob/master/src/dist/license.txt)
+
