@@ -1,16 +1,42 @@
-evaluationDependsOn(':geoclient-native')
-
-sourceSets {
-  generated
+//evaluationDependsOn(':geoclient-native')
+//import gov.nyc.doitt.gis.gradle.gluegen.GluegenCompiler
+plugins {
+  id 'jvm-component'
+  id 'java-lang'
 }
 
-dependencies {
-  generatedCompile(configurations.jniRuntime)
-  compile configurations.generatedCompile
+model {
+  components {
+    main(JvmLibrarySpec) {
+      sources {
+        java {
+          dependencies {
+            library "generated"
+          }
+        }
+      }
+    }
+
+    generated(JvmLibrarySpec) {
+      sources {
+        generated(JavaSourceSet) {
+          //generatedBy tasks.generateJni
+          builtBy tasks.generateJni
+          dependencies {
+            configurations.jniRuntime
+          }
+        }
+      }
+    }
+  }
 }
 
-compileGeneratedJava {
-  //dependsOn(':geoclient-generate:generateJni')
+//dependencies {
+//  generatedCompile(configurations.jniRuntime)
+//  compile configurations.generatedCompile
+//}
+
+//compileGeneratedJava {
   // TODO Determine the best way to have the geolcient-jni project depend
   // on the geoclient-native project's assemble task outputs.
   //
@@ -22,31 +48,38 @@ compileGeneratedJava {
   // is halfway between it's "legacy" framework and new Model-based
   // approach.
   //
-  dependsOn([':geoclient-generate:generateSource',
-             project(':geoclient-native').tasks.build])
-}
+  // // Previously, With hard-coded dependency on code generation task
+  // dependsOn([':geoclient-generate:generateSource',
+  //            project(':geoclient-native').tasks.build])
+  // 
+  // // Next removed dependency on geoclient-generate to make all C/Java
+  // // generation tasks completely independent from native and jni builds
+  // dependsOn(project(':geoclient-native').tasks.build)
+//}
 
-compileJava {
-  dependsOn(compileGeneratedJava)
-  classpath = files(classpath, sourceSets.generated.output.classesDir)
-}
+//compileJava {
+//  dependsOn(compileGeneratedJava)
+//  classpath = files(classpath, sourceSets.generated.output.classesDir)
+//}
 
-task runJni (type: JavaExec, dependsOn: ['compileJava',':geoclient-native:assemble']) {
-  classpath = sourceSets.main.runtimeClasspath + sourceSets.generated.runtimeClasspath
-  main = 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest'
-  executable = "${javaHome}/bin/java"
-  systemProperties =  execSystemProperties
-  environment = execEnvironmentVars
-}
+// Previously, With hard-coded dependency on code generation task
+// task runJni (type: JavaExec, dependsOn: ['compileJava',':geoclient-native:assemble']) {
+//task runJni (type: JavaExec, dependsOn: 'compileJava') {
+//  classpath = sourceSets.main.runtimeClasspath + sourceSets.generated.runtimeClasspath
+//  main = 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest'
+//  executable = "${jniJavaHome}/bin/java"
+//  systemProperties('java.library.path', gsLibraryPath)
+//  environment('GEOFILES', gsGeofiles)
+//}
+//
+//test.dependsOn(runJni)
 
-test.dependsOn(runJni)
-
-jar {
-  from sourceSets.main.output
-  from sourceSets.generated.output.classesDir
-}
-
-artifacts {
-  archives jar
-}
+//jar {
+//  from sourceSets.main.output
+//  from sourceSets.generated.output.classesDir
+//}
+//
+//artifacts {
+//  archives jar
+//}
 

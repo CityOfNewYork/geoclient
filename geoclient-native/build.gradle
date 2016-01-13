@@ -1,10 +1,5 @@
 apply plugin: 'c'
-
-// Currently, the 'mingw64Home' property must be set. It can be defaulted in
-// <rootProject dir>\gradle.properties or set on command-line with something
-// like:
-//  C:\repo\geoclient\gradlew -Pmingw64Home="c:/path/to/mingw64/dir/containing/gcc"
-// NOTE: this is a bad idea for several reasons and will be changing soon!
+apply plugin: 'ivy-publish'
 
 model {
   platforms {
@@ -21,9 +16,8 @@ model {
   toolChains {
     gcc(Gcc) {
       eachPlatform { 
-        if (platform.operatingSystem == "windows" && 
-               platform.architecture == "x86_64") {
-          path "${mingw64Home}/bin"
+        if (platform.operatingSystem == "windows" && platform.architecture == "x86_64") {
+          path "${gccWinX64Path}"
         }
       }
     }
@@ -48,37 +42,58 @@ model {
       jni_jdk {
         binaries.withType(NativeBinary) {
           if (targetPlatform.operatingSystem.windows) {
-            headers.srcDirs "${javaHome}/include", "${javaHome}/include/win32"
+            headers.srcDirs "${jniJavaHome}/include", "${jniJavaHome}/include/win32"
             binaries.withType(StaticLibraryBinary) {
-              staticLibraryFile = file("${javaHome}/lib/jvm.lib")
+              staticLibraryFile = file("${jniJavaHome}/lib/jvm.lib")
             }
           } else {
-            headers.srcDirs "${javaHome}/include", "${javaHome}/include/linux"
+            headers.srcDirs "${jniJavaHome}/include", "${jniJavaHome}/include/linux"
           }
         }
       }
     }
   } // repositories
+  
+  //gluegen {
+  //  header file("src/main/headers/geoclient.h")
+  //  resourcesDir file("${rootDir}/geoclient-generate/src/main/resources")
+  //  gluegenClasspath project.gluegenClasspath
+  //  gluegenFileName "gluegen.cfg"
+  //  includePath project.gsIncludePath
+  //  javaExe "${project.jniJavaHome}/bin/java"
+  //  workingDir file("${buildDir}/gluegen")
+  //  generatedSource {
+  //    nativeFileName "GeoclientImpl_JNI.c"
+  //    targetNativeFileName "geoclient_jni.c"
+  //    nativeOutputDir file("${buildDir}/src/generated/c")
+  //    javaOutputDir file("${buildDir}/src/generated/java")
+  //  }
+  //}
 
   binaries { modelMap ->
     withType(NativeBinary) {
       if (toolChain in Gcc) {
+        // TODO should be able to remove '-fPIC' from compiler arguments since
+        // it's for building shared libraries and gcc passes it through to
+        // the linker (ld)
         cCompiler.args  "-fPIC", "-o0", "-g3", "-Wall", "-std=c99"
-        // TODO Without the following, the geoclient_test build fails for 
-        // linux_x64 unless the LD_LIBRARY_PATH and friends are set in the 
-        // envoironment.
-        //if (targetPlatform.operatingSystem.linux) {
-        //linker.args "-fPIC", "-L${gsLibraryPath}", "-lc", "-lm", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
-        //}
       }
     }
-    //withType(SharedLibraryBinarySpec) {
     withType(NativeLibraryBinarySpec) {
       if (toolChain in Gcc) {
         if (targetPlatform.operatingSystem.windows) {
           linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         } else {
           linker.args "-fPIC", "-L${gsLibraryPath}", "-lc", "-lm", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+        }
+      }
+    }
+    withType(NativeExecutableBinarySpec) {
+      if (toolChain in Gcc) {
+        if (targetPlatform.operatingSystem.windows) {
+          linker.args "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+        } else {
+          linker.args "-L${gsLibraryPath}", "-lc", "-lm", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         }
       }
     }
@@ -105,9 +120,10 @@ model {
       }
     }
 
-    geoclient_test(NativeExecutableSpec) {
+    geoclientTest(NativeExecutableSpec) {
       targetPlatform "linux_x64"
       targetPlatform "windows_x64"
+      baseName "geoclient_test"
       sources {
         c {
           source {
@@ -119,35 +135,106 @@ model {
             include "**/*.h"
           }
           lib library: 'geosupport', linkage: 'api'
-          lib library: 'geoclient'
+          lib library: 'geoclient', linkage: 'static'
         }
       }
     }
 
-    geoclient_jni(NativeLibrarySpec) {
+    geoclientJni(NativeLibrarySpec) {
       targetPlatform "linux_x64"
       targetPlatform "windows_x64"
+      baseName "geoclient_jni"
       sources {
-        c {
+        gluegenOutput(CSourceSet) {
+          generatedBy tasks.generateJni
           source {
-            srcDir "src/generated/c"
-            include "geoclient_jni.c"
+            include "**/*.c"
           }
-          // TODO Gradle v2.10 does not seem to perform transitive
-          // resolution of native project dependencies. In this case,
-          // even though the generated JNI C code only depends on geoclient.h,
-          // the build fails without this dependency because geoclient.h
-          // includes geo.h (and NYCgeo.h on Windows)
-          lib library: 'geosupport', linkage: 'api' 
-          lib library: 'geoclient', linkage: 'static'
-          lib library: 'jni_jdk', linkage: 'api'
-          // FIXME What is the correct way to establish native task dependencies
-          // on "legacy" (Gradle's term for pre-v2.6 builds) Java projects (e.g.,
-          // geoclient-generate in this case)?
-          builtBy(project(':geoclient-generate').tasks.assemble)
         }
+        c.lib sources.gluegenOutput
+        //c.source {
+        //    srcDir "src/generated/c"
+        //    include "**/*.c"
+        //}
+        // Even though the generated JNI C code only depends on geoclient.h,
+        // the Gluegen code generation process fails without this dependency
+        // because Gluegen does not evaluate C macros. Since geoclient.h
+        // includes geo.h (and NYCgeo.h on Windows) if these files are not on
+        // the include path, Gluegen bails despite gluegen.cfg directives to
+        // explicitly ignore libgeo API functions
+        c.lib library: 'geosupport', linkage: 'api' 
+        c.lib library: 'geoclient', linkage: 'static'
+        c.lib library: 'jni_jdk', linkage: 'api'
       }
     } // geoclient_jni
 
   } // components
+
+  publishing {
+    publications {
+      ivyLocal(IvyPublication) {
+        // TODO does not work:
+        // [$("components.geoclient"), $("components.geoclientJni")].each { c ->
+        //   c.binaries { binaries ->
+        $("components.geoclientJni").binaries { binaries ->
+          binaries.values().each { binary ->
+            if (binary.buildable) {
+              def pubSpec = new NativePublicationSpec(binary)
+              module = pubSpec.name
+              organisation = project.group
+              revision = project.version
+              status = project.status
+              //println "name: $pubSpec.name type: $pubSpec.type classifier: $pubSpec.classifier"
+              artifact pubSpec
+            }
+          }
+        }
+        // }
+      }
+    }
+    repositories.ivyNative
+  }
+
 } // model
+
+@groovy.transform.Canonical
+class NativePublicationSpec implements PublishArtifact {
+  Date date
+  String name
+  String classifier
+  String type
+  String extension
+  File file
+  TaskDependency buildDependencies
+  NativePublicationSpec() {}
+  NativePublicationSpec(NativeBinarySpec binary) {
+    this.name = binary.component.name
+    this.classifier = binary.targetPlatform.name
+    this.type = binary.name.endsWith("SharedLibrary") ? "sharedLibrary" : "staticLibrary"
+    this.file = binary.primaryOutput
+    java.nio.file.Path primaryFile = binary.primaryOutput.toPath()
+    String p = primaryFile.fileName as String
+    this.extension = p.substring((p.lastIndexOf(".") + 1), p.size())
+    this.buildDependencies = binary.buildDependencies
+    //println this
+  }
+
+  String publicationName(boolean capitalize = true) {
+    def capAndCamel = { s, cap ->
+      String result = s.replaceAll(/(_)(\w)/) { all, uscore, c -> c.toUpperCase() }
+      cap ? result.capitalize() : result
+    }
+    "${capAndCamel(this.name, capitalize)}${capAndCamel(this.classifier, true)}${capAndCamel(this.type, true)}"
+  }
+
+  String grokExtension(NativeBinarySpec binary) {
+    // FIXME this is ridiculous
+    if (binary instanceof NativeExecutableBinarySpec) { //&& binary.targetPlatform.operatingSystem == "windows") {
+      return "exe"
+    }
+    java.nio.file.Path primaryFile = binary.primaryOutput.toPath()
+    String p = primaryFile.fileName as String
+    p.substring((p.lastIndexOf(".") + 1), p.size())
+  }
+
+}

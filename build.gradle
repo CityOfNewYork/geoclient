@@ -1,3 +1,7 @@
+import gov.nyc.doitt.gis.gradle.gluegen.GluegenExecTask
+import org.apache.tools.ant.filters.FixCrLfFilter
+import org.apache.tools.ant.filters.ReplaceTokens
+
 buildscript {
   repositories {
     jcenter()
@@ -8,6 +12,11 @@ buildscript {
   }
 }
 
+ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
+ext.gluegenClasspath = null
+
+apply from: "${gradleScriptDir}/env.gradle"
+
 allprojects {
   group = rootProject.group
   version = rootProject.version
@@ -16,11 +25,9 @@ allprojects {
     jcenter()
   }
 
-  ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
-
-  apply from: "${gradleScriptDir}/env.gradle"
   apply from: "${gradleScriptDir}/dependencies.gradle"
   apply from: "${gradleScriptDir}/license.gradle"
+  apply from: "${gradleScriptDir}/ide.gradle"
   apply plugin: 'maven-publish'
 
   ext.javadocLinks = [
@@ -35,7 +42,12 @@ allprojects {
   publishing {
     repositories {
       maven {
+        name 'mavenJava'
         url "${rootProject.buildDir}/repo"
+      }
+      ivy {
+        name 'ivyNative'
+        url "${rootProject.buildDir}/lib"
       }
     }
   }
@@ -43,16 +55,11 @@ allprojects {
 } //allprojects
 
 def javaPluginProjects = [
-      project(':geoclient-generate'),
+      //project(':geoclient-generate'),
       project(':geoclient-jni'),
       project(':geoclient-core'),
       project(':geoclient-parser'),
       project(':geoclient-service')
-] as Set
-
-def codeGeneratingProjects = [
-      project('geoclient-generate'),
-      project('geoclient-jni')
 ] as Set
 
 configure(javaPluginProjects) { p ->
@@ -67,6 +74,9 @@ configure(javaPluginProjects) { p ->
   sourceCompatibility = 1.7
   targetCompatibility = 1.7
 
+  compileJava {
+    options.encoding = 'utf-8'
+  }
   dependencies {
     testCompile("junit:junit:${junitVersion}") {
       exclude group:'org.hamcrest', module:'hamcrest-core'
@@ -75,13 +85,6 @@ configure(javaPluginProjects) { p ->
       exclude group:'org.hamcrest', module:'hamcrest-core'
     }
     testCompile("org.hamcrest:hamcrest-all:${hamcrestVersion}")
-  }
-
-  tasks.withType(Test) { task ->
-    task.systemProperties = execSystemProperties
-    task.environment = execEnvironmentVars
-    task.dependsOn('reportRuntime')
-   // addNativeLibraryPath(task)
   }
 
   jar {
@@ -149,17 +152,65 @@ configure(javaPluginProjects) { p ->
 
 } // javaPluginProjects
 
-configure(codeGeneratingProjects) {
+def gluegenProjects = [
+      project('geoclient-native'),
+      project('geoclient-jni')
+] as Set
 
+configure(gluegenProjects) {
   configurations {
     execGluegen
     jniRuntime
   }
-
   dependencies {
     execGluegen "org.jogamp.gluegen:gluegen:$gluegenVersion", "antlr:antlr:$antlrVersion"
     jniRuntime(configurations.execGluegen) {
       exlude(module: "antlr")
     }
   }
+  tasks.create(name: "generateJni", type: GluegenExecTask) {
+
+    ext.generatedNativeDir = file("${rootDir}/geoclient-native/build/src/generated/c")
+    ext.geoclientHeader = file("${rootDir}/geoclient-native/src/main/headers/geoclient.h")
+    ext.generatedJavaDir = file("${rootDir}/geoclient-jni/build/src/generated/java")
+    ext.gluegenRuntimeDir = file("${project.buildDir}/gluegen")
+    // Required for use of generatedBy with CSourceSet
+    sourceDir = project.name == "geoclient-native" ? generatedNativeDir : generatedJavaDir
+    headerDir = generatedNativeDir // Note: no headers are generated in this case
+    // Required by GluegenExecTask and Gluegen itself
+    configurationFile = file("${gluegenRuntimeDir}/gluegen.cfg")
+    nativeHeader = file("${gluegenRuntimeDir}/geoclient.h")
+    includePath = files(project.gsIncludePath)
+    javaOutputDir = generatedJavaDir
+    nativeOutputDir = generatedNativeDir
+
+    classpath = files(configurations.execGluegen.files)
+
+    doFirst() {
+      if(!gluegenRuntimeDir.exists()) {
+        println "DUH!"
+        gluegenRuntimeDir.mkdirs()
+      }
+      if(!configurationFile.parentFile.exists()) {
+        configurationFile.parentFile.mkdirs()
+      }
+      project.copy {
+        from file("${rootDir}/geoclient-generate/src/main/resources/gluegen.cfg")
+        into gluegenRuntimeDir
+        expand(
+          nativeOutputDir: nativeOutputDir,
+          javaOutputDir: javaOutputDir)
+        filter(FixCrLfFilter)
+      }
+      project.copy {
+        from geoclientHeader
+        into nativeHeader.parentFile
+      }
+    }
+    doLast() {
+      new File(nativeOutputDir, "GeoclientImpl_JNI.c").renameTo(
+                new File(nativeOutputDir, "geoclient_jni.c").canonicalPath)
+    }
+  }
 }
+

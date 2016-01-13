@@ -1,4 +1,4 @@
-include 'geoclient-generate'
+//include 'geoclient-generate'
 include 'geoclient-native'
 include 'geoclient-jni'
 include 'geoclient-core'

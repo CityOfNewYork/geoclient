@@ -11,6 +11,18 @@ sourceSets {
   }
 }
 
+// FIXME Required to avoid encoding error on Windows when platform default:
+// Cp1252 is used to read the embedded EPSG file database. 
+// https://github.com/CityOfNewYork/geoclient/issues/10
+compileJava {
+  options.encoding = 'utf-8'
+}
+
+javadoc {
+  options.encoding = 'utf-8'
+  excludes ["$projectDir/src/main/external/**/*.java"]
+}
+
 dependencies {
   compile project(":geoclient-jni")
   compile project(":geoclient-core")
