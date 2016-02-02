@@ -53,22 +53,6 @@ model {
       }
     }
   } // repositories
-  
-  //gluegen {
-  //  header file("src/main/headers/geoclient.h")
-  //  resourcesDir file("${rootDir}/geoclient-generate/src/main/resources")
-  //  gluegenClasspath project.gluegenClasspath
-  //  gluegenFileName "gluegen.cfg"
-  //  includePath project.gsIncludePath
-  //  javaExe "${project.jniJavaHome}/bin/java"
-  //  workingDir file("${buildDir}/gluegen")
-  //  generatedSource {
-  //    nativeFileName "GeoclientImpl_JNI.c"
-  //    targetNativeFileName "geoclient_jni.c"
-  //    nativeOutputDir file("${buildDir}/src/generated/c")
-  //    javaOutputDir file("${buildDir}/src/generated/java")
-  //  }
-  //}
 
   binaries { modelMap ->
     withType(NativeBinary) {
@@ -145,29 +129,34 @@ model {
       targetPlatform "windows_x64"
       baseName "geoclient_jni"
       sources {
-        gluegenOutput(CSourceSet) {
-          generatedBy tasks.generateJni
+        c {
           source {
+            srcDir "src/generated/c"
             include "**/*.c"
           }
+          lib library: 'geosupport', linkage: 'api' // still needed by gluegen?
+          lib library: 'geoclient', linkage: 'static'
+          lib library: 'jni_jdk', linkage: 'api'
         }
-        c.lib sources.gluegenOutput
-        //c.source {
-        //    srcDir "src/generated/c"
+        //gluegenOutput(CSourceSet) {
+        //  generatedBy tasks.generateJni
+        //  source {
         //    include "**/*.c"
+        //  }
         //}
+        //c.lib sources.gluegenOutput
         // Even though the generated JNI C code only depends on geoclient.h,
         // the Gluegen code generation process fails without this dependency
         // because Gluegen does not evaluate C macros. Since geoclient.h
         // includes geo.h (and NYCgeo.h on Windows) if these files are not on
         // the include path, Gluegen bails despite gluegen.cfg directives to
         // explicitly ignore libgeo API functions
-        c.lib library: 'geosupport', linkage: 'api' 
-        c.lib library: 'geoclient', linkage: 'static'
-        c.lib library: 'jni_jdk', linkage: 'api'
-      }
-    } // geoclient_jni
+        //c.lib library: 'geosupport', linkage: 'api' 
+        //c.lib library: 'geoclient', linkage: 'static'
+        //c.lib library: 'jni_jdk', linkage: 'api'
 
+      } // sources
+    } // geoclient_jni
   } // components
 
   publishing {

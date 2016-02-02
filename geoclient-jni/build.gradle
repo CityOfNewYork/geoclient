@@ -1,66 +1,46 @@
-//evaluationDependsOn(':geoclient-native')
-//import gov.nyc.doitt.gis.gradle.gluegen.GluegenCompiler
-plugins {
-  id 'jvm-component'
-  id 'java-lang'
+//plugins {
+//  id 'jvm-component'
+//  id 'java-lang'
+//}
+//
+//model {
+//  components {
+//    main(JvmLibrarySpec) {
+//      sources {
+//        java {
+//          dependencies {
+//            library "generated"
+//          }
+//        }
+//      }
+//    }
+//
+//    generated(JvmLibrarySpec) {
+//      sources {
+//        generated(JavaSourceSet) {
+//          //generatedBy tasks.generateJni
+//          builtBy tasks.generateJni
+//          dependencies {
+//            configurations.jniRuntime
+//          }
+//        }
+//      }
+//    }
+//  }
+//}
+sourceSets {
+  generated
 }
 
-model {
-  components {
-    main(JvmLibrarySpec) {
-      sources {
-        java {
-          dependencies {
-            library "generated"
-          }
-        }
-      }
-    }
-
-    generated(JvmLibrarySpec) {
-      sources {
-        generated(JavaSourceSet) {
-          //generatedBy tasks.generateJni
-          builtBy tasks.generateJni
-          dependencies {
-            configurations.jniRuntime
-          }
-        }
-      }
-    }
-  }
+dependencies {
+  generatedCompile(configurations.jniRuntime)
+  compile configurations.generatedCompile
 }
 
-//dependencies {
-//  generatedCompile(configurations.jniRuntime)
-//  compile configurations.generatedCompile
-//}
-
-//compileGeneratedJava {
-  // TODO Determine the best way to have the geolcient-jni project depend
-  // on the geoclient-native project's assemble task outputs.
-  //
-  // Adding the dependency to the native project's tasks.build object
-  // (whatever that is) allows this project to insure the native binaries
-  // built before this task runs. However, this seems like a terrible hack
-  // because it is mucking with an internal API. Tried many other hacks 
-  // which did not work but it seems part of the issue is that Gradle v2.10
-  // is halfway between it's "legacy" framework and new Model-based
-  // approach.
-  //
-  // // Previously, With hard-coded dependency on code generation task
-  // dependsOn([':geoclient-generate:generateSource',
-  //            project(':geoclient-native').tasks.build])
-  // 
-  // // Next removed dependency on geoclient-generate to make all C/Java
-  // // generation tasks completely independent from native and jni builds
-  // dependsOn(project(':geoclient-native').tasks.build)
-//}
-
-//compileJava {
-//  dependsOn(compileGeneratedJava)
-//  classpath = files(classpath, sourceSets.generated.output.classesDir)
-//}
+compileJava {
+  dependsOn(compileGeneratedJava)
+  classpath = files(classpath, sourceSets.generated.output.classesDir)
+}
 
 // Previously, With hard-coded dependency on code generation task
 // task runJni (type: JavaExec, dependsOn: ['compileJava',':geoclient-native:assemble']) {
@@ -74,12 +54,12 @@ model {
 //
 //test.dependsOn(runJni)
 
-//jar {
-//  from sourceSets.main.output
-//  from sourceSets.generated.output.classesDir
-//}
-//
-//artifacts {
-//  archives jar
-//}
+jar {
+  from sourceSets.main.output
+  from sourceSets.generated.output.classesDir
+}
+
+artifacts {
+  archives jar
+}
 
