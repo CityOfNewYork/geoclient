@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+    <bean id="defaultLineTokenizer" class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer"/>
+
+    <bean id="parentLineTokenizer" class="org.springframework.batch.item.file.transform.DelimitedLineTokenizer" abstract="true">
+        <property name="delimiter" value=","/>
+        <property name="names" value="function,appId,lineId" />
+    </bean>
+
+    <bean id="addressRecordTokenizer" parent="parentLineTokenizer">
+        <property name="names" value="function,appId,lineId,houseNumber,street,borough,zipCode" />
+    </bean>
+
+    <bean id="bblRecordTokenizer" parent="parentLineTokenizer">
+        <property name="names" value="function,appId,lineId,borough,block,lot" />
+    </bean>
+
+    <bean id="binRecordTokenizer" parent="parentLineTokenizer">
+        <property name="names" value="function,appId,lineId,bin" />
+    </bean>
+
+    <bean id="blockfaceRecordTokenizer" parent="parentLineTokenizer">
+        <property name="names" value="function,appId,lineId,onStreet,crossStreetOne,crossStreetTwo,borough,boroughCrossStreetOne,boroughCrossStreetTwo,compassDirection" />
+    </bean>
+
+    <bean id="intersectionRecordTokenizer" parent="parentLineTokenizer">
+        <property name="names" value="function,appId,lineId,crossStreetOne,crossStreetTwo,borough,boroughCrossStreetTwo,compassDirection" />
+    </bean>
+
+    <bean id="placeRecordTokenizer" parent="parentLineTokenizer">
+        <property name="names" value="function,appId,lineId,name,borough,zipCode" />
+    </bean>
+
+    <bean id="singleFieldSearchRecordTokenizer" parent="parentLineTokenizer">
+        <property name="names" value="function,appId,lineId,input" />
+    </bean>
+
+    <bean id="locationFileTokenizer" class="org.springframework.batch.item.file.transform.PatternMatchingCompositeLineTokenizer">
+        <property name="tokenizers">
+            <map>
+                <entry key="add*" value-ref="addressRecordTokenizer" />
+                <entry key="bbl*" value-ref="bblRecordTokenizer" />
+                <entry key="bin*" value-ref="binRecordTokenizer" />
+                <entry key="blo*" value-ref="blockfaceRecordTokenizer" />
+                <entry key="int*" value-ref="intersectionRecordTokenizer" />
+                <entry key="pla*" value-ref="placeRecordTokenizer" />
+                <entry key="sfs*" value-ref="singleFieldSearchRecordTokenizer" />
+                <entry key="*"    value-ref="defaultLineTokenizer" />
+            </map>
+        </property>
+    </bean>
+    
+    <bean id="fileItemReader" class="org.springframework.batch.item.file.FlatFileItemReader">
+        <property name="resource" value="#{jobParameters[inputFile]}" />
+        <property name="lineMapper">
+            <bean class="org.springframework.batch.item.file.mapping.DefaultLineMapper">
+                <property name="lineTokenizer" ref="locationFileTokenizer" />
+                <property name="fieldSetMapper">
+                    <bean class="org.springframework.batch.item.file.mapping.PassThroughFieldSetMapper" />
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    
+    <bean id="reader" class="gov.nyc.doitt.gis.geoclient.batch.internal.spring.LocationItemReader">
+        <property name="fieldSetReader" ref="fileItemReader" />
+    </bean>
+
+	<bean id="itemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource" value="#{jobParameters[outputFile]}" />
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="," />
+				<property name="fieldExtractor">
+					<bean
+						class="org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor">
+						<property name="names" value="name,credit" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+
+	<job id="geocodeJob" xmlns="http://www.springframework.org/schema/batch">
+		<step id="step1">
+			<tasklet>
+				<chunk reader="itemReader" processor="itemProcessor" writer="itemWriter"
+					commit-interval="2" />
+			</tasklet>
+		</step>
+	</job>
+
+	<bean id="jobRepository"
+		class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
+		<property name="transactionManager" ref="transactionManager" />
+	</bean>
+	
+	<bean id="jobLauncher"
+		class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
+		<property name="jobRepository" ref="jobRepository" />
+		<property name="taskExecutor">
+			<bean class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
+		</property>
+	</bean>
+
+</beans>
