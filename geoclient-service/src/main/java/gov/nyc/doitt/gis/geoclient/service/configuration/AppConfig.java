@@ -55,105 +55,107 @@ import org.springframework.oxm.xstream.XStreamMarshaller;
 
 import com.thoughtworks.xstream.converters.ConverterMatcher;
 
-// TODO TESTME!
+/**
+ * <p>
+ * Java-based configuration for the <code>geoclient-service</code> application.
+ * </p>
+ * <p>
+ * <b>NOTE</b><br/>
+ * When running in JDK <= 1.7, use of the {@link PropertySource} annotation will
+ * result in a classloader warning:
+ * 
+ * <pre>
+ * warning: Cannot find annotation method 'value()' in type 'Repeatable': class file for java.lang.annotation.Repeatable not found
+ * </pre>
+ * </p>
+ * 
+ * @author mlipper
+ * @since 1.0
+ */
 @Configuration
 @PropertySource(value = "classpath:version.properties")
-public class AppConfig
-{
-    @Autowired
-    private Environment env;
-	
-    @Autowired
+public class AppConfig {
+	@Autowired
+	private Environment env;
+
+	@Autowired
 	private ParserConfig parserConfig;
 
 	@Bean
-	public GeoclientImpl geoclient() 
-	{
-	    return new GeoclientImpl();
+	public GeoclientImpl geoclient() {
+		return new GeoclientImpl();
 	}
-	
+
 	@Bean
-	public SingleFieldSearchHandler singleFieldSearchHandler()
-	{
-		return new SingleFieldSearchHandler(searchId(), parserConfig.singleFieldSearchParser(),searchBuilder());
+	public SingleFieldSearchHandler singleFieldSearchHandler() {
+		return new SingleFieldSearchHandler(searchId(), parserConfig.singleFieldSearchParser(), searchBuilder());
 	}
-	
+
 	@Bean
-	public SearchTaskFactory searchBuilder()
-	{
-		return new SearchTaskFactory(initialSearchTaskBuilder(), spawnedSearchTaskBuilder()); 
+	public SearchTaskFactory searchBuilder() {
+		return new SearchTaskFactory(initialSearchTaskBuilder(), spawnedSearchTaskBuilder());
 	}
-	
+
 	@Bean
-	public InitialSearchTaskBuilder initialSearchTaskBuilder()
-	{
-		return new DefaultInitialSearchTaskBuilder(countyResolver(),geosupportService(),beanMapper());
+	public InitialSearchTaskBuilder initialSearchTaskBuilder() {
+		return new DefaultInitialSearchTaskBuilder(countyResolver(), geosupportService(), beanMapper());
 	}
-	
+
 	@Bean
-	public SpawnedSearchTaskBuilder spawnedSearchTaskBuilder()
-	{
-		return new DefaultSpawnedTaskBuilder(countyResolver(),geosupportService(),beanMapper());
+	public SpawnedSearchTaskBuilder spawnedSearchTaskBuilder() {
+		return new DefaultSpawnedTaskBuilder(countyResolver(), geosupportService(), beanMapper());
 	}
-	
+
 	@Bean
-	public CountyResolver countyResolver()
-	{
+	public CountyResolver countyResolver() {
 		return new CountyResolver(parserConfig.boroughNamesToBoroughMap(), parserConfig.cityNamesToBoroughMap());
 	}
 
-	@Bean 
-	public SearchId searchId()
-	{
+	@Bean
+	public SearchId searchId() {
 		return new SearchId(hostname());
 	}
-	
+
 	@Bean
-    public String hostname() {
-        try
-		{
+	public String hostname() {
+		try {
 			return InetAddress.getLocalHost().getHostName();
-		} catch (UnknownHostException e)
-		{
+		} catch (UnknownHostException e) {
 			return "UnknownHost";
 		}
-    }	
-	
+	}
+
 	@Bean
-	public GeosupportConfig geosupportConfiguration()
-	{
+	public GeosupportConfig geosupportConfiguration() {
 		return new GeosupportConfig(geoclient());
 	}
 
 	@Bean
-	public GeosupportService geosupportService()
-	{
+	public GeosupportService geosupportService() {
 		return new GeosupportServiceImpl(this);
 	}
 
 	@Bean
-	public LatLongEnhancer latLongEnhancer()
-	{
+	public LatLongEnhancer latLongEnhancer() {
 		return new LatLongEnhancer();
 	}
 
 	@Bean
-	public Mapper beanMapper()
-	{
+	public Mapper beanMapper() {
 		// Expects a mapping file called dozerBeanMapping.xml to be on the
 		// classpath. Singleton wrapper insures that mapping file is only
 		// parsed once.
 		return DozerBeanMapperSingletonWrapper.getInstance();
 	}
-	
+
 	public Function geosupportFunction(String id) {
 		return geosupportConfiguration().getFunction(id);
 	}
-	
+
 	public Function function1B() {
 		return geosupportFunction(Function.F1B);
 	}
-	
+
 	public Function functionBL() {
 		return geosupportFunction(Function.FBL);
 	}
@@ -169,15 +171,14 @@ public class AppConfig
 	public Function function2() {
 		return geosupportFunction(Function.F2);
 	}
-	
+
 	public Function functionHR() {
 		return geosupportFunction(Function.FHR);
 	}
 
 	// Do not declare as @Bean, but as a regular method
 	// since we don't want proxies generated for incoming args
-	public Version version(Map<String, Object> functionHrData)
-	{
+	public Version version(Map<String, Object> functionHrData) {
 
 		Version version = new Version();
 		beanMapper().map(functionHrData, version);
@@ -190,8 +191,7 @@ public class AppConfig
 	}
 
 	@Bean
-	public XStreamMarshaller marshaller()
-	{
+	public XStreamMarshaller marshaller() {
 		XStreamMarshaller marshaller = new XStreamMarshaller();
 		marshaller.setConverters(new ConverterMatcher[] { new MapConverter() });
 		Map<String, Class<?>> aliases = new HashMap<String, Class<?>>();
@@ -206,12 +206,10 @@ public class AppConfig
 		return marshaller;
 	}
 
-	public String getImplementationVersion(Class<?> clazz)
-	{
+	public String getImplementationVersion(Class<?> clazz) {
 		Package pkg = clazz.getPackage();
 
-		if (pkg == null)
-		{
+		if (pkg == null) {
 			return "UNKNOWN";
 		}
 		return pkg.getImplementationVersion();

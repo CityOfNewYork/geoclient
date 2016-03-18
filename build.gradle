@@ -59,8 +59,11 @@ def javaPluginProjects = [
       project(':geoclient-jni'),
       project(':geoclient-core'),
       project(':geoclient-parser'),
-      project(':geoclient-service')
+      project(':geoclient-service'),
+      //project(':geoclient-batch')
 ] as Set
+
+def syncTask = project(':geoclient-native').tasks.find { it.name = 'build' }
 
 configure(javaPluginProjects) { p ->
 
@@ -70,7 +73,18 @@ configure(javaPluginProjects) { p ->
     apply plugin: 'war'
     apply plugin: 'jetty'
   }
-
+  
+  if(p != project(':geoclient-generate') && p != project(':geoclient-jni')) {
+    test {
+      // Variables set in gradle/env.gradle
+      environment "GEOFILES", gsGeofiles
+      systemProperty "java.library.path", testJavaLibraryPath
+    }
+    p.tasks.withType(Test) { t ->
+      t.dependsOn(syncTask)
+    }
+  }
+  
   sourceCompatibility = 1.7
   targetCompatibility = 1.7
 

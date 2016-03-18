@@ -14,13 +14,14 @@ model {
   }
 
   toolChains {
-    gcc(Gcc) {
-      eachPlatform { 
-        if (platform.operatingSystem == "windows" && platform.architecture == "x86_64") {
-          path "${gccWinX64Path}"
-        }
-      }
-    }
+    gcc(Gcc) 
+//  gcc(Gcc) {
+//    eachPlatform { 
+//      if (platform.operatingSystem == "windows" && platform.architecture == "x86_64") {
+//        path "${gccWinX64Path}"
+//      }
+//    }
+//  }
   }
 
   repositories {
@@ -159,6 +160,21 @@ model {
     } // geoclient_jni
   } // components
 
+  tasks {
+    syncLocalNativeLibs(Sync) {
+      group 'Test'
+      description 'Sync native binaries to $localLibsDir for use by JNI integration tests.'
+      def bins = $.binaries.withType(NativeLibraryBinarySpec).findAll { it.buildable }
+      from bins.collect { it.primaryOutput }
+      destinationDir = file(rootProject.localLibsDir)
+    }
+    //deleteLocalNativeLibs(Task) {
+    //  group 'Test'
+    //  doLast { delete syncLocalNativeLibs.destinationDir }
+    //}
+    build { finalizedBy(syncLocalNativeLibs) }
+  } // tasks
+  
   publishing {
     publications {
       ivyLocal(IvyPublication) {

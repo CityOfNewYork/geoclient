@@ -83,6 +83,15 @@ task refreshGeneratedSource(dependsOn: ['refreshGeneratedJavaSource', 'refreshGe
 
 classes.dependsOn(refreshGeneratedSource)
 
+task deleteGeneratedSource {
+  doLast {
+    logger.warn("Deleting all generated JNI Java and C source files: ${refreshGeneratedSource.outputs.files}")
+    delete refreshGeneratedSource.outputs.files
+  }
+}
+
 clean {
-  delete refreshGeneratedSource.outputs.files
+  doLast {
+    logger.warn("Cowardly refusing to delete generated sources. Use 'deleteGeneratedSource' task instead.") 
+  }
 }
