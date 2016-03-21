@@ -168,12 +168,9 @@ model {
       from bins.collect { it.primaryOutput }
       destinationDir = file(rootProject.localLibsDir)
     }
-    //deleteLocalNativeLibs(Task) {
-    //  group 'Test'
-    //  doLast { delete syncLocalNativeLibs.destinationDir }
-    //}
-    build { finalizedBy(syncLocalNativeLibs) }
+    build.finalizedBy(syncLocalNativeLibs)
   } // tasks
+
   
   publishing {
     publications {
