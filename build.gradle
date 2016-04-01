@@ -9,6 +9,7 @@ buildscript {
   }
   dependencies {
     classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.12.1"
+    classpath "com.github.ben-manes:gradle-versions-plugin:0.12.0"
   }
 }
 
@@ -20,7 +21,7 @@ apply from: "${gradleScriptDir}/env.gradle"
 allprojects {
   group = rootProject.group
   version = rootProject.version
-
+  
   repositories {
     jcenter()
   }
@@ -29,7 +30,8 @@ allprojects {
   apply from: "${gradleScriptDir}/license.gradle"
   apply from: "${gradleScriptDir}/ide.gradle"
   apply plugin: 'maven-publish'
-
+  apply plugin: "com.github.ben-manes.versions"
+  
   ext.javadocLinks = [
           "http://docs.oracle.com/javase/8/docs/api/",
           "http://docs.oracle.com/javaee/7/api/"
@@ -63,34 +65,25 @@ def javaPluginProjects = [
       //project(':geoclient-batch')
 ] as Set
 
-//def syncTask = project(':geoclient-native').tasks.find { it.name = 'build' }
-
 configure(javaPluginProjects) { p ->
 
   apply plugin: 'java'
 
-  if(p == project(':geoclient-service')) {
-    apply plugin: 'war'
-    apply plugin: 'jetty'
-  }
-  
   if(p != project(':geoclient-generate') && p != project(':geoclient-jni')) {
     test {
       // Variables set in gradle/env.gradle
       environment "GEOFILES", gsGeofiles
       systemProperty "java.library.path", testJavaLibraryPath
     }
-    //p.tasks.withType(Test) { t ->
-    //  t.dependsOn(syncTask)
-    //}
   }
-  
+
   sourceCompatibility = 1.7
   targetCompatibility = 1.7
 
   compileJava {
     options.encoding = 'utf-8'
   }
+
   dependencies {
     testCompile("junit:junit:${junitVersion}") {
       exclude group:'org.hamcrest', module:'hamcrest-core'
@@ -167,7 +160,6 @@ configure(javaPluginProjects) { p ->
 } // javaPluginProjects
 
 def gluegenProjects = [
-      //project('geoclient-native'),
       project('geoclient-generate'),
       project('geoclient-jni')
 ] as Set

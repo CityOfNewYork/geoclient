@@ -1,74 +1,100 @@
-repositories {
-  maven { url "http://download.osgeo.org/webdav/geotools/" }
+repositories { maven { url "http://download.osgeo.org/webdav/geotools/" } }
+
+//apply plugin: gov.nyc.doitt.gis.gradle.tomcat.TomcatPlugin
+
+//tomcat {
+//  contextPath = '/geoclient/v2'
+//  port = 6060
+//  stopKey = 'stopKey'
+//  stopPort = 6061
+//  systemProperties = ['java.library.path': testJavaLibraryPath]
+//}
+apply plugin: 'war'
+
+dependencies {
+    compile project(":geoclient-jni")
+    compile project(":geoclient-core")
+    compile project(":geoclient-parser")
+    compile("net.sf.dozer:dozer:$dozerVersion") { exclude(module: "slf4j-log4j12") }
+    compile("org.springframework:spring-core:$springVersion") { exclude(module: "commons-logging") }
+    compile("org.springframework:spring-context:$springVersion") { exclude(module: "commons-logging") }
+    compile("org.springframework:spring-context-support:$springVersion")
+    compile("org.springframework:spring-webmvc:$springVersion")
+    compile("org.springframework:spring-oxm:$springVersion") { exclude(module: "commons-lang") }
+    compile("org.springframework:spring-test:$springVersion")
+    compile("org.hibernate:hibernate-validator:$hibernateValidatorVersion")
+    compile("org.aspectj:aspectjrt:$aspectjrtVersion")
+    compile("org.slf4j:slf4j-api:$slf4jVersion")
+    compile("com.thoughtworks.xstream:xstream:$xstreamVersion")
+    compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+    compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+    compile("com.intera.util:spring-jsonp-support:$springJsonpSupportVersion") {
+        exclude(module: "servlet-api")
+        exclude(module: "log4j")
+        exclude(module: "slf4j-log4j12")
+    }
+    compile("javax.inject:javax.inject:$javaxInjectVersion")
+    compile("javax.servlet:jstl:$jstlVersion")
+    compile("org.thymeleaf:thymeleaf:$thymeleafVersion")
+    compile("org.thymeleaf:thymeleaf-spring4:$thymeleafVersion")
+    compile("joda-time:joda-time:$jodaTimeVersion")
+    compile("org.geotools:gt-main:$geotoolsVersion") { exclude(module: "xerces") }
+    compile("org.geotools:gt-epsg-wkt:$geotoolsVersion")
+
+    runtime("org.slf4j:jcl-over-slf4j:$slf4jVersion")
+    runtime("org.slf4j:log4j-over-slf4j:$slf4jVersion")
+    runtime("ch.qos.logback:logback-core:$logbackVersion")
+    runtime("ch.qos.logback:logback-classic:$logbackVersion")
+
+    testCompile("com.jayway.jsonpath:json-path:$jsonPathVersion")
+
+    providedCompile("javax.servlet:javax.servlet-api:$javaxServletApiVersion")
+    providedCompile("javax.servlet.jsp:jsp-api:$jspApiVersion")
 }
 
 sourceSets {
-  main {
-    java {
-      srcDir 'src/main/java'
-      srcDir 'src/main/external'
+    main {
+        java {
+            srcDir 'src/main/java'
+            srcDir 'src/main/external'
+        }
     }
-  }
+    //integrationTest {
+    //    java.srcDir file('src/integTest/java')
+    //    resources.srcDir file('src/integTest/resources')
+    //    compileClasspath += sourceSets.main.output + configurations.testRuntime
+    //    runtimeClasspath += output + compileClasspath
+    //}
 }
 
 // FIXME Required to avoid encoding error on Windows when platform default:
-// Cp1252 is used to read the embedded EPSG file database. 
+// Cp1252 is used to read the embedded EPSG file database.
 // https://github.com/CityOfNewYork/geoclient/issues/10
-compileJava {
-  options.encoding = 'utf-8'
-}
+compileJava { options.encoding = 'utf-8' }
 
+// FIXME I'm not excluding anything!
 javadoc {
   options.encoding = 'utf-8'
-  excludes ["$projectDir/src/main/external/**/*.java"]
+  excludes ["${projectDir}/src/main/external/**/*.java"]
 }
 
-dependencies {
-  compile project(":geoclient-jni")
-  compile project(":geoclient-core")
-  compile project(":geoclient-parser")
-  compile("net.sf.dozer:dozer:$dozerVersion") {
-    exclude(module: "slf4j-log4j12")
-  }
-  compile("org.springframework:spring-core:$springVersion") {
-    exclude(module: "commons-logging")
-  }
-  compile("org.springframework:spring-context:$springVersion") {
-    exclude(module: "commons-logging")
-  }
-  compile("org.springframework:spring-context-support:$springVersion")
-  compile("org.springframework:spring-webmvc:$springVersion")
-  compile("org.springframework:spring-oxm:$springVersion") {
-    exclude(module: "commons-lang")
-  }
-  compile("org.springframework:spring-test:$springVersion")
-  compile("org.hibernate:hibernate-validator:$hibernateValidatorVersion")
-  compile("org.aspectj:aspectjrt:$aspectjrtVersion")
-  compile("org.slf4j:slf4j-api:$slf4jVersion")
-  compile("com.thoughtworks.xstream:xstream:$xstreamVersion")
-  compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
-  compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-  compile("com.intera.util:spring-jsonp-support:$springJsonpSupportVersion") {
-    exclude(module: "servlet-api")
-    exclude(module: "log4j")
-    exclude(module: "slf4j-log4j12")
-  }
-  compile("javax.inject:javax.inject:$javaxInjectVersion")
-  compile("javax.servlet:jstl:$jstlVersion")
-  compile("org.thymeleaf:thymeleaf:$thymeleafVersion")
-  compile("org.thymeleaf:thymeleaf-spring4:$thymeleafVersion")
-  compile("joda-time:joda-time:$jodaTimeVersion")
-
-  compile("org.geotools:gt-main:$geotoolsVersion") {
-    exclude(module: "xerces")
-  }
-  compile("org.geotools:gt-epsg-wkt:$geotoolsVersion")
-
-  runtime("org.slf4j:jcl-over-slf4j:$slf4jVersion")
-  runtime("org.slf4j:log4j-over-slf4j:$slf4jVersion")
-  runtime("ch.qos.logback:logback-core:$logbackVersion")
-  runtime("ch.qos.logback:logback-classic:$logbackVersion")
-  testCompile("com.jayway.jsonpath:json-path:$jsonPathVersion")
-  providedCompile("javax.servlet:javax.servlet-api:$javaxServletApiVersion")
-  providedCompile("javax.servlet.jsp:jsp-api:$jspApiVersion")
+processResources {
+    ext.ver = rootProject.version
+    from(sourceSets.main.resources) {
+        include 'version.properties'
+        filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: ver])
+    }
 }
+
+//task itest(type: Test) {
+//    description = 'Runs the geoclient-service integration tests in an embedded Tomcat instance.'
+//    testClassesDir = sourceSets.integrationTest.output.classesDir
+//    classpath = sourceSets.integrationTest.runtimeClasspath
+//    //mustRunAfter test
+//    include '**/*IntegrationTest.*'
+//    dependsOn tomcatRunWar
+//    finalizedBy tomcatStop
+//    // Variables set in gradle/env.gradle
+//    environment "GEOFILES", gsGeofiles
+//    systemProperty "java.library.path", testJavaLibraryPath
+//}

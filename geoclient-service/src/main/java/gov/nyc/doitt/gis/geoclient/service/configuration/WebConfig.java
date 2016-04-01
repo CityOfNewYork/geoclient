@@ -15,9 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.configuration;
 
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResultConverter;
-import gov.nyc.doitt.gis.geoclient.service.web.ViewHelper;
-
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -38,11 +35,13 @@ import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.intera.util.web.servlet.filter.JsonpCallbackFilter;
+
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResultConverter;
+import gov.nyc.doitt.gis.geoclient.service.web.ViewHelper;
 
 @Configuration
 @EnableWebMvc
