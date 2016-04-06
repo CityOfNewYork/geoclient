@@ -11,6 +11,10 @@ repositories { maven { url "http://download.osgeo.org/webdav/geotools/" } }
 //}
 apply plugin: 'war'
 
+configurations {
+  geotools
+}
+
 dependencies {
     compile project(":geoclient-jni")
     compile project(":geoclient-core")
@@ -59,12 +63,6 @@ sourceSets {
             srcDir 'src/main/external'
         }
     }
-    //integrationTest {
-    //    java.srcDir file('src/integTest/java')
-    //    resources.srcDir file('src/integTest/resources')
-    //    compileClasspath += sourceSets.main.output + configurations.testRuntime
-    //    runtimeClasspath += output + compileClasspath
-    //}
 }
 
 // FIXME Required to avoid encoding error on Windows when platform default:
@@ -75,7 +73,8 @@ compileJava { options.encoding = 'utf-8' }
 // FIXME I'm not excluding anything!
 javadoc {
   options.encoding = 'utf-8'
-  excludes ["${projectDir}/src/main/external/**/*.java"]
+  exclude "${project.projectDir}/src/main/external"
+  source = sourceSets.main.allJava
 }
 
 processResources {

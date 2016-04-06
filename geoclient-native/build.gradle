@@ -15,13 +15,6 @@ model {
 
   toolChains {
     gcc(Gcc) 
-//  gcc(Gcc) {
-//    eachPlatform { 
-//      if (platform.operatingSystem == "windows" && platform.architecture == "x86_64") {
-//        path "${gccWinX64Path}"
-//      }
-//    }
-//  }
   }
 
   repositories {
@@ -56,25 +49,19 @@ model {
   } // repositories
 
   binaries { modelMap ->
-    withType(NativeBinary) {
-      if (toolChain in Gcc) {
-        // TODO should be able to remove '-fPIC' from compiler arguments since
-        // it's for building shared libraries and gcc passes it through to
-        // the linker (ld)
-        cCompiler.args  "-fPIC", "-o0", "-g3", "-Wall", "-std=c99"
-      }
-    }
     withType(NativeLibraryBinarySpec) {
       if (toolChain in Gcc) {
+        cCompiler.args "-fPIC", "-o0", "-g3", "-Wall", "-std=c99"
         if (targetPlatform.operatingSystem.windows) {
           linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         } else {
-          linker.args "-fPIC", "-L${gsLibraryPath}", "-lc", "-lm", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+          linker.args "-L${gsLibraryPath}", "-lc", "-lm", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         }
       }
     }
     withType(NativeExecutableBinarySpec) {
       if (toolChain in Gcc) {
+        cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
         if (targetPlatform.operatingSystem.windows) {
           linker.args "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         } else {

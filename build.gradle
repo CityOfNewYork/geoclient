@@ -73,6 +73,7 @@ configure(javaPluginProjects) { p ->
     test {
       // Variables set in gradle/env.gradle
       environment "GEOFILES", gsGeofiles
+      environment "LD_LIBRARY_PATH", testJavaLibraryPath
       systemProperty "java.library.path", testJavaLibraryPath
     }
   }
