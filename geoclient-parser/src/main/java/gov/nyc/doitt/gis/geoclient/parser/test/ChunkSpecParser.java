@@ -92,7 +92,7 @@ public class ChunkSpecParser
 	
 	/**
 	 * Parse List of Chunks from pipe-delimited chunk definitions 
-	 * @param chunkDefinition example: 'COUNTY(0-24:BOROUGH_NAME)|ADDRESS(0-19:HOUSE_NUMBER,STREET_NAME)'
+	 * @param delimitedChunkDefinitions example: 'COUNTY(0-24:BOROUGH_NAME)|ADDRESS(0-19:HOUSE_NUMBER,STREET_NAME)'
 	 * @return list of zero or more Chunks 
 	 */
 	protected List<Chunk> parseChunkSpec(String delimitedChunkDefinitions, String delimitedTokenText, List<MutableToken> untypedTokens)

@@ -96,8 +96,8 @@ public interface DoittEnvelope extends Cloneable {
 	void setMinY(double minY);
 
 	/**
-	 * @return A DoittPoint (maxX, maxY) that is the upper right corner of the
-	 *         DoittEnvelope.
+	 * Set a DoittPoint (maxX, maxY) that is the upper right corner of the
+	 * DoittEnvelope.
 	 */
 	void setUpperRight(DoittPoint upperRight);
 }

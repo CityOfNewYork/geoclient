@@ -58,16 +58,12 @@ import com.thoughtworks.xstream.converters.ConverterMatcher;
 /**
  * <p>
  * Java-based configuration for the <code>geoclient-service</code> application.
- * </p>
- * <p>
- * <b>NOTE</b><br/>
- * When running in JDK <= 1.7, use of the {@link PropertySource} annotation will
+ *
+ * <p><b>NOTE</b><br>
+ * When running in JDK &lt;= 1.7, use of the {@link PropertySource} annotation will
  * result in a classloader warning:
  * 
- * <pre>
- * warning: Cannot find annotation method 'value()' in type 'Repeatable': class file for java.lang.annotation.Repeatable not found
- * </pre>
- * </p>
+ * <pre>warning: Cannot find annotation method 'value()' in type 'Repeatable': class file for java.lang.annotation.Repeatable not found</pre>
  * 
  * @author mlipper
  * @since 1.0
