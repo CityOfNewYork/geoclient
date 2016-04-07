@@ -92,6 +92,6 @@ task deleteGeneratedSource {
 
 clean {
   doLast {
-    logger.warn("Cowardly refusing to delete generated sources. Use 'deleteGeneratedSource' task instead.") 
+    logger.info("Cowardly refusing to delete generated sources. Use 'deleteGeneratedSource' task instead.") 
   }
 }

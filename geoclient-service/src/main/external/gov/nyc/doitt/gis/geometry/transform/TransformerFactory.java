@@ -1,3 +1,18 @@
+/*
+ * Copyright 2013-2016 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package gov.nyc.doitt.gis.geometry.transform;
 
 import org.geotools.factory.Hints;
@@ -12,16 +27,16 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * 
  * A note on lat/long from: http://docs.openlayers.org/library/spherical_mercator.html
  * 
- * Projections in GIS are commonly referred to by their “EPSG” codes, 
+ * Projections in GIS are commonly referred to by their EPSG codes, 
  * identifiers managed by the European Petroleum Survey Group. One 
- * common identifier is “EPSG:4326”, which describes maps where 
+ * common identifier is EPSG:4326, which describes maps where 
  * latitude and longitude are treated as X/Y values. Spherical 
  * Mercator has an official designation of EPSG:3857. However, 
  * before this was established, a large amount of software used 
  * the identifier EPSG:900913. This is an unofficial code, but is 
  * still the commonly used code in OpenLayers. Any time you see the 
- * string “EPSG:4326”, you can assume it describes latitude/longitude 
- * coordinates. Any time you see the string “EPSG:900913”, it will be 
+ * string EPSG:4326, you can assume it describes latitude/longitude 
+ * coordinates. Any time you see the string EPSG:900913, it will be 
  * describing coordinates in meters in x/y.
  * 
  * @author mlipper
