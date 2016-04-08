@@ -120,10 +120,10 @@ public class SingleFieldSearchControllerTest
 				get("/search.json")
 				.param("input", input)
 				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(jsonPath("$*.id").exists())
-				.andExpect(jsonPath("$*.status").exists())
-				.andExpect(jsonPath("$*.input").exists())
-				.andExpect(jsonPath("$*.results").exists())
+				.andExpect(jsonPath("$.*.id").exists())
+				.andExpect(jsonPath("$.*.status").exists())
+				.andExpect(jsonPath("$.*.input").exists())
+				.andExpect(jsonPath("$.*.results").exists())
 				.andExpect(status().is(HttpStatus.OK.value()))
 				.andDo(print());
 	}

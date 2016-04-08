@@ -12,29 +12,29 @@ ext {
   mockitoVersion            = "1.10.19"
   diffutilsVersion          = "1.2.1"
   // Logging
-  slf4jVersion              = "1.7.10"
-  logbackVersion            = "1.1.2"
+  slf4jVersion              = "1.7.16"
+  logbackVersion            = "1.1.5"
   // Spring
-  springVersion             = "4.0.2.RELEASE"
+  springVersion             = "4.2.5.RELEASE"
   // XStream
-  xstreamVersion            = "1.4.7"
+  xstreamVersion            = "1.4.9"
   // Commons
   commonsLang3Version       = "3.2.1"
   // Misc
-  groovyAllVersion          = "2.2.0"
+  groovyAllVersion          = "2.4.6"
   // Web services
-  aspectjrtVersion          = "1.7.4"
+  aspectjrtVersion          = "1.8.8"
   dozerVersion              = "5.4.0"
-  hibernateValidatorVersion = "5.0.3.Final"
-  jacksonVersion            = "2.3.2"
+  hibernateValidatorVersion = "5.2.4.Final"
+  jacksonVersion            = "2.6.5"
   javaxInjectVersion        = "1"
   javaxServletApiVersion    = "3.0.1"
-  jodaTimeVersion           = "2.3"
-  jsonPathVersion           = "0.9.1"
+  jodaTimeVersion           = "2.9.2"
+  jsonPathVersion           = "2.1.0"
   jspApiVersion             = "2.1"
   jstlVersion               = "1.2"
   springJsonpSupportVersion = "0.0.2"
-  thymeleafVersion          = "2.1.2.RELEASE"
+  thymeleafVersion          = "2.1.4.RELEASE"
   geotoolsVersion           = "9.3"
 
 }
