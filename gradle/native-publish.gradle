@@ -1,0 +1,70 @@
+apply plugin: 'ivy-publish'
+
+model {
+    publishing {
+        publications {
+            ivyLocal(IvyPublication) {
+                // TODO does not work:
+                // [$("components.geoclient"), $("components.geoclientJni")].each { c ->
+                //   c.binaries { binaries ->
+                $("components.geoclientJni").binaries { binaries ->
+                    binaries.values().each { binary ->
+                        if (binary.buildable) {
+                            def pubSpec = new NativePublicationSpec(binary)
+                            module = pubSpec.name
+                            organisation = project.group
+                            revision = project.version
+                            status = project.status
+                            artifact pubSpec
+                        }
+                    }
+                }
+                // }
+            }
+        }
+        repositories.ivyNative
+    }
+} // model
+
+
+@groovy.transform.Canonical
+class NativePublicationSpec implements PublishArtifact {
+    Date date
+    String name
+    String classifier
+    String type
+    String extension
+    File file
+    TaskDependency buildDependencies
+    NativePublicationSpec() {}
+    NativePublicationSpec(NativeBinarySpec binary) {
+        this.name = binary.component.name
+        this.classifier = binary.targetPlatform.name
+        this.type = binary.name.endsWith("SharedLibrary") ? "sharedLibrary" : "staticLibrary"
+        this.file = binary.primaryOutput
+        java.nio.file.Path primaryFile = binary.primaryOutput.toPath()
+        String p = primaryFile.fileName as String
+        this.extension = p.substring((p.lastIndexOf(".") + 1), p.size())
+        this.buildDependencies = binary.buildDependencies
+        //println this
+    }
+
+    String publicationName(boolean capitalize = true) {
+        def capAndCamel = { s, cap ->
+            String result = s.replaceAll(/(_)(\w)/) { all, uscore, c -> c.toUpperCase() }
+            cap ? result.capitalize() : result
+        }
+        "${capAndCamel(this.name, capitalize)}${capAndCamel(this.classifier, true)}${capAndCamel(this.type, true)}"
+    }
+
+    String grokExtension(NativeBinarySpec binary) {
+        // FIXME this is ridiculous
+        if (binary instanceof NativeExecutableBinarySpec) { //&& binary.targetPlatform.operatingSystem == "windows") {
+            return "exe"
+        }
+        java.nio.file.Path primaryFile = binary.primaryOutput.toPath()
+        String p = primaryFile.fileName as String
+        p.substring((p.lastIndexOf(".") + 1), p.size())
+    }
+
+}

@@ -1,19 +1,11 @@
 repositories { maven { url "http://download.osgeo.org/webdav/geotools/" } }
 
-//apply plugin: gov.nyc.doitt.gis.gradle.tomcat.TomcatPlugin
-
-//tomcat {
-//  contextPath = '/geoclient/v2'
-//  port = 6060
-//  stopKey = 'stopKey'
-//  stopPort = 6061
-//  systemProperties = ['java.library.path': testJavaLibraryPath]
-//}
 apply plugin: 'war'
+apply plugin: 'jetty'
 
-configurations {
-  geotools
-}
+httpPort = 6060
+stopPort = 6061
+stopKey = 'stop!'
 
 dependencies {
     compile project(":geoclient-jni")
