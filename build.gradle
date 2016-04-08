@@ -12,6 +12,7 @@ buildscript {
 ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
 ext.gluegenClasspath = null
 
+apply plugin: 'base'
 apply from: "${gradleScriptDir}/env.gradle"
 
 allprojects {
@@ -172,49 +173,17 @@ configure(gluegenProjects) {
       exlude(module: "antlr")
     }
   }
-//  tasks.create(name: "generateJni", type: GluegenExecTask) {
-//
-//    ext.generatedNativeDir = file("${rootDir}/geoclient-native/build/src/generated/c")
-//    ext.geoclientHeader = file("${rootDir}/geoclient-native/src/main/headers/geoclient.h")
-//    ext.generatedJavaDir = file("${rootDir}/geoclient-jni/build/src/generated/java")
-//    ext.gluegenRuntimeDir = file("${project.buildDir}/gluegen")
-//    // Required for use of generatedBy with CSourceSet
-//    sourceDir = project.name == "geoclient-native" ? generatedNativeDir : generatedJavaDir
-//    headerDir = generatedNativeDir // Note: no headers are generated in this case
-//    // Required by GluegenExecTask and Gluegen itself
-//    configurationFile = file("${gluegenRuntimeDir}/gluegen.cfg")
-//    nativeHeader = file("${gluegenRuntimeDir}/geoclient.h")
-//    includePath = files(project.gsIncludePath)
-//    javaOutputDir = generatedJavaDir
-//    nativeOutputDir = generatedNativeDir
-//
-//    classpath = files(configurations.execGluegen.files)
-//
-//    doFirst() {
-//      if(!gluegenRuntimeDir.exists()) {
-//        println "DUH!"
-//        gluegenRuntimeDir.mkdirs()
-//      }
-//      if(!configurationFile.parentFile.exists()) {
-//        configurationFile.parentFile.mkdirs()
-//      }
-//      project.copy {
-//        from file("${rootDir}/geoclient-generate/src/main/resources/gluegen.cfg")
-//        into gluegenRuntimeDir
-//        expand(
-//          nativeOutputDir: nativeOutputDir,
-//          javaOutputDir: javaOutputDir)
-//        filter(FixCrLfFilter)
-//      }
-//      project.copy {
-//        from geoclientHeader
-//        into nativeHeader.parentFile
-//      }
-//    }
-//    doLast() {
-//      new File(nativeOutputDir, "GeoclientImpl_JNI.c").renameTo(
-//                new File(nativeOutputDir, "geoclient_jni.c").canonicalPath)
-//    }
-//  }
 }
 
+task deleteGeneratedSource {
+  description 'Delete generated source code'
+}
+deleteGeneratedSource.dependsOn ':geoclient-generate:deleteGeneratedSource', ':geoclient-generate:clean', ':geoclient-native:clean', ':geoclient-jni:clean'
+deleteGeneratedSource.finalizedBy clean
+
+task regenerate {
+  group 'Build'
+  description 'Delete and re-create all generated source code'
+}
+regenerate.dependsOn ':deleteGeneratedSource', ':geoclient-generate:build', ':geoclient-native:build'
+  

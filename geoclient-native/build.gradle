@@ -122,34 +122,22 @@ model {
             srcDir "src/generated/c"
             include "**/*.c"
           }
+          // Even though the generated JNI C code only depends on geoclient.h,
+          // the Gluegen code generation process fails without this dependency
+          // because Gluegen does not evaluate C macros. Since geoclient.h
+          // includes geo.h (and NYCgeo.h on Windows) if these files are not on
+          // the include path, Gluegen bails despite gluegen.cfg directives to
+          // explicitly ignore libgeo API functions
           lib library: 'geosupport', linkage: 'api' // still needed by gluegen?
           lib library: 'geoclient', linkage: 'static'
           lib library: 'jni_jdk', linkage: 'api'
         }
-        //gluegenOutput(CSourceSet) {
-        //  generatedBy tasks.generateJni
-        //  source {
-        //    include "**/*.c"
-        //  }
-        //}
-        //c.lib sources.gluegenOutput
-        // Even though the generated JNI C code only depends on geoclient.h,
-        // the Gluegen code generation process fails without this dependency
-        // because Gluegen does not evaluate C macros. Since geoclient.h
-        // includes geo.h (and NYCgeo.h on Windows) if these files are not on
-        // the include path, Gluegen bails despite gluegen.cfg directives to
-        // explicitly ignore libgeo API functions
-        //c.lib library: 'geosupport', linkage: 'api' 
-        //c.lib library: 'geoclient', linkage: 'static'
-        //c.lib library: 'jni_jdk', linkage: 'api'
-
       } // sources
     } // geoclient_jni
   } // components
 
   tasks {
     syncLocalNativeLibs(Sync) {
-      group 'Test'
       description 'Sync native binaries to $localLibsDir for use by JNI integration tests.'
       def bins = $.binaries.withType(NativeLibraryBinarySpec).findAll { it.buildable }
       from bins.collect { it.primaryOutput }
@@ -157,7 +145,6 @@ model {
     }
     build.finalizedBy(syncLocalNativeLibs)
   } // tasks
-
   
   publishing {
     publications {
@@ -173,7 +160,6 @@ model {
               organisation = project.group
               revision = project.version
               status = project.status
-              //println "name: $pubSpec.name type: $pubSpec.type classifier: $pubSpec.classifier"
               artifact pubSpec
             }
           }
