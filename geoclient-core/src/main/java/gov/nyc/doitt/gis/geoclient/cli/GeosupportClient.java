@@ -62,7 +62,7 @@ public class GeosupportClient
 		functionNames.addAll(FUNCTIONS.keySet());
 		for (Iterator<String> iterator = functionNames.iterator(); iterator.hasNext();)
 		{
-			String functionName = (String) iterator.next();
+			String functionName = iterator.next();
 			FUNCTION_MENU.append(functionName);
 			if (iterator.hasNext())
 			{

@@ -75,11 +75,31 @@ configure(javaPluginProjects) { p ->
     }
   }
 
-  sourceCompatibility = 1.7
-  targetCompatibility = 1.7
-
+  // Once the Gluegen 2.3.x annotation warnings to stderr are fixed then
+  // add "-Werror" to the List.
+  // See https://jogamp.org/bugzilla/show_bug.cgi?id=1256
+  compileJava.options*.compilerArgs = [
+      "-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
+      "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
+      "-Xlint:overrides", "-Xlint:path", "-Xlint:-processing", "-Xlint:static",
+      "-Xlint:try", "-Xlint:fallthrough", "-Xlint:rawtypes", "-Xlint:deprecation",
+      "-Xlint:unchecked", "-Xlint:-options"]
+  
+  compileTestJava.options*.compilerArgs = [
+      "-Xlint:serial", "-Xlint:-varargs", "-Xlint:cast", "-Xlint:classfile",
+      "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
+      "-Xlint:overrides", "-Xlint:path", "-Xlint:-processing", "-Xlint:static",
+      "-Xlint:try", "-Xlint:-fallthrough", "-Xlint:-rawtypes", "-Xlint:-deprecation",
+      "-Xlint:-unchecked", "-Xlint:-options"]
+  
   compileJava {
-    options.encoding = 'utf-8'
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
+  }
+
+  compileTestJava {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
   }
 
   dependencies {

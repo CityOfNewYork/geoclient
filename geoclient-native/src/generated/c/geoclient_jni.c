@@ -5,8 +5,9 @@
 #include <string.h>
 
 #include <assert.h>
+#include <stddef.h>
 
-static jobject JVMUtil_NewDirectByteBufferCopy(JNIEnv *env, void * source_address, jlong capacity); /* forward decl. */
+static jobject JVMUtil_NewDirectByteBufferCopy(JNIEnv *env, void * source_address, size_t capacity); /* forward decl. */
 
  #include "geoclient.h"
 
@@ -23,7 +24,7 @@ Java_gov_nyc_doitt_gis_geoclient_jni_GeoclientImpl_callgeo1__Ljava_lang_Object_2
     _wa1_ptr = (char *) ( JNI_TRUE == wa1_is_nio ?  (*env)->GetDirectBufferAddress(env, wa1) :  (*env)->GetPrimitiveArrayCritical(env, wa1, NULL) );  }
   if ( NULL != wa2 ) {
     _wa2_ptr = (char *) ( JNI_TRUE == wa2_is_nio ?  (*env)->GetDirectBufferAddress(env, wa2) :  (*env)->GetPrimitiveArrayCritical(env, wa2, NULL) );  }
-  callgeo((char *) (((char *) _wa1_ptr) + wa1_byte_offset), (char *) (((char *) _wa2_ptr) + wa2_byte_offset));
+  callgeo((char * ) (((char *) _wa1_ptr) + wa1_byte_offset), (char * ) (((char *) _wa2_ptr) + wa2_byte_offset));
   if ( JNI_FALSE == wa1_is_nio && NULL != wa1 ) {
     (*env)->ReleasePrimitiveArrayCritical(env, wa1, _wa1_ptr, 0);  }
   if ( JNI_FALSE == wa2_is_nio && NULL != wa2 ) {

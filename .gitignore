@@ -26,8 +26,8 @@
 **/classes
 **/.gradletasknamecache
 
-# Local native development artifacts
-#libgeo-devel/
-#!libgeo-devel/README.md
-
 **/*.log
+
+# Local native development artifacts
+**/geoclient-test
+
