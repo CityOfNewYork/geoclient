@@ -104,7 +104,7 @@ public abstract class AbstractSpecTest
 				String actualValue = actualToken.getValue();
 				List<String> expectedForDiff = Arrays.asList(expectedValue);
 				List<String> actualForDiff = Arrays.asList(actualValue);
-				Patch patch = DiffUtils.diff(expectedForDiff, actualForDiff);
+				Patch<String> patch = DiffUtils.diff(expectedForDiff, actualForDiff);
 				logger.debug("Patch:{}",patch.toString());
 				logger.debug("Deltas:{}",patch.getDeltas());
 				assertEquals(String.format("%s found incorrect token value:",messageStart), expectedValue, actualValue);
