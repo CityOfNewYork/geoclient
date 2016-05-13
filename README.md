@@ -24,7 +24,7 @@ Department of City Planning. **Geoclient** is maintained by the DoITT/Citywide G
 
 * [BetaNYC](http://betanyc.us/) [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/geoclient-service/doc/presentations/BetaNYC-nyc-doitt-geoclient.pdf)
 * [Code4LibNyc](http://code4lib.org/) [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/geoclient-service/doc/presentations/Code4LibNYC-geoclient-overview.pdf)
-* [GeoNYC](http://www.meetup.com/geonyc)x [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/geoclient-service/doc/presentations/nyc-geoclient-api.pdf)
+* [GeoNYC](http://www.meetup.com/geonyc) [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/geoclient-service/doc/presentations/nyc-geoclient-api.pdf)
 * [DoITT](http://www1.nyc.gov/site/doitt/index.page) [Press Release](http://on.nyc.gov/1ZnZwEX)
 
 ### Installation of the Geoclient Service ###
