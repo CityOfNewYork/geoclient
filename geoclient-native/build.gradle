@@ -50,10 +50,11 @@ model {
   binaries { modelMap ->
     withType(NativeLibraryBinarySpec) {
       if (toolChain in Gcc) {
-        cCompiler.args "-fPIC", "-o0", "-g3", "-Wall", "-std=c99"
         if (targetPlatform.operatingSystem.windows) {
+          cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
           linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         } else {
+          cCompiler.args "-fPIC", "-o0", "-g3", "-Wall", "-std=c99"
           linker.args "-L${gsLibraryPath}", "-lc", "-lm", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         }
       }
