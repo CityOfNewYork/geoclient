@@ -8,7 +8,7 @@ import com.jogamp.common.nio.Buffers;
 import java.nio.*;
 
 public class GeoclientImpl implements Geoclient{
-  /** Interface to C language function: <br> <code>void callgeo(char *  wa1, char *  wa2)</code><br>
+  /** Interface to C language function: <br> <code> void callgeo(char *  wa1, char *  wa2) </code> 
       @param wa1 a direct or array-backed {@link java.nio.ByteBuffer}
       @param wa2 a direct or array-backed {@link java.nio.ByteBuffer}   */
   public void callgeo(ByteBuffer wa1, ByteBuffer wa2)  {
@@ -18,12 +18,12 @@ public class GeoclientImpl implements Geoclient{
         callgeo1(wa1_is_direct ? wa1 : Buffers.getArray(wa1), wa1_is_direct ? Buffers.getDirectBufferByteOffset(wa1) : Buffers.getIndirectBufferByteOffset(wa1), wa1_is_direct, wa2_is_direct ? wa2 : Buffers.getArray(wa2), wa2_is_direct ? Buffers.getDirectBufferByteOffset(wa2) : Buffers.getIndirectBufferByteOffset(wa2), wa2_is_direct);
   }
 
-  /** Entry point to C language function: <code>void callgeo(char *  wa1, char *  wa2)</code><br>
+  /** Entry point to C language function: <code> void callgeo(char *  wa1, char *  wa2) </code> 
       @param wa1 a direct or array-backed {@link java.nio.ByteBuffer}
       @param wa2 a direct or array-backed {@link java.nio.ByteBuffer}   */
   private native void callgeo1(Object wa1, int wa1_byte_offset, boolean wa1_is_direct, Object wa2, int wa2_byte_offset, boolean wa2_is_direct);
 
-  /** Interface to C language function: <br> <code>void callgeo(char *  wa1, char *  wa2)</code><br>   */
+  /** Interface to C language function: <br> <code> void callgeo(char *  wa1, char *  wa2) </code>    */
   public void callgeo(byte[] wa1, int wa1_offset, byte[] wa2, int wa2_offset)  {
 
     if(wa1 != null && wa1.length <= wa1_offset)

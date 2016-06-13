@@ -4,7 +4,7 @@ ext {
   // https://jogamp.org/bugzilla/show_bug.cgi?id=1166 which claims the issue
   // is fixed. Given that GLuegen only officially supports jdk1.6 it probably
   // is on that version of the JVM. 
-  gluegenVersion            = "2.3.2"
+  gluegenVersion            = "2.2.4"
   antlrVersion              = "2.7.7"
   // Testing
   hamcrestVersion           = "1.3"
