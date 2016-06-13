@@ -70,7 +70,6 @@ configure(javaPluginProjects) { p ->
     test {
       // Variables set in gradle/env.gradle
       environment "GEOFILES", gsGeofiles
-      environment "LD_LIBRARY_PATH", testJavaLibraryPath
       systemProperty "java.library.path", testJavaLibraryPath
     }
   }
@@ -98,8 +97,8 @@ configure(javaPluginProjects) { p ->
   }
 
   compileTestJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
   }
 
   dependencies {
@@ -206,4 +205,3 @@ task regenerate {
   description 'Delete and re-create all generated source code'
 }
 regenerate.dependsOn ':deleteGeneratedSource', ':geoclient-generate:build', ':geoclient-native:build'
-  
