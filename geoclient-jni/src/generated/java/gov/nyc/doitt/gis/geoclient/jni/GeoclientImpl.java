@@ -8,29 +8,29 @@ import com.jogamp.common.nio.Buffers;
 import java.nio.*;
 
 public class GeoclientImpl implements Geoclient{
-  /** Interface to C language function: <br> <code> void callgeo(char *  wa1, char *  wa2) </code> 
-      @param wa1 a direct or array-backed {@link java.nio.ByteBuffer}
-      @param wa2 a direct or array-backed {@link java.nio.ByteBuffer}   */
-  public void callgeo(ByteBuffer wa1, ByteBuffer wa2)  {
+  /** Interface to C language function: <br> <code> void callgeo(char *  work_area1, char *  work_area2) </code> 
+      @param work_area1 a direct or array-backed {@link java.nio.ByteBuffer}
+      @param work_area2 a direct or array-backed {@link java.nio.ByteBuffer}   */
+  public void callgeo(ByteBuffer work_area1, ByteBuffer work_area2)  {
 
-    final boolean wa1_is_direct = Buffers.isDirect(wa1);
-    final boolean wa2_is_direct = Buffers.isDirect(wa2);
-        callgeo1(wa1_is_direct ? wa1 : Buffers.getArray(wa1), wa1_is_direct ? Buffers.getDirectBufferByteOffset(wa1) : Buffers.getIndirectBufferByteOffset(wa1), wa1_is_direct, wa2_is_direct ? wa2 : Buffers.getArray(wa2), wa2_is_direct ? Buffers.getDirectBufferByteOffset(wa2) : Buffers.getIndirectBufferByteOffset(wa2), wa2_is_direct);
+    final boolean work_area1_is_direct = Buffers.isDirect(work_area1);
+    final boolean work_area2_is_direct = Buffers.isDirect(work_area2);
+        callgeo1(work_area1_is_direct ? work_area1 : Buffers.getArray(work_area1), work_area1_is_direct ? Buffers.getDirectBufferByteOffset(work_area1) : Buffers.getIndirectBufferByteOffset(work_area1), work_area1_is_direct, work_area2_is_direct ? work_area2 : Buffers.getArray(work_area2), work_area2_is_direct ? Buffers.getDirectBufferByteOffset(work_area2) : Buffers.getIndirectBufferByteOffset(work_area2), work_area2_is_direct);
   }
 
-  /** Entry point to C language function: <code> void callgeo(char *  wa1, char *  wa2) </code> 
-      @param wa1 a direct or array-backed {@link java.nio.ByteBuffer}
-      @param wa2 a direct or array-backed {@link java.nio.ByteBuffer}   */
-  private native void callgeo1(Object wa1, int wa1_byte_offset, boolean wa1_is_direct, Object wa2, int wa2_byte_offset, boolean wa2_is_direct);
+  /** Entry point to C language function: <code> void callgeo(char *  work_area1, char *  work_area2) </code> 
+      @param work_area1 a direct or array-backed {@link java.nio.ByteBuffer}
+      @param work_area2 a direct or array-backed {@link java.nio.ByteBuffer}   */
+  private native void callgeo1(Object work_area1, int work_area1_byte_offset, boolean work_area1_is_direct, Object work_area2, int work_area2_byte_offset, boolean work_area2_is_direct);
 
-  /** Interface to C language function: <br> <code> void callgeo(char *  wa1, char *  wa2) </code>    */
-  public void callgeo(byte[] wa1, int wa1_offset, byte[] wa2, int wa2_offset)  {
+  /** Interface to C language function: <br> <code> void callgeo(char *  work_area1, char *  work_area2) </code>    */
+  public void callgeo(byte[] work_area1, int work_area1_offset, byte[] work_area2, int work_area2_offset)  {
 
-    if(wa1 != null && wa1.length <= wa1_offset)
-      throw new RuntimeException("array offset argument \"wa1_offset\" (" + wa1_offset + ") equals or exceeds array length (" + wa1.length + ")");
-    if(wa2 != null && wa2.length <= wa2_offset)
-      throw new RuntimeException("array offset argument \"wa2_offset\" (" + wa2_offset + ") equals or exceeds array length (" + wa2.length + ")");
-        callgeo1(wa1, wa1_offset, false, wa2, wa2_offset, false);
+    if(work_area1 != null && work_area1.length <= work_area1_offset)
+      throw new RuntimeException("array offset argument \"work_area1_offset\" (" + work_area1_offset + ") equals or exceeds array length (" + work_area1.length + ")");
+    if(work_area2 != null && work_area2.length <= work_area2_offset)
+      throw new RuntimeException("array offset argument \"work_area2_offset\" (" + work_area2_offset + ") equals or exceeds array length (" + work_area2.length + ")");
+        callgeo1(work_area1, work_area1_offset, false, work_area2, work_area2_offset, false);
   }
 
 

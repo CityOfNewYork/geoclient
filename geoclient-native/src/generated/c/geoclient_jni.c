@@ -12,22 +12,22 @@ static jobject JVMUtil_NewDirectByteBufferCopy(JNIEnv *env, void * source_addres
 
 /*   Java->C glue code:
  *   Java package: gov.nyc.doitt.gis.geoclient.jni.GeoclientImpl
- *    Java method: void callgeo(java.nio.ByteBuffer wa1, java.nio.ByteBuffer wa2)
- *     C function: void callgeo(char *  wa1, char *  wa2)
+ *    Java method: void callgeo(java.nio.ByteBuffer work_area1, java.nio.ByteBuffer work_area2)
+ *     C function: void callgeo(char *  work_area1, char *  work_area2)
  */
 JNIEXPORT void JNICALL 
-Java_gov_nyc_doitt_gis_geoclient_jni_GeoclientImpl_callgeo1__Ljava_lang_Object_2IZLjava_lang_Object_2IZ(JNIEnv *env, jobject _unused, jobject wa1, jint wa1_byte_offset, jboolean wa1_is_nio, jobject wa2, jint wa2_byte_offset, jboolean wa2_is_nio) {
-  char * _wa1_ptr = NULL;
-  char * _wa2_ptr = NULL;
-  if ( NULL != wa1 ) {
-    _wa1_ptr = (char *) ( JNI_TRUE == wa1_is_nio ?  (*env)->GetDirectBufferAddress(env, wa1) :  (*env)->GetPrimitiveArrayCritical(env, wa1, NULL) );  }
-  if ( NULL != wa2 ) {
-    _wa2_ptr = (char *) ( JNI_TRUE == wa2_is_nio ?  (*env)->GetDirectBufferAddress(env, wa2) :  (*env)->GetPrimitiveArrayCritical(env, wa2, NULL) );  }
-  callgeo((char *) (((char *) _wa1_ptr) + wa1_byte_offset), (char *) (((char *) _wa2_ptr) + wa2_byte_offset));
-  if ( JNI_FALSE == wa1_is_nio && NULL != wa1 ) {
-    (*env)->ReleasePrimitiveArrayCritical(env, wa1, _wa1_ptr, 0);  }
-  if ( JNI_FALSE == wa2_is_nio && NULL != wa2 ) {
-    (*env)->ReleasePrimitiveArrayCritical(env, wa2, _wa2_ptr, 0);  }
+Java_gov_nyc_doitt_gis_geoclient_jni_GeoclientImpl_callgeo1__Ljava_lang_Object_2IZLjava_lang_Object_2IZ(JNIEnv *env, jobject _unused, jobject work_area1, jint work_area1_byte_offset, jboolean work_area1_is_nio, jobject work_area2, jint work_area2_byte_offset, jboolean work_area2_is_nio) {
+  char * _work_area1_ptr = NULL;
+  char * _work_area2_ptr = NULL;
+  if ( NULL != work_area1 ) {
+    _work_area1_ptr = (char *) ( JNI_TRUE == work_area1_is_nio ?  (*env)->GetDirectBufferAddress(env, work_area1) :  (*env)->GetPrimitiveArrayCritical(env, work_area1, NULL) );  }
+  if ( NULL != work_area2 ) {
+    _work_area2_ptr = (char *) ( JNI_TRUE == work_area2_is_nio ?  (*env)->GetDirectBufferAddress(env, work_area2) :  (*env)->GetPrimitiveArrayCritical(env, work_area2, NULL) );  }
+  callgeo((char *) (((char *) _work_area1_ptr) + work_area1_byte_offset), (char *) (((char *) _work_area2_ptr) + work_area2_byte_offset));
+  if ( JNI_FALSE == work_area1_is_nio && NULL != work_area1 ) {
+    (*env)->ReleasePrimitiveArrayCritical(env, work_area1, _work_area1_ptr, 0);  }
+  if ( JNI_FALSE == work_area2_is_nio && NULL != work_area2 ) {
+    (*env)->ReleasePrimitiveArrayCritical(env, work_area2, _work_area2_ptr, 0);  }
 }
 
 

@@ -129,8 +129,8 @@ model {
           // the include path, Gluegen bails despite gluegen.cfg directives to
           // explicitly ignore libgeo API functions
           lib library: 'geosupport', linkage: 'api' // still needed by gluegen?
-          lib library: 'geoclient', linkage: 'static'
           lib library: 'jni_jdk', linkage: 'api'
+          lib library: 'geoclient', linkage: 'static'
         }
       } // sources
     } // geoclient_jni

@@ -1,5 +1,4 @@
 #include "geoclient.h"
-//#include "geo.h"
 
 /*
  * Simple proxy for platform-dependent Geosupport function call

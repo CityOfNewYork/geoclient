@@ -3,21 +3,17 @@
 
 // The Geosupport C API uses platform-dependent function names:
 #ifdef _WIN32
-//   Windows:   NYCgeo(...)
-#include "NYCgeo.h"
-#define GEOSUPPORT_FUNC(work_area1, work_area2) NYCgeo(work_area1, work_area2);
-#ifdef DLL_EXPORT
-# define GEOCLIENT_API __declspec(dllexport)
+  #include "NYCgeo.h"
+  #define GEOSUPPORT_FUNC(work_area1, work_area2) NYCgeo(work_area1, work_area2);
+  #ifdef DLL_EXPORT
+    # define GEOCLIENT_API __declspec(dllexport)
+  #else
+    # define GEOCLIENT_API __declspec(dllimport)
+  #endif
 #else
-# define GEOCLIENT_API
-#endif
-
-#else
-//     Linux:   geo(...)
-#include "geo.h"
-#define GEOSUPPORT_FUNC(work_area1, work_area2) geo(work_area1, work_area2);
-#define GEOCLIENT_API
-
+  #include "geo.h"
+  #define GEOSUPPORT_FUNC(work_area1, work_area2) geo(work_area1, work_area2);
+  #define GEOCLIENT_API
 #endif
 
 // The following ifdef block is the standard way of creating macros which make exporting
@@ -35,7 +31,9 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-GEOCLIENT_API void callgeo(char *wa1, char *wa2);
+
+GEOCLIENT_API void callgeo(char *work_area1, char *work_area2);
+
 #ifdef __cplusplus
 }
 #endif
