@@ -26,7 +26,7 @@ model {
             // (This does not apply to Cygwin or MinGW)
             sharedLibraryFile = file("${gsLibraryPath}/NYCgeo.dll")
             sharedLibraryLinkFile = file("${gsLibraryPath}/NYCgeo.lib")
-          } else {
+          } else if (targetPlatform.operatingSystem.linux) {
             sharedLibraryFile = file("${gsLibraryPath}/libgeo.so")
           }
         }
@@ -36,10 +36,11 @@ model {
         binaries.withType(NativeBinary) {
           if (targetPlatform.operatingSystem.windows) {
             headers.srcDirs "${jniJavaHome}/include", "${jniJavaHome}/include/win32"
-            binaries.withType(StaticLibraryBinary) {
-              staticLibraryFile = file("${jniJavaHome}/lib/jvm.lib")
-            }
-          } else {
+            //sharedLibraryLinkFile = file("${jniJavaHome}/lib/jvm.lib")
+            //binaries.withType(StaticLibraryBinary) {
+            //  staticLibraryFile = file("${jniJavaHome}/lib/jvm.lib")
+            //}
+          } else if (targetPlatform.operatingSystem.linux) {
             headers.srcDirs "${jniJavaHome}/include", "${jniJavaHome}/include/linux"
           }
         }
@@ -50,11 +51,12 @@ model {
   binaries { modelMap ->
     withType(NativeLibraryBinarySpec) {
       if (toolChain in Gcc) {
+        cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
         if (targetPlatform.operatingSystem.windows) {
-          cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
+          cCompiler.define "DLL_EXPORT"
           linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
-        } else {
-          cCompiler.args "-fPIC", "-o0", "-g3", "-Wall", "-std=c99"
+        } else if (targetPlatform.operatingSystem.linux) {
+          cCompiler.args "-fPIC"
           linker.args "-L${gsLibraryPath}", "-lc", "-lm", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         }
       }
@@ -63,8 +65,11 @@ model {
       if (toolChain in Gcc) {
         cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
         if (targetPlatform.operatingSystem.windows) {
-          linker.args "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
-        } else {
+          //cCompiler.define "DLL_EXPORT"
+          //linker.args "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+          cCompiler.define "DLL_IMPORT"
+          linker.args "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+        } else if (targetPlatform.operatingSystem.linux) {
           linker.args "-L${gsLibraryPath}", "-lc", "-lm", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         }
       }
@@ -140,9 +145,14 @@ model {
     syncLocalNativeLibs(Sync) {
       description 'Sync native binaries to $localLibsDir for use by JNI integration tests.'
       def bins = $.binaries.withType(NativeLibraryBinarySpec).findAll { it.buildable }
+      bins << $.binaries.withType(NativeExecutableBinarySpec).findAll { it.buildable }
       from bins.collect { it.primaryOutput }
       destinationDir = file(rootProject.localLibsDir)
     }
     build.finalizedBy(syncLocalNativeLibs)
+    buildableNatives(Task) {
+      dependsOn $.binaries.findAll { it.buildable }
+    }
+    buildableNatives.finalizedBy(syncLocalNativeLibs)
   } // tasks 
 } // model

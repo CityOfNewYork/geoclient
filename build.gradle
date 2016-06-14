@@ -18,7 +18,7 @@ apply from: "${gradleScriptDir}/env.gradle"
 allprojects {
   group = rootProject.group
   version = rootProject.version
-  
+
   repositories {
     jcenter()
   }
@@ -28,7 +28,7 @@ allprojects {
   apply from: "${gradleScriptDir}/ide.gradle"
   apply plugin: 'maven-publish'
   apply plugin: "com.github.ben-manes.versions"
-  
+
   ext.javadocLinks = [
           "http://docs.oracle.com/javase/8/docs/api/",
           "http://docs.oracle.com/javaee/7/api/"
@@ -84,14 +84,14 @@ configure(javaPluginProjects) { p ->
       "-Xlint:overrides", "-Xlint:path", "-Xlint:-processing", "-Xlint:static",
       "-Xlint:try", "-Xlint:fallthrough", "-Xlint:rawtypes", "-Xlint:deprecation",
       "-Xlint:unchecked", "-Xlint:-options"]
-  
+
   compileTestJava.options*.compilerArgs = [
       "-Xlint:serial", "-Xlint:-varargs", "-Xlint:cast", "-Xlint:classfile",
       "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
       "-Xlint:overrides", "-Xlint:path", "-Xlint:-processing", "-Xlint:static",
       "-Xlint:try", "-Xlint:-fallthrough", "-Xlint:-rawtypes", "-Xlint:-deprecation",
       "-Xlint:-unchecked", "-Xlint:-options"]
-  
+
   compileJava {
     sourceCompatibility = 1.7
     targetCompatibility = 1.7
@@ -205,4 +205,4 @@ task regenerate {
   group 'Build'
   description 'Delete and re-create all generated source code'
 }
-regenerate.dependsOn ':deleteGeneratedSource', ':geoclient-generate:build', ':geoclient-native:build'
+regenerate.dependsOn ':deleteGeneratedSource', ':geoclient-generate:build', ':geoclient-native:buildableNatives'

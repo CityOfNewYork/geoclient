@@ -57,9 +57,9 @@ sourceSets {
     }
 }
 
-test {
-  testLogging.showStandardStreams = true
-}
+//test {
+//  testLogging.showStandardStreams = true
+//}
 
 // FIXME Required to avoid encoding error on Windows when platform default:
 // Cp1252 is used to read the embedded EPSG file database.
