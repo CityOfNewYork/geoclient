@@ -21,11 +21,13 @@ allprojects {
 
   repositories {
     jcenter()
+    mavenCentral()
   }
 
   apply from: "${gradleScriptDir}/dependencies.gradle"
   apply from: "${gradleScriptDir}/license.gradle"
   apply from: "${gradleScriptDir}/ide.gradle"
+  apply from: "${gradleScriptDir}/utils.gradle"
   apply plugin: 'maven-publish'
   apply plugin: "com.github.ben-manes.versions"
 
