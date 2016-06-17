@@ -1,11 +1,14 @@
-repositories { maven { url "http://download.osgeo.org/webdav/geotools/" } }
-
 apply plugin: 'war'
 apply plugin: 'jetty'
 
 httpPort = 6060
 stopPort = 6061
-stopKey = 'stop!'
+stopKey = 'stop'
+
+repositories {
+  maven { url "http://download.osgeo.org/webdav/geotools/" }
+  maven { url "https://repo.boundlessgeo.com/main/" }
+}
 
 dependencies {
     compile project(":geoclient-jni")
@@ -25,6 +28,10 @@ dependencies {
     compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
     compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     compile("com.intera.util:spring-jsonp-support:$springJsonpSupportVersion") {
+    // The code for spring-jsonp-support is from:
+    //     https://github.com/bhagyas/spring-jsonp-support
+    // TODO Add to build documentation
+    // TODO Replace with native Spring API's
         exclude(module: "servlet-api")
         exclude(module: "log4j")
         exclude(module: "slf4j-log4j12")
