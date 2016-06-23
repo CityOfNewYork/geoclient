@@ -31,3 +31,5 @@
 # Local native development artifacts
 **/geoclient-test
 
+# User-specific stuff
+**/.local
