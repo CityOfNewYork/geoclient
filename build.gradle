@@ -195,7 +195,7 @@ configure(gluegenProjects) {
       exlude(module: "antlr")
     }
   }
-}
+} // gluegenProjects
 
 task deleteGeneratedSource {
   description 'Delete generated source code'
@@ -207,4 +207,4 @@ task regenerate {
   group 'Build'
   description 'Delete and re-create all generated source code'
 }
-regenerate.dependsOn ':deleteGeneratedSource', ':geoclient-generate:build', ':geoclient-native:buildableNatives'
+regenerate.dependsOn ':deleteGeneratedSource', ':geoclient-generate:build', ':geoclient-native:build'

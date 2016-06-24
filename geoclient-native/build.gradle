@@ -22,8 +22,8 @@ model {
         headers.srcDir gsIncludePath
         binaries.withType(SharedLibraryBinary) {
           if (targetPlatform.operatingSystem.windows) {
-            // Visual C++ uses a .dll file with a different .lib file for linking 
-            // (This does not apply to Cygwin or MinGW)
+            // Typically, Visual C++ uses both a .dll and a .lib file for linking.
+            // Does this apply to MSYS2/mingw64, Cygwin or MinGW?
             sharedLibraryFile = file("${gsLibraryPath}/NYCgeo.dll")
             sharedLibraryLinkFile = file("${gsLibraryPath}/NYCgeo.lib")
           } else if (targetPlatform.operatingSystem.linux) {
@@ -33,13 +33,9 @@ model {
       }
 
       jni_jdk {
-        binaries.withType(NativeBinary) {
+        binaries.all {
           if (targetPlatform.operatingSystem.windows) {
             headers.srcDirs "${jniJavaHome}/include", "${jniJavaHome}/include/win32"
-            //sharedLibraryLinkFile = file("${jniJavaHome}/lib/jvm.lib")
-            //binaries.withType(StaticLibraryBinary) {
-            //  staticLibraryFile = file("${jniJavaHome}/lib/jvm.lib")
-            //}
           } else if (targetPlatform.operatingSystem.linux) {
             headers.srcDirs "${jniJavaHome}/include", "${jniJavaHome}/include/linux"
           }
@@ -65,8 +61,6 @@ model {
       if (toolChain in Gcc) {
         cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
         if (targetPlatform.operatingSystem.windows) {
-          //cCompiler.define "DLL_EXPORT"
-          //linker.args "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
           cCompiler.define "DLL_IMPORT"
           linker.args "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         } else if (targetPlatform.operatingSystem.linux) {
@@ -94,8 +88,8 @@ model {
           }
           lib library: 'geosupport', linkage: 'api'
         }
-      }
-    }
+      } // sources
+    } // geoclient
 
     geoclientTest(NativeExecutableSpec) {
       targetPlatform "linux_x64"
@@ -114,8 +108,8 @@ model {
           lib library: 'geosupport', linkage: 'api'
           lib library: 'geoclient', linkage: 'static'
         }
-      }
-    }
+      } // sources
+    } // geoclientTest
 
     geoclientJni(NativeLibrarySpec) {
       targetPlatform "linux_x64"
@@ -134,8 +128,8 @@ model {
           // the include path, Gluegen bails despite gluegen.cfg directives to
           // explicitly ignore libgeo API functions
           lib library: 'geosupport', linkage: 'api' // still needed by gluegen?
-          lib library: 'jni_jdk', linkage: 'api'
-          lib library: 'geoclient', linkage: 'static'
+          lib library: 'jni_jdk',    linkage: 'api'
+          lib library: 'geoclient',  linkage: 'static'
         }
       } // sources
     } // geoclient_jni
@@ -143,16 +137,12 @@ model {
 
   tasks {
     syncLocalNativeLibs(Sync) {
-      description 'Sync native binaries to $localLibsDir for use by JNI integration tests.'
+      description 'Sync native binaries to $localLibsDir for use by integration tests.'
       def bins = $.binaries.withType(NativeLibraryBinarySpec).findAll { it.buildable }
       bins << $.binaries.withType(NativeExecutableBinarySpec).findAll { it.buildable }
       from bins.collect { it.primaryOutput }
       destinationDir = file(rootProject.localLibsDir)
     }
     build.finalizedBy(syncLocalNativeLibs)
-    buildableNatives(Task) {
-      dependsOn $.binaries.findAll { it.buildable }
-    }
-    buildableNatives.finalizedBy(syncLocalNativeLibs)
   } // tasks 
 } // model
