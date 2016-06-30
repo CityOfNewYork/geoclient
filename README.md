@@ -16,9 +16,19 @@ Department of City Planning. **Geoclient** is maintained by the DoITT/Citywide G
 * A new approach to generated documentation for Geoclient v2.0 is under active development. The most comprehensive project documentation is available for the currently deployed [Geoclient API v1](https://api.cityofnewyork.us/geoclient/v1/doc).
 
 
-**NOTE:** Before you read more about Geoclient, it is important to be aware of the difference between Geo*client* (this project) and Geo*support*. Geoclient is basically just a proxy API for accessing the Geosupport application which is the actual Geocoder and data repository. The former is like a JDBC/ODBC/DBI/etc. driver, whereas the latter is the database itself (*with application logic*, in this case).
+>**NOTE:** Before you read more about Geoclient, it is important to be aware of the difference between Geo*client* (this project) and Geo*support*. Geoclient is basically just a proxy API for accessing the Geosupport application which is the actual Geocoder and data repository. The former is like a JDBC/ODBC/DBI/etc. driver, whereas the latter is the database itself (*with application logic*, in this case).
 
-**CAUTION:** In the next few days, as the Geoclient v1.0 codebase is re-organized for v2.0, this repository may potentially undergo some Git branch and rebasing changes that can orphan your fork. This is a temporary situation that will result in a more stable and usable project.
+
+### News ###
+
+_2016/06/29_
+
+The `master` branch has been updated with some important build fixes.
+
+> **CAUTION:**
+>
+> The Geoclient v1.0 codebase is being actively re-organized for v2.0. Please consider the `dev` branch as __unstable and subject to rebase__.
+> For now, think about this ancient saying before relying on `dev` downstream: _"Fork not lest ye be vexed!"_. (yes, we are naughty)
 
 ### Documentation ###
 
