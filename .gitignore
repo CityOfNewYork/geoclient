@@ -29,7 +29,7 @@
 **/*.log
 
 # Local native development artifacts
-**/geoclient-test
+#**/geoclient-test
 
 # User-specific stuff
 **/.local
