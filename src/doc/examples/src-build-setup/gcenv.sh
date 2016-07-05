@@ -1,35 +1,84 @@
 #!/usr/bin/bash
 
-VTYPE_DIR="dir"
-VTYPE_PTH="path"
-VTYPE_STAT_BAD="MISSING"
-VTYPE_STAT_OK="OK"
-VTYPE_STAT_UNSET=""
+vtype_dir="dir"
+vtype_pth="path"
+vtype_stat_bad="MISSING"
+vtype_stat_ok="OK"
+vtype_stat_unset=""
 
-# See http://stackoverflow.com/questions/59895/can-a-bash-script-tell-what-directory-its-stored-in
-unset CDPATH
-scriptdir="${BASH_SOURCE[0]}"
+# NOTE: This requires GNU getopt.  On Mac OS X and FreeBSD, you have to install this
+# yourself as it is not included by default.
+TEMP=`getopt -o hp:b:j: --long help,projectdir,gsbase,jdk -n "$(basename ${BASH_SOURCE[0]})" -- "$@"`
 
-while [ -h "$scriptdir" ]; do # resolve $scriptdir until the file is no longer a symlink
-  dir="$( cd -P "$( dirname "$scriptdir" )" && pwd )"
-  scriptdir="$(readlink "$scriptdir")"
-  [[ $scriptdir != /* ]] && scriptdir="$dir/$scriptdir" # if $scriptdir was a relative symlink, we need to resolve it relative to the path where the symlink file was located
+if [ $? != 0 ] ; then echo "getopt error $?. Terminating..." >&2 ; exit 1 ; fi
+
+# Note the quotes around `$TEMP': they are essential!
+eval set -- "$TEMP"
+
+# Argument variables
+gc_project="$(dirname "${BASH_SOURCE[0]}")/../../../../."
+gs_base="${GS_LIBRARY_PATH}/../."
+jdk_home="${JAVA_HOME}"
+showhelp=
+
+usage() {
+  this_file="$0"
+  read -r -d '' USAGE <<EOF
+
+Usage:
+    $this_file [OPTIONS]
+      OR
+    $this_file
+
+    OPTIONS:
+    -p,--projectdir <dir>  The geoclient source root project directory.
+                           If not given, defaults to:
+                           "\$(dirname "\${BASH_SOURCE[0]}")/../../../../."
+
+    -b,--gsbase <dir>      The base Geosupport installation directory which
+                           has the fls, include/foruser, lib sub-directories.
+                           Defaults to the value of "\$GS_LIBRARY_PATH/.." if
+                           not given.
+    -j,--jdk <dir>         The JDK installation directory.
+                           Defaults to the value of "\$JAVA_HOME" if
+                           not given.
+    -h,--help              Show this message
+
+EOF
+  echo
+  echo "$USAGE" 1>&2;
+  echo
+  exit $1;
+}
+
+while true; do
+  case "$1" in
+    -p | --projectdir ) gc_project="$2"; shift 2 ;;
+    -b | --gbase ) gs_base="$2"; shift 2 ;;
+    -j | --jdk ) jdk_home="$2"; shift 2 ;;
+    -h | --help ) showhelp="true"; shift ;;
+    -- ) shift; break ;;
+    * ) break ;;
+  esac
 done
 
-dir="$( cd -P "$( dirname "$scriptdir" )" && pwd )"
-gc_project="$( dirname "$dir"/.. )"                 # Symlinks resolved when setting 'dir' so this is safe
-gs_base="/opt/geosupport/server/current"            # Assumes single parent directory for all Geosupport files
+function verify() {
+  [[ -d $gc_project ]] || exit 1
+  [[ -d $gs_base ]] || exit 1
+  [[ -d $jdk_home ]] || exit 1
+}
 
-GEOFILES="$gs_base/fls/"                            # Trailing '/' required!
+GEOFILES="$gs_base/fls/"
 GS_INCLUDE_PATH="$gs_base/include/foruser"
 GS_LIBRARY_PATH="$gs_base/lib"
 
 GC_LIBRARY_PATH="$gc_project/build/libs"
 
-JAVA_HOME="/opt/java/sun/jdk1.8.0_66"
+JAVA_HOME="$jdk_home"
 LD_LIBRARY_PATH="$GS_LIBRARY_PATH:$GC_LIBRARY_PATH" # WARNING: Overwrites existing LD_LIBRARY_PATH
 
 function gcexport () {
+  verify
   export GEOFILES
   export GS_INCLUDE_PATH
   export GS_LIBRARY_PATH
@@ -45,11 +94,6 @@ function gcexport () {
 #
 function showv () {
 
-  #
-  # The 'clrcode' variable holds an indirect reference to the terminal
-  # escape sequence for messing with colors. For more about indrect references 
-  # see http://www.tldp.org/LDP/abs/html/complexfunct.html
-  #
   local green="\e[1;92m"
   local red="\e[1;31m"
   local reset="\e[0m"
@@ -57,19 +101,19 @@ function showv () {
   local vname="$1"
   local value="$2"
   local vtype="$3"
-  local status=$VTYPE_STAT_UNSET
+  local status=$vtype_stat_unset
 
-  if [[ -n $vtype && $VTYPE_PTH = $vtype ]]; then 
+  if [[ -n $vtype && $vtype_pth = $vtype ]]; then
 
     IFS=':' read -a paths <<< "${value}"
 
     let i=0
     for pathentry in "${paths[@]}"; do
       if [[ -d $pathentry || -f $pathentry ]]; then
-        status=$VTYPE_STAT_OK
+        status=$vtype_stat_ok
         clrcode=green
       else
-        status=$VTYPE_STAT_BAD
+        status=$vtype_stat_bad
         clrcode=red
       fi
 
@@ -78,19 +122,19 @@ function showv () {
       else
         printf '%16s   %-52s[%-8s]\n' " "      "$pathentry" "$(echo -en "${!clrcode}$status$reset")"
       fi
-      status=$VTYPE_STAT_UNSET
+      status=$vtype_stat_unset
       let i=(i + 1)
     done
 
     #printf '\n'
 
-  elif [[ -n $vtype && $VTYPE_DIR = $vtype ]]; then
+  elif [[ -n $vtype && $vtype_dir = $vtype ]]; then
 
     if [[ -d $value || -f $value ]]; then
-      status=$VTYPE_STAT_OK
+      status=$vtype_stat_ok
       clrcode=green
     else
-      status=$VTYPE_STAT_BAD
+      status=$vtype_stat_bad
       clrcode=red
     fi
 
@@ -106,13 +150,13 @@ function showv () {
 printf '\n'
 printf '%1s%-70s\n'    " " "Geoclient Environment on host $(uname -n): $(uname -op)"
 printf '%1s%-70s\n\n'  " " "-----------------------------------------------------------------------------"
-showv "GS_INCLUDE_PATH" "$GS_INCLUDE_PATH" "$VTYPE_PTH"
-showv "GS_LIBRARY_PATH" "$GS_LIBRARY_PATH" "$VTYPE_PTH"
-showv        "GEOFILES" "$GEOFILES"        "$VTYPE_DIR"
+showv "GS_INCLUDE_PATH" "$GS_INCLUDE_PATH" "$vtype_pth"
+showv "GS_LIBRARY_PATH" "$GS_LIBRARY_PATH" "$vtype_pth"
+showv        "GEOFILES" "$GEOFILES"        "$vtype_dir"
 printf '\n'
-showv "GC_LIBRARY_PATH" "$GC_LIBRARY_PATH" "$VTYPE_PTH"
+showv "GC_LIBRARY_PATH" "$GC_LIBRARY_PATH" "$vtype_pth"
 printf '\n'
-showv "LD_LIBRARY_PATH" "$LD_LIBRARY_PATH" "$VTYPE_PTH"
-showv     "GRADLE_HOME" "$GRADLE_HOME"     "$VTYPE_DIR"
-showv       "JAVA_HOME" "$JAVA_HOME"       "$VTYPE_DIR"
+showv "LD_LIBRARY_PATH" "$LD_LIBRARY_PATH" "$vtype_pth"
+showv     "GRADLE_HOME" "$GRADLE_HOME"     "$vtype_dir"
+showv       "JAVA_HOME" "$JAVA_HOME"       "$vtype_dir"
 printf '\n'
