@@ -1,0 +1,77 @@
+apply plugin: "maven-publish"
+
+ext.uploadReleaseUrl = findProperty('nexus-upload-releases') ?: null
+ext.uploadSnapshotUrl = findProperty('nexus-upload-snapshots') ?: null
+publishing {
+  repositories {
+    maven {
+      name 'mavenJava'
+      url "${rootProject.buildDir}/repo"
+    }
+    if(uploadReleaseUrl) {
+      maven {
+        name "uploadReleaseRepo"
+        url "$uploadReleaseUrl"
+        credentials {
+          username "${rootProject.nexusUsername}"
+          password "${rootProject.nexusPassword}"
+        }
+      }
+    }
+    if(uploadSnapshotUrl) {
+      maven {
+        name "uploadSnapshotRepo"
+        url "$uploadSnapshotUrl"
+        credentials {
+          username "${rootProject.nexusUsername}"
+          password "${rootProject.nexusPassword}"
+        }
+      }
+    }
+  }
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+      artifact sourcesJar
+      artifact javadocJar
+      customizePom(pom, project)
+    }
+  } // publications
+} // publishing
+
+def customizePom(pom, project) {
+  pom.withXml {
+      def root = asNode()
+      root.appendNode('name', "$project.name")
+      root.appendNode('description', "$project.description")
+      root.appendNode('url', 'https://github.com/CityOfNewYork/geoclient')
+      root.appendNode('inceptionYear', '2013')
+
+      def scm = root.appendNode('scm')
+      scm.appendNode('url', 'https://github.com/CityOfNewYork/geoclient')
+      scm.appendNode('connection', 'scm:https://git@github.com/CityOfNewYork/geoclient.git')
+      scm.appendNode('developerConnection', 'scm:git://github.com/CityOfNewYork/geoclient.git')
+
+      def license = root.appendNode('licenses').appendNode('license')
+      license.appendNode('name', 'The Apache Software License, Version 2.0')
+      license.appendNode('url', 'http://www.apache.org/licenses/LICENSE-2.0.txt')
+      license.appendNode('distribution', 'repo')
+
+      def organization = root.appendNode('organization')
+      organization.appendNode('name', 'City of New York / DoITT / Citywide GIS')
+      organization.appendNode('url', 'https://maps.nyc.gov')
+
+      def developers = root.appendNode('developers')
+      def mlipper = developers.appendNode('developer')
+      mlipper.appendNode('id', 'mlipper')
+      mlipper.appendNode('name', 'Matthew Lipper')
+      mlipper.appendNode('email', 'mlipper@doitt.nyc.gov')
+
+      def issueManagement = root.appendNode('issueManagement')
+      issueManagement.appendNode('system', 'GitHub')
+      issueManagement.appendNode('url', 'https://github.com/CityOfNewYork/geoclient/issues')
+  }
+}
