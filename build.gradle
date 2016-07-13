@@ -41,14 +41,18 @@ allprojects {
 
 } //allprojects
 
+configure(project(':geoclient-generate')) {
+  // TODO geoclient-generate should not require the java plugin. It is only
+  // configured as such because of the short-cuts for Gradle configuration
+  // and file handling that is applied automatically by this plugin.
+  apply plugin: 'java'
+}
+
 def javaPluginProjects = [
-  project(':geoclient-generate'),
   project(':geoclient-jni'),
   project(':geoclient-core'),
   project(':geoclient-parser'),
-  project(':geoclient-service'),
-  //project(':geoclient-test')
-  //project(':geoclient-batch')
+  project(':geoclient-service')
 ] as Set
 
 configure(javaPluginProjects) { p ->
