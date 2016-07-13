@@ -22,21 +22,26 @@ model {
         headers.srcDir gsIncludePath
         binaries.withType(SharedLibraryBinary) {
           if (targetPlatform.operatingSystem.windows) {
+        logger.lifecycle("geosupport ${targetPlatform.operatingSystem.toString()}")
             // Typically, Visual C++ uses both a .dll and a .lib file for linking.
             // Does this apply to MSYS2/mingw64, Cygwin or MinGW?
             sharedLibraryFile = file("${gsLibraryPath}/NYCgeo.dll")
             sharedLibraryLinkFile = file("${gsLibraryPath}/NYCgeo.lib")
           } else if (targetPlatform.operatingSystem.linux) {
+        logger.lifecycle("geosupport ${targetPlatform.operatingSystem.toString()}")
             sharedLibraryFile = file("${gsLibraryPath}/libgeo.so")
           }
         }
       }
 
       jni_jdk {
-        binaries.all {
-          if (targetPlatform.operatingSystem.windows) {
+        binaries.withType(SharedLibraryBinary) {
+          def os = targetPlatform.operatingSystem
+          if (os.windows) {
+logger.lifecycle("jni_jdk ${os}")
             headers.srcDirs "${jniJavaHome}/include", "${jniJavaHome}/include/win32"
-          } else if (targetPlatform.operatingSystem.linux) {
+          } else if (os.linux) {
+logger.lifecycle("jni_jdk: ${os}")
             headers.srcDirs "${jniJavaHome}/include", "${jniJavaHome}/include/linux"
           }
         }
@@ -44,6 +49,9 @@ model {
     }
   } // repositories
 
+} // model
+
+model {
   binaries { modelMap ->
     withType(NativeLibraryBinarySpec) {
       if (toolChain in Gcc) {

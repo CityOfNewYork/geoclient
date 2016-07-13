@@ -42,7 +42,7 @@ allprojects {
 } //allprojects
 
 def javaPluginProjects = [
-  project(':geoclient-generate'),
+  //project(':geoclient-generate'),
   project(':geoclient-jni'),
   project(':geoclient-core'),
   project(':geoclient-parser'),

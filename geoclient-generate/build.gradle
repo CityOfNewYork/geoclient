@@ -1,8 +1,9 @@
 import org.apache.tools.ant.filters.FixCrLfFilter
 import org.apache.tools.ant.filters.ReplaceTokens
 
+apply plugin: 'base'
 // TODO How to reference native subproject file/directory paths using
-// component, sourceSet, etc. reference? 
+// component, sourceSet, etc. reference?
 // TODO Make me a Plugin! (*Poof*! You're a plugin!)
 
 ext {
@@ -11,27 +12,40 @@ ext {
   gluegenImport = 'import com.jogamp'
 }
 
-dependencies {
-  compile(configurations.execGluegen)
-}
+// dependencies {
+//   compile(configurations.execGluegen)
+// }
 
-processResources {
+task processResources (type: Copy) {
   description = 'Prepares the Gluegen config file'
 
+  ext.gluegenTemplateDir = "$projectDir/src/main/resources"
   ext.javaOutputDir   = "$buildDir/generated/java"
   ext.nativeOutputDir = "$buildDir/generated/c"
+  ext.execGluegenResourceClasspath = "$buildDir/resources/main"
 
+  // TODO: Some/all of these may be unnecessary because the Copy task already
+  //       provides inputs and outputs for some of its methods.
+  inputs.dir gluegenTemplateDir
   outputs.dir nativeOutputDir
   outputs.dir javaOutputDir
 
+  from gluegenTemplateDir
+  into execGluegenResourceClasspath
+
   expand(nativeOutputDir: nativeOutputDir, javaOutputDir: javaOutputDir)
   filter(FixCrLfFilter)
+
+  doFirst {
+    mkdir javaOutputDir
+    mkdir nativeOutputDir
+  }
 }
 
 task generateSource (type: JavaExec, dependsOn: processResources) {
   description 'Generates *.java, *.c JNI files using Gluegen'
 
-  ext.gluegenConfigFile = "$buildDir/resources/main/gluegen.cfg"
+  ext.gluegenConfigFile = "${processResources.execGluegenResourceClasspath}/gluegen.cfg"
   ext.geoclientHeader = "${project(':geoclient-native').projectDir}/src/main/headers/geoclient.h"
 
   inputs.file gluegenConfigFile
@@ -39,7 +53,7 @@ task generateSource (type: JavaExec, dependsOn: processResources) {
   outputs.dir processResources.nativeOutputDir
   outputs.dir processResources.javaOutputDir
 
-  classpath = files(configurations.runtime.files)
+  classpath = files(configurations.execGluegen.files)
   main      = 'com.jogamp.gluegen.GlueGen'
   executable = "${jniJavaHome}/bin/java"
   // IMPORTANT: Gluegen's PCPP does not evaluate macros and geoclient.h
@@ -65,7 +79,7 @@ task refreshGeneratedNativeSource(type: Copy, dependsOn: generateSource) {
   from(processResources.nativeOutputDir)
   into(targetNativeSourceDir)
   rename 'GeoclientImpl_JNI.c', 'geoclient_jni.c'
-  
+
   // Filter timestamp
   filter { String line ->
     line.startsWith(generatedComment) ? adjustComment(line) : line
@@ -80,7 +94,7 @@ task refreshGeneratedJavaSource(type: Copy, dependsOn: generateSource) {
   outputs.dir refreshGeneratedNativeSource.targetJavaSourceDir
 
   from(processResources.javaOutputDir)
-  into(refreshGeneratedNativeSource.targetJavaSourceDir)  
+  into(refreshGeneratedNativeSource.targetJavaSourceDir)
   // Comment out unused Java imports and remove timestamp
   eachFile { fileCopyDetails ->
     delegate.filter { String line ->
@@ -101,7 +115,8 @@ task refreshGeneratedSource(dependsOn: ['refreshGeneratedJavaSource', 'refreshGe
   outputs.files refreshGeneratedJavaSource.outputs.files, refreshGeneratedNativeSource.outputs.files
 }
 
-classes.dependsOn(refreshGeneratedSource)
+
+assemble.dependsOn(refreshGeneratedSource)
 
 task deleteGeneratedSource {
   doLast {
@@ -112,7 +127,7 @@ task deleteGeneratedSource {
 
 clean {
   doLast {
-    logger.debug("Cowardly refusing to delete generated sources. Use 'deleteGeneratedSource' task instead.") 
+    logger.debug("Cowardly refusing to delete generated sources. Use 'deleteGeneratedSource' task instead.")
   }
 }
 
