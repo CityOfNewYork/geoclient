@@ -59,7 +59,7 @@ configure(javaPluginProjects) { p ->
 
   apply plugin: 'java'
 
-  if(p != project(':geoclient-generate') && p != project(':geoclient-jni')) {
+  if(p != project(':geoclient-jni')) {
     test {
       // Variables set in gradle/env.gradle
       systemProperty "java.library.path", testJavaLibraryPath
@@ -95,68 +95,67 @@ configure(javaPluginProjects) { p ->
     targetCompatibility = 1.7
   }
 
-  if(p != project(':geoclient-generate')) {
-    dependencies {
-      testCompile("junit:junit:${junitVersion}") {
-        exclude group:'org.hamcrest', module:'hamcrest-core'
-      }
-      testCompile("org.mockito:mockito-all:${mockitoVersion}") {
-        exclude group:'org.hamcrest', module:'hamcrest-core'
-      }
-      testCompile("org.hamcrest:hamcrest-all:${hamcrestVersion}")
+  dependencies {
+    testCompile("junit:junit:${junitVersion}") {
+      exclude group:'org.hamcrest', module:'hamcrest-core'
+    }
+    testCompile("org.mockito:mockito-all:${mockitoVersion}") {
+      exclude group:'org.hamcrest', module:'hamcrest-core'
+    }
+    testCompile("org.hamcrest:hamcrest-all:${hamcrestVersion}")
+  }
+
+  jar {
+    manifest {
+      attributes(
+        'Implementation-Title': p.name,
+        'Implementation-Version': p.version,
+        'Built-By': System.getProperty('user.name'),
+        'Built-Date': new Date(),
+        'Built-JDK': System.getProperty('java.version'),
+        'Built-Gradle': gradle.gradleVersion
+      )
     }
 
-    jar {
-      manifest {
-        attributes(
-          'Implementation-Title': p.name,
-          'Implementation-Version': p.version,
-          'Built-By': System.getProperty('user.name'),
-          'Built-Date': new Date(),
-          'Built-JDK': System.getProperty('java.version'),
-          'Built-Gradle': gradle.gradleVersion
-        )
-      }
-
-      from("${rootProject.projectDir}/src/dist") {
-        include "LICENSE.txt"
-        include "NOTICE.txt"
-        into "META-INF"
-        expand(copyright: new Date().format("yyyy"), version: p.version)
-      }
+    from("${rootProject.projectDir}/src/dist") {
+      include "LICENSE.txt"
+      include "NOTICE.txt"
+      into "META-INF"
+      expand(copyright: new Date().format("yyyy"), version: p.version)
     }
+  }
 
-    javadoc {
-      description = "Generates javadoc for Java projects for use with -javadoc jar"
+  javadoc {
+    description = "Generates javadoc for Java projects for use with -javadoc jar"
 
-      options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
-      options.author = true
-      options.header = project.name
-      //options.links(javadocLinks)
-      options.quiet()
-      // Suppress cross-module @see and @link reference warnings
-      logging.captureStandardError LogLevel.INFO
-      // suppress "## warnings"
-      logging.captureStandardOutput LogLevel.INFO
-    }
+    options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+    options.author = true
+    options.header = project.name
+    //options.links(javadocLinks)
+    options.quiet()
+    // Suppress cross-module @see and @link reference warnings
+    logging.captureStandardError LogLevel.INFO
+    // suppress "## warnings"
+    logging.captureStandardOutput LogLevel.INFO
+  }
 
-    task sourcesJar(type: Jar, dependsOn: classes) {
-      classifier = 'sources'
-      from sourceSets.main.allSource
-    }
+  task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+  }
 
-    task javadocJar(type: Jar) {
-      classifier = "javadoc"
-      from javadoc
-    }
+  task javadocJar(type: Jar) {
+    classifier = "javadoc"
+    from javadoc
+  }
 
-    artifacts {
-      archives sourcesJar
-      archives javadocJar
-    }
+  artifacts {
+    archives sourcesJar
+    archives javadocJar
+  }
 
-    apply from: "${gradleScriptDir}/publish-maven.gradle"
-  } // javaPluginProjects - geoclient-generate
+  apply from: "${gradleScriptDir}/publish-maven.gradle"
+
 } // javaPluginProjects
 
 def gluegenProjects = [

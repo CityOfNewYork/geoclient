@@ -33,23 +33,42 @@ model {
       }
 
       jni_jdk {
-        binaries.all {
-          if (targetPlatform.operatingSystem.windows) {
-            headers.srcDirs "${jniJavaHome}/include", "${jniJavaHome}/include/win32"
-          } else if (targetPlatform.operatingSystem.linux) {
-            headers.srcDirs "${jniJavaHome}/include", "${jniJavaHome}/include/linux"
+        // The stored reference to the 'headers' object visible in this closure
+        // scope is a workaround to deal with an issue caused by the need for
+        // platform-specific header files in a PrebuildLibrary. The 'headers'
+        // container does not have visibility into whether the current 
+        // targetPlatform is 'buildable'.
+        // This fix works for guessable yet unknown reasons when using
+        // Gradle v2.14, JDK 1.8.0_92-x86_64, MSYS2/mingw64 on Windows 7, but
+        // should be considered suspect.
+        //
+        // See: https://discuss.gradle.org/t/native-prebuilt-library-platform-specific-headers/17418
+        //
+        headers.srcDirs "${jniJavaHome}/include"
+        def headersContainer = headers
+        binaries.withType(SharedLibraryBinary) {
+          def os = targetPlatform.operatingSystem
+          if (os.windows) {
+            headersContainer.srcDirs "${jniJavaHome}/include/win32"
+          } else if (os.linux) {
+            headersContainer.srcDirs "${jniJavaHome}/include/linux"
           }
         }
       }
     }
   } // repositories
 
+} // model
+
+model {
   binaries { modelMap ->
     withType(NativeLibraryBinarySpec) {
       if (toolChain in Gcc) {
         cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
         if (targetPlatform.operatingSystem.windows) {
           cCompiler.define "DLL_EXPORT"
+          //if (buildable) {
+          //}
           linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         } else if (targetPlatform.operatingSystem.linux) {
           cCompiler.args "-fPIC"
@@ -132,6 +151,7 @@ model {
           lib library: 'geoclient',  linkage: 'static'
         }
       } // sources
+
     } // geoclient_jni
   } // components
 
