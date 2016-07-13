@@ -33,8 +33,12 @@ task processResources (type: Copy) {
   from gluegenTemplateDir
   into execGluegenResourceClasspath
 
-  expand(nativeOutputDir: nativeOutputDir, javaOutputDir: javaOutputDir)
+  // Insure encoding
+  filteringCharset = 'UTF-8'
+  // Remove CRLF line terminators
   filter(FixCrLfFilter)
+  // Expand Gluegen config template file with project properties
+  expand(nativeOutputDir: nativeOutputDir, javaOutputDir: javaOutputDir)
 
   doFirst {
     mkdir javaOutputDir
@@ -42,30 +46,56 @@ task processResources (type: Copy) {
   }
 }
 
-task generateSource (type: JavaExec, dependsOn: processResources) {
-  description 'Generates *.java, *.c JNI files using Gluegen'
+task generateSource (type: DefaultTask, dependsOn: processResources) {
+  description 'Generates *.java, *.c JNI files using the Gluegen Ant Task'
 
   ext.gluegenConfigFile = "${processResources.execGluegenResourceClasspath}/gluegen.cfg"
   ext.geoclientHeader = "${project(':geoclient-native').projectDir}/src/main/headers/geoclient.h"
+  ext.classpath = files(configurations.execGluegen.files)
 
   inputs.file gluegenConfigFile
   inputs.file geoclientHeader
   outputs.dir processResources.nativeOutputDir
   outputs.dir processResources.javaOutputDir
+  
+  doLast {
+    ant.references.gluegenPath = ant.path(path: "${configurations.execGluegen.asPath}") 
+    //ant.taskdef(name: 'gluegen', classname: 'com.jogamp.gluegen.ant.GlueGenTask', classpath: "${configurations.execGluegen.asPath}")
+    ant.gluegen(
+                src: "${geoclientHeader}",
+             config: "${gluegenConfigFile}",
+     literalInclude: "${gsIncludePath}",
+            emitter: 'com.jogamp.gluegen.JavaEmitter') {
+        ant.classpath(path: "${configurations.execGluegen.asPath}")
+    }
+  }
 
-  classpath = files(configurations.execGluegen.files)
-  main      = 'com.jogamp.gluegen.GlueGen'
-  executable = "${jniJavaHome}/bin/java"
-  // IMPORTANT: Gluegen's PCPP does not evaluate macros and geoclient.h
-  // uses macros to include either NYCgeo.h or geo.h. If this task complains
-  // complains about missing header files, make sure the platform include
-  // directory contains both
-  args "-I${gsIncludePath}"
-  args '-Ecom.jogamp.gluegen.JavaEmitter'
-  args "-C${gluegenConfigFile}"
-  args "${geoclientHeader}"
-  doFirst { logger.info "** Generating C and Java source files for JNI **" }
 }
+
+// task oldGenerateSource (type: JavaExec, dependsOn: processResources) {
+//   description 'Generates *.java, *.c JNI files using Gluegen'
+// 
+//   ext.gluegenConfigFile = "${processResources.execGluegenResourceClasspath}/gluegen.cfg"
+//   ext.geoclientHeader = "${project(':geoclient-native').projectDir}/src/main/headers/geoclient.h"
+// 
+//   inputs.file gluegenConfigFile
+//   inputs.file geoclientHeader
+//   outputs.dir processResources.nativeOutputDir
+//   outputs.dir processResources.javaOutputDir
+// 
+//   classpath = files(configurations.execGluegen.files)
+//   main      = 'com.jogamp.gluegen.GlueGen'
+//   executable = "${jniJavaHome}/bin/java"
+//   // IMPORTANT: Gluegen's PCPP does not evaluate macros and geoclient.h
+//   // uses macros to include either NYCgeo.h or geo.h. If this task complains
+//   // complains about missing header files, make sure the platform include
+//   // directory contains both
+//   args "-I${gsIncludePath}"
+//   args '-Ecom.jogamp.gluegen.JavaEmitter'
+//   args "-C${gluegenConfigFile}"
+//   args "${geoclientHeader}"
+//   doFirst { logger.info "** Generating C and Java source files for JNI **" }
+// }
 
 task refreshGeneratedNativeSource(type: Copy, dependsOn: generateSource) {
   description = 'Create/overwrite generated C source files in :geoclient-native'
@@ -80,6 +110,10 @@ task refreshGeneratedNativeSource(type: Copy, dependsOn: generateSource) {
   into(targetNativeSourceDir)
   rename 'GeoclientImpl_JNI.c', 'geoclient_jni.c'
 
+  // Insure encoding
+  filteringCharset = 'UTF-8'
+  // Remove CRLF line terminators
+  filter(FixCrLfFilter)
   // Filter timestamp
   filter { String line ->
     line.startsWith(generatedComment) ? adjustComment(line) : line
@@ -95,8 +129,13 @@ task refreshGeneratedJavaSource(type: Copy, dependsOn: generateSource) {
 
   from(processResources.javaOutputDir)
   into(refreshGeneratedNativeSource.targetJavaSourceDir)
-  // Comment out unused Java imports and remove timestamp
+
   eachFile { fileCopyDetails ->
+
+    // Remove CRLF line terminators
+    delegate.filter(FixCrLfFilter)
+
+    // Comment out unused Java imports and remove timestamp
     delegate.filter { String line ->
       if (line.startsWith(generatedComment)) {
         adjustComment(line)
