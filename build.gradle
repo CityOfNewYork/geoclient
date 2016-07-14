@@ -1,16 +1,17 @@
 buildscript {
   repositories {
+    mavenCentral()
     jcenter()
     maven { url "https://plugins.gradle.org/m2/" }
   }
   dependencies {
     //classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.12.1"
+    classpath "org.jogamp.gluegen:gluegen:${gluegenVersion}", "antlr:antlr:${antlrVersion}"
     classpath "com.github.ben-manes:gradle-versions-plugin:0.12.0"
   }
 }
 
 ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
-ext.gluegenClasspath = null
 
 apply plugin: 'base'
 apply from: "${gradleScriptDir}/env.gradle"
@@ -20,8 +21,8 @@ allprojects {
   version = rootProject.version
 
   repositories {
-    jcenter()
     mavenCentral()
+    jcenter()
   }
 
   apply from: "${gradleScriptDir}/dependencies.gradle"
@@ -40,13 +41,6 @@ allprojects {
   }
 
 } //allprojects
-
-configure(project(':geoclient-generate')) {
-  // TODO geoclient-generate should not require the java plugin. It is only
-  // configured as such because of the short-cuts for Gradle configuration
-  // and file handling that is applied automatically by this plugin.
-  apply plugin: 'java'
-}
 
 def javaPluginProjects = [
   project(':geoclient-jni'),
