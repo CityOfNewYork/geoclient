@@ -59,8 +59,8 @@ task generateSource (type: DefaultTask, dependsOn: processResources) {
   outputs.dir processResources.javaOutputDir
   
   doLast {
-    ant.references.gluegenPath = ant.path(path: "${configurations.execGluegen.asPath}") 
-    //ant.taskdef(name: 'gluegen', classname: 'com.jogamp.gluegen.ant.GlueGenTask', classpath: "${configurations.execGluegen.asPath}")
+    //ant.references.gluegenPath = ant.path(path: "${configurations.execGluegen.asPath}") 
+    ant.taskdef(name: 'gluegen', classname: 'com.jogamp.gluegen.ant.GlueGenTask', classpath: "${configurations.execGluegen.asPath}")
     ant.gluegen(
                 src: "${geoclientHeader}",
              config: "${gluegenConfigFile}",
