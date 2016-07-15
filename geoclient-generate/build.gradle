@@ -18,8 +18,10 @@ task prepareConf (type: Copy) {
   from gluegenCfgSourceFile
   into gluegenCfgExecDir
 
+  // NOTE: new in 2.14.
   // Insure encoding
-  filteringCharset = 'UTF-8'
+  // filteringCharset = 'UTF-8'
+
   // Remove CRLF line terminators
   filter(FixCrLfFilter, eol: FixCrLfFilter.CrLf.newInstance('lf'),
                         tab: FixCrLfFilter.AddAsisRemove.newInstance('asis'),
@@ -61,7 +63,7 @@ task generateSource () {
              config: "${gluegenCfgExecDir}/gluegen.cfg",
      literalInclude: "${gsIncludePath}",
             emitter: 'com.jogamp.gluegen.JavaEmitter',
-                debug: true) {
+              debug: false) {
         ant.classpath(path: "${configurations.execGluegen.asPath}")
     }
   }
@@ -79,8 +81,11 @@ task refreshGeneratedNativeSource(type: Copy, dependsOn: generateSource) {
   filter { String line ->
     line.startsWith(generatedComment) ? adjustComment(line) : line
   }
+
+  // NOTE: new in 2.14
   // Insure encoding
-  filteringCharset = 'UTF-8'
+  // filteringCharset = 'UTF-8'
+
   // Remove CRLF line terminators
   filter(FixCrLfFilter, eol: FixCrLfFilter.CrLf.newInstance('lf'),
                         tab: FixCrLfFilter.AddAsisRemove.newInstance('asis'),
@@ -106,8 +111,10 @@ task refreshGeneratedJavaSource(type: Copy, dependsOn: generateSource) {
       }
     }
   }
+
+  // NOTE: new in 2.14
   // Insure encoding
-  filteringCharset = 'UTF-8'
+  // filteringCharset = 'UTF-8'
   // Remove CRLF line terminators
   filter(FixCrLfFilter, eol: FixCrLfFilter.CrLf.newInstance('lf'),
                         tab: FixCrLfFilter.AddAsisRemove.newInstance('asis'),
