@@ -32,9 +32,9 @@ The `master` branch has been updated with some important build fixes.
 
 ### Documentation ###
 
-* [BetaNYC](http://betanyc.us/) [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/geoclient-service/doc/presentations/BetaNYC-nyc-doitt-geoclient.pdf)
-* [Code4LibNyc](http://code4lib.org/) [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/geoclient-service/doc/presentations/Code4LibNYC-geoclient-overview.pdf)
-* [GeoNYC](http://www.meetup.com/geonyc) [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/geoclient-service/doc/presentations/nyc-geoclient-api.pdf)
+* [BetaNYC](http://betanyc.us/) [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/src/doc/presentations/BetaNYC-nyc-doitt-geoclient.pdf)
+* [Code4LibNyc](http://code4lib.org/) [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/src/doc/presentations/Code4LibNYC-geoclient-overview.pdf)
+* [GeoNYC](http://www.meetup.com/geonyc) [presentation](https://github.com/CityOfNewYork/geoclient/blob/master/src/doc/presentations/nyc-geoclient-api.pdf)
 * [DoITT](http://www1.nyc.gov/site/doitt/index.page) [Press Release](http://on.nyc.gov/1ZnZwEX)
 
 ### Installation of the Geoclient Service ###
