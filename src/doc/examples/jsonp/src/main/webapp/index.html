@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8" />
+  <title>JSONP Example</title>
+  <meta name="description" content="Single-page Geoclient JSONP demo" />
+  <script src="https://code.jquery.com/jquery-3.1.0.js" integrity="sha256-slogkvB1K3VOkzAI8QITxV3VzpOnkeNVsKvtkYLMjfk=" crossorigin="anonymous"></script>
+  <script src="js/geocode.js"></script>
+</head>
+<body>
+  <div>
+  <h1>DSNY Pickup Info</h1>
+  <div id="formErrorMessage"></div><br />
+  <form id="addressform1" name="addressform1">
+    <input name="app_id" type="hidden" value="@appId@" />
+    <input name="app_key" type="hidden" value="@appKey@" />
+    <label id="houseNumberLabel">House number:</label>&nbsp;
+    <input name="houseNumber" size="20" type="text" /><br /><br />
+    <label id="streetLabel">Street name:</label>&nbsp;&nbsp;&nbsp;
+    <input name="street" size="20" type="text" /><br /><br />
+    <label id="boroughLabel">Borough:</label>&nbsp;&nbsp;&nbsp;&nbsp;
+    <select name="borough">
+      <option selected="selected" value="0">Select your borough</option>
+      <option value="2">Bronx</option>
+      <option value="3">Brooklyn</option>
+      <option value="1">Manhattan</option>
+      <option value="4">Queens</option>
+      <option value="5">Staten Island</option>
+    </select><br /><br />
+    <button type="submit" class="btn btn-form-submit">Search</button> <button type="reset" class="btn btn-reset">Reset</button><br /><br />
+  </form>
+  <div id="results"></div>
+  </div>
+</body>
+</html>
