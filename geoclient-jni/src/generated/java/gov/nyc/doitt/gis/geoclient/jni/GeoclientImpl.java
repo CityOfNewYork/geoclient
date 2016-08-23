@@ -49,7 +49,7 @@ public class GeoclientImpl implements Geoclient{
      // Both methods add any paths defined by the standard platform-specific lib paths (LD_LIBRARY, PATH, etc.)
      // to the overall library path that were defined by the environment owning the parent Java process.
      // 
-     System.loadLibrary(geoclient_jni);
+     System.loadLibrary("geoclient_jni");
  }
   // ---- End CustomJavaCode .cfg declarations
 
