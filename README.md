@@ -108,18 +108,18 @@ While this will be increasingly awesome (hopefully) as Gradle evolves, it curren
  
 **The location of the Geosupport shared libraries.** 
 Either of the following should work:
-1. Set environment variable `GS_LIBRARY_PATH=<geosupport install>/lib`
-2. Specify the `gsLibraryPath` property in the `gradle.properties` file in the base Geoclient source tree or on the command line as a Gradle project property `-PgsLibraryPath=<geosupport install>/lib`
+>  1. Set environment variable `GS_LIBRARY_PATH=<geosupport install>/lib`
+>  2. Specify the `gsLibraryPath` property in the `gradle.properties` file in the base Geoclient source tree or on the command line as a Gradle project property `-PgsLibraryPath=<geosupport install>/lib`
   
 **The location of Geosupport's required GEOFILES environment variable**
-1. Set environment variable `GEOFILES=<geosupport install>/fls`
-2. Specify the `gsGeofiles` property in the `gradle.properties` file in the base Geoclient source tree or on the command line as a Gradle project property `-PgsGeofiles=<geosupport install>/fls`
+>  1. Set environment variable `GEOFILES=<geosupport install>/fls`
+>  2. Specify the `gsGeofiles` property in the `gradle.properties` file in the base Geoclient source tree or on the command line as a Gradle project property `-PgsGeofiles=<geosupport install>/fls`
 
 Note that Geosupport requires this environment variable be set at runtime and that on Windows it must end with a trailing file separator (`GS_LIBRARY_PATH=<geosupport install>/Fls/`). The Gradle build will export this environment variable automatically if it is not set _and_ `gsGeofiles` _is specified_ but this will only be visible to the forked JVM used when Gradle runs test tasks.) 
 
 **The location of the correct Geosupport header files**
-1. Set environment variable `GS_INCLUDE_PATH=<geosupport install>/foruser/include`
-2. Specify the `gsIncludePath` property in the `gradle.properties` file in the base Geoclient source tree or on the command line as a Gradle project property `-PgsIncludePath=<geosupport install>/lib`
+>  1. Set environment variable `GS_INCLUDE_PATH=<geosupport install>/foruser/include`
+>  2. Specify the `gsIncludePath` property in the `gradle.properties` file in the base Geoclient source tree or on the command line as a Gradle project property `-PgsIncludePath=<geosupport install>/lib`
 
 >TODO:
 >- Table of config source, owner, platform, etc.
