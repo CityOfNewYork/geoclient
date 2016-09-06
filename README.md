@@ -63,12 +63,12 @@ Geoclient is written in Java and Geosupport is written in C. Java applications u
 
 ### Building ###
 
-**WARNING** The latest build is somewhat unstable but should be buildable on standard 64bit Linux systems. 
+**WARNING** Building Geoclient from source is tricky because of the many combinations of platforms, runtimes, tools, and pre-existing Geosupport binary artifacts. If you have a choice, prefer building/running on Linux as more of the standard C/JNI conventions work as expected. It is possible to build and run Geoclient/Geosupport on 64bit Windows, but we highly recommend Linux for the best performance.
 
-* JDK 1.7
+* JDK 1.7 or 1.8 (Full JDK **required**, Oracle distribution recommended)
 * gcc 4.+
 * g++ also required for Gradle
-* Gradle v2.10 (pre-install not required if your build machine has Internet connectivity)
+* Gradle 2.x (2.14 recommended, pre-install not required if your build machine has Internet connectivity)
 
 ```bash
 
@@ -76,9 +76,60 @@ $ git clone https://github.com/CityOfNewYork/geoclient
 
 $ cd geoclient
 
-$ ./gradlew build
+$ ./gradlew regenerate
 
 ```
+
+#### Geoclient's compile, link and runtime requirements
+
+Geoclient relies on [the Department of City Planning's Geosupport geocoder](http://www1.nyc.gov/site/planning/data-maps/open-data.page#geocoding_application) to do anything useful. On Linux, Windows, and (soon, hopefully) OSX, Geosupport is distributed as a handful of C shared libraries and proprietary data files.
+
+Geoclient is written in Java and currently uses the JDK's mysterious [JNI](https://en.wikipedia.org/wiki/Java_Native_Interface) API to make "function calls" into Geosupport from a running JVM. At a high level, building Geoclient from source on any supported platform, requires that everyone in both C and Java-land know what's going on. 
+
+**To build Geoclient from source**, it's necessary that:
+>- the C compiler can find the header files for Geosupport, Geoclient, the JDK (Java), and the platform's standard C libs.
+>- the linker can find the C libraries for Geosupport, Geoclient, the JDK and the standard C libs.
+>- the Java compiler can find any Java components not defined by the Geoclient Java source itself (e.g. the CLASSPATH for external jar files).
+
+**At runtime, Geosupport needs to know** where to find:
+>- its own data files (GEOFILES)
+>- its own C libraries (see above). 
+
+**At runtime, the JVM must know** where to find:
+>- Geoclient's classes and external class dependencies (see above)
+>- it's own built-in classes (JRE 1.7 or 1.8)
+>- the Geosupport and platform C libraries (see above).
+
+
+#### Compiling the Geoclient C files
+Geoclient contains a thin layer ("waaferr thin") of C that exists primarily to abstract the platform-specific naming conventions and differing runtime requirements Geosupport uses on each platform. Geoclient uses [Gradle](https://gradle.org) build, test and package both the C and Java code base.
+
+While this will be increasingly awesome (hopefully) as Gradle evolves, it currently is a big, fat P.I.A. because, on Windows, linking against the latest versions of Geosupport requires Visual Studio 2015. At the moment, Gradle doesn't support VS 2015 (there is a [long-awaited patch stuck in the release queue](https://github.com/gradle/gradle/pull/500)) and it's likely that some TechNet research or ugly hard-coded path hack will work but we're using `mingw-w64-x86_64-gcc` from [MSYS2](http://msys2.github.io/) for now.
+ 
+**The location of the Geosupport shared libraries.** 
+Either of the following should work:
+1. Set environment variable `GS_LIBRARY_PATH=<geosupport install>/lib`
+2. Specify the `gsLibraryPath` property in the `gradle.properties` file in the base Geoclient source tree or on the command line as a Gradle project property `-PgsLibraryPath=<geosupport install>/lib`
+  
+**The location of Geosupport's required GEOFILES environment variable**
+1. Set environment variable `GEOFILES=<geosupport install>/fls`
+2. Specify the `gsGeofiles` property in the `gradle.properties` file in the base Geoclient source tree or on the command line as a Gradle project property `-PgsGeofiles=<geosupport install>/fls`
+
+Note that Geosupport requires this environment variable be set at runtime and that on Windows it must end with a trailing file separator (`GS_LIBRARY_PATH=<geosupport install>/Fls/`). The Gradle build will export this environment variable automatically if it is not set _and_ `gsGeofiles` _is specified_ but this will only be visible to the forked JVM used when Gradle runs test tasks.) 
+
+**The location of the correct Geosupport header files**
+1. Set environment variable `GS_INCLUDE_PATH=<geosupport install>/foruser/include`
+2. Specify the `gsIncludePath` property in the `gradle.properties` file in the base Geoclient source tree or on the command line as a Gradle project property `-PgsIncludePath=<geosupport install>/lib`
+
+>TODO:
+>- Table of config source, owner, platform, etc.
+>- Manual adjustment of Geosupport headers
+>- java.library.path
+>- Hackety-hacks: LD_LIBRARY_PATH for Linux, PATH for Windows
+>- MSYS2 binary requires PATH
+>- Use of Gluegen to generate optimized JNI code
+>- Geosupport installation tips
+>- Deployment recipes: Tomcat Servlet context, CLI, etc.
 
 ### History ###
 
