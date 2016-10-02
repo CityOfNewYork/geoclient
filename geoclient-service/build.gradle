@@ -1,14 +1,7 @@
 apply plugin: 'war'
-apply plugin: 'eclipse-wtp'
-apply plugin: 'jetty'
-
-httpPort = 6060
-stopPort = 6061
-stopKey = 'stop'
 
 repositories {
-  maven { url "http://download.osgeo.org/webdav/geotools/" }
-  maven { url "https://repo.boundlessgeo.com/main/" }
+  maven { url "http://repo.boundlessgeo.com/main/" }
 }
 
 dependencies {
@@ -42,9 +35,19 @@ dependencies {
     compile("org.thymeleaf:thymeleaf:$thymeleafVersion")
     compile("org.thymeleaf:thymeleaf-spring4:$thymeleafVersion")
     compile("joda-time:joda-time:$jodaTimeVersion")
-    compile("org.geotools:gt-main:$geotoolsVersion") { exclude(module: "xerces") }
-    compile("org.geotools:gt-epsg-wkt:$geotoolsVersion")
-
+    compile("org.geotools:gt-referencing:$geotoolsVersion") {
+      exclude(group: "javax.media", module: "jai_core")
+      exclude(group: "jgridshift", module: "jgridshift")
+    }
+    compile("org.geotools:gt-main:$geotoolsVersion") {
+      exclude(module: "xerces")
+      exclude(group: "javax.media", module: "jai_core")
+      exclude(group: "jgridshift", module: "jgridshift")
+    }
+    compile("org.geotools:gt-epsg-wkt:$geotoolsVersion") {
+      exclude(group: "javax.media", module: "jai_core")
+      exclude(group: "jgridshift", module: "jgridshift")
+    }
     runtime("org.slf4j:jcl-over-slf4j:$slf4jVersion")
     runtime("org.slf4j:log4j-over-slf4j:$slf4jVersion")
     runtime("ch.qos.logback:logback-core:$logbackVersion")

@@ -16,7 +16,7 @@ ext {
   slf4jVersion              = "1.7.16"
   logbackVersion            = "1.1.5"
   // Spring
-  springVersion             = "4.2.5.RELEASE"
+  springVersion             = "4.3.3.RELEASE"
   // XStream
   xstreamVersion            = "1.4.9"
   // Commons
@@ -36,6 +36,6 @@ ext {
   jstlVersion               = "1.2"
   springJsonpSupportVersion = "0.0.2"
   thymeleafVersion          = "2.1.4.RELEASE"
-  geotoolsVersion           = "9.3"
+  geotoolsVersion           = "15.1"
 
 }
