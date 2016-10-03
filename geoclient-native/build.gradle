@@ -67,12 +67,10 @@ model {
         cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
         if (targetPlatform.operatingSystem.windows) {
           cCompiler.define "DLL_EXPORT"
-          //if (buildable) {
-          //}
           linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         } else if (targetPlatform.operatingSystem.linux) {
           cCompiler.args "-fPIC"
-          linker.args "-L${gsLibraryPath}", "-lc", "-lm", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+          linker.args "-Wl,--no-as-needed", "-L${gsLibraryPath}", "-lc", "-lgeo", "-lm", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         }
       }
     }
@@ -83,7 +81,7 @@ model {
           cCompiler.define "DLL_IMPORT"
           linker.args "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         } else if (targetPlatform.operatingSystem.linux) {
-          linker.args "-L${gsLibraryPath}", "-lc", "-lm", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+          linker.args "-Wl,--no-as-needed", "-L${gsLibraryPath}", "-lc", "-lgeo", "-lm", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         }
       }
     }
