@@ -1,5 +1,18 @@
 apply plugin: 'c'
 
+def generatedSrcDir = "$projectDir/src/generated/c"
+
+// Run 'cleanGenerateNativeSource' task to remove the generated
+// 'src/generated/c/geoclient_jni.c' code
+task generateNativeSource(type: Sync) {
+  from project(':geoclient-generate').generateNativeSource
+  into generatedSrcDir
+  ext.headerDir = null
+  ext.sourceDir = generatedSrcDir
+}
+
+task cleanGeneratedSource
+
 model {
   platforms {
     linux_x64 {
@@ -135,8 +148,9 @@ model {
       sources {
         c {
           source {
-            srcDir "src/generated/c"
+            srcDir generatedSrcDir
             include "**/*.c"
+            generatedBy(generateNativeSource)
           }
           // Even though the generated JNI C code only depends on geoclient.h,
           // the Gluegen code generation process fails without this dependency

@@ -28,13 +28,26 @@
 //    }
 //  }
 //}
+def genSrc = "$projectDir/src/generated/java"
+
 sourceSets {
-  generated
+  generated {
+    output.dir(genSrc, builtBy: 'generateJavaSource')
+  }
+}
+task generateJavaSource(type: Sync) {
+  //dependsOn(project(':geoclient-generate').tasks.generateJavaSource)
+  from project(':geoclient-generate').generateJavaSource
+  into genSrc
 }
 
 dependencies {
   generatedCompile(configurations.jniRuntime)
   compile configurations.generatedCompile
+}
+
+compileGeneratedJava {
+  dependsOn(generateJavaSource)
 }
 
 compileJava {

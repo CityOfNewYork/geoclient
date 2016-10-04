@@ -46,7 +46,7 @@ task generateSource () {
   inputs.file targetHeaderFile
   outputs.dir tempJavaOutputDir
   outputs.dir tempNativeOutputDir
-  
+
   doFirst {
     mkdir tempJavaOutputDir
     mkdir tempNativeOutputDir
@@ -70,34 +70,10 @@ task generateSource () {
 
 }
 
-task refreshGeneratedNativeSource(type: Copy, dependsOn: generateSource) {
-  description = 'Create/overwrite generated C source files in :geoclient-native'
-
-  from("${tempNativeOutputDir}")
-  into("${project(':geoclient-native').projectDir}/src/generated/c") // TODO replace with SourceSet reference
-  rename 'GeoclientImpl_JNI.c', 'geoclient_jni.c'
-
-  // Filter timestamp
-  filter { String line ->
-    line.startsWith(generatedComment) ? adjustComment(line) : line
-  }
-
-  // NOTE: new in 2.14
-  // Insure encoding
-  // filteringCharset = 'UTF-8'
-
-  // Remove CRLF line terminators
-  filter(FixCrLfFilter, eol: FixCrLfFilter.CrLf.newInstance('lf'),
-                        tab: FixCrLfFilter.AddAsisRemove.newInstance('asis'),
-                        eof: FixCrLfFilter.AddAsisRemove.newInstance('remove'),
-                    fixlast: true)
-}
-
-task refreshGeneratedJavaSource(type: Copy, dependsOn: generateSource) {
-  description = 'Create/overwrite generated Java source files in :geoclient-jni'
-
-  from("${tempJavaOutputDir}")
-  into("${project(':geoclient-jni').projectDir}/src/generated/java") // TODO replace with SourceSet reference
+task generateJavaSource(type: Copy, dependsOn: generateSource) {
+  description = 'Generate JNI Java source files'
+  from tempJavaOutputDir
+  into "$buildDir/generated-source/java"
 
   eachFile { fileCopyDetails ->
     // Comment out unused Java imports and remove timestamp
@@ -111,7 +87,6 @@ task refreshGeneratedJavaSource(type: Copy, dependsOn: generateSource) {
       }
     }
   }
-
   // NOTE: new in 2.14
   // Insure encoding
   // filteringCharset = 'UTF-8'
@@ -122,19 +97,22 @@ task refreshGeneratedJavaSource(type: Copy, dependsOn: generateSource) {
                     fixlast: true)
 }
 
-task refreshGeneratedSource(dependsOn: ['refreshGeneratedJavaSource', 'refreshGeneratedNativeSource']) {
-  description = 'Create/overwrite generated C and Java source files in other subprojects'
-
-  outputs.files refreshGeneratedJavaSource.outputs.files, refreshGeneratedNativeSource.outputs.files
-}
-
-assemble.dependsOn(refreshGeneratedSource)
-
-task deleteGeneratedSource {
-  doLast {
-    logger.warn("Deleting all generated JNI Java and C source files: ${refreshGeneratedSource.outputs.files}")
-    delete refreshGeneratedSource.outputs.files
+task generateNativeSource(type: Copy, dependsOn: generateSource) {
+  description = 'Generate JNI C source files'
+  from tempNativeOutputDir
+  into "$buildDir/generated-source/c"
+  // Filter timestamp
+  filter { String line ->
+    line.startsWith(generatedComment) ? adjustComment(line) : line
   }
+  // NOTE: new in 2.14
+  // Insure encoding
+  // filteringCharset = 'UTF-8'
+  // Remove CRLF line terminators
+  filter(FixCrLfFilter, eol: FixCrLfFilter.CrLf.newInstance('lf'),
+                        tab: FixCrLfFilter.AddAsisRemove.newInstance('asis'),
+                        eof: FixCrLfFilter.AddAsisRemove.newInstance('remove'),
+                    fixlast: true)
 }
 
 String adjustComment(String line) {

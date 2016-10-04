@@ -171,14 +171,14 @@ configure(gluegenProjects) {
   }
 } // gluegenProjects
 
-task deleteGeneratedSource {
-  description 'Delete generated source code'
-}
-deleteGeneratedSource.dependsOn ':geoclient-generate:deleteGeneratedSource', ':geoclient-generate:clean', ':geoclient-native:clean', ':geoclient-jni:clean'
-deleteGeneratedSource.finalizedBy clean
-
-task regenerate {
-  group 'Build'
-  description 'Delete and re-create all generated source code'
-}
-regenerate.dependsOn ':deleteGeneratedSource', ':geoclient-generate:build', ':geoclient-native:build'
+////task deleteGeneratedSource {
+////  description 'Delete generated source code'
+////}
+////deleteGeneratedSource.dependsOn ':geoclient-generate:deleteGeneratedSource', ':geoclient-generate:clean', ':geoclient-native:clean', ':geoclient-jni:clean'
+////deleteGeneratedSource.finalizedBy clean
+////
+////task regenerate {
+////  group 'Build'
+////  description 'Delete and re-create all generated source code'
+////}
+////regenerate.dependsOn ':deleteGeneratedSource', ':geoclient-generate:build', ':geoclient-native:build'
