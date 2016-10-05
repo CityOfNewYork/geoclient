@@ -289,7 +289,7 @@ $(document).ready(function() {
     {
       // Required form values are present; call the service
       $.ajax({
-          url : "@endpoint@",
+          url : "@protocol@://@host@:@port@/@endpoint@",
           data : formInput,
           type : "GET",
           dataType : "jsonp",

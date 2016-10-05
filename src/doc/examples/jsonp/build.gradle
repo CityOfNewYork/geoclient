@@ -10,7 +10,7 @@ task filter(type: Copy) {
   from 'src/main/webapp'
   into "$buildDir/$distname"
   filter(FixCrLfFilter)
-  filter(ReplaceTokens, tokens: [appId: appId, appKey: appKey, endpoint: endpoint])
+  filter(ReplaceTokens, tokens: [appId: appId, appKey: appKey, endpoint: endpoint, protocol: protocol, host: host, port: port])
   filteringCharset = 'UTF-8'
 }
 
