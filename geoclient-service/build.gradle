@@ -15,7 +15,6 @@ dependencies {
     compile("org.springframework:spring-context-support:$springVersion")
     compile("org.springframework:spring-webmvc:$springVersion")
     compile("org.springframework:spring-oxm:$springVersion") { exclude(module: "commons-lang") }
-    compile("org.springframework:spring-test:$springVersion")
     compile("org.hibernate:hibernate-validator:$hibernateValidatorVersion")
     compile("org.aspectj:aspectjrt:$aspectjrtVersion")
     compile("org.slf4j:slf4j-api:$slf4jVersion")
@@ -32,21 +31,20 @@ dependencies {
         exclude(module: "slf4j-log4j12")
     }
     compile("javax.inject:javax.inject:$javaxInjectVersion")
-    compile("javax.servlet:jstl:$jstlVersion")
     compile("org.thymeleaf:thymeleaf:$thymeleafVersion")
     compile("org.thymeleaf:thymeleaf-spring4:$thymeleafVersion")
     compile("joda-time:joda-time:$jodaTimeVersion")
     compile("org.geotools:gt-referencing:$geotoolsVersion") {
-      exclude(group: "javax.media", module: "jai_core")
+      //exclude(group: "javax.media", module: "jai_core")
       exclude(group: "jgridshift", module: "jgridshift")
     }
     compile("org.geotools:gt-main:$geotoolsVersion") {
       exclude(module: "xerces")
-      exclude(group: "javax.media", module: "jai_core")
+      //exclude(group: "javax.media", module: "jai_core")
       exclude(group: "jgridshift", module: "jgridshift")
     }
     compile("org.geotools:gt-epsg-wkt:$geotoolsVersion") {
-      exclude(group: "javax.media", module: "jai_core")
+      //exclude(group: "javax.media", module: "jai_core")
       exclude(group: "jgridshift", module: "jgridshift")
     }
     runtime("org.slf4j:jcl-over-slf4j:$slf4jVersion")
@@ -54,8 +52,10 @@ dependencies {
     runtime("ch.qos.logback:logback-core:$logbackVersion")
     runtime("ch.qos.logback:logback-classic:$logbackVersion")
 
+    testCompile("org.springframework:spring-test:$springVersion")
     testCompile("com.jayway.jsonpath:json-path:$jsonPathVersion")
 
+    providedCompile("javax.servlet:jstl:$jstlVersion")
     providedCompile("javax.servlet:javax.servlet-api:$javaxServletApiVersion")
     providedCompile("javax.servlet.jsp:jsp-api:$jspApiVersion")
 }
@@ -75,7 +75,6 @@ sourceSets {
 
 // FIXME Required to avoid encoding error on Windows when platform default:
 // Cp1252 is used to read the embedded EPSG file database.
-// https://github.com/CityOfNewYork/geoclient/issues/10
 compileJava { options.encoding = 'utf-8' }
 
 // FIXME I'm not excluding anything!
@@ -86,11 +85,11 @@ javadoc {
 }
 
 processResources {
-    ext.ver = rootProject.version
-    from(sourceSets.main.resources) {
-        include 'version.properties'
-        filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: ver])
-    }
+  ext.ver = rootProject.version
+  from(sourceSets.main.resources) {
+    include 'version.properties'
+    filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: ver])
+  }
 }
 
 //task itest(type: Test) {

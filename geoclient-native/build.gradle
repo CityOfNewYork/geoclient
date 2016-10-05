@@ -173,6 +173,7 @@ model {
       def bins = $.binaries.withType(NativeLibraryBinarySpec).findAll { it.buildable }
       bins << $.binaries.withType(NativeExecutableBinarySpec).findAll { it.buildable }
       from bins.collect { it.primaryOutput }
+      from(files(project.gsLibraryPath))
       destinationDir = file(rootProject.localLibsDir)
     }
     build.finalizedBy(syncLocalNativeLibs)

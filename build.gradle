@@ -37,10 +37,6 @@ allprojects {
           "http://docs.oracle.com/javaee/7/api/"
   ] as String[]
 
-  configurations {
-    all*.exclude group: "commons-logging", module: "commons-logging"
-  }
-
 } //allprojects
 
 def javaPluginProjects = [
@@ -149,6 +145,10 @@ configure(javaPluginProjects) { p ->
     archives javadocJar
   }
 
+  configurations {
+    all*.exclude group: "commons-logging", module: "commons-logging"
+  }
+
   apply from: "${gradleScriptDir}/publish-maven.gradle"
 
 } // javaPluginProjects
@@ -171,14 +171,17 @@ configure(gluegenProjects) {
   }
 } // gluegenProjects
 
-////task deleteGeneratedSource {
-////  description 'Delete generated source code'
-////}
-////deleteGeneratedSource.dependsOn ':geoclient-generate:deleteGeneratedSource', ':geoclient-generate:clean', ':geoclient-native:clean', ':geoclient-jni:clean'
-////deleteGeneratedSource.finalizedBy clean
-////
-////task regenerate {
-////  group 'Build'
-////  description 'Delete and re-create all generated source code'
-////}
-////regenerate.dependsOn ':deleteGeneratedSource', ':geoclient-generate:build', ':geoclient-native:build'
+task cleanGeneratedSource {
+  group 'Build'
+  description 'Remove generated source directories'
+  dependsOn(':geoclient-generate:cleanGenerateJavaSource',
+            ':geoclient-generate:cleanGenerateNativeSource',
+            ':geoclient-native:cleanGenerateNativeSource',
+            ':geoclient-jni:cleanGenerateJavaSource')
+}
+
+task cleanAll {
+  group 'Build'
+  description 'Remove all build artifacts, generated source and IDE metadata'
+  dependsOn(clean, cleanGeneratedSource, cleanEclipse)
+}
