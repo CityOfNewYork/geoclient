@@ -30,17 +30,23 @@
 //}
 def generatedJavaSourceDir = "$projectDir/src/generated/java"
 
+configurations {
+  jniRuntime
+}
+
 sourceSets {
   generated {
     output.dir(generatedJavaSourceDir, builtBy: 'generateJavaSource')
   }
 }
+
 task generateJavaSource(type: Sync) {
   from project(':geoclient-generate').generateJavaSource
   into generatedJavaSourceDir
 }
 
 dependencies {
+  jniRuntime("org.jogamp.gluegen:gluegen:$gluegenVersion")
   generatedCompile(configurations.jniRuntime)
   compile configurations.generatedCompile
 }
@@ -54,18 +60,6 @@ compileJava {
   classpath = files(classpath, sourceSets.generated.output.classesDir)
 }
 
-// Previously, With hard-coded dependency on code generation task
-// task runJni (type: JavaExec, dependsOn: ['compileJava',':geoclient-native:assemble']) {
-//task runJni (type: JavaExec, dependsOn: 'compileJava') {
-//  classpath = sourceSets.main.runtimeClasspath + sourceSets.generated.runtimeClasspath
-//  main = 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest'
-//  executable = "${jniJavaHome}/bin/java"
-//  systemProperties('java.library.path', gsLibraryPath)
-//  environment('GEOFILES', gsGeofiles)
-//}
-//
-//test.dependsOn(runJni)
-
 jar {
   from sourceSets.main.output
   from sourceSets.generated.output.classesDir
@@ -74,4 +68,3 @@ jar {
 artifacts {
   archives jar
 }
-

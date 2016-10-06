@@ -35,8 +35,6 @@ model {
         headers.srcDir gsIncludePath
         binaries.withType(SharedLibraryBinary) {
           if (targetPlatform.operatingSystem.windows) {
-            // Typically, Visual C++ uses both a .dll and a .lib file for linking.
-            // Does this apply to MSYS2/mingw64, Cygwin or MinGW?
             sharedLibraryFile = file("${gsLibraryPath}/NYCgeo.dll")
             sharedLibraryLinkFile = file("${gsLibraryPath}/NYCgeo.lib")
           } else if (targetPlatform.operatingSystem.linux) {
@@ -57,14 +55,14 @@ model {
         //
         // See: https://discuss.gradle.org/t/native-prebuilt-library-platform-specific-headers/17418
         //
-        headers.srcDirs "${jniJavaHome}/include"
+        headers.srcDir "${jniJavaHome}/include"
         def headersContainer = headers
         binaries.withType(SharedLibraryBinary) {
           def os = targetPlatform.operatingSystem
           if (os.windows) {
-            headersContainer.srcDirs "${jniJavaHome}/include/win32"
+            headersContainer.srcDir "${jniJavaHome}/include/win32"
           } else if (os.linux) {
-            headersContainer.srcDirs "${jniJavaHome}/include/linux"
+            headersContainer.srcDir "${jniJavaHome}/include/linux"
           }
         }
       }
@@ -172,8 +170,10 @@ model {
       description 'Sync native binaries to $localLibsDir for use by integration tests.'
       def bins = $.binaries.withType(NativeLibraryBinarySpec).findAll { it.buildable }
       bins << $.binaries.withType(NativeExecutableBinarySpec).findAll { it.buildable }
-      from bins.collect { it.primaryOutput }
-      from(files(project.gsLibraryPath))
+      from bins.collect { 
+        it.primaryOutput
+      }
+      //from(files(project.gsLibraryPath))
       destinationDir = file(rootProject.localLibsDir)
     }
     build.finalizedBy(syncLocalNativeLibs)

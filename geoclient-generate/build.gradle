@@ -11,6 +11,14 @@ ext {
   tempNativeOutputDir = file("$buildDir/temp/c")
 }
 
+configurations {
+  execGluegen
+}
+
+dependencies {
+  execGluegen "org.jogamp.gluegen:gluegen:$gluegenVersion", "antlr:antlr:$antlrVersion"
+}
+
 task prepareConf (type: Copy) {
   description = 'Prepares the Gluegen config file'
 

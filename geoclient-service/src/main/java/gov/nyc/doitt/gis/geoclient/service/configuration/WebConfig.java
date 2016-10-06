@@ -38,7 +38,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import com.intera.util.web.servlet.filter.JsonpCallbackFilter;
+//import com.intera.util.web.servlet.filter.JsonpCallbackFilter;
 
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResultConverter;
 import gov.nyc.doitt.gis.geoclient.service.web.ViewHelper;
@@ -142,9 +142,9 @@ public class WebConfig extends WebMvcConfigurerAdapter
 		return new ViewHelper();
 	}
 
-	@Bean
-	public JsonpCallbackFilter jsonpCallbackFilter()
-	{
-		return new JsonpCallbackFilter();
-	}
+//	@Bean
+//	public JsonpCallbackFilter jsonpCallbackFilter()
+//	{
+//		return new JsonpCallbackFilter();
+//	}
 }

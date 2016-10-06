@@ -1,6 +1,3 @@
-apply plugin: 'war'
-apply plugin: 'eclipse-wtp'
-
 repositories {
   maven { url "http://repo.boundlessgeo.com/main/" }
 }
@@ -21,6 +18,7 @@ dependencies {
     compile("com.thoughtworks.xstream:xstream:$xstreamVersion")
     compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
     compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+    /*
     compile("com.intera.util:spring-jsonp-support:$springJsonpSupportVersion") {
     // The code for spring-jsonp-support is from:
     //     https://github.com/bhagyas/spring-jsonp-support
@@ -30,6 +28,7 @@ dependencies {
         exclude(module: "log4j")
         exclude(module: "slf4j-log4j12")
     }
+    */
     compile("javax.inject:javax.inject:$javaxInjectVersion")
     compile("org.thymeleaf:thymeleaf:$thymeleafVersion")
     compile("org.thymeleaf:thymeleaf-spring4:$thymeleafVersion")
@@ -80,7 +79,7 @@ compileJava { options.encoding = 'utf-8' }
 // FIXME I'm not excluding anything!
 javadoc {
   options.encoding = 'utf-8'
-  exclude "${project.projectDir}/src/main/external"
+  exclude "${projectDir}/src/main/external/**/*.java"
   source = sourceSets.main.allJava
 }
 
@@ -91,16 +90,3 @@ processResources {
     filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: ver])
   }
 }
-
-//task itest(type: Test) {
-//    description = 'Runs the geoclient-service integration tests in an embedded Tomcat instance.'
-//    testClassesDir = sourceSets.integrationTest.output.classesDir
-//    classpath = sourceSets.integrationTest.runtimeClasspath
-//    //mustRunAfter test
-//    include '**/*IntegrationTest.*'
-//    dependsOn tomcatRunWar
-//    finalizedBy tomcatStop
-//    // Variables set in gradle/env.gradle
-//    environment "GEOFILES", gsGeofiles
-//    systemProperty "java.library.path", testJavaLibraryPath
-//}
