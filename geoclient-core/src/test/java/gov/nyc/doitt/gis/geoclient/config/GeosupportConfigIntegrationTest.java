@@ -22,15 +22,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.SortedSet;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
 import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.jni.GeoclientImpl;
-import gov.nyc.doitt.gis.geoclient.jni.GeoclientStub;
-import gov.nyc.doitt.gis.geoclient.util.OperatingSystemUtils;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 public class GeosupportConfigIntegrationTest
 {
@@ -39,13 +37,7 @@ public class GeosupportConfigIntegrationTest
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception
 	{
-		if(OperatingSystemUtils.isWindows())
-		{
-			geosupportConfig = new GeosupportConfig(new GeoclientStub());
-		}else
-		{
-			geosupportConfig = new GeosupportConfig(new GeoclientImpl());
-		}
+	  geosupportConfig = new GeosupportConfig(new GeoclientImpl());
 	}	
 	
 	@Test(expected=UnknownFunctionException.class)
