@@ -18,17 +18,6 @@ dependencies {
     compile("com.thoughtworks.xstream:xstream:$xstreamVersion")
     compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
     compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    /*
-    compile("com.intera.util:spring-jsonp-support:$springJsonpSupportVersion") {
-    // The code for spring-jsonp-support is from:
-    //     https://github.com/bhagyas/spring-jsonp-support
-    // TODO Add to build documentation
-    // TODO Replace with native Spring API's
-        exclude(module: "servlet-api")
-        exclude(module: "log4j")
-        exclude(module: "slf4j-log4j12")
-    }
-    */
     compile("javax.inject:javax.inject:$javaxInjectVersion")
     compile("org.thymeleaf:thymeleaf:$thymeleafVersion")
     compile("org.thymeleaf:thymeleaf-spring4:$thymeleafVersion")

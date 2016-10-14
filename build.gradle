@@ -24,6 +24,7 @@ allprojects { p ->
   repositories {
     mavenCentral()
     jcenter()
+    mavenLocal()
   }
 
   apply from: "${gradleScriptDir}/dependencies.gradle"
