@@ -48,6 +48,7 @@ def javaPluginProjects = [
   project(':geoclient-jni'),
   project(':geoclient-core'),
   project(':geoclient-parser'),
+  project(':geoclient-search'),
   project(':geoclient-service')
 ] as Set
 

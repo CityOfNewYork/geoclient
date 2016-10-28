@@ -1,0 +1,11 @@
+dependencies {
+  compile project(":geoclient-jni")
+  compile project(":geoclient-core")
+  compile project(":geoclient-parser")
+  compile("org.slf4j:slf4j-api:${slf4jVersion}")
+  compile("org.slf4j:jcl-over-slf4j:${slf4jVersion}")
+  compile("ch.qos.logback:logback-classic:${logbackVersion}")
+  compile("org.apache.commons:commons-lang3:${commonsLang3Version}")
+  testCompile("org.springframework:spring-test:${springVersion}")
+  testCompile("com.googlecode.java-diff-utils:diffutils:${diffutilsVersion}")
+}
