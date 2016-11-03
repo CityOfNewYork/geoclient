@@ -30,9 +30,9 @@ allprojects { p ->
   apply from: "${gradleScriptDir}/dependencies.gradle"
   apply from: "${gradleScriptDir}/ide.gradle"
 
-  if(p == project(':geoclient-service')) {
-    apply plugin: 'eclipse-wtp'
-  }
+  //if(p == project(':geoclient-service')) {
+  //  apply plugin: 'eclipse-wtp'
+  //}
 
   apply from: "${gradleScriptDir}/utils.gradle"
   apply plugin: "com.github.ben-manes.versions"
@@ -65,9 +65,9 @@ configure(javaPluginProjects) { p ->
     }
   }
 
-  if(p == project(':geoclient-service')) {
-    apply plugin: 'war'
-  }
+  //if(p == project(':geoclient-service')) {
+  //  apply plugin: 'war'
+  //}
 
   // Once the Gluegen 2.3.x annotation warnings to stderr are fixed then
   // add "-Werror" to the List.
@@ -163,10 +163,10 @@ configure(javaPluginProjects) { p ->
 
 } // javaPluginProjects
 
-def gluegenProjects = [
-  project('geoclient-generate'),
-  project('geoclient-jni')
-] as Set
+//def gluegenProjects = [
+//  project('geoclient-generate'),
+//  project('geoclient-jni')
+//] as Set
 
 task cleanGeneratedSource {
   group 'Build'
