@@ -29,13 +29,7 @@ allprojects { p ->
 
   apply from: "${gradleScriptDir}/dependencies.gradle"
   apply from: "${gradleScriptDir}/ide.gradle"
-
-  //if(p == project(':geoclient-service')) {
-  //  apply plugin: 'eclipse-wtp'
-  //}
-
   apply from: "${gradleScriptDir}/utils.gradle"
-  apply plugin: "com.github.ben-manes.versions"
 
   ext.javadocLinks = [
           "http://docs.oracle.com/javase/8/docs/api/",
@@ -64,11 +58,6 @@ configure(javaPluginProjects) { p ->
       environment testSystemLibraryPath.varname, testSystemLibraryPath.value
     }
   }
-
-  //if(p == project(':geoclient-service')) {
-  //  apply plugin: 'war'
-  //}
-
   // Once the Gluegen 2.3.x annotation warnings to stderr are fixed then
   // add "-Werror" to the List.
   // See https://jogamp.org/bugzilla/show_bug.cgi?id=1256
@@ -162,11 +151,6 @@ configure(javaPluginProjects) { p ->
   apply from: "${gradleScriptDir}/publish-maven.gradle"
 
 } // javaPluginProjects
-
-//def gluegenProjects = [
-//  project('geoclient-generate'),
-//  project('geoclient-jni')
-//] as Set
 
 task cleanGeneratedSource {
   group 'Build'

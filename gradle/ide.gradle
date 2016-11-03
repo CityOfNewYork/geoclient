@@ -1,8 +1,4 @@
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-eclipse {
-  classpath {
-    defaultOutputDir = file('build')
-  }
-}
+eclipse.classpath.defaultOutputDir = file('build')
