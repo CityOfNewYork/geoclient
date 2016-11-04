@@ -176,23 +176,8 @@ model {
       //from(files(project.gsLibraryPath))
       destinationDir = file(rootProject.localLibsDir)
     }
-    nativeDist(Zip) {
-      from syncLocalNativeLibs
-      baseName = project.name
-      destinationDir = file(rootProject.buildDir)
-    }
-    build.finalizedBy(syncLocalNativeLibs)
 
+    build.finalizedBy(syncLocalNativeLibs)
   } // tasks 
 } // model
 
-//apply from: "${gradleScriptDir}/publish-maven.gradle"
-//publishing {
-//  publications {
-//    mavenJava {
-//      artifact distNative {
-//        classifier "native"
-//      }
-//    }
-//  }
-//}

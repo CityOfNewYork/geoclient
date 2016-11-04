@@ -2,13 +2,25 @@ apply plugin: "maven-publish"
 apply plugin: "signing"
 
 // The content of this file is inspired/copied from:
-// 
+//
 // https://github.com/trustin/sphinx-gradle-plugin/blob/master/build.gradle
 ext {
-  pomFile = file("${project.buildDir}/libs/generated-pom.xml")
+  gisNexusActive = findProperty('gisNexusActive') ?: null
   isReleaseVersion = !(project.version =~ /-SNAPSHOT$/)
-  ext.uploadReleaseUrl = findProperty('nexus-upload-releases') ?: null
-  ext.uploadSnapshotUrl = findProperty('nexus-upload-snapshots') ?: null
+  nativeLibs = copySpec {
+    from rootProject.localLibsDir
+    include "**/*"
+  }
+  ossrhActive = findProperty('ossrhActive') ?: null
+  pomFile = file("${project.buildDir}/libs/generated-pom.xml")
+  uploadReleaseUrl = findProperty('nexus-upload-releases') ?: null
+  uploadSnapshotUrl = findProperty('nexus-upload-snapshots') ?: null
+}
+
+task nativeZip(type: Zip) {
+  from nativeLibs
+  into file(rootProject.buildDir)
+  version = project.version
 }
 
 signing {
@@ -16,9 +28,6 @@ signing {
   //required { signatory != null && project.ext.isReleaseVersion }
   sign configurations.archives
 }
-
-ext.gisNexusActive = findProperty('gisNexusActive') ?: null
-ext.ossrhActive = findProperty('ossrhActive') ?: null
 
 publishing {
   repositories {
@@ -58,9 +67,11 @@ publishing {
   }
 
   publications {
-    //mavenNative(MavenPublication) {
-    //  artifact nativeDist
-    //}
+    mavenNative(MavenPublication) {
+      artifact nativeZip {
+        classifier 'native'
+      }
+    }
     mavenJava(MavenPublication) {
       from components.java
       artifact sourcesJar
