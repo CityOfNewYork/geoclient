@@ -34,11 +34,6 @@ allprojects { p ->
   apply from: "${gradleScriptDir}/ide.gradle"
   apply from: "${gradleScriptDir}/utils.gradle"
 
-  ext.javadocLinks = [
-          "http://docs.oracle.com/javase/8/docs/api/",
-          "http://docs.oracle.com/javaee/7/api/"
-  ] as String[]
-
 } //allprojects
 
 def javaPluginProjects = [
@@ -52,6 +47,11 @@ def javaPluginProjects = [
 configure(javaPluginProjects) { p ->
 
   apply plugin: 'java'
+
+  ext.javadocLinks = [
+          "http://docs.oracle.com/javase/8/docs/api/",
+          "http://docs.oracle.com/javaee/7/api/"
+  ] as String[]
 
   if(p != project(':geoclient-jni')) {
     test {
