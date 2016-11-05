@@ -6,7 +6,6 @@ buildscript {
     maven { url "https://plugins.gradle.org/m2/" }
   }
   dependencies {
-    //classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.12.1"
     classpath "org.jogamp.gluegen:gluegen:${gluegenVersion}", "antlr:antlr:${antlrVersion}"
     classpath "com.github.ben-manes:gradle-versions-plugin:0.13.0"
   }
@@ -22,9 +21,13 @@ allprojects { p ->
   version = rootProject.version
 
   repositories {
+    // geotoolkit repo must be before mavenCentral which has the pom, javadoc
+    // but not the binary jar
+    maven { url "http://maven.geotoolkit.org/" }
     mavenCentral()
     jcenter()
     mavenLocal()
+    maven { url "http://repo.boundlessgeo.com/main/" }
   }
 
   apply from: "${gradleScriptDir}/dependencies.gradle"
