@@ -16,6 +16,20 @@ task nativeZip(type: Zip, dependsOn: build) {
   from file("$buildDir/libs")
 }
 
+task zipWindows64Bins(type: Zip, dependsOn: assemble) {
+  ext.bins = fileTree(dir: "$buildDir/libs", includes: ["**/windows_x64/*"])
+  classifier = 'windows_x64'
+  version = project.version
+  from bins.files 
+}
+
+task zipLinux64Bins(type: Zip, dependsOn: assemble) {
+  ext.bins = fileTree(dir: "$buildDir/libs", includes: ["**/linux_x64/*"])
+  classifier = 'linux_x64'
+  version = project.version
+  from bins.files
+}
+
 //artifacts {
 //  archives nativeZip
 //}
