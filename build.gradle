@@ -33,6 +33,7 @@ allprojects { p ->
   apply from: "${gradleScriptDir}/dependencies.gradle"
   apply from: "${gradleScriptDir}/ide.gradle"
   apply from: "${gradleScriptDir}/utils.gradle"
+  apply from: "${gradleScriptDir}/publish-maven.gradle"
 
 } //allprojects
 
@@ -150,8 +151,6 @@ configure(javaPluginProjects) { p ->
   configurations {
     all*.exclude group: "commons-logging", module: "commons-logging"
   }
-
-  apply from: "${gradleScriptDir}/publish-maven.gradle"
 
 } // javaPluginProjects
 

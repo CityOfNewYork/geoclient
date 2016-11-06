@@ -1,26 +1,13 @@
 apply plugin: "maven-publish"
 apply plugin: "signing"
 
-// The content of this file is inspired/copied from:
-//
-// https://github.com/trustin/sphinx-gradle-plugin/blob/master/build.gradle
 ext {
   gisNexusActive = findProperty('gisNexusActive') ?: null
   isReleaseVersion = !(project.version =~ /-SNAPSHOT$/)
-  nativeLibs = copySpec {
-    from rootProject.localLibsDir
-    include "**/*"
-  }
   ossrhActive = findProperty('ossrhActive') ?: null
   pomFile = file("${project.buildDir}/libs/generated-pom.xml")
   uploadReleaseUrl = findProperty('nexus-upload-releases') ?: null
   uploadSnapshotUrl = findProperty('nexus-upload-snapshots') ?: null
-}
-
-task nativeZip(type: Zip) {
-  from nativeLibs
-  into file(rootProject.buildDir)
-  version = project.version
 }
 
 signing {
@@ -67,56 +54,59 @@ publishing {
   }
 
   publications {
-    mavenNative(MavenPublication) {
-      artifact nativeZip {
-        classifier 'native'
+    if (plugins.hasPlugin('c')) {
+      mavenNative(MavenPublication) {
+        artifact nativeZip
       }
     }
-    mavenJava(MavenPublication) {
-      from components.java
-      artifact sourcesJar
-      artifact javadocJar
-      pom.withXml {
-        def root = asNode()
-        root.appendNode('name', "$project.name")
-        root.appendNode('description', "$project.description")
-        root.appendNode('url', 'https://github.com/CityOfNewYork/geoclient')
-        root.appendNode('inceptionYear', '2013')
+    if (plugins.hasPlugin('java')) {
 
-        def scm = root.appendNode('scm')
-        scm.appendNode('url', 'https://github.com/CityOfNewYork/geoclient')
-        scm.appendNode('connection', 'scm:https://git@github.com/CityOfNewYork/geoclient.git')
-        scm.appendNode('developerConnection', 'scm:git://github.com/CityOfNewYork/geoclient.git')
-
-        def license = root.appendNode('licenses').appendNode('license')
-        license.appendNode('name', 'The Apache Software License, Version 2.0')
-        license.appendNode('url', 'http://www.apache.org/licenses/LICENSE-2.0.txt')
-        license.appendNode('distribution', 'repo')
-
-        def organization = root.appendNode('organization')
-        organization.appendNode('name', 'City of New York / DoITT / Citywide GIS')
-        organization.appendNode('url', 'https://maps.nyc.gov')
-
-        def developers = root.appendNode('developers')
-        def mlipper = developers.appendNode('developer')
-        mlipper.appendNode('id', 'mlipper')
-        mlipper.appendNode('name', 'Matthew Lipper')
-        mlipper.appendNode('email', 'mlipper@doitt.nyc.gov')
-
-        def issueManagement = root.appendNode('issueManagement')
-        issueManagement.appendNode('system', 'GitHub')
-        issueManagement.appendNode('url', 'https://github.com/CityOfNewYork/geoclient/issues')
-      }
-      if (signing.required) {
-        // Sign the pom.xml.
+      mavenJava(MavenPublication) {
+        from components.java
+        artifact sourcesJar
+        artifact javadocJar
         pom.withXml {
-          writeTo(project.ext.pomFile)
-          def pomAscFile = signing.sign(project.ext.pomFile).signatureFiles[0]
-          artifact(pomAscFile) {
-            classifier = null
-            extension = 'pom.asc'
+          def root = asNode()
+          root.appendNode('name', "$project.name")
+          root.appendNode('description', "$project.description")
+          root.appendNode('url', 'https://github.com/CityOfNewYork/geoclient')
+          root.appendNode('inceptionYear', '2013')
+
+          def scm = root.appendNode('scm')
+          scm.appendNode('url', 'https://github.com/CityOfNewYork/geoclient')
+          scm.appendNode('connection', 'scm:https://git@github.com/CityOfNewYork/geoclient.git')
+          scm.appendNode('developerConnection', 'scm:git://github.com/CityOfNewYork/geoclient.git')
+
+          def license = root.appendNode('licenses').appendNode('license')
+          license.appendNode('name', 'The Apache Software License, Version 2.0')
+          license.appendNode('url', 'http://www.apache.org/licenses/LICENSE-2.0.txt')
+          license.appendNode('distribution', 'repo')
+
+          def organization = root.appendNode('organization')
+          organization.appendNode('name', 'City of New York / DoITT / Citywide GIS')
+          organization.appendNode('url', 'https://maps.nyc.gov')
+
+          def developers = root.appendNode('developers')
+          def mlipper = developers.appendNode('developer')
+          mlipper.appendNode('id', 'mlipper')
+          mlipper.appendNode('name', 'Matthew Lipper')
+          mlipper.appendNode('email', 'mlipper@doitt.nyc.gov')
+
+          def issueManagement = root.appendNode('issueManagement')
+          issueManagement.appendNode('system', 'GitHub')
+          issueManagement.appendNode('url', 'https://github.com/CityOfNewYork/geoclient/issues')
+        }
+        if (signing.required) {
+          // Sign the pom.xml.
+          pom.withXml {
+            writeTo(project.ext.pomFile)
+            def pomAscFile = signing.sign(project.ext.pomFile).signatureFiles[0]
+            artifact(pomAscFile) {
+              classifier = null
+              extension = 'pom.asc'
+            }
+            project.ext.pomFile.delete()
           }
-          project.ext.pomFile.delete()
         }
       }
     }

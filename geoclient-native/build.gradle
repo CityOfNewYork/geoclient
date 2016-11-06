@@ -11,7 +11,14 @@ task generateNativeSource(type: Sync) {
   ext.sourceDir = generatedSrcDir
 }
 
-task cleanGeneratedSource
+task nativeZip(type: Zip, dependsOn: build) {
+  version = project.version
+  from file("$buildDir/libs")
+}
+
+//artifacts {
+//  archives nativeZip
+//}
 
 model {
   platforms {
@@ -26,7 +33,7 @@ model {
   }
 
   toolChains {
-    gcc(Gcc) 
+    gcc(Gcc)
   }
 
   repositories {
@@ -47,7 +54,7 @@ model {
         // The stored reference to the 'headers' object visible in this closure
         // scope is a workaround to deal with an issue caused by the need for
         // platform-specific header files in a PrebuildLibrary. The 'headers'
-        // container does not have visibility into whether the current 
+        // container does not have visibility into whether the current
         // targetPlatform is 'buildable'.
         // This fix works for guessable yet unknown reasons when using
         // Gradle v2.14, JDK 1.8.0_92-x86_64, MSYS2/mingw64 on Windows 7, but
@@ -170,14 +177,13 @@ model {
       description 'Sync native binaries to $localLibsDir for use by integration tests.'
       def bins = $.binaries.withType(NativeLibraryBinarySpec).findAll { it.buildable }
       bins << $.binaries.withType(NativeExecutableBinarySpec).findAll { it.buildable }
-      from bins.collect { 
+      from bins.collect {
         it.primaryOutput
       }
       //from(files(project.gsLibraryPath))
       destinationDir = file(rootProject.localLibsDir)
     }
-
     build.finalizedBy(syncLocalNativeLibs)
-  } // tasks 
-} // model
 
+  } // tasks
+} // model
