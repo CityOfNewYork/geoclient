@@ -34,7 +34,7 @@ public interface Function
 	public static final String FHR = "HR";
 
 	public Map<String, Object> call(Map<String, Object> parameters);
-    public Configuration getConfiguration();
+  public Configuration getConfiguration();
 	public String getId();
 	public WorkArea getWorkAreaOne();
 	public WorkArea getWorkAreaTwo();
