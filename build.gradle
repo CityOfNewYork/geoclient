@@ -8,6 +8,7 @@ buildscript {
   dependencies {
     classpath "org.jogamp.gluegen:gluegen:${gluegenVersion}", "antlr:antlr:${antlrVersion}"
     classpath "com.github.ben-manes:gradle-versions-plugin:0.13.0"
+    classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.2.0'
   }
 }
 apply plugin: 'com.github.ben-manes.versions'
@@ -46,7 +47,8 @@ def javaPluginProjects = [
 ] as Set
 
 configure(javaPluginProjects) { p ->
-
+  // The Java build was originally adapted from the spring-framework's Gradle
+  // build
   apply plugin: 'java'
 
   ext.javadocLinks = [
@@ -82,20 +84,25 @@ configure(javaPluginProjects) { p ->
   compileJava {
     sourceCompatibility = 1.7
     targetCompatibility = 1.7
+    options.encoding = 'UTF-8'
   }
 
   compileTestJava {
-    sourceCompatibility = 1.7
-    targetCompatibility = 1.7
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    options.encoding = 'UTF-8'
   }
 
   dependencies {
+
     testCompile("junit:junit:${junitVersion}") {
       exclude group:'org.hamcrest', module:'hamcrest-core'
     }
+
     testCompile("org.mockito:mockito-all:${mockitoVersion}") {
       exclude group:'org.hamcrest', module:'hamcrest-core'
     }
+
     testCompile("org.hamcrest:hamcrest-all:${hamcrestVersion}")
   }
 
@@ -152,6 +159,8 @@ configure(javaPluginProjects) { p ->
     all*.exclude group: "commons-logging", module: "commons-logging"
   }
 
+  apply from: "${gradleScriptDir}/sniff.gradle"
+
 } // javaPluginProjects
 
 task cleanGeneratedSource {
@@ -163,6 +172,7 @@ task cleanGeneratedSource {
             ':geoclient-jni:cleanGenerateJavaSource')
 }
 
+// FIXME: Does not work reliably
 task cleanAll {
   group 'Build'
   description 'Remove all build artifacts, generated source and IDE metadata'

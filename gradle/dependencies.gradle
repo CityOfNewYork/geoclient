@@ -34,6 +34,7 @@ ext {
   jsonPathVersion           = "2.2.0"
   jspApiVersion             = "2.1"
   jstlVersion               = "1.2"
+  snifferVersion            = "1.15"
   springJsonpSupportVersion = "0.0.2"
   thymeleafVersion          = "2.1.4.RELEASE"
   geotoolsVersion           = "14.5"
