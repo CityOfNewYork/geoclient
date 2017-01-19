@@ -194,7 +194,6 @@ model {
       from bins.collect {
         it.primaryOutput
       }
-      //from(files(project.gsLibraryPath))
       destinationDir = file(rootProject.localLibsDir)
     }
     build.finalizedBy(syncLocalNativeLibs)
