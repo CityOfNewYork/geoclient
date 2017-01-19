@@ -209,6 +209,7 @@
         <field id="healthCenterDistrict" start="172" length="2"></field>
         <field id="healthArea" start="174" length="4"></field>
         <field id="sanitationDistrict" start="178" length="3"></field>
+        <field id="sanitationSection" start="179" length="3" type="COMP"></field>
         <field id="sanitationCollectionSchedulingSectionAndSubsection" start="181" length="2"></field>
         <field id="sanitationRegularCollectionSchedule" start="183" length="5"></field>
         <field id="sanitationRecyclingCollectionSchedule" start="188" length="3"></field>
@@ -237,7 +238,7 @@
         <field id="nta" start="246" length="4"><!-- needs doc --></field>
         <field id="sanitationSnowPriorityCode" start="250" length="1"><!-- needs doc --></field>
         <field id="sanitationOrganicsCollectionSchedule" start="251" length="5"><!--  needs doc --></field>
-        <field id="filler6" start="256" length="5"><!-- filtered --></field>
+        <field id="sanitationBulkPickupSchedule" start="256" length="5"></field>
         <field id="hurricaneEvacuationZone" start="261" length="2"><!-- filtered --></field>
         <field id="filler7" start="263" length="11"><!-- filtered --></field>
         <field id="underlyingHnsOnTrueStreet" start="274" length="11"><!-- needs doc --></field>
@@ -884,6 +885,7 @@
         <field id="healthCenterDistrict" start="172" length="2"><!-- item doc by id --></field>
         <field id="healthArea" start="174" length="4"><!-- item doc by id --></field>
         <field id="sanitationDistrict" start="178" length="3"><!-- item doc by id --></field>
+        <field id="sanitationSection" start="179" length="3" type="COMP"></field>
         <field id="sanitationCollectionSchedulingSectionAndSubsection" start="181" length="2"><!-- item doc by id --></field>
         <field id="sanitationRegularCollectionSchedule" start="183" length="5"><!-- item doc by id --></field>
         <field id="sanitationRecyclingCollectionSchedule" start="188" length="3"><!-- item doc by id --></field>
@@ -912,7 +914,7 @@
         <field id="nta" start="246" length="4"><!-- needs doc --></field>
         <field id="sanitationSnowPriorityCode" start="250" length="1"><!-- needs doc --></field>
         <field id="sanitationOrganicsCollectionSchedule" start="251" length="5"><!--  needs doc --></field>
-        <field id="filler6" start="256" length="5"><!-- filtered --></field>
+        <field id="sanitationBulkPickupSchedule" start="256" length="5"></field>
         <field id="hurricaneEvacuationZone" start="261" length="2"><!-- filtered --></field>
         <field id="filler7" start="263" length="11"><!-- filtered --></field>
         <field id="underlyingHnsOnTrueStreet" start="274" length="11"><!-- needs doc --></field>
@@ -1376,6 +1378,7 @@
         <field id="censusTract2000" start="176" length="6" whitespace="true"><!-- item doc by id --></field>
         <field id="healthCenterDistrict" start="182" length="2"></field>
         <field id="sanitationDistrict" start="184" length="3"></field>
+        <field id="sanitationSection" start="182" length="3" type="COMP"></field>
         <field id="sanitationCollectionSchedulingSectionAndSubsection" start="187" length="2"></field>
         <field id="filler7" start="189" length="12"></field>
       </fields>

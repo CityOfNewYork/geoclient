@@ -1937,11 +1937,24 @@ approximately 6000 maps covering all five boroughs.</p>
 <p>Sanitation district is defined by the Department of Sanitation for waste collection.</p>
 </description>
 </documentation>
+<documentation id="sanitationSection">
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+    <functionName>2</functionName>
+</functionNames>
+<format>3 bytes</format>
+<description>
+<p>Sanitation section is defined by the Department of Sanitation for waste collection.</p>
+</description>
+</documentation>
 <documentation id="sanitationCollectionSchedulingSectionAndSubsection">
 <functionNames>
     <functionName>1</functionName>
     <functionName>1B</functionName>
     <functionName>1E</functionName>
+    <functionName>2</functionName>
 </functionNames>
 <format>2 bytes</format>
 <description>
@@ -1988,6 +2001,20 @@ approximately 6000 maps covering all five boroughs.</p>
 <format>5 bytes</format>
 <description>
 <p>Indicates which days of the week the Department of Sanitation will pick up organic waste at the given address. Not available in all locations.</p>
+</description>
+</documentation>
+<documentation id="sanitationBulkPickupSchedule">
+  <aliases>
+    <alias>sanitationBulkPickupSchedule</alias>
+  </aliases>
+<functionNames>
+    <functionName>1</functionName>
+    <functionName>1B</functionName>
+    <functionName>1E</functionName>
+</functionNames>
+<format>5 bytes</format>
+<description>
+  <p>Indicates which day of the week the Department of Sanitation will pick up large/bulk waste at the given address.</p>
 </description>
 </documentation>
 <documentation id="segmentAzimuth">
@@ -2686,9 +2713,9 @@ City Name field. See the defaults listed below.</p>
                 with an address.</p>
         </description>
         <groups>
-            <groupDocumentation reference="listOfStreetNamesWa1" />
-     		<groupDocumentation reference="listOfHighCrossStreetB5SCs" />
-	       	<groupDocumentation reference="listOfLowCrossStreetB5SCs" />
+          <groupDocumentation reference="listOfStreetNamesWa1" />
+          <groupDocumentation reference="listOfHighCrossStreetB5SCs" />
+          <groupDocumentation reference="listOfLowCrossStreetB5SCs" />
         </groups>
     </functionDocumentation>
     <functionDocumentation id="1E">
@@ -2743,8 +2770,8 @@ City Name field. See the defaults listed below.</p>
             <groupDocumentation reference="listOfStreetNamesWa1" />
             <groupDocumentation reference="listOfHighCrossStreets1b" />
             <groupDocumentation reference="listOfLowCrossStreets1b" />
- 			<groupDocumentation reference="listOfHighCrossStreetB5SCs" />
-			<groupDocumentation reference="listOfLowCrossStreetB5SCs" />
+      <groupDocumentation reference="listOfHighCrossStreetB5SCs" />
+      <groupDocumentation reference="listOfLowCrossStreetB5SCs" />
             <groupDocumentation reference="listOfGeographicIdentifiers" />
         </groups>
     </functionDocumentation>
@@ -2786,8 +2813,8 @@ City Name field. See the defaults listed below.</p>
         </description>
         <groups>
             <groupDocumentation reference="listOfStreetNamesWa1" />
- 			<groupDocumentation reference="listOfHighCrossStreetB5SCs" />
-			<groupDocumentation reference="listOfLowCrossStreetB5SCs" />
+      <groupDocumentation reference="listOfHighCrossStreetB5SCs" />
+      <groupDocumentation reference="listOfLowCrossStreetB5SCs" />
         </groups>
     </functionDocumentation>
     <functionDocumentation id="DG">
