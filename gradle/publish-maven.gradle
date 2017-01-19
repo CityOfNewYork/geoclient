@@ -65,7 +65,7 @@ publishing {
         }
         customizePom(pom, project)
         if (signing.required) {
-          signPom(pom, project)
+          signPom(delegate, pom, project)
         }
       }
 
@@ -79,7 +79,7 @@ publishing {
         artifact javadocJar
         customizePom(pom, project)
         if (signing.required) {
-          signPom(pom, project)
+          signPom(delegate, pom, project)
         }
       } // mavenJava
     }
@@ -120,12 +120,12 @@ def customizePom(pom, project) {
   }
 }
 
-def signPom(pom, project) {
+def signPom(closure, pom, project) {
   // Sign the pom.xml.
   pom.withXml {
     writeTo(project.ext.pomFile)
     def pomAscFile = signing.sign(project.ext.pomFile).signatureFiles[0]
-    artifact(pomAscFile) {
+    closure.artifact(pomAscFile) {
       classifier = null
       extension = 'pom.asc'
     }
