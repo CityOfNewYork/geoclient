@@ -23,4 +23,3 @@ extern "C" {
 #endif
 
 #endif // NYCgeoH
- 

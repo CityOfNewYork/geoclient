@@ -2,7 +2,7 @@
 #define NYCgeoH
 
 #ifdef __cplusplus
-extern "C" 
+extern "C"
 {
 #endif
 
