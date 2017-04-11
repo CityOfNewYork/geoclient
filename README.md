@@ -49,7 +49,7 @@ The big picture:
 
 Geoclient is written in Java and Geosupport is written in C. Java applications use the Java Native Interface (JNI) to call C applications.
 
-* Before you run/build Geoclient, download and extract Geosupport binaries and C header files. 
+* Before you run/build Geoclient, download and extract Geosupport binaries and C header files.
 
 * Platforms
   * Currently - Linux x86_64
@@ -67,7 +67,7 @@ Geoclient is written in Java and Geosupport is written in C. Java applications u
 
 #### High-level Requirements
   * 64-bit Linux or Windows
-  * 64-bit Geosupport 15+ 
+  * 64-bit Geosupport 15+
   * 64-bit native compiler: gcc/g++ 4.3+
   * 64-bit JDK: 1.7 or 1.8 ("Full" JDK required. JRE by itself will *not* build)
   * Gradle 2.14+ (pre-install not required if your build machine has Internet connectivity)
@@ -78,7 +78,7 @@ $ git clone https://github.com/CityOfNewYork/geoclient
 
 $ cd geoclient
 
-$ ./gradlew regenerate
+$ ./gradlew build
 
 ```
 
@@ -104,7 +104,7 @@ In 2013, at the request of DoITT/Citywide GIS, the programmers at DCP compiled G
 ### Support ###
 
 * Found a bug (*..gasp..*)? Please [let us know](https://github.com/cityofnewyork/geoclient/issues)
-* Unanswered technical questions? mlipper at doitt.nyc.gov 
+* Unanswered technical questions? mlipper at doitt.nyc.gov
 
 ### License ###
 

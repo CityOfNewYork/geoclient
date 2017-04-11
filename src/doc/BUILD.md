@@ -23,7 +23,7 @@ At this time, only the 64-bit version of Geosupport is supported, meaning that t
 
 Geoclient relies on [the Department of City Planning's Geosupport geocoder](http://www1.nyc.gov/site/planning/data-maps/open-data.page#geocoding_application) to do anything useful. On Linux, Windows, and (soon, hopefully) OSX, Geosupport is distributed as a handful of C shared libraries and proprietary data files.
 
-Geoclient is written in Java and currently uses the JDK's mysterious [JNI](https://en.wikipedia.org/wiki/Java_Native_Interface) API to make "function calls" into Geosupport from a running JVM. At a high level, building Geoclient from source on any supported platform, requires that everyone in both C and Java-land know what's going on. 
+Geoclient is written in Java and currently uses the JDK's mysterious [JNI](https://en.wikipedia.org/wiki/Java_Native_Interface) API to make "function calls" into Geosupport from a running JVM. At a high level, building Geoclient from source on any supported platform, requires that everyone in both C and Java-land know what's going on.
 
 **To build Geoclient from source**, it's necessary that:
 >- the C compiler can find the header files for Geosupport, Geoclient, the JDK (Java), and the platform's standard C libs.
@@ -32,7 +32,7 @@ Geoclient is written in Java and currently uses the JDK's mysterious [JNI](https
 
 **At runtime, Geosupport needs to know** where to find:
 >- its own data files (GEOFILES)
->- its own C libraries (see above). 
+>- its own C libraries (see above).
 
 **At runtime, the JVM must know** where to find:
 >- Geoclient's classes and external class dependencies (see above)
@@ -44,17 +44,17 @@ Geoclient is written in Java and currently uses the JDK's mysterious [JNI](https
 Geoclient contains a thin layer ("waaferr thin") of C that exists primarily to abstract the platform-specific naming conventions and differing runtime requirements Geosupport uses on each platform. Geoclient uses [Gradle](https://gradle.org) build, test and package both the C and Java code base.
 
 While this will be increasingly awesome (hopefully) as Gradle evolves, it currently is a big, fat P.I.A. because, on Windows, linking against the latest versions of Geosupport requires Visual Studio 2015. At the moment, Gradle doesn't support VS 2015 (there is a [long-awaited patch stuck in the release queue](https://github.com/gradle/gradle/pull/500)) and it's likely that some TechNet research or ugly hard-coded path hack will work but we're using `mingw-w64-x86_64-gcc` from [MSYS2](http://msys2.github.io/) for now.
- 
-**The location of the Geosupport shared libraries.** 
+
+**The location of the Geosupport shared libraries.**
 Either of the following should work:
 >  1. Set environment variable `GS_LIBRARY_PATH=<geosupport install>/lib`
 >  2. Specify the `gsLibraryPath` property in the `gradle.properties` file in the base Geoclient source tree or on the command line as a Gradle project property `-PgsLibraryPath=<geosupport install>/lib`
-  
+
 **The location of Geosupport's required GEOFILES environment variable**
 >  1. Set environment variable `GEOFILES=<geosupport install>/fls`
 >  2. Specify the `gsGeofiles` property in the `gradle.properties` file in the base Geoclient source tree or on the command line as a Gradle project property `-PgsGeofiles=<geosupport install>/fls`
 
-Note that Geosupport requires this environment variable be set at runtime and that on Windows it must end with a trailing file separator (`GS_LIBRARY_PATH=<geosupport install>/Fls/`). The Gradle build will export this environment variable automatically if it is not set _and_ `gsGeofiles` _is specified_ but this will only be visible to the forked JVM used when Gradle runs test tasks.) 
+Note that Geosupport requires this environment variable be set at runtime and that on Windows it must end with a trailing file separator (`GS_LIBRARY_PATH=<geosupport install>/Fls/`). The Gradle build will export this environment variable automatically if it is not set _and_ `gsGeofiles` _is specified_ but this will only be visible to the forked JVM used when Gradle runs test tasks.)
 
 **The location of the correct Geosupport header files**
 >  1. Set environment variable `GS_INCLUDE_PATH=<geosupport install>/include/foruser`
@@ -66,7 +66,7 @@ Note that the location of Geosupport include directory may just be `<geosupport_
 
 * Table of config source, owner, platform, etc.
 
-### Installing Geosupport 
+### Installing Geosupport
 
 *TODO*
 
@@ -88,7 +88,7 @@ Note that the location of Geosupport include directory may just be `<geosupport_
 * Deployment recipes: Tomcat Servlet context, CLI, etc.
 
 ### Gradle - v2.14+ (v3 support coming soon)
-   
+
 *TODO*
 
 * Environment variables: JAVA_HOME, GRADLE_USER_HOME, etc...
@@ -129,10 +129,10 @@ The following instructions are a less detailed summary based on this Stackoverfl
 
 4. Verify that gcc is working and g++ is included on the path:
 
-    $ gcc -v  
+    $ gcc -v
     ... (lots of info)
 
-    $ g++ -v  
+    $ g++ -v
     ... (same info)
 
 Again, the Stackoverflow [post](http://stackoverflow.com/questions/30069830/how-to-install-mingw-w64-and-msys2) mentioned above provides more descriptive instructions.
