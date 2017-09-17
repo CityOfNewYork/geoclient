@@ -1,0 +1,47 @@
+--- geo.h	2017-08-01 15:52:57.000000000 +0000
++++ geo.h.fix	2017-09-13 18:02:11.832681525 +0000
+@@ -1,25 +1,25 @@
+-//---------------------------------------------------------------------------
+-
+ #ifndef NYCgeoH
+ #define NYCgeoH
+-//---------------------------------------------------------------------------
+ 
+-////////////////////////////////////////////////////////////////////////////////
+-//*** below is the declaration for __stdcall (pascal) 
+-////////////////////////////////////////////////////////////////////////////////
+-#ifdef WIN32 
+-#ifdef __cplusplus                                                      
+-extern "C" {                                                            
+-#endif
+-//void __declspec(dllimport) __stdcall geo(char *ptr_wa1, char *ptr_wa2);
+-//void ROLE __stdcall geo(char *ptr_wa1, char *ptr_wa2);
+-void ROLE geo(char *ptr_wa1, char *ptr_wa2);
++/*
++ * 2016-01-04 - Matthew Lipper
++ *
++ * Re-wrote this header to fix broken macro and Linux function definition.
++ *
++ */
++
+ #ifdef __cplusplus
+-       }
++extern "C" {
++#endif
++
++#ifdef _WIN32
++  void __declspec(dllimport) __stdcall geo(char *ptr_wa1, char *ptr_wa2);
++#else
++  void geo(char *ptr_wa1, char *ptr_wa2);
+ #endif
+-//---------------------------------------------------------------------------
++
++#ifdef __cplusplus
++}
+ #endif
+-#elif defined (__linux__) 
+-extern void geo(char *ptr_wa1, char *ptr_wa2);
+-#endif  
+- 
++
++#endif // NYCgeoH

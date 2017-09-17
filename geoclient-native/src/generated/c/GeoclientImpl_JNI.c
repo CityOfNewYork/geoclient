@@ -5,8 +5,9 @@
 #include <string.h>
 
 #include <assert.h>
+#include <stddef.h>
 
-static jobject JVMUtil_NewDirectByteBufferCopy(JNIEnv *env, void * source_address, jlong capacity); /* forward decl. */
+static jobject JVMUtil_NewDirectByteBufferCopy(JNIEnv *env, void * source_address, size_t capacity); /* forward decl. */
 
  #include "geoclient.h"
 
@@ -23,7 +24,7 @@ Java_gov_nyc_doitt_gis_geoclient_jni_GeoclientImpl_callgeo1__Ljava_lang_Object_2
     _work_area1_ptr = (char *) ( JNI_TRUE == work_area1_is_nio ?  (*env)->GetDirectBufferAddress(env, work_area1) :  (*env)->GetPrimitiveArrayCritical(env, work_area1, NULL) );  }
   if ( NULL != work_area2 ) {
     _work_area2_ptr = (char *) ( JNI_TRUE == work_area2_is_nio ?  (*env)->GetDirectBufferAddress(env, work_area2) :  (*env)->GetPrimitiveArrayCritical(env, work_area2, NULL) );  }
-  callgeo((char *) (((char *) _work_area1_ptr) + work_area1_byte_offset), (char *) (((char *) _work_area2_ptr) + work_area2_byte_offset));
+  callgeo((char * ) (((char *) _work_area1_ptr) + work_area1_byte_offset), (char * ) (((char *) _work_area2_ptr) + work_area2_byte_offset));
   if ( JNI_FALSE == work_area1_is_nio && NULL != work_area1 ) {
     (*env)->ReleasePrimitiveArrayCritical(env, work_area1, _work_area1_ptr, 0);  }
   if ( JNI_FALSE == work_area2_is_nio && NULL != work_area2 ) {

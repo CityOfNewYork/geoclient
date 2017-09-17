@@ -8,7 +8,7 @@ import com.jogamp.common.nio.Buffers;
 import java.nio.*;
 
 public class GeoclientImpl implements Geoclient{
-  /** Interface to C language function: <br> <code> void callgeo(char *  work_area1, char *  work_area2) </code> 
+  /** Interface to C language function: <br> <code>void callgeo(char *  work_area1, char *  work_area2)</code><br>
       @param work_area1 a direct or array-backed {@link java.nio.ByteBuffer}
       @param work_area2 a direct or array-backed {@link java.nio.ByteBuffer}   */
   public void callgeo(ByteBuffer work_area1, ByteBuffer work_area2)  {
@@ -18,12 +18,12 @@ public class GeoclientImpl implements Geoclient{
         callgeo1(work_area1_is_direct ? work_area1 : Buffers.getArray(work_area1), work_area1_is_direct ? Buffers.getDirectBufferByteOffset(work_area1) : Buffers.getIndirectBufferByteOffset(work_area1), work_area1_is_direct, work_area2_is_direct ? work_area2 : Buffers.getArray(work_area2), work_area2_is_direct ? Buffers.getDirectBufferByteOffset(work_area2) : Buffers.getIndirectBufferByteOffset(work_area2), work_area2_is_direct);
   }
 
-  /** Entry point to C language function: <code> void callgeo(char *  work_area1, char *  work_area2) </code> 
+  /** Entry point to C language function: <code>void callgeo(char *  work_area1, char *  work_area2)</code><br>
       @param work_area1 a direct or array-backed {@link java.nio.ByteBuffer}
       @param work_area2 a direct or array-backed {@link java.nio.ByteBuffer}   */
   private native void callgeo1(Object work_area1, int work_area1_byte_offset, boolean work_area1_is_direct, Object work_area2, int work_area2_byte_offset, boolean work_area2_is_direct);
 
-  /** Interface to C language function: <br> <code> void callgeo(char *  work_area1, char *  work_area2) </code>    */
+  /** Interface to C language function: <br> <code>void callgeo(char *  work_area1, char *  work_area2)</code><br>   */
   public void callgeo(byte[] work_area1, int work_area1_offset, byte[] work_area2, int work_area2_offset)  {
 
     if(work_area1 != null && work_area1.length <= work_area1_offset)

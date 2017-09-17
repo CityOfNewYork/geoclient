@@ -10,12 +10,12 @@ import java.nio.*;
 public interface Geoclient {
 
 
-  /** Interface to C language function: <br> <code> void callgeo(char *  work_area1, char *  work_area2) </code> 
+  /** Interface to C language function: <br> <code>void callgeo(char *  work_area1, char *  work_area2)</code><br>
       @param work_area1 a direct or array-backed {@link java.nio.ByteBuffer}
       @param work_area2 a direct or array-backed {@link java.nio.ByteBuffer}   */
   public void callgeo(ByteBuffer work_area1, ByteBuffer work_area2);
 
-  /** Interface to C language function: <br> <code> void callgeo(char *  work_area1, char *  work_area2) </code>    */
+  /** Interface to C language function: <br> <code>void callgeo(char *  work_area1, char *  work_area2)</code><br>   */
   public void callgeo(byte[] work_area1, int work_area1_offset, byte[] work_area2, int work_area2_offset);
 
 
