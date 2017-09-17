@@ -7,7 +7,7 @@ buildscript {
   }
   dependencies {
     classpath "org.jogamp.gluegen:gluegen:${gluegenVersion}", "antlr:antlr:${antlrVersion}"
-    classpath "com.github.ben-manes:gradle-versions-plugin:0.13.0"
+    classpath "com.github.ben-manes:gradle-versions-plugin:0.15.0"
     classpath 'ru.vyarus:gradle-animalsniffer-plugin:1.2.0'
   }
 }
