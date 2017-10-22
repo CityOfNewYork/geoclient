@@ -162,19 +162,3 @@ configure(javaPluginProjects) { p ->
   apply from: "${gradleScriptDir}/sniff.gradle"
 
 } // javaPluginProjects
-
-task cleanGeneratedSource {
-  group 'Build'
-  description 'Remove generated source directories'
-  dependsOn(':geoclient-generate:cleanGenerateJavaSource',
-            ':geoclient-generate:cleanGenerateNativeSource',
-            ':geoclient-native:cleanGenerateNativeSource',
-            ':geoclient-jni:cleanGenerateJavaSource')
-}
-
-// FIXME: Does not work reliably
-task cleanAll {
-  group 'Build'
-  description 'Remove all build artifacts, generated source and IDE metadata'
-  dependsOn(clean, cleanGeneratedSource, cleanEclipse)
-}
