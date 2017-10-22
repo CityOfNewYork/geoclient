@@ -1,68 +1,12 @@
-//plugins {
-//  id 'jvm-component'
-//  id 'java-lang'
-//}
-//
-//model {
-//  components {
-//    main(JvmLibrarySpec) {
-//      sources {
-//        java {
-//          dependencies {
-//            library "generated"
-//          }
-//        }
-//      }
-//    }
-//
-//    generated(JvmLibrarySpec) {
-//      sources {
-//        generated(JavaSourceSet) {
-//          //generatedBy tasks.generateJni
-//          builtBy tasks.generateJni
-//          dependencies {
-//            configurations.jniRuntime
-//          }
-//        }
-//      }
-//    }
-//  }
-//}
-def generatedJavaSourceDir = "$projectDir/src/generated/java"
-
-configurations {
-  jniRuntime
-}
 
 sourceSets {
-  generated {
-    output.dir(generatedJavaSourceDir, builtBy: 'generateJavaSource')
+  main.java {
+    srcDirs = ['src/main/java','src/generated/java']
   }
 }
 
-task generateJavaSource(type: Sync) {
-  from project(':geoclient-generate').generateJavaSource
-  into generatedJavaSourceDir
-}
-
 dependencies {
-  jniRuntime("org.jogamp.gluegen:gluegen:$gluegenVersion")
-  generatedCompile(configurations.jniRuntime)
-  compile configurations.generatedCompile
-}
-
-compileGeneratedJava {
-  dependsOn(generateJavaSource)
-}
-
-compileJava {
-  dependsOn(compileGeneratedJava)
-  classpath = files(classpath, sourceSets.generated.output.classesDir)
-}
-
-jar {
-  from sourceSets.main.output
-  from sourceSets.generated.output.classesDir
+  compile "org.jogamp.gluegen:gluegen:$gluegenVersion"
 }
 
 artifacts {
