@@ -104,6 +104,8 @@ configure(javaPluginProjects) { p ->
     }
 
     testCompile("org.hamcrest:hamcrest-all:${hamcrestVersion}")
+
+    testCompile('org.assertj:assertj-core:3.9.0')
   }
 
   jar {

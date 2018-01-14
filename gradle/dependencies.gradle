@@ -1,13 +1,14 @@
 ext {
   // JNI code generation
-  // Gluegen v2.3.2 caused runtime segfaults on jdk1.7 and 1.8 due to 
+  // Gluegen v2.3.2 caused runtime segfaults on jdk1.7 and 1.8 due to
   // https://jogamp.org/bugzilla/show_bug.cgi?id=1166 which claims the issue
   // is fixed. Given that GLuegen only officially supports jdk1.6 it probably
-  // is on that version of the JVM. 
+  // is on that version of the JVM.
   // 2016-07-14 - Set in gradle.properties
   // gluegenVersion            = "2.2.4"
   // antlrVersion              = "2.7.7"
   // Testing
+  assertJVersion            = "3.9.0"
   hamcrestVersion           = "1.3"
   junitVersion              = "4.12"
   mockitoVersion            = "1.10.19"
