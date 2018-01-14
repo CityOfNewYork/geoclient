@@ -38,7 +38,7 @@ model {
   repositories {
     libs(PrebuiltLibraries) {
       geosupport {
-        headers.srcDir gsIncludePath
+        headers.srcDir(gsIncludePath ?: "${projectDir}/src/geosupport/headers")
         binaries.withType(SharedLibraryBinary) {
           if (targetPlatform.operatingSystem.windows) {
             sharedLibraryFile = file("${gsLibraryPath}/NYCgeo.dll")
