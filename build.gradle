@@ -56,14 +56,14 @@ configure(javaPluginProjects) { p ->
           "http://docs.oracle.com/javaee/7/api/"
   ] as String[]
 
-  if(p != project(':geoclient-jni')) {
+//  if(p != project(':geoclient-jni')) {
     test {
       // Variables set in gradle/env.gradle
       systemProperty "java.library.path", testJavaLibraryPath
       environment "GEOFILES", gsGeofiles
       environment testSystemLibraryPath.varname, testSystemLibraryPath.value
     }
-  }
+//  }
   // Once the Gluegen 2.3.x annotation warnings to stderr are fixed then
   // add "-Werror" to the List.
   // See https://jogamp.org/bugzilla/show_bug.cgi?id=1256
