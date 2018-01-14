@@ -1,0 +1,24 @@
+FROM gradle:4.4.1-jdk8
+LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
+
+# Default used by mlipper/geosupport-docker
+ENV GEOSUPPORT_HOME ${GEOSUPPORT_HOME:-/opt/geosupport}
+# Trailing '/' required
+ENV GEOFILES $GEOSUPPORT_HOME/fls/
+# For compiling and linking geoclient-native C sources
+ENV GS_LIBRARY_PATH $GEOSUPPORT_HOME/lib
+# For running integration tests which use JNI
+ENV LD_LIBRARY_PATH $GEOSUPPORT_HOME/lib:/home/gradle/geoclient/build/libs
+
+WORKDIR /home/gradle/geoclient
+
+USER root
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libc6-dev \
+    gcc \
+    g++ \
+    vim \
+    && rm -rf /var/lib/apt/lists/*
+
+USER gradle
