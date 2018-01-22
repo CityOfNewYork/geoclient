@@ -1,12 +1,29 @@
 
 sourceSets {
-  main.java {
-    srcDirs = ['src/main/java','src/generated/java']
+  main {
+    java {
+      srcDirs = ['src/main/java','src/generated/java']
+    }
+    resources {
+      srcDirs = ['src/main/resources']
+    }
   }
 }
 
 dependencies {
-  compile "org.jogamp.gluegen:gluegen:$gluegenVersion"
+    compile "org.jogamp.gluegen:gluegen:$gluegenVersion"
+}
+
+processResources {
+  dependsOn ':geoclient-native:assemble'
+  doLast {
+    copy {
+      from project.localLibsDir
+      include '**/libgeoclientjni.so'
+      into "${buildDir}/resources/main"
+      rename 'libgeoclientjni.so', 'libgeoclientjni-linux64.so'
+    }
+  }
 }
 
 artifacts {

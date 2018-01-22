@@ -5,6 +5,7 @@ package gov.nyc.doitt.gis.geoclient.jni;
 // import com.jogamp.gluegen.runtime.*;
 // import com.jogamp.common.os.*;
 import com.jogamp.common.nio.Buffers;
+import java.io.IOException;
 import java.nio.*;
 
 public class GeoclientImpl implements Geoclient{
@@ -36,21 +37,27 @@ public class GeoclientImpl implements Geoclient{
 
   // --- Begin CustomJavaCode .cfg declarations
  static
- {   
+ {
+
+   try {
+     NativeLibraryLoader.getInstance().loadLibrary(System.getProperty("java.io.tmpdir"));
+   } catch (IOException ioe) {
+     throw new RuntimeException(ioe);
+   }
      //
      // System.loadLibrary(String): uses the paths specified in Java System variable 'java.library.path'
      // System.load(String): uses platform-dependant absolute path
      //
      // Loads
-     //       libgeoclient_jni.so (on Linux)
-     //       geoclient_jni.dll   (on Windows)
+     //       libgeoclientjni.so (on Linux)
+     //       geoclientjni.dll   (on Windows)
      //
      // TODO: Confirm the following:
      // Both methods add any paths defined by the standard platform-specific lib paths (LD_LIBRARY, PATH, etc.)
      // to the overall library path that were defined by the environment owning the parent Java process.
-     // 
-     System.loadLibrary("geoclient_jni");
+     //
+     //System.loadLibrary("geoclientjni");
  }
-  // ---- End CustomJavaCode .cfg declarations
+ // ---- End CustomJavaCode .cfg declarations
 
 } // end of class GeoclientImpl

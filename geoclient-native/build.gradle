@@ -148,7 +148,7 @@ model {
     geoclientJni(NativeLibrarySpec) {
       targetPlatform "linux_x64"
       targetPlatform "windows_x64"
-      baseName "geoclient_jni"
+      baseName "geoclientjni"
       sources {
         c {
           source {
@@ -167,7 +167,7 @@ model {
         }
       } // sources
 
-    } // geoclient_jni
+    } // geoclientjni
   } // components
 
   tasks {
@@ -180,7 +180,8 @@ model {
       }
       destinationDir = file(rootProject.localLibsDir)
     }
-    build.finalizedBy(syncLocalNativeLibs)
+    //build.finalizedBy(syncLocalNativeLibs)
+    assemble.finalizedBy(syncLocalNativeLibs)
 
   } // tasks
 } // model
