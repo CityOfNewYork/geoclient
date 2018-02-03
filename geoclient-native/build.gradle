@@ -124,7 +124,15 @@ model {
           linker.args "-Wl,--no-as-needed", "-L${gsLibraryPath}", "-lc", "-lgeo", "-lm", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         }
       }
+
+      // FIXME
+      //if (toolChain in VisualCpp) {
+      //  cCompiler.args "/EHsc ${gsLibraryPath}/NYCgeo.lib", "/Zi"
+      //  cCompiler.define "DLL_IMPORT"
+      //  linker.args "/LIBPATH:${gsLibraryPath}"
+      //}
     }
+
     withType(NativeExecutableBinarySpec) {
       if (toolChain in Gcc) {
         cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
