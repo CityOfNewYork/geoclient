@@ -1,8 +1,9 @@
+package gov.nyc.doitt.gis.geoclient.jni;
+
 //
 // This class is copied from Facebook's RocksDB v5.9.2
 // See https://github.com/facebook/rocksdb
 //
-package gov.nyc.doitt.gis.geoclient.jni;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -38,7 +39,7 @@ public class NativeLibraryLoader {
    * Firstly attempts to load the library from <i>java.library.path</i>,
    * if that fails then it falls back to extracting
    * the library from the classpath
-   * {@link org.geoclient.NativeLibraryLoader#loadLibraryFromJar(java.lang.String)}
+   * {@link gov.nyc.doitt.gis.geoclient.jni.NativeLibraryLoader#loadLibraryFromJar(java.lang.String)}
    *
    * @param tmpDir A temporary directory to use
    *   to copy the native library to when loading from the classpath.

@@ -4,36 +4,6 @@ configurations {
   archives
 }
 
-task jar(type: org.gradle.api.tasks.bundling.Jar) {
-  //dependsOn assemble
-  manifest {
-    attributes(
-      'Specification-Title': project.name,
-      'Specification-Version': project.version,
-      'Specification-Vendor': 'City of NYC/DoITT/Citywide GIS',
-      'Implementation-Title': project.name,
-      'Implementation-Version': project.version,
-      'Implementation-Vendor': 'City of NYC/DoITT/Citywide GIS',
-      'Built-By': System.getProperty('user.name'),
-      'Built-Date': new Date(),
-      'Built-Gradle': gradle.gradleVersion
-    )
-  }
-  //archiveName = ${baseName}-${appendix}-${version}-${classifier}.${extension}
-  //def bins = $.binaries.withType(NativeLibraryBinarySpec).findAll { it.buildable }
-  //from bins.collect {
-  //  it.primaryOutput
-  //}
-  //include '**/libgeoclientjni.so'
-  //rename 'libgeoclientjni.so', 'libgeoclientjni-linux64.so'
-  ext.bins = fileTree(dir: "$buildDir/libs", includes: ["**/libgeoclientjni.so"])
-  include '**/libgeoclientjni.so'
-  rename 'libgeoclientjni.so', 'libgeoclientjni-linux64.so'
-}
-artifacts {
-  archives jar
-}
-
 task nativeZip(type: Zip, dependsOn: build) {
   version = project.version
   from file("$buildDir/libs")
@@ -225,7 +195,6 @@ model {
     }
     //build.finalizedBy(syncLocalNativeLibs)
     assemble.finalizedBy(syncLocalNativeLibs)
-    assemble.finalizedBy(jar)
 
   } // tasks
 

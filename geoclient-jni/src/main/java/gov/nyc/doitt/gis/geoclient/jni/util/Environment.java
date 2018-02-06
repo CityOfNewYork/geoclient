@@ -1,8 +1,9 @@
+package gov.nyc.doitt.gis.geoclient.jni.util;
+
 //
 // This class is copied from Facebook's RocksDB v5.9.2
 // See https://github.com/facebook/rocksdb
 //
-package gov.nyc.doitt.gis.geoclient.jni.util;
 
 public class Environment {
   private static String OS = System.getProperty("os.name").toLowerCase();

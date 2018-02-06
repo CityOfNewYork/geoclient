@@ -134,7 +134,8 @@ configure(javaPluginProjects) { p ->
     options.author = true
     options.header = project.name
     //options.links(javadocLinks)
-    options.quiet()
+    //options.quiet()
+    options.verbose()
     // Suppress cross-module @see and @link reference warnings
     logging.captureStandardError LogLevel.INFO
     // suppress "## warnings"
