@@ -1,4 +1,4 @@
-FROM gradle:4.4.1-jdk8
+FROM gradle:4.5-jdk8
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 
 # Default used by mlipper/geosupport-docker
