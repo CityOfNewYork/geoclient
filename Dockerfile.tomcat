@@ -1,17 +1,28 @@
 FROM tomcat:8.5
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 
-ENV LOCAL_JNI_LIB_DIR build/libs
-ENV LOCAL_JNI_JAR_DIR geoclient-jni/build/dist
-ENV LOCAL_APP_WAR_DIR geoclient-service/build/dist
-
-COPY $LOCAL_JNI_LIB_DIR/*.so $CATALINA_HOME/shared/lib
-COPY $LOCAL_JNI_JAR_DIR/*.jar $CATALINA_HOME/shared/lib
-
-# Defaults used by mlipper/geosupport-docker
+#
+# TODO Create Dockerfile.onBuild in geosupport-docker or something.
+#
+# Pre-reqs:
+#
+#   1. Data volume container created from mlipper/geosupport-docker
+#         '-e GEOSUPPORT_HOME=<path> --name <dvc-name>'
+#      The -e argument can be left off if the default is acceptable.
+#
+#   2. The container created from this image run with 
+#         '-e GEOSUPPORT_HOME=<path> --volumes-from <dvc-name>'
+#      The -e argument can be left off if the default was used in step 1.
+#
+#   3. The :geoclient-service:assemble task has run successfully and a valid
+#      .war file exists in that project's $buildDir/libs directory.
+#
 ENV GEOSUPPORT_HOME ${GEOSUPPORT_HOME:-/opt/geosupport}
-ENV GS_LIBRARY_PATH ${GS_LIBRARY_PATH:-$GEOSUPPORT_HOME/lib}
+
+RUN . $GEOSUPPORT_HOME/bin/initenv
+
+COPY geoclient-service/build/libs/*.war $CATALINA_HOME/webapps/gc.war
 
 EXPOSE 8888 8080
 
-CMD ["catalina.sh", "run", "--java.library.path=$CATALINA_HOME/shared/lib:$GS_LIBRARY_PATH"]
+CMD ["catalina.sh", "run", "--java.library.path=$LD_LIBRARY_PATH"]
