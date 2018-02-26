@@ -16,24 +16,17 @@ dependencies {
 
 processResources {
   dependsOn ':geoclient-native:assemble'
-  doLast {
-    copy {
-      from project.localLibsDir
-      include '**/libgeoclientjni.so'
-      into "${buildDir}/resources/main"
-      rename 'libgeoclientjni.so', 'libgeoclientjni-linux64.so'
-    }
-  }
-}
 
-processResources {
-  dependsOn ':geoclient-native:assemble'
+  // FIXME I only work on Linux  
+  ext.libfileName = "libgeoclientjni.so"
+  ext.libfile = new File("${project(':geoclient-native').buildDir}/libs/geoclientJni/shared/linux_x64/${libfileName}")
+  inputs.file(libfile)
   doLast {
     copy {
-      from project.localLibsDir
-      include '**/libgeoclientjni.so'
+      //from project.localLibsDir
+      from libfile
       into "${buildDir}/resources/main"
-      rename 'libgeoclientjni.so', 'libgeoclientjni-linux64.so'
+      rename libfileName, 'libgeoclientjni-linux64.so'
     }
   }
 }

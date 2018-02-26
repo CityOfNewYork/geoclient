@@ -57,7 +57,7 @@ function debug {
     -e GRADLE_OPTS="-Dorg.gradle.debug=true" \
     --volumes-from geosupport \
     -v "$PWD":/home/gradle/geoclient \
-    --name geoclient \
+    --name geoclient-debug \
     mlipper/geoclient:latest \
     ./gradlew "$@"
 }

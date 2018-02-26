@@ -58,9 +58,11 @@ configure(javaPluginProjects) { p ->
 
   test {
     // Variables set in gradle/env.gradle
-    systemProperty "java.library.path", testJavaLibraryPath
+    systemProperty "java.library.path", gcLibraryPath
+    // Ensure Geosupport knows where to find its data files
     environment "GEOFILES", gsGeofiles
-    environment testSystemLibraryPath.varname, testSystemLibraryPath.value
+    // Ensure the Geosupport libs are on the native system library path
+    environment libraryPathEnvironmentVariableName, gsLibraryPath
   }
 
   // Once the Gluegen 2.3.x annotation warnings to stderr are fixed then
@@ -133,9 +135,9 @@ configure(javaPluginProjects) { p ->
     options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
     options.author = true
     options.header = project.name
-    //options.links(javadocLinks)
-    //options.quiet()
-    options.verbose()
+    options.links(javadocLinks)
+    options.quiet()
+    //options.verbose()
     // Suppress cross-module @see and @link reference warnings
     logging.captureStandardError LogLevel.INFO
     // suppress "## warnings"
