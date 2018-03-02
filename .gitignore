@@ -16,6 +16,7 @@
 # VisualStudio
 **/.vs
 **/vs/
+**/.vscode/
 
 # Vim
 **/*.swp
