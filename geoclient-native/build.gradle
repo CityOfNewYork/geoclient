@@ -70,7 +70,10 @@ model {
         binaries.withType(SharedLibraryBinary) {
           def os = targetPlatform.operatingSystem
           if (os.windows) {
-            headersContainer.srcDir "${jniJavaHome}/include/win32"
+            // Override <JDK>/include/win32/jni_md.h due to mingw64/cygwin
+            // compiler issue.
+            //headersContainer.srcDir "${jniJavaHome}/include/win32"
+            headersContainer.srcDir "${projectDir}/src/main/headers/win32"
           } else if (os.linux) {
             headersContainer.srcDir "${jniJavaHome}/include/linux"
           }
@@ -88,7 +91,7 @@ model {
         cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
         if (targetPlatform.operatingSystem.windows) {
           cCompiler.define "DLL_EXPORT"
-          linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+          linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
         } else if (targetPlatform.operatingSystem.linux) {
           cCompiler.args "-fPIC"
           linker.args "-Wl,--no-as-needed", "-L${gsLibraryPath}", "-lc", "-lgeo", "-lm", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
@@ -108,7 +111,7 @@ model {
         cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
         if (targetPlatform.operatingSystem.windows) {
           cCompiler.define "DLL_IMPORT"
-          linker.args "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+          linker.args "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
         } else if (targetPlatform.operatingSystem.linux) {
           linker.args "-Wl,--no-as-needed", "-L${gsLibraryPath}", "-lc", "-lgeo", "-lm", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         }

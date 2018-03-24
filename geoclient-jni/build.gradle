@@ -17,16 +17,27 @@ dependencies {
 processResources {
   dependsOn ':geoclient-native:assemble'
 
-  // FIXME I only work on Linux  
-  ext.libfileName = "libgeoclientjni.so"
-  ext.libfile = new File("${project(':geoclient-native').buildDir}/libs/geoclientJni/shared/linux_x64/${libfileName}")
-  inputs.file(libfile)
+  ext.libName = "geoclientjni"
+
+  if(project.isWindows) {
+    ext.libFilePrefix = ""
+    ext.libFileType = "dll"
+    ext.platformName = "windows_x64"
+  } else {
+    ext.libFilePrefix = "lib"
+    ext.libFileType = "so"
+    ext.platformName = "linux_x64"
+  }
+  ext.libFileName = "${libFilePrefix}${libName}.${libFileType}"
+  ext.libFile = new File("${project(':geoclient-native').buildDir}/libs/geoclientJni/shared/${platformName}/${libFileName}")
+  inputs.file(libFile)
   doLast {
+    logger.lifecycle("Copying ${libFile.absolutePath} to ${buildDir}/resources/main/${libFilePrefix}${libName}-${platformName}.${libFileType}")
     copy {
       //from project.localLibsDir
-      from libfile
+      from libFile
       into "${buildDir}/resources/main"
-      rename libfileName, 'libgeoclientjni-linux64.so'
+      rename libFileName, "${libFilePrefix}${libName}-${platformName}.${libFileType}"
     }
   }
 }
