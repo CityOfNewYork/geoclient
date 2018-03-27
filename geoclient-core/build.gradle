@@ -6,6 +6,6 @@ dependencies {
   compile("com.thoughtworks.xstream:xstream:${xstreamVersion}")
 }
 
-test {
-  dependsOn([':geoclient-native:build',':geoclient-native:syncLocalNativeLibs'])
-}
+//test {
+//  dependsOn([':geoclient-native:build',':geoclient-native:syncLocalNativeLibs'])
+//}

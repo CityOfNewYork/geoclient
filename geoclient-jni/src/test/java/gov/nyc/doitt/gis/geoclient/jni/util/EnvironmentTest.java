@@ -130,9 +130,9 @@ public class EnvironmentTest {
     assertThat(Environment.getJniLibraryExtension()).
       isEqualTo(".dll");
     assertThat(Environment.getJniLibraryFileName("geoclient")).
-      isEqualTo("libgeoclientjni-win64.dll");
+      isEqualTo("geoclientjni-win64.dll");
     assertThat(Environment.getSharedLibraryFileName("geoclient")).
-      isEqualTo("libgeoclientjni.dll");
+      isEqualTo("geoclientjni.dll");
   }
 
   private void setEnvironmentClassFields(String osName,

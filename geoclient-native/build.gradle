@@ -186,7 +186,22 @@ model {
   } // components
 
   tasks {
-
+  
+    distJniSharedLib(Sync) {
+      description 'Sync Geolcient shared library $buildDir/dist folder.'
+      dependsOn(assemble)
+      def jniLib = $.binaries.withType(SharedLibraryBinarySpec)
+                              .findAll { it.buildable }
+                              .find { "geoclientJni".equals(it.component.name) }
+      String platformName = (jniLib.targetPlatform.toString() - "platform ").replaceAll('\'','').trim()
+      platformName = platformName.replace("_x64","64").replace("windows","win")
+      from jniLib.sharedLibraryFile
+      eachFile { f ->
+        f.setName("${f.name.split("\\.")[0]}-${platformName}.${f.name.split("\\.")[1]}")
+      }
+      destinationDir = file("$buildDir/dist")      
+    }
+        
     syncLocalNativeLibs(Sync) {
       description 'Sync native binaries to $localLibsDir for use by integration tests.'
       def bins = $.binaries.withType(NativeLibraryBinarySpec).findAll { it.buildable }
@@ -196,9 +211,10 @@ model {
       }
       destinationDir = file(rootProject.localLibsDir)
     }
-    //build.finalizedBy(syncLocalNativeLibs)
     assemble.finalizedBy(syncLocalNativeLibs)
 
   } // tasks
 
 } // model
+
+String 

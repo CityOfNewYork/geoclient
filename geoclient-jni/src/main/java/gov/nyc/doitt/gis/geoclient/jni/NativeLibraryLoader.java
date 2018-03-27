@@ -23,7 +23,7 @@ public class NativeLibraryLoader {
   private static final String sharedLibraryName = Environment.getSharedLibraryName("geoclient");
   private static final String jniLibraryName = Environment.getJniLibraryName("geoclient");
   private static final String jniLibraryFileName = Environment.getJniLibraryFileName("geoclient");
-  private static final String tempFilePrefix = "libgeoclientjni";
+  private static final String tempFilePrefix = "geoclientjni";
   private static final String tempFileSuffix = Environment.getJniLibraryExtension();
 
   /**
@@ -53,11 +53,15 @@ public class NativeLibraryLoader {
    */
   public synchronized void loadLibrary(final String tmpDir) throws IOException {
     try {
+    	
+    	System.out.println(String.format("System.loadLibrary(%s);", sharedLibraryName));
         System.loadLibrary(sharedLibraryName);
     } catch(final UnsatisfiedLinkError ule1) {
       try {
+      	System.out.println(String.format("System.loadLibrary(%s);", jniLibraryName));
         System.loadLibrary(jniLibraryName);
       } catch(final UnsatisfiedLinkError ule2) {
+       	System.out.println(String.format("loadLibraryFromJar(%s);", tmpDir));
         loadLibraryFromJar(tmpDir);
       }
     }
@@ -80,7 +84,11 @@ public class NativeLibraryLoader {
   void loadLibraryFromJar(final String tmpDir)
       throws IOException {
     if (!initialized) {
-      System.load(loadLibraryFromJarToTemp(tmpDir).getAbsolutePath());
+      System.out.println(String.format("File file = loadLibraryFromJarToTemp(%s).getAbsolutePath();", tmpDir));
+      File file = loadLibraryFromJarToTemp(tmpDir);
+      System.out.println(String.format("System.load(%s);", file.getAbsolutePath()));
+      System.load(file.getAbsolutePath());
+      //System.load(loadLibraryFromJarToTemp(tmpDir).getAbsolutePath());
       initialized = true;
     }
   }

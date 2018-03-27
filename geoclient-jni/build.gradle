@@ -15,29 +15,11 @@ dependencies {
 }
 
 processResources {
-  dependsOn ':geoclient-native:assemble'
-
-  ext.libName = "geoclientjni"
-
-  if(project.isWindows) {
-    ext.libFilePrefix = ""
-    ext.libFileType = "dll"
-    ext.platformName = "windows_x64"
-  } else {
-    ext.libFilePrefix = "lib"
-    ext.libFileType = "so"
-    ext.platformName = "linux_x64"
-  }
-  ext.libFileName = "${libFilePrefix}${libName}.${libFileType}"
-  ext.libFile = new File("${project(':geoclient-native').buildDir}/libs/geoclientJni/shared/${platformName}/${libFileName}")
-  inputs.file(libFile)
+  dependsOn ':geoclient-native:distJniSharedLib'
   doLast {
-    logger.lifecycle("Copying ${libFile.absolutePath} to ${buildDir}/resources/main/${libFilePrefix}${libName}-${platformName}.${libFileType}")
     copy {
-      //from project.localLibsDir
-      from libFile
+      from project(":geoclient-native").distJniSharedLib
       into "${buildDir}/resources/main"
-      rename libFileName, "${libFilePrefix}${libName}-${platformName}.${libFileType}"
     }
   }
 }

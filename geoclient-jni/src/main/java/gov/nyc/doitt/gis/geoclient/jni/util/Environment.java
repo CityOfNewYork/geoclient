@@ -46,7 +46,8 @@ public class Environment {
   }
 
   public static String getSharedLibraryFileName(final String name) {
-    return appendLibOsSuffix("lib" + getSharedLibraryName(name), true);
+	  String prefix = !isWindows() ? "lib" : "";
+	  return appendLibOsSuffix(prefix + getSharedLibraryName(name), true);
   }
 
   public static String getJniLibraryName(final String name) {
@@ -72,7 +73,8 @@ public class Environment {
   }
 
   public static String getJniLibraryFileName(final String name) {
-    return appendLibOsSuffix("lib" + getJniLibraryName(name), false);
+	  String prefix = !isWindows() ? "lib" : "";
+	  return appendLibOsSuffix(prefix + getJniLibraryName(name), false);
   }
 
   private static String appendLibOsSuffix(final String libraryFileName, final boolean shared) {
