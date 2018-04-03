@@ -14,15 +14,18 @@ dependencies {
     compile "org.jogamp.gluegen:gluegen:$gluegenVersion"
 }
 
-processResources {
-  dependsOn ':geoclient-native:distJniSharedLib'
-  doLast {
-    copy {
-      from project(":geoclient-native").distJniSharedLib
-      into "${buildDir}/resources/main"
-    }
-  }
+// TODO: replace here and in geoclient-native with a common CopyProcessingSpec
+//       or Sync task
+task copyJniLib (type: Copy) {
+  dependsOn ':geoclient-native:assemble'
+    from "${rootProject.localLibsDir}"
+    into "${buildDir}/resources/main"
+    include '**/*.so', '**/*.dll', '**/*.lib'
+    rename '(.*)(\\.dll|\\.lib)', '$1-win64$2'
+    rename '(.*)(\\.so)', '($1-linux64$2)'
 }
+
+processResources.dependsOn copyJniLib
 
 artifacts {
   archives jar
