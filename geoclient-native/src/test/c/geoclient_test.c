@@ -66,8 +66,8 @@ void geocode_address(char **args)
   size_t response_length = LEN_WA2_F1B;
   printf("\n");
   printf("----\n");
-  printf("Size of work area one: %d\n", request_length);
-  printf("Size of work area two: %d\n", response_length);
+  printf("Size of work area one: %I64d\n", request_length);
+  printf("Size of work area two: %I64d\n", response_length);
   printf("\n");
   //memset(request.chars, '', request_length);
   request.chars[LEN_WA1];
@@ -163,6 +163,6 @@ void show_args(int argc, char **argv)
 {
   for (size_t i = 0; i < argc; i++)
   {
-    printf("parameter[%d] = '%s'\n", i, argv[i]);
+    printf("parameter[%I64d] = '%s'\n", i, argv[i]);
   }
 }
