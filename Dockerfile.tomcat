@@ -2,6 +2,7 @@ FROM tomcat:8.5
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 
 #
+# FIXME
 # TODO Create Dockerfile.onBuild in geosupport-docker or something.
 #
 # Pre-reqs:
@@ -19,7 +20,7 @@ LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 #
 ENV GEOSUPPORT_HOME ${GEOSUPPORT_HOME:-/opt/geosupport}
 
-RUN . $GEOSUPPORT_HOME/bin/initenv
+RUN echo ". \$GEOSUPPORT_HOME/bin/initenv" >>  $CATALINA_HOME/bin/setenv
 
 COPY geoclient-service/build/libs/*.war $CATALINA_HOME/webapps/gc.war
 
