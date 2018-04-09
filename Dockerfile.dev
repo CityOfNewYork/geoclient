@@ -1,7 +1,7 @@
 #
 # SYNOPSIS:
 #
-#     Basic image for developing geoclient iwth Docker.
+#     Basic image for developing geoclient with Docker.
 #
 #     This approach is built "FROM mlipper/geosupport-docker:<version>-onbuild"
 #     providing a quick and easy way to have all 2+ Gigabytes of Geosupport 
@@ -9,6 +9,14 @@
 #
 #     This Docker build also allows for the use of standalone or pre-existing
 #     volume containers hosting a shared, versioned Geosupport installation.
+#
+# IMPORTANT:
+#     
+#     This image's base image is mlipper/geosupport-docker:<version>-onbuild.
+#     When this image is built, there must be the zipped, Linux distribution
+#     available in the current directory or a subdirectory.
+#
+#     See the "SEE ALSO" section below for more information.
 #
 # BUILD:
 #
