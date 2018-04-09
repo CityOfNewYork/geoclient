@@ -28,6 +28,7 @@
 ARG GSD_VERSION=latest
 FROM mlipper/geosupport-docker:${GSD_VERSION}-onbuild
 
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libc6-dev \
     gcc \
