@@ -25,7 +25,7 @@
 #     For additional information and options about  working with a Dockerized
 #     Geosupport application see: https://github.com/mlipper/geosupport-docker
 #
-ARG GSD_VERSION
+ARG GSD_VERSION=latest
 FROM mlipper/geosupport-docker:${GSD_VERSION}-onbuild
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
