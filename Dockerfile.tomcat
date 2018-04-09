@@ -11,7 +11,7 @@ LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 #         '-e GEOSUPPORT_HOME=<path> --name <dvc-name>'
 #      The -e argument can be left off if the default is acceptable.
 #
-#   2. The container created from this image run with 
+#   2. The container created from this image run with
 #         '-e GEOSUPPORT_HOME=<path> --volumes-from <dvc-name>'
 #      The -e argument can be left off if the default was used in step 1.
 #
@@ -20,10 +20,11 @@ LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 #
 ENV GEOSUPPORT_HOME ${GEOSUPPORT_HOME:-/opt/geosupport}
 
-RUN echo ". \$GEOSUPPORT_HOME/bin/initenv" >>  $CATALINA_HOME/bin/setenv
+COPY setenv.sh $CATALINA_HOME/bin/setenv.sh
 
 COPY geoclient-service/build/libs/*.war $CATALINA_HOME/webapps/gc.war
 
 EXPOSE 8888 8080
 
-CMD ["catalina.sh", "run", "--java.library.path=$LD_LIBRARY_PATH"]
+#CMD ["catalina.sh", "run", "--java.library.path=$LD_LIBRARY_PATH"]
+CMD ["catalina.sh", "run"]
