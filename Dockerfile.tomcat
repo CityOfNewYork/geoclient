@@ -23,7 +23,7 @@ ENV GEOSUPPORT_HOME ${GEOSUPPORT_HOME:-/opt/geosupport}
 
 COPY setenv.sh $CATALINA_HOME/bin/setenv.sh
 
-COPY geoclient-service/build/libs/*.war $CATALINA_HOME/webapps/gc.war
+COPY geoclient-service/build/libs/*.war $CATALINA_HOME/webapps/geoclient.war
 
 EXPOSE 8888 8080
 
