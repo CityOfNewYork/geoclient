@@ -22,7 +22,7 @@
 apply plugin: 'ru.vyarus.animalsniffer'
 animalsniffer {
   // TODO: Depends on file $rootProjectDir/gradle/dependencies.gradle. Bad?
-  toolVersion = project.snifferVersion 
+  toolVersion = project.snifferVersion
   ignoreFailures = false
 }
 
@@ -38,25 +38,25 @@ dependencies {
   testSignature('org.codehaus.mojo.signature:java18:1.0@signature')
 }
 
-gradle.taskGraph.whenReady {
-  if (project.name == 'geoclient-jni') {
-    //
-    //  Required for the xvik/gradle-animalsniffer-plugin to add the "generated"
-    //  sourceSet compiled class files to the classpath animalsniffer uses when
-    //  "smelling" the "main" sourceSet.
-    //
-    //  This should happen automatically since
-    //  the geoclient-jni project's compileJava task is configured explicity
-    //  to use 'classpath = sourceSets.generated.output.classes'.
-    //
-    //  Without this configuration, execution of the animalSnifferMain fails due
-    //  to undefined references to the generated classes.
-    //
-    tasks.animalsnifferMain {
-      classpath = project.tasks.compileJava.classpath
-    }
-  }
-}
+//gradle.taskGraph.whenReady {
+//  if (project.name == 'geoclient-jni') {
+//    //
+//    //  Required for the xvik/gradle-animalsniffer-plugin to add the "generated"
+//    //  sourceSet compiled class files to the classpath animalsniffer uses when
+//    //  "smelling" the "main" sourceSet.
+//    //
+//    //  This should happen automatically since
+//    //  the geoclient-jni project's compileJava task is configured explicity
+//    //  to use 'classpath = sourceSets.generated.output.classes'.
+//    //
+//    //  Without this configuration, execution of the animalSnifferMain fails due
+//    //  to undefined references to the generated classes.
+//    //
+//    tasks.animalsnifferMain {
+//      classpath = project.tasks.compileJava.classpath
+//    }
+//  }
+//}
 
 tasks.animalsnifferTest {
   animalsnifferSignatures = project.configurations['testSignature']
