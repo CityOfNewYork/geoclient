@@ -19,14 +19,14 @@ ext {
   // Spring
   springVersion             = "4.3.3.RELEASE"
   // XStream
-  xstreamVersion            = "1.4.9"
+  xstreamVersion            = "1.4.10"
   // Commons
   commonsLang3Version       = "3.2.1"
   // Misc
   groovyAllVersion          = "2.4.7"
   // Web services
   aspectjrtVersion          = "1.8.9"
-  dozerVersion              = "5.4.0"
+  dozerVersion              = "5.5.1"
   hibernateValidatorVersion = "5.2.4.Final"
   jacksonVersion            = "2.8.3"
   javaxInjectVersion        = "1"
