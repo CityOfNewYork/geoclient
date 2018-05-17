@@ -25,6 +25,6 @@ COPY setenv.sh $CATALINA_HOME/bin/setenv.sh
 
 COPY geoclient-service/build/libs/*.war $CATALINA_HOME/webapps/geoclient.war
 
-EXPOSE 8888 8080
+EXPOSE 8088 8080
 
 CMD ["catalina.sh", "run"]
