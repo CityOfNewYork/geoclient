@@ -5,13 +5,20 @@ dependencies {
     compile project(":geoclient-jni")
     compile project(":geoclient-core")
     compile project(":geoclient-parser")
-    compile("net.sf.dozer:dozer:$dozerVersion") { exclude(module: "slf4j-log4j12") }
+    compile("org.apache.commons:commons-text:$commonsTextVersion")
+    compile("net.sf.dozer:dozer:$dozerVersion") {
+      exclude(module: "slf4j-log4j12")
+      exclude(module: "commons-lang3")
+    }
     compile("org.springframework:spring-core:$springVersion") { exclude(module: "commons-logging") }
     compile("org.springframework:spring-context:$springVersion") { exclude(module: "commons-logging") }
     compile("org.springframework:spring-context-support:$springVersion")
     compile("org.springframework:spring-webmvc:$springVersion")
     compile("org.springframework:spring-oxm:$springVersion") { exclude(module: "commons-lang") }
+    
     compile("org.hibernate:hibernate-validator:$hibernateValidatorVersion")
+    compile("org.glassfish:javax.el:$javaxElVersion")
+    compile("javax.validation:validation-api:$javaxValidationVersion")
     compile("org.aspectj:aspectjrt:$aspectjrtVersion")
     compile("org.slf4j:slf4j-api:$slf4jVersion")
     compile("com.thoughtworks.xstream:xstream:$xstreamVersion")
@@ -40,9 +47,9 @@ dependencies {
     testCompile("org.springframework:spring-test:$springVersion")
     testCompile("com.jayway.jsonpath:json-path:$jsonPathVersion")
 
-    providedCompile("javax.servlet:jstl:$jstlVersion")
+    //providedCompile("javax.servlet:jstl:$jstlVersion")
     providedCompile("javax.servlet:javax.servlet-api:$javaxServletApiVersion")
-    providedCompile("javax.servlet.jsp:jsp-api:$jspApiVersion")
+    //providedCompile("javax.servlet.jsp:jsp-api:$jspApiVersion")
 }
 
 sourceSets {

@@ -15,81 +15,88 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.policy;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 
 public class DefaultSimilarNamesPolicy extends AbstractPolicy implements SimilarNamesPolicy
 {
-	public static final int DEFAULT_SIMILAR_NAMES_DISTANCE = 8;
+    public static final int DEFAULT_SIMILAR_NAMES_DISTANCE = 8;
 
-	/**
-	 * This is the threshold for the Levenshtein Distance as computed by
-	 * {@link StringUtils#getLevenshteinDistance(CharSequence, CharSequence, int)}.
-	 */
-	private int similarNamesDistance = DEFAULT_SIMILAR_NAMES_DISTANCE;
+    /**
+     * This is the threshold for the Levenshtein Distance as computed by
+     * {@link StringUtils#getLevenshteinDistance(CharSequence, CharSequence, int)}.
+     */
+    private int similarNamesDistance = DEFAULT_SIMILAR_NAMES_DISTANCE;
 
-	public int getSimilarNamesDistance()
-	{
-		return similarNamesDistance;
-	}
+    private LevenshteinDistance levenshteinDistance = new LevenshteinDistance(DEFAULT_SIMILAR_NAMES_DISTANCE);
 
-	public void setSimilarNamesDistance(int similarNamesDistance)
-	{
-		this.similarNamesDistance = similarNamesDistance;
-	}
+    public int getSimilarNamesDistance()
+    {
+        return similarNamesDistance;
+    }
 
+    public void setSimilarNamesDistance(int similarNamesDistance)
+    {
+        synchronized (levenshteinDistance) {
+            if (this.levenshteinDistance.getThreshold() != similarNamesDistance) {
+                this.levenshteinDistance = new LevenshteinDistance(similarNamesDistance);
+            }
+            this.similarNamesDistance = similarNamesDistance;
+        }
+    }
 
-	@Override
-	public boolean isSimilarName(String original, String proposed)
-	{
-		return StringUtils.getLevenshteinDistance(clean(original),clean(proposed),similarNamesDistance) >= 0;
-	}
-	
-	// TODO TESTME
-	@Override
-	public String getDescription()
-	{
-		return String.format("Street name suggestion from Geosupport is considered a similar name if it is within a Levenshtein distance of %d when compared to the input street.", this.similarNamesDistance);
-	}
+    @Override
+    public boolean isSimilarName(String original, String proposed)
+    {
+        return this.levenshteinDistance.apply(clean(original), clean(proposed)) >= 0;
+    }
 
-	String clean(String string)
-	{
-		String clean = string.toUpperCase();
-		// TODO need more stuff!
-		clean = clean.replaceAll("(\\bSTREET\\b|\\bST\\b)", "");
-		clean = clean .replaceAll("(\\bAVENUE\\b|\\bAVE\\b)", "");
-		clean = clean .replaceAll("(\\bBOULEVARD\\b|\\bBLVD\\b|\\bBL\\b)", "");
-		clean = clean .replaceAll("(\\bPLACE\\b|\\bPL\\b)", "");
-		clean = clean .replaceAll("(\\bNORTH\\b|\\bSOUTH\\b|\\bEAST\\b|\\bWEST\\b)", "");
-		clean = clean .replaceAll("(\\bPARKWAY\\b|\\bPKWY\\b)", "");
-		clean = clean.trim();
-		if(clean.isEmpty()){
-			// Screw it, return the original
-			return string;
-		}
-		return clean;
-	}
+    @Override
+    public String getDescription()
+    {
+        return String.format(
+                "Street name suggestion from Geosupport is considered a similar name if it is within a Levenshtein distance of %d when compared to the input street.",
+                this.similarNamesDistance);
+    }
 
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + similarNamesDistance;
-		return result;
-	}
+    String clean(String string)
+    {
+        String clean = string.toUpperCase();
+        // TODO need more stuff!
+        clean = clean.replaceAll("(\\bSTREET\\b|\\bST\\b)", "");
+        clean = clean.replaceAll("(\\bAVENUE\\b|\\bAVE\\b)", "");
+        clean = clean.replaceAll("(\\bBOULEVARD\\b|\\bBLVD\\b|\\bBL\\b)", "");
+        clean = clean.replaceAll("(\\bPLACE\\b|\\bPL\\b)", "");
+        clean = clean.replaceAll("(\\bNORTH\\b|\\bSOUTH\\b|\\bEAST\\b|\\bWEST\\b)", "");
+        clean = clean.replaceAll("(\\bPARKWAY\\b|\\bPKWY\\b)", "");
+        clean = clean.trim();
+        if (clean.isEmpty()) {
+            // Screw it, return the original
+            return string;
+        }
+        return clean;
+    }
 
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		DefaultSimilarNamesPolicy other = (DefaultSimilarNamesPolicy) obj;
-		if (similarNamesDistance != other.similarNamesDistance)
-			return false;
-		return true;
-	}
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + similarNamesDistance;
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DefaultSimilarNamesPolicy other = (DefaultSimilarNamesPolicy) obj;
+        if (similarNamesDistance != other.similarNamesDistance)
+            return false;
+        return true;
+    }
 }

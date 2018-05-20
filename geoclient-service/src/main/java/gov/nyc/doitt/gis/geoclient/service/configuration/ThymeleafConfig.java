@@ -15,6 +15,9 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.configuration;
 
+import javax.servlet.ServletContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -24,9 +27,12 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 @Configuration
 public class ThymeleafConfig
 {
-	@Bean 
+    @Autowired
+    private ServletContext servletContext;
+	
+    @Bean 
 	public ServletContextTemplateResolver templateResolver() {
-		ServletContextTemplateResolver resolver = new ServletContextTemplateResolver();
+		ServletContextTemplateResolver resolver = new ServletContextTemplateResolver(this.servletContext);
 		resolver.setPrefix("/WEB-INF/templates/");
 		resolver.setSuffix(".html");
 		resolver.setTemplateMode("HTML5");

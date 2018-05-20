@@ -32,98 +32,98 @@ import org.apache.commons.lang3.math.NumberUtils;
 
 public class LatLongEnhancer
 {
-	public static final LatLongConfig DEFAULT_LATLONG_CONFIG = new LatLongConfig("latitude", "longitude",OutputParam.XCOORD,OutputParam.YCOORD, defaultDoc("latitude", OutputParam.YCOORD, Function.F1B, Function.F2), defaultDoc("longitude", OutputParam.XCOORD, Function.F1B, Function.F2));
-	public static final LatLongConfig DEFAULT_LATLONG_INTERNAL_LABEL_CONFIG = new LatLongConfig("latitudeInternalLabel", "longitudeInternalLabel",OutputParam.XCOORD_INTERNAL_LABEL,OutputParam.YCOORD_INTERNAL_LABEL,defaultDoc("latitudeInternalLabel", OutputParam.YCOORD_INTERNAL_LABEL, Function.F1B, Function.FBL, Function.FBN), defaultDoc("longitudeInternalLabel", OutputParam.XCOORD_INTERNAL_LABEL, Function.F1B, Function.FBL, Function.FBN));	
-	public static final Transformer DEFAULT_TRANSFORMER = new TransformerFactory().nyspToLatLong();
-	
-	public static final List<LatLongConfig> DEFAULT_CONFIGS = new ArrayList<LatLongConfig>();
+  public static final LatLongConfig DEFAULT_LATLONG_CONFIG = new LatLongConfig("latitude", "longitude",OutputParam.XCOORD,OutputParam.YCOORD, defaultDoc("latitude", OutputParam.YCOORD, Function.F1B, Function.F2), defaultDoc("longitude", OutputParam.XCOORD, Function.F1B, Function.F2));
+  public static final LatLongConfig DEFAULT_LATLONG_INTERNAL_LABEL_CONFIG = new LatLongConfig("latitudeInternalLabel", "longitudeInternalLabel",OutputParam.XCOORD_INTERNAL_LABEL,OutputParam.YCOORD_INTERNAL_LABEL,defaultDoc("latitudeInternalLabel", OutputParam.YCOORD_INTERNAL_LABEL, Function.F1B, Function.FBL, Function.FBN), defaultDoc("longitudeInternalLabel", OutputParam.XCOORD_INTERNAL_LABEL, Function.F1B, Function.FBL, Function.FBN));
+  public static final Transformer DEFAULT_TRANSFORMER = new TransformerFactory().nyspToLatLong();
+
+  public static final List<LatLongConfig> DEFAULT_CONFIGS = new ArrayList<LatLongConfig>();
     static
     {
-    	DEFAULT_CONFIGS.add(DEFAULT_LATLONG_CONFIG);
-    	DEFAULT_CONFIGS.add(DEFAULT_LATLONG_INTERNAL_LABEL_CONFIG);
+      DEFAULT_CONFIGS.add(DEFAULT_LATLONG_CONFIG);
+      DEFAULT_CONFIGS.add(DEFAULT_LATLONG_INTERNAL_LABEL_CONFIG);
     }
-	
-    private static ItemDocumentation defaultDoc(String id, String inputField,String...functionNames) 
+
+    private static ItemDocumentation defaultDoc(String id, String inputField,String...functionNames)
     {
-    	ItemDocumentation itemDocumentation = new ItemDocumentation(id);
-    	itemDocumentation.setDescription(new Description(String.format("Value of %s converted to decimal degrees.",inputField)));
-    	itemDocumentation.setFunctionNames(Arrays.asList(functionNames));
-    	return itemDocumentation;
+      ItemDocumentation itemDocumentation = new ItemDocumentation(id);
+      itemDocumentation.setDescription(new Description(String.format("Value of %s converted to decimal degrees.",inputField)));
+      itemDocumentation.setFunctionNames(Arrays.asList(functionNames));
+      return itemDocumentation;
     }
-    
-	private Transformer transformer = DEFAULT_TRANSFORMER;
-	
-	private List<LatLongConfig> latLongConfigs = DEFAULT_CONFIGS;
-	
-	public void addLatLong(Map<String, Object> geocodingResult)
-	{
-		for (LatLongConfig config : this.latLongConfigs)
-		{
-			
-		MapPoint nyspPoint = getNyspPoint(geocodingResult,config);
-		if (nyspPoint.isValid())
-		{
-			MapPoint latLongPoint = this.transformer.transform(nyspPoint.getX(), nyspPoint.getY());
-			geocodingResult.put(config.getLongName(), latLongPoint.getX());
-			geocodingResult.put(config.getLatName(), latLongPoint.getY());
-		}
-		
-		}
-		
-	}
 
-	public MapPoint getNyspPoint(Map<String, Object> geocodingResult, LatLongConfig config)
-	{
-		MapPoint mapPoint = new MapPoint();
-		if (geocodingResult.containsKey(config.getXCoordInputName()) && geocodingResult.containsKey(config.getYCoordInputName()))
-		{
-			mapPoint.setX(doubleValueOf(geocodingResult.get(config.getXCoordInputName())));
-			mapPoint.setY(doubleValueOf(geocodingResult.get(config.getYCoordInputName())));
-		}
-		return mapPoint;
-	}
+  private Transformer transformer = DEFAULT_TRANSFORMER;
 
-	public List<ItemDocumentation> getItemDocumentation()
-	{
-		List<ItemDocumentation> allDocs = new ArrayList<ItemDocumentation>();
-		for (LatLongConfig config : this.latLongConfigs)
-		{
-				allDocs.add(config.getLatDocumentation());
-				allDocs.add(config.getLongDocumentation());
-		}
-		return allDocs;
-	}
+  private List<LatLongConfig> latLongConfigs = DEFAULT_CONFIGS;
 
-	public Transformer getTransformer()
-	{
-		return transformer;
-	}
+  public void addLatLong(Map<String, Object> geocodingResult)
+  {
+    for (LatLongConfig config : this.latLongConfigs)
+    {
 
-	public void setTransformer(Transformer transformer)
-	{
-		this.transformer = transformer;
-	}
+    MapPoint nyspPoint = getNyspPoint(geocodingResult,config);
+    if (nyspPoint.isValid())
+    {
+      MapPoint latLongPoint = this.transformer.transform(nyspPoint.getX(), nyspPoint.getY());
+      geocodingResult.put(config.getLongName(), latLongPoint.getX());
+      geocodingResult.put(config.getLatName(), latLongPoint.getY());
+    }
 
-	public List<LatLongConfig> getLatLongConfigs()
-	{
-		return latLongConfigs;
-	}
+    }
 
-	public void setLatLongConfigs(List<LatLongConfig> latLongConfigs)
-	{
-		this.latLongConfigs = latLongConfigs;
-	}
-	
-	private double doubleValueOf(Object value)
-	{
-		if (value != null)
-		{
-			String s = value.toString();
-			if (NumberUtils.isNumber(s))
-			{
-				return Double.valueOf(s);
-			}
-		}
-		return 0.0;
-	}
+  }
+
+  public MapPoint getNyspPoint(Map<String, Object> geocodingResult, LatLongConfig config)
+  {
+    MapPoint mapPoint = new MapPoint();
+    if (geocodingResult.containsKey(config.getXCoordInputName()) && geocodingResult.containsKey(config.getYCoordInputName()))
+    {
+      mapPoint.setX(doubleValueOf(geocodingResult.get(config.getXCoordInputName())));
+      mapPoint.setY(doubleValueOf(geocodingResult.get(config.getYCoordInputName())));
+    }
+    return mapPoint;
+  }
+
+  public List<ItemDocumentation> getItemDocumentation()
+  {
+    List<ItemDocumentation> allDocs = new ArrayList<ItemDocumentation>();
+    for (LatLongConfig config : this.latLongConfigs)
+    {
+        allDocs.add(config.getLatDocumentation());
+        allDocs.add(config.getLongDocumentation());
+    }
+    return allDocs;
+  }
+
+  public Transformer getTransformer()
+  {
+    return transformer;
+  }
+
+  public void setTransformer(Transformer transformer)
+  {
+    this.transformer = transformer;
+  }
+
+  public List<LatLongConfig> getLatLongConfigs()
+  {
+    return latLongConfigs;
+  }
+
+  public void setLatLongConfigs(List<LatLongConfig> latLongConfigs)
+  {
+    this.latLongConfigs = latLongConfigs;
+  }
+
+  private double doubleValueOf(Object value)
+  {
+    if (value != null)
+    {
+      String s = value.toString();
+      if (NumberUtils.isParsable(s))
+      {
+        return Double.valueOf(s);
+      }
+    }
+    return 0.0;
+  }
 }

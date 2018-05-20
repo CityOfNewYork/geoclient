@@ -49,7 +49,7 @@ public class Borough
 
     public static int parseInt(String boroughString)
     {
-        if (NumberUtils.isNumber(boroughString))
+        if (NumberUtils.isParsable(boroughString))
         {
             return Integer.valueOf(boroughString);
         }

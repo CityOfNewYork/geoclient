@@ -1,38 +1,39 @@
 #
 # 1. Before running this image create a volume with Geosupport installed:
 #
-#   $ docker pull mlipper/geosupport-docker
+#   $ docker pull mlipper/geosupport-docker:latest-dvc
 #   ...
-#   $ docker volume create vol-geosupport
-#   ...
-#   $ docker run --name geosupport -v vol-geosupport:/opt/geosupport
+#   $ docker run --name geosupport \
+#               --mount source=vol-geosupport,target=/opt/geosupport \
+#               mlipper/geosupport-docker:latest-dvc
+#
 #
 # 2. Build this image
 #
-#   $ docker build -t mlipper/geoclient .
+#   $ docker build -t geoclient .
 #
 # 3. Run this image
 #
 #   $ docker run -d \
 #                --name geoclient \
-#                -v vol-geosupport:/opt/geosupport \
+#                -p 8088:8080 \
+#               --mount source=vol-geosupport,target=/opt/geosupport \
 #                -v "$(PWD)":/home/gradle/geoclient \
-#                mlipper/geoclient:latest
+#                geoclient
 #
-FROM mlipper/geosupport-docker:latest-dvc as build
+FROM mlipper/geosupport-docker:latest-onbuild as build
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 
+VOLUME ["$GEOSUPPORT_HOME"]
+
 RUN set -o errexit -o nounset \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends \
-    libc6-dev \
+    && apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     g++ \
-    vim \
+    libc6-dev \
     openjdk-8-jdk \
+    vim \
     && rm -rf /var/lib/apt/lists/*
-
-ENV JAVA_HOME=/usr/lib/jvm/java-1.8.0-openjdk-amd64
 
 ADD . /app
 
@@ -45,7 +46,7 @@ RUN ["/bin/bash", "-c", "./gradlew build"]
 #
 FROM tomcat:8.5
 
-COPY --from=build /app/setenv.sh $CATALINA_HOME/bin/setenv.sh
+COPY --from=build /app/geoclient-service/setenv.sh $CATALINA_HOME/bin/setenv.sh
 
 COPY --from=build /app/geoclient-service/build/libs/*.war $CATALINA_HOME/webapps/geoclient.war
 

@@ -23,7 +23,7 @@ import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import javax.validation.constraints.NotEmpty;
 
 public class SearchParameters
 {
