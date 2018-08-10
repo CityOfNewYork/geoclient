@@ -23,7 +23,9 @@ task zipLinux64Bins(type: Zip, dependsOn: assemble) {
   from bins.files
 }
 
+// High-level build definitions
 model {
+
   platforms {
     linux_x64 {
        architecture "x86_64"
@@ -39,7 +41,10 @@ model {
     gcc(Gcc)
     visualCpp(VisualCpp)
   }
+}
 
+// Third-party binaries and header files
+model {
   repositories {
     libs(PrebuiltLibraries) {
       geosupport {
@@ -66,72 +71,94 @@ model {
         //
         // See: https://discuss.gradle.org/t/native-prebuilt-library-platform-specific-headers/17418
         //
-        headers.srcDir "${jniJavaHome}/include"
-        def headersContainer = headers
-        binaries.withType(SharedLibraryBinary) {
-          def os = targetPlatform.operatingSystem
-          if (os.windows) {
-            // Override <JDK>/include/win32/jni_md.h due to mingw64/cygwin
-            // compiler issue.
-            //headersContainer.srcDir "${jniJavaHome}/include/win32"
-            headersContainer.srcDir "${projectDir}/src/main/headers/win32"
-          } else if (os.linux) {
-            headersContainer.srcDir "${jniJavaHome}/include/linux"
-          }
-        }
+        headers.srcDirs = findJniHeaders("${projectDir}/src/jni/headers")
+        //headers.srcDir "${jniJavaHome}/include"
+        //def headersContainer = headers
+        //binaries.withType(SharedLibraryBinary) {
+        //  
+        //  if (targetPlatform.operatingSystem.windows) {
+        //    // Override <JDK>/include/win32/jni_md.h due to mingw64/cygwin
+        //    // compiler issue.
+        //    //headersContainer.srcDir "${jniJavaHome}/include/win32"
+        //    headersContainer.srcDir "${projectDir}/src/main/headers/win32"
+        //  } else if (targetPlatform.operatingSystem.linux) {
+        //    headersContainer.srcDir "${jniJavaHome}/include/linux"
+        //  }
+        //}
       }
     }
   } // repositories
 
 } // model
 
+def findJniHeaders(String jniDir) {
+  File f = new File(jniDir)
+  def files = [f]
+  f.eachDirRecurse { files << it; }
+  println "JNI include directories: ${files}"
+  files
+}
+
+// Compiler/linker customizations
 model {
   binaries { modelMap ->
-    withType(NativeLibraryBinarySpec) {
+    // All buildable native binaries (shared, static and executable)
+    all {
+      // gcc
       if (toolChain in Gcc) {
+        // Debug
         cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
-        if (targetPlatform.operatingSystem.windows) {
-          cCompiler.define "DLL_EXPORT"
-          linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
-        } else if (targetPlatform.operatingSystem.linux) {
+
+        if (targetPlatform.operatingSystem.linux) {
+          // Platform independent code flag:
+          //  Still required for shared libs?
+          //  Required for static libs and executables?
           cCompiler.args "-fPIC"
+          // Ordering of library linkage is different than on Windows
           linker.args "-Wl,--no-as-needed", "-L${gsLibraryPath}", "-lc", "-lgeo", "-lm", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
         }
+
       }
+      // MSVC
       if (toolChain in VisualCpp) {
-        cCompiler.args "/E", "/Zi", "/MDd", "/TC"
-        cCompiler.define "DLL_EXPORT"
+        // Generate debug code and specify that all source is C (not C++)
+        // (add /E to generate preprocessor output)
+        cCompiler.args "/Zi", "/TC"
         linker.args "/DEBUG"
-        linker.args "/LIBPATH:${gsLibraryPath}"
-      }
-    }
-    withType(SharedLibraryBinarySpec) {
-      // FIXME
-      if (toolChain in VisualCpp) {
-        //cCompiler.args "/EHsc ${gsLibraryPath}/NYCgeo.lib", "/Zi"
-        //cCompiler.args "/Zi", "/MDd", "/Gz", "/TC"
-        cCompiler.args "/E", "/Zi", "/MDd", "/TC"
-        cCompiler.define "DLL_EXPORT"
-        linker.args "/DEBUG"
+        // Add Geosupport libraries to the linker library path
         linker.args "/LIBPATH:${gsLibraryPath}"
       }
     }
 
-    withType(NativeExecutableBinarySpec) {
-      if (toolChain in Gcc) {
-        cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
-        if (targetPlatform.operatingSystem.windows) {
-          cCompiler.define "DLL_IMPORT"
-          linker.args "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
-        } else if (targetPlatform.operatingSystem.linux) {
-          linker.args "-Wl,--no-as-needed", "-L${gsLibraryPath}", "-lc", "-lgeo", "-lm", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+    // Shared libraries
+    withType(SharedLibraryBinarySpec) {
+      // Windows
+      if (targetPlatform.operatingSystem.windows) {
+        cCompiler.define "DLL_EXPORT"
+        if (toolChain in Gcc) {
+          //linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
+          linker.args "-shared", "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
+        } else if (toolChain in VisualCpp) {
+          // Multi-threaded DLL wth debug symbols
+          cCompiler.args "/MDd"
         }
       }
-      if (toolChain in VisualCpp) {
-        cCompiler.args "/E", "/Zi", "/TC"
-        cCompiler.define "DLL_IMPORT"
-        linker.args "/DEBUG"
-        linker.args "/LIBPATH:${gsLibraryPath}"
+    }
+    // Static libraries
+    withType(StaticLibraryBinarySpec) {
+      if (targetPlatform.operatingSystem.windows && toolChain in Gcc) {
+        linker.args "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
+      }
+    }
+    // Executables
+    withType(NativeExecutableBinarySpec) {
+      if (targetPlatform.operatingSystem.windows) {
+        if (toolChain in Gcc) {
+          linker.args "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
+        }
+        if (toolChain in VisualCpp) {
+          cCompiler.args "/MT"
+        }
       }
     }
   }
@@ -166,10 +193,6 @@ model {
           source {
             srcDir "src/test/c"
             include "**/*.c"
-          }
-          exportedHeaders {
-            srcDir "src/test/headers"
-            include "**/*.h"
           }
           lib library: 'geosupport', linkage: 'api'
           lib library: 'geoclient', linkage: 'static'
