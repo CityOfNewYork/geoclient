@@ -17,7 +17,7 @@ LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 #   3. The :geoclient-service:assemble task has run successfully and a valid
 #      .war file exists in that project's $buildDir/libs directory.
 #
-# docker run -d -p 8088:8080 --name gc -v vol-geosupport:/opt/geosupport mlipper/geoclient:latest-tomcat
+# docker run -d -p 8088:8080 -p 8000:8000 --name gc -v vol-geosupport:/opt/geosupport mlipper/geoclient:latest-tomcat
 #
 ENV GEOSUPPORT_HOME ${GEOSUPPORT_HOME:-/opt/geosupport}
 
@@ -31,6 +31,6 @@ ENV JPDA_ADDRESS="8000"
 ENV JPDA_TRANSPORT="dt_socket"
 
 EXPOSE 8000 8000
-EXPOSE 8088 8080
+EXPOSE 8080 8080
 
 CMD ["catalina.sh", "jpda", "start"]

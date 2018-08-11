@@ -2,22 +2,36 @@ version: "3.2"
 
 services:
   geosupport:
-    image: mlipper/geosupport-docker:latest-dvc
+    image: mlipper/geosupport-docker
     volumes:
       - type: volume
-        source: vol-geosupport
+        source: gsvol
         target: /opt/geosupport
-
-  geoclient:
+  gcbuild:
+    depends_on:
+      - geosupport
+    build:
+      context: .
+      dockerfile: Dockerfile.build
+    volumes:
+      - type: volume
+        source: gsvol
+        target: /opt/geosupport
+    ports:
+      - "5005:5005"
+  gcservice:
+    depends_on:
+      - geosupport
+      - gcbuild
     build:
       context: ./geoclient-service
       dockerfile: Dockerfile.debug
     volumes:
       - type: volume
-        source: vol-geosupport
+        source: gsvol
         target: /opt/geosupport
     ports:
       - "8000:8000"
-      - "8088:8080"
+      - "8080:8080"
 volumes:
-  vol-geosupport:
+  gsvol:
