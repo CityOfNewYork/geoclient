@@ -60,43 +60,20 @@ model {
       }
 
       jni_jdk {
-        // The stored reference to the 'headers' object visible in this closure
-        // scope is a workaround to deal with an issue caused by the need for
-        // platform-specific header files in a PrebuiltLibrary. The 'headers'
-        // container does not have visibility into whether the current
-        // targetPlatform is 'buildable'.
-        // This fix works for guessable yet unknown reasons when using
-        // Gradle v2.14, JDK 1.8.0_92-x86_64, MSYS2/mingw64 on Windows 7, but
-        // should be considered suspect.
-        //
-        // See: https://discuss.gradle.org/t/native-prebuilt-library-platform-specific-headers/17418
-        //
-        headers.srcDirs = findJniHeaders("${projectDir}/src/jni/headers")
-        //headers.srcDir "${jniJavaHome}/include"
-        //def headersContainer = headers
-        //binaries.withType(SharedLibraryBinary) {
-        //  
-        //  if (targetPlatform.operatingSystem.windows) {
-        //    // Override <JDK>/include/win32/jni_md.h due to mingw64/cygwin
-        //    // compiler issue.
-        //    //headersContainer.srcDir "${jniJavaHome}/include/win32"
-        //    headersContainer.srcDir "${projectDir}/src/main/headers/win32"
-        //  } else if (targetPlatform.operatingSystem.linux) {
-        //    headersContainer.srcDir "${jniJavaHome}/include/linux"
-        //  }
-        //}
+        headers.srcDirs = findJniHeaders()
       }
     }
   } // repositories
 
 } // model
 
-def findJniHeaders(String jniDir) {
+def findJniHeaders() {
+  String jniDir = project.isWindows ? "${projectDir}/src/jni/headers" : "${jniJavaHome}/include"
   File f = new File(jniDir)
-  def files = [f]
-  f.eachDirRecurse { files << it; }
-  println "JNI include directories: ${files}"
-  files
+  def dirs = [f]
+  f.eachDirRecurse { dirs << it; }
+  logger.lifecycle("JNI include directories: ${dirs}")
+  dirs
 }
 
 // Compiler/linker customizations
@@ -226,21 +203,6 @@ model {
   } // components
 
   tasks {
-
-//    distJniSharedLib(Sync) {
-//      description 'Sync Geolcient shared library $buildDir/dist folder.'
-//      //dependsOn(assemble)
-//      def jniLib = $.binaries.withType(SharedLibraryBinarySpec)
-//                              .findAll { it.buildable }
-//                              .find { "geoclientJni".equals(it.component.name) }
-//      String platformName = (jniLib.targetPlatform.toString() - "platform ").replaceAll('\'','').trim()
-//      platformName = platformName.replace("_x64","64").replace("windows","win")
-//      from jniLib.sharedLibraryFile
-//      eachFile { f ->
-//        f.setName("${f.name.split("\\.")[0]}-${platformName}.${f.name.split("\\.")[1]}")
-//      }
-//      destinationDir = file("$buildDir/dist")
-//    }
 
     syncLocalNativeLibs(Sync) {
       description 'Sync native binaries to $localLibsDir for use by integration tests.'
