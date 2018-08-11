@@ -144,6 +144,9 @@ configure(javaPluginProjects) { p ->
     logging.captureStandardOutput LogLevel.INFO
   }
 
+  // Prevent Javadoc 
+  //tasks.withType(Javadoc).all { enabled = false }
+
   task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
