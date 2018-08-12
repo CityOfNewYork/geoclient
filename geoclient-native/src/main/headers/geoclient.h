@@ -10,13 +10,13 @@
   #include "NYCgeo.h"
   #define GEOSUPPORT_FUNC(work_area1, work_area2) NYCgeo(work_area1, work_area2);
 
-  #define GEOCLIENT_CALL __stdcall
-  //#define GEOCLIENT_CALL
   #ifdef DLL_EXPORT
     #define GEOCLIENT_API __declspec(dllexport)
   #else
-    #define GEOCLIENT_API __declspec(dllimport)
-    //#define GEOCLIENT_API
+    // The following breaks ld when trying to statically link 
+    // geoclient_test.exe with geoclient.lib on Windows/MSYS2/mingw64:
+    //#define GEOCLIENT_API __declspec(dllimport)
+    #define GEOCLIENT_API
   #endif
 #else
   #include "geo.h"
@@ -29,7 +29,8 @@
 extern "C" {
 #endif
 
-  GEOCLIENT_API void GEOCLIENT_CALL callgeo(char *work_area1, char *work_area2);
+  GEOCLIENT_API void callgeo(char *work_area1, char *work_area2);
+  //GEOCLIENT_API void GEOCLIENT_CALL callgeo(char *work_area1, char *work_area2);
 
 #ifdef __cplusplus
 }

@@ -113,8 +113,9 @@ model {
       if (targetPlatform.operatingSystem.windows) {
         cCompiler.define "DLL_EXPORT"
         if (toolChain in Gcc) {
-          //linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
-          linker.args "-shared", "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
+          // The "--add-stdcall-alias" argument to the linker is needed for
+          // gcc Windows build because geoclient.h does not include it.
+          linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
         } else if (toolChain in VisualCpp) {
           // Multi-threaded DLL wth debug symbols
           cCompiler.args "/MDd"
@@ -124,6 +125,7 @@ model {
     // Static libraries
     withType(StaticLibraryBinarySpec) {
       if (targetPlatform.operatingSystem.windows && toolChain in Gcc) {
+        cCompiler.define "DLL_IMPORT"
         linker.args "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
       }
     }
