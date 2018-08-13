@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 projectDir="$(dirname "${BASH_SOURCE[0]}")/../../../../."
 vtype_dir="dir"
@@ -209,7 +209,7 @@ export GC_LIBRARY_PATH="$GC_LIBRARY_PATH"
 # WARNING: Overwrites existing LD_LIBRARY_PATH and may not be necessary in some
 #          circumstances.
 #
-export LD_LIBRARY_PATH="$GS_LIBRARY_PATH:$GC_LIBRARY_PATH" 
+export LD_LIBRARY_PATH="$GS_LIBRARY_PATH:$GC_LIBRARY_PATH"
 EOF
 
   printf '\nSource file %s to export these to your current environment:\n%-8s\n' "$outfile" "\$ . $outfile"
