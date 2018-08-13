@@ -60,21 +60,12 @@ model {
       }
 
       jni_jdk {
-        headers.srcDirs = findJniHeaders()
+        headers.srcDirs = jniJavaHome
       }
     }
   } // repositories
 
 } // model
-
-def findJniHeaders() {
-  String jniDir = project.isWindows ? "${projectDir}/src/jni/headers" : "${jniJavaHome}/include"
-  File f = new File(jniDir)
-  def dirs = [f]
-  f.eachDirRecurse { dirs << it; }
-  logger.lifecycle("JNI include directories: ${dirs}")
-  dirs
-}
 
 // Compiler/linker customizations
 model {
