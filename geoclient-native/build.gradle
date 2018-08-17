@@ -60,7 +60,7 @@ model {
       }
 
       jni_jdk {
-        headers.srcDirs = jniJavaHome
+        headers.srcDirs = jniHeaderDirs
       }
     }
   } // repositories
