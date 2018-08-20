@@ -48,6 +48,7 @@
     <logger name="gov.nyc.doitt.gis.geoclient.function.GeosupportFunction" level="DEBUG" />
     <logger name="gov.nyc.doitt.gis.geoclient.config" level="DEBUG" />
     -->
+    <logger name="com.thoughtworks" level="DEBUG" />
     <logger name="org.springframework" level="INFO" />
     <logger name="gov.nyc.doitt.gis.geoclient" level="INFO" />
     <!-- Suppress Dozer warning about missing config file -->
