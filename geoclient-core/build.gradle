@@ -1,11 +1,7 @@
 dependencies {
-  compile project(':geoclient-jni')
-  compile("org.slf4j:slf4j-api:${slf4jVersion}")
-  compile("ch.qos.logback:logback-core:${logbackVersion}")
-  compile("ch.qos.logback:logback-classic:${logbackVersion}")
-  compile("com.thoughtworks.xstream:xstream:${xstreamVersion}")
+  apiElements("org.slf4j:slf4j-api:${slf4jVersion}")
+  implementation project(':geoclient-jni')
+  implementation("ch.qos.logback:logback-core:${logbackVersion}")
+  implementation("ch.qos.logback:logback-classic:${logbackVersion}")
+  implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}")
 }
-
-//test {
-//  dependsOn([':geoclient-native:build',':geoclient-native:syncLocalNativeLibs'])
-//}
