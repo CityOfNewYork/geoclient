@@ -8,3 +8,5 @@ include 'geoclient-service'
 //include 'geoclient-batch'
 //include 'geoclient-test'
 rootProject.name = 'geoclient'
+// Enable compatibility with Gradle 5.0
+enableFeaturePreview('STABLE_PUBLISHING')
