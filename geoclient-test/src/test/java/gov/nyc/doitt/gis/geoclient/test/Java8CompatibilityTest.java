@@ -20,10 +20,10 @@ import org.junit.Test;
 
 public class Java8CompatibilityTest
 {
-	
-	@Test
-	public void testLoadingClassOnlyInJava8DoesNotBarf()
-	{
-		assertNotNull(java.util.stream.Collector.Characteristics.CONCURRENT.toString());
-	}
+
+  @Test
+  public void testLoadingClassOnlyInJava8DoesNotBarf()
+  {
+    assertNotNull(java.util.stream.Collector.Characteristics.CONCURRENT.toString());
+  }
 }
