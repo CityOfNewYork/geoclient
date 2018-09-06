@@ -2,54 +2,54 @@ apply plugin: 'war'
 apply plugin: 'eclipse-wtp'
 
 dependencies {
-    compile project(":geoclient-jni")
-    compile project(":geoclient-core")
-    compile project(":geoclient-parser")
-    compile("org.apache.commons:commons-text:$commonsTextVersion")
-    compile("net.sf.dozer:dozer:$dozerVersion") {
+    implementation project(":geoclient-jni")
+    implementation project(":geoclient-core")
+    implementation project(":geoclient-parser")
+    implementation("org.apache.commons:commons-text:$commonsTextVersion")
+    implementation("net.sf.dozer:dozer:$dozerVersion") {
       exclude(module: "slf4j-log4j12")
       exclude(module: "commons-lang3")
     }
-    compile("org.springframework:spring-core:$springVersion") { exclude(module: "commons-logging") }
-    compile("org.springframework:spring-context:$springVersion") { exclude(module: "commons-logging") }
-    compile("org.springframework:spring-context-support:$springVersion")
-    compile("org.springframework:spring-webmvc:$springVersion")
-    compile("org.springframework:spring-oxm:$springVersion") { exclude(module: "commons-lang") }
-    
-    compile("org.hibernate:hibernate-validator:$hibernateValidatorVersion")
-    compile("org.glassfish:javax.el:$javaxElVersion")
-    compile("javax.validation:validation-api:$javaxValidationVersion")
-    compile("org.aspectj:aspectjrt:$aspectjrtVersion")
-    compile("org.slf4j:slf4j-api:$slf4jVersion")
-    compile("com.thoughtworks.xstream:xstream:$xstreamVersion")
-    compile("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
-    compile("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-    compile("javax.inject:javax.inject:$javaxInjectVersion")
-    compile("org.thymeleaf:thymeleaf:$thymeleafVersion")
-    compile("org.thymeleaf:thymeleaf-spring4:$thymeleafVersion")
-    compile("joda-time:joda-time:$jodaTimeVersion")
-    compile("org.geotools:gt-referencing:$geotoolsVersion") {
+    implementation("org.springframework:spring-core:$springVersion") { exclude(module: "commons-logging") }
+    implementation("org.springframework:spring-context:$springVersion") { exclude(module: "commons-logging") }
+    implementation("org.springframework:spring-context-support:$springVersion")
+    implementation("org.springframework:spring-webmvc:$springVersion")
+    implementation("org.springframework:spring-oxm:$springVersion") { exclude(module: "commons-lang") }
+
+    implementation("org.hibernate:hibernate-validator:$hibernateValidatorVersion")
+    implementation("org.glassfish:javax.el:$javaxElVersion")
+    implementation("javax.validation:validation-api:$javaxValidationVersion")
+    implementation("org.aspectj:aspectjrt:$aspectjrtVersion")
+    implementation("org.slf4j:slf4j-api:$slf4jVersion")
+    implementation("com.thoughtworks.xstream:xstream:$xstreamVersion")
+    implementation("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+    implementation("javax.inject:javax.inject:$javaxInjectVersion")
+    implementation("org.thymeleaf:thymeleaf:$thymeleafVersion")
+    implementation("org.thymeleaf:thymeleaf-spring4:$thymeleafVersion")
+    implementation("joda-time:joda-time:$jodaTimeVersion")
+    implementation("org.geotools:gt-referencing:$geotoolsVersion") {
       exclude(group: "jgridshift", module: "jgridshift")
     }
-    compile("org.geotools:gt-main:$geotoolsVersion") {
+    implementation("org.geotools:gt-main:$geotoolsVersion") {
       exclude(module: "xerces")
       exclude(group: "jgridshift", module: "jgridshift")
     }
-    compile("org.geotools:gt-epsg-wkt:$geotoolsVersion") {
+    implementation("org.geotools:gt-epsg-wkt:$geotoolsVersion") {
       exclude(group: "jgridshift", module: "jgridshift")
     }
 
-    runtime("org.slf4j:jcl-over-slf4j:$slf4jVersion")
-    runtime("org.slf4j:log4j-over-slf4j:$slf4jVersion")
-    runtime("ch.qos.logback:logback-core:$logbackVersion")
-    runtime("ch.qos.logback:logback-classic:$logbackVersion")
+    runtimeOnly("org.slf4j:jcl-over-slf4j:$slf4jVersion")
+    runtimeOnly("org.slf4j:log4j-over-slf4j:$slf4jVersion")
+    runtimeOnly("ch.qos.logback:logback-core:$logbackVersion")
+    runtimeOnly("ch.qos.logback:logback-classic:$logbackVersion")
 
-    testCompile("org.springframework:spring-test:$springVersion")
-    testCompile("com.jayway.jsonpath:json-path:$jsonPathVersion")
+    testImplementation("org.springframework:spring-test:$springVersion")
+    testImplementation("com.jayway.jsonpath:json-path:$jsonPathVersion")
 
-    //providedCompile("javax.servlet:jstl:$jstlVersion")
+    // Gradle configuration provided by the war plugin
+    // The java plugin's compileOnly configuration does not work
     providedCompile("javax.servlet:javax.servlet-api:$javaxServletApiVersion")
-    //providedCompile("javax.servlet.jsp:jsp-api:$jspApiVersion")
 }
 
 sourceSets {

@@ -1,5 +1,5 @@
 dependencies {
-  apiElements("org.slf4j:slf4j-api:${slf4jVersion}")
+  implementation("org.slf4j:slf4j-api:${slf4jVersion}")
   implementation project(':geoclient-jni')
   implementation("ch.qos.logback:logback-core:${logbackVersion}")
   implementation("ch.qos.logback:logback-classic:${logbackVersion}")
