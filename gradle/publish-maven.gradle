@@ -11,8 +11,7 @@ ext {
 }
 
 signing {
-  required { signatory != null }
-  //required { signatory != null && project.ext.isReleaseVersion }
+  required { signatory != null && project.ext.isReleaseVersion }
   sign configurations.archives
 }
 
