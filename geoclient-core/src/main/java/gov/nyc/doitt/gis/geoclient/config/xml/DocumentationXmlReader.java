@@ -15,6 +15,11 @@
  */
 package gov.nyc.doitt.gis.geoclient.config.xml;
 
+import java.util.List;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.extended.ToStringConverter;
+
 import gov.nyc.doitt.gis.geoclient.doc.DataDictionary;
 import gov.nyc.doitt.gis.geoclient.doc.Description;
 import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
@@ -26,12 +31,6 @@ import gov.nyc.doitt.gis.geoclient.doc.Table;
 import gov.nyc.doitt.gis.geoclient.doc.TableData;
 import gov.nyc.doitt.gis.geoclient.doc.TableRow;
 import gov.nyc.doitt.gis.geoclient.util.ClassUtils;
-
-import java.util.List;
-
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.extended.ToStringConverter;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class DocumentationXmlReader
 {
@@ -120,7 +119,7 @@ public class DocumentationXmlReader
     XStream xStream = new XStream();
 
     // FIXME whitelisting all classes for now
-    xStream.addPermission(AnyTypePermission.ANY);
+    //xStream.addPermission(AnyTypePermission.ANY);
 
     // Use reference="another id" to reference elements
     xStream.setMode(XStream.ID_REFERENCES);
