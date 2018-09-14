@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.SingleValueConverter;
+import com.thoughtworks.xstream.converters.extended.ToStringConverter;
 import com.thoughtworks.xstream.io.HierarchicalStreamDriver;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.security.NoTypePermission;
@@ -30,6 +33,10 @@ import com.thoughtworks.xstream.security.TypePermission;
  *      page
  *
  */
+/**
+ * @author mlipper
+ *
+ */
 public class XStreamBuilder
 {
     private XStream xstream;
@@ -39,8 +46,7 @@ public class XStreamBuilder
      * Creates a new builder using a {@code DomDriver} and configures default
      * permissions.
      * 
-     * @see {@link DomDriver}
-     * @see {@link XStreamBuilder#XStreamBuilder(HierarchicalStreamDriver)
+     * @see DomDriver
      */
     public XStreamBuilder()
     {
@@ -52,7 +58,7 @@ public class XStreamBuilder
      * configures default permissions by calling
      * {@link #addDefaultPermissions()}.
      * 
-     * @see {@link HierarchicalStreamDriver}
+     * @see HierarchicalStreamDriver
      */
     public XStreamBuilder(HierarchicalStreamDriver driver)
     {
@@ -85,8 +91,7 @@ public class XStreamBuilder
      * to the list of those evaluated when the {@link #build()} method is called
      * to white list XStream targets.
      * 
-     * @param p
-     * @return {@link XStreamBuilder}
+     * @return {@code XStreamBuilder} instance
      */
     public XStreamBuilder addPackage(Package p)
     {
@@ -98,8 +103,7 @@ public class XStreamBuilder
      * Uses the {@link Package} of the given {@link Class} argument to call
      * {@link #addPackage(Package)}.
      * 
-     * @param type
-     * @return {@link XStreamBuilder}
+     * @return {@code XStreamBuilder} instance
      * @see #addPackage(Package)
      */
     public XStreamBuilder addAllClassesInSamePackageAs(Class<?> type)
@@ -107,16 +111,33 @@ public class XStreamBuilder
         return this.addPackage(type.getPackage());
     }
     
+    /**
+     * Wraps call to {@link XStream#alias(String, Class)}.
+     * 
+     * @return {@code XStreamBuilder} instance
+     */
     public XStreamBuilder alias(String name, Class<?> type) {
         xstream.alias(name, type);
         return this;
     }
 
+    /**
+     * Wraps call to {@link XStream#aliasAttribute(Class, String, String)}.
+     * 
+     * @param definedIn
+     * @param attributeName
+     * @param alias
+     * @return
+     */
     public XStreamBuilder aliasAttribute(Class<?> definedIn, String attributeName, String alias) {
         xstream.aliasAttribute(definedIn, attributeName, alias);
         return this;
     }
 
+    /**
+     * Wraps call to {@link XStream#setMode(int)} with argument {@link XStream#ID_REFERENCES}.
+     * @return
+     */
     public XStreamBuilder setReferenceMode() {
         // Use reference="another id" to reference elements
         xstream.setMode(XStream.ID_REFERENCES);
@@ -124,17 +145,73 @@ public class XStreamBuilder
     }
     
     /**
+     * Wraps call to {@link XStream#registerConverter(Converter)}.
+     * @param converter
+     * @return
+     */
+    public XStreamBuilder registerConverter(Converter converter) {
+        xstream.registerConverter(converter);
+        return this;
+    }
+    
+    /**
+     * Wraps call to {@link XStream#registerConverter(SingleValueConverter)}.
+     * @param converter
+     * @return
+     */
+    public XStreamBuilder registerConverter(SingleValueConverter converter) {
+        xstream.registerConverter(converter);
+        return this;
+    }
+    
+    public XStreamBuilder registerToStringConverter(Class<?> type) {
+        try
+        {
+            registerConverter(new ToStringConverter(type));
+        } catch (NoSuchMethodException e)
+        {
+            throw new XmlConfigurationException("Could not create ToStringConverter for class "
+                    + type.getCanonicalName() + ": " + e.getMessage());
+        }
+        return this;
+    }
+    
+    /**
+     * Wraps call to {@link XStream#aliasField(String, Class, String)}.
+     * @param alias
+     * @param definedIn
+     * @param fieldName
+     * @return
+     */
+    public XStreamBuilder aliasField(String alias, Class<?> definedIn, String fieldName) {
+        xstream.aliasField(alias, definedIn, fieldName);
+        return this;
+    }
+    
+    /**
+     * Wraps call to {@link XStream#addImplicitCollection(Class, String, Class)}.
+     * @param ownerType
+     * @param fieldName
+     * @param itemType
+     * @return
+     */
+    public XStreamBuilder addImplicitCollection(Class<?> ownerType, String fieldName, Class<?> itemType) {
+        xstream.addImplicitCollection(ownerType, fieldName, itemType);
+        return this;
+    }
+    
+    /**
      * Adds the following XStream {@link TypePermission}s as sensible defaults:
      * 
      * <ul>
-     * <li>{@link NoTypePermission.NONE}</li>
-     * <li>{@link NullPermission.NULL}</li>
-     * <li>{@link PrimitiveTypePermission.PRIMITIVES}</li>
+     * <li>{@code NoTypePermission.NONE}</li>
+     * <li>{@code NullPermission.NULL}</li>
+     * <li>{@code PrimitiveTypePermission.PRIMITIVES}</li>
      * <li>Creates a {@code TypeHierarchyPermission} for all implementations of
      * the Collection.class</li>
      * </ul>
      * 
-     * Note that {@link NoTypePermission.NONE} is added first which will clear
+     * Note that {@code NoTypePermission.NONE} is added first which will clear
      * out all existing permissions.
      * 
      * Logic is inspired by on this
@@ -150,6 +227,7 @@ public class XStreamBuilder
         xstream.addPermission(NullPermission.NULL);
         xstream.addPermission(PrimitiveTypePermission.PRIMITIVES);
         xstream.allowTypeHierarchy(Collection.class);
+        xstream.allowTypes(new Class<?>[] { String.class });
 
         // If the above proves too restrictive and we are only reading streams
         // from internal sources

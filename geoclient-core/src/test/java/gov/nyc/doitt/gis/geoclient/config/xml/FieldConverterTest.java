@@ -15,18 +15,9 @@
  */
 package gov.nyc.doitt.gis.geoclient.config.xml;
 
-import static gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader.XML_FIELD_ATTRIBUTE_ALIAS; 
-import static gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader.XML_FIELD_ATTRIBUTE_ID;
-import static gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader.XML_FIELD_ATTRIBUTE_INPUT;
-import static gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader.XML_FIELD_ATTRIBUTE_LENGTH;
-import static gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader.XML_FIELD_ATTRIBUTE_START;
-import static gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader.XML_FIELD_ATTRIBUTE_TYPE;
-import static gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader.XML_FIELD_VALUE_COMPOSITE_TYPE;
-import static gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader.XML_FIELD_ATTRIBUTE_WHITESPACE;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import gov.nyc.doitt.gis.geoclient.function.Field;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,8 +26,12 @@ import org.mockito.Mockito;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 
+import gov.nyc.doitt.gis.geoclient.function.Field;
+import gov.nyc.doitt.gis.geoclient.test.Fixtures;
+
 public class FieldConverterTest
 {
+    private FieldConverter.Metadata metadata; 
 	private FieldConverter converter;
 	private HierarchicalStreamReader readerMock;
 	private UnmarshallingContext contextMock;
@@ -51,12 +46,13 @@ public class FieldConverterTest
 	@Before
 	public void setUp() throws Exception
 	{
-		this.converter = new FieldConverter();
+		this.metadata = new Fixtures().fieldConverterMetadata();
+	    this.converter = new FieldConverter(this.metadata);
 		this.readerMock = Mockito.mock(HierarchicalStreamReader.class);
 		this.id = "returnCodeId";
 		this.start = "12";
 		this.length = "6";
-		this.type = XML_FIELD_VALUE_COMPOSITE_TYPE;
+		this.type = metadata.xmlFieldValueCompositeType;
 		this.isInput = "trUe";
 		this.alias = "returnCodeAlias";
 		this.whitespace = "TRUE";
@@ -102,13 +98,13 @@ public class FieldConverterTest
 
 	private void prepareReaderMock(String typeToUse)
 	{
-		Mockito.when(this.readerMock.getAttribute(XML_FIELD_ATTRIBUTE_ID)).thenReturn(id);
-		Mockito.when(this.readerMock.getAttribute(XML_FIELD_ATTRIBUTE_START)).thenReturn(start);
-		Mockito.when(this.readerMock.getAttribute(XML_FIELD_ATTRIBUTE_LENGTH)).thenReturn(this.length);
-		Mockito.when(this.readerMock.getAttribute(XML_FIELD_ATTRIBUTE_TYPE)).thenReturn(typeToUse);
-		Mockito.when(this.readerMock.getAttribute(XML_FIELD_ATTRIBUTE_INPUT)).thenReturn(this.isInput);
-		Mockito.when(this.readerMock.getAttribute(XML_FIELD_ATTRIBUTE_ALIAS)).thenReturn(this.alias);
-		Mockito.when(this.readerMock.getAttribute(XML_FIELD_ATTRIBUTE_WHITESPACE)).thenReturn(this.whitespace);
+		Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeId)).thenReturn(id);
+		Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeStart)).thenReturn(start);
+		Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeLength)).thenReturn(this.length);
+		Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeType)).thenReturn(typeToUse);
+		Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeInput)).thenReturn(this.isInput);
+		Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeAlias)).thenReturn(this.alias);
+		Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeWhitespace)).thenReturn(this.whitespace);
 	}
 
 	private void assertFieldResult(boolean isComposite, Field field)

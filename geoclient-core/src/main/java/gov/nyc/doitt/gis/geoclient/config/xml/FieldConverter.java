@@ -15,7 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.config.xml;
 
-import static gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader.*;
 import gov.nyc.doitt.gis.geoclient.function.Field;
 
 import org.slf4j.Logger;
@@ -30,6 +29,44 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 public class FieldConverter implements Converter
 {
 	private static final Logger log = LoggerFactory.getLogger(FieldConverter.class);
+	
+	public static class Metadata {
+	    public final String xmlFieldAttributeId;
+	    public final String xmlFieldAttributeStart;
+	    public final String xmlFieldAttributeLength;
+	    public final String xmlFieldValueCompositeType;
+	    public final String xmlFieldAttributeType;
+	    public final String xmlFieldAttributeInput;
+	    public final String xmlFieldAttributeAlias;
+	    public final String xmlFieldAttributeWhitespace;
+        public Metadata(
+                String xmlFieldAttributeId, 
+                String xmlFieldAttributeStrart,
+                String xmlFieldAttributeLength, 
+                String xmlFieldValueCompositeType,
+                String xmlFieldAttributeType, 
+                String xmlFieldAttributeInput,
+                String xmlFieldAttributeAlias, 
+                String xmlFieldAttributeWhitespace)
+        {
+            super();
+            this.xmlFieldAttributeId = xmlFieldAttributeId;
+            this.xmlFieldAttributeStart = xmlFieldAttributeStrart;
+            this.xmlFieldAttributeLength = xmlFieldAttributeLength;
+            this.xmlFieldValueCompositeType = xmlFieldValueCompositeType;
+            this.xmlFieldAttributeType = xmlFieldAttributeType;
+            this.xmlFieldAttributeInput = xmlFieldAttributeInput;
+            this.xmlFieldAttributeAlias = xmlFieldAttributeAlias;
+            this.xmlFieldAttributeWhitespace = xmlFieldAttributeWhitespace;
+        }
+	    
+	}
+	
+	private final Metadata metadata;
+	
+	public FieldConverter(Metadata metadata) {
+	    this.metadata = metadata;
+	}
 
 	@Override
 	public boolean canConvert(@SuppressWarnings("rawtypes") Class type)
@@ -46,15 +83,15 @@ public class FieldConverter implements Converter
 	@Override
 	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context)
 	{
-		String id = reader.getAttribute(XML_FIELD_ATTRIBUTE_ID);
+		String id = reader.getAttribute(metadata.xmlFieldAttributeId);
 		// The start value from XML is 1-indexed and needs to be adjusted for 
 		// the Field class which expects a zero-indexed start value.
-		int start = Integer.valueOf(reader.getAttribute(XML_FIELD_ATTRIBUTE_START)) - 1;
-		int length = Integer.valueOf(reader.getAttribute(XML_FIELD_ATTRIBUTE_LENGTH));
-		boolean isComposite = XML_FIELD_VALUE_COMPOSITE_TYPE.equalsIgnoreCase(reader.getAttribute(XML_FIELD_ATTRIBUTE_TYPE));
-		boolean isInput = "true".equalsIgnoreCase(reader.getAttribute(XML_FIELD_ATTRIBUTE_INPUT));
-		String alias = reader.getAttribute(XML_FIELD_ATTRIBUTE_ALIAS);
-		boolean whitespace = "true".equalsIgnoreCase(reader.getAttribute(XML_FIELD_ATTRIBUTE_WHITESPACE));
+		int start = Integer.valueOf(reader.getAttribute(metadata.xmlFieldAttributeStart)) - 1;
+		int length = Integer.valueOf(reader.getAttribute(metadata.xmlFieldAttributeLength));
+		boolean isComposite = metadata.xmlFieldValueCompositeType.equalsIgnoreCase(reader.getAttribute(metadata.xmlFieldAttributeType));
+		boolean isInput = "true".equalsIgnoreCase(reader.getAttribute(metadata.xmlFieldAttributeInput));
+		String alias = reader.getAttribute(metadata.xmlFieldAttributeAlias);
+		boolean whitespace = "true".equalsIgnoreCase(reader.getAttribute(metadata.xmlFieldAttributeWhitespace));
 		Field field = new Field(id,start,length,isComposite,isInput,alias,whitespace);
 		log.trace("Created {}", field);
 		return field;

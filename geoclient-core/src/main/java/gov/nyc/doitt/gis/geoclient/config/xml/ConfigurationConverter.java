@@ -15,10 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.config.xml;
 
-import static gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader.XML_REQUIREDARGUMENT_ATTRIBUTE_NAME;
-import static gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader.XML_REQUIREDARGUMENT_ATTRIBUTE_VALUE;
-import static gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader.XML_REQUIREDARGUMENT_ELEMENT;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +33,28 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 public class ConfigurationConverter implements Converter
 {
     private static final Logger log = LoggerFactory.getLogger(ConfigurationConverter.class);
+
+    public static class Metadata {
+        public final String xmlRequiredArgumentAttributeName;
+        public final String xmlRequiredArgumentAttributeValue;
+        public final String xmlRequiredArgumentElement;
+        public Metadata(String xmlRequiredArgumentAttributeName,
+                String xmlRequiredArgumentAttributeValue, String xmlRequiredArgumentElement)
+        {
+            super();
+            this.xmlRequiredArgumentAttributeName = xmlRequiredArgumentAttributeName;
+            this.xmlRequiredArgumentAttributeValue = xmlRequiredArgumentAttributeValue;
+            this.xmlRequiredArgumentElement = xmlRequiredArgumentElement;
+        }
+    }
+
+    private final Metadata metadata;
+    
+    public ConfigurationConverter(Metadata metadata)
+    {
+        super();
+        this.metadata = metadata;
+    }
 
     @Override
     public boolean canConvert(@SuppressWarnings("rawtypes") Class type)
@@ -57,9 +75,9 @@ public class ConfigurationConverter implements Converter
         Map<String, Object> requiredArguments = new HashMap<String, Object>();
         while(reader.hasMoreChildren()) {
             reader.moveDown();
-            if(XML_REQUIREDARGUMENT_ELEMENT.equals(reader.getNodeName()))
+            if(metadata.xmlRequiredArgumentElement.equals(reader.getNodeName()))
             {
-                requiredArguments.put(reader.getAttribute(XML_REQUIREDARGUMENT_ATTRIBUTE_NAME), reader.getAttribute(XML_REQUIREDARGUMENT_ATTRIBUTE_VALUE));
+                requiredArguments.put(reader.getAttribute(metadata.xmlRequiredArgumentAttributeName), reader.getAttribute(metadata.xmlRequiredArgumentAttributeValue));
             }
             reader.moveUp();
         }
