@@ -53,7 +53,7 @@ configure(javaPluginProjects) { p ->
 
   ext.javadocLinks = [
           "http://docs.oracle.com/javase/8/docs/api/",
-          "http://docs.oracle.com/javaee/7/api/"
+          "http://docs.oracle.com/javase/7/docs/api/"
   ] as String[]
 
   test {
@@ -115,7 +115,7 @@ configure(javaPluginProjects) { p ->
         'Implementation-Title': p.name,
         'Implementation-Version': p.version,
         'Built-By': System.getProperty('user.name'),
-        'Built-Date': new Date(),
+        //'Built-Date': new Date(), // Disable for now because triggers task every build
         'Built-JDK': System.getProperty('java.version'),
         'Built-Gradle': gradle.gradleVersion
       )
@@ -136,7 +136,8 @@ configure(javaPluginProjects) { p ->
     options.author = true
     options.header = project.name
     options.links(javadocLinks)
-    options.quiet()
+    //options.quiet()
+    options.addStringOption("Xdoclint:none", "-quiet")
     //options.verbose()
     // Suppress cross-module @see and @link reference warnings
     logging.captureStandardError LogLevel.INFO
