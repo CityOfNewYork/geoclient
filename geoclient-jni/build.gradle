@@ -11,6 +11,7 @@ sourceSets {
 }
 
 dependencies {
+    //annotationProcessor "org.jogamp.gluegen:gluegen:$gluegenVersion"
     implementation "org.jogamp.gluegen:gluegen:$gluegenVersion"
 }
 
@@ -24,6 +25,11 @@ task copyJniLib (type: Copy) {
     rename '(.*)(\\.dll|\\.lib)', '$1-win64$2'
     rename '(.*)(\\.so)', '$1-linux64$2'
 }
+
+// TODO: figure out why this does not supress the Gradle warning
+//compileJava {
+//    options.compilerArgs += ["-proc:none"]
+//}
 
 processResources.dependsOn copyJniLib
 
