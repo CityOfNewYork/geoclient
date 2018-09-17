@@ -16,7 +16,6 @@
 package gov.nyc.doitt.gis.geoclient.config;
 
 import gov.nyc.doitt.gis.geoclient.config.xml.DocumentationXmlReader;
-import gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader;
 import gov.nyc.doitt.gis.geoclient.doc.DataDictionary;
 import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
 import gov.nyc.doitt.gis.geoclient.function.Function;

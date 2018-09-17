@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package gov.nyc.doitt.gis.geoclient.config.xml;
+package gov.nyc.doitt.gis.geoclient.config;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import gov.nyc.doitt.gis.geoclient.config.FunctionConfig;
+import gov.nyc.doitt.gis.geoclient.config.GeoclientXmlReader;
 import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
 import gov.nyc.doitt.gis.geoclient.config.WorkAreaConfig;
 import gov.nyc.doitt.gis.geoclient.function.Field;
