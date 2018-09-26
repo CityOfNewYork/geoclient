@@ -15,26 +15,27 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.token;
 
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class TextUtils
 {
 
-	public static String sanitize(String s)
-	{
-		if(s == null || s.isEmpty())
-		{
-			return s;
-		}
-		// Remove leading and trailing spaces or punctuation (except for trailing 
-		 //period characters (eg, N.Y.)
-		String clean = StringUtils.removePattern(s,"^(?:\\s|\\p{Punct})+|(?:\\s|[\\p{Punct}&&[^.]])+$");
-		// Make sure ampersand is surrounded by spaces but allow double ampersand
-		clean = clean.replaceAll("([^\\s&])\\&", "$1 &");
-		clean = clean.replaceAll("\\&([^\\s&])", "& $1");
-		// Normalize whitespace
-		clean = StringUtils.normalizeSpace(clean);
-		return clean;
-	}
+  public static String sanitize(String s)
+  {
+    if(s == null || s.isEmpty())
+    {
+      return s;
+    }
+    // Remove leading and trailing spaces or punctuation (except for trailing
+     //period characters (eg, N.Y.)
+    String clean = RegExUtils.removePattern(s,"^(?:\\s|\\p{Punct})+|(?:\\s|[\\p{Punct}&&[^.]])+$");
+    // Make sure ampersand is surrounded by spaces but allow double ampersand
+    clean = clean.replaceAll("([^\\s&])\\&", "$1 &");
+    clean = clean.replaceAll("\\&([^\\s&])", "& $1");
+    // Normalize whitespace
+    clean = StringUtils.normalizeSpace(clean);
+    return clean;
+  }
 
 }

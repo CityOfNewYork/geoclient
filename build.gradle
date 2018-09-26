@@ -42,7 +42,7 @@ def javaPluginProjects = [
   project(':geoclient-jni'),
   project(':geoclient-core'),
   project(':geoclient-parser'),
-  project(':geoclient-search'),
+  //project(':geoclient-search'),
   project(':geoclient-service')
 ] as Set
 
@@ -95,6 +95,10 @@ configure(javaPluginProjects) { p ->
   }
 
   dependencies {
+
+    //testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}") {
+    //  exclude group:'org.hamcrest', module:'hamcrest-core'
+    //}
 
     testCompile("junit:junit:${junitVersion}") {
       exclude group:'org.hamcrest', module:'hamcrest-core'

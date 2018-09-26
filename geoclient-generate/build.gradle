@@ -38,6 +38,7 @@ task prepareConf (type: Copy) {
                         tab: FixCrLfFilter.AddAsisRemove.newInstance('asis'),
                         eof: FixCrLfFilter.AddAsisRemove.newInstance('remove'),
                     fixlast: true)
+
   // Replace tokens in Gluegen config source file
   filter(ReplaceTokens, tokens: [
                               javaOutputDir: tempJavaOutputDir.toString(),
