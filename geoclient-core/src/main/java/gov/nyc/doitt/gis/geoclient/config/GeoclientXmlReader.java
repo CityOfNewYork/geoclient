@@ -22,7 +22,6 @@ import com.thoughtworks.xstream.XStream;
 import gov.nyc.doitt.gis.geoclient.config.xml.ConfigurationConverter;
 import gov.nyc.doitt.gis.geoclient.config.xml.FieldConverter;
 import gov.nyc.doitt.gis.geoclient.config.xml.XStreamBuilder;
-import gov.nyc.doitt.gis.geoclient.config.xml.ConfigurationConverter.Metadata;
 import gov.nyc.doitt.gis.geoclient.function.DefaultConfiguration;
 import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.function.Filter;
@@ -65,11 +64,11 @@ public class GeoclientXmlReader
     static final String XML_WORK_AREA_ATTRIBUTE_ID = "id";
     static final String XML_WORK_AREA_ATTRIBUTE_IS_WA1 = "isWA1";
     static final String XML_WORK_AREA_ELEMENT = "workArea";
-    
+
     static final ConfigurationConverter.Metadata CONFIGURATION_CONVERTER_METADATA =
             new ConfigurationConverter.Metadata(
                     XML_REQUIREDARGUMENT_ATTRIBUTE_NAME,
-                    XML_REQUIREDARGUMENT_ATTRIBUTE_VALUE, 
+                    XML_REQUIREDARGUMENT_ATTRIBUTE_VALUE,
                     XML_REQUIREDARGUMENT_ELEMENT);
 
     static final FieldConverter.Metadata FIELD_CONVERTER_METADATA =
@@ -82,12 +81,12 @@ public class GeoclientXmlReader
                     XML_FIELD_ATTRIBUTE_INPUT,
                     XML_FIELD_ATTRIBUTE_ALIAS,
                     XML_FIELD_ATTRIBUTE_WHITESPACE);
-    
+
     /**
      * Creates Geoclient configuration from the given XML file path. Currently
      * {@link XStream} is used to unmarshall the XML to runtime configuration
      * objects.
-     * 
+     *
      * @param configFile
      *            path to the XML configuration file
      * @return {@link GeoclientXmlReader}
@@ -112,11 +111,11 @@ public class GeoclientXmlReader
                 .aliasAttribute(FunctionConfig.class, CLASS_FUNCTION_PROPERTY_ID, XML_FUNCTION_ATTRIBUTE_ID) // <function id="">
                 .aliasField(XML_FUNCTION_WORKAREAONE_ELEMENT, FunctionConfig.class, CLASS_FUNCTION_PROPERTY_WORKAREAONE) // <function workAreaOne="">
                 .aliasField(XML_FUNCTION_WORKAREATWO_ELEMENT, FunctionConfig.class, CLASS_FUNCTION_PROPERTY_WORKAREATWO); // <function workAreaTwo="">
-        
+
         return (GeoclientXmlReader) builder.build()
                 .fromXML(ClassUtils.getDefaultClassLoader().getResourceAsStream(configFile));
     }
-    
+
     public static FieldConverter.Metadata getFieldConverterMetadata() {
         return FIELD_CONVERTER_METADATA;
     }

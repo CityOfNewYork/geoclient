@@ -90,44 +90,44 @@ public class DocumentationXmlReader
   {
     return functions;
   }
-  
+
   public void setFunctions(List<FunctionDocumentation> functions)
   {
     this.functions = functions;
   }
-  
+
   public DataDictionary getDataDictionary()
   {
     return dataDictionary;
   }
-  
+
   public void setDataDictionary(DataDictionary dataDictionary)
   {
     this.dataDictionary = dataDictionary;
   }
-  
+
   public List<GroupDocumentation> getFieldGroups()
   {
     return fieldGroups;
   }
-  
+
   public void setFieldGroups(List<GroupDocumentation> fieldGroups)
   {
     this.fieldGroups = fieldGroups;
   }
-  
+
   public static DocumentationXmlReader fromXml(String configFile)
   {
 
     XStreamBuilder builder = new XStreamBuilder();
-    
-    builder.addDefaultPermissions()    
+
+    builder.addDefaultPermissions()
     .addAllClassesInSamePackageAs(DocumentationXmlReader.class)
     .addAllClassesInSamePackageAs(ItemDocumentation.class)
     .setReferenceMode() // Use reference="another id" to reference elements
-    .alias(XML_ROOT_ELEMENT, DocumentationXmlReader.class) // <geoclient> 
+    .alias(XML_ROOT_ELEMENT, DocumentationXmlReader.class) // <geoclient>
     .alias(XML_DATA_DICTIONARY_ELEMENT, DataDictionary.class) // <dataDictionary>
-    .addImplicitCollection(DataDictionary.class, CLASS_DATA_DICTIONARY_PROPERTY_ITEMS, ItemDocumentation.class) // <dataDictionary><documentation>...<docmentation>... to DataDictionary.items 
+    .addImplicitCollection(DataDictionary.class, CLASS_DATA_DICTIONARY_PROPERTY_ITEMS, ItemDocumentation.class) // <dataDictionary><documentation>...<docmentation>... to DataDictionary.items
     .alias(XML_DOCUMENTATION_ELEMENT, ItemDocumentation.class) // <documentation> to class ItemDocumentation
     .aliasAttribute(ItemDocumentation.class, CLASS_DOCUMENTATION_PROPERTY_ID, XML_DOCUMENTATION_ATTRIBUTE_ID) // <documentation id="">
     .addImplicitCollection(ItemDocumentation.class, CLASS_DOCUMENTATION_PROPERTY_TABLES, Table.class) // <documentation>...<table>...<table>... to Document.tables
