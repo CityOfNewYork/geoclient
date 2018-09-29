@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8" />
-	<meta http-equiv="X-UA-Compatible" content="chrome=1" />
-	<title>Geoclient API</title>
-	<link rel="stylesheet" href="../../css/styles.css" th:href="@{/css/styles.css}" />
-	<link rel="stylesheet" href="../../css/pygment_trac.css" th:href="@{/css/pygment_trac.css}" />
-	<script src="../../js/scale.js" th:src="@{/js/scale.js}"></script>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+  <title>Geoclient API</title>
+  <link rel="stylesheet" href="../../css/styles.css" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" href="../../css/pygment_trac.css" th:href="@{/css/pygment_trac.css}" />
+  <script src="../../js/scale.js" th:src="@{/js/scale.js}"></script>
     <script src="../../js/jquery-1.10.1.js" th:src="@{/js/jquery-1.10.1.js}"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-	<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
 <style type="text/css">
 ol li {
@@ -25,7 +25,7 @@ div#geoclientVersion, div#geosupportVersion {
 }
 
 .headerVersion {
-	margin-bottom: 10px;
+  margin-bottom: 10px;
 }
 
 sup {
@@ -67,11 +67,11 @@ img.new {
 }
 </style>
 <script type="text/javascript">
-	$(document).ready(function() {
-		$('.showJsonResponse').click(function(event) {
-			$('.exampleJsonResponse').slideToggle('slow');
-			event.preventDefault();
-		});
+  $(document).ready(function() {
+    $('.showJsonResponse').click(function(event) {
+      $('.exampleJsonResponse').slideToggle('slow');
+      event.preventDefault();
+    });
         $('.showXmlResponse').click(function(event) {
             $('.exampleXmlResponse').slideToggle('slow');
             event.preventDefault();
@@ -86,10 +86,10 @@ img.new {
             $('#geosupportVersion').slideToggle('slow');
             event.preventDefault();
         });
-	});
+  });
 </script>
 </head>
-<body th:with="vh=${beans.viewHelper}">
+<body th:with="vh=${@viewHelper}">
     <div class="wrapper">
       <header>
         <h1 class="header">Geoclient</h1>
@@ -99,7 +99,7 @@ img.new {
           <li class="download"><a class="buttons" href="../../download/geosupport-tech-bullitens-v10.2-v11.5.pdf" th:href="@{/download/geosupport-tech-bullitens-v10.2-v11.5.pdf}">UPG Updates</a></li>
           <li><a class="buttons github" href="#home">Home</a></li>
         </ul>
-        
+
         <p id="showGeoclientVersion" class="header headerVersion ">
             <a class="header name" href="#">Geoclient Version</a>
             <div id="geoclientVersion">
@@ -107,7 +107,7 @@ img.new {
                <span th:text="|Library v${version.geoclientVersion}|">&nbsp;&nbsp;Library v1.0.2</span><br/>
                <span th:text="|Parser v${version.geoclientParserVersion}|">&nbsp;&nbsp;Parser v1.0</span><br/>
                <span th:text="|Native v${version.geoclientJniVersion}|">&nbsp;&nbsp;Native v1.0.5</span>
-            </div> 
+            </div>
         </p>
         <p id="showGeosupportVersion" class="header headerVersion ">
             <a class="header name" href="#">Geosupport Version</a>
@@ -115,10 +115,10 @@ img.new {
                <span th:text="|Release ${version.geosupportVersion.release}|">&nbsp;&nbsp;Release 13E</span><br/>
                <span th:text="|Version ${version.geosupportVersion.version}|">&nbsp;&nbsp;Version 13.4</span><br/>
             </div>
-        </p>        
+        </p>
 <!--
          <p class="header">This project is maintained by DoITT <a class="header name" href="http://maps.nyc.gov/doitt/nycitymap">Citywide GIS</a></p>
- -->    
+ -->
  </header>
 
     <section>
@@ -126,7 +126,7 @@ img.new {
 
 <p>The Geoclient application is a cloud based web service which exposes select
 function calls to the New York City Department of City Planning's <strong>Geosupport</strong>
-application. At the current time, there are six types of location requests 
+application. At the current time, there are six types of location requests
 that the Geoclient service provides:</p>
 
 <table>
@@ -169,7 +169,7 @@ that the Geoclient service provides:</p>
 <p>
 <img class="new" src="../../images/new.jpg" th:src="@{/images/new.jpg}"/>
 Starting with Geoclient service version 1.10, any of these request types can
-be called using the new single-field search endpoint. Service calls can now be 
+be called using the new single-field search endpoint. Service calls can now be
 made passing in a single-line location instead of requiring values be separated
 into distinct query parameters. See <a href="#section-1.3"><strong>Section 1.3</strong></a>
 for details.
@@ -179,32 +179,32 @@ for details.
 <h2><a id="roadmap">Roadmap</a></h2>
 
 <ol>
-	<li><a href="#section-1.0"><strong>Section 1.0</strong></a>
-		titled "Calling the Geoclient API" documents how application
-		clients call the Geoclient service. It also provides example
-		responses.
-	</li>
-	<li><a href="#section-2.0"><strong>Section 2.0</strong></a>
-		titled "Understanding Geoclient Return Codes" provides reference
-		information for the HTTP and application-level return codes which
-		are provided for all requests.
-	</li>
-	<li><a href="#section-3.0"><strong>Section 3.0</strong></a>
-		titled "Geoclient Function Reference" details what data elements
-		are returned from each request type.
-	</li>
-	<li><a href="#section-4.0"><strong>Section 4.0</strong></a>
-		titled "Geoclient Data Dictionary" provides more detailed reference
-		information on available data items.
-	</li>
-	<li><a href="#section-5.0"><strong>Section 5.0</strong></a>
-		titled "Version Information" provides information about the versions
-		of Geoclient and Geosupport used by this service.
-	</li>
-	<li><a href="#section-6.0"><strong>Section 6.0</strong></a>
-		titled "Contact Us" provides contact information for the Citywide GIS
-		group.
-	</li>
+  <li><a href="#section-1.0"><strong>Section 1.0</strong></a>
+    titled "Calling the Geoclient API" documents how application
+    clients call the Geoclient service. It also provides example
+    responses.
+  </li>
+  <li><a href="#section-2.0"><strong>Section 2.0</strong></a>
+    titled "Understanding Geoclient Return Codes" provides reference
+    information for the HTTP and application-level return codes which
+    are provided for all requests.
+  </li>
+  <li><a href="#section-3.0"><strong>Section 3.0</strong></a>
+    titled "Geoclient Function Reference" details what data elements
+    are returned from each request type.
+  </li>
+  <li><a href="#section-4.0"><strong>Section 4.0</strong></a>
+    titled "Geoclient Data Dictionary" provides more detailed reference
+    information on available data items.
+  </li>
+  <li><a href="#section-5.0"><strong>Section 5.0</strong></a>
+    titled "Version Information" provides information about the versions
+    of Geoclient and Geosupport used by this service.
+  </li>
+  <li><a href="#section-6.0"><strong>Section 6.0</strong></a>
+    titled "Contact Us" provides contact information for the Citywide GIS
+    group.
+  </li>
 </ol>
 
 </section>
@@ -212,18 +212,18 @@ for details.
 
 <h2><a id="section-1.0">1.0 - Calling the Geoclient API</a></h2>
 
-<p>All requests are made as simple HTTP GET's with input arguments specified as 
-URL query parameters. The service returns the JSON (application/json) or XML 
+<p>All requests are made as simple HTTP GET's with input arguments specified as
+URL query parameters. The service returns the JSON (application/json) or XML
 (application/xml) media types, depending on the requested file extension.</p>
 
 <p>Note that although the XML and JSON example responses are "pretty-printed"
 in this document, calling applications should not depend on any particular
-formatting of responses. Furthermore, the ordering of returned data elements 
+formatting of responses. Furthermore, the ordering of returned data elements
 is unspecified. Client code which parses responses from Geoclient
 <em>should not rely upon significant whitespace or element/attribute ordering</em>.</p>
 
 <p>Also, even within the same service call types (Address, Intersection, etc...)
-the set of returned data elements will vary since those elements with NULL values 
+the set of returned data elements will vary since those elements with NULL values
 are not returned.</p>
 
 <h3><a id="section-1.1">1.1 - Common Request Parameters</a></h3>
@@ -231,35 +231,35 @@ are not returned.</p>
 <p>The following request parameters are required for all operations (except where
 noted):</p>
 
-	<ul>
-		<li>URL file extension which specifies the desired media-type
-			of the response:
-			<ul>
-				<li><strong>format</strong> (required) - <code>json</code>, <code>xml</code>
-				</li>
-			</ul>
-		</li>
-		<li>API authorization parameters:
-			<ul>
-				<li><strong>app_id</strong> (required) - assigned access application id</li>
-				<li><strong>app_key</strong> (required) - assigned access application key</li>
-			</ul>
-		</li>
-		<li><strong>borough</strong> (required<sup>1</sup>,<sup>2</sup>,<sup>3</sup>) parameter -
-			must be one of the following (case-insensitive):
-			<ul>
-				<li><code>Manhattan</code></li>
-				<li><code>Bronx</code></li>
-				<li><code>Brooklyn</code></li>
-				<li><code>Queens</code></li>
-				<li><code>Staten Island</code></li>
-			</ul></li>
-	</ul>
-	<p>
-		<sup>1</sup>Not applicable to BIN calls<br/>
-		<sup>2</sup>Not required for ADDRESS or PLACE calls if zip is given
+  <ul>
+    <li>URL file extension which specifies the desired media-type
+      of the response:
+      <ul>
+        <li><strong>format</strong> (required) - <code>json</code>, <code>xml</code>
+        </li>
+      </ul>
+    </li>
+    <li>API authorization parameters:
+      <ul>
+        <li><strong>app_id</strong> (required) - assigned access application id</li>
+        <li><strong>app_key</strong> (required) - assigned access application key</li>
+      </ul>
+    </li>
+    <li><strong>borough</strong> (required<sup>1</sup>,<sup>2</sup>,<sup>3</sup>) parameter -
+      must be one of the following (case-insensitive):
+      <ul>
+        <li><code>Manhattan</code></li>
+        <li><code>Bronx</code></li>
+        <li><code>Brooklyn</code></li>
+        <li><code>Queens</code></li>
+        <li><code>Staten Island</code></li>
+      </ul></li>
+  </ul>
+  <p>
+    <sup>1</sup>Not applicable to BIN calls<br/>
+    <sup>2</sup>Not required for ADDRESS or PLACE calls if zip is given
         <sup>3</sup>Some caveats apply for single-field search requests
-	</p>
+  </p>
 
 <h3><a id="section-1.2">1.2 - Request Parameters by Type</a></h3>
 
@@ -269,9 +269,9 @@ Although the actual Geosupport API can be called with a vast number of
 optional parameters, at this time this service only supports what's listed
 below.</p>
 
-<p><em><strong>Note:</strong></em> Example <code>GET</code> requests are shown unencoded (for example, with space 
-characters instead of '%20'). When making these requests programmatically, 
-you may need to URL-encode the URL if your tool or platform does not do so 
+<p><em><strong>Note:</strong></em> Example <code>GET</code> requests are shown unencoded (for example, with space
+characters instead of '%20'). When making these requests programmatically,
+you may need to URL-encode the URL if your tool or platform does not do so
 automatically. See this <a href="https://en.wikipedia.org/wiki/Url_encoding">article</a>
 for more details. </p>
 
@@ -1688,11 +1688,11 @@ for more details. </p>
 <!-- ################################ -->
 <h3><a id="section-1.3">1.3 - Single-field Search</a></h3>
 
-<p>Begining with version 1.10, any of the six request types documented in 
-<a href="section-1.2">section 1.2</a> can be accessed using a single unparsed 
-location string. Assuming that the Geoclient parser can guess the location type 
-requested and the given single-field input parameter contains contains enough 
-information to generate a successful Geosupport call, the service will return 
+<p>Begining with version 1.10, any of the six request types documented in
+<a href="section-1.2">section 1.2</a> can be accessed using a single unparsed
+location string. Assuming that the Geoclient parser can guess the location type
+requested and the given single-field input parameter contains contains enough
+information to generate a successful Geosupport call, the service will return
 one or more sets of geocodes corresponding to the type of request that was made.
 </p>
 <p>The single-field search will attempt to recognize the type of request being
@@ -1711,15 +1711,15 @@ which they are executed :
 <li>If the input string starts with a known house number format, it is recognized and kept as &lt;BASIC_HOUSE_NUMBER&gt; and (optionally) &lt;HOUSE_NUMBER_SUFFIX&gt; token(s): <pre>[93-02] 69th Ave</pre></li>
 <li>Any remaining input is treated as an input street. If a &lt;BASIC_HOUSE_NUMBER&gt; token has been parsed, the input is recognized as an ADDRESS request, otherwise it is defaulted to a PLACE request</li>
 </ol>
-<sup>1</sup>Input ending in only a single instance of "NY" or "New York" (case-insensitive) 
+<sup>1</sup>Input ending in only a single instance of "NY" or "New York" (case-insensitive)
 is treated as a city name alias for Manhattan and not the state of New York.
 
-All matching is case-insensitive. Leading/trailing whitespace and any punctuation 
+All matching is case-insensitive. Leading/trailing whitespace and any punctuation
 characters are ignored.
 </p>
 <p>
-After the input has been parsed into tokens and the request type has been determined, 
-the service resolves the BOROUGH_NAME and/or CITY_NAME token(s) into a New York City 
+After the input has been parsed into tokens and the request type has been determined,
+the service resolves the BOROUGH_NAME and/or CITY_NAME token(s) into a New York City
 borough code (1=Manhattan, 2=Bronx, 3=Brooklyn, 4=Queens, 5=Staten Island).
 <ul>
 <li>If a valid borough code has been resolved, a single request is made to Geosupport using the specified borough code. The request is assigned a "level" of zero.</li>
@@ -1728,7 +1728,7 @@ borough code (1=Manhattan, 2=Bronx, 3=Brooklyn, 4=Queens, 5=Staten Island).
 </p>
 <p>
 The Geoclient service uses the concept of search levels to classify the degree to
-which any user input has been modified by the program before making the request to Geosupport. 
+which any user input has been modified by the program before making the request to Geosupport.
 Roughly speaking, each additional level indicates a round of sub-searches undertaken
 when the service does not find an exact match.
 </p>
@@ -1793,7 +1793,7 @@ when the service does not find an exact match.
 <pre><code>/v1/search.json?input=314 west 100 st manhattan&amp;app_id=abc123&amp;app_key=def456
 /v1/search.xml?input=broadway and w 100 st&amp;app_id=abc123&amp;app_key=def456
 </code></pre>
-<!-- 
+<!--
 <p class="showJsonResponse"><a href="#">Example JSON response</a></p>
 
 <div class="highlight exampleJsonResponse"></div>
@@ -1815,12 +1815,12 @@ from returning data to the client.</p>
 
 <h3><a id="section-2.1">2.1 - HTTP Status Codes</a></h3>
 
-<p>The HTTP protocol implementation used by clients to call the Geoclient 
-service will always provide status codes for all requests made to a 
-valid Geoclient service URL. Full documentation of possible HTTP status 
-codes are beyond the scope of this document, but 
-<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">section 10</a> of 
-<a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">RFC 2616</a> provides 
+<p>The HTTP protocol implementation used by clients to call the Geoclient
+service will always provide status codes for all requests made to a
+valid Geoclient service URL. Full documentation of possible HTTP status
+codes are beyond the scope of this document, but
+<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">section 10</a> of
+<a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">RFC 2616</a> provides
 detailed information.</p>
 
 <p>In brief, here are the most commonly returned HTTP status codes:</p>
@@ -1851,8 +1851,8 @@ detailed information.</p>
 
 <h3><a id="section-2.2">2.2 - Geosupport Return Codes</a></h3>
 
-<p>The following table decribes the various Geosupport return codes that are 
-returned by the Geoclient service. Note that these codes come directly from 
+<p>The following table decribes the various Geosupport return codes that are
+returned by the Geoclient service. Note that these codes come directly from
 the <strong>Geosupport</strong> application and they are documented in the UPG Section II.2.</p>
 
 <table>
@@ -2578,8 +2578,8 @@ the <strong>Geosupport</strong> application and they are documented in the UPG S
   <tr th:each="itemDoc : ${funDoc.fields}">
     <td th:text="${itemDoc.displayName}">alternateParrotFlag</td>
     <td>
-	    <span th:if="${itemDoc.documented}" th:utext="${vh.summarize(itemDoc,100,'...')}">Indicates this is a talking bird.</span>
-	    <span th:if="${itemDoc.documented}"><a href="#" th:href="${vh.href(itemDoc)}">Details.</a></span>
+      <span th:if="${itemDoc.documented}" th:utext="${vh.summarize(itemDoc,100,'...')}">Indicates this is a talking bird.</span>
+      <span th:if="${itemDoc.documented}"><a href="#" th:href="${vh.href(itemDoc)}">Details.</a></span>
     </td>
   </tr>
 
@@ -2606,28 +2606,28 @@ the <strong>Geosupport</strong> application and they are documented in the UPG S
   <tr th:remove="all">
     <td colspan="2">List of up to 21 Animal Groups</td>
   </tr>
-  
+
   <tr th:remove="all">
     <td style="text-align:right;">giHorse<em>N</em>(1..21)</td>
     <td><span><a href="#">See horse.</a></span></td>
   </tr>
-  
+
   <tr th:remove="all">
     <td style="text-align:right;">giDog<em>N</em>(1..21)</td>
     <td><span><a href="#">See dog.</a></span></td>
   </tr>
-  
+
   <tr th:remove="all">
     <td style="text-align:right;">giCow<em>N</em>(1..21)</td>
     <td><span><a href="#">See cow.</a></span></td>
   </tr>
   </tbody>
-  
+
   <tbody th:each="g : ${funDoc.groups}">
   <tr>
     <td colspan="2" class="groupHeader">
     <span th:utext="${vh.summarize(g,100,'...')}">List of zebras..</span>
-    <span th:if="${g.hasItemDocumentation()}"><a href="#" th:href="${vh.href(g)}">Details.</a></span>    
+    <span th:if="${g.hasItemDocumentation()}"><a href="#" th:href="${vh.href(g)}">Details.</a></span>
     </td>
   </tr>
   <tr th:each="m : ${g.groupMembers}">
@@ -2640,7 +2640,7 @@ the <strong>Geosupport</strong> application and they are documented in the UPG S
     </td>
   </tr>
   </tbody>
-  
+
 </table>
 </div>
 </section>
@@ -2654,17 +2654,17 @@ includes format and coded value information.</p>
 
 <div th:each="item : ${doc.dataDictionary.items}" th:if="${doc.isSupported(item)}">
 
-	<h3><a id="fooBar" th:id="${vh.itemAnchor(item)}" th:text="${item.id}">fooBar</a></h3>
-	<table class="dataDictionary" th:id="${item.id}">
-		<tbody>
-			<tr>
-				<th>Format</th>
-				<td th:text="${item.format}">6 bytes. Alphanumeric</td>
-			</tr>
-	        <tr th:if="${item.hasText()}">
-	            <th>Description</th>
-	            <td th:utext="${item.description}">Suspendisse mattis ipsum quis lectus condimentum imperdiet. Curabitur et congue nulla. Aenean nisl orci, malesuada id augue sed, dignissim viverra nisl. Vestibulum nec semper purus. Maecenas ultrices diam eu arcu blandit, sed tincidunt enim rhoncus. Vestibulum ut diam ac lectus suscipit eleifend. Donec et lacus ut turpis sollicitudin placerat vitae a risus.</td>
-	        </tr>
+  <h3><a id="fooBar" th:id="${vh.itemAnchor(item)}" th:text="${item.id}">fooBar</a></h3>
+  <table class="dataDictionary" th:id="${item.id}">
+    <tbody>
+      <tr>
+        <th>Format</th>
+        <td th:text="${item.format}">6 bytes. Alphanumeric</td>
+      </tr>
+          <tr th:if="${item.hasText()}">
+              <th>Description</th>
+              <td th:utext="${item.description}">Suspendisse mattis ipsum quis lectus condimentum imperdiet. Curabitur et congue nulla. Aenean nisl orci, malesuada id augue sed, dignissim viverra nisl. Vestibulum nec semper purus. Maecenas ultrices diam eu arcu blandit, sed tincidunt enim rhoncus. Vestibulum ut diam ac lectus suscipit eleifend. Donec et lacus ut turpis sollicitudin placerat vitae a risus.</td>
+          </tr>
             <tr th:if="${item.aliases}">
                 <th>Also documents</th>
                 <td th:text="${#strings.listJoin(item.aliases, ', ')}">Dopey, Sleepy, Crabby</td>
@@ -2676,163 +2676,163 @@ includes format and coded value information.</p>
             <tr th:if="${item.seeAlso}">
                 <th>See related</th>
                 <td>
-	                <span th:each="sa,stat : ${item.seeAlso}" th:remove="tag">
-	                   <a href="#" th:href="${vh.href(sa)}" th:text="${sa}">Naughty</a><span th:unless="${stat.last}" th:remove="tag">, </span>
+                  <span th:each="sa,stat : ${item.seeAlso}" th:remove="tag">
+                     <a href="#" th:href="${vh.href(sa)}" th:text="${sa}">Naughty</a><span th:unless="${stat.last}" th:remove="tag">, </span>
                     </span>
                 </td>
             </tr>
-		</tbody>
-	</table>
-	<div th:each="table : ${item.tables}" th:remove="tag">
-	    <table th:utext="${table}" th:remove="tag">
-		    <tr><th>Code</th><th>Meaning</th></tr>
-		    <tr><td>foo</td><td>bar</td></tr>
-	    </table>
-	</div>
+    </tbody>
+  </table>
+  <div th:each="table : ${item.tables}" th:remove="tag">
+      <table th:utext="${table}" th:remove="tag">
+        <tr><th>Code</th><th>Meaning</th></tr>
+        <tr><td>foo</td><td>bar</td></tr>
+      </table>
+  </div>
 </div>
     </section>
     <section>
-		<h2><a id="section-5.0">5.0 - Version Information</a></h2>
-		<p>This section provides version information about the Geoclient and Geosupport software providing this service.</p>
-		<h3><a id="section-5.1">5.1 - Geoclient Version</a></h3>
-		<p>The Geoclient service provides a simple API for calling Geosupport 
-		functions.</p>
-		<table>
-			<thead>
-				<tr>
-					<th>Geoclient Component</th>
-					<th>Version</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>Geoclient Service API</td>
-					<td th:text="${version.geoclientServiceVersion}">1.0.9</td>
-				</tr>
-				<tr>
-					<td>Geoclient Library</td>
-					<td th:text="${version.geoclientVersion}">1.0.10</td>
-				</tr>
+    <h2><a id="section-5.0">5.0 - Version Information</a></h2>
+    <p>This section provides version information about the Geoclient and Geosupport software providing this service.</p>
+    <h3><a id="section-5.1">5.1 - Geoclient Version</a></h3>
+    <p>The Geoclient service provides a simple API for calling Geosupport
+    functions.</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Geoclient Component</th>
+          <th>Version</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Geoclient Service API</td>
+          <td th:text="${version.geoclientServiceVersion}">1.0.9</td>
+        </tr>
+        <tr>
+          <td>Geoclient Library</td>
+          <td th:text="${version.geoclientVersion}">1.0.10</td>
+        </tr>
                 <tr>
                     <td>Geoclient Parser</td>
                     <td th:text="${version.geoclientParserVersion}">1.0</td>
                 </tr>
-				<tr>
-					<td>Geoclient Native Interface</td>
-					<td th:text="${version.geoclientJniVersion}">1.0.9</td>
-				</tr>
-				<tr>
-					<td>Geosupport Access Method</td>
-					<td th:text="${version.accessMethod}">Local/JNI</td>
-				</tr>
-			</tbody>
-		</table>      
+        <tr>
+          <td>Geoclient Native Interface</td>
+          <td th:text="${version.geoclientJniVersion}">1.0.9</td>
+        </tr>
+        <tr>
+          <td>Geosupport Access Method</td>
+          <td th:text="${version.accessMethod}">Local/JNI</td>
+        </tr>
+      </tbody>
+    </table>
         <p>The look and feel of this documentation page was generated on <a href="https://pages.github.com/">GitHub Pages</a> using the Dinky theme.</p>
-		<h3><a id="section-5.2">5.2 - Geosupport Version</a></h3>
-		<p>Geosupport is the underlying system that does the actual geocoding for 
-		the Geoclient service. It is written and maintained by the Department 
-		of City Planning. Geosupport uses "version" to refer to software component 
-		versioning and "release" to refer to data changes.</p> 
-		<table th:with="gv=${version.geosupportVersion}">
-			<thead>
-				<tr>
-					<th colspan="3">Geosupport</th>
-					<th colspan="3">Release/Version</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td colspan="3">Release</td>
-					<td colspan="3" th:text="${gv.release}">13D</td>
-				</tr>
-				<tr>
-					<td colspan="3">Version</td>
-					<td colspan="3" th:text="${gv.version}">13.2</td>
-				</tr>
-				<tr>
-					<th>File</th>
-					<th>Record Type</th>
-					<th>Tag</th>
-					<th>File Date</th>
-					<th>Release</th>
-					<th>Record Count</th>
-				</tr>
-				<tr th:each="geoFile,stat : ${gv.geoFileInfo}">
-					<td th:text="|GEO${stat.count}|">GEO</td>
-					<td th:text="${geoFile.recordType}">0000</td>
-					<td th:text="${geoFile.tag}">GEO</td>
-					<td th:text="${geoFile.formattedDate}">2013-07-01</td>
-					<td th:text="${geoFile.release}">0132</td>
-					<td th:text="${geoFile.recordCount}">00000001</td>
-				</tr>
-				<tr th:each="thinFile : ${gv.thinFileInfo}">
-					<td>THINED</td>
-					<td>
-					<span th:each="thinRecType,stat : ${thinFile.recordTypes}">
-						<span th:text="|rectype${stat.count}: ${thinRecType}|">0000</span><br/>
-					</span>
-					</td>
-					<td th:text="${thinFile.tag}">THIN</td>
-					<td th:text="${thinFile.formattedDate}">2012-07-09</td>
-					<td th:text="${thinFile.release}">12B</td>
-					<td th:text="${thinFile.recordCount}">00005290</td>
-				</tr>
-				<tr th:each="grid1RFile : ${gv.grid1RFileInfo}">
-					<td>GRID1R</td>
-					<td th:text="${grid1RFile.recordType}">0000</td>
-					<td th:text="${grid1RFile.tag}">GR1R</td>
-					<td th:text="${grid1RFile.formattedDate}">2013-11-08</td>
-					<td th:text="${grid1RFile.release}">13D</td>
-					<td th:text="${grid1RFile.recordCount}">00215556</td>
-				</tr>
-				<tr th:each="auxsegFile : ${gv.auxsegFileInfo}">
-					<td>AUXSEG</td>
-					<td th:text="${auxsegFile.recordType}">0000</td>
-					<td th:text="${auxsegFile.tag}">SAUX</td>
-					<td th:text="${auxsegFile.formattedDate}">2013-11-08</td>
-					<td th:text="${auxsegFile.release}">13D</td>
-					<td th:text="${auxsegFile.recordCount}">00215556</td>
-				</tr>
-				<tr th:each="tpadFile : ${gv.tpadFileInfo}">
-					<td>TPAD</td>
-					<td th:text="${tpadFile.recordType}">0000</td>
-					<td th:text="${tpadFile.tag}">TPAD</td>
-					<td th:text="${tpadFile.formattedDate}">2014-01-06</td>
-					<td th:text="${tpadFile.release}">13D</td>
-					<td th:text="${tpadFile.recordCount}">00000000</td>
-				</tr>
-				<tr th:each="apequivFile : ${gv.apequivFileInfo}">
-					<td>APEQUIV</td>
-					<td th:text="${apequivFile.recordType}">0000</td>
-					<td th:text="${apequivFile.tag}">APEQ</td>
-					<td th:text="${apequivFile.formattedDate}">2013-08-27</td>
-					<td th:text="${apequivFile.release}">13C</td>
-					<td th:text="${apequivFile.recordCount}">00000001</td>
-				</tr>
-				<tr>
-					<th colspan="3">DSNAMES</th>
-					<th colspan="3">Value</th>
-				</tr>
-				<tr th:each="dsName,stat : ${gv.dsNames}">
-					<td colspan="3" th:text="|DSNAME ${stat.count}|">DSNAME 1</td>
-					<td colspan="3" th:text="${dsName}">apequiv</td>
-				</tr>
-			</tbody>
-		</table>      
+    <h3><a id="section-5.2">5.2 - Geosupport Version</a></h3>
+    <p>Geosupport is the underlying system that does the actual geocoding for
+    the Geoclient service. It is written and maintained by the Department
+    of City Planning. Geosupport uses "version" to refer to software component
+    versioning and "release" to refer to data changes.</p>
+    <table th:with="gv=${version.geosupportVersion}">
+      <thead>
+        <tr>
+          <th colspan="3">Geosupport</th>
+          <th colspan="3">Release/Version</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="3">Release</td>
+          <td colspan="3" th:text="${gv.release}">13D</td>
+        </tr>
+        <tr>
+          <td colspan="3">Version</td>
+          <td colspan="3" th:text="${gv.version}">13.2</td>
+        </tr>
+        <tr>
+          <th>File</th>
+          <th>Record Type</th>
+          <th>Tag</th>
+          <th>File Date</th>
+          <th>Release</th>
+          <th>Record Count</th>
+        </tr>
+        <tr th:each="geoFile,stat : ${gv.geoFileInfo}">
+          <td th:text="|GEO${stat.count}|">GEO</td>
+          <td th:text="${geoFile.recordType}">0000</td>
+          <td th:text="${geoFile.tag}">GEO</td>
+          <td th:text="${geoFile.formattedDate}">2013-07-01</td>
+          <td th:text="${geoFile.release}">0132</td>
+          <td th:text="${geoFile.recordCount}">00000001</td>
+        </tr>
+        <tr th:each="thinFile : ${gv.thinFileInfo}">
+          <td>THINED</td>
+          <td>
+          <span th:each="thinRecType,stat : ${thinFile.recordTypes}">
+            <span th:text="|rectype${stat.count}: ${thinRecType}|">0000</span><br/>
+          </span>
+          </td>
+          <td th:text="${thinFile.tag}">THIN</td>
+          <td th:text="${thinFile.formattedDate}">2012-07-09</td>
+          <td th:text="${thinFile.release}">12B</td>
+          <td th:text="${thinFile.recordCount}">00005290</td>
+        </tr>
+        <tr th:each="grid1RFile : ${gv.grid1RFileInfo}">
+          <td>GRID1R</td>
+          <td th:text="${grid1RFile.recordType}">0000</td>
+          <td th:text="${grid1RFile.tag}">GR1R</td>
+          <td th:text="${grid1RFile.formattedDate}">2013-11-08</td>
+          <td th:text="${grid1RFile.release}">13D</td>
+          <td th:text="${grid1RFile.recordCount}">00215556</td>
+        </tr>
+        <tr th:each="auxsegFile : ${gv.auxsegFileInfo}">
+          <td>AUXSEG</td>
+          <td th:text="${auxsegFile.recordType}">0000</td>
+          <td th:text="${auxsegFile.tag}">SAUX</td>
+          <td th:text="${auxsegFile.formattedDate}">2013-11-08</td>
+          <td th:text="${auxsegFile.release}">13D</td>
+          <td th:text="${auxsegFile.recordCount}">00215556</td>
+        </tr>
+        <tr th:each="tpadFile : ${gv.tpadFileInfo}">
+          <td>TPAD</td>
+          <td th:text="${tpadFile.recordType}">0000</td>
+          <td th:text="${tpadFile.tag}">TPAD</td>
+          <td th:text="${tpadFile.formattedDate}">2014-01-06</td>
+          <td th:text="${tpadFile.release}">13D</td>
+          <td th:text="${tpadFile.recordCount}">00000000</td>
+        </tr>
+        <tr th:each="apequivFile : ${gv.apequivFileInfo}">
+          <td>APEQUIV</td>
+          <td th:text="${apequivFile.recordType}">0000</td>
+          <td th:text="${apequivFile.tag}">APEQ</td>
+          <td th:text="${apequivFile.formattedDate}">2013-08-27</td>
+          <td th:text="${apequivFile.release}">13C</td>
+          <td th:text="${apequivFile.recordCount}">00000001</td>
+        </tr>
+        <tr>
+          <th colspan="3">DSNAMES</th>
+          <th colspan="3">Value</th>
+        </tr>
+        <tr th:each="dsName,stat : ${gv.dsNames}">
+          <td colspan="3" th:text="|DSNAME ${stat.count}|">DSNAME 1</td>
+          <td colspan="3" th:text="${dsName}">apequiv</td>
+        </tr>
+      </tbody>
+    </table>
     </section>
     <section>
-		<h2><a id="section-6.0">6.0 - Contact Us</a></h2>
-		<p>
-		For Geoclient API usage, bug reporting and enhancement requests, please 
-		contact the <a href="mailto:gis-development@doitt.nyc.gov">Citywide GIS Development</a>
-		group.
-		</p>
-		<p>For questions or issues with the data provided by Geosupport, please
-		contact the <a href="http://www.nyc.gov/dcp">Department of City Planning</a>.</p>
-	</section>    
+    <h2><a id="section-6.0">6.0 - Contact Us</a></h2>
+    <p>
+    For Geoclient API usage, bug reporting and enhancement requests, please
+    contact the <a href="mailto:gis-development@doitt.nyc.gov">Citywide GIS Development</a>
+    group.
+    </p>
+    <p>For questions or issues with the data provided by Geosupport, please
+    contact the <a href="http://www.nyc.gov/dcp">Department of City Planning</a>.</p>
+  </section>
       <footer>
                <p><small>&copy;2014 The City of New York - <a href="http://maps.nyc.gov/doitt/nycitymap">Citywide GIS</a></small></p>
-      
+
        </footer>
     </div>
     <!--[if !IE]><script>fixScale(document);</script><![endif]-->

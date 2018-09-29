@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="false" scan="true" scanPeriod="120 seconds">
-  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
-    <Target>System.out</Target>
-    <encoder>
-      <pattern>%-54(%d{HH:mm:ss.SSS} [%thread] %-5level %logger{0}) - %msg%n</pattern>
-    </encoder>
-  </appender>
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+      <Target>System.out</Target>
+      <encoder>
+        <pattern>%-54(%d{HH:mm:ss.SSS} [%thread] %-5level %logger{0}) - %msg%n</pattern>
+      </encoder>
+    </appender>
     <appender name="gc-jni-buffer"
         class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${catalina.base:-.}/logs/gc-jni-buffer.log</file>
@@ -28,6 +28,8 @@
             <pattern>%-36(%d [%thread]) - %m%n</pattern>
         </encoder>
     </appender>
+
+    <!-- Geoclient logging -->
     <!--
       TRACE-level logger for writing raw character buffers of unparsed
       Geosupport work area data to a file. By default, this logger's additivity
@@ -40,21 +42,24 @@
     <logger name="GC_JNI_BUFFER_LOGGER" level="INFO" additivity="true">
         <appender-ref ref="gc-jni-buffer" />
     </logger>
-    <!--
-    <logger name="gov.nyc.doitt.gis.geoclient" level="INFO" />
-    <logger name="gov.nyc.doitt.gis.geoclient.parser" level="INFO" />
-    <logger name="gov.nyc.doitt.gis.geoclient.service.search" level="INFO" />
-    <logger name="gov.nyc.doitt.gis.geoclient.service.invoker" level="INFO" />
-    <logger name="gov.nyc.doitt.gis.geoclient.function.GeosupportFunction" level="DEBUG" />
-    <logger name="gov.nyc.doitt.gis.geoclient.config" level="DEBUG" />
-    -->
-    <logger name="com.thoughtworks" level="DEBUG" />
-    <logger name="org.springframework" level="INFO" />
-    <logger name="gov.nyc.doitt.gis.geoclient" level="INFO" />
-    <!-- Suppress Dozer warning about missing config file -->
-    <logger name="org.dozer.config.GlobalSettings" level="ERROR" />
 
-  <root level="WARN">
-    <appender-ref ref="stdout" />
-  </root>
+    <logger name="gov.nyc.doitt.gis.geoclient" level="INFO" />
+    <!--
+    <logger name="gov.nyc.doitt.gis.geoclient.config" level="DEBUG" />
+    <logger name="gov.nyc.doitt.gis.geoclient.function.GeosupportFunction" level="DEBUG" />
+    <logger name="gov.nyc.doitt.gis.geoclient.parser" level="INFO" />
+    <logger name="gov.nyc.doitt.gis.geoclient.service.invoker" level="INFO" />
+    <logger name="gov.nyc.doitt.gis.geoclient.service.search" level="INFO" />
+    -->
+
+    <!-- External library logging -->
+    <logger name="com.thoughtworks" level="INFO" />
+    <logger name="org.dozer.config.GlobalSettings" level="ERROR" /><!-- Suppress Dozer warning about missing config file -->
+    <logger name="org.springframework" level="INFO" />
+    <logger name="org.thymeleaf" level="WARN" />
+
+    <root level="WARN">
+      <appender-ref ref="stdout" />
+    </root>
+
 </configuration>

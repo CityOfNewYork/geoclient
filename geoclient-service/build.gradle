@@ -26,7 +26,7 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
     implementation("javax.inject:javax.inject:$javaxInjectVersion")
     implementation("org.thymeleaf:thymeleaf:$thymeleafVersion")
-    implementation("org.thymeleaf:thymeleaf-spring4:$thymeleafVersion")
+    implementation("org.thymeleaf:thymeleaf-spring5:$thymeleafVersion")
     implementation("joda-time:joda-time:$jodaTimeVersion")
     implementation("org.geotools:gt-referencing:$geotoolsVersion") {
       exclude(group: "jgridshift", module: "jgridshift")

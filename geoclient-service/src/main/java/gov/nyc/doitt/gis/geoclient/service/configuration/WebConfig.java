@@ -33,6 +33,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -114,7 +115,7 @@ public class WebConfig implements WebMvcConfigurer
   @Override
   public void addFormatters(FormatterRegistry registry)
   {
-    super.addFormatters(registry);
+    // super.addFormatters(registry);
     registry.addConverter(searchResultConverter());
   }
 
@@ -136,7 +137,7 @@ public class WebConfig implements WebMvcConfigurer
     return new MarshallingHttpMessageConverter(this.marshaller);
   }
 
-  @Bean
+  @Bean(name = "viewHelper")
   public ViewHelper viewHelper()
   {
     return new ViewHelper();
