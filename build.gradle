@@ -27,7 +27,6 @@ allprojects { p ->
     maven { url "http://maven.geotoolkit.org/" }
     mavenCentral()
     jcenter()
-    //mavenLocal()
     maven { url "http://repo.boundlessgeo.com/main/" }
   }
 
@@ -50,6 +49,10 @@ configure(javaPluginProjects) { p ->
   // The Java build was originally adapted from the spring-framework's Gradle
   // build
   apply plugin: 'java'
+
+  ext.enableJavadoc = project.findProperty("nojdoc") ? false : true
+
+  logger.debug("enableJavadoc: ${ext.enableJavadoc}")
 
   ext.javadocLinks = [
           "http://docs.oracle.com/javase/8/docs/api/",
@@ -149,8 +152,8 @@ configure(javaPluginProjects) { p ->
     logging.captureStandardOutput LogLevel.INFO
   }
 
-  // Prevent Javadoc 
-  //tasks.withType(Javadoc).all { enabled = false }
+  // Prevent Javadoc
+  tasks.withType(Javadoc).all { enabled = project.ext.enableJavadoc }
 
   task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'

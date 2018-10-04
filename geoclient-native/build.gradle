@@ -205,6 +205,8 @@ model {
       from bins.collect {
         it.primaryOutput
       }
+      rename '(.*)(\\.dll|\\.lib|\\.exe)', '$1-win64$2'
+      rename '(.*)(\\.so|\\.a)', '$1-linux64$2'
       destinationDir = file(rootProject.localLibsDir)
     }
     assemble.finalizedBy(syncLocalNativeLibs)

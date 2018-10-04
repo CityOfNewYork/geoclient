@@ -21,9 +21,7 @@ task copyJniLib (type: Copy) {
   dependsOn ':geoclient-native:assemble'
     from "${rootProject.localLibsDir}"
     into "${buildDir}/resources/main"
-    include '**/*.so', '**/*.dll', '**/*.lib'
-    rename '(.*)(\\.dll|\\.lib)', '$1-win64$2'
-    rename '(.*)(\\.so)', '$1-linux64$2'
+    include '**/libgeoclientjni*.so', '**/geoclientjni*.dll', '**/geoclientjni*.lib'
 }
 
 // TODO: figure out why this does not supress the Gradle warning
@@ -32,6 +30,20 @@ task copyJniLib (type: Copy) {
 //}
 
 processResources.dependsOn copyJniLib
+
+task uberJar(type: Jar) {
+  dependsOn assemble
+  appendix = 'uber'
+  manifest {
+    attributes("Implementation-Title": "${project.name}-uber",
+               "Implementation-Version": project.version,
+               "Main-Class": "gov.nyc.doitt.gis.geoclient.jni.test.JniTest")
+  }
+  from sourceSets.main.output
+  from configurations.runtimeClasspath
+    .findAll { it.name.endsWith('jar') }
+    .collect { zipTree(it) }
+}
 
 artifacts {
   archives jar
