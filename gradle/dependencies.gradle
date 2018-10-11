@@ -18,6 +18,7 @@ ext {
   slf4jVersion              = "1.7.25"
   logbackVersion            = "1.2.3"
   // Spring
+  springBootVersion         = "2.1.0.M4"
   springVersion             = "5.1.0.RELEASE"
   // XStream
   xstreamVersion            = "1.4.10"

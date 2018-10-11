@@ -23,7 +23,7 @@ public class NativeLibraryLoader {
   private static final String sharedLibraryName = Environment.getSharedLibraryName("geoclient");
   private static final String jniLibraryName = Environment.getJniLibraryName("geoclient");
   private static final String jniLibraryFileName = Environment.getJniLibraryFileName("geoclient");
-  private static final String tempFilePrefix = "geoclientjni";
+  private static final String tempFilePrefix = "libgeoclientjni";
   private static final String tempFileSuffix = Environment.getJniLibraryExtension();
 
   /**
