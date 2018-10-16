@@ -28,26 +28,26 @@ import org.dozer.Mapper;
 
 public abstract class SearchTask implements Callable<Search>
 {
-	protected final Request request;
-	protected final GeosupportService geosupportService;
-	private final Mapper mapper;
-	
-	public SearchTask(Request request, GeosupportService geosupportService, Mapper mapper)
-	{
-		super();
-		this.request = request;
-		this.geosupportService = geosupportService;
-		this.mapper = mapper;
-	}
+  protected final Request request;
+  protected final GeosupportService geosupportService;
+  private final Mapper mapper;
 
-	@Override
-	public Search call() throws Exception
-	{
-		Map<String, Object> actualResult = doCall();
-		ResponseStatus responseStatus = new ResponseStatus();
-		this.mapper.map(actualResult, responseStatus);
-		return new Search(request, new Response(responseStatus, actualResult));
-	}
-	
-	protected abstract Map<String, Object> doCall();
+  public SearchTask(Request request, GeosupportService geosupportService, Mapper mapper)
+  {
+    super();
+    this.request = request;
+    this.geosupportService = geosupportService;
+    this.mapper = mapper;
+  }
+
+  @Override
+  public Search call() throws Exception
+  {
+    Map<String, Object> actualResult = doCall();
+    ResponseStatus responseStatus = new ResponseStatus();
+    this.mapper.map(actualResult, responseStatus);
+    return new Search(request, new Response(responseStatus, actualResult));
+  }
+
+  protected abstract Map<String, Object> doCall();
 }

@@ -21,7 +21,7 @@
 FROM openjdk:8-jdk
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 
-ENV GRADLE_DEBUG ${GRADLE_DEBUG:-""}
+ENV GRADLE_DEBUG ${GRADLE_DEBUG:-"false"}
 ENV GRADLE_OPTS "-Dorg.gradle.debug=${GRADLE_DEBUG}"
 ENV GEOSUPPORT_HOME /opt/geosupport
 

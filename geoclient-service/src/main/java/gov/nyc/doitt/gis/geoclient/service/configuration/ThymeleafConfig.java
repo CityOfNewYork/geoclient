@@ -24,30 +24,30 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-@Configuration
+//@Configuration
 public class ThymeleafConfig
 {
-    @Autowired
+    //@Autowired
     private ServletContext servletContext;
 
-    @Bean
+    //@Bean
     public ServletContextTemplateResolver templateResolver() {
       ServletContextTemplateResolver resolver = new ServletContextTemplateResolver(this.servletContext);
-      resolver.setPrefix("/WEB-INF/templates/");
+      resolver.setPrefix("/templates/");
       resolver.setSuffix(".html");
       resolver.setTemplateMode("HTML");
       resolver.setOrder(1);
       return resolver;
     }
 
-    @Bean
+    //@Bean
     public SpringTemplateEngine templateEngine() {
       SpringTemplateEngine engine = new SpringTemplateEngine();
       engine.setTemplateResolver(templateResolver());
       return engine;
     }
 
-    @Bean
+    //@Bean
     public ThymeleafViewResolver thymeleafViewResolver() {
       ThymeleafViewResolver resolver = new ThymeleafViewResolver();
       resolver.setTemplateEngine(templateEngine());

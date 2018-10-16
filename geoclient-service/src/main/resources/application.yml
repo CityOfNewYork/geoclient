@@ -1,0 +1,9 @@
+spring:
+        mvc:
+                contentnegotiation:
+                        favor-path-extension: true
+                        favor-parameter: false
+
+server:
+        servlet:
+                context-path: "/geoclient/v2"

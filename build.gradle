@@ -99,21 +99,21 @@ configure(javaPluginProjects) { p ->
 
   dependencies {
 
-    //testCompile("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}") {
+    //testImplementation("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}") {
     //  exclude group:'org.hamcrest', module:'hamcrest-core'
     //}
 
-    testCompile("junit:junit:${junitVersion}") {
+    testImplementation("junit:junit:${junitVersion}") {
       exclude group:'org.hamcrest', module:'hamcrest-core'
     }
 
-    testCompile("org.mockito:mockito-core:${mockitoVersion}") {
+    testImplementation("org.mockito:mockito-core:${mockitoVersion}") {
       exclude group:'org.hamcrest', module:'hamcrest-core'
     }
 
-    testCompile("org.hamcrest:hamcrest-all:${hamcrestVersion}")
+    testImplementation("org.hamcrest:hamcrest-all:${hamcrestVersion}")
 
-    testCompile("org.assertj:assertj-core:${assertJVersion}")
+    testImplementation("org.assertj:assertj-core:${assertJVersion}")
   }
 
   jar {

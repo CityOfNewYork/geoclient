@@ -35,8 +35,9 @@ import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+//import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+//import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 //import com.intera.util.web.servlet.filter.JsonpCallbackFilter;
@@ -44,8 +45,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResultConverter;
 import gov.nyc.doitt.gis.geoclient.service.web.ViewHelper;
 
+//@EnableWebMvc
 @Configuration
-@EnableWebMvc
 @ComponentScan(basePackages = {"gov.nyc.doitt.gis.geoclient.service", "gov.nyc.doitt.gis.geoclient.parser.configuration"})
 public class WebConfig implements WebMvcConfigurer
 {
@@ -64,21 +65,21 @@ public class WebConfig implements WebMvcConfigurer
     log.info("===[{}]===", environment);
   }
 
-  /**
-   * Expose "resources" folder
-   *
-   * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry)
-   */
-  @Override
-  public void addResourceHandlers(ResourceHandlerRegistry registry)
-  {
-    // Serves requests to /api/** from the resources folder at the doc root
-    registry.addResourceHandler("/api/**").addResourceLocations("/api/");
-    registry.addResourceHandler("/css/**").addResourceLocations("/css/");
-    registry.addResourceHandler("/download/**").addResourceLocations("/download/");
-    registry.addResourceHandler("/images/**").addResourceLocations("/images/");
-    registry.addResourceHandler("/js/**").addResourceLocations("/js/");
-  }
+//  /**
+//   * Expose "resources" folder
+//   *
+//   * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry)
+//   */
+//  @Override
+//  public void addResourceHandlers(ResourceHandlerRegistry registry)
+//  {
+//    // Serves requests to /api/** from the resources folder at the doc root
+//    registry.addResourceHandler("/api/**").addResourceLocations("/api/");
+//    registry.addResourceHandler("/css/**").addResourceLocations("/css/");
+//    registry.addResourceHandler("/download/**").addResourceLocations("/download/");
+//    registry.addResourceHandler("/images/**").addResourceLocations("/images/");
+//    registry.addResourceHandler("/js/**").addResourceLocations("/js/");
+//  }
 
   /**
    * Set JSON as the default content type that gets returned
@@ -88,7 +89,11 @@ public class WebConfig implements WebMvcConfigurer
   @Override
   public void configureContentNegotiation(ContentNegotiationConfigurer configurer)
   {
-    configurer.defaultContentType(MediaType.APPLICATION_JSON).favorPathExtension(true);
+    log.info("===============CALLED[configureContentNegotiation]==============");
+    configurer.defaultContentType(MediaType.APPLICATION_JSON).
+      mediaType("json", MediaType.APPLICATION_JSON).
+      mediaType("xml", MediaType.APPLICATION_XML).
+      favorPathExtension(true);
   }
 
   /**
@@ -99,6 +104,7 @@ public class WebConfig implements WebMvcConfigurer
   @Override
   public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer)
   {
+    log.info("===============CALLED[configureDefaultServletHandling]==============");
     configurer.enable();
   }
 
@@ -108,32 +114,48 @@ public class WebConfig implements WebMvcConfigurer
   @Override
   public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
   {
+    log.info("===============CALLED[configureMessageConverters]==============");
     converters.add(jsonMessageConverter());
     converters.add(xmlMessageConverter());
   }
 
   @Override
+  public void configurePathMatch(PathMatchConfigurer configurer) {
+    configurer
+        .setUseSuffixPatternMatch(true)
+        .setUseTrailingSlashMatch(false)
+        .setUseRegisteredSuffixPatternMatch(true);
+        //.setPathMatcher(antPathMatcher())
+        //.setUrlPathHelper(urlPathHelper())
+        //.addPathPrefix("/api",
+        //        HandlerTypePredicate.forAnnotation(RestController.class));
+  }
+
+  @Override
   public void addFormatters(FormatterRegistry registry)
   {
-    // super.addFormatters(registry);
+    log.info("===============CALLED[addFormatters]==============");
     registry.addConverter(searchResultConverter());
   }
 
   @Bean
   public SearchResultConverter searchResultConverter()
   {
+    log.info("===============CALLED[searchResultConverter]==============");
     return new SearchResultConverter();
   }
 
   @Bean
   public HttpMessageConverter<?> jsonMessageConverter()
   {
+    log.info("===============CALLED[jsonMessageConverter]==============");
     return new MappingJackson2HttpMessageConverter();
   }
 
   @Bean
   public HttpMessageConverter<?> xmlMessageConverter()
   {
+    log.info("===============CALLED[xmlMessageConverter]==============");
     return new MarshallingHttpMessageConverter(this.marshaller);
   }
 
@@ -149,6 +171,7 @@ public class WebConfig implements WebMvcConfigurer
   @Override
   public void addCorsMappings(CorsRegistry registry) {
 
+    log.info("===============CALLED[addCorsMappings]==============");
     registry.addMapping("/**")
         .allowedOrigins("*")
         .allowedMethods("GET");

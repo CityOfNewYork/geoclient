@@ -1,89 +1,100 @@
 buildscript {
-//	ext {
-//		springBootVersion = '2.0.5.RELEASE'
-//	}
-	repositories {
-		mavenCentral()
-		maven { url "https://repo.spring.io/milestone" }
-	}
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+//  ext {
+//    springBootVersion = '2.0.5.RELEASE'
+//  }
+  repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/milestone" }
+  }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+  }
 }
 
 apply plugin: 'eclipse-wtp'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
+repositories {
+  maven { url "https://repo.spring.io/milestone" }
+}
+
 dependencies {
-    implementation project(":geoclient-jni")
-    implementation project(":geoclient-core")
-    implementation project(":geoclient-parser")
-    implementation("org.apache.commons:commons-text:$commonsTextVersion")
-    implementation("net.sf.dozer:dozer:$dozerVersion") {
-      exclude(module: "slf4j-log4j12")
-      exclude(module: "commons-lang3")
-    }
-	implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
-	implementation('org.springframework.boot:spring-boot-starter-validation')
-	implementation('org.springframework.boot:spring-boot-starter-web')
-	implementation('org.springframework.boot:spring-boot-starter-web-services')
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
-	testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
+  implementation project(":geoclient-jni")
+  implementation project(":geoclient-core")
+  implementation project(":geoclient-parser")
+  implementation("org.apache.commons:commons-text:$commonsTextVersion")
+  implementation("net.sf.dozer:dozer:$dozerVersion") {
+    exclude(module: "slf4j-log4j12")
+    exclude(module: "commons-lang3")
+  }
+  implementation('org.springframework.boot:spring-boot-starter-web')
+  implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+  implementation('org.springframework.boot:spring-boot-starter-validation')
+  implementation('org.springframework.boot:spring-boot-devtools')
+//  implementation('org.springframework.boot:spring-boot-starter-web-services')
+  testImplementation('org.springframework.boot:spring-boot-starter-test')
+  testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
 
-//    implementation("org.springframework:spring-core:$springVersion") { exclude(module: "commons-logging") }
-//    implementation("org.springframework:spring-context:$springVersion") { exclude(module: "commons-logging") }
-//    implementation("org.springframework:spring-context-support:$springVersion")
-//    implementation("org.springframework:spring-webmvc:$springVersion")
-//    implementation("org.springframework:spring-oxm:$springVersion") { exclude(module: "commons-lang") }
+//  implementation("org.springframework:spring-core:$springVersion") { exclude(module: "commons-logging") }
+//  implementation("org.springframework:spring-context:$springVersion") { exclude(module: "commons-logging") }
+//  implementation("org.springframework:spring-context-support:$springVersion")
+//  implementation("org.springframework:spring-webmvc:$springVersion")
+  implementation("org.springframework:spring-oxm:$springVersion") { exclude(module: "commons-lang") }
 //
-//    implementation("org.hibernate:hibernate-validator:$hibernateValidatorVersion")
-//    implementation("org.glassfish:javax.el:$javaxElVersion")
-//    implementation("javax.validation:validation-api:$javaxValidationVersion")
-//    implementation("org.aspectj:aspectjrt:$aspectjrtVersion")
-//    implementation("org.slf4j:slf4j-api:$slf4jVersion")
-    implementation("com.thoughtworks.xstream:xstream:$xstreamVersion")
-//    implementation("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
-//    implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
-//    implementation("javax.inject:javax.inject:$javaxInjectVersion")
-//    implementation("org.thymeleaf:thymeleaf:$thymeleafVersion")
-//    implementation("org.thymeleaf:thymeleaf-spring5:$thymeleafVersion")
-    implementation("joda-time:joda-time:$jodaTimeVersion")
-    implementation("org.geotools:gt-referencing:$geotoolsVersion") {
-      exclude(group: "jgridshift", module: "jgridshift")
-    }
-    implementation("org.geotools:gt-main:$geotoolsVersion") {
-      exclude(module: "xerces")
-      exclude(group: "jgridshift", module: "jgridshift")
-    }
-    implementation("org.geotools:gt-epsg-wkt:$geotoolsVersion") {
-      exclude(group: "jgridshift", module: "jgridshift")
-    }
+//  implementation("org.hibernate:hibernate-validator:$hibernateValidatorVersion")
+//  implementation("org.glassfish:javax.el:$javaxElVersion")
+//  implementation("javax.validation:validation-api:$javaxValidationVersion")
+//  implementation("org.aspectj:aspectjrt:$aspectjrtVersion")
+//  implementation("org.slf4j:slf4j-api:$slf4jVersion")
+  implementation("com.thoughtworks.xstream:xstream:$xstreamVersion")
+//  implementation("com.fasterxml.jackson.core:jackson-core:$jacksonVersion")
+//  implementation("com.fasterxml.jackson.core:jackson-databind:$jacksonVersion")
+//  implementation("javax.inject:javax.inject:$javaxInjectVersion")
+//  implementation("org.thymeleaf:thymeleaf:$thymeleafVersion")
+//  implementation("org.thymeleaf:thymeleaf-spring5:$thymeleafVersion")
+  implementation("joda-time:joda-time:$jodaTimeVersion")
+  implementation("org.geotools:gt-referencing:$geotoolsVersion") {
+    exclude(group: "jgridshift", module: "jgridshift")
+  }
+  implementation("org.geotools:gt-main:$geotoolsVersion") {
+    exclude(module: "xerces")
+    exclude(group: "jgridshift", module: "jgridshift")
+  }
+  implementation("org.geotools:gt-epsg-wkt:$geotoolsVersion") {
+    exclude(group: "jgridshift", module: "jgridshift")
+  }
+//  runtimeOnly("org.slf4j:jcl-over-slf4j:$slf4jVersion")
+//  runtimeOnly("org.slf4j:log4j-over-slf4j:$slf4jVersion")
+//  runtimeOnly("ch.qos.logback:logback-core:$logbackVersion")
+//  runtimeOnly("ch.qos.logback:logback-classic:$logbackVersion")
 
-    runtimeOnly("org.slf4j:jcl-over-slf4j:$slf4jVersion")
-    runtimeOnly("org.slf4j:log4j-over-slf4j:$slf4jVersion")
-    runtimeOnly("ch.qos.logback:logback-core:$logbackVersion")
-    runtimeOnly("ch.qos.logback:logback-classic:$logbackVersion")
-
-//    testImplementation("org.springframework:spring-test:$springVersion")
-    testImplementation("com.jayway.jsonpath:json-path:$jsonPathVersion")
+//  testImplementation("org.springframework:spring-test:$springVersion")
+  testImplementation("com.jayway.jsonpath:json-path:$jsonPathVersion")
 
     // Gradle configuration provided by the war plugin
     // The java plugin's compileOnly configuration does not work
-//    providedCompile("javax.servlet:javax.servlet-api:$javaxServletApiVersion")
+//  providedCompile("javax.servlet:javax.servlet-api:$javaxServletApiVersion")
 }
 
 sourceSets {
     main {
         java {
-            srcDir 'src/main/java'
-            srcDir 'src/main/external'
+          srcDir 'src/main/java'
+          srcDir 'src/main/external'
+        }
+        resources {
+          srcDir 'src/main/resources'
         }
     }
 }
 
 jar {
   enabled = true
+}
+
+springBoot {
+  buildInfo()
 }
 
 bootJar {
@@ -99,11 +110,11 @@ bootJar {
 compileJava { options.encoding = 'utf-8' }
 
 // FIXME I'm not excluding anything!
-javadoc {
-  options.encoding = 'utf-8'
-  exclude "${projectDir}/src/main/external/**/*.java"
-  source = sourceSets.main.allJava
-}
+//javadoc {
+//  options.encoding = 'utf-8'
+//  exclude "${projectDir}/src/main/external/**/*.java"
+//  source = sourceSets.main.allJava
+//}
 
 processResources {
   ext.ver = rootProject.version
