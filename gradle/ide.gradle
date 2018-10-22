@@ -1,4 +1,6 @@
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 
-eclipse.classpath.defaultOutputDir = file('build')
+eclipse {
+  pathVariables 'FOO': file(System.getProperty('user.dir'))
+}

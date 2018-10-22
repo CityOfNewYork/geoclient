@@ -18,20 +18,20 @@ package gov.nyc.doitt.gis.geoclient.service.search.task;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;
 
-import org.dozer.Mapper;
+import com.github.dozermapper.core.Mapper;
 
 public class TaskBuilderSupport
 {
 
-	protected final CountyResolver countyResolver;
-	protected final GeosupportService geosupportService;
-	protected final Mapper mapper;
-	public TaskBuilderSupport(CountyResolver countyResolver, GeosupportService geosupportService, Mapper mapper)
-	{
-		super();
-		this.countyResolver = countyResolver;
-		this.geosupportService = geosupportService;
-		this.mapper = mapper;
-	}
+  protected final CountyResolver countyResolver;
+  protected final GeosupportService geosupportService;
+  protected final Mapper mapper;
+  public TaskBuilderSupport(CountyResolver countyResolver, GeosupportService geosupportService, Mapper mapper)
+  {
+    super();
+    this.countyResolver = countyResolver;
+    this.geosupportService = geosupportService;
+    this.mapper = mapper;
+  }
 
 }

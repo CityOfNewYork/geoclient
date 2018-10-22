@@ -22,5 +22,5 @@ import java.util.List;
 
 public interface InitialSearchTaskBuilder
 {
-	List<SearchTask> getSearchTasks(SearchPolicy searchPolicy, LocationTokens locationTokens);
+  List<SearchTask> getSearchTasks(SearchPolicy searchPolicy, LocationTokens locationTokens);
 }

@@ -36,70 +36,70 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.reflect.ConstructorUtils;
-import org.dozer.Mapper;
+import com.github.dozermapper.core.Mapper;
 
 public class DefaultInitialSearchTaskBuilder extends TaskBuilderSupport implements InitialSearchTaskBuilder
 {
-	public DefaultInitialSearchTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService, Mapper mapper)
-	{
-		super(countyResolver, geosupportService, mapper);
-	}
+  public DefaultInitialSearchTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService, Mapper mapper)
+  {
+    super(countyResolver, geosupportService, mapper);
+  }
 
-	@Override
-	public List<SearchTask> getSearchTasks(SearchPolicy searchPolicy, LocationTokens locationTokens)
-	{
-		List<SearchTask> searches = new ArrayList<>();
-		for (Chunk chunk : locationTokens.getChunks())
-		{
-			switch (chunk.getType())
-			{
-			case ADDRESS:
-				return initialSearchTasks(AddressRequest.class, AddressSearchTask.class, locationTokens);
-			case BBL:
-				return initialSearchTasks(BblRequest.class, BblSearchTask.class, locationTokens);
-			case BIN:
-				return initialSearchTasks(BinRequest.class, BinSearchTask.class, locationTokens);
-			case BLOCKFACE:
-				return initialSearchTasks(BlockfaceRequest.class, BlockfaceSearchTask.class, locationTokens);
-			case INTERSECTION:
-				return initialSearchTasks(IntersectionRequest.class, IntersectionSearchTask.class, locationTokens);
-			case UNRECOGNIZED:
-				return initialSearchTasks(PlaceRequest.class, PlaceSearchTask.class, locationTokens);
-			default:
-				break;
-			}
-		}
-		return searches;
-	}
+  @Override
+  public List<SearchTask> getSearchTasks(SearchPolicy searchPolicy, LocationTokens locationTokens)
+  {
+    List<SearchTask> searches = new ArrayList<>();
+    for (Chunk chunk : locationTokens.getChunks())
+    {
+      switch (chunk.getType())
+      {
+      case ADDRESS:
+        return initialSearchTasks(AddressRequest.class, AddressSearchTask.class, locationTokens);
+      case BBL:
+        return initialSearchTasks(BblRequest.class, BblSearchTask.class, locationTokens);
+      case BIN:
+        return initialSearchTasks(BinRequest.class, BinSearchTask.class, locationTokens);
+      case BLOCKFACE:
+        return initialSearchTasks(BlockfaceRequest.class, BlockfaceSearchTask.class, locationTokens);
+      case INTERSECTION:
+        return initialSearchTasks(IntersectionRequest.class, IntersectionSearchTask.class, locationTokens);
+      case UNRECOGNIZED:
+        return initialSearchTasks(PlaceRequest.class, PlaceSearchTask.class, locationTokens);
+      default:
+        break;
+      }
+    }
+    return searches;
+  }
 
-	protected <R extends Request, T extends SearchTask> List<SearchTask> initialSearchTasks(Class<R> requestType,
-			Class<T> taskType, LocationTokens locationTokens)
-	{
-		List<SearchTask> tasks = new ArrayList<>();
-		if (requestType.equals(BinRequest.class))
-		{
-			// BIN request which does not require a borough
-			tasks.add(new BinSearchTask(RequestUtils.initialRequest(requestType, locationTokens, null), geosupportService, mapper));
+  protected <R extends Request, T extends SearchTask> List<SearchTask> initialSearchTasks(Class<R> requestType,
+      Class<T> taskType, LocationTokens locationTokens)
+  {
+    List<SearchTask> tasks = new ArrayList<>();
+    if (requestType.equals(BinRequest.class))
+    {
+      // BIN request which does not require a borough
+      tasks.add(new BinSearchTask(RequestUtils.initialRequest(requestType, locationTokens, null), geosupportService, mapper));
 
-		} else
-		{
-			// All other requests
-			try
-			{
-				ValueResolution countyResolution = this.countyResolver.resolve(locationTokens);
-				for (InputValue countyInputValue : countyResolution.resolved())
-				{
-					tasks.add(ConstructorUtils.invokeConstructor(taskType,
-							RequestUtils.initialRequest(requestType, locationTokens, countyInputValue),
-							geosupportService, mapper));
-				}
-			} catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException
-					| InstantiationException e)
-			{
-				// TODO Need a more meaningful exception here
-				throw new RuntimeException(e.getCause());
-			}
-		}
-		return tasks;
-	}
+    } else
+    {
+      // All other requests
+      try
+      {
+        ValueResolution countyResolution = this.countyResolver.resolve(locationTokens);
+        for (InputValue countyInputValue : countyResolution.resolved())
+        {
+          tasks.add(ConstructorUtils.invokeConstructor(taskType,
+              RequestUtils.initialRequest(requestType, locationTokens, countyInputValue),
+              geosupportService, mapper));
+        }
+      } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException
+          | InstantiationException e)
+      {
+        // TODO Need a more meaningful exception here
+        throw new RuntimeException(e.getCause());
+      }
+    }
+    return tasks;
+  }
 }

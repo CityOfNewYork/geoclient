@@ -21,5 +21,5 @@ import java.util.List;
 
 public interface SpawnedSearchTaskBuilder
 {
-	List<SearchTask> getSearchTasks(SearchResult searchResult);	
+  List<SearchTask> getSearchTasks(SearchResult searchResult);
 }

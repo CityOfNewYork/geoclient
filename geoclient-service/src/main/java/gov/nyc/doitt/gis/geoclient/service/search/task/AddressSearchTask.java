@@ -22,14 +22,14 @@ import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
 import java.util.Map;
 
-import org.dozer.Mapper;
+import com.github.dozermapper.core.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AddressSearchTask extends SearchTask
 {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AddressSearchTask.class);
-	
+
 	public AddressSearchTask(Request request, GeosupportService geosupportService, Mapper mapper)
 	{
 		super(request, geosupportService, mapper);

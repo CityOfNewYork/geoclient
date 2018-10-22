@@ -24,7 +24,7 @@ import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
-import org.dozer.Mapper;
+import com.github.dozermapper.core.Mapper;
 
 public abstract class SearchTask implements Callable<Search>
 {

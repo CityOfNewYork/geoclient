@@ -18,7 +18,7 @@ ext {
   slf4jVersion              = "1.7.25"
   logbackVersion            = "1.2.3"
   // Spring
-  springBootVersion         = "2.1.0.M4"
+  springBootVersion         = "2.1.0.RC1"
   springVersion             = "5.1.0.RELEASE"
   // XStream
   xstreamVersion            = "1.4.10"
@@ -29,7 +29,7 @@ ext {
   groovyAllVersion          = "2.5.2"
   // Web services
   aspectjrtVersion          = "1.8.13"
-  dozerVersion              = "5.5.1"
+  dozerVersion              = "6.4.1"
   hibernateValidatorVersion = "6.0.12.Final"
   jacksonVersion            = "2.9.6"
   javaxElVersion            = "3.0.1-b09"

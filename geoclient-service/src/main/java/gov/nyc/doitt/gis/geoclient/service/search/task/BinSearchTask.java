@@ -22,25 +22,25 @@ import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
 import java.util.Map;
 
-import org.dozer.Mapper;
+import com.github.dozermapper.core.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BinSearchTask extends SearchTask
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BinSearchTask.class);
-	
-	public BinSearchTask(Request request, GeosupportService geosupportService, Mapper mapper)
-	{
-		super(request, geosupportService, mapper);
-	}
+  private static final Logger LOGGER = LoggerFactory.getLogger(BinSearchTask.class);
 
-	@Override
-	protected Map<String, Object> doCall()
-	{
-		BinRequest binRequest = (BinRequest) this.request;
-		LOGGER.debug("Calling {} with {}.", Function.FBN, binRequest);
-		return this.geosupportService.callFunctionBN(binRequest.getBin());
-	}
+  public BinSearchTask(Request request, GeosupportService geosupportService, Mapper mapper)
+  {
+    super(request, geosupportService, mapper);
+  }
+
+  @Override
+  protected Map<String, Object> doCall()
+  {
+    BinRequest binRequest = (BinRequest) this.request;
+    LOGGER.debug("Calling {} with {}.", Function.FBN, binRequest);
+    return this.geosupportService.callFunctionBN(binRequest.getBin());
+  }
 
 }

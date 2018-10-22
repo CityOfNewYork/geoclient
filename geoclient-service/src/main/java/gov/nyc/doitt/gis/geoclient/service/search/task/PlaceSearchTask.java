@@ -22,29 +22,29 @@ import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
 import java.util.Map;
 
-import org.dozer.Mapper;
+import com.github.dozermapper.core.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PlaceSearchTask extends SearchTask
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(PlaceSearchTask.class);
-	
-	public PlaceSearchTask(Request request, GeosupportService geosupportService, Mapper mapper)
-	{
-		super(request, geosupportService, mapper);
-	}
+  private static final Logger LOGGER = LoggerFactory.getLogger(PlaceSearchTask.class);
 
-	@Override
-	protected Map<String, Object> doCall()
-	{
-		PlaceRequest placeRequest = (PlaceRequest) this.request;
-		LOGGER.debug("Calling {} with {}.", Function.F1B, placeRequest);
-		return this.geosupportService.callFunction1B(
-				null, // house number
-				placeRequest.getStreet(), 
-				placeRequest.getBorough(), 
-				placeRequest.getZip());
-	}
+  public PlaceSearchTask(Request request, GeosupportService geosupportService, Mapper mapper)
+  {
+    super(request, geosupportService, mapper);
+  }
+
+  @Override
+  protected Map<String, Object> doCall()
+  {
+    PlaceRequest placeRequest = (PlaceRequest) this.request;
+    LOGGER.debug("Calling {} with {}.", Function.F1B, placeRequest);
+    return this.geosupportService.callFunction1B(
+        null, // house number
+        placeRequest.getStreet(),
+        placeRequest.getBorough(),
+        placeRequest.getZip());
+  }
 
 }

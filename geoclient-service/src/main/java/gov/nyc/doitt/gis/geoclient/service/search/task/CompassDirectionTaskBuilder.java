@@ -27,37 +27,37 @@ import gov.nyc.doitt.gis.geoclient.service.search.request.IntersectionRequest;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.dozer.Mapper;
+import com.github.dozermapper.core.Mapper;
 
 public class CompassDirectionTaskBuilder extends TaskBuilderSupport implements SpawnedSearchTaskBuilder
 {
-	public CompassDirectionTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService, Mapper mapper)
-	{
-		super(countyResolver, geosupportService, mapper);
-	}
+  public CompassDirectionTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService, Mapper mapper)
+  {
+    super(countyResolver, geosupportService, mapper);
+  }
 
-	@Override
-	public List<SearchTask> getSearchTasks(SearchResult searchResult)
-	{
-		List<SearchTask> tasks = new ArrayList<>();
-		for(Search search: searchResult.inputForSubSearches())
-		{
-			if(search.getResponse().isCompassDirectionRequired())
-			{
-				tasks.add(new IntersectionSearchTask(newIntersectionRequest((IntersectionRequest)search.getRequest(),InputParam.COMPASS_DIR_NORTH_VALUE), geosupportService, mapper));
-				tasks.add(new IntersectionSearchTask(newIntersectionRequest((IntersectionRequest)search.getRequest(),InputParam.COMPASS_DIR_SOUTH_VALUE), geosupportService, mapper));
-				tasks.add(new IntersectionSearchTask(newIntersectionRequest((IntersectionRequest)search.getRequest(),InputParam.COMPASS_DIR_EAST_VALUE), geosupportService, mapper));
-				tasks.add(new IntersectionSearchTask(newIntersectionRequest((IntersectionRequest)search.getRequest(),InputParam.COMPASS_DIR_WEST_VALUE), geosupportService, mapper));
-			}
-		}
-		return tasks;
-	}
-	
-	private IntersectionRequest newIntersectionRequest(IntersectionRequest request, String compassDirection)
-	{
-		IntersectionRequest newRequest = new IntersectionRequest(request);
-		newRequest.incrementLevel();
-		newRequest.setCompassDirectionInputValue(new InputValue(TokenType.COMPASS_DIRECTION, compassDirection));
-		return newRequest;
-	}
+  @Override
+  public List<SearchTask> getSearchTasks(SearchResult searchResult)
+  {
+    List<SearchTask> tasks = new ArrayList<>();
+    for(Search search: searchResult.inputForSubSearches())
+    {
+      if(search.getResponse().isCompassDirectionRequired())
+      {
+        tasks.add(new IntersectionSearchTask(newIntersectionRequest((IntersectionRequest)search.getRequest(),InputParam.COMPASS_DIR_NORTH_VALUE), geosupportService, mapper));
+        tasks.add(new IntersectionSearchTask(newIntersectionRequest((IntersectionRequest)search.getRequest(),InputParam.COMPASS_DIR_SOUTH_VALUE), geosupportService, mapper));
+        tasks.add(new IntersectionSearchTask(newIntersectionRequest((IntersectionRequest)search.getRequest(),InputParam.COMPASS_DIR_EAST_VALUE), geosupportService, mapper));
+        tasks.add(new IntersectionSearchTask(newIntersectionRequest((IntersectionRequest)search.getRequest(),InputParam.COMPASS_DIR_WEST_VALUE), geosupportService, mapper));
+      }
+    }
+    return tasks;
+  }
+
+  private IntersectionRequest newIntersectionRequest(IntersectionRequest request, String compassDirection)
+  {
+    IntersectionRequest newRequest = new IntersectionRequest(request);
+    newRequest.incrementLevel();
+    newRequest.setCompassDirectionInputValue(new InputValue(TokenType.COMPASS_DIRECTION, compassDirection));
+    return newRequest;
+  }
 }

@@ -11,7 +11,7 @@ buildscript {
   }
 }
 
-apply plugin: 'eclipse-wtp'
+//apply plugin: 'eclipse-wtp'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
@@ -24,10 +24,7 @@ dependencies {
   implementation project(":geoclient-core")
   implementation project(":geoclient-parser")
   implementation("org.apache.commons:commons-text:$commonsTextVersion")
-  implementation("net.sf.dozer:dozer:$dozerVersion") {
-    exclude(module: "slf4j-log4j12")
-    exclude(module: "commons-lang3")
-  }
+  implementation("com.github.dozermapper:dozer-spring-boot-starter:$dozerVersion")
   implementation('org.springframework.boot:spring-boot-starter-web')
   implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
   implementation('org.springframework.boot:spring-boot-starter-validation')
@@ -89,16 +86,14 @@ sourceSets {
     }
 }
 
-jar {
-  enabled = true
-}
-
 springBoot {
   buildInfo()
 }
 
 bootJar {
   classifier = 'boot'
+  mainClassName = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
+  //requiresUnpack '**/geoclient-jni-*.jar'
 }
 
 //test {

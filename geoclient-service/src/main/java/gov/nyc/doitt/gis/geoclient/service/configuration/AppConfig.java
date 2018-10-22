@@ -44,8 +44,8 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.dozer.DozerBeanMapperSingletonWrapper;
-import org.dozer.Mapper;
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,153 +62,154 @@ import com.thoughtworks.xstream.converters.ConverterMatcher;
  * <p><b>NOTE</b><br>
  * When running in JDK &lt;= 1.7, use of the {@link PropertySource} annotation will
  * result in a classloader warning:
- * 
+ *
  * <pre>warning: Cannot find annotation method 'value()' in type 'Repeatable': class file for java.lang.annotation.Repeatable not found</pre>
- * 
+ *
  * @author mlipper
  * @since 1.0
  */
 @Configuration
 @PropertySource(value = "classpath:version.properties")
 public class AppConfig {
-	@Autowired
-	private Environment env;
+  @Autowired
+  private Environment env;
 
-	@Autowired
-	private ParserConfig parserConfig;
+  @Autowired
+  private ParserConfig parserConfig;
 
-	@Bean
-	public GeoclientImpl geoclient() {
-		return new GeoclientImpl();
-	}
+  @Bean
+  public GeoclientImpl geoclient() {
+    return new GeoclientImpl();
+  }
 
-	@Bean
-	public SingleFieldSearchHandler singleFieldSearchHandler() {
-		return new SingleFieldSearchHandler(searchId(), parserConfig.singleFieldSearchParser(), searchBuilder());
-	}
+  @Bean
+  public SingleFieldSearchHandler singleFieldSearchHandler() {
+    return new SingleFieldSearchHandler(searchId(), parserConfig.singleFieldSearchParser(), searchBuilder());
+  }
 
-	@Bean
-	public SearchTaskFactory searchBuilder() {
-		return new SearchTaskFactory(initialSearchTaskBuilder(), spawnedSearchTaskBuilder());
-	}
+  @Bean
+  public SearchTaskFactory searchBuilder() {
+    return new SearchTaskFactory(initialSearchTaskBuilder(), spawnedSearchTaskBuilder());
+  }
 
-	@Bean
-	public InitialSearchTaskBuilder initialSearchTaskBuilder() {
-		return new DefaultInitialSearchTaskBuilder(countyResolver(), geosupportService(), beanMapper());
-	}
+  @Bean
+  public InitialSearchTaskBuilder initialSearchTaskBuilder() {
+    return new DefaultInitialSearchTaskBuilder(countyResolver(), geosupportService(), beanMapper());
+  }
 
-	@Bean
-	public SpawnedSearchTaskBuilder spawnedSearchTaskBuilder() {
-		return new DefaultSpawnedTaskBuilder(countyResolver(), geosupportService(), beanMapper());
-	}
+  @Bean
+  public SpawnedSearchTaskBuilder spawnedSearchTaskBuilder() {
+    return new DefaultSpawnedTaskBuilder(countyResolver(), geosupportService(), beanMapper());
+  }
 
-	@Bean
-	public CountyResolver countyResolver() {
-		return new CountyResolver(parserConfig.boroughNamesToBoroughMap(), parserConfig.cityNamesToBoroughMap());
-	}
+  @Bean
+  public CountyResolver countyResolver() {
+    return new CountyResolver(parserConfig.boroughNamesToBoroughMap(), parserConfig.cityNamesToBoroughMap());
+  }
 
-	@Bean
-	public SearchId searchId() {
-		return new SearchId(hostname());
-	}
+  @Bean
+  public SearchId searchId() {
+    return new SearchId(hostname());
+  }
 
-	@Bean
-	public String hostname() {
-		try {
-			return InetAddress.getLocalHost().getHostName();
-		} catch (UnknownHostException e) {
-			return "UnknownHost";
-		}
-	}
+  @Bean
+  public String hostname() {
+    try {
+      return InetAddress.getLocalHost().getHostName();
+    } catch (UnknownHostException e) {
+      return "UnknownHost";
+    }
+  }
 
-	@Bean
-	public GeosupportConfig geosupportConfiguration() {
-		return new GeosupportConfig(geoclient());
-	}
+  @Bean
+  public GeosupportConfig geosupportConfiguration() {
+    return new GeosupportConfig(geoclient());
+  }
 
-	@Bean
-	public GeosupportService geosupportService() {
-		return new GeosupportServiceImpl(this);
-	}
+  @Bean
+  public GeosupportService geosupportService() {
+    return new GeosupportServiceImpl(this);
+  }
 
-	@Bean
-	public LatLongEnhancer latLongEnhancer() {
-		return new LatLongEnhancer();
-	}
+  @Bean
+  public LatLongEnhancer latLongEnhancer() {
+    return new LatLongEnhancer();
+  }
 
-	@Bean
-	public Mapper beanMapper() {
-		// Expects a mapping file called dozerBeanMapping.xml to be on the
-		// classpath. Singleton wrapper insures that mapping file is only
-		// parsed once.
-		return DozerBeanMapperSingletonWrapper.getInstance();
-	}
+  @Bean
+  public Mapper beanMapper() {
+    // Expects a mapping file called dozerBeanMapping.xml to be on the
+    // classpath. Singleton wrapper insures that mapping file is only
+    // parsed once.
+    //return DozerBeanMapperSingletonWrapper.getInstance();
+    return DozerBeanMapperBuilder.buildDefault();
+  }
 
-	public Function geosupportFunction(String id) {
-		return geosupportConfiguration().getFunction(id);
-	}
+  public Function geosupportFunction(String id) {
+    return geosupportConfiguration().getFunction(id);
+  }
 
-	public Function function1B() {
-		return geosupportFunction(Function.F1B);
-	}
+  public Function function1B() {
+    return geosupportFunction(Function.F1B);
+  }
 
-	public Function functionBL() {
-		return geosupportFunction(Function.FBL);
-	}
+  public Function functionBL() {
+    return geosupportFunction(Function.FBL);
+  }
 
-	public Function functionBN() {
-		return geosupportFunction(Function.FBN);
-	}
+  public Function functionBN() {
+    return geosupportFunction(Function.FBN);
+  }
 
-	public Function function3() {
-		return geosupportFunction(Function.F3);
-	}
+  public Function function3() {
+    return geosupportFunction(Function.F3);
+  }
 
-	public Function function2() {
-		return geosupportFunction(Function.F2);
-	}
+  public Function function2() {
+    return geosupportFunction(Function.F2);
+  }
 
-	public Function functionHR() {
-		return geosupportFunction(Function.FHR);
-	}
+  public Function functionHR() {
+    return geosupportFunction(Function.FHR);
+  }
 
-	// Do not declare as @Bean, but as a regular method
-	// since we don't want proxies generated for incoming args
-	public Version version(Map<String, Object> functionHrData) {
+  // Do not declare as @Bean, but as a regular method
+  // since we don't want proxies generated for incoming args
+  public Version version(Map<String, Object> functionHrData) {
 
-		Version version = new Version();
-		beanMapper().map(functionHrData, version);
-		version.setGeoclientJniVersion(getImplementationVersion(Geoclient.class));
-		version.setGeoclientVersion(getImplementationVersion(GeosupportConfig.class));
-		version.setGeoclientParserVersion(getImplementationVersion(LocationTokenizer.class));
-		version.setGeoclientServiceVersion(env.getProperty("service.version", "error"));
-		version.setAccessMethod("Local/JNI");
-		return version;
-	}
+    Version version = new Version();
+    beanMapper().map(functionHrData, version);
+    version.setGeoclientJniVersion(getImplementationVersion(Geoclient.class));
+    version.setGeoclientVersion(getImplementationVersion(GeosupportConfig.class));
+    version.setGeoclientParserVersion(getImplementationVersion(LocationTokenizer.class));
+    version.setGeoclientServiceVersion(env.getProperty("service.version", "error"));
+    version.setAccessMethod("Local/JNI");
+    return version;
+  }
 
-	@Bean
-	public XStreamMarshaller marshaller() {
-		XStreamMarshaller marshaller = new XStreamMarshaller();
-		marshaller.setConverters(new ConverterMatcher[] { new MapConverter() });
-		Map<String, Class<?>> aliases = new HashMap<String, Class<?>>();
-		aliases.put("geosupportResponse", Map.class);
-		aliases.put("version", Version.class);
-		aliases.put("fileInfo", FileInfo.class);
-		aliases.put("error", BadRequest.class);
-		aliases.put("chunk", Chunk.class);
-		aliases.put("token", Token.class);
-		marshaller.setAliases(aliases);
-		marshaller.setAutodetectAnnotations(true);
-		return marshaller;
-	}
+  @Bean
+  public XStreamMarshaller marshaller() {
+    XStreamMarshaller marshaller = new XStreamMarshaller();
+    marshaller.setConverters(new ConverterMatcher[] { new MapConverter() });
+    Map<String, Class<?>> aliases = new HashMap<String, Class<?>>();
+    aliases.put("geosupportResponse", Map.class);
+    aliases.put("version", Version.class);
+    aliases.put("fileInfo", FileInfo.class);
+    aliases.put("error", BadRequest.class);
+    aliases.put("chunk", Chunk.class);
+    aliases.put("token", Token.class);
+    marshaller.setAliases(aliases);
+    marshaller.setAutodetectAnnotations(true);
+    return marshaller;
+  }
 
-	public String getImplementationVersion(Class<?> clazz) {
-		Package pkg = clazz.getPackage();
+  public String getImplementationVersion(Class<?> clazz) {
+    Package pkg = clazz.getPackage();
 
-		if (pkg == null) {
-			return "UNKNOWN";
-		}
-		return pkg.getImplementationVersion();
-	}
+    if (pkg == null) {
+      return "UNKNOWN";
+    }
+    return pkg.getImplementationVersion();
+  }
 
 }
