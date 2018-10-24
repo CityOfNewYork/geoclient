@@ -26,7 +26,7 @@ ext {
   commonsLang3Version       = "3.8.1"
   commonsTextVersion        = "1.3"
   // Misc
-  groovyAllVersion          = "2.5.2"
+  groovyAllVersion          = "2.5.3"
   // Web services
   aspectjrtVersion          = "1.8.13"
   dozerVersion              = "6.4.1"
