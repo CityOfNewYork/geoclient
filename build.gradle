@@ -34,6 +34,7 @@ allprojects { p ->
   apply from: "${gradleScriptDir}/ide.gradle"
   apply from: "${gradleScriptDir}/utils.gradle"
   apply from: "${gradleScriptDir}/publish-maven.gradle"
+  apply plugin: 'project-report'
 
 } //allprojects
 
