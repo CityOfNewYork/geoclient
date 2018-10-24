@@ -86,6 +86,10 @@ sourceSets {
     }
 }
 
+jar {
+  enabled = true
+}
+
 springBoot {
   buildInfo()
 }

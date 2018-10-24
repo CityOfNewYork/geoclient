@@ -24,10 +24,15 @@ import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 import java.util.Map;
 import java.util.concurrent.Callable;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.github.dozermapper.core.Mapper;
 
 public abstract class SearchTask implements Callable<Search>
 {
+  private static final Logger LOGGER = LoggerFactory.getLogger(SearchTask.class);
+
   protected final Request request;
   protected final GeosupportService geosupportService;
   private final Mapper mapper;
@@ -44,6 +49,9 @@ public abstract class SearchTask implements Callable<Search>
   public Search call() throws Exception
   {
     Map<String, Object> actualResult = doCall();
+    // FIXME Without this use of the actualResult reference here, the call to Dozer
+    // mapper.map fails apparently because the dynamic proxy does get resolved.
+    LOGGER.info("Results from doCall(): ", actualResult);
     ResponseStatus responseStatus = new ResponseStatus();
     this.mapper.map(actualResult, responseStatus);
     return new Search(request, new Response(responseStatus, actualResult));
