@@ -9,6 +9,8 @@ configurations {
     jni
 }
 
+def publications = new LinkedHashSet()
+
 // High-level build definitions
 model {
 
@@ -69,9 +71,31 @@ model {
 
             // Shared libraries
             binaries.withType(SharedLibraryBinarySpec) { binary ->
+
+                def variantName = targetPlatform.name.replace('_', '-')
+                publications << variantName
+                logger.lifecycle("variantName ${variantName}")
+
                 if(!buildable) {
                     return
                 }
+                def taskName = "jar-${variantName}"
+                def nativeJar = project.tasks.findByName(taskName)
+                if (nativeJar == null) {
+                    nativeJar = project.tasks.create(taskName, Jar) {
+                        baseName = "${project.name}-${variantName}"
+                    }
+                    artifacts {
+                        jni nativeJar
+                        runtime nativeJar
+                    }
+                    // def jniPom = deployer.addFilter(variantName) { artifact, file ->
+                    //     return file == nativeJar.archivePath
+                    // }
+                }
+
+                logger.lifecycle("nativeJar task ${nativeJar.name}")
+
                 cCompiler.define "DLL_EXPORT"
             }
 
