@@ -1,216 +1,99 @@
+//import org.gradle.jvm.platform.internal.DefaultJavaPlatform
+//import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+
+apply plugin: 'groovy'
 apply plugin: 'c'
 
 configurations {
-  archives
-}
-
-task nativeZip(type: Zip, dependsOn: build) {
-  version = project.version
-  from file("$buildDir/libs")
-}
-
-task zipWindows64Bins(type: Zip, dependsOn: assemble) {
-  ext.bins = fileTree(dir: "$buildDir/libs", includes: ["**/windows_x64/*"])
-  classifier = 'windows_x64'
-  version = project.version
-  from bins.files
-}
-
-task zipLinux64Bins(type: Zip, dependsOn: assemble) {
-  ext.bins = fileTree(dir: "$buildDir/libs", includes: ["**/linux_x64/*"])
-  classifier = 'linux_x64'
-  version = project.version
-  from bins.files
+    jni
 }
 
 // High-level build definitions
 model {
 
-  platforms {
-    linux_x64 {
-       architecture "x86_64"
-       operatingSystem "linux"
-    }
-    windows_x64 {
-       architecture "x86_64"
-       operatingSystem "windows"
-    }
-  }
-
-  toolChains {
-    gcc(Gcc)
-    visualCpp(VisualCpp)
-  }
-}
-
-// Third-party binaries and header files
-model {
-  repositories {
-    libs(PrebuiltLibraries) {
-      geosupport {
-        headers.srcDir(gsIncludePath ?: "${projectDir}/src/geosupport/headers")
-        binaries.withType(SharedLibraryBinary) {
-          if (targetPlatform.operatingSystem.windows) {
-            sharedLibraryFile = file("${gsLibraryPath}/NYCgeo.dll")
-            sharedLibraryLinkFile = file("${gsLibraryPath}/NYCgeo.lib")
-          } else if (targetPlatform.operatingSystem.linux) {
-            sharedLibraryFile = file("${gsLibraryPath}/libgeo.so")
-          }
+    platforms {
+        windows_x64 {
+            architecture "x86_64"
+            operatingSystem "windows"
         }
-      }
-
-      jni_jdk {
-        headers.srcDirs = jniHeaderDirs
-      }
-    }
-  } // repositories
-
-} // model
-
-// Compiler/linker customizations
-model {
-  binaries { modelMap ->
-    // All buildable native binaries (shared, static and executable)
-    all {
-      // gcc
-      if (toolChain in Gcc) {
-        // Debug
-        cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
-
-        if (targetPlatform.operatingSystem.linux) {
-          // Platform independent code flag:
-          //  Still required for shared libs?
-          //  Required for static libs and executables?
-          cCompiler.args "-fPIC"
-          // Ordering of library linkage is different than on Windows
-          linker.args "-Wl,--no-as-needed", "-L${gsLibraryPath}", "-lc", "-lgeo", "-lm", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
-        }
-
-      }
-      // MSVC
-      if (toolChain in VisualCpp) {
-        // Generate debug code and specify that all source is C (not C++)
-        // (add /E to generate preprocessor output)
-        cCompiler.args "/Zi", "/TC"
-        linker.args "/DEBUG"
-        // Add Geosupport libraries to the linker library path
-        linker.args "/LIBPATH:${gsLibraryPath}"
-      }
     }
 
-    // Shared libraries
-    withType(SharedLibraryBinarySpec) {
-      // Windows
-      if (targetPlatform.operatingSystem.windows) {
-        cCompiler.define "DLL_EXPORT"
-        if (toolChain in Gcc) {
-          // The "--add-stdcall-alias" argument to the linker is needed for
-          // gcc Windows build because geoclient.h does not include it.
-          linker.args "-shared", "-L${gsLibraryPath}", "-Wl,--add-stdcall-alias", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
-        } else if (toolChain in VisualCpp) {
-          // Multi-threaded DLL wth debug symbols
-          cCompiler.args "/MDd"
-        }
-      }
+    toolChains {
+        visualCpp(VisualCpp)
     }
-    // Static libraries
-    withType(StaticLibraryBinarySpec) {
-      if (targetPlatform.operatingSystem.windows && toolChain in Gcc) {
-        cCompiler.define "DLL_IMPORT"
-        linker.args "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
-      }
-    }
-    // Executables
-    withType(NativeExecutableBinarySpec) {
-      if (targetPlatform.operatingSystem.windows) {
-        if (toolChain in Gcc) {
-          linker.args "-L${gsLibraryPath}", "-lm", "-lNYCgeo", "-lgeo", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstexcpt", "-lstdlast", "-lstduniv", "-lstender", "-lstretch", "-lthined"
+
+    components {
+        geoclient(NativeLibrarySpec) {
+            targetPlatform "windows_x64"
+            sources {
+                c {
+                    source {
+                        srcDir "src/main/c"
+                        include "**/*.c"
+                    }
+                    exportedHeaders {
+                        srcDir "src/main/headers"
+                        include "**/*.h"
+                    }
+                    lib library: 'geosupport', linkage: 'api'
+                }
+            } // sources
+        } // geoclient
+
+        geoclientJni(NativeLibrarySpec) {
+            targetPlatform "windows_x64"
+            baseName "geoclientjni"
+            sources {
+                c {
+                    source {
+                        srcDir "src/generated/c"
+                        include "**/*.c"
+                    }
+                    lib library: 'geosupport', linkage: 'api'
+                    lib library: 'geoclient',  linkage: 'static'
+                }
+            } // sources
+        } // geoclientjni
+
+        // All buildable native binaries (shared, static and executable)
+        all {
+            // Compiler/linker customizations
+            binaries.all {
+                // MSVC (Windows x64)
+                cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include"
+                cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include/win32"
+                linker.args "/LIBPATH:${gsLibraryPath}"
+                linker.args "NYCgeo.lib"
+            }
+
+            // Shared libraries
+            binaries.withType(SharedLibraryBinarySpec) { binary ->
+                if(!buildable) {
+                    return
+                }
+                cCompiler.define "DLL_EXPORT"
+            }
+
+            // Static libraries
+            binaries.withType(StaticLibraryBinarySpec) { binary ->
+                if(!buildable) {
+                    return
+                }
+                cCompiler.define "DLL_IMPORT"
+            }
         }
-        if (toolChain in VisualCpp) {
-          cCompiler.args "/MT"
+    } // components
+
+    // Third-party binaries and header files
+    repositories {
+        libs(PrebuiltLibraries) {
+            geosupport {
+                headers.srcDir(gsIncludePath)
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = new File("${gsLibraryPath}/NYCgeo.dll")
+                    sharedLibraryLinkFile = new File("${gsLibraryPath}/NYCgeo.lib")
+                }
+            }
         }
-      }
-    }
-  }
-} // model
-
-model {
-  components {
-    geoclient(NativeLibrarySpec) {
-      targetPlatform "linux_x64"
-      targetPlatform "windows_x64"
-      sources {
-        c {
-          source {
-            srcDir "src/main/c"
-            include "**/*.c"
-          }
-          exportedHeaders {
-            srcDir "src/main/headers"
-            include "**/*.h"
-          }
-          lib library: 'geosupport', linkage: 'api'
-        }
-      } // sources
-    } // geoclient
-
-    geoclientTest(NativeExecutableSpec) {
-      targetPlatform "linux_x64"
-      targetPlatform "windows_x64"
-      baseName "geoclient_test"
-      sources {
-        c {
-          source {
-            srcDir "src/test/c"
-            include "**/*.c"
-          }
-          lib library: 'geosupport', linkage: 'api'
-          lib library: 'geoclient', linkage: 'static'
-        }
-      } // sources
-    } // geoclientTest
-
-    geoclientJni(NativeLibrarySpec) {
-      targetPlatform "linux_x64"
-      targetPlatform "windows_x64"
-      baseName "geoclientjni"
-      sources {
-        c {
-          source {
-            srcDir "$projectDir/src/generated/c"
-            include "**/*.c"
-          }
-          // Even though the generated JNI C code only depends on geoclient.h,
-          // the Gluegen code generation process fails without this dependency
-          // because Gluegen does not evaluate C macros. Since geoclient.h
-          // includes geo.h (and NYCgeo.h on Windows) if these files are not on
-          // the include path, Gluegen bails despite gluegen.cfg directives to
-          // explicitly ignore libgeo API functions
-          lib library: 'geosupport', linkage: 'api' // still needed by gluegen?
-          lib library: 'jni_jdk',    linkage: 'api'
-          lib library: 'geoclient',  linkage: 'static'
-        }
-      } // sources
-
-    } // geoclientjni
-  } // components
-
-  tasks {
-
-    syncLocalNativeLibs(Sync) {
-      description 'Sync native binaries to $localLibsDir for use by integration tests.'
-      def bins = $.binaries.withType(NativeLibraryBinarySpec).findAll { it.buildable }
-      bins << $.binaries.withType(NativeExecutableBinarySpec).findAll { it.buildable }
-      // First: sync libraries and executables without expected platform suffix
-      from bins.collect {
-        it.primaryOutput
-      }
-      rename '(.*)(\\.dll|\\.lib|\\.exe)', '$1-win64$2'
-      rename '(.*)(\\.so|\\.a)', '$1-linux64$2'
-      destinationDir = file(rootProject.localLibsDir)
-    }
-    assemble.finalizedBy(syncLocalNativeLibs)
-
-  } // tasks
-
+    } // repositories
 } // model

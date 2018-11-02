@@ -1,50 +1,100 @@
+//import org.gradle.jvm.platform.internal.DefaultJavaPlatform
+//import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
-sourceSets {
-  main {
-    java {
-      srcDirs = ['src/main/java','src/generated/java']
+// Java plugin is applied in the parent build
+apply plugin: 'groovy'
+apply plugin: 'c'
+
+configurations {
+    jni
+}
+
+// High-level build definitions
+model {
+
+    platforms {
+        windows_x64 {
+            architecture "x86_64"
+            operatingSystem "windows"
+        }
     }
-    resources {
-      srcDirs = ['src/main/resources']
+
+    toolChains {
+        visualCpp(VisualCpp)
     }
-  }
-}
 
-dependencies {
-    //annotationProcessor "org.jogamp.gluegen:gluegen:$gluegenVersion"
-    implementation "org.jogamp.gluegen:gluegen:$gluegenVersion"
-}
+    components {
+        geoclient(NativeLibrarySpec) {
+            targetPlatform "windows_x64"
+            sources {
+                c {
+                    source {
+                        srcDir "src/main/c"
+                        include "**/geoclient.c"
+                    }
+                    exportedHeaders {
+                        srcDir "src/main/headers"
+                        include "**/*.h"
+                    }
+                    lib library: 'geosupport', linkage: 'api'
+                }
+            } // sources
+        } // geoclient
 
-// TODO: replace here and in geoclient-native with a common CopyProcessingSpec
-//       or Sync task
-task copyJniLib (type: Copy) {
-  dependsOn ':geoclient-native:assemble'
-    from "${rootProject.localLibsDir}"
-    into "${buildDir}/resources/main"
-    include '**/libgeoclientjni*.so', '**/geoclientjni*.dll', '**/geoclientjni*.lib'
-}
+        geoclientJni(NativeLibrarySpec) {
+            targetPlatform "windows_x64"
+            baseName "geoclientjni"
+            sources {
+                c {
+                    source {
+                        srcDir "src/main/c"
+                        include "**/*_JNI.c"
+                    }
+                    lib library: 'geosupport', linkage: 'api'
+                    lib library: 'geoclient',  linkage: 'static'
+                }
+            } // sources
+        } // geoclientjni
 
-// TODO: figure out why this does not supress the Gradle warning
-//compileJava {
-//    options.compilerArgs += ["-proc:none"]
-//}
+        // All buildable native binaries (shared, static and executable)
+        all {
+            // Compiler/linker customizations
+            binaries.all {
+                // MSVC (Windows x64)
+                cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include"
+                cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include/win32"
+                linker.args "/LIBPATH:${gsLibraryPath}"
+                linker.args "NYCgeo.lib"
+            }
 
-processResources.dependsOn copyJniLib
+            // Shared libraries
+            binaries.withType(SharedLibraryBinarySpec) { binary ->
+                if(!buildable) {
+                    return
+                }
+                cCompiler.define "DLL_EXPORT"
+            }
 
-task uberJar(type: Jar) {
-  dependsOn assemble
-  appendix = 'uber'
-  manifest {
-    attributes("Implementation-Title": "${project.name}-uber",
-               "Implementation-Version": project.version,
-               "Main-Class": "gov.nyc.doitt.gis.geoclient.jni.test.JniTest")
-  }
-  from sourceSets.main.output
-  from configurations.runtimeClasspath
-    .findAll { it.name.endsWith('jar') }
-    .collect { zipTree(it) }
-}
+            // Static libraries
+            binaries.withType(StaticLibraryBinarySpec) { binary ->
+                if(!buildable) {
+                    return
+                }
+                cCompiler.define "DLL_IMPORT"
+            }
+        }
+    } // components
 
-artifacts {
-  archives jar
-}
+    // Third-party binaries and header files
+    repositories {
+        libs(PrebuiltLibraries) {
+            geosupport {
+                headers.srcDir(gsIncludePath)
+                binaries.withType(SharedLibraryBinary) {
+                    sharedLibraryFile = new File("${gsLibraryPath}/NYCgeo.dll")
+                    sharedLibraryLinkFile = new File("${gsLibraryPath}/NYCgeo.lib")
+                }
+            }
+        }
+    } // repositories
+} // model

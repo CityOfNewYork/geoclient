@@ -1,178 +1,205 @@
-buildscript {
-  repositories {
-    mavenCentral()
-    mavenLocal()
-    jcenter()
-    maven { url "https://plugins.gradle.org/m2/" }
-  }
-  dependencies {
-    classpath "org.jogamp.gluegen:gluegen:${gluegenVersion}", "antlr:antlr:${antlrVersion}"
-    classpath "com.github.ben-manes:gradle-versions-plugin:0.17.0"
-  }
+allprojects {
+
+    apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'eclipse'
+
+    // Once the Gluegen 2.3.x annotation warnings to stderr are fixed then
+    // add "-Werror" to the List.
+    // See https://jogamp.org/bugzilla/show_bug.cgi?id=1256
+    compileJava.options*.compilerArgs = [
+        "-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
+        "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
+        "-Xlint:overrides", "-Xlint:path", "-Xlint:-processing", "-Xlint:static",
+        "-Xlint:try", "-Xlint:fallthrough", "-Xlint:rawtypes", "-Xlint:deprecation",
+       "-Xlint:unchecked", "-Xlint:-options"]
+
+    compileTestJava.options*.compilerArgs = [
+        "-Xlint:serial", "-Xlint:-varargs", "-Xlint:cast", "-Xlint:classfile",
+        "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
+        "-Xlint:overrides", "-Xlint:path", "-Xlint:-processing", "-Xlint:static",
+        "-Xlint:try", "-Xlint:-fallthrough", "-Xlint:-rawtypes", "-Xlint:-deprecation",
+        "-Xlint:-unchecked", "-Xlint:-options"]
+
+    compileJava {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+        options.encoding = 'UTF-8'
+    }
+
+    compileTestJava {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+        options.encoding = 'UTF-8'
+    }
+
+    ext {
+        gsIncludePath = new File(projectDir, "lib/geosupport/headers")
+        gsLibraryPath = new File(System.env.GEOSUPPORT_HOME, "lib")
+        gsGeofilesPath = new File(System.env.GEOSUPPORT_HOME, "fls/") // trailing slash is needed
+        localLibsDir = new File(rootProject.buildDir, "libs")
+    }
+
+    test {
+        useJUnitPlatform()
+        // Variables set in gradle/env.gradle
+        systemProperty "java.library.path", gsLibraryPath
+        // Ensure Geosupport knows where to find its data files
+        environment "GEOFILES", gsGeofilesPath
+    }
+
+    dependencies {
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+        testCompileOnly 'junit:junit:4.12'
+        testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.1.0'
+        testImplementation 'org.assertj:assertj-core:3.11.1'
+    }
 }
 
-apply plugin: 'com.github.ben-manes.versions'
-ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
-
-apply plugin: 'base'
-apply from: "${gradleScriptDir}/env.gradle"
-
-allprojects { p ->
-  group = rootProject.group
-  version = rootProject.version
-
-  repositories {
-    // geotoolkit repo must be before mavenCentral which has the pom, javadoc
-    // but not the binary jar
-    maven { url "http://maven.geotoolkit.org/" }
-    mavenCentral()
-    jcenter()
-    maven { url "http://repo.boundlessgeo.com/main/" }
-  }
-
-  apply from: "${gradleScriptDir}/dependencies.gradle"
-  apply from: "${gradleScriptDir}/ide.gradle"
-  apply from: "${gradleScriptDir}/utils.gradle"
-  apply from: "${gradleScriptDir}/publish-maven.gradle"
-  apply plugin: 'project-report'
-
-} //allprojects
-
-def javaPluginProjects = [
-  project(':geoclient-jni'),
-  project(':geoclient-core'),
-  project(':geoclient-parser'),
-  //project(':geoclient-search'),
-  project(':geoclient-service')
-] as Set
-
-configure(javaPluginProjects) { p ->
-  // The Java build was originally adapted from the spring-framework's Gradle
-  // build
-  apply plugin: 'java'
-
-  ext.enableJavadoc = project.findProperty("nojdoc") ? false : true
-
-  logger.debug("enableJavadoc: ${ext.enableJavadoc}")
-
-  ext.javadocLinks = [
-          "http://docs.oracle.com/javase/8/docs/api/",
-          "http://docs.oracle.com/javase/7/docs/api/"
-  ] as String[]
-
-  test {
-    // Variables set in gradle/env.gradle
-    systemProperty "java.library.path", gcLibraryPath
-    // Ensure Geosupport knows where to find its data files
-    environment "GEOFILES", gsGeofiles
-    // Ensure the Geosupport libs are on the native system library path
-    environment libraryPathEnvironmentVariableName, gsLibraryPath
-  }
-
-  // Once the Gluegen 2.3.x annotation warnings to stderr are fixed then
-  // add "-Werror" to the List.
-  // See https://jogamp.org/bugzilla/show_bug.cgi?id=1256
-  compileJava.options*.compilerArgs = [
-      "-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
-      "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
-      "-Xlint:overrides", "-Xlint:path", "-Xlint:-processing", "-Xlint:static",
-      "-Xlint:try", "-Xlint:fallthrough", "-Xlint:rawtypes", "-Xlint:deprecation",
-      "-Xlint:unchecked", "-Xlint:-options"]
-
-  compileTestJava.options*.compilerArgs = [
-      "-Xlint:serial", "-Xlint:-varargs", "-Xlint:cast", "-Xlint:classfile",
-      "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
-      "-Xlint:overrides", "-Xlint:path", "-Xlint:-processing", "-Xlint:static",
-      "-Xlint:try", "-Xlint:-fallthrough", "-Xlint:-rawtypes", "-Xlint:-deprecation",
-      "-Xlint:-unchecked", "-Xlint:-options"]
-
-  compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-    options.encoding = 'UTF-8'
-  }
-
-  compileTestJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-    options.encoding = 'UTF-8'
-  }
-
-  dependencies {
-
-    //testImplementation("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}") {
-    //  exclude group:'org.hamcrest', module:'hamcrest-core'
-    //}
-
-    testImplementation("junit:junit:${junitVersion}") {
-      exclude group:'org.hamcrest', module:'hamcrest-core'
-    }
-
-    testImplementation("org.mockito:mockito-core:${mockitoVersion}") {
-      exclude group:'org.hamcrest', module:'hamcrest-core'
-    }
-
-    testImplementation("org.hamcrest:hamcrest-all:${hamcrestVersion}")
-
-    testImplementation("org.assertj:assertj-core:${assertJVersion}")
-  }
-
-  jar {
-    manifest {
-      attributes(
-        'Implementation-Title': p.name,
-        'Implementation-Version': p.version,
-        'Built-By': System.getProperty('user.name'),
-        //'Built-Date': new Date(), // Disable for now because triggers task every build
-        'Built-JDK': System.getProperty('java.version'),
-        'Built-Gradle': gradle.gradleVersion
-      )
-    }
-
-    from("${rootProject.projectDir}/src/dist") {
-      include "LICENSE.txt"
-      include "NOTICE.txt"
-      into "META-INF"
-      expand(copyright: new Date().format("yyyy"), version: p.version)
-    }
-  }
-
-  javadoc {
-    description = "Generates javadoc for Java projects for use with -javadoc jar"
-
-    options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
-    options.author = true
-    options.header = project.name
-    options.links(javadocLinks)
-    //options.quiet()
-    options.addStringOption("Xdoclint:none", "-quiet")
-    //options.verbose()
-    // Suppress cross-module @see and @link reference warnings
-    logging.captureStandardError LogLevel.INFO
-    // suppress "## warnings"
-    logging.captureStandardOutput LogLevel.INFO
-  }
-
-  // Prevent Javadoc
-  tasks.withType(Javadoc).all { enabled = project.ext.enableJavadoc }
-
-  task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-  }
-
-  task javadocJar(type: Jar) {
-    classifier = "javadoc"
-    from javadoc
-  }
-
-  artifacts {
-    archives sourcesJar
-    archives javadocJar
-  }
-
-  configurations {
-    all*.exclude group: "commons-logging", module: "commons-logging"
-  }
-
-} // javaPluginProjects
+//buildscript {
+//  repositories {
+//    mavenCentral()
+//    mavenLocal()
+//    jcenter()
+//    maven { url "https://plugins.gradle.org/m2/" }
+//  }
+//}
+//
+//apply plugin: 'com.github.ben-manes.versions'
+//ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
+//
+//apply plugin: 'base'
+//apply from: "${gradleScriptDir}/env.gradle"
+//
+//allprojects { p ->
+//  group = rootProject.group
+//  version = rootProject.version
+//
+//  repositories {
+//    // geotoolkit repo must be before mavenCentral which has the pom, javadoc
+//    // but not the binary jar
+//    maven { url "http://maven.geotoolkit.org/" }
+//    mavenCentral()
+//    jcenter()
+//    maven { url "http://repo.boundlessgeo.com/main/" }
+//  }
+//
+//  apply from: "${gradleScriptDir}/dependencies.gradle"
+//  apply from: "${gradleScriptDir}/ide.gradle"
+//  apply from: "${gradleScriptDir}/utils.gradle"
+//  apply from: "${gradleScriptDir}/publish-maven.gradle"
+//  apply plugin: 'project-report'
+//
+//} //allprojects
+//
+//def javaPluginProjects = [
+//  project(':geoclient-jni'),
+//  project(':geoclient-core'),
+//  project(':geoclient-parser'),
+//  //project(':geoclient-search'),
+//  project(':geoclient-service')
+//] as Set
+//
+//configure(javaPluginProjects) { p ->
+//  // The Java build was originally adapted from the spring-framework's Gradle
+//  // build
+//  apply plugin: 'java'
+//
+//  ext.enableJavadoc = project.findProperty("nojdoc") ? false : true
+//
+//  logger.debug("enableJavadoc: ${ext.enableJavadoc}")
+//
+//  ext.javadocLinks = [
+//          "http://docs.oracle.com/javase/8/docs/api/",
+//          "http://docs.oracle.com/javase/7/docs/api/"
+//  ] as String[]
+//
+//  test {
+//    // Variables set in gradle/env.gradle
+//    systemProperty "java.library.path", gcLibraryPath
+//    // Ensure Geosupport knows where to find its data files
+//    environment "GEOFILES", gsGeofiles
+//    // Ensure the Geosupport libs are on the native system library path
+//    environment libraryPathEnvironmentVariableName, gsLibraryPath
+//  }
+//
+//
+//  dependencies {
+//
+//    //testImplementation("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}") {
+//    //  exclude group:'org.hamcrest', module:'hamcrest-core'
+//    //}
+//
+//    testImplementation("junit:junit:${junitVersion}") {
+//      exclude group:'org.hamcrest', module:'hamcrest-core'
+//    }
+//
+//    testImplementation("org.mockito:mockito-core:${mockitoVersion}") {
+//      exclude group:'org.hamcrest', module:'hamcrest-core'
+//    }
+//
+//    testImplementation("org.hamcrest:hamcrest-all:${hamcrestVersion}")
+//
+//    testImplementation("org.assertj:assertj-core:${assertJVersion}")
+//  }
+//
+//  jar {
+//    manifest {
+//      attributes(
+//        'Implementation-Title': p.name,
+//        'Implementation-Version': p.version,
+//        'Built-By': System.getProperty('user.name'),
+//        //'Built-Date': new Date(), // Disable for now because triggers task every build
+//        'Built-JDK': System.getProperty('java.version'),
+//        'Built-Gradle': gradle.gradleVersion
+//      )
+//    }
+//
+//    from("${rootProject.projectDir}/src/dist") {
+//      include "LICENSE.txt"
+//      include "NOTICE.txt"
+//      into "META-INF"
+//      expand(copyright: new Date().format("yyyy"), version: p.version)
+//    }
+//  }
+//
+//  javadoc {
+//    description = "Generates javadoc for Java projects for use with -javadoc jar"
+//
+//    options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
+//    options.author = true
+//    options.header = project.name
+//    options.links(javadocLinks)
+//    //options.quiet()
+//    options.addStringOption("Xdoclint:none", "-quiet")
+//    //options.verbose()
+//    // Suppress cross-module @see and @link reference warnings
+//    logging.captureStandardError LogLevel.INFO
+//    // suppress "## warnings"
+//    logging.captureStandardOutput LogLevel.INFO
+//  }
+//
+//  // Prevent Javadoc
+//  tasks.withType(Javadoc).all { enabled = project.ext.enableJavadoc }
+//
+//  task sourcesJar(type: Jar, dependsOn: classes) {
+//    classifier = 'sources'
+//    from sourceSets.main.allSource
+//  }
+//
+//  task javadocJar(type: Jar) {
+//    classifier = "javadoc"
+//    from javadoc
+//  }
+//
+//  artifacts {
+//    archives sourcesJar
+//    archives javadocJar
+//  }
+//
+//  configurations {
+//    all*.exclude group: "commons-logging", module: "commons-logging"
+//  }
+//
+//} // javaPluginProjects
