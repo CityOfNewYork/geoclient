@@ -1,10 +1,10 @@
-apply plugin: "maven-publish"
-apply plugin: "signing"
 
 ext {
-  gisNexusActive = findProperty('gisNexusActive') ?: null
+  // TODO Enable remote repo deployment
+  gisNexusActive = false // findProperty('gisNexusActive') ?: null
   isReleaseVersion = !(project.version =~ /-SNAPSHOT$/)
-  ossrhActive = findProperty('ossrhActive') ?: null
+  // TODO Enable remote repo deployment
+  ossrhActive = false // findProperty('ossrhActive') ?: null
   pomFile = file("${project.buildDir}/libs/generated-pom.xml")
   uploadReleaseUrl = findProperty('nexus-upload-releases') ?: null
   uploadSnapshotUrl = findProperty('nexus-upload-snapshots') ?: null
@@ -18,8 +18,8 @@ signing {
 publishing {
   repositories {
     maven {
-      name 'mavenJava'
-      url "${rootProject.buildDir}/repo"
+      name = 'localBuild'
+      url = "file://${project.buildDir}/repo"
     }
     if(gisNexusActive) {
       maven {
@@ -54,7 +54,6 @@ publishing {
 
   publications {
     if (plugins.hasPlugin('c')) {
-
       mavenNative(MavenPublication) {
         if (zipLinux64Bins.bins.files) {
           artifact zipLinux64Bins
@@ -67,7 +66,6 @@ publishing {
           signPom(delegate, pom, project)
         }
       }
-
     }
 
     if (plugins.hasPlugin('java')) {
@@ -82,6 +80,7 @@ publishing {
         }
       } // mavenJava
     }
+
   } // publications
 } // publishing
 

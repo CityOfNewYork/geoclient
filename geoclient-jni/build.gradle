@@ -1,5 +1,5 @@
 //import org.gradle.jvm.platform.internal.DefaultJavaPlatform
-//import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 // Java plugin is applied in the parent build
 apply plugin: 'groovy'
@@ -9,15 +9,20 @@ configurations {
     jni
 }
 
-def publications = new LinkedHashSet()
+// TODO Use Maven/Ivy repo from publishing plugin
+def nativePublicationTasks = new LinkedHashSet()
+
+// FIXME Use of internal Gradle classes
+def os = new DefaultNativePlatform('current').operatingSystem
+def arch = new DefaultNativePlatform('current').architecture
 
 // High-level build definitions
 model {
 
     platforms {
         windows_x64 {
-            architecture "x86_64"
-            operatingSystem "windows"
+            architecture 'x86_64'
+            operatingSystem 'windows'
         }
     }
 
@@ -27,16 +32,16 @@ model {
 
     components {
         geoclient(NativeLibrarySpec) {
-            targetPlatform "windows_x64"
+            targetPlatform 'windows_x64'
             sources {
                 c {
                     source {
-                        srcDir "src/main/c"
-                        include "**/geoclient.c"
+                        srcDir 'src/main/c'
+                        include '**/geoclient.c'
                     }
                     exportedHeaders {
-                        srcDir "src/main/headers"
-                        include "**/*.h"
+                        srcDir 'src/main/headers'
+                        include '**/*.h'
                     }
                     lib library: 'geosupport', linkage: 'api'
                 }
@@ -44,13 +49,13 @@ model {
         } // geoclient
 
         geoclientJni(NativeLibrarySpec) {
-            targetPlatform "windows_x64"
-            baseName "geoclientjni"
+            targetPlatform 'windows_x64'
+            baseName 'geoclientjni'
             sources {
                 c {
                     source {
-                        srcDir "src/main/c"
-                        include "**/*_JNI.c"
+                        srcDir 'src/main/c'
+                        include '**/*_JNI.c'
                     }
                     lib library: 'geosupport', linkage: 'api'
                     lib library: 'geoclient',  linkage: 'static'
@@ -66,19 +71,22 @@ model {
                 cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include"
                 cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include/win32"
                 linker.args "/LIBPATH:${gsLibraryPath}"
-                linker.args "NYCgeo.lib"
+                linker.args 'NYCgeo.lib'
             }
 
             // Shared libraries
             binaries.withType(SharedLibraryBinarySpec) { binary ->
 
                 def variantName = targetPlatform.name.replace('_', '-')
-                publications << variantName
-                logger.lifecycle("variantName ${variantName}")
+
+                logger.lifecycle("variantName: ${variantName}")
 
                 if(!buildable) {
                     return
                 }
+
+                cCompiler.define 'DLL_EXPORT'
+
                 def taskName = "jar-${variantName}"
                 def nativeJar = project.tasks.findByName(taskName)
                 if (nativeJar == null) {
@@ -89,14 +97,31 @@ model {
                         jni nativeJar
                         runtime nativeJar
                     }
-                    // def jniPom = deployer.addFilter(variantName) { artifact, file ->
-                    //     return file == nativeJar.archivePath
-                    // }
+                }
+                project.tasks.assemble.dependsOn(taskName)
+                nativePublicationTasks << taskName
+
+                logger.lifecycle("nativeJar.name: ${nativeJar.name}")
+                logger.lifecycle("nativeJar.archivePath: ${nativeJar.archivePath}")
+
+                binary.tasks.withType(LinkSharedLibrary) { builderTask ->
+                    String fileName = "${builderTask.linkedFile}"
+                    if(fileName =~ /geoclientjni/) {
+                        nativeJar.into("gov/nyc/doitt/gis/geoclient/jni/$variantName") {
+                            from builderTask.linkedFile
+                        }
+                        def sharedLibFile = file(fileName)
+                        artifacts.add('archives', sharedLibFile) {
+                            type 'nativeJar'
+                            builtBy taskName
+                        }
+                    }
                 }
 
-                logger.lifecycle("nativeJar task ${nativeJar.name}")
+                project.tasks.test {
+                    classpath.from nativeJar
+                }
 
-                cCompiler.define "DLL_EXPORT"
             }
 
             // Static libraries
@@ -104,9 +129,9 @@ model {
                 if(!buildable) {
                     return
                 }
-                cCompiler.define "DLL_IMPORT"
+                cCompiler.define 'DLL_IMPORT'
             }
-        }
+        } // all
     } // components
 
     // Third-party binaries and header files
@@ -122,3 +147,9 @@ model {
         }
     } // repositories
 } // model
+
+//rootProject.publishing.publications {
+//    maven(MavenPublication) {
+//        artifacts nativeJarArtifact
+//    }
+//}

@@ -1,25 +1,23 @@
 allprojects {
 
     apply plugin: 'java'
-    apply plugin: 'maven-publish'
     apply plugin: 'eclipse'
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
 
-    // Once the Gluegen 2.3.x annotation warnings to stderr are fixed then
-    // add "-Werror" to the List.
-    // See https://jogamp.org/bugzilla/show_bug.cgi?id=1256
     compileJava.options*.compilerArgs = [
-        "-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
-        "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
-        "-Xlint:overrides", "-Xlint:path", "-Xlint:-processing", "-Xlint:static",
-        "-Xlint:try", "-Xlint:fallthrough", "-Xlint:rawtypes", "-Xlint:deprecation",
-       "-Xlint:unchecked", "-Xlint:-options"]
+        '-Xlint:serial', '-Xlint:varargs', '-Xlint:cast', '-Xlint:classfile',
+        '-Xlint:dep-ann', '-Xlint:divzero', '-Xlint:empty', '-Xlint:finally',
+        '-Xlint:overrides', '-Xlint:path', '-Xlint:-processing', '-Xlint:static',
+        '-Xlint:try', '-Xlint:fallthrough', '-Xlint:rawtypes', '-Xlint:deprecation',
+       '-Xlint:unchecked', '-Xlint:-options', '-Werror']
 
     compileTestJava.options*.compilerArgs = [
-        "-Xlint:serial", "-Xlint:-varargs", "-Xlint:cast", "-Xlint:classfile",
-        "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
-        "-Xlint:overrides", "-Xlint:path", "-Xlint:-processing", "-Xlint:static",
-        "-Xlint:try", "-Xlint:-fallthrough", "-Xlint:-rawtypes", "-Xlint:-deprecation",
-        "-Xlint:-unchecked", "-Xlint:-options"]
+        '-Xlint:serial', '-Xlint:-varargs', '-Xlint:cast', '-Xlint:classfile',
+        '-Xlint:dep-ann', '-Xlint:divzero', '-Xlint:empty', '-Xlint:finally',
+        '-Xlint:overrides', '-Xlint:path', '-Xlint:-processing', '-Xlint:static',
+        '-Xlint:try', '-Xlint:-fallthrough', '-Xlint:-rawtypes', '-Xlint:-deprecation',
+        '-Xlint:-unchecked', '-Xlint:-options']
 
     compileJava {
         sourceCompatibility = 1.8
@@ -34,18 +32,20 @@ allprojects {
     }
 
     ext {
-        gsIncludePath = new File(projectDir, "lib/geosupport/headers")
-        gsLibraryPath = new File(System.env.GEOSUPPORT_HOME, "lib")
-        gsGeofilesPath = new File(System.env.GEOSUPPORT_HOME, "fls/") // trailing slash is needed
-        localLibsDir = new File(rootProject.buildDir, "libs")
+        enableJavadoc = getConfigProperty('nojdoc') ? false : true
+        gsIncludePath = new File(projectDir, 'lib/geosupport/headers')
+        gsLibraryPath = getGeosupportLibraryDir()
+        gsGeofilesPath = getGeofilesDir()
+        localLibsDir = new File(rootProject.buildDir, 'libs')
+        pomFile = file("${project.buildDir}/libs/generated-pom.xml")
     }
 
     test {
         useJUnitPlatform()
         // Variables set in gradle/env.gradle
-        systemProperty "java.library.path", gsLibraryPath
+        systemProperty 'java.library.path', gsLibraryPath
         // Ensure Geosupport knows where to find its data files
-        environment "GEOFILES", gsGeofilesPath
+        environment 'GEOFILES', gsGeofilesPath
     }
 
     dependencies {
@@ -54,152 +54,138 @@ allprojects {
         testCompileOnly 'junit:junit:4.12'
         testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.1.0'
         testImplementation 'org.assertj:assertj-core:3.11.1'
+        //testImplementation('org.mockito:mockito-core:${mockitoVersion}') {
+        //    exclude group:'org.hamcrest', module:'hamcrest-core'
+        //}
+    }
+
+    // Disable Javadoc if requested
+    tasks.withType(Javadoc).all { enabled = project.ext.enableJavadoc }
+
+    jar {
+        manifest {
+            attributes(
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version,
+                'Built-By': System.getProperty('user.name'),
+                'Built-JDK': System.getProperty('java.version'),
+                'Built-Gradle': gradle.gradleVersion
+            )
+        }
+
+        from("${rootProject.projectDir}/src/dist") {
+            include 'LICENSE.txt'
+            include 'NOTICE.txt'
+            into 'META-INF'
+            expand(copyright: new Date().format('yyyy'), version: project.version)
+        }
+    } // jar
+
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+
+    publishing {
+        repositories {
+            maven {
+              name = 'localBuild'
+              url = "file://${project.buildDir}/repo"
+            }
+        }
+        publications {
+            mavenJava(MavenPublication) {
+                from components.java
+                artifact sourcesJar
+                artifact javadocJar
+                customizePom(pom, project)
+                if (signing.required) {
+                    signPom(delegate, pom, project)
+                }
+            }
+        }
+    }
+
+} // allprojects
+
+// TODO Put this in buildScript plugin
+File getGeosupportLibraryDir() {
+    def gsLibraryPath = getConfigProperty('gsLibraryPath')
+    if(!gsLibraryPath) {
+        return new File(getGeosupportHome(), 'lib')
+    }
+    return new File(gsLibraryPath)
+}
+
+File getGeofilesDir() {
+    def gsGeofilesPath = getConfigProperty('gsGeofilesPath')
+    if(!gsGeofilesPath) {
+        return new File(getGeosupportHome(), 'fls/')
+    }
+    return new File(gsGeofilesPath)
+}
+
+String getGeosupportHome() {
+    return getConfigProperty('gosupportHome') ?: System.getenv('GEOSUPPORT_HOME')
+}
+
+// https://github.com/bmuschko/gradle-docker-plugin/blob/v3.6.2/gradle/test-setup.gradle
+String getConfigProperty(String key) {
+    project.properties.getOrDefault(key, System.getProperty(key, System.getenv(key)))
+}
+
+def customizePom(pom, project) {
+    pom.withXml {
+        def root = asNode()
+        root.appendNode('name', project.name)
+        root.appendNode('description', project.description)
+        root.appendNode('url', 'https://github.com/CityOfNewYork/geoclient')
+        root.appendNode('inceptionYear', '2013')
+
+        def scm = root.appendNode('scm')
+        scm.appendNode('url', 'https://github.com/CityOfNewYork/geoclient')
+        scm.appendNode('connection', 'scm:https://git@github.com/CityOfNewYork/geoclient.git')
+        scm.appendNode('developerConnection', 'scm:git://github.com/CityOfNewYork/geoclient.git')
+
+        def license = root.appendNode('licenses').appendNode('license')
+        license.appendNode('name', 'The Apache Software License, Version 2.0')
+        license.appendNode('url', 'http://www.apache.org/licenses/LICENSE-2.0.txt')
+        license.appendNode('distribution', 'repo')
+
+        def organization = root.appendNode('organization')
+        organization.appendNode('name', 'City of New York / DoITT / Citywide GIS')
+        organization.appendNode('url', 'https://maps.nyc.gov')
+
+        def developers = root.appendNode('developers')
+        def mlipper = developers.appendNode('developer')
+        mlipper.appendNode('id', 'mlipper')
+        mlipper.appendNode('name', 'Matthew Lipper')
+        mlipper.appendNode('email', 'mlipper@doitt.nyc.gov')
+
+        def issueManagement = root.appendNode('issueManagement')
+        issueManagement.appendNode('system', 'GitHub')
+        issueManagement.appendNode('url', 'https://github.com/CityOfNewYork/geoclient/issues')
     }
 }
 
-//buildscript {
-//  repositories {
-//    mavenCentral()
-//    mavenLocal()
-//    jcenter()
-//    maven { url "https://plugins.gradle.org/m2/" }
-//  }
-//}
-//
-//apply plugin: 'com.github.ben-manes.versions'
-//ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
-//
-//apply plugin: 'base'
-//apply from: "${gradleScriptDir}/env.gradle"
-//
-//allprojects { p ->
-//  group = rootProject.group
-//  version = rootProject.version
-//
-//  repositories {
-//    // geotoolkit repo must be before mavenCentral which has the pom, javadoc
-//    // but not the binary jar
-//    maven { url "http://maven.geotoolkit.org/" }
-//    mavenCentral()
-//    jcenter()
-//    maven { url "http://repo.boundlessgeo.com/main/" }
-//  }
-//
-//  apply from: "${gradleScriptDir}/dependencies.gradle"
-//  apply from: "${gradleScriptDir}/ide.gradle"
-//  apply from: "${gradleScriptDir}/utils.gradle"
-//  apply from: "${gradleScriptDir}/publish-maven.gradle"
-//  apply plugin: 'project-report'
-//
-//} //allprojects
-//
-//def javaPluginProjects = [
-//  project(':geoclient-jni'),
-//  project(':geoclient-core'),
-//  project(':geoclient-parser'),
-//  //project(':geoclient-search'),
-//  project(':geoclient-service')
-//] as Set
-//
-//configure(javaPluginProjects) { p ->
-//  // The Java build was originally adapted from the spring-framework's Gradle
-//  // build
-//  apply plugin: 'java'
-//
-//  ext.enableJavadoc = project.findProperty("nojdoc") ? false : true
-//
-//  logger.debug("enableJavadoc: ${ext.enableJavadoc}")
-//
-//  ext.javadocLinks = [
-//          "http://docs.oracle.com/javase/8/docs/api/",
-//          "http://docs.oracle.com/javase/7/docs/api/"
-//  ] as String[]
-//
-//  test {
-//    // Variables set in gradle/env.gradle
-//    systemProperty "java.library.path", gcLibraryPath
-//    // Ensure Geosupport knows where to find its data files
-//    environment "GEOFILES", gsGeofiles
-//    // Ensure the Geosupport libs are on the native system library path
-//    environment libraryPathEnvironmentVariableName, gsLibraryPath
-//  }
-//
-//
-//  dependencies {
-//
-//    //testImplementation("org.junit.jupiter:junit-jupiter-api:${junitJupiterVersion}") {
-//    //  exclude group:'org.hamcrest', module:'hamcrest-core'
-//    //}
-//
-//    testImplementation("junit:junit:${junitVersion}") {
-//      exclude group:'org.hamcrest', module:'hamcrest-core'
-//    }
-//
-//    testImplementation("org.mockito:mockito-core:${mockitoVersion}") {
-//      exclude group:'org.hamcrest', module:'hamcrest-core'
-//    }
-//
-//    testImplementation("org.hamcrest:hamcrest-all:${hamcrestVersion}")
-//
-//    testImplementation("org.assertj:assertj-core:${assertJVersion}")
-//  }
-//
-//  jar {
-//    manifest {
-//      attributes(
-//        'Implementation-Title': p.name,
-//        'Implementation-Version': p.version,
-//        'Built-By': System.getProperty('user.name'),
-//        //'Built-Date': new Date(), // Disable for now because triggers task every build
-//        'Built-JDK': System.getProperty('java.version'),
-//        'Built-Gradle': gradle.gradleVersion
-//      )
-//    }
-//
-//    from("${rootProject.projectDir}/src/dist") {
-//      include "LICENSE.txt"
-//      include "NOTICE.txt"
-//      into "META-INF"
-//      expand(copyright: new Date().format("yyyy"), version: p.version)
-//    }
-//  }
-//
-//  javadoc {
-//    description = "Generates javadoc for Java projects for use with -javadoc jar"
-//
-//    options.memberLevel = org.gradle.external.javadoc.JavadocMemberLevel.PROTECTED
-//    options.author = true
-//    options.header = project.name
-//    options.links(javadocLinks)
-//    //options.quiet()
-//    options.addStringOption("Xdoclint:none", "-quiet")
-//    //options.verbose()
-//    // Suppress cross-module @see and @link reference warnings
-//    logging.captureStandardError LogLevel.INFO
-//    // suppress "## warnings"
-//    logging.captureStandardOutput LogLevel.INFO
-//  }
-//
-//  // Prevent Javadoc
-//  tasks.withType(Javadoc).all { enabled = project.ext.enableJavadoc }
-//
-//  task sourcesJar(type: Jar, dependsOn: classes) {
-//    classifier = 'sources'
-//    from sourceSets.main.allSource
-//  }
-//
-//  task javadocJar(type: Jar) {
-//    classifier = "javadoc"
-//    from javadoc
-//  }
-//
-//  artifacts {
-//    archives sourcesJar
-//    archives javadocJar
-//  }
-//
-//  configurations {
-//    all*.exclude group: "commons-logging", module: "commons-logging"
-//  }
-//
-//} // javaPluginProjects
+def signPom(closure, pom, project) {
+    pom.withXml {
+        writeTo(project.ext.pomFile)
+        def pomAscFile = signing.sign(project.ext.pomFile).signatureFiles[0]
+        closure.artifact(pomAscFile) {
+            classifier = null
+            extension = 'pom.asc'
+        }
+        project.ext.pomFile.delete()
+    }
+}
