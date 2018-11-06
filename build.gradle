@@ -108,13 +108,48 @@ allprojects {
                 from components.java
                 artifact sourcesJar
                 artifact javadocJar
-                customizePom(pom, project)
-                if (signing.required) {
-                    signPom(delegate, pom, project)
-                }
-            }
-        }
-    }
+                pom {
+                    name = project.name
+                    description = project.description
+                    url = 'https://github.com/CityOfNewYork/geoclient'
+                    inceptionYear = '2013'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            distribution = 'repo'
+                        }
+                    }
+                    organization {
+                        name = 'City of New York / DoITT / Citywide GIS'
+                        url = 'https://maps.nyc.gov'
+                    }
+                    developers {
+                        developer {
+                            id = 'mlipper'
+                            name = 'Matthew Lipper'
+                            email = 'mlipper@doitt.nyc.gov'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:https://git@github.com/CityOfNewYork/geoclient.git'
+                        developerConnection = 'scm:git://github.com/CityOfNewYork/geoclient.git'
+                        url = 'https://maps.nyc.gov/geoclient/v1/doc'
+                    }
+
+                    issueManagement {
+                        system = 'GitHub'
+                        url = 'https://github.com/CityOfNewYork/geoclient/issues'
+                    }
+
+                } // pom
+            } // mavenJava(MavenPublication)
+        } //publications
+    } // publishing
+
+    signing {
+        sign publishing.publications.mavenJava
+    } // signing
 
 } // allprojects
 
@@ -142,50 +177,4 @@ String getGeosupportHome() {
 // https://github.com/bmuschko/gradle-docker-plugin/blob/v3.6.2/gradle/test-setup.gradle
 String getConfigProperty(String key) {
     project.properties.getOrDefault(key, System.getProperty(key, System.getenv(key)))
-}
-
-def customizePom(pom, project) {
-    pom.withXml {
-        def root = asNode()
-        root.appendNode('name', project.name)
-        root.appendNode('description', project.description)
-        root.appendNode('url', 'https://github.com/CityOfNewYork/geoclient')
-        root.appendNode('inceptionYear', '2013')
-
-        def scm = root.appendNode('scm')
-        scm.appendNode('url', 'https://github.com/CityOfNewYork/geoclient')
-        scm.appendNode('connection', 'scm:https://git@github.com/CityOfNewYork/geoclient.git')
-        scm.appendNode('developerConnection', 'scm:git://github.com/CityOfNewYork/geoclient.git')
-
-        def license = root.appendNode('licenses').appendNode('license')
-        license.appendNode('name', 'The Apache Software License, Version 2.0')
-        license.appendNode('url', 'http://www.apache.org/licenses/LICENSE-2.0.txt')
-        license.appendNode('distribution', 'repo')
-
-        def organization = root.appendNode('organization')
-        organization.appendNode('name', 'City of New York / DoITT / Citywide GIS')
-        organization.appendNode('url', 'https://maps.nyc.gov')
-
-        def developers = root.appendNode('developers')
-        def mlipper = developers.appendNode('developer')
-        mlipper.appendNode('id', 'mlipper')
-        mlipper.appendNode('name', 'Matthew Lipper')
-        mlipper.appendNode('email', 'mlipper@doitt.nyc.gov')
-
-        def issueManagement = root.appendNode('issueManagement')
-        issueManagement.appendNode('system', 'GitHub')
-        issueManagement.appendNode('url', 'https://github.com/CityOfNewYork/geoclient/issues')
-    }
-}
-
-def signPom(closure, pom, project) {
-    pom.withXml {
-        writeTo(project.ext.pomFile)
-        def pomAscFile = signing.sign(project.ext.pomFile).signatureFiles[0]
-        closure.artifact(pomAscFile) {
-            classifier = null
-            extension = 'pom.asc'
-        }
-        project.ext.pomFile.delete()
-    }
 }

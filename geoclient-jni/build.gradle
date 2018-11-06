@@ -91,7 +91,8 @@ model {
                 def nativeJar = project.tasks.findByName(taskName)
                 if (nativeJar == null) {
                     nativeJar = project.tasks.create(taskName, Jar) {
-                        baseName = "${project.name}-${variantName}"
+                        baseName = "${project.name}"
+                        classifier = "${variantName}"
                     }
                     artifacts {
                         jni nativeJar
@@ -112,7 +113,8 @@ model {
                         }
                         def sharedLibFile = file(fileName)
                         artifacts.add('archives', sharedLibFile) {
-                            type 'nativeJar'
+                            type 'jar'
+                            classifier variantName
                             builtBy taskName
                         }
                     }
@@ -148,8 +150,11 @@ model {
     } // repositories
 } // model
 
-//rootProject.publishing.publications {
-//    maven(MavenPublication) {
-//        artifacts nativeJarArtifact
-//    }
-//}
+rootProject.publishing.publications {
+    mavenJava(MavenPublication) {
+        //artifacts nativeJarArtifact
+        pom.withXml {
+            asNode().appendNode('properties').appendNode('my-property', 'my-value')
+        }
+    }
+}
