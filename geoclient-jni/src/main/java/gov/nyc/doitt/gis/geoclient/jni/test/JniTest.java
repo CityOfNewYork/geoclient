@@ -34,6 +34,8 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 
+// TODO When rewriting this class see the following for some ideas:
+// https://github.com/gradle/gradle/tree/master/subprojects/docs/src/samples/java-library/multiproject
 public class JniTest
 {
   private static final Charset CHARSET = Charset.forName("UTF-8");

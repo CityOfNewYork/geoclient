@@ -1,4 +1,4 @@
-allprojects {
+subprojects {
 
     apply plugin: 'java'
     apply plugin: 'eclipse'
@@ -37,7 +37,7 @@ allprojects {
         gsLibraryPath = getGeosupportLibraryDir()
         gsGeofilesPath = getGeofilesDir()
         localLibsDir = new File(rootProject.buildDir, 'libs')
-        pomFile = file("${project.buildDir}/libs/generated-pom.xml")
+        //pomFile = file("${project.buildDir}/libs/generated-pom.xml")
     }
 
     test {

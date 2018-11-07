@@ -10,7 +10,7 @@ configurations {
 }
 
 // TODO Use Maven/Ivy repo from publishing plugin
-def nativePublicationTasks = new LinkedHashSet()
+def nativePublications = new LinkedHashSet()
 
 // FIXME Use of internal Gradle classes
 def os = new DefaultNativePlatform('current').operatingSystem
@@ -76,34 +76,46 @@ model {
 
             // Shared libraries
             binaries.withType(SharedLibraryBinarySpec) { binary ->
+                logger.lifecycle("Configuring ${displayName}")
+                if(targetPlatform.operatingSystem == "windows") {
+                    cCompiler.define 'DLL_EXPORT'
+                }
+            }
+            binaries.withType(SharedLibraryBinarySpec) { binary ->
+
+                if(!buildable) {
+                    logger.lifecycle("${displayName.capitalize()} is not buildable")
+                    return
+                }
+
+                def componentBaseName = component.baseName
+                if(componentBaseName != "geoclientjni") {
+                    logger.lifecycle("Skipping creation of jar for component ${componentBaseName}")
+                    return
+                }
 
                 def variantName = targetPlatform.name.replace('_', '-')
 
                 logger.lifecycle("variantName: ${variantName}")
 
-                if(!buildable) {
-                    return
-                }
-
-                cCompiler.define 'DLL_EXPORT'
-
-                def taskName = "jar-${variantName}"
+                def taskName = "jni${variantName.replaceAll('-x','X').capitalize()}Jar"
                 def nativeJar = project.tasks.findByName(taskName)
                 if (nativeJar == null) {
+                    logger.lifecycle("Creating Task '${taskName}' because it was not found")
                     nativeJar = project.tasks.create(taskName, Jar) {
-                        baseName = "${project.name}"
-                        classifier = "${variantName}"
+                        baseName = "${project.name}-${variantName}"
                     }
                     artifacts {
                         jni nativeJar
                         runtime nativeJar
                     }
+                } else {
+                    logger.lifecycle("Found existing Task '${taskName}'")
                 }
                 project.tasks.assemble.dependsOn(taskName)
-                nativePublicationTasks << taskName
+                nativePublications << variantName
 
-                logger.lifecycle("nativeJar.name: ${nativeJar.name}")
-                logger.lifecycle("nativeJar.archivePath: ${nativeJar.archivePath}")
+                logger.lifecycle("Created task ${nativeJar.name} which builds ${nativeJar.archivePath}")
 
                 binary.tasks.withType(LinkSharedLibrary) { builderTask ->
                     String fileName = "${builderTask.linkedFile}"
@@ -114,7 +126,6 @@ model {
                         def sharedLibFile = file(fileName)
                         artifacts.add('archives', sharedLibFile) {
                             type 'jar'
-                            classifier variantName
                             builtBy taskName
                         }
                     }
@@ -150,11 +161,17 @@ model {
     } // repositories
 } // model
 
-rootProject.publishing.publications {
+publishing.publications {
     mavenJava(MavenPublication) {
-        //artifacts nativeJarArtifact
-        pom.withXml {
-            asNode().appendNode('properties').appendNode('my-property', 'my-value')
+        pom.withXml { provider ->
+            def node = provider.asNode()
+            def deps = node.appendNode('dependencies')
+            nativePublications.each { variantName ->
+                def dep = deps.appendNode('dependency')
+                dep.appendNode('groupId', project.group)
+                dep.appendNode('artifactId', "geoclient-jni-${variantName}")
+                dep.appendNode('version', project.version)
+            }
         }
     }
 }
