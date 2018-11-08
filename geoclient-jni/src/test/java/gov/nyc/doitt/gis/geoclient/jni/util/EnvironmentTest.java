@@ -35,12 +35,8 @@ public class EnvironmentTest {
   public void mac32() {
     setEnvironmentClassFields("mac", "32");
     assertThat(Environment.isWindows()).isFalse();
-    assertThat(Environment.getJniLibraryExtension()).
-        isEqualTo(".jnilib");
-    assertThat(Environment.getJniLibraryFileName("geoclient")).
-        isEqualTo("libgeoclientjni-osx.jnilib");
-    assertThat(Environment.getSharedLibraryFileName("geoclient")).
-        isEqualTo("libgeoclientjni.dylib");
+    assertThat(Environment.getJniLibraryName()).isEqualTo("geoclientjni-osx");
+    assertThat(Environment.getJniLibraryFileName()).isEqualTo("libgeoclientjni-osx.jnilib");
   }
 
   @Test
@@ -125,12 +121,12 @@ public class EnvironmentTest {
 
   @Test
   public void win64() {
-    setEnvironmentClassFields("win", "x64");
+    setEnvironmentClassFields("windows", "x64");
     assertThat(Environment.isWindows()).isTrue();
     assertThat(Environment.getJniLibraryExtension()).
       isEqualTo(".dll");
     assertThat(Environment.getJniLibraryFileName("geoclient")).
-      isEqualTo("geoclientjni-win64.dll");
+      isEqualTo("geoclientjni-windows-x64.dll");
     assertThat(Environment.getSharedLibraryFileName("geoclient")).
       isEqualTo("geoclientjni.dll");
   }
