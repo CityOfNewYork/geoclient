@@ -1,5 +1,4 @@
-//import org.gradle.jvm.platform.internal.DefaultJavaPlatform
-import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
+//import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
 
 // Java plugin is applied in the parent build
 apply plugin: 'groovy'
@@ -12,9 +11,8 @@ configurations {
 // TODO Use Maven/Ivy repo from publishing plugin
 def nativePublications = new LinkedHashSet()
 
-// FIXME Use of internal Gradle classes
-def os = new DefaultNativePlatform('current').operatingSystem
-def arch = new DefaultNativePlatform('current').architecture
+//def os = new DefaultNativePlatform('current').operatingSystem
+//def arch = new DefaultNativePlatform('current').architecture
 
 // High-level build definitions
 model {
@@ -48,7 +46,7 @@ model {
             } // sources
         } // geoclient
 
-        geoclientJni(NativeLibrarySpec) {
+        geoclientjni(NativeLibrarySpec) {
             targetPlatform 'windows_x64'
             baseName 'geoclientjni'
             sources {
@@ -74,13 +72,15 @@ model {
                 linker.args 'NYCgeo.lib'
             }
 
-            // Shared libraries
+            // When building our project's shared libraries on Windows, insure
+            // that we enable the Microsoft macros to export pur dlls
             binaries.withType(SharedLibraryBinarySpec) { binary ->
                 logger.lifecycle("Configuring ${displayName}")
                 if(targetPlatform.operatingSystem == "windows") {
                     cCompiler.define 'DLL_EXPORT'
                 }
             }
+
             binaries.withType(SharedLibraryBinarySpec) { binary ->
 
                 if(!buildable) {
@@ -90,6 +90,10 @@ model {
 
                 def componentBaseName = component.baseName
                 if(componentBaseName != "geoclientjni") {
+                    // Skip packaging/publishing tasks for all native binaries
+                    // NOTE: geoclientjni statically links its dependency on 
+                    // the geoclient native binary component. Thus, the geoclient
+                    // component does not need to be published.
                     logger.lifecycle("Skipping creation of jar for component ${componentBaseName}")
                     return
                 }
@@ -98,16 +102,20 @@ model {
 
                 logger.lifecycle("variantName: ${variantName}")
 
-                def taskName = "jni${variantName.replaceAll('-x','X').capitalize()}Jar"
+                //def taskName = "jni${variantName.replaceAll('-x','X').capitalize()}Jar"
+                def taskName = "jar-${variantName}"
                 def nativeJar = project.tasks.findByName(taskName)
                 if (nativeJar == null) {
                     logger.lifecycle("Creating Task '${taskName}' because it was not found")
                     nativeJar = project.tasks.create(taskName, Jar) {
-                        baseName = "${project.name}-${variantName}"
+                        //baseName = "${project.name}-${variantName}"
+                        baseName = project.name
+                        classifier = variantName
                     }
                     artifacts {
                         jni nativeJar
-                        runtime nativeJar
+                        archives nativeJar
+                        runtimeOnly nativeJar
                     }
                 } else {
                     logger.lifecycle("Found existing Task '${taskName}'")
