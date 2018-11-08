@@ -1,3 +1,8 @@
+
+allprojects {
+  apply plugin: 'project-report'
+}
+
 subprojects {
 
     apply plugin: 'java'
@@ -37,7 +42,6 @@ subprojects {
         gsLibraryPath = getGeosupportLibraryDir()
         gsGeofilesPath = getGeofilesDir()
         localLibsDir = new File(rootProject.buildDir, 'libs')
-        //pomFile = file("${project.buildDir}/libs/generated-pom.xml")
     }
 
     test {
@@ -100,7 +104,7 @@ subprojects {
         repositories {
             maven {
               name = 'localBuild'
-              url = "file://${project.buildDir}/repo"
+              url = "file://${rootProject.buildDir}/repo"
             }
         }
         publications {
@@ -171,7 +175,7 @@ File getGeofilesDir() {
 }
 
 String getGeosupportHome() {
-    return getConfigProperty('gosupportHome') ?: System.getenv('GEOSUPPORT_HOME')
+    return getConfigProperty('geosupportHome') ?: System.getenv('GEOSUPPORT_HOME')
 }
 
 // https://github.com/bmuschko/gradle-docker-plugin/blob/v3.6.2/gradle/test-setup.gradle
