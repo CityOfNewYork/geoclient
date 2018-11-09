@@ -1,14 +1,34 @@
-
-allprojects {
-  apply plugin: 'project-report'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("io.spring.javaformat:spring-javaformat-gradle-plugin:0.0.6")
+    }
 }
 
-subprojects {
-
+allprojects {
+    
     apply plugin: 'java'
     apply plugin: 'eclipse'
+    apply plugin: 'checkstyle'
     apply plugin: 'maven-publish'
     apply plugin: 'signing'
+    apply plugin: 'project-report'
+
+    apply plugin: 'io.spring.javaformat'    
+
+    checkstyle {
+        toolVersion = "8.11"
+    }
+
+    repositories {
+        mavenCentral()
+    }
+    
+    dependencies {
+        checkstyle("io.spring.javaformat:spring-javaformat-checkstyle:0.0.6")
+    }
 
     compileJava.options*.compilerArgs = [
         '-Xlint:serial', '-Xlint:varargs', '-Xlint:cast', '-Xlint:classfile',

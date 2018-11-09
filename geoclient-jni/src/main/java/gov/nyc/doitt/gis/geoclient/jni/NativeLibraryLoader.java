@@ -20,11 +20,11 @@ public class NativeLibraryLoader {
   private static final NativeLibraryLoader instance = new NativeLibraryLoader();
   private static boolean initialized = false;
 
-  private static final String sharedLibraryName = Environment.getSharedLibraryName("geoclient");
-  private static final String jniLibraryName = Environment.getJniLibraryName("geoclient");
-  private static final String jniLibraryFileName = Environment.getJniLibraryFileName("geoclient");
-  private static final String tempFilePrefix = "libgeoclientjni";
-  private static final String tempFileSuffix = Environment.getJniLibraryExtension();
+//  private static final String sharedLibraryName = Environment.getSharedLibraryName("geoclient");
+//  private static final String jniLibraryName = Environment.getJniLibraryName("geoclient");
+//  private static final String jniLibraryFileName = Environment.getJniLibraryFileName("geoclient");
+//  private static final String tempFilePrefix = "libgeoclientjni";
+//  private static final String tempFileSuffix = Environment.getJniLibraryExtension();
 
   /**
    * Get a reference to the NativeLibraryLoader
@@ -52,19 +52,19 @@ public class NativeLibraryLoader {
    * @throws java.io.IOException if a filesystem operation fails.
    */
   public synchronized void loadLibrary(final String tmpDir) throws IOException {
-    try {
-    	
-    	System.out.println(String.format("System.loadLibrary(%s);", sharedLibraryName));
-        System.loadLibrary(sharedLibraryName);
-    } catch(final UnsatisfiedLinkError ule1) {
-      try {
-      	System.out.println(String.format("System.loadLibrary(%s);", jniLibraryName));
-        System.loadLibrary(jniLibraryName);
-      } catch(final UnsatisfiedLinkError ule2) {
-       	System.out.println(String.format("loadLibraryFromJar(%s);", tmpDir));
-        loadLibraryFromJar(tmpDir);
-      }
-    }
+//    try {
+//    	
+//    	System.out.println(String.format("System.loadLibrary(%s);", sharedLibraryName));
+//        System.loadLibrary(sharedLibraryName);
+//    } catch(final UnsatisfiedLinkError ule1) {
+//      try {
+//      	System.out.println(String.format("System.loadLibrary(%s);", jniLibraryName));
+//        System.loadLibrary(jniLibraryName);
+//      } catch(final UnsatisfiedLinkError ule2) {
+//       	System.out.println(String.format("loadLibraryFromJar(%s);", tmpDir));
+//        loadLibraryFromJar(tmpDir);
+//      }
+//    }
   }
 
   /**
@@ -95,38 +95,39 @@ public class NativeLibraryLoader {
 
   File loadLibraryFromJarToTemp(final String tmpDir)
           throws IOException {
-    final File temp;
-    if (tmpDir == null || tmpDir.isEmpty()) {
-      temp = File.createTempFile(tempFilePrefix, tempFileSuffix);
-    } else {
-      temp = new File(tmpDir, jniLibraryFileName);
-      if (temp.exists() && !temp.delete()) {
-        throw new RuntimeException("File: " + temp.getAbsolutePath()
-            + " already exists and cannot be removed.");
-      }
-      if (!temp.createNewFile()) {
-        throw new RuntimeException("File: " + temp.getAbsolutePath()
-            + " could not be created.");
-      }
-    }
-
-    if (!temp.exists()) {
-      throw new RuntimeException("File " + temp.getAbsolutePath() + " does not exist.");
-    } else {
-      temp.deleteOnExit();
-    }
-
-    // attempt to copy the library from the Jar file to the temp destination
-    try (final InputStream is = getClass().getClassLoader().
-      getResourceAsStream(jniLibraryFileName)) {
-      if (is == null) {
-        throw new RuntimeException(jniLibraryFileName + " was not found inside JAR.");
-      } else {
-        Files.copy(is, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);
-      }
-    }
-
-    return temp;
+//    final File temp;
+//    if (tmpDir == null || tmpDir.isEmpty()) {
+//      temp = File.createTempFile(tempFilePrefix, tempFileSuffix);
+//    } else {
+//      temp = new File(tmpDir, jniLibraryFileName);
+//      if (temp.exists() && !temp.delete()) {
+//        throw new RuntimeException("File: " + temp.getAbsolutePath()
+//            + " already exists and cannot be removed.");
+//      }
+//      if (!temp.createNewFile()) {
+//        throw new RuntimeException("File: " + temp.getAbsolutePath()
+//            + " could not be created.");
+//      }
+//    }
+//
+//    if (!temp.exists()) {
+//      throw new RuntimeException("File " + temp.getAbsolutePath() + " does not exist.");
+//    } else {
+//      temp.deleteOnExit();
+//    }
+//
+//    // attempt to copy the library from the Jar file to the temp destination
+//    try (final InputStream is = getClass().getClassLoader().
+//      getResourceAsStream(jniLibraryFileName)) {
+//      if (is == null) {
+//        throw new RuntimeException(jniLibraryFileName + " was not found inside JAR.");
+//      } else {
+//        Files.copy(is, temp.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//      }
+//    }
+//
+//    return temp;
+      return null;
   }
 
   /**
