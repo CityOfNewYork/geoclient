@@ -49,6 +49,7 @@ public class NativeLibraryLocator {
             try {
                 // Take exclusive lock on lock file
                 FileLock lock = lockFileAccess.getChannel().lock();
+                assert lock.isValid();
                 if (lockFile.length() > 0 && lockFileAccess.readBoolean()) {
                     // Library has been extracted
                     return libFile;
@@ -62,7 +63,7 @@ public class NativeLibraryLocator {
                     lockFileAccess.writeBoolean(true);
                     return libFile;
                 }
-            } finally {
+            } finally {            	
                 // Also releases lock
                 lockFileAccess.close();
             }
@@ -79,7 +80,7 @@ public class NativeLibraryLocator {
                 return libFile;
             }
         }
-
+        return loadFromBuildDirectory(jniLibrary);
     }
     
     private File loadFromBuildDirectory(JniLibrary jniLibrary) {
@@ -89,7 +90,7 @@ public class NativeLibraryLocator {
             componentName = componentName.substring(0, pos) + Character.toUpperCase(componentName.charAt(pos + 1)) + componentName.substring(pos + 2);
             pos = componentName.indexOf("-", pos);
         }
-        File libFile = new File(String.format("build/libs/%s/shared/%s/%s", jniLibrary.componentName(), jniLibrary.getPlatformName(), jniLibrary.getName()));
+        File libFile = new File(String.format("build/libs/%s/shared/%s/%s", jniLibrary.getComponentName(), jniLibrary.getPlatformName(), jniLibrary.getName()));
         if (libFile.isFile()) {
             return libFile;
         }

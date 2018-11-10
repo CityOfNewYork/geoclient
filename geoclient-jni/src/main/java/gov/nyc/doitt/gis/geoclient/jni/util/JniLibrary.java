@@ -5,6 +5,7 @@ import java.util.Objects;
 public class JniLibrary {
 
 	private final String name;
+	private final String componentName;
 	private final String operatingSystem;
 	private final String architecture;
 	private final String version;
@@ -12,9 +13,15 @@ public class JniLibrary {
 	public static class Builder {
 
 		private String name;
+		private String componentName;
 		private String operatingSystem;
 		private String architecture;
 		private String version;
+
+		public Builder componentName(String componentName) {
+			this.componentName = componentName;
+			return this;
+		}
 
 		public Builder name(String name) {
 			this.name = name;
@@ -53,14 +60,15 @@ public class JniLibrary {
 				this.version = "UNKNOWN";
 			}
 
-			return new JniLibrary(name, operatingSystem, architecture, version);
+			return new JniLibrary(name, componentName, operatingSystem, architecture, version);
 		}
 
 	}
 
-	private JniLibrary(String name, String osName, String architecture, String version) {
+	private JniLibrary(String name, String componentName, String osName, String architecture, String version) {
 		super();
 		this.name = name;
+		this.componentName = componentName;
 		this.operatingSystem = osName;
 		this.architecture = architecture;
 		this.version = version;
@@ -68,6 +76,15 @@ public class JniLibrary {
 
 	public static Builder builder() {
 		return new Builder();
+	}
+
+	
+	public String getComponentName() {
+		return componentName;
+	}
+
+	public String getPlatformName() {
+		return String.format("%s-%s", getOperatingSystem(), getArchitecture());
 	}
 
 	public String getName() {
