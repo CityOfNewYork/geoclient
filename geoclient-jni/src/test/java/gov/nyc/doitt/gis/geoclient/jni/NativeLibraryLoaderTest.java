@@ -9,38 +9,19 @@
 // of patent rights can be found in the PATENTS file in the same directory.
 package gov.nyc.doitt.gis.geoclient.jni;
 
+import java.io.IOException;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import gov.nyc.doitt.gis.geoclient.jni.util.Environment;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
 
 public class NativeLibraryLoaderTest {
 
-  @Rule
-  public TemporaryFolder temporaryFolder = new TemporaryFolder();
+	@Rule
+	public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
-  @Test
-  public void tempFolder() throws IOException {
-//    NativeLibraryLoader.getInstance().loadLibraryFromJarToTemp(
-//        temporaryFolder.getRoot().getAbsolutePath());
-//    final Path path = Paths.get(temporaryFolder.getRoot().getAbsolutePath(),
-//        Environment.getJniLibraryFileName("geoclient"));
-//    assertThat(Files.exists(path)).isTrue();
-//    assertThat(Files.isReadable(path)).isTrue();
-  }
+	@Test
+	public void tempFolder() throws IOException {
+	}
 
-  @Test
-  public void overridesExistingLibrary() throws IOException {
-    File first = NativeLibraryLoader.getInstance().loadLibraryFromJarToTemp(
-        temporaryFolder.getRoot().getAbsolutePath());
-    NativeLibraryLoader.getInstance().loadLibraryFromJarToTemp(
-        temporaryFolder.getRoot().getAbsolutePath());
-    assertThat(first.exists()).isTrue();
-  }
 }
