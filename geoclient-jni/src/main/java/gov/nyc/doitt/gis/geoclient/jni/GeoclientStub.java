@@ -20,32 +20,29 @@ import java.nio.CharBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 
+public class GeoclientStub implements Geoclient {
 
-public class GeoclientStub implements Geoclient
-{
 	private static final Charset CHARSET = Charset.forName("UTF-8");
+
 	private static final CharsetDecoder DECODER = CHARSET.newDecoder();
 
 	@Override
-	public void callgeo(ByteBuffer work_area1, ByteBuffer work_area2)
-	{
-		try
-		{
+	public void callgeo(ByteBuffer work_area1, ByteBuffer work_area2) {
+		try {
 			display(work_area1);
 			display(work_area2);
-		} catch (Exception e)
-		{
+		}
+		catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
 
 	@Override
-	public void callgeo(byte[] work_area1, int work_area1_offset, byte[] work_area2, int work_area2_offset)
-	{
+	public void callgeo(byte[] work_area1, int work_area1_offset, byte[] work_area2,
+			int work_area2_offset) {
 	}
 
-	private void display(ByteBuffer buffer) throws Exception
-	{
+	private void display(ByteBuffer buffer) throws Exception {
 		int position = buffer.position();
 		CharBuffer charBuffer = DECODER.decode(buffer);
 		System.out.println(String.format("-->%s<--", charBuffer.toString()));

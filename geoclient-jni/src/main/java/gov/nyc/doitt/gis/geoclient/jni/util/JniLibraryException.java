@@ -7,4 +7,5 @@ public class JniLibraryException extends RuntimeException {
 	public JniLibraryException(String message, Throwable cause) {
 		super(message, cause);
 	}
+
 }
