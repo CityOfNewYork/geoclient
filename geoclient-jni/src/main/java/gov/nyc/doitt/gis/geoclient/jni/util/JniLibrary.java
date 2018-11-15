@@ -74,7 +74,7 @@ public class JniLibrary {
 	}
 
 	public String getLibraryFileName() {
-		return this.platform.getSharedLibraryName(this.name);
+		return this.platform.getSharedLibraryFileName(this.name);
 	}
 
 	public String getResourceName() {

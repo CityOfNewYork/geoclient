@@ -16,26 +16,44 @@
 
 package gov.nyc.doitt.gis.geoclient.jni.util;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+import java.util.function.BiFunction;
 
 /**
  * @author mlipper
  */
+//@Brittle // TODO Create this Annotation
 public class Platform {
 
+	public static final String ARCH_X64 = "x64";
+	
+	public static final String LINUX_OS_FAMILY = "linux";
+	
 	public static final String LINUX_SHARED_LIB_PREFIX = "lib";
 
 	public static final String LINUX_SHARED_LIB_FILE_EXTENSION = "so";
 
+	public static final String WINDOWS_OS_FAMILY = "windows";
+	
 	public static final String WINDOWS_SHARED_LIB_PREFIX = "";
 
 	public static final String WINDOWS_SHARED_LIB_FILE_EXTENSION = "dll";
 
-	private String name;
+	public static final BiFunction<String, String, String> PLATFORM_NAMER = (String s1, String s2) -> { return String.format("%s_%s", s1, s2); };
+	
+	public static final Platform SUPPORTED_LINUX_PLATFORM = new Platform(LINUX_OS_FAMILY, ARCH_X64);
+	
+	public static final Platform SUPPORTED_WINDOWS_PLATFORM = new Platform(WINDOWS_OS_FAMILY, ARCH_X64);
+	
+	public static final List<Platform> SUPPORTED_PLATFORMS = Arrays.asList(SUPPORTED_LINUX_PLATFORM, SUPPORTED_WINDOWS_PLATFORM);
+	
+    private final String name;
 
-	private String operatingSystem;
+	private final String operatingSystem;
 
-	private String architecture;
+	private final String architecture;
 
 	public Platform(String operatingSystem, String architecture) {
 		super();
@@ -59,22 +77,22 @@ public class Platform {
 		if (this.name == null) {
 			String os = null;
 			if (isLinux()) {
-				os = "linux";
+				os = LINUX_OS_FAMILY;
 			}
 			else if (isWindows()) {
-				os = "windows";
+				os = WINDOWS_OS_FAMILY;
 			}
 
 			String arch = null;
 			if (is64Bit()) {
-				arch = "x64";
+				arch = ARCH_X64;
 			}
 
 			if (os == null || arch == null) {
 				throw new UnsupportedPlatformException(getOperatingSystem(),
 						getArchitecture());
 			}
-			this.name = String.format("%s-%s", os, arch);
+			return PLATFORM_NAMER.apply(os, arch);
 		}
 
 		return this.name;
@@ -89,32 +107,32 @@ public class Platform {
 	}
 
 	public boolean isWindows() {
-		return this.operatingSystem.toLowerCase().contains("windows");
+		return this.operatingSystem.toLowerCase().contains(WINDOWS_OS_FAMILY);
 	}
 
 	public boolean isLinux() {
-		return this.operatingSystem.toLowerCase().contains("linux");
+		return this.operatingSystem.toLowerCase().contains(LINUX_OS_FAMILY);
 	}
 
 	public boolean is64Bit() {
-		return this.architecture.indexOf("64") > 0;
+		return this.architecture.indexOf(ARCH_X64.substring(1)) >= 0;
 	}
 
-	public String getSharedLibraryPrefix() {
+	private String getSharedLibraryPrefix() {
 		if (isWindows()) {
 			return WINDOWS_SHARED_LIB_PREFIX;
 		}
 		return LINUX_SHARED_LIB_PREFIX;
 	}
 
-	public String getSharedLibraryFileExtension() {
+	private String getSharedLibraryFileExtension() {
 		if (isWindows()) {
 			return WINDOWS_SHARED_LIB_FILE_EXTENSION;
 		}
 		return LINUX_SHARED_LIB_FILE_EXTENSION;
 	}
 
-	public String getSharedLibraryName(String baseName) {
+	public String getSharedLibraryFileName(String baseName) {
 		return String.format("%s%s.%s", getSharedLibraryPrefix(), baseName,
 				getSharedLibraryFileExtension());
 	}
