@@ -92,6 +92,7 @@ allprojects {
             attributes(
                 'Implementation-Title': project.name,
                 'Implementation-Version': project.version,
+                'Main-Class': 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest',
                 'Built-By': System.getProperty('user.name'),
                 'Built-JDK': System.getProperty('java.version'),
                 'Built-Gradle': gradle.gradleVersion

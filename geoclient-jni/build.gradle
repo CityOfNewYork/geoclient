@@ -4,12 +4,12 @@
 apply plugin: 'groovy'
 apply plugin: 'c'
 
-tasks.jar {
-    dependsOn('geoclientjniSharedLibrary')
-    manifest {
-        attributes('Main-Class': 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest')
-    }
-}
+//tasks.jar {
+//    dependsOn('geoclientjniSharedLibrary')
+//    manifest {
+//        attributes 'Main-Class': 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest'
+//    }
+//}
 
 // High-level build definitions
 model {
