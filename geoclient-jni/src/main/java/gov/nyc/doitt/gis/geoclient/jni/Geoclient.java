@@ -16,10 +16,10 @@ public interface Geoclient {
      *
      * Interface to C language function <code>void callgeo(char *  work_area1, char *  work_area2)</code>.
      *
-     * @param work_area1 a {@link java.lang.byte[]}
-     * @param work_area1_byte_offset array offset
-     * @param work_area2 a {@link java.lang.byte[]}
-     * @param work_area2_byte_offset array offset
+     * @param work_area1 an array of bytes
+     * @param work_area1_offset array offset
+     * @param work_area2 an array of bytes
+     * @param work_area2_offset array offset
      *
      */
     public void callgeo(byte[] work_area1, int work_area1_offset, byte[] work_area2, int work_area2_offset);

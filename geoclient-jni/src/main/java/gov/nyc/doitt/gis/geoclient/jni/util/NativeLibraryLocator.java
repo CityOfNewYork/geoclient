@@ -41,9 +41,11 @@ public class NativeLibraryLocator {
 
 	public File find(JniLibrary jniLibrary) throws IOException {
 		String resourceName = jniLibrary.getResourceName();
+		System.out.println(String.format("jniLibrary.resourceName=%s", resourceName));
 		if (this.extractDir != null) {
 			File libFile = new File(this.extractDir,
 					String.format("%s/%s", jniLibrary.getVersion(), resourceName));
+			System.out.println(String.format("libFile=%s", libFile));
 			File lockFile = new File(libFile.getParentFile(),
 					libFile.getName() + ".lock");
 			lockFile.getParentFile().mkdirs();
@@ -58,6 +60,7 @@ public class NativeLibraryLocator {
 					return libFile;
 				}
 				URL resource = getClass().getClassLoader().getResource(resourceName);
+				System.out.println(String.format("URL resource=%s", resource));
 				if (resource != null) {
 					// Extract library and write marker to lock file
 					libFile.getParentFile().mkdirs();

@@ -1,15 +1,13 @@
-//import org.gradle.nativeplatform.platform.internal.DefaultNativePlatform
-
 // Java plugin is applied in the parent build
 apply plugin: 'groovy'
 apply plugin: 'c'
 
-//tasks.jar {
-//    dependsOn('geoclientjniSharedLibrary')
-//    manifest {
-//        attributes 'Main-Class': 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest'
-//    }
-//}
+tasks.jar {
+    dependsOn('geoclientjniSharedLibrary')
+    manifest {
+        attributes 'Main-Class': 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest'
+    }
+}
 
 // High-level build definitions
 model {
@@ -101,9 +99,19 @@ model {
                 def variantName = targetPlatform.name.replace('_', '-')
                 logger.lifecycle("variantName: ${variantName}")
 
+                def targetPath = "gov/nyc/doitt/gis/geoclient/jni/$variantName"
+                
+
                 binary.tasks.withType(LinkSharedLibrary) { builderTask ->
-                    jarTask.into("gov/nyc/doitt/gis/geoclient/jni/$variantName") {
+                    jarTask.into(targetPath) {
                         from builderTask.linkedFile
+                    }
+                    def resourcesDir = new File(sourceSets.main.output.resourcesDir, targetPath)
+                    resourcesDir.mkdirs()
+                    logger.lifecycle("resourcesDir=${resourcesDir}")
+                    copy {
+                        from builderTask.linkedFile
+                        into resourcesDir
                     }
                 }
             }
@@ -115,6 +123,11 @@ model {
                 }
                 cCompiler.define 'DLL_IMPORT'
             }
+            
+            //project.tasks.test {
+            //    classpath.from nativeJar
+            //}
+            
         } // all
     } // components
 

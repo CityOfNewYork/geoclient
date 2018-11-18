@@ -76,6 +76,7 @@ allprojects {
         testCompileOnly 'junit:junit:4.12'
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
         testImplementation 'org.junit.jupiter:junit-jupiter-params:5.1.0'
+        //testImplementation 'org.junit.jupiter.api.parallel:5.1.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
         testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.1.0'
         //testImplementation 'org.assertj:assertj-core:3.11.1'
@@ -102,7 +103,6 @@ allprojects {
             attributes(
                 'Implementation-Title': project.name,
                 'Implementation-Version': project.version,
-                'Main-Class': 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest',
                 'Built-By': System.getProperty('user.name'),
                 'Built-JDK': System.getProperty('java.version'),
                 'Built-Gradle': gradle.gradleVersion

@@ -1,34 +1,56 @@
 package gov.nyc.doitt.gis.geoclient.jni.util;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.jupiter.api.AfterAll;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class NativeLibraryLocatorTest {
 
-	@BeforeAll
-	static void setUpBeforeClass() throws Exception {
-	}
+	private final static String tmpDirProperty = "java.io.tmpdir";
+    private String backup;
+    private File testTmpDir;
 
-	@AfterAll
-	static void tearDownAfterClass() throws Exception {
-	}
+    @BeforeEach
+    void beforeEach() throws IOException {
+    	
+    	// Backup actual java.io.tmpdir System property
+    	backup = System.getProperty(tmpDirProperty);
+    	System.out.println(String.format("Actual: %s=%s", tmpDirProperty, backup));
+		
+    	// Create java.io.tmpdir for these tests
+    	testTmpDir = getTempDir();		
+		System.setProperty(tmpDirProperty, testTmpDir.getCanonicalPath());
+		System.out.println(String.format(String.format("testTmpDir=%s", testTmpDir.getCanonicalPath())));		
+    }
 
-	@BeforeEach
-	void setUp() throws Exception {
-	}
-
-	@AfterEach
-	void tearDown() throws Exception {
-	}
-
+    @AfterEach
+    void afterEach() {
+    	// Restore actual java.io.tmpdir System property
+        System.setProperty(tmpDirProperty,backup);
+    }	
+	
 	@Test
-	void testFind() {
-		fail("Not yet implemented");
+	void testFind() throws IOException {
+		NativeLibraryLocator locator = new NativeLibraryLocator(testTmpDir.getCanonicalPath());		
+		File result = locator.find(getJniLibrary());
+		assertNotNull(result);
+		assertTrue(result.exists());
 	}
 
+	private JniLibrary getJniLibrary() throws IOException {
+		return JniLibrary.builder().name("geoclientjni").platform(new Platform()).version("X1200").build();
+	}
+	
+	private File getTempDir() throws IOException {
+		URL url = getClass().getClassLoader().getResource(".");
+		File root = new File(String.format("%s/../tmplib",url.getPath()));
+		return root;
+	}
 }
