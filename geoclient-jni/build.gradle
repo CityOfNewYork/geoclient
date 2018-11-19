@@ -9,6 +9,20 @@ tasks.jar {
     }
 }
 
+def generatedResources = "${buildDir}/generated-resources/main"
+
+sourceSets {
+	main {
+		output.dir(generatedResources, builtBy: 'syncGeneratedResources')
+	}
+}
+
+task syncGeneratedResources {
+	doFirst {
+		logger.lifecycle("Syncing generated native jni library...")
+	}
+}
+
 // High-level build definitions
 model {
 
@@ -101,18 +115,33 @@ model {
 
                 def targetPath = "gov/nyc/doitt/gis/geoclient/jni/$variantName"
                 
+                def taskName = "sync-${variantName}"
+                def syncLibTask = project.tasks.findByName(taskName)
+                if(syncLibTask == null) {
+                	syncLibTask = project.tasks.create(taskName, Sync) {
+                		//dependsOn('geoclientjniSharedLibrary')
+                	}
+                }                
+                project.tasks.syncGeneratedResources.dependsOn(syncLibTask)
 
                 binary.tasks.withType(LinkSharedLibrary) { builderTask ->
                     jarTask.into(targetPath) {
                         from builderTask.linkedFile
                     }
-                    def resourcesDir = new File(sourceSets.main.output.resourcesDir, targetPath)
-                    resourcesDir.mkdirs()
-                    logger.lifecycle("resourcesDir=${resourcesDir}")
-                    copy {
-                        from builderTask.linkedFile
-                        into resourcesDir
-                    }
+                 	
+                 	syncLibTask.from builderTask.linkedFile
+                 	syncLibTask.destinationDir = project.file("${generatedResources}/${targetPath}")                    
+                    //def resourcesDir = new File(sourceSets.main.output.resourcesDir, targetPath)
+                    //resourcesDir.mkdirs()
+                    //logger.lifecycle("resourcesDir=${resourcesDir}")
+                    //copy {
+                    //    from builderTask.linkedFile
+                    //    into resourcesDir
+                    //    doFirst() {
+                    //    	logger.lifecycle("copy from ${builderTask.linkedFile}")
+                    //    	logger.lifecycle("       to ${resourcesDir}")
+                    //    }
+                    //}
                 }
             }
 

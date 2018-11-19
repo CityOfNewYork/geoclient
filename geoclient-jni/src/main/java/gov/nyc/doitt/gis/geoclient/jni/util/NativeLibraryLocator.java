@@ -40,7 +40,7 @@ public class NativeLibraryLocator {
 	}
 
 	public File find(JniLibrary jniLibrary) throws IOException {
-		String resourceName = jniLibrary.getResourceName();
+		String resourceName = "gov/nyc/doitt/gis/geoclient/jni/" + jniLibrary.getResourceName();
 		System.out.println(String.format("jniLibrary.resourceName=%s", resourceName));
 		if (this.extractDir != null) {
 			File libFile = new File(this.extractDir,
