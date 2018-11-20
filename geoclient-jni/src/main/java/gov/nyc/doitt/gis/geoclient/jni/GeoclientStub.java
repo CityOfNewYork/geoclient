@@ -17,20 +17,33 @@ package gov.nyc.doitt.gis.geoclient.jni;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
+import gov.nyc.doitt.gis.geoclient.jni.test.TestConfig;
 
 public class GeoclientStub implements Geoclient
 {
+	private static final Logger logger = Logger.getDebugLogger(GeoclientStub.class);
 	private static final Charset CHARSET = Charset.forName("UTF-8");
 	private static final CharsetDecoder DECODER = CHARSET.newDecoder();
+
+	private final ConcurrentMap<String, TestConfig> db = new ConcurrentHashMap<>();
+	
+	public GeoclientStub() {
+		super();
+	}
 
 	@Override
 	public void callgeo(ByteBuffer work_area1, ByteBuffer work_area2)
 	{
 		try
 		{
+			String functionId = extractFunctionId(work_area1);
+			logger.debug(String.format("Calling function %s",functionId));
 			display(work_area1);
 			display(work_area2);
 		} catch (Exception e)
@@ -44,12 +57,28 @@ public class GeoclientStub implements Geoclient
 	{
 	}
 
+	public TestConfig add(TestConfig config) {
+		return db.put(config.getFunctionName(), config);
+	}
 	private void display(ByteBuffer buffer) throws Exception
 	{
 		int position = buffer.position();
 		CharBuffer charBuffer = DECODER.decode(buffer);
-		System.out.println(String.format("-->%s<--", charBuffer.toString()));
+		logger.debug(String.format("-->%s<--", charBuffer.toString()));
 		buffer.position(position);
 	}
 
+	private String extractFunctionId(ByteBuffer byteBuffer) throws CharacterCodingException {
+		// Duplicate ByteBuffer argument which will create a bi-directional "reference" that will reflect buffer
+		// changes, but use independent position, limit and mark values
+		ByteBuffer buffer = byteBuffer.duplicate();
+		int position = buffer.position();		
+		CharBuffer charBuffer = DECODER.decode(buffer);
+		char [] chars = new char[2];
+		charBuffer.get(chars, 0, 2);
+		buffer.position(position);
+		String result = String.copyValueOf(chars);
+		logger.debug(String.format("Function[%s]", result));
+		return result;
+	}
 }

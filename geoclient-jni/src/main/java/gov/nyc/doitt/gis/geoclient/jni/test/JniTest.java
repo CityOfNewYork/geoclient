@@ -17,22 +17,18 @@ package gov.nyc.doitt.gis.geoclient.jni.test;
 
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
+import gov.nyc.doitt.gis.geoclient.jni.Logger;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.regex.MatchResult;
 
 // TODO When rewriting this class see the following for some ideas:
 // https://github.com/gradle/gradle/tree/master/subprojects/docs/src/samples/java-library/multiproject
@@ -93,28 +89,28 @@ public class JniTest
         } else if (OPTION_HELP_LONG.equalsIgnoreCase(string) || OPTION_HELP_SHORT.equalsIgnoreCase(string))
         {
           String myName = JniTest.class.getCanonicalName();
-          System.out.println();
-          System.out.println();
-          System.out.println("Usage:");
-          System.out.println();
-          System.out.println("  java -Djava.library.path=\"<path to Geosupport and Geoclient .so's or .dll's>\" \\");
-          System.out.println("           -cp=\"<path to Geoclient jars>\" " + myName + " [OPTIONS]");
-          System.out.println();
-          System.out.println("  -d,--debug            Enables debug logging");
-          System.out.println();
-          System.out.println("  --file=<path to file> Specifies the file containing test data and config to use for running tests.");
-          System.out.println("                        The file path can be either full, relative or, if prefixed with '" + CLASSPATH_FLAG + "',");
-          System.out.println("                        relative to the classpath.");
-          System.out.println();
-          System.out.println("                        If this argument is not given, the program will attempt to find a file named '" + DEFAULT_FILE + "'");
-          System.out.println("                        at the root of the CLASSPATH (by default, the geoclient-jni jar includes such a file).");
-          System.out.println("                        If the default test case file cannot be found, the built-in test cases are used.");
-          System.out.println();
-          System.out.println("  -h,--help             Show this message");
-          System.out.println();
-          System.out.println("  NOTE: In addition to the above, the Geosupport and Geoclient libraries must also be on the LD_LIBRARY_PATH ");
-          System.out.println("        (for Linux) or the PATH (for Windows)");
-          System.out.println();
+          logger.info();
+          logger.info();
+          logger.info("Usage:");
+          logger.info();
+          logger.info("  java -Djava.library.path=\"<path to Geosupport and Geoclient .so's or .dll's>\" \\");
+          logger.info("           -cp=\"<path to Geoclient jars>\" " + myName + " [OPTIONS]");
+          logger.info();
+          logger.info("  -d,--debug            Enables debug logging");
+          logger.info();
+          logger.info("  --file=<path to file> Specifies the file containing test data and config to use for running tests.");
+          logger.info("                        The file path can be either full, relative or, if prefixed with '" + CLASSPATH_FLAG + "',");
+          logger.info("                        relative to the classpath.");
+          logger.info();
+          logger.info("                        If this argument is not given, the program will attempt to find a file named '" + DEFAULT_FILE + "'");
+          logger.info("                        at the root of the CLASSPATH (by default, the geoclient-jni jar includes such a file).");
+          logger.info("                        If the default test case file cannot be found, the built-in test cases are used.");
+          logger.info();
+          logger.info("  -h,--help             Show this message");
+          logger.info();
+          logger.info("  NOTE: In addition to the above, the Geosupport and Geoclient libraries must also be on the LD_LIBRARY_PATH ");
+          logger.info("        (for Linux) or the PATH (for Windows)");
+          logger.info();
           return;
         } else if (string.startsWith(OPTION_FILE))
         {
@@ -124,7 +120,7 @@ public class JniTest
 
     }
 
-    logger = new Logger(debugOption ? Logger.LEVEL_DEBUG : Logger.LEVEL_INFO);
+    logger = debugOption ? Logger.getDebugLogger(gov.nyc.doitt.gis.geoclient.jni.test.JniTest.class) : Logger.getLogger(gov.nyc.doitt.gis.geoclient.jni.test.JniTest.class);
 
     logger.debug("PATH=" + System.getenv("PATH"));
     logger.debug("LD_LIBRARY_PATH=" + System.getenv("LD_LIBRARY_PATH"));
@@ -315,201 +311,5 @@ public class JniTest
   private boolean isNotNullOrEmpty(String s)
   {
     return s != null && s.length() > 0;
-  }
-
-  private static class Logger
-  {
-    private static final int LEVEL_DEBUG = 2;
-    private static final int LEVEL_INFO = 1;
-    private static final int LEVEL_ERROR = 0;
-    private static final String PREFIX_ERROR = "[ERROR] ";
-    private static final String PREFIX = "[JNI_TEST] ";
-    private int level;
-
-    public Logger(int level)
-    {
-      super();
-      this.level = level;
-    }
-
-    public void debug(String message)
-    {
-      if (level >= LEVEL_DEBUG)
-      {
-        doLog(PREFIX, message);
-      }
-    }
-
-    public void info(String message)
-    {
-      if (level >= LEVEL_INFO)
-      {
-        doLog(PREFIX, message);
-      }
-    }
-
-    public void error(String message)
-    {
-      if (level >= LEVEL_ERROR)
-      {
-        doLog(PREFIX_ERROR, message);
-      }
-    }
-
-    public void raw(int withLevel, String message)
-    {
-      if (withLevel <= level)
-      {
-        doLog(null, message);
-      }
-    }
-
-    private void doLog(String prefix, String message)
-    {
-      StringBuffer buffer = new StringBuffer();
-      if (prefix != null)
-      {
-        buffer.append(prefix);
-      }
-      if (message != null)
-      {
-        buffer.append(message);
-      }
-      System.out.println(buffer);
-    }
-  }
-
-  private static class TestConfig
-  {
-    private final String functionName;
-    private final String input;
-    private final int lengthOfWorkAreaTwo;
-
-    public TestConfig(String functionName, String input, int lengthOfWorkAreaTwo)
-    {
-      super();
-      this.functionName = functionName;
-      this.input = input;
-      this.lengthOfWorkAreaTwo = lengthOfWorkAreaTwo;
-    }
-
-    public String getFunctionName()
-    {
-      return functionName;
-    }
-
-    public String getInput()
-    {
-      return input;
-    }
-
-    public int getLengthOfWorkAreaTwo()
-    {
-      return lengthOfWorkAreaTwo;
-    }
-
-    @Override
-    public String toString()
-    {
-      return "TestConfig [functionName=" + functionName + ", actualSize=" + input.length() + ", input=" + input
-          + ", lengthOfWorkAreaTwo=" + lengthOfWorkAreaTwo + "]";
-    }
-  }
-
-  private static class TestFileParser
-  {
-    private static final String CONF_START = "function=";
-    private static final String CONF_PATTERN = "function=(\\w+);length=(\\d+);";
-    private static final String COMMENT_PATTERN = "^\\s*#.*";
-    private static final int MAX_LOG_LINE_SIZE = 100;
-    private InputStream inputStream;
-    private Logger logger;
-
-    public TestFileParser(InputStream inputStream, Logger logger)
-    {
-      super();
-      this.inputStream = inputStream;
-      this.logger = logger;
-    }
-
-    public List<TestConfig> parse() throws FileNotFoundException, IOException
-    {
-      log("Parser debug output is truncated to a max of " + MAX_LOG_LINE_SIZE + " characters per line.");
-      List<TestConfig> result = new ArrayList<TestConfig>();
-      BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-      try
-      {
-        String line = reader.readLine();
-        String functionName = null;
-        int length = -1;
-        while (line != null)
-        {
-          if (isComment(line))
-          {
-            // Do nothing
-            log("comment: " + line);
-          } else if (isConfigLine(line))
-          {
-            Scanner scanner = new Scanner(line);
-            try
-            {
-              log("config line: " + line);
-              scanner.findInLine(CONF_PATTERN);
-              MatchResult match = scanner.match();
-              functionName = match.group(1);
-              log("parsed config functionName: " + functionName);
-              length = Integer.parseInt(match.group(2));
-              log("parsed config length: " + length);
-            } finally
-            {
-              scanner.close();
-            }
-          } else
-          {
-            String input = parseInputLine(line, length);
-            log("parsed input line: " + input);
-            TestConfig conf = new TestConfig(functionName, input, length);
-            log("adding " + conf);
-            result.add(conf);
-          }
-          line = reader.readLine();
-        }
-
-      } finally
-      {
-        reader.close();
-      }
-      return result;
-    }
-
-    public boolean isComment(String line)
-    {
-      return line != null && line.matches(COMMENT_PATTERN);
-    }
-
-    public boolean isConfigLine(String line)
-    {
-      return line != null && line.startsWith(CONF_START);
-    }
-
-    public String parseInputLine(String line, int length)
-    {
-      if (line != null)
-      {
-        // Make sure it's padded to the required length
-        return String.format("%1$-" + length + "s", line);
-      }
-      return null;
-    }
-
-    private void log(String message)
-    {
-        int maxToUse = MAX_LOG_LINE_SIZE;
-        if (message.length() < MAX_LOG_LINE_SIZE)
-        {
-          maxToUse = message.length();
-        }
-        logger.debug(message.substring(0, maxToUse));
-    }
   }
 }

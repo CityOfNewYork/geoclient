@@ -11,8 +11,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import gov.nyc.doitt.gis.geoclient.jni.Logger;
+
 class NativeLibraryLocatorTest {
 
+	private static final Logger logger = Logger.getLogger(NativeLibraryLocatorTest.class);
+	
 	private final static String tmpDirProperty = "java.io.tmpdir";
     private String backup;
     private File testTmpDir;
@@ -22,12 +26,12 @@ class NativeLibraryLocatorTest {
     	
     	// Backup actual java.io.tmpdir System property
     	backup = System.getProperty(tmpDirProperty);
-    	System.out.println(String.format("Actual: %s=%s", tmpDirProperty, backup));
+    	logger.debug(String.format("Actual: %s=%s", tmpDirProperty, backup));
 		
     	// Create java.io.tmpdir for these tests
     	testTmpDir = getTempDir();		
 		System.setProperty(tmpDirProperty, testTmpDir.getCanonicalPath());
-		System.out.println(String.format(String.format("testTmpDir=%s", testTmpDir.getCanonicalPath())));		
+		logger.debug(String.format(String.format("testTmpDir=%s", testTmpDir.getCanonicalPath())));		
     }
 
     @AfterEach

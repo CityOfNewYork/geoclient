@@ -70,15 +70,30 @@ allprojects {
         systemProperty 'java.library.path', gsLibraryPath
         // Ensure Geosupport knows where to find its data files
         environment 'GEOFILES', gsGeofilesPath
+		testLogging {
+			// set options for log level LIFECYCLE
+			events "failed"
+			exceptionFormat "short"
+			// set options for log level DEBUG
+			debug {
+			//lifecycle {
+			    events "started", "skipped", "failed"
+			    exceptionFormat "full"
+			}			
+			// remove standard output/error logging from --info builds
+			// by assigning only 'failed' and 'skipped' events
+			info.events = ["failed", "skipped"]
+		}        
     }
 
     dependencies {
+    	// Use JUnit BOM
+    	testImplementation 'org.junit:junit-bom:5.3.1'
         testCompileOnly 'junit:junit:4.12'
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
-        testImplementation 'org.junit.jupiter:junit-jupiter-params:5.1.0'
-        //testImplementation 'org.junit.jupiter.api.parallel:5.1.0'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
-        testRuntimeOnly 'org.junit.vintage:junit-vintage-engine:5.1.0'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api'
+        testImplementation 'org.junit.jupiter:junit-jupiter-params'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+        testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
         //testImplementation 'org.assertj:assertj-core:3.11.1'
         //testImplementation('org.mockito:mockito-core:${mockitoVersion}') {
         //    exclude group:'org.hamcrest', module:'hamcrest-core'

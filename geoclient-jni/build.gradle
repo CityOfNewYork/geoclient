@@ -9,19 +9,18 @@ tasks.jar {
     }
 }
 
-def generatedResources = "${buildDir}/generated-resources/main"
+def basePackagePath = "gov/nyc/doitt/gis/geoclient/jni"
+def generatedResources = "${project.buildDir}/generated-resources/main"
 
 sourceSets {
 	main {
-		output.dir(generatedResources, builtBy: 'syncGeneratedResources')
+		output.dir(generatedResources, builtBy: 'syncJniLib')
 	}
 }
 
-task syncGeneratedResources {
-	doFirst {
-		logger.lifecycle("Syncing generated native jni library...")
-	}
-}
+// Must be configured lazily because 'from' and 'destinationDir' properties are
+// created dynamically by SharedLibraryBinarySpec
+task syncJniLib(type: Sync)
 
 // High-level build definitions
 model {
@@ -84,7 +83,7 @@ model {
             // When building our project's shared libraries on Windows, insure
             // that we enable the Microsoft macros to export pur dlls
             binaries.withType(SharedLibraryBinarySpec) { binary ->
-                logger.lifecycle("Configuring ${displayName}")
+                logger.info("Configuring ${displayName}")
                 if(targetPlatform.operatingSystem == "windows") {
                     cCompiler.define 'DLL_EXPORT'
                 }
@@ -104,44 +103,19 @@ model {
                     return
                 }
 
-                def jarTask = project.tasks.findByName("jar")
-                if (jarTask == null) {
-                    logger.error("Task 'jar' was not found")
+                def syncTask = project.tasks.findByName('syncJniLib')
+                if (syncTask == null) {
+                    logger.error("Task 'syncJniLib' was not found")
                     return
                 }
-
-                def variantName = targetPlatform.name.replace('_', '-')
-                logger.lifecycle("variantName: ${variantName}")
-
-                def targetPath = "gov/nyc/doitt/gis/geoclient/jni/$variantName"
                 
-                def taskName = "sync-${variantName}"
-                def syncLibTask = project.tasks.findByName(taskName)
-                if(syncLibTask == null) {
-                	syncLibTask = project.tasks.create(taskName, Sync) {
-                		//dependsOn('geoclientjniSharedLibrary')
-                	}
-                }                
-                project.tasks.syncGeneratedResources.dependsOn(syncLibTask)
-
+                def variantName = targetPlatform.name.replace('_', '-')
+				def syncDir = project.file("${generatedResources}/${basePackagePath}/${variantName}")
                 binary.tasks.withType(LinkSharedLibrary) { builderTask ->
-                    jarTask.into(targetPath) {
-                        from builderTask.linkedFile
-                    }
-                 	
-                 	syncLibTask.from builderTask.linkedFile
-                 	syncLibTask.destinationDir = project.file("${generatedResources}/${targetPath}")                    
-                    //def resourcesDir = new File(sourceSets.main.output.resourcesDir, targetPath)
-                    //resourcesDir.mkdirs()
-                    //logger.lifecycle("resourcesDir=${resourcesDir}")
-                    //copy {
-                    //    from builderTask.linkedFile
-                    //    into resourcesDir
-                    //    doFirst() {
-                    //    	logger.lifecycle("copy from ${builderTask.linkedFile}")
-                    //    	logger.lifecycle("       to ${resourcesDir}")
-                    //    }
-                    //}
+                	def jniLib = builderTask.linkedFile
+                	logger.lifecycle("Syncing JNI shared library file\n  from: ${jniLib?.getAsFile()?.get()}\n    to: ${syncDir}")                
+             		syncTask.from(jniLib)
+             		syncTask.destinationDir = syncDir
                 }
             }
 
@@ -152,10 +126,6 @@ model {
                 }
                 cCompiler.define 'DLL_IMPORT'
             }
-            
-            //project.tasks.test {
-            //    classpath.from nativeJar
-            //}
             
         } // all
     } // components

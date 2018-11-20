@@ -5,6 +5,8 @@ import java.nio.ByteBuffer;
 
 public class GeoclientJni implements Geoclient {
 
+	private static final Logger logger = Logger.getLogger(GeoclientJni.class);
+	
 	private enum BufferType {
 
 		Direct, Indirect;
@@ -94,11 +96,11 @@ public class GeoclientJni implements Geoclient {
 
 	private void logBufferType(WorkArea workArea, BufferType bufferType, boolean isNull) {
 		if (isNull) {
-			System.out.println(String.format("%s buffer type: %s, however it is null ",
+			logger.debug(String.format("%s buffer type: %s, however it is null ",
 					workArea, bufferType));
 		}
 		else {
-			System.out.println(String.format("%s buffer type: %s", workArea, bufferType));
+			logger.debug(String.format("%s buffer type: %s", workArea, bufferType));
 		}
 	}
 
