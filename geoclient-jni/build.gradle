@@ -3,7 +3,7 @@ apply plugin: 'groovy'
 apply plugin: 'c'
 
 tasks.jar {
-    dependsOn('geoclientjniSharedLibrary')
+    //dependsOn('geoclientjniSharedLibrary')
     manifest {
         attributes 'Main-Class': 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest'
     }
@@ -13,9 +13,9 @@ def basePackagePath = "gov/nyc/doitt/gis/geoclient/jni"
 def generatedResources = "${project.buildDir}/generated-resources/main"
 
 sourceSets {
-	main {
-		output.dir(generatedResources, builtBy: 'syncJniLib')
-	}
+  main {
+    output.dir(generatedResources, builtBy: 'syncJniLib')
+  }
 }
 
 // Must be configured lazily because 'from' and 'destinationDir' properties are
@@ -26,6 +26,10 @@ task syncJniLib(type: Sync)
 model {
 
     platforms {
+        linux_x64 {
+            architecture "x86_64"
+            operatingSystem "linux"
+        }
         windows_x64 {
             architecture 'x86_64'
             operatingSystem 'windows'
@@ -33,11 +37,13 @@ model {
     }
 
     toolChains {
+        gcc(Gcc)
         visualCpp(VisualCpp)
     }
 
     components {
         geoclient(NativeLibrarySpec) {
+            targetPlatform 'linux_x64'
             targetPlatform 'windows_x64'
             sources {
                 c {
@@ -55,6 +61,7 @@ model {
         } // geoclient
 
         geoclientjni(NativeLibrarySpec) {
+            targetPlatform 'linux_x64'
             targetPlatform 'windows_x64'
             baseName 'geoclientjni'
             sources {
@@ -73,11 +80,27 @@ model {
         all {
             // Compiler/linker customizations
             binaries.all {
-                // MSVC (Windows x64)
-                cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include"
-                cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include/win32"
-                linker.args "/LIBPATH:${gsLibraryPath}"
-                linker.args 'NYCgeo.lib'
+                //if (targetPlatform.operatingSystem.name in ['linux', 'freebsd'] && targetPlatform.architecture != arch) {
+                //    // Native plugins don't detect whether multilib support is available or not. Assume not for now
+                //    buildable = false
+                //}
+                if (targetPlatform.operatingSystem.linux && toolChain in Gcc) {
+                //if (targetPlatform.operatingSystem.linux && toolChain in Gcc) {
+                    cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
+                    // Platform independent code flag:
+                    //  Still required for shared libs?
+                    //  Required for static libs and executables?
+                    cCompiler.args "-fPIC"
+                    // Ordering of library linkage is different than on Windows/MSYS2/MINGW64
+                    linker.args "-Wl,--no-as-needed", "-L${gsLibraryPath}", "-lc", "-lgeo", "-lm", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+
+                } else if (targetPlatform.operatingSystem.windows && toolChain in VisualCpp) {
+                    // MSVC (Windows x64)
+                    cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include"
+                    cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include/win32"
+                    linker.args "/LIBPATH:${gsLibraryPath}"
+                    linker.args 'NYCgeo.lib'
+                }
             }
 
             // When building our project's shared libraries on Windows, insure
@@ -97,7 +120,7 @@ model {
 
                 if(component.baseName != "geoclientjni") {
                     // Skip packaging/publishing tasks for all native binaries
-                    // NOTE: geoclientjni statically links its dependency on 
+                    // NOTE: geoclientjni statically links its dependency on
                     // the geoclient native binary component. Thus, the geoclient
                     // component does not need to be published.
                     return
@@ -108,14 +131,14 @@ model {
                     logger.error("Task 'syncJniLib' was not found")
                     return
                 }
-                
+
                 def variantName = targetPlatform.name.replace('_', '-')
-				def syncDir = project.file("${generatedResources}/${basePackagePath}/${variantName}")
+                def syncDir = project.file("${generatedResources}/${basePackagePath}/${variantName}")
                 binary.tasks.withType(LinkSharedLibrary) { builderTask ->
-                	def jniLib = builderTask.linkedFile
-                	logger.lifecycle("Syncing JNI shared library file\n  from: ${jniLib?.getAsFile()?.get()}\n    to: ${syncDir}")                
-             		syncTask.from(jniLib)
-             		syncTask.destinationDir = syncDir
+                    def jniLib = builderTask.linkedFile
+                    logger.lifecycle("Syncing JNI shared library file\n  from: ${jniLib?.getAsFile()?.get()}\n    to: ${syncDir}")
+                    syncTask.from(jniLib)
+                    syncTask.destinationDir = syncDir
                 }
             }
 
@@ -126,7 +149,7 @@ model {
                 }
                 cCompiler.define 'DLL_IMPORT'
             }
-            
+
         } // all
     } // components
 

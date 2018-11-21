@@ -70,25 +70,25 @@ allprojects {
         systemProperty 'java.library.path', gsLibraryPath
         // Ensure Geosupport knows where to find its data files
         environment 'GEOFILES', gsGeofilesPath
-		testLogging {
-			// set options for log level LIFECYCLE
-			events "failed"
-			exceptionFormat "short"
-			// set options for log level DEBUG
-			debug {
-			//lifecycle {
-			    events "started", "skipped", "failed"
-			    exceptionFormat "full"
-			}			
-			// remove standard output/error logging from --info builds
-			// by assigning only 'failed' and 'skipped' events
-			info.events = ["failed", "skipped"]
-		}        
+        testLogging {
+            // set options for log level LIFECYCLE
+            events "failed"
+            exceptionFormat "short"
+            // set options for log level DEBUG
+            debug {
+            //lifecycle {
+                events "started", "skipped", "failed"
+                exceptionFormat "full"
+            }
+            // remove standard output/error logging from --info builds
+            // by assigning only 'failed' and 'skipped' events
+            info.events = ["failed", "skipped"]
+        }
     }
 
     dependencies {
-    	// Use JUnit BOM
-    	testImplementation 'org.junit:junit-bom:5.3.1'
+        // Use JUnit BOM
+        testImplementation 'org.junit:junit-bom:5.3.1'
         testCompileOnly 'junit:junit:4.12'
         testImplementation 'org.junit.jupiter:junit-jupiter-api'
         testImplementation 'org.junit.jupiter:junit-jupiter-params'
@@ -208,7 +208,8 @@ allprojects {
 File getGeosupportLibraryDir() {
     def gsLibraryPath = getConfigProperty('gsLibraryPath')
     if(!gsLibraryPath) {
-        return new File(getGeosupportHome(), 'lib')
+        String geosupportHome = getGeosupportHome()
+        return new File("${geosupportHome}/lib")
     }
     return new File(gsLibraryPath)
 }
@@ -216,7 +217,8 @@ File getGeosupportLibraryDir() {
 File getGeofilesDir() {
     def gsGeofilesPath = getConfigProperty('gsGeofilesPath')
     if(!gsGeofilesPath) {
-        return new File(getGeosupportHome(), 'fls/')
+        String geosupportHome = getGeosupportHome()
+        return new File("${geosupportHome}/fls/")
     }
     return new File(gsGeofilesPath)
 }
