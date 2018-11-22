@@ -3,11 +3,16 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("io.spring.javaformat:spring-javaformat-gradle-plugin:0.0.6")
+        //classpath 'io.spring.gradle:dependency-management-plugin:1.0.6.RELEASE'
+        classpath('io.spring.javaformat:spring-javaformat-gradle-plugin:0.0.6')
     }
 }
 
-allprojects {
+plugins {
+    id 'org.springframework.boot' version '2.1.0.RELEASE' apply false
+}
+
+subprojects {
 
     apply plugin: 'java'
     apply plugin: 'eclipse'
@@ -16,18 +21,36 @@ allprojects {
     apply plugin: 'signing'
     apply plugin: 'project-report'
 
+    apply plugin: 'io.spring.dependency-management'
     apply plugin: 'io.spring.javaformat'
 
     checkstyle {
-        toolVersion = "8.11"
+        toolVersion = '8.11'
     }
 
     repositories {
         mavenCentral()
     }
 
+    dependencyManagement {
+        imports {
+            mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
+            mavenBom 'org.junit:junit-bom:5.3.1'
+        }
+    }
+
     dependencies {
-        checkstyle("io.spring.javaformat:spring-javaformat-checkstyle:0.0.6")
+        // Use JUnit BOM
+        testCompileOnly 'junit:junit:4.12'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api'
+        testImplementation 'org.junit.jupiter:junit-jupiter-params'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+        testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
+        //testImplementation 'org.assertj:assertj-core:3.11.1'
+        //testImplementation('org.mockito:mockito-core:${mockitoVersion}') {
+        //    exclude group:'org.hamcrest', module:'hamcrest-core'
+        //}
+        checkstyle 'io.spring.javaformat:spring-javaformat-checkstyle:0.0.6'
     }
 
     compileJava.options*.compilerArgs = [
@@ -72,7 +95,8 @@ allprojects {
         environment 'GEOFILES', gsGeofilesPath
         testLogging {
             // set options for log level LIFECYCLE
-            events 'STARTED', 'PASSED', 'SKIPPED', 'FAILED', 'STANDARD_OUT', 'STANDARD_ERROR'
+            events 'PASSED', 'SKIPPED', 'FAILED', 'STANDARD_OUT', 'STANDARD_ERROR'
+            //events 'STARTED', 'PASSED', 'SKIPPED', 'FAILED', 'STANDARD_OUT', 'STANDARD_ERROR'
             exceptionFormat 'short'
             // // set options for log level DEBUG
             // debug {
@@ -83,20 +107,6 @@ allprojects {
             // // by assigning only 'failed' and 'skipped' events
             // info.events = ["failed", "skipped"]
         }
-    }
-
-    dependencies {
-        // Use JUnit BOM
-        testImplementation 'org.junit:junit-bom:5.3.1'
-        testCompileOnly 'junit:junit:4.12'
-        testImplementation 'org.junit.jupiter:junit-jupiter-api'
-        testImplementation 'org.junit.jupiter:junit-jupiter-params'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-        testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
-        //testImplementation 'org.assertj:assertj-core:3.11.1'
-        //testImplementation('org.mockito:mockito-core:${mockitoVersion}') {
-        //    exclude group:'org.hamcrest', module:'hamcrest-core'
-        //}
     }
 
     javadoc {
