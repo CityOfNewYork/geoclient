@@ -1,6 +1,8 @@
 // Java plugin is applied in the parent build
-apply plugin: 'groovy'
-apply plugin: 'c'
+plugins {
+    id 'groovy'
+    id 'c'
+}
 
 tasks.jar {
     //dependsOn('geoclientjniSharedLibrary')

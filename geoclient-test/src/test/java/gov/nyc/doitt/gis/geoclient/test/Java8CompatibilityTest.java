@@ -15,8 +15,8 @@
  */
 package gov.nyc.doitt.gis.geoclient.test;
 
-import static org.junit.Assert.assertNotNull;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import org.junit.jupiter.api.Test;
 
 public class Java8CompatibilityTest
 {
