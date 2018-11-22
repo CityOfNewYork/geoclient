@@ -86,6 +86,8 @@ model {
                 //}
                 if (targetPlatform.operatingSystem.linux && toolChain in Gcc) {
                 //if (targetPlatform.operatingSystem.linux && toolChain in Gcc) {
+                    cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include"
+                    cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include/linux"
                     cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
                     // Platform independent code flag:
                     //  Still required for shared libs?
@@ -136,7 +138,7 @@ model {
                 def syncDir = project.file("${generatedResources}/${basePackagePath}/${variantName}")
                 binary.tasks.withType(LinkSharedLibrary) { builderTask ->
                     def jniLib = builderTask.linkedFile
-                    logger.lifecycle("Syncing JNI shared library file\n  from: ${jniLib?.getAsFile()?.get()}\n    to: ${syncDir}")
+                    logger.info("Syncing JNI shared library file\n  from: ${jniLib?.getAsFile()?.get()}\n    to: ${syncDir}")
                     syncTask.from(jniLib)
                     syncTask.destinationDir = syncDir
                 }
