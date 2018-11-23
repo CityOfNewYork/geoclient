@@ -23,6 +23,8 @@ import java.nio.charset.CharsetDecoder;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
+import gov.nyc.doitt.gis.geoclient.jni.Logger;
 import gov.nyc.doitt.gis.geoclient.jni.test.TestConfig;
 
 public class GeoclientStub implements Geoclient

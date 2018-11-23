@@ -7,5 +7,6 @@ configurations {
 }
 
 dependencies {
+    implementation project(':geoclient-jni')
     testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5'
 }
