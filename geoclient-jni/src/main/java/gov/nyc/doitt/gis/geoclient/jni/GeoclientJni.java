@@ -2,11 +2,13 @@ package gov.nyc.doitt.gis.geoclient.jni;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GeoclientJni implements Geoclient {
 
-	private static final Logger logger = Logger.getLogger(GeoclientJni.class);
-	
+    final Logger logger = LoggerFactory.getLogger(GeoclientJni.class);
+
 	private enum BufferType {
 
 		Direct, Indirect;
@@ -96,11 +98,10 @@ public class GeoclientJni implements Geoclient {
 
 	private void logBufferType(WorkArea workArea, BufferType bufferType, boolean isNull) {
 		if (isNull) {
-			logger.debug(String.format("%s buffer type: %s, however it is null ",
-					workArea, bufferType));
+			logger.debug("{} buffer type: {}, however it is null ", workArea, bufferType);
 		}
 		else {
-			logger.debug(String.format("%s buffer type: %s", workArea, bufferType));
+			logger.debug("{} buffer type: {}", workArea, bufferType);
 		}
 	}
 
