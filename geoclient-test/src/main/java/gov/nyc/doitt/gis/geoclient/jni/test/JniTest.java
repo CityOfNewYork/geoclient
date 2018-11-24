@@ -15,10 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.jni.test;
 
-import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
-import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
-import gov.nyc.doitt.gis.geoclient.jni.Logger;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -29,6 +25,12 @@ import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
+import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
 
 // TODO When rewriting this class see the following for some ideas:
 // https://github.com/gradle/gradle/tree/master/subprojects/docs/src/samples/java-library/multiproject
@@ -59,7 +61,8 @@ public class JniTest
     DEFAULT_TEST_CONFIGS.add(new TestConfig("1A", INPUT_1A, F1A_WA2_LENGTH));
     DEFAULT_TEST_CONFIGS.add(new TestConfig("HR", INPUT_HR, FHR_WA2_LENGTH));
   }
-  private static Logger logger;
+  
+  static final Logger logger = LoggerFactory.getLogger(JniTest.class);
   private final Geoclient geoclient;
   private List<TestConfig> testConfigs;
 
@@ -89,28 +92,28 @@ public class JniTest
         } else if (OPTION_HELP_LONG.equalsIgnoreCase(string) || OPTION_HELP_SHORT.equalsIgnoreCase(string))
         {
           String myName = JniTest.class.getCanonicalName();
-          logger.info();
-          logger.info();
+          logger.info("");
+          logger.info("");
           logger.info("Usage:");
-          logger.info();
+          logger.info("");
           logger.info("  java -Djava.library.path=\"<path to Geosupport and Geoclient .so's or .dll's>\" \\");
           logger.info("           -cp=\"<path to Geoclient jars>\" " + myName + " [OPTIONS]");
-          logger.info();
+          logger.info("");
           logger.info("  -d,--debug            Enables debug logging");
-          logger.info();
+          logger.info("");
           logger.info("  --file=<path to file> Specifies the file containing test data and config to use for running tests.");
           logger.info("                        The file path can be either full, relative or, if prefixed with '" + CLASSPATH_FLAG + "',");
           logger.info("                        relative to the classpath.");
-          logger.info();
+          logger.info("");
           logger.info("                        If this argument is not given, the program will attempt to find a file named '" + DEFAULT_FILE + "'");
           logger.info("                        at the root of the CLASSPATH (by default, the geoclient-jni jar includes such a file).");
           logger.info("                        If the default test case file cannot be found, the built-in test cases are used.");
-          logger.info();
+          logger.info("");
           logger.info("  -h,--help             Show this message");
-          logger.info();
+          logger.info("");
           logger.info("  NOTE: In addition to the above, the Geosupport and Geoclient libraries must also be on the LD_LIBRARY_PATH ");
           logger.info("        (for Linux) or the PATH (for Windows)");
-          logger.info();
+          logger.info("");
           return;
         } else if (string.startsWith(OPTION_FILE))
         {
@@ -119,8 +122,6 @@ public class JniTest
       }
 
     }
-
-    logger = debugOption ? Logger.getDebugLogger(gov.nyc.doitt.gis.geoclient.jni.test.JniTest.class) : Logger.getLogger(gov.nyc.doitt.gis.geoclient.jni.test.JniTest.class);
 
     logger.debug("PATH=" + System.getenv("PATH"));
     logger.debug("LD_LIBRARY_PATH=" + System.getenv("LD_LIBRARY_PATH"));
@@ -275,16 +276,16 @@ public class JniTest
     {
       logger.debug(message);
       logger.debug(wa1Msg);
-      logger.raw(Logger.LEVEL_DEBUG, wa1Result);
+      logger.debug(wa1Result);
       logger.debug(wa2Msg);
-      logger.raw(Logger.LEVEL_DEBUG, wa2Result);
+      logger.debug(wa2Result);
     } else
     {
       logger.error(message);
       logger.error(wa1Msg);
-      logger.raw(Logger.LEVEL_ERROR, wa1Result);
+      logger.error(wa1Result);
       logger.error(wa2Msg);
-      logger.raw(Logger.LEVEL_ERROR, wa2Result);
+      logger.error(wa2Result);
     }
     return isSuccess;
   }

@@ -23,13 +23,15 @@ import java.nio.charset.CharsetDecoder;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
-import gov.nyc.doitt.gis.geoclient.jni.Logger;
 import gov.nyc.doitt.gis.geoclient.jni.test.TestConfig;
 
 public class GeoclientStub implements Geoclient
 {
-	private static final Logger logger = Logger.getDebugLogger(GeoclientStub.class);
+	final Logger logger = LoggerFactory.getLogger(GeoclientStub.class);
 	private static final Charset CHARSET = Charset.forName("UTF-8");
 	private static final CharsetDecoder DECODER = CHARSET.newDecoder();
 
