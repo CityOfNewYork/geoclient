@@ -36,8 +36,8 @@
     -->
     <!-- <logger name="gov.nyc.doitt.gis.geoclient.function.WorkArea" level="DEBUG" /> -->
     <!-- <logger name="gov.nyc.doitt.gis.geoclient.cli" level="DEBUG" />-->
-    <logger name="gov.nyc.doitt.gis.geoclient" level="INFO" />
-    <logger name="com.thoughtworks.xstream" level="DEBUG" />
+    <logger name="gov.nyc.doitt.gis.geoclient" level="DEBUG" />
+    <logger name="com.thoughtworks.xstream" level="INFO" />
     <!-- <logger name="gov.nyc.doitt.gis.geoclient.config" level="DEBUG" /> -->
     <!--
     <logger name="GC_JNI_BUFFER_LOGGER" level="TRACE" additivity="false">

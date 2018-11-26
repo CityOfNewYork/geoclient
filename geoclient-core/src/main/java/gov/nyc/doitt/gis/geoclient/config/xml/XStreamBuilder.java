@@ -54,11 +54,11 @@ public class XStreamBuilder
     }
 
     /**
-     * Creates a new builder using a {@code HierarchicalStreamDriver} and
+     * Creates a new builder using a {@link HierarchicalStreamDriver} and
      * configures default permissions by calling
      * {@link #addDefaultPermissions()}.
      * 
-     * @see HierarchicalStreamDriver
+     * @param driver {@code HierarchicalStreamDriver} instance to use
      */
     public XStreamBuilder(HierarchicalStreamDriver driver)
     {
@@ -91,6 +91,7 @@ public class XStreamBuilder
      * to the list of those evaluated when the {@link #build()} method is called
      * to white list XStream targets.
      * 
+     * @param p Java {@code java.lang.Package}
      * @return {@code XStreamBuilder} instance
      */
     public XStreamBuilder addPackage(Package p)
@@ -100,9 +101,10 @@ public class XStreamBuilder
     }
 
     /**
-     * Uses the {@link Package} of the given {@link Class} argument to call
+     * Uses the {@link Package} of the given  argument to call
      * {@link #addPackage(Package)}.
      * 
+     * @param type {@code Class} whose {@code java.lang.Package} will be used to call {@link #addPackage(Package)}
      * @return {@code XStreamBuilder} instance
      * @see #addPackage(Package)
      */
@@ -114,6 +116,8 @@ public class XStreamBuilder
     /**
      * Wraps call to {@link XStream#alias(String, Class)}.
      * 
+     * @param name of alias to use
+     * @param type {@code java.lang.Class} to be aliased
      * @return {@code XStreamBuilder} instance
      */
     public XStreamBuilder alias(String name, Class<?> type) {
@@ -124,10 +128,10 @@ public class XStreamBuilder
     /**
      * Wraps call to {@link XStream#aliasAttribute(Class, String, String)}.
      * 
-     * @param definedIn
-     * @param attributeName
-     * @param alias
-     * @return
+     * @param definedIn {@code java.lang.Class} containing the attribute
+     * @param attributeName name {@code java.lang.String}
+     * @param alias alias name {@code java.lang.String}
+     * @return {@code XStreamBuilder}
      */
     public XStreamBuilder aliasAttribute(Class<?> definedIn, String attributeName, String alias) {
         xstream.aliasAttribute(definedIn, attributeName, alias);
@@ -136,7 +140,7 @@ public class XStreamBuilder
 
     /**
      * Wraps call to {@link XStream#setMode(int)} with argument {@link XStream#ID_REFERENCES}.
-     * @return
+     * @return {@code XStreamBuilder}
      */
     public XStreamBuilder setReferenceMode() {
         // Use reference="another id" to reference elements
@@ -146,8 +150,8 @@ public class XStreamBuilder
     
     /**
      * Wraps call to {@link XStream#registerConverter(Converter)}.
-     * @param converter
-     * @return
+     * @param converter to register
+     * @return {@code XStreamBuilder}
      */
     public XStreamBuilder registerConverter(Converter converter) {
         xstream.registerConverter(converter);
@@ -156,14 +160,20 @@ public class XStreamBuilder
     
     /**
      * Wraps call to {@link XStream#registerConverter(SingleValueConverter)}.
-     * @param converter
-     * @return
+     * @param converter XStream converter instance
+     * @return {@code XStreamBuilder}
      */
     public XStreamBuilder registerConverter(SingleValueConverter converter) {
         xstream.registerConverter(converter);
         return this;
     }
     
+    /**
+     * Registers the given {@link Class} argument as a {@link ToStringConverter} with {@link XStream}.
+     * 
+     * @param type {@code java.lang.Class} to register
+     * @return {@code XStreamBuilder}
+     */
     public XStreamBuilder registerToStringConverter(Class<?> type) {
         try
         {
@@ -178,10 +188,10 @@ public class XStreamBuilder
     
     /**
      * Wraps call to {@link XStream#aliasField(String, Class, String)}.
-     * @param alias
-     * @param definedIn
-     * @param fieldName
-     * @return
+     * @param alias name of alias
+     * @param definedIn type containing aliased field
+     * @param fieldName name of aliased target field
+     * @return {@code XStreamBuilder}
      */
     public XStreamBuilder aliasField(String alias, Class<?> definedIn, String fieldName) {
         xstream.aliasField(alias, definedIn, fieldName);
@@ -190,10 +200,10 @@ public class XStreamBuilder
     
     /**
      * Wraps call to {@link XStream#addImplicitCollection(Class, String, Class)}.
-     * @param ownerType
-     * @param fieldName
-     * @param itemType
-     * @return
+     * @param ownerType {@code Class} containing the {@code Collection}
+     * @param fieldName name of the field
+     * @param itemType {@code Class} of the field's contents 
+     * @return {@code XStreamBuilder}
      */
     public XStreamBuilder addImplicitCollection(Class<?> ownerType, String fieldName, Class<?> itemType) {
         xstream.addImplicitCollection(ownerType, fieldName, itemType);

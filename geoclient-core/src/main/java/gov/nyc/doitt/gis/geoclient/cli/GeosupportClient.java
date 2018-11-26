@@ -19,7 +19,7 @@ import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
 import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.function.WorkArea;
-import gov.nyc.doitt.gis.geoclient.jni.GeoclientImpl;
+import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
 import gov.nyc.doitt.gis.geoclient.util.OperatingSystemUtils;
 
 import java.io.IOException;
@@ -82,7 +82,7 @@ public class GeosupportClient
 	{
 		super();
 		log.info("Platform is {}", OperatingSystemUtils.uname());
-		this.geosupportConfiguration = new GeosupportConfig(new GeoclientImpl());
+		this.geosupportConfiguration = new GeosupportConfig(new GeoclientJni());
 		this.scanner = new Scanner(System.in);
 	}
 

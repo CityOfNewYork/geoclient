@@ -1,3 +1,4 @@
+package gov.nyc.doitt.gis.geoclient.test
 /*
  * Copyright 2009 the original author or authors.
  *
