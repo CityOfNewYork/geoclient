@@ -33,6 +33,8 @@ import java.nio.channels.FileLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gov.nyc.doitt.gis.geoclient.jni.JniContext;
+
 public class NativeLibraryLocator {
 
 	final Logger logger = LoggerFactory.getLogger(NativeLibraryLocator.class);
@@ -44,7 +46,8 @@ public class NativeLibraryLocator {
 	}
 
 	public File find(JniLibrary jniLibrary) throws IOException {
-		String resourceName = "gov/nyc/doitt/gis/geoclient/jni/" + jniLibrary.getResourceName();
+		//String resourceName = "gov/nyc/doitt/gis/geoclient/jni/" + jniLibrary.getResourceName();
+		String resourceName = String.format("%s/%s", JniContext.GC_PACKAGE_PATH, jniLibrary.getResourceName());
 		logger.debug("jniLibrary.resourceName={}", resourceName);
 		if (this.extractDir != null) {
 			File libFile = new File(this.extractDir,

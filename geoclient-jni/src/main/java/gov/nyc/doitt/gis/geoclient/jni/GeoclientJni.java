@@ -1,9 +1,13 @@
 package gov.nyc.doitt.gis.geoclient.jni;
 
+import static gov.nyc.doitt.gis.geoclient.jni.JniContext.SystemProperty;
+
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gov.nyc.doitt.gis.geoclient.jni.JniContext;
 
 public class GeoclientJni implements Geoclient {
 
@@ -135,8 +139,8 @@ public class GeoclientJni implements Geoclient {
 	static {
 
 		try {
-			new NativeLibraryLoader("geoclientjni")
-					.loadLibrary(System.getProperty("java.io.tmpdir"));
+			new NativeLibraryLoader(JniContext.GC_SHAREDLIB_BASENAME)
+					.loadLibrary(JniContext.getSystemProperty(SystemProperty.JAVA_IO_TMPDIR));
 		}
 		catch (IOException ioe) {
 			throw new RuntimeException(ioe);
