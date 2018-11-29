@@ -8,5 +8,10 @@ configurations {
 
 dependencies {
     implementation project(':geoclient-jni')
+    implementation 'org.junit.jupiter:junit-jupiter-migrationsupport'
+
+    testImplementation 'junit:junit:4.12'
     testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5'
+
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
 }

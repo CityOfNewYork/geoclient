@@ -7,33 +7,30 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.io.File;
 import java.io.IOException;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import org.junit.Rule;
 import org.junit.rules.TemporaryFolder;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class TempDirSupportTest implements TempDirSupport {
 
-	private TemporaryFolder temporaryFolder;
-	private File tempDir;
-	
-	@BeforeEach
-	void beforeEach() throws IOException {
-		temporaryFolder = getTemporaryFolder();
-		tempDir = temporaryFolder.newFolder();
-		assertTrue(tempDir.exists());
-	}
-	
-	@AfterEach
-	void afterEach() {
-		assertFalse(tempDir.exists());
-	}
-	
+    final Logger logger = LoggerFactory.getLogger(TempDirSupportTest.class);
+
+    @Rule
+    public TemporaryFolder temporaryFolder = new TemporaryFolder();
+
 	@Test
-	void testGetTempDirSystemProperty() {
+	void testGetTempDirSystemProperty() throws java.io.IOException {
+        logger.warn("Calling getTempDirFromSystemProperty()");
 		File expected = getTempDirFromSystemProperty();
-		TemporaryFolder tf = getTemporaryFolder(expected);
-		File actual = tf.getRoot().getParentFile();
+        logger.warn("Result: {}", expected.getCanonicalPath());
+        logger.warn("Calling temporaryFolder.newFolder({})", "snafubar");
+        File tempDir = temporaryFolder.newFolder("snafubar");
+        logger.warn("Result: {}", tempDir);
+		File actual = temporaryFolder.getRoot().getParentFile();
 		assertEquals(expected, actual);
 	}
 
