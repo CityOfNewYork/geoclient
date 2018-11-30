@@ -4,10 +4,6 @@ import static gov.nyc.doitt.gis.geoclient.jni.JniContext.SystemProperty.JAVA_IO_
 
 import java.io.File;
 
-import org.junit.Rule;
-import org.junit.rules.TemporaryFolder;
-
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.migrationsupport.rules.EnableRuleMigrationSupport;
 
 @EnableRuleMigrationSupport

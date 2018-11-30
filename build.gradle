@@ -25,13 +25,13 @@ allprojects {
 subprojects {
 
     apply plugin: 'java'
-    apply plugin: 'checkstyle'
+    //apply plugin: 'checkstyle'
     apply plugin: 'io.spring.dependency-management'
     //apply plugin: 'io.spring.javaformat'
 
-    checkstyle {
-        toolVersion = '8.11'
-    }
+    //checkstyle {
+    //    toolVersion = '8.11'
+    //}
 
     repositories {
         mavenCentral()
@@ -94,19 +94,10 @@ subprojects {
         // Ensure Geosupport knows where to find its data files
         environment 'GEOFILES', gsGeofilesPath
         testLogging {
-            // set options for log level LIFECYCLE
-            events 'PASSED', 'SKIPPED', 'FAILED', 'STANDARD_OUT', 'STANDARD_ERROR'
-            //events 'STARTED', 'PASSED', 'SKIPPED', 'FAILED', 'STANDARD_OUT', 'STANDARD_ERROR'
-            exceptionFormat 'short'
-            // // set options for log level DEBUG
-            // debug {
-            //     events "started", "skipped", "failed"
-            //     exceptionFormat "full"
-            // }
-            // // remove standard output/error logging from --info builds
-            // // by assigning only 'failed' and 'skipped' events
-            // info.events = ["failed", "skipped"]
-            info.events 'STANDARD_OUT', 'STANDARD_ERROR'
+            lifecycle {
+                events 'PASSED', 'SKIPPED', 'FAILED', 'STANDARD_OUT', 'STANDARD_ERROR'
+                exceptionFormat 'short'
+            }
         }
     }
 

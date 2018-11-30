@@ -1,17 +1,12 @@
 package gov.nyc.doitt.gis.geoclient.jni;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
-import java.io.IOException;
-
-import org.junit.jupiter.api.Test;
 
 import org.junit.Rule;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.TemporaryFolder;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

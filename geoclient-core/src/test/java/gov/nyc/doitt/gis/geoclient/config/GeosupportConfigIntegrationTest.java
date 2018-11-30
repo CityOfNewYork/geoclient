@@ -35,77 +35,77 @@ import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
 
 public class GeosupportConfigIntegrationTest {
-	static final Logger logger = LoggerFactory.getLogger(GeosupportConfigIntegrationTest.class);
-	protected static GeosupportConfig geosupportConfig;
+  static final Logger logger = LoggerFactory.getLogger(GeosupportConfigIntegrationTest.class);
+  protected static GeosupportConfig geosupportConfig;
 
-	@BeforeAll
-	public static void beforeAll() throws Exception {
-		logger.debug("java.library.path={}", System.getProperty("java.library.path"));
-		geosupportConfig = new GeosupportConfig(new GeoclientJni());
-	}
+  @BeforeAll
+  public static void beforeAll() throws Exception {
+    logger.info("java.library.path={}", System.getProperty("java.library.path"));
+    geosupportConfig = new GeosupportConfig(new GeoclientJni());
+  }
 
-	@Test
-	public void nonExistentFunction() {
-		Throwable exception = assertThrows(UnknownFunctionException.class, () -> {
-			geosupportConfig.getFunction("fun");
-		});
-		assertEquals("Unknown function id 'fun'", exception.getMessage());
-	}
+  @Test
+  public void nonExistentFunction() {
+    Throwable exception = assertThrows(UnknownFunctionException.class, () -> {
+      geosupportConfig.getFunction("fun");
+    });
+    assertEquals("Unknown function id 'fun'", exception.getMessage());
+  }
 
-	@Test
-	public void testGetFunction() {
-		assertNotNull(geosupportConfig.getFunction(Function.F1));
-		assertNotNull(geosupportConfig.getFunction(Function.F1E));
-		assertNotNull(geosupportConfig.getFunction(Function.F1A));
-		assertNotNull(geosupportConfig.getFunction(Function.F1AX));
-		assertNotNull(geosupportConfig.getFunction(Function.F1B));
-		assertNotNull(geosupportConfig.getFunction(Function.FBL));
-		assertNotNull(geosupportConfig.getFunction(Function.FBN));
-		assertNotNull(geosupportConfig.getFunction(Function.F2));
-		assertNotNull(geosupportConfig.getFunction(Function.F3));
-		assertNotNull(geosupportConfig.getFunction(Function.FDG));
-		assertNotNull(geosupportConfig.getFunction(Function.FHR));
-	}
+  @Test
+  public void testGetFunction() {
+    assertNotNull(geosupportConfig.getFunction(Function.F1));
+    assertNotNull(geosupportConfig.getFunction(Function.F1E));
+    assertNotNull(geosupportConfig.getFunction(Function.F1A));
+    assertNotNull(geosupportConfig.getFunction(Function.F1AX));
+    assertNotNull(geosupportConfig.getFunction(Function.F1B));
+    assertNotNull(geosupportConfig.getFunction(Function.FBL));
+    assertNotNull(geosupportConfig.getFunction(Function.FBN));
+    assertNotNull(geosupportConfig.getFunction(Function.F2));
+    assertNotNull(geosupportConfig.getFunction(Function.F3));
+    assertNotNull(geosupportConfig.getFunction(Function.FDG));
+    assertNotNull(geosupportConfig.getFunction(Function.FHR));
+  }
 
-	@Test
-	public void testGetFunctionConfiguration() {
-		assertNotNull(geosupportConfig.getFunction(Function.F1).getConfiguration());
-		assertNotNull(geosupportConfig.getFunction(Function.F1E).getConfiguration());
-		assertNotNull(geosupportConfig.getFunction(Function.F1A).getConfiguration());
-		assertNotNull(geosupportConfig.getFunction(Function.F1AX).getConfiguration());
-		assertNotNull(geosupportConfig.getFunction(Function.F1B).getConfiguration());
-		assertNotNull(geosupportConfig.getFunction(Function.FBL).getConfiguration());
-		assertNotNull(geosupportConfig.getFunction(Function.FBN).getConfiguration());
-		assertNotNull(geosupportConfig.getFunction(Function.F2).getConfiguration());
-		assertNotNull(geosupportConfig.getFunction(Function.F3).getConfiguration());
-		assertNotNull(geosupportConfig.getFunction(Function.FDG).getConfiguration());
-		assertNotNull(geosupportConfig.getFunction(Function.FHR).getConfiguration());
-	}
+  @Test
+  public void testGetFunctionConfiguration() {
+    assertNotNull(geosupportConfig.getFunction(Function.F1).getConfiguration());
+    assertNotNull(geosupportConfig.getFunction(Function.F1E).getConfiguration());
+    assertNotNull(geosupportConfig.getFunction(Function.F1A).getConfiguration());
+    assertNotNull(geosupportConfig.getFunction(Function.F1AX).getConfiguration());
+    assertNotNull(geosupportConfig.getFunction(Function.F1B).getConfiguration());
+    assertNotNull(geosupportConfig.getFunction(Function.FBL).getConfiguration());
+    assertNotNull(geosupportConfig.getFunction(Function.FBN).getConfiguration());
+    assertNotNull(geosupportConfig.getFunction(Function.F2).getConfiguration());
+    assertNotNull(geosupportConfig.getFunction(Function.F3).getConfiguration());
+    assertNotNull(geosupportConfig.getFunction(Function.FDG).getConfiguration());
+    assertNotNull(geosupportConfig.getFunction(Function.FHR).getConfiguration());
+  }
 
-	@Test
-	public void testItemDocumentationDisplayNameSetProperly() {
-		assertItemDocumentationDisplayNames(geosupportConfig.getFunctionDocumentation(Function.F1B),
-				Arrays.asList("listOfSecondSetOf5Lgcs"));
-		assertItemDocumentationDisplayNames(geosupportConfig.getFunctionDocumentation(Function.F2),
-				Arrays.asList("dcpPreferredLgcForStreet1"));
-	}
+  @Test
+  public void testItemDocumentationDisplayNameSetProperly() {
+    assertItemDocumentationDisplayNames(geosupportConfig.getFunctionDocumentation(Function.F1B),
+        Arrays.asList("listOfSecondSetOf5Lgcs"));
+    assertItemDocumentationDisplayNames(geosupportConfig.getFunctionDocumentation(Function.F2),
+        Arrays.asList("dcpPreferredLgcForStreet1"));
+  }
 
-	private void assertItemDocumentationDisplayNames(FunctionDocumentation functionDocumentation, List<String> names) {
-		for (String name : names) {
-			assertTrue(
-					String.format("%s is missing expected ItemDocumentation with displayName='%s'",
-							functionDocumentation, name),
-					containsItemDocumentationWithDisplayName(name, functionDocumentation.getFields()));
-		}
-	}
+  private void assertItemDocumentationDisplayNames(FunctionDocumentation functionDocumentation, List<String> names) {
+    for (String name : names) {
+      assertTrue(
+          String.format("%s is missing expected ItemDocumentation with displayName='%s'",
+              functionDocumentation, name),
+          containsItemDocumentationWithDisplayName(name, functionDocumentation.getFields()));
+    }
+  }
 
-	private boolean containsItemDocumentationWithDisplayName(String displayName, SortedSet<ItemDocumentation> items) {
-		for (ItemDocumentation itemDocumentation : items) {
-			if (displayName.equals(itemDocumentation.getDisplayName())) {
-				return true;
-			}
-		}
-		return false;
-	}
+  private boolean containsItemDocumentationWithDisplayName(String displayName, SortedSet<ItemDocumentation> items) {
+    for (ItemDocumentation itemDocumentation : items) {
+      if (displayName.equals(itemDocumentation.getDisplayName())) {
+        return true;
+      }
+    }
+    return false;
+  }
 
 }
