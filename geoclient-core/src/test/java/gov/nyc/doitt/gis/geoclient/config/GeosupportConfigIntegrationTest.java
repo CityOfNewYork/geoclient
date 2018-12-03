@@ -15,8 +15,8 @@
  */
 package gov.nyc.doitt.gis.geoclient.config;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -93,9 +93,9 @@ public class GeosupportConfigIntegrationTest {
   private void assertItemDocumentationDisplayNames(FunctionDocumentation functionDocumentation, List<String> names) {
     for (String name : names) {
       assertTrue(
-          String.format("%s is missing expected ItemDocumentation with displayName='%s'",
-              functionDocumentation, name),
-          containsItemDocumentationWithDisplayName(name, functionDocumentation.getFields()));
+              containsItemDocumentationWithDisplayName(name, functionDocumentation.getFields()),
+              String.format("%s is missing expected ItemDocumentation with displayName='%s'",
+              functionDocumentation, name));
     }
   }
 

@@ -15,7 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.function;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
 import java.util.Map;

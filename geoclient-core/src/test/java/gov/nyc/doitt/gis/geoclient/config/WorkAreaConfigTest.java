@@ -15,8 +15,8 @@
  */
 package gov.nyc.doitt.gis.geoclient.config;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.function.Filter;
 import gov.nyc.doitt.gis.geoclient.function.WorkArea;

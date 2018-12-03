@@ -15,9 +15,9 @@
  */
 package gov.nyc.doitt.gis.geoclient.config.xml;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
 import gov.nyc.doitt.gis.geoclient.doc.DataDictionary;
 import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
@@ -97,7 +97,7 @@ public class DocumentationXmlReaderIntegrationTest
 	{
 		for (String alias : strings)
 		{
-			assertTrue(String.format("<%s> tag for %s was emtpy", elementName, objectName), alias.trim().length() > 1);
+			assertTrue(alias.trim().length() > 1, String.format("<%s> tag for %s was emtpy", elementName, objectName));
 		}
 	}
 }

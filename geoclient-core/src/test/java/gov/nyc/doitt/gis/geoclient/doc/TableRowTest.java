@@ -15,7 +15,8 @@
  */
 package gov.nyc.doitt.gis.geoclient.doc;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.ArrayList;
 import java.util.List;

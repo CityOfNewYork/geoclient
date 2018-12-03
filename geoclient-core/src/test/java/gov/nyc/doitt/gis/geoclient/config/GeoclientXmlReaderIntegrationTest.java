@@ -15,10 +15,10 @@
  */
 package gov.nyc.doitt.gis.geoclient.config;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import gov.nyc.doitt.gis.geoclient.config.FunctionConfig;
 import gov.nyc.doitt.gis.geoclient.config.GeoclientXmlReader;
 import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;

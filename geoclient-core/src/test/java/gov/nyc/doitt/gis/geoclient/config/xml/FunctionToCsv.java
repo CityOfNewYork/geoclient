@@ -65,7 +65,7 @@ public class FunctionToCsv
 	{
 		for (String fieldId : workArea.getFieldIds(Field.NAME_SORT, true, true))
 		{
-			log.debug("{},{},{}",fieldId,functionId,workArea.getId());
+			log.info("{},{},{}",fieldId,functionId,workArea.getId());
 		}
 	}
 	
@@ -74,7 +74,7 @@ public class FunctionToCsv
 		String id = itemDocumentation.getId();
 		for (String functionId : itemDocumentation.getFunctionNames())
 		{
-			log.debug("{},{},{}",id,functionId,"DataDictionary");
+			log.info("{},{},{}",id,functionId,"DataDictionary");
 		}
 	}
 }

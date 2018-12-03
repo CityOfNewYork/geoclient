@@ -19,24 +19,24 @@ import java.util.Map;
 
 public interface Function
 {
-	public static final String F1 = "1";
-	public static final String F1A = "1A";
-	public static final String F1AX = "1AX";
-	public static final String F1B = "1B";
-	public static final String F1E = "1E";
-	public static final String F2 = "2";
-	public static final String F3 = "3";
-	public static final String FBB = "BB";
-	public static final String FBF = "BF";
-	public static final String FBL = "BL";
-	public static final String FBN = "BN";
-	public static final String FDG = "DG";
-	public static final String FHR = "HR";
+    public static final String F1 = "1";
+    public static final String F1A = "1A";
+    public static final String F1AX = "1AX";
+    public static final String F1B = "1B";
+    public static final String F1E = "1E";
+    public static final String F2 = "2";
+    public static final String F3 = "3";
+    public static final String FBB = "BB";
+    public static final String FBF = "BF";
+    public static final String FBL = "BL";
+    public static final String FBN = "BN";
+    public static final String FDG = "DG";
+    public static final String FHR = "HR";
 
-	public Map<String, Object> call(Map<String, Object> parameters);
-  public Configuration getConfiguration();
-	public String getId();
-	public WorkArea getWorkAreaOne();
-	public WorkArea getWorkAreaTwo();
-	public boolean isTwoWorkAreas();
+    public Map<String, Object> call(Map<String, Object> parameters);
+    public Configuration getConfiguration();
+    public String getId();
+    public WorkArea getWorkAreaOne();
+    public WorkArea getWorkAreaTwo();
+    public boolean isTwoWorkAreas();
 }
