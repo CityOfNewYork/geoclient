@@ -19,11 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import gov.nyc.doitt.gis.geoclient.doc.BaseDocumentation;
 import gov.nyc.doitt.gis.geoclient.doc.Description;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BaseDocumentationTest
 {
@@ -49,11 +50,13 @@ public class BaseDocumentationTest
 		assertEquals(0, abcAlso.compareTo(abc));
 	}
 	
-	@Test(expected=NullPointerException.class)
+	@Test
 	public void testCompareToThrowsNullPointerExceptionBecauseIdIsNotSet()
 	{
 		BaseDocumentation bd = new BaseDocumentation("abc",null);
-		bd.compareTo(new BaseDocumentation());
+		assertThrows(NullPointerException.class, () -> {
+			bd.compareTo(new BaseDocumentation());
+		});
 	}
 	
 	@Test

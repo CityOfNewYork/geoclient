@@ -25,8 +25,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
@@ -37,7 +37,7 @@ public class MapConverterTest
 	private MapConverter mapConverter;
 	private Map<String, Object> data;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.writerMock = Mockito.mock(HierarchicalStreamWriter.class);

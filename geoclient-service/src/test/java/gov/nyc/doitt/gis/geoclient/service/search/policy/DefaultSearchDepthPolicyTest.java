@@ -23,15 +23,15 @@ import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
 import gov.nyc.doitt.gis.geoclient.service.search.Fixtures;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DefaultSearchDepthPolicyTest
 {
 	private Fixtures fix;
 	private DefaultSearchDepthPolicy policy;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.fix = new Fixtures();

@@ -17,15 +17,15 @@ package gov.nyc.doitt.gis.geoclient.doc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ItemDocumentationSupportTest
 {
 	private ItemDocumentationSupport support;
 	private ItemDocumentation itemDocumentation;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		support = new ItemDocumentationSupport();

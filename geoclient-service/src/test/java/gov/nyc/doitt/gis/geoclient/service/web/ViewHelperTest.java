@@ -23,15 +23,15 @@ import gov.nyc.doitt.gis.geoclient.doc.GroupMember;
 import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
 import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentationSupport;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ViewHelperTest
 {
 	private ViewHelper vh;
 	private ItemDocumentation doc;
 
-	@Before
+	@BeforeEach
 	public void setUp()
 	{
 		this.vh = new ViewHelper();

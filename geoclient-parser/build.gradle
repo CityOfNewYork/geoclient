@@ -1,13 +1,9 @@
 dependencies {
-  implementation("org.springframework:spring-context:${springVersion}")
-  implementation("org.slf4j:slf4j-api:${slf4jVersion}")
-  implementation("org.slf4j:jcl-over-slf4j:${slf4jVersion}")
-  implementation("ch.qos.logback:logback-classic:${logbackVersion}")
-  implementation("org.codehaus.groovy:groovy-all:${groovyAllVersion}")
-  implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}")
-  implementation("org.apache.commons:commons-lang3:${commonsLang3Version}")
-  testImplementation("org.springframework:spring-test:${springVersion}")
-  testImplementation("com.googlecode.java-diff-utils:diffutils:${diffutilsVersion}")
+  implementation("org.springframework:spring-context")
+  implementation("org.codehaus.groovy:groovy")
+  implementation("org.apache.commons:commons-lang3")
+  testImplementation("com.thoughtworks.xstream:xstream")
+  testImplementation("com.googlecode.java-diff-utils:diffutils:1.3.0")
 }
 
 test { systemProperties 'property': 'value' }

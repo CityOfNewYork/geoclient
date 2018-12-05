@@ -15,21 +15,18 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.junit.Assert.assertThat;
-import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
-import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
-import gov.nyc.doitt.gis.geoclient.parser.token.Token;
-import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
+import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
+import gov.nyc.doitt.gis.geoclient.parser.token.Token;
+import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
 public class LocationTokensTest
 {
@@ -40,7 +37,7 @@ public class LocationTokensTest
 	private Token streetNameToken;
 	private Token boroughToken;
 
-	@Before
+	@BeforeEach
 	public void setUp()
 	{
 		input = new Input("1", "22 Broadway, Manhattan");
@@ -62,39 +59,39 @@ public class LocationTokensTest
 	public void testTokensOfType()
 	{
 		List<Token> tokenList = locationTokens.tokensOfType(TokenType.AND);
-		assertThat(tokenList.size(), equalTo(0));
+		assertThat(tokenList.size()).isEqualTo(0);
 		tokenList = locationTokens.tokensOfType(TokenType.HOUSE_NUMBER);
-		assertThat(tokenList.size(), equalTo(1));
-		assertThat(tokenList.contains(houseNumberToken), is(true));
+		assertThat(tokenList.size()).isEqualTo(1);
+		assertThat(tokenList).contains(houseNumberToken);
 		tokenList = locationTokens.tokensOfType(TokenType.STREET_NAME); 
-		assertThat(tokenList.size(), equalTo(1));
-		assertThat(tokenList.contains(streetNameToken), is(true));
+		assertThat(tokenList.size()).isEqualTo(1);
+		assertThat(tokenList).contains(streetNameToken);
 		tokenList = locationTokens.tokensOfType(TokenType.BOROUGH_NAME);
-		assertThat(tokenList.size(), equalTo(1));
-		assertThat(tokenList.contains(boroughToken), is(true));
+		assertThat(tokenList.size()).isEqualTo(1);
+		assertThat(tokenList).contains(boroughToken);
 		tokenList = locationTokens.tokensOfType(TokenType.HOUSE_NUMBER, TokenType.STREET_NAME);
-		assertThat(tokenList.size(), equalTo(2));
-		assertThat(tokenList.contains(houseNumberToken), is(true));
-		assertThat(tokenList.contains(streetNameToken), is(true));
+		assertThat(tokenList.size()).isEqualTo(2);
+		assertThat(tokenList).contains(houseNumberToken);
+		assertThat(tokenList).contains(streetNameToken);
 	}
 	
 	@Test
 	public void testFirstTokenOfType()
 	{
-		assertThat(locationTokens.firstTokenOfType(TokenType.AND), is(nullValue()));
-		assertThat(locationTokens.firstTokenOfType(TokenType.STREET_NAME), equalTo(streetNameToken));
+		assertThat(locationTokens.firstTokenOfType(TokenType.AND)).isNull();
+		assertThat(locationTokens.firstTokenOfType(TokenType.STREET_NAME)).isEqualTo(streetNameToken);
 	}
 	
 	@Test
 	public void testParseSummary()
 	{
-		assertThat(locationTokens.parseSummary(), equalTo("ADDRESS{ HOUSE_NUMBER[22], STREET_NAME[Broadway] }, COUNTY{ BOROUGH_NAME[Manhattan] }"));
+		assertThat(locationTokens.parseSummary()).isEqualTo("ADDRESS{ HOUSE_NUMBER[22], STREET_NAME[Broadway] }, COUNTY{ BOROUGH_NAME[Manhattan] }");
 	}
 	
 	@Test
 	public void testConstructor()
 	{
-		assertThat(locationTokens.getInput(),sameInstance(input));
-		assertThat(locationTokens.getChunks(),sameInstance(chunks));
+		assertThat(locationTokens.getInput()).isSameAs(input);
+		assertThat(locationTokens.getChunks()).isSameAs(chunks);
 	}
 }

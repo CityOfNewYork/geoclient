@@ -23,14 +23,14 @@ import gov.nyc.doitt.gis.geoclient.service.search.policy.DefaultSimilarNamesPoli
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchParameters;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class SearchParametersTest
 {
 	private SearchParameters params;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.params = new SearchParameters();

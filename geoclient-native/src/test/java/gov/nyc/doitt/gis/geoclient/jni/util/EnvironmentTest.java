@@ -9,9 +9,9 @@
 // of patent rights can be found in the PATENTS file in the same directory.
 package gov.nyc.doitt.gis.geoclient.jni.util;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -25,7 +25,7 @@ public class EnvironmentTest {
   private static String INITIAL_OS;
   private static String INITIAL_ARCH;
 
-  @BeforeClass
+  @BeforeEachClass
   public static void saveState() {
     INITIAL_ARCH = getEnvironmentClassField(ARCH_FIELD_NAME);
     INITIAL_OS = getEnvironmentClassField(OS_FIELD_NAME);
@@ -141,7 +141,7 @@ public class EnvironmentTest {
     setEnvironmentClassField(ARCH_FIELD_NAME, osArch);
   }
 
-  @AfterClass
+  @AfterAll
   public static void restoreState() {
     setEnvironmentClassField(OS_FIELD_NAME, INITIAL_OS);
     setEnvironmentClassField(ARCH_FIELD_NAME, INITIAL_ARCH);

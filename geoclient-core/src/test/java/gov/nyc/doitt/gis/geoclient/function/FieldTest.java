@@ -21,23 +21,23 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.nio.ByteBuffer;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FieldTest
 {
 	private ByteBuffer buffer;
 	private Field field;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		buffer = ByteBuffer.allocate(8);
 		field = new Field("Frank", 2, 4);
 	}
 
-	@After
+	@AfterEach
 	public void tearDown() throws Exception
 	{
 		buffer.clear();

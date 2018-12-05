@@ -20,35 +20,33 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-public class GroupDocumentationTest
-{
+public class GroupDocumentationTest {
 	private ItemDocumentation itemDocumentation;
-	
-	@Before
-	public void setUp()
-	{
+
+	@BeforeEach
+	public void setUp() {
 		this.itemDocumentation = new ItemDocumentation();
 		this.itemDocumentation.setId("abc123");
 	}
 
-	@Test(expected=NullPointerException.class)
-	public void testIsMember_groupMembersNull()
-	{
-		new GroupDocumentation().isMember(itemDocumentation);
+	@Test
+	public void testIsMember_groupMembersNull() {
+		assertThrows(NullPointerException.class, () -> {
+			new GroupDocumentation().isMember(itemDocumentation);
+		});
 	}
 
 	@Test
-	public void testIsMember()
-	{
+	public void testIsMember() {
 		GroupDocumentation groupDocumentation = new GroupDocumentation();
 		List<GroupMember> members = new ArrayList<GroupMember>();
 		groupDocumentation.setGroupMembers(members);
 		assertFalse(groupDocumentation.isMember(itemDocumentation));
 		GroupMember member = new GroupMember();
-		member.setId(this.itemDocumentation.getId().substring(0,3));
+		member.setId(this.itemDocumentation.getId().substring(0, 3));
 		members.add(member);
 		assertTrue(groupDocumentation.isMember(itemDocumentation));
 	}

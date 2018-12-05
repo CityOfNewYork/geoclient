@@ -20,7 +20,7 @@ import static org.hamcrest.CoreMatchers.*;
 import gov.nyc.doitt.gis.geoclient.parser.token.Token;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ValueResolutionTest
 {

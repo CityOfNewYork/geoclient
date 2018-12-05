@@ -19,14 +19,14 @@ import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
 import gov.nyc.doitt.gis.geoclient.config.ReturnCodeValue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ResponseStatusTest
 {
 	private ResponseStatus responseStatus;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.responseStatus = new ResponseStatus();

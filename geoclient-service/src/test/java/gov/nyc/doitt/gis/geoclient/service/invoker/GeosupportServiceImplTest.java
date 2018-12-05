@@ -50,8 +50,8 @@ import gov.nyc.doitt.gis.geoclient.service.configuration.AppConfig;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 // TODO add tests for invalid parameters
 // TODO clean up arguments (used by the mock) disconnect with parameters (used to call the actual function)
@@ -60,7 +60,7 @@ public class GeosupportServiceImplTest
     private AppConfig serviceConfigurationMock;
     private GeosupportServiceImpl geosupportServiceImpl;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception
     {
         this.serviceConfigurationMock = mock(AppConfig.class);

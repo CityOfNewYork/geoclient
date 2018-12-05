@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FunctionDocumentationTest
 {
@@ -36,7 +36,7 @@ public class FunctionDocumentationTest
 	private ItemDocumentation iDoc2;
 	private GroupDocumentation group;
 
-	@Before
+	@BeforeEach
 	public void setUp()
 	{
 		sortedSetOfItemDocs = new TreeSet<ItemDocumentation>();

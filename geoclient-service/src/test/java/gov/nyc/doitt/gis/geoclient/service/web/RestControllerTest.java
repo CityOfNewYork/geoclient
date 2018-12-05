@@ -25,8 +25,8 @@ import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +39,7 @@ public class RestControllerTest
 	private RestController restController;
 	private Map<String, Object> expectedResult;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.geosupportServiceMock = Mockito.mock(GeosupportService.class);

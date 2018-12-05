@@ -22,8 +22,8 @@ import gov.nyc.doitt.gis.geometry.domain.MapPoint;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class LatLongEnhancerTest
 {
@@ -34,7 +34,7 @@ public class LatLongEnhancerTest
 	private double expectedLat;
 	private double expectedLong;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.latLongEnhancer = new LatLongEnhancer();

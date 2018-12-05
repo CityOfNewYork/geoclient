@@ -35,8 +35,8 @@ import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class DocumentationConfigTest
@@ -56,7 +56,7 @@ public class DocumentationConfigTest
 	private ItemDocumentation iDocTwo;
 	private ItemDocumentation iDocFour;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.functionMock = Mockito.mock(Function.class);

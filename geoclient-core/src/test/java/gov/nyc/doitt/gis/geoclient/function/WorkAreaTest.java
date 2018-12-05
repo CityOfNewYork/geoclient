@@ -30,8 +30,8 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class WorkAreaTest
 {
@@ -47,7 +47,7 @@ public class WorkAreaTest
 	private WorkArea workArea;
 	private WorkArea workAreaWithFilters;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		//     non-composite work area bytes: 122333445555  

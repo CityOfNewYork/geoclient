@@ -18,7 +18,7 @@ package gov.nyc.doitt.gis.geoclient.service.domain;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BoroughTest
 {

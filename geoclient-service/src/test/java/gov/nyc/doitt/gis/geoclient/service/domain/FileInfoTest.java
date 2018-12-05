@@ -17,14 +17,14 @@ package gov.nyc.doitt.gis.geoclient.service.domain;
 
 import static org.junit.Assert.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class FileInfoTest
 {
 	private FileInfo fileInfo;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.fileInfo = new FileInfo();

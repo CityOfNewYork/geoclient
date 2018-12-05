@@ -18,14 +18,14 @@ package gov.nyc.doitt.gis.geoclient.service.search;
 import static org.junit.Assert.*;
 import gov.nyc.doitt.gis.geoclient.config.ReturnCodeValue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GeosupportReturnCodeTest
 {
 	private GeosupportReturnCode grc;
 	
-	@Before
+	@BeforeEach
 	public void setUp()
 	{
 		this.grc = new GeosupportReturnCode();

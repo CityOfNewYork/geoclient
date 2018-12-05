@@ -15,35 +15,30 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.token;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TextUtilsTest
-{
+public class TextUtilsTest {
 
 	@Test
-	public void testSanitize()
-	{
-		assertThat(TextUtils.sanitize(null), is(nullValue()));
-		assertThat(TextUtils.sanitize(""), is(equalTo("")));
-		assertThat(TextUtils.sanitize("abc"), is(equalTo("abc")));
-		assertThat(TextUtils.sanitize("abc def"), is(equalTo("abc def")));
-		assertThat(TextUtils.sanitize("  abc"), is(equalTo("abc")));
-		assertThat(TextUtils.sanitize("abc "), is(equalTo("abc")));
-		assertThat(TextUtils.sanitize("  abc def  "), is(equalTo("abc def")));
-		assertThat(TextUtils.sanitize("  abc   def  "), is(equalTo("abc def")));
-		assertThat(TextUtils.sanitize(",  abc,   def  ,"), is(equalTo("abc, def")));
-		assertThat(TextUtils.sanitize(" ,  abc,   def  ,"), is(equalTo("abc, def")));
-		assertThat(TextUtils.sanitize(" ,.?!&^#$%@ abc-d &  def  ,?:+-"), is(equalTo("abc-d & def")));
-		assertThat(TextUtils.sanitize("abc&def"), is(equalTo("abc & def")));
-		assertThat(TextUtils.sanitize("abc && def"), is(equalTo("abc && def")));
-		assertThat(TextUtils.sanitize("abc&&def"), is(equalTo("abc && def")));
-		assertThat(TextUtils.sanitize("N.Y."), is(equalTo("N.Y.")));
-		assertThat(TextUtils.sanitize("abc\tde\tf"), is(equalTo("abc de f")));
+	public void testSanitize() {
+		assertThat(TextUtils.sanitize(null)).isNull();
+		assertThat(TextUtils.sanitize("")).isEqualTo("");
+		assertThat(TextUtils.sanitize("abc")).isEqualTo("abc");
+		assertThat(TextUtils.sanitize("abc def")).isEqualTo("abc def");
+		assertThat(TextUtils.sanitize("  abc")).isEqualTo("abc");
+		assertThat(TextUtils.sanitize("abc ")).isEqualTo("abc");
+		assertThat(TextUtils.sanitize("  abc def  ")).isEqualTo("abc def");
+		assertThat(TextUtils.sanitize("  abc   def  ")).isEqualTo("abc def");
+		assertThat(TextUtils.sanitize(",  abc,   def  ,")).isEqualTo("abc, def");
+		assertThat(TextUtils.sanitize(" ,  abc,   def  ,")).isEqualTo("abc, def");
+		assertThat(TextUtils.sanitize(" ,.?!&^#$%@ abc-d &  def  ,?:+-")).isEqualTo("abc-d & def");
+		assertThat(TextUtils.sanitize("abc&def")).isEqualTo("abc & def");
+		assertThat(TextUtils.sanitize("abc && def")).isEqualTo("abc && def");
+		assertThat(TextUtils.sanitize("abc&&def")).isEqualTo("abc && def");
+		assertThat(TextUtils.sanitize("N.Y.")).isEqualTo("N.Y.");
+		assertThat(TextUtils.sanitize("abc\tde\tf")).isEqualTo("abc de f");
 	}
 
 }

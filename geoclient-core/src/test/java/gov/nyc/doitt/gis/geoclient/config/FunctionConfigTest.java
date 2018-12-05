@@ -21,16 +21,17 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import gov.nyc.doitt.gis.geoclient.function.Filter;
-import gov.nyc.doitt.gis.geoclient.function.Function;
-import gov.nyc.doitt.gis.geoclient.function.DefaultConfiguration;
-import gov.nyc.doitt.gis.geoclient.jni.GeoclientStub;
 
 import java.util.Collections;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import gov.nyc.doitt.gis.geoclient.function.DefaultConfiguration;
+import gov.nyc.doitt.gis.geoclient.function.Filter;
+import gov.nyc.doitt.gis.geoclient.function.Function;
+import gov.nyc.doitt.gis.geoclient.jni.GeoclientStub;
 
 // TODO Cleanup this test and move FunctionConfig creation into each test case
 public class FunctionConfigTest
@@ -42,7 +43,7 @@ public class FunctionConfigTest
     private FunctionConfig twoWorkAreaDefaultArgsFunction;
 	private DefaultConfiguration configuration;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.wa1Config = new WorkAreaConfig("WW1", 12, true, TestData.newFieldList(TestData.fieldOne, TestData.fieldTwo), Collections.<Filter>emptyList());
@@ -59,7 +60,7 @@ public class FunctionConfigTest
         this.twoWorkAreaDefaultArgsFunction = new FunctionConfig("12", this.wa1Config, this.wa2Config, this.configuration);
 	}
 	
-	@After
+	@AfterEach
 	public void tearDown()
 	{
 		this.wa1Config = null;

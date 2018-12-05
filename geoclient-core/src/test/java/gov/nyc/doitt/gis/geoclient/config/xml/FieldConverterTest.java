@@ -17,10 +17,11 @@ package gov.nyc.doitt.gis.geoclient.config.xml;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
@@ -29,9 +30,8 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.test.Fixtures;
 
-public class FieldConverterTest
-{
-    private FieldConverter.Metadata metadata; 
+public class FieldConverterTest {
+	private FieldConverter.Metadata metadata;
 	private FieldConverter converter;
 	private HierarchicalStreamReader readerMock;
 	private UnmarshallingContext contextMock;
@@ -43,11 +43,10 @@ public class FieldConverterTest
 	private String alias;
 	private String whitespace;
 
-	@Before
-	public void setUp() throws Exception
-	{
+	@BeforeEach
+	public void setUp() throws Exception {
 		this.metadata = new Fixtures().fieldConverterMetadata();
-	    this.converter = new FieldConverter(this.metadata);
+		this.converter = new FieldConverter(this.metadata);
 		this.readerMock = Mockito.mock(HierarchicalStreamReader.class);
 		this.id = "returnCodeId";
 		this.start = "12";
@@ -58,46 +57,43 @@ public class FieldConverterTest
 		this.whitespace = "TRUE";
 		contextMock = Mockito.mock(UnmarshallingContext.class);
 	}
-	
+
 	@Test
-	public void testCanConvert()
-	{
+	public void testCanConvert() {
 		assertTrue(this.converter.canConvert(Field.class));
 		assertFalse(this.converter.canConvert(Object.class));
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
-	public void testMarshal()
-	{
-		this.converter.marshal(null, null, null);
+	@Test
+	public void testMarshal() {
+
+		assertThrows(UnsupportedOperationException.class, () -> {
+			this.converter.marshal(null, null, null);
+		});
 	}
 
 	@Test
-	public void testUnmarshal_compositeType()
-	{
+	public void testUnmarshal_compositeType() {
 		prepareReaderMock(this.type);
 		Field result = (Field) this.converter.unmarshal(readerMock, contextMock);
 		assertFieldResult(true, result);
 	}
 
 	@Test
-	public void testUnmarshal_regularType()
-	{
+	public void testUnmarshal_regularType() {
 		prepareReaderMock("REG");
 		Field result = (Field) this.converter.unmarshal(readerMock, contextMock);
 		assertFieldResult(false, result);
 	}
 
 	@Test
-	public void testUnmarshal_nullType()
-	{
+	public void testUnmarshal_nullType() {
 		prepareReaderMock(null);
 		Field result = (Field) this.converter.unmarshal(readerMock, contextMock);
 		assertFieldResult(false, result);
 	}
 
-	private void prepareReaderMock(String typeToUse)
-	{
+	private void prepareReaderMock(String typeToUse) {
 		Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeId)).thenReturn(id);
 		Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeStart)).thenReturn(start);
 		Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeLength)).thenReturn(this.length);
@@ -107,8 +103,7 @@ public class FieldConverterTest
 		Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeWhitespace)).thenReturn(this.whitespace);
 	}
 
-	private void assertFieldResult(boolean isComposite, Field field)
-	{
+	private void assertFieldResult(boolean isComposite, Field field) {
 		assertEquals(this.id, field.getId());
 		Integer startInt = Integer.valueOf(start);
 		assertEquals(new Integer(startInt - 1), field.getStart());
@@ -121,5 +116,5 @@ public class FieldConverterTest
 		boolean whitespaceBool = Boolean.parseBoolean(this.whitespace);
 		assertEquals(whitespaceBool, field.isWhitespaceSignificant());
 	}
-	
+
 }

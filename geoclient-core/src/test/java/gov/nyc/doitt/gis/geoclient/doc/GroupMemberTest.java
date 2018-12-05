@@ -17,7 +17,7 @@ package gov.nyc.doitt.gis.geoclient.doc;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class GroupMemberTest
 {

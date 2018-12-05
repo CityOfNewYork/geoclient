@@ -24,14 +24,14 @@ import gov.nyc.doitt.gis.geoclient.function.Function;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DocumentationTest
 {
 	private Documentation documentation;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.documentation = new Documentation();

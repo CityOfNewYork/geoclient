@@ -18,10 +18,11 @@ package gov.nyc.doitt.gis.geoclient.config.xml;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -36,7 +37,7 @@ public class ConfigurationConverterTest
     private ConfigurationConverter converter;
     private XStream xstream;
 
-    @Before
+    @BeforeEach
     public void setUp()
     {
         metadata = new Fixtures().configurationConverterMetadata();
@@ -76,10 +77,12 @@ public class ConfigurationConverterTest
         assertEquals("val2", result.requiredArguments().get("arg2"));
     }
 
-    @Test(expected = UnsupportedOperationException.class)
+    @Test
     public void testMarshal()
     {
+assertThrows(UnsupportedOperationException.class, () -> {
         this.converter.marshal(new DefaultConfiguration(), null, null);
+});    	
     }
 
 }

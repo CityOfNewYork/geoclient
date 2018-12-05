@@ -20,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class DataDictionaryTest
 {
@@ -30,7 +30,7 @@ public class DataDictionaryTest
 	private List<String> aliases;
 	private DataDictionary dataDictionary;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.aliases = new ArrayList<String>();

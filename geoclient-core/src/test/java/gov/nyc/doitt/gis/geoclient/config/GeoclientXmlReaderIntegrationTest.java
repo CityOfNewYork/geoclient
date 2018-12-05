@@ -19,24 +19,21 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import gov.nyc.doitt.gis.geoclient.config.FunctionConfig;
-import gov.nyc.doitt.gis.geoclient.config.GeoclientXmlReader;
-import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
-import gov.nyc.doitt.gis.geoclient.config.WorkAreaConfig;
-import gov.nyc.doitt.gis.geoclient.function.Field;
-import gov.nyc.doitt.gis.geoclient.function.Filter;
-import gov.nyc.doitt.gis.geoclient.function.Function;
 
 import java.util.List;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import gov.nyc.doitt.gis.geoclient.function.Field;
+import gov.nyc.doitt.gis.geoclient.function.Filter;
+import gov.nyc.doitt.gis.geoclient.function.Function;
 
 public class GeoclientXmlReaderIntegrationTest
 {
   private static GeoclientXmlReader xmlReader;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() throws Exception
   {
     xmlReader = GeoclientXmlReader.fromXml(GeosupportConfig.DEFAULT_CONFIG_FILE);

@@ -29,8 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class CountyResolverTest
 {
@@ -46,7 +46,7 @@ public class CountyResolverTest
 	private Token resolvableBoroughNameToken;
 	private Token unresolvableBoroughNameToken;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		boroughResolver = new CountyResolver(boroughNames);

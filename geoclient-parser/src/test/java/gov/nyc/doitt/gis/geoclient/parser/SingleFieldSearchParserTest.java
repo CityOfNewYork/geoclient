@@ -15,22 +15,22 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser;
 
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
-import gov.nyc.doitt.gis.geoclient.parser.configuration.ParserConfig;
-import gov.nyc.doitt.gis.geoclient.parser.test.ChunkSpec;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringJUnit4ClassRunner.class)
+import gov.nyc.doitt.gis.geoclient.parser.configuration.ParserConfig;
+import gov.nyc.doitt.gis.geoclient.parser.test.ChunkSpec;
+
+@ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {ParserConfig.class})
 public class SingleFieldSearchParserTest extends AbstractSpecTest
 {
@@ -43,7 +43,7 @@ public class SingleFieldSearchParserTest extends AbstractSpecTest
 	public void testParse()
 	{
 		List<ChunkSpec> specs =  specBuilder.getSpecs("AllParsers");
-		assertThat(specs.isEmpty(), not(true));
+		assertThat(specs.isEmpty()).isFalse();
 		for (ChunkSpec spec : specs)
 		{
 			logSpecStart(LOGGER, spec);

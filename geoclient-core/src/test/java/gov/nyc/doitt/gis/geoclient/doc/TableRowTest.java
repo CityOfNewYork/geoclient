@@ -21,14 +21,14 @@ import static org.junit.jupiter.api.Assertions.assertSame;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class TableRowTest
 {
 	private List<TableData> columns;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		columns = new ArrayList<TableData>();

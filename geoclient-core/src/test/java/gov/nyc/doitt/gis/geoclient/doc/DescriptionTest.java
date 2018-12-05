@@ -24,14 +24,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.After;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
 
 public class DescriptionTest
 {
 	private List<Paragraph> paragraphs = new ArrayList<Paragraph>();
 	
-	@After
+	@AfterEach
 	public void teaDown()
 	{
 		this.paragraphs.clear();

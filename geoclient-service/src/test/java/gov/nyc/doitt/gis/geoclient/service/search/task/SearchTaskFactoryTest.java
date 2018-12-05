@@ -26,8 +26,8 @@ import gov.nyc.doitt.gis.geoclient.service.search.Fixtures;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -50,7 +50,7 @@ public class SearchTaskFactoryTest
 
 	private List<SearchTask> expectedTasks;
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		MockitoAnnotations.initMocks(this);

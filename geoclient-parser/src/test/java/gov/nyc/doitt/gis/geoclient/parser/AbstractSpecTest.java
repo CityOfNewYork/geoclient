@@ -15,30 +15,28 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.slf4j.Logger;
+
+import difflib.DiffUtils;
+import difflib.Patch;
 import gov.nyc.doitt.gis.geoclient.parser.test.ChunkSpec;
 import gov.nyc.doitt.gis.geoclient.parser.test.SpecBuilder;
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.parser.token.Token;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.BeforeClass;
-import org.slf4j.Logger;
-
-import difflib.DiffUtils;
-import difflib.Patch;
-
 public abstract class AbstractSpecTest
 {
 	protected static SpecBuilder specBuilder;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUpOnce()
 	{
 		specBuilder = new SpecBuilder();
@@ -47,7 +45,7 @@ public abstract class AbstractSpecTest
 	protected void testParser(Parser parser, Logger logger)
 	{
 		List<ChunkSpec> specs =  specBuilder.getSpecs(parser.getName());
-		assertThat(specs.isEmpty(),is(not(true)));
+		assertFalse(specs.isEmpty());
 		
 		for (ChunkSpec spec : specs)
 		{
@@ -72,15 +70,15 @@ public abstract class AbstractSpecTest
 			String messageStart = String.format("Test %s ",specId); 
 			int expectedSize = expected.size();
 			int actualSize = actual.size();
-			assertThat(messageStart + "expected " + expectedSize + " tokens but got " +actualSize, actualSize, is(expectedSize));
+			assertThat(actualSize).isEqualTo(expectedSize).as(messageStart + "expected " + expectedSize + " tokens but got " +actualSize);
 			for (int i = 0; i < expectedSize; i++)
 			{
 				Chunk expectedChunk = expected.get(i);
 				Chunk actualChunk = actual.get(i);
 				if(!expectedChunk.equals(actualChunk))
 				{
-					assertThat(String.format("Test %s Chunk texts are not equal.",specId),actualChunk.getText(),is(equalTo(expectedChunk.getText())));
-					assertThat(actualChunk.getType(),is(equalTo(expectedChunk.getType())));
+					assertThat(actualChunk.getText()).isEqualTo(expectedChunk.getText()).as(String.format("Test %s Chunk texts are not equal.",specId));
+					assertThat(actualChunk.getType()).isEqualTo(expectedChunk.getType());
 					assertTokensEqual(specId,expectedChunk.getTokens(), actualChunk.getTokens(),logger);
 				}
 			}
@@ -94,12 +92,12 @@ public abstract class AbstractSpecTest
 			String messageStart = String.format("Test %s ",specId); 
 			int expectedSize = expected.size();
 			int actualSize = actual.size();
-			assertThat(messageStart + "expected " + expectedSize + " tokens but got " +actualSize, actualSize, is(expectedSize));
+			assertThat(actualSize).isEqualTo(expectedSize).as(messageStart + "expected " + expectedSize + " tokens but got " +actualSize);
 			for (int i = 0; i < expectedSize; i++)
 			{
 				Token expectedToken = expected.get(i);
 				Token actualToken = actual.get(i);
-				assertEquals(messageStart + "expected Token of type " + expectedToken.getType() + " but found " + actualToken.getType(), expectedToken.getType(),actualToken.getType());
+				assertEquals(expectedToken.getType(),actualToken.getType(), messageStart + "expected Token of type " + expectedToken.getType() + " but found " + actualToken.getType());
 				String expectedValue = expectedToken.getValue();
 				String actualValue = actualToken.getValue();
 				List<String> expectedForDiff = Arrays.asList(expectedValue);

@@ -20,8 +20,8 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GeosupportVersionTest
 {
@@ -29,7 +29,7 @@ public class GeosupportVersionTest
 	private GeosupportVersion geosupportVersion;
 	private List<FileInfo> fileInfoList;
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.geosupportVersion = new GeosupportVersion();

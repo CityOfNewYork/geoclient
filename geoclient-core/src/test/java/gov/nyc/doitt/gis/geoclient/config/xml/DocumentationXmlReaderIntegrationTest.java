@@ -18,23 +18,24 @@ package gov.nyc.doitt.gis.geoclient.config.xml;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
 import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
 import gov.nyc.doitt.gis.geoclient.doc.DataDictionary;
 import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
 import gov.nyc.doitt.gis.geoclient.doc.Table;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 public class DocumentationXmlReaderIntegrationTest
 {
 	private static DocumentationXmlReader xmlReader;
 
-	@BeforeClass
+	@BeforeAll
 	public static void setUpBeforeClass() throws Exception
 	{
 		xmlReader = DocumentationXmlReader.fromXml(GeosupportConfig.DEFAULT_DOCUMENTATION_CONFIG_FILE);

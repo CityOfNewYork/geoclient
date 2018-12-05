@@ -27,8 +27,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 public class GeosupportFunctionTest
@@ -39,7 +39,7 @@ public class GeosupportFunctionTest
 	private GeosupportFunction function_oneWorkArea;
 	private GeosupportFunction function_twoWorkAreas;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception
 	{
 		this.workAreaOneMock = Mockito.mock(WorkArea.class);

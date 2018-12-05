@@ -16,21 +16,21 @@
 package gov.nyc.doitt.gis.geoclient.function;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class FilterTest
-{
-	@Test(expected=IllegalArgumentException.class)
-	public void testNullPatternInConstructor()
-	{
-		new Filter(null);
+public class FilterTest {
+	@Test
+	public void testNullPatternInConstructor() {
+		assertThrows(IllegalArgumentException.class, () -> {
+			new Filter(null);
+		});
 	}
-	
-	@Test	
-	public void testMatches()
-	{
+
+	@Test
+	public void testMatches() {
 		Filter filter = new Filter("\\w*[fF]iller\\d*\\w*");
 		assertTrue(filter.matches(field("filler")));
 		assertTrue(filter.matches(field("Filler")));
@@ -47,9 +47,8 @@ public class FilterTest
 		assertFalse(filter.matches(field("filer")));
 	}
 
-	@Test	
-	public void testMatchesLowHouseNumber()
-	{
+	@Test
+	public void testMatchesLowHouseNumber() {
 		Filter filter = new Filter("lowHouseNumber(In|SortFormat|SortFormatIn)?");
 		assertTrue(filter.matches(field("lowHouseNumber")));
 		assertTrue(filter.matches(field("lowHouseNumberIn")));
@@ -59,10 +58,9 @@ public class FilterTest
 		assertFalse(filter.matches(field("lowHouseNumberOfDefiningAddressRange")));
 		assertFalse(filter.matches(field("lowHouseNumberOfBlockfaceSortFormat")));
 	}
-	
+
 	@Test
-	public void testMatchesHighLowCrossStreetB5SC()
-	{
+	public void testMatchesHighLowCrossStreetB5SC() {
 		Filter filter = new Filter("(low|high)CrossStreetB5SC\\d\\d?");
 		assertTrue(filter.matches(field("lowCrossStreetB5SC1")));
 		assertTrue(filter.matches(field("lowCrossStreetB5SC10")));
@@ -71,17 +69,14 @@ public class FilterTest
 		assertFalse(filter.matches(field("highCrossStreetB5SC")));
 	}
 
-
-	@Test	
-	public void testMatchesNin()
-	{
+	@Test
+	public void testMatchesNin() {
 		Filter filter = new Filter("nin");
 		assertTrue(filter.matches(field("nin")));
 		assertFalse(filter.matches(field("lowHouseNumberOfDefiningAddressRange")));
 	}
 
-	private Field field(String id)
-	{
-		return new Field(id,0,1);
+	private Field field(String id) {
+		return new Field(id, 0, 1);
 	}
 }

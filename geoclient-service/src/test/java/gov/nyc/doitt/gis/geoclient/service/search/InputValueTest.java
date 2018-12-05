@@ -21,7 +21,7 @@ import static org.junit.Assert.assertThat;
 import gov.nyc.doitt.gis.geoclient.parser.token.Token;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class InputValueTest
 {
