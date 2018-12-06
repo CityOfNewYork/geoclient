@@ -1,12 +1,12 @@
+//include 'geoclient-batch'
 //include 'geoclient-generate'
 //include 'geoclient-native'
+//include 'geoclient-search'
+include 'geoclient-test'
 include 'geoclient-jni'
 include 'geoclient-core'
-include 'geoclient-test'
 include 'geoclient-parser'
-//include 'geoclient-search'
 //include 'geoclient-service'
-//include 'geoclient-batch'
 rootProject.name = 'geoclient'
 // Enable compatibility with Gradle 5.0
 enableFeaturePreview('STABLE_PUBLISHING')

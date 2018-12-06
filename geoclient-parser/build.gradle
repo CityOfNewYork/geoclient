@@ -3,7 +3,7 @@ dependencies {
   implementation("org.codehaus.groovy:groovy")
   implementation("org.apache.commons:commons-lang3")
   testImplementation("com.thoughtworks.xstream:xstream")
-  testImplementation("com.googlecode.java-diff-utils:diffutils:1.3.0")
+  testImplementation("com.googlecode.java-diff-utils:diffutils:${diffutilsVersion}")
 }
 
 test { systemProperties 'property': 'value' }
