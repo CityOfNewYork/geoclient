@@ -15,8 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.xstream;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
 
@@ -88,10 +87,12 @@ public class MapConverterTest
 		Mockito.verify(this.writerMock, Mockito.times(4)).endNode();
 	}
 
-	@Test(expected = UnsupportedOperationException.class)
+	@Test
 	public void testUnmarshal()
 	{
-		this.mapConverter.unmarshal(null, null);
+		assertThrows(UnsupportedOperationException.class, () -> {
+			this.mapConverter.unmarshal(null, null);
+		});
 	}
 
 }

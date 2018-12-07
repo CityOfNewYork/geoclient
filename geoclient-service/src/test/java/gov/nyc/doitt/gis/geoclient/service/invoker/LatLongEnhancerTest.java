@@ -15,7 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.invoker;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import gov.nyc.doitt.gis.geoclient.config.OutputParam;
 import gov.nyc.doitt.gis.geometry.domain.MapPoint;
 
@@ -51,8 +51,8 @@ public class LatLongEnhancerTest
 		this.geocodingResult.put(OutputParam.XCOORD, this.xCoord);
 		this.geocodingResult.put(OutputParam.YCOORD, this.yCoord);
 		this.latLongEnhancer.addLatLong(geocodingResult);
-		assertEquals(this.expectedLat, (double)geocodingResult.get(LatLongEnhancer.DEFAULT_LATLONG_CONFIG.getLatName()), 0);
-		assertEquals(this.expectedLong, (double)geocodingResult.get(LatLongEnhancer.DEFAULT_LATLONG_CONFIG.getLongName()), 0);
+		assertEquals(this.expectedLat, (double)geocodingResult.get(LatLongEnhancer.DEFAULT_LATLONG_CONFIG.getLatName()));
+		assertEquals(this.expectedLong, (double)geocodingResult.get(LatLongEnhancer.DEFAULT_LATLONG_CONFIG.getLongName()));
 	}
 
 	@Test
@@ -83,8 +83,8 @@ public class LatLongEnhancerTest
 		this.geocodingResult.put(OutputParam.XCOORD, this.xCoord);
 		this.geocodingResult.put(OutputParam.YCOORD, this.yCoord);
 		result = this.latLongEnhancer.getNyspPoint(geocodingResult, LatLongEnhancer.DEFAULT_LATLONG_CONFIG);
-		assertEquals(Double.valueOf(this.xCoord), result.getX(), 0);
-		assertEquals(Double.valueOf(this.yCoord), result.getY(), 0);
+		assertEquals(Double.parseDouble(this.xCoord), result.getX());
+		assertEquals(Double.parseDouble(this.yCoord), result.getY());
 	}
 
 	@Test
@@ -97,7 +97,7 @@ public class LatLongEnhancerTest
 
 	private void assertZeroXY(MapPoint mapPoint)
 	{
-		assertEquals(0, mapPoint.getX(), 0);
-		assertEquals(0, mapPoint.getY(), 0);
+		assertEquals(0.0, mapPoint.getX());
+		assertEquals(0.0, mapPoint.getY());
 	}
 }

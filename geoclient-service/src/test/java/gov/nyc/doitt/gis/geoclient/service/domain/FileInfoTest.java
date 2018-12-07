@@ -15,7 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.domain;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

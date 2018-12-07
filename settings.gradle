@@ -2,13 +2,17 @@
 //include 'geoclient-generate'
 //include 'geoclient-native'
 //include 'geoclient-search'
+
 include 'geoclient-test'
 include 'geoclient-jni'
 include 'geoclient-core'
 include 'geoclient-parser'
-//include 'geoclient-service'
+include 'geoclient-service'
+
 rootProject.name = 'geoclient'
+
 // Enable compatibility with Gradle 5.0
 enableFeaturePreview('STABLE_PUBLISHING')
+
 // Enable proper Maven POM import behavior
 enableFeaturePreview('IMPROVED_POM_SUPPORT')

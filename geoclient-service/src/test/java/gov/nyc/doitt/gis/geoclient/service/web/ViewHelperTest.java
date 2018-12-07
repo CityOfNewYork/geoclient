@@ -15,7 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.web;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import gov.nyc.doitt.gis.geoclient.doc.Description;
 import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
 import gov.nyc.doitt.gis.geoclient.doc.GroupDocumentation;

@@ -15,8 +15,8 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 import gov.nyc.doitt.gis.geoclient.parser.Input;
 import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
@@ -62,10 +62,10 @@ public class CountyResolverTest
 	public void testResolve_emptyLocationTokensContainsFiveBoroughs()
 	{
 		ValueResolution res = boroughResolver.resolve(locationTokens);
-		assertThat(res, not(nullValue()));
-		assertThat(res.unresolvedCount(),equalTo(0));
-		assertThat(res.resolvedCount(),equalTo(5));
-		assertThat(res.totalCount(),equalTo(5));
+		assertThat(res).isNotNull();
+		assertThat(res.unresolvedCount()).isEqualTo(0);
+		assertThat(res.resolvedCount()).isEqualTo(5);
+		assertThat(res.totalCount()).isEqualTo(5);
 		assertTrue(res.resolved().contains(CountyResolver.MANHATTAN));
 		assertTrue(res.resolved().contains(CountyResolver.BRONX));
 		assertTrue(res.resolved().contains(CountyResolver.BROOKLYN));
@@ -80,10 +80,10 @@ public class CountyResolverTest
 		zipChunk.add(new Token(TokenType.ZIP, "10025", 0, 5));
 		locationTokens.getChunks().add(zipChunk);
 		ValueResolution res = boroughResolver.resolve(locationTokens);
-		assertThat(res, not(nullValue()));
-		assertThat(res.unresolvedCount(),equalTo(0));
-		assertThat(res.resolvedCount(),equalTo(1));
-		assertThat(res.totalCount(),equalTo(1));
+		assertThat(res).isNotNull();
+		assertThat(res.unresolvedCount()).isEqualTo(0);
+		assertThat(res.resolvedCount()).isEqualTo(1);
+		assertThat(res.totalCount()).isEqualTo(1);
 	}
 
 	@Test
@@ -92,10 +92,10 @@ public class CountyResolverTest
 		chunk.add(resolvableBoroughNameToken);
 		chunk.add(unresolvableBoroughNameToken);
 		ValueResolution res = boroughResolver.resolve(locationTokens);
-		assertThat(res, not(nullValue()));
-		assertThat(res.unresolvedCount(),equalTo(1));
-		assertThat(res.resolvedCount(),equalTo(1));
-		assertThat(res.totalCount(),equalTo(2));
+		assertThat(res).isNotNull();
+		assertThat(res.unresolvedCount()).isEqualTo(1);
+		assertThat(res.resolvedCount()).isEqualTo(1);
+		assertThat(res.totalCount()).isEqualTo(2);
 	}
 
 }

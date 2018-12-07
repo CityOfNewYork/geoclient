@@ -5,6 +5,11 @@ plugins {
 //apply plugin: 'eclipse-wtp'
 apply plugin: 'org.springframework.boot'
 
+
+configurations {
+	external
+}
+
 dependencies {
 	implementation project(':geoclient-jni')
 	implementation project(':geoclient-core')
@@ -18,28 +23,47 @@ dependencies {
 	implementation('org.springframework:spring-oxm') { exclude(module: 'commons-lang') }
 	implementation('com.thoughtworks.xstream:xstream')
 	implementation('joda-time:joda-time')
-	implementation("org.geotools:gt-referencing:${geotoolsVersion}") {
+	
+	testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
+	testImplementation('com.jayway.jsonpath:json-path')
+	
+	external("org.geotools:gt-referencing:${geotoolsVersion}") {
 		exclude(group: "jgridshift", module: "jgridshift")
 	}
-	implementation("org.geotools:gt-main:${geotoolsVersion}") {
+	external("org.geotools:gt-main:${geotoolsVersion}") {
 		exclude(module: 'xerces')
 		exclude(group: 'jgridshift', module: 'jgridshift')
 	}
-	implementation("org.geotools:gt-epsg-wkt:${geotoolsVersion}") {
+	external("org.geotools:gt-epsg-wkt:${geotoolsVersion}") {
 		exclude(group: 'jgridshift', module: 'jgridshift')
 	}
-	testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
-	testImplementation('com.jayway.jsonpath:json-path')
 }
 
 sourceSets {
-	main {
-		java {
-			srcDir 'src/main/java'
-			srcDir 'src/main/external'
-		}
-		resources { srcDir 'src/main/resources' }
+	external {
+		java.srcDir 'src/external/java'
 	}
+	main {
+		compileClasspath += sourceSets.external.output
+		runtimeClasspath += sourceSets.external.output
+	}
+	test {
+		compileClasspath += sourceSets.external.output
+		runtimeClasspath += sourceSets.external.output
+	}
+}
+
+tasks.withType(JavaCompile) {
+	classpath += configurations.external
+}
+
+tasks.withType(Test) {
+	classpath += configurations.external
+}
+
+tasks.withType(Javadoc) {
+	exclude '**/LatLongEnhancer.java'
+	classpath += configurations.external
 }
 
 jar { enabled = true }

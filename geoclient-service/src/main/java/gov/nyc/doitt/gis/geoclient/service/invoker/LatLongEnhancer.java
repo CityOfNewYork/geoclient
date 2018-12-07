@@ -15,6 +15,13 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.invoker;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.math.NumberUtils;
+
 import gov.nyc.doitt.gis.geoclient.config.OutputParam;
 import gov.nyc.doitt.gis.geoclient.doc.Description;
 import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
@@ -22,13 +29,6 @@ import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geometry.domain.MapPoint;
 import gov.nyc.doitt.gis.geometry.transform.Transformer;
 import gov.nyc.doitt.gis.geometry.transform.TransformerFactory;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.commons.lang3.math.NumberUtils;
 
 public class LatLongEnhancer
 {

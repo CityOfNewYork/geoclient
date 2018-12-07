@@ -15,24 +15,23 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.policy;
 
-import static org.junit.Assert.*; 
-import static org.hamcrest.CoreMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class DefaultSimilarNamesPolicyTest
-{
+public class DefaultSimilarNamesPolicyTest {
 	private DefaultSimilarNamesPolicy policy;
 
 	@BeforeEach
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 		this.policy = new DefaultSimilarNamesPolicy();
 	}
 
 	@Test
-	public void testIsSimilarName()
-	{
+	public void testIsSimilarName() {
 		assertTrue(policy.isSimilarName("BRO", "BROADWAY"));
 		assertTrue(policy.isSimilarName("BRODWAY", "BRODWAY"));
 		assertTrue(policy.isSimilarName("BRODWAY", "BROADWAY"));
@@ -50,16 +49,14 @@ public class DefaultSimilarNamesPolicyTest
 	}
 
 	@Test
-	public void testClean()
-	{
-		assertThat(policy.clean(""), equalTo(""));
-		assertThat(policy.clean(" "), equalTo(" "));
-		assertThat(policy.clean("a"), equalTo("A"));
-		assertThat(policy.clean("a "), equalTo("A"));
-		assertThat(policy.clean(" a "), equalTo("A"));
-		assertThat(policy.clean(" ave a "), equalTo("A"));
-		assertThat(policy.clean("St Marks"), equalTo("MARKS"));
-		// TODO more tests
+	public void testClean() {
+		assertThat(policy.clean("")).isEqualTo("");
+		assertThat(policy.clean(" ")).isEqualTo(" ");
+		assertThat(policy.clean("a")).isEqualTo("A");
+		assertThat(policy.clean("a ")).isEqualTo("A");
+		assertThat(policy.clean(" a ")).isEqualTo("A");
+		assertThat(policy.clean(" ave a ")).isEqualTo("A");
+		assertThat(policy.clean("St Marks")).isEqualTo("MARKS");
 	}
 
 }

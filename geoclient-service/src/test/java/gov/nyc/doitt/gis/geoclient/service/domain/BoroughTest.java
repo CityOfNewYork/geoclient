@@ -15,36 +15,33 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.domain;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-public class BoroughTest
-{
+public class BoroughTest {
 
-    @Test
-    public void testParseInt()
-    {
-        assertThat(Borough.parseInt("1"), equalTo(1));
-        assertThat(Borough.parseInt("2"), equalTo(2));
-        assertThat(Borough.parseInt("3"), equalTo(3));
-        assertThat(Borough.parseInt("4"), equalTo(4));
-        assertThat(Borough.parseInt("5"), equalTo(5));
-        assertThat(Borough.parseInt("12"), equalTo(12));
-        assertThat(Borough.parseInt("-78"), equalTo(-78));
-        assertThat(Borough.parseInt("Manhattan"), equalTo(1));
-        assertThat(Borough.parseInt("MN"), equalTo(1));
-        assertThat(Borough.parseInt("BRONX"), equalTo(2));
-        assertThat(Borough.parseInt("bx"), equalTo(2));
-        assertThat(Borough.parseInt("brooklyn"), equalTo(3));
-        assertThat(Borough.parseInt("bk"), equalTo(3));
-        assertThat(Borough.parseInt("qUeeNs"), equalTo(4));
-        assertThat(Borough.parseInt("qN"), equalTo(4));
-        assertThat(Borough.parseInt("staten island"), equalTo(5));
-        assertThat(Borough.parseInt("STATEN IS"), equalTo(5));
-        assertThat(Borough.parseInt("si"), equalTo(5));
-        assertThat(Borough.parseInt("man"), equalTo(0));
-    }
+	@Test
+	public void testParseInt() {
+		assertThat(Borough.parseInt("1")).isEqualTo(1);
+		assertThat(Borough.parseInt("2")).isEqualTo(2);
+		assertThat(Borough.parseInt("3")).isEqualTo(3);
+		assertThat(Borough.parseInt("4")).isEqualTo(4);
+		assertThat(Borough.parseInt("5")).isEqualTo(5);
+		assertThat(Borough.parseInt("12")).isEqualTo(12);
+		assertThat(Borough.parseInt("-78")).isEqualTo(-78);
+		assertThat(Borough.parseInt("Manhattan")).isEqualTo(1);
+		assertThat(Borough.parseInt("MN")).isEqualTo(1);
+		assertThat(Borough.parseInt("BRONX")).isEqualTo(2);
+		assertThat(Borough.parseInt("bx")).isEqualTo(2);
+		assertThat(Borough.parseInt("brooklyn")).isEqualTo(3);
+		assertThat(Borough.parseInt("bk")).isEqualTo(3);
+		assertThat(Borough.parseInt("qUeeNs")).isEqualTo(4);
+		assertThat(Borough.parseInt("qN")).isEqualTo(4);
+		assertThat(Borough.parseInt("staten island")).isEqualTo(5);
+		assertThat(Borough.parseInt("STATEN IS")).isEqualTo(5);
+		assertThat(Borough.parseInt("si")).isEqualTo(5);
+		assertThat(Borough.parseInt("man")).isEqualTo(0);
+	}
 
 }

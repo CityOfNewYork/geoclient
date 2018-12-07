@@ -15,7 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.invoker;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
 import gov.nyc.doitt.gis.geoclient.doc.DataDictionary;
 import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;

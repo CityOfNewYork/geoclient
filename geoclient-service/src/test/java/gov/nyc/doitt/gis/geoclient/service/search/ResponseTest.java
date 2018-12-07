@@ -15,36 +15,34 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search;
 
-import static org.junit.Assert.*; 
-import static org.hamcrest.CoreMatchers.*;
-import gov.nyc.doitt.gis.geoclient.config.ReturnCodeValue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class ResponseTest
-{
+import gov.nyc.doitt.gis.geoclient.config.ReturnCodeValue;
+
+public class ResponseTest {
 	private Fixtures fix;
 	private Response response;
 
 	@BeforeEach
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 		fix = new Fixtures();
 		response = new Response(fix.successStatus, fix.geocodes);
 	}
 
 	@Test
-	public void testConstructor()
-	{
-		assertThat(response.getGeocodes(), sameInstance(fix.geocodes));
-		assertThat(response.getResponseStatus(), sameInstance(fix.successStatus));
-		assertThat(response.getTimestamp(), not(nullValue()));
+	public void testConstructor() {
+		assertThat(response.getGeocodes()).isSameAs(fix.geocodes);
+		assertThat(response.getResponseStatus()).isSameAs(fix.successStatus);
+		assertThat(response.getTimestamp()).isNotNull();
 	}
 
 	@Test
-	public void testMessageAppliesTo()
-	{
+	public void testMessageAppliesTo() {
 		assertFalse(response.messageAppliesTo(null));
 		assertFalse(response.messageAppliesTo("truck"));
 		response.getResponseStatus().getGeosupportReturnCode().setMessage("Street 'TRUCK STREET' not recognized");
@@ -54,35 +52,32 @@ public class ResponseTest
 	}
 
 	@Test
-	public void testIsCompassDirectionRequired()
-	{
+	public void testIsCompassDirectionRequired() {
 		assertFalse(response.isCompassDirectionRequired());
-		response.getResponseStatus().getGeosupportReturnCode().setReturnCode(ReturnCodeValue.COMPASS_DIRECTION_REQUIRED.value());
+		response.getResponseStatus().getGeosupportReturnCode()
+				.setReturnCode(ReturnCodeValue.COMPASS_DIRECTION_REQUIRED.value());
 		assertTrue(response.isCompassDirectionRequired());
 		response.getResponseStatus().getGeosupportReturnCode().setReturnCode(null);
 		assertFalse(response.isCompassDirectionRequired());
 	}
 
 	@Test
-	public void testIsRejected()
-	{
+	public void testIsRejected() {
 		assertFalse(response.isCompassDirectionRequired());
-		assertTrue(new Response(fix.rejectStatus,fix.geocodes).isRejected());
+		assertTrue(new Response(fix.rejectStatus, fix.geocodes).isRejected());
 	}
 
 	@Test
-	public void testSimilarNamesCount()
-	{
-		assertThat(response.similarNamesCount(), equalTo(0));
+	public void testSimilarNamesCount() {
+		assertThat(response.similarNamesCount()).isEqualTo(0);
 		response.getResponseStatus().getSimilarNames().add("abc");
-		assertThat(response.similarNamesCount(), equalTo(1));
+		assertThat(response.similarNamesCount()).isEqualTo(1);
 	}
 
 	@Test
-	public void testGetSimilarNames()
-	{
+	public void testGetSimilarNames() {
 		assertFalse(response.getSimilarNames().contains("abc"));
-		assertThat(response.getSimilarNames(), sameInstance(response.getResponseStatus().getSimilarNames()));
+		assertThat(response.getSimilarNames()).isSameAs(response.getResponseStatus().getSimilarNames());
 		response.getResponseStatus().getSimilarNames().add("abc");
 		assertTrue(response.getSimilarNames().contains("abc"));
 	}

@@ -15,10 +15,26 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.configuration;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.oxm.xstream.XStreamMarshaller;
+
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
+import com.github.dozermapper.core.Mapper;
+import com.thoughtworks.xstream.converters.ConverterMatcher;
+
 import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
-import gov.nyc.doitt.gis.geoclient.jni.GeoclientImpl;
+import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
 import gov.nyc.doitt.gis.geoclient.parser.LocationTokenizer;
 import gov.nyc.doitt.gis.geoclient.parser.configuration.ParserConfig;
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
@@ -39,31 +55,8 @@ import gov.nyc.doitt.gis.geoclient.service.search.task.SearchTaskFactory;
 import gov.nyc.doitt.gis.geoclient.service.search.task.SpawnedSearchTaskBuilder;
 import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
-
-import com.github.dozermapper.core.DozerBeanMapperBuilder;
-import com.github.dozermapper.core.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import org.springframework.oxm.xstream.XStreamMarshaller;
-
-import com.thoughtworks.xstream.converters.ConverterMatcher;
-
 /**
- * <p>
  * Java-based configuration for the <code>geoclient-service</code> application.
- *
- * <p><b>NOTE</b><br>
- * When running in JDK &lt;= 1.7, use of the {@link PropertySource} annotation will
- * result in a classloader warning:
- *
- * <pre>warning: Cannot find annotation method 'value()' in type 'Repeatable': class file for java.lang.annotation.Repeatable not found</pre>
  *
  * @author mlipper
  * @since 1.0
@@ -78,8 +71,8 @@ public class AppConfig {
   private ParserConfig parserConfig;
 
   @Bean
-  public GeoclientImpl geoclient() {
-    return new GeoclientImpl();
+  public Geoclient geoclient() {
+    return new GeoclientJni();
   }
 
   @Bean

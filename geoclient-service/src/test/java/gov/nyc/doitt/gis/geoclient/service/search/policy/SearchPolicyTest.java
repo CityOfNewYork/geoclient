@@ -15,21 +15,17 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.policy;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.junit.Assert.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-public class SearchPolicyTest
-{
+public class SearchPolicyTest {
 	@Test
-	public void testDefaultSettings()
-	{
+	public void testDefaultSettings() {
 		SearchPolicy searchPolicy = new SearchPolicy();
-		assertThat(searchPolicy.getExactMatchPolicy(), instanceOf(DefaultExactMatchPolicy.class));
-		assertThat(searchPolicy.getSearchDepthPolicy(), instanceOf(DefaultSearchDepthPolicy.class));
-		assertThat(searchPolicy.getSimilarNamesPolicy(), instanceOf(DefaultSimilarNamesPolicy.class));
+		assertThat(searchPolicy.getExactMatchPolicy()).isInstanceOf(DefaultExactMatchPolicy.class);
+		assertThat(searchPolicy.getSearchDepthPolicy()).isInstanceOf(DefaultSearchDepthPolicy.class);
+		assertThat(searchPolicy.getSimilarNamesPolicy()).isInstanceOf(DefaultSimilarNamesPolicy.class);
 	}
 
-	
 }

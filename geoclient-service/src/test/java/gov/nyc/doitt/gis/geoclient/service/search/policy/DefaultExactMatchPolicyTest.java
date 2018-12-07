@@ -15,69 +15,61 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.policy;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.*;
-import gov.nyc.doitt.gis.geoclient.service.search.Search;
-import gov.nyc.doitt.gis.geoclient.service.search.Fixtures;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class DefaultExactMatchPolicyTest
-{
+import gov.nyc.doitt.gis.geoclient.service.search.Fixtures;
+import gov.nyc.doitt.gis.geoclient.service.search.Search;
+
+public class DefaultExactMatchPolicyTest {
 	private Fixtures fix;
 	private DefaultExactMatchPolicy policy;
 
 	@BeforeEach
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 		this.fix = new Fixtures();
 		this.policy = new DefaultExactMatchPolicy();
 	}
 
 	@Test
-	public void testDefaultPolicySettings()
-	{
-		assertThat(policy.isExactMatchForSingleSuccess(), equalTo(DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_FOR_SINGLE_SUCCESS));
-		assertThat(policy.getExactMatchMaxLevel(), equalTo(DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_MAX_LEVEL));
+	public void testDefaultPolicySettings() {
+		assertThat(policy.isExactMatchForSingleSuccess())
+				.isEqualTo(DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_FOR_SINGLE_SUCCESS);
+		assertThat(policy.getExactMatchMaxLevel()).isEqualTo(DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_MAX_LEVEL);
 	}
-	
-	@Test
-	public void testFindExactMatch_choosesFirstSuccessResultOfTheRightLevel()
-	{
-		Search searchOne = new Search(fix.requestLevelOne,fix.responseSuccess);
-		fix.searchResult.add(searchOne);
-		assertThat(policy.findExactMatch(fix.searchResult),is(nullValue()));
-		Search searchZero = new Search(fix.requestLevelZero,fix.responseSuccess);
-		fix.searchResult.add(searchZero);
-		assertThat(policy.findExactMatch(fix.searchResult),equalTo(searchZero));
-	}	
-	
-	@Test
-	public void testMarkExactMatch_singleSuccessDisabled()
-	{
-		
-		Search searchZero = new Search(fix.requestLevelZero,fix.responseReject);
-		fix.searchResult.add(searchZero);
-		assertThat(policy.findExactMatch(fix.searchResult),is(nullValue()));
-		Search searchOne = new Search(fix.requestLevelOne,fix.responseSuccess);
-		fix.searchResult.add(searchOne);
-		assertThat(policy.findExactMatch(fix.searchResult),is(nullValue()));
-	}	
 
 	@Test
-	public void testMarkExactMatch_singleSuccessEnabled()
-	{
-		policy.setExactMatchForSingleSuccess(true);
-		Search searchZero = new Search(fix.requestLevelZero,fix.responseReject);
-		fix.searchResult.add(searchZero);
-		assertThat(policy.findExactMatch(fix.searchResult),is(nullValue()));
-		Search searchOne = new Search(fix.requestLevelOne,fix.responseSuccess);
+	public void testFindExactMatch_choosesFirstSuccessResultOfTheRightLevel() {
+		Search searchOne = new Search(fix.requestLevelOne, fix.responseSuccess);
 		fix.searchResult.add(searchOne);
-		assertThat(policy.findExactMatch(fix.searchResult),equalTo(searchOne));
-	}	
-	
+		assertThat(policy.findExactMatch(fix.searchResult)).isNull();
+		Search searchZero = new Search(fix.requestLevelZero, fix.responseSuccess);
+		fix.searchResult.add(searchZero);
+		assertThat(policy.findExactMatch(fix.searchResult)).isEqualTo(searchZero);
+	}
+
+	@Test
+	public void testMarkExactMatch_singleSuccessDisabled() {
+
+		Search searchZero = new Search(fix.requestLevelZero, fix.responseReject);
+		fix.searchResult.add(searchZero);
+		assertThat(policy.findExactMatch(fix.searchResult)).isNull();
+		Search searchOne = new Search(fix.requestLevelOne, fix.responseSuccess);
+		fix.searchResult.add(searchOne);
+		assertThat(policy.findExactMatch(fix.searchResult)).isNull();
+	}
+
+	@Test
+	public void testMarkExactMatch_singleSuccessEnabled() {
+		policy.setExactMatchForSingleSuccess(true);
+		Search searchZero = new Search(fix.requestLevelZero, fix.responseReject);
+		fix.searchResult.add(searchZero);
+		assertThat(policy.findExactMatch(fix.searchResult)).isNull();
+		Search searchOne = new Search(fix.requestLevelOne, fix.responseSuccess);
+		fix.searchResult.add(searchOne);
+		assertThat(policy.findExactMatch(fix.searchResult)).isEqualTo(searchOne);
+	}
 
 }

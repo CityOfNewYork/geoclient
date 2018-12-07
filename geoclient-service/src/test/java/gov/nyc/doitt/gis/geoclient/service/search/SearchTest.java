@@ -15,93 +15,92 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
-import gov.nyc.doitt.gis.geoclient.service.search.request.AddressRequest;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class SearchTest
-{
+import gov.nyc.doitt.gis.geoclient.service.search.request.AddressRequest;
+
+public class SearchTest {
 	private Fixtures fix;
 	private Search search;
 
 	@BeforeEach
-	public void setUp() throws Exception
-	{
+	public void setUp() throws Exception {
 		fix = new Fixtures();
-		search = new Search(fix.requestLevelOne,fix.responseSuccess);
+		search = new Search(fix.requestLevelOne, fix.responseSuccess);
 	}
 
 	@Test
-	public void testConstructor()
-	{
-		assertThat((AddressRequest)search.getRequest(), sameInstance(fix.requestLevelOne));
-		assertThat(search.getResponse(), sameInstance(fix.responseSuccess));
+	public void testConstructor() {
+		assertThat((AddressRequest) search.getRequest()).isSameAs(fix.requestLevelOne);
+		assertThat(search.getResponse()).isSameAs(fix.responseSuccess);
 	}
 
 	@Test
-	public void testIsRejected()
-	{
+	public void testIsRejected() {
 		assertFalse(search.isRejected());
-		assertTrue(new Search(fix.requestLevelFour,fix.responseReject).isRejected());
-	}
-
-	@Test(expected=NullPointerException.class)
-	public void testIsRejected_nullResponse()
-	{
-		new Search(fix.requestLevelFour,null).isRejected();
+		assertTrue(new Search(fix.requestLevelFour, fix.responseReject).isRejected());
 	}
 
 	@Test
-	public void testGetSimilarNames()
-	{
-		assertThat(search.getSimilarNames(),sameInstance(search.getResponse().getSimilarNames()));
-	}
-
-	@Test(expected=NullPointerException.class)
-	public void testgetSimilarNames_nullResponse()
-	{
-		new Search(fix.requestLevelFour,null).getSimilarNames();
+	public void testIsRejected_nullResponse() {
+		assertThrows(NullPointerException.class, () -> {
+			new Search(fix.requestLevelFour, null).isRejected();
+		});
 	}
 
 	@Test
-	public void testResponseMessageAppliesTo()
-	{
+	public void testGetSimilarNames() {
+		assertThat(search.getSimilarNames()).isSameAs(search.getResponse().getSimilarNames());
+	}
+
+	@Test
+	public void testgetSimilarNames_nullResponse() {
+		assertThrows(NullPointerException.class, () -> {
+			new Search(fix.requestLevelFour, null).getSimilarNames();
+		});
+	}
+
+	@Test
+	public void testResponseMessageAppliesTo() {
 		String streetName = "FOO";
-		assertThat(search.responseMessageAppliesTo(streetName),equalTo(search.getResponse().messageAppliesTo(streetName)));
+		assertThat(search.responseMessageAppliesTo(streetName))
+				.isEqualTo(search.getResponse().messageAppliesTo(streetName));
 		assertFalse(search.responseMessageAppliesTo(streetName));
 		search.getResponse().getResponseStatus().getGeosupportReturnCode().setMessage(streetName);
-		assertThat(search.responseMessageAppliesTo(streetName),equalTo(search.getResponse().messageAppliesTo(streetName)));
+		assertThat(search.responseMessageAppliesTo(streetName))
+				.isEqualTo(search.getResponse().messageAppliesTo(streetName));
 		assertTrue(search.responseMessageAppliesTo(streetName));
 	}
 
-	@Test(expected=NullPointerException.class)
-	public void testResponseMessageAppliesTo_nullResponse()
-	{
-		new Search(fix.requestLevelFour,null).responseMessageAppliesTo("foo");
+	@Test
+	public void testResponseMessageAppliesTo_nullResponse() {
+		assertThrows(NullPointerException.class, () -> {
+			new Search(fix.requestLevelFour, null).responseMessageAppliesTo("foo");
+		});
 	}
 
 	@Test
-	public void testGetResponseStatus()
-	{
-		assertThat(search.getResponseStatus(),sameInstance(search.getResponse().getResponseStatus()));
+	public void testGetResponseStatus() {
+		assertThat(search.getResponseStatus()).isSameAs(search.getResponse().getResponseStatus());
 	}
 
 	@Test
-	public void testGetLevel()
-	{
+	public void testGetLevel() {
 		search.getRequest().setLevel(128);
-		assertThat(search.getLevel(),equalTo(search.getRequest().getLevel()));		
-		assertThat(search.getLevel(),equalTo(128));
+		assertThat(search.getLevel()).isEqualTo(search.getRequest().getLevel());
+		assertThat(search.getLevel()).isEqualTo(128);
 	}
 
 	@Test
-	public void testLessThanOrEqualTo()
-	{
+	public void testLessThanOrEqualTo() {
 		search.getRequest().setLevel(128);
-		assertThat(search.getLevel(),equalTo(128));
+		assertThat(search.getLevel()).isEqualTo(128);
 		assertTrue(search.lessThanOrEqualTo(256));
 		assertTrue(search.lessThanOrEqualTo(128));
 		assertFalse(search.lessThanOrEqualTo(12));

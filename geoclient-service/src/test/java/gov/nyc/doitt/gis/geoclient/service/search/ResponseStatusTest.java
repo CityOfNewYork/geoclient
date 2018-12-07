@@ -15,8 +15,8 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search;
 
-import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.*;
 import gov.nyc.doitt.gis.geoclient.config.ReturnCodeValue;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -43,36 +43,36 @@ public class ResponseStatusTest
 	@Test
 	public void testIsRejected()
 	{
-		assertThat(this.responseStatus.isRejected(), is(true));
+		assertThat(this.responseStatus.isRejected()).isTrue();
 		GeosupportReturnCode grc1 = this.responseStatus.getGeosupportReturnCode();
 		grc1.setReturnCode("00");
-		assertThat(grc1.isRejected(), is(false));
+		assertThat(grc1.isRejected()).isFalse();
 		GeosupportReturnCode grc2 = this.responseStatus.getGeosupportReturnCode2();
-		assertThat(grc2.isRejected(), is(true));
-		assertThat(this.responseStatus.isRejected(), is(false));
+		assertThat(grc2.isRejected()).isTrue();
+		assertThat(this.responseStatus.isRejected()).isFalse();
 		grc2.setReturnCode("01");
-		assertThat(grc2.isRejected(), is(false));
-		assertThat(this.responseStatus.isRejected(), is(false));
+		assertThat(grc2.isRejected()).isFalse();
+		assertThat(this.responseStatus.isRejected()).isFalse();
 		grc1.setReturnCode("EE");
-		assertThat(grc1.isRejected(), is(true));
-		assertThat(this.responseStatus.isRejected(), is(false));
+		assertThat(grc1.isRejected()).isTrue();
+		assertThat(this.responseStatus.isRejected()).isFalse();
 		grc2.setReturnCode("11");
-		assertThat(grc2.isRejected(), is(true));
-		assertThat(this.responseStatus.isRejected(), is(true));
+		assertThat(grc2.isRejected()).isTrue();
+		assertThat(this.responseStatus.isRejected()).isTrue();
 		this.responseStatus.setGeosupportReturnCode(null);
-		assertThat(this.responseStatus.isRejected(), is(true));
+		assertThat(this.responseStatus.isRejected()).isTrue();
 		this.responseStatus.setGeosupportReturnCode2(null);
-		assertThat(this.responseStatus.isRejected(), is(true));
+		assertThat(this.responseStatus.isRejected()).isTrue();
 	}
 
 	@Test
 	public void testSimilarNamesCount()
 	{
-		assertThat(this.responseStatus.similarNamesCount(), equalTo(0));
+		assertThat(this.responseStatus.similarNamesCount()).isEqualTo(0);
 		this.responseStatus.getSimilarNames().add("abc");
-		assertThat(this.responseStatus.similarNamesCount(), equalTo(1));
+		assertThat(this.responseStatus.similarNamesCount()).isEqualTo(1);
 		this.responseStatus.setSimilarNames(null);
-		assertThat(this.responseStatus.similarNamesCount(), equalTo(0));
+		assertThat(this.responseStatus.similarNamesCount()).isEqualTo(0);
 	}
 
 }

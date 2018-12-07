@@ -15,12 +15,11 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.web;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
+import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.any;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -106,9 +105,9 @@ public class SingleFieldSearchControllerTest
 				Object[] args = invocation.getArguments();
 				ParamsAndResult wsrArg = (ParamsAndResult) args[0];
 				// Should be different instance but have the same default settings
-				assertThat(wsrArg.getSearchParameters(), equalTo(expectedParams));
+				assertThat(wsrArg.getSearchParameters()).isEqualTo(expectedParams);
 				// Should be same instance returned by searchHandlerMock.findLocation()
-				assertThat(wsrArg.getSearchResult(), sameInstance(expectedSearchResult));
+				assertThat(wsrArg.getSearchResult()).isSameAs(expectedSearchResult);
 				// Class should be Map
 				Class<?> clazz = (Class<?>) args[1];
 				assertNotNull(clazz);

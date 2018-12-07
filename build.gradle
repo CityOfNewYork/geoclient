@@ -36,7 +36,7 @@ subprojects {
     dependencyManagement {
         imports {
             mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-            mavenBom "org.junit:junit-bom:${junitJupiterBomVersion}"
+            //mavenBom "org.junit:junit-bom:${junitJupiterBomVersion}"
         }
     }
 
@@ -122,7 +122,7 @@ subprojects {
         environment 'GEOFILES', gsGeofilesPath
         testLogging {
             lifecycle {
-                events 'PASSED', 'SKIPPED', 'FAILED'
+                events 'SKIPPED', 'FAILED'
                 exceptionFormat 'short'
             }
             info {
