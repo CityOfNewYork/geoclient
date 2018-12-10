@@ -9,8 +9,6 @@
 //  }
 plugins { id 'org.springframework.boot' version '2.1.1.RELEASE' apply false }
 
-repositories { mavenCentral() }
-
 apply from: "${rootDir}/gradle/dependencies.gradle"
 
 allprojects {
@@ -31,7 +29,11 @@ subprojects {
     //    toolVersion = "${checkstyleVersion}"
     //}
 
-    repositories { mavenCentral() }
+    repositories {
+        maven { url "http://maven.geotoolkit.org/" }
+        mavenCentral()
+        maven { url "http://repo.boundlessgeo.com/main/" }
+    }
 
     dependencyManagement {
         imports {
@@ -120,16 +122,6 @@ subprojects {
         systemProperty 'java.library.path', gsLibraryPath
         // Ensure Geosupport knows where to find its data files
         environment 'GEOFILES', gsGeofilesPath
-        testLogging {
-            lifecycle {
-                events 'SKIPPED', 'FAILED'
-                exceptionFormat 'short'
-            }
-            info {
-                events 'PASSED', 'SKIPPED', 'FAILED', 'STANDARD_OUT', 'STANDARD_ERROR'
-                exceptionFormat 'short'
-            }
-        }
     }
 
     javadoc {
@@ -148,12 +140,12 @@ subprojects {
     jar {
         manifest {
             attributes(
-                            'Implementation-Title': project.name,
-                            'Implementation-Version': project.version,
-                            'Built-By': System.getProperty('user.name'),
-                            'Built-JDK': System.getProperty('java.version'),
-                            'Built-Gradle': gradle.gradleVersion
-                            )
+                'Implementation-Title': project.name,
+                'Implementation-Version': project.version,
+                'Built-By': System.getProperty('user.name'),
+                'Built-JDK': System.getProperty('java.version'),
+                'Built-Gradle': gradle.gradleVersion
+            )
         }
 
         from("${rootProject.projectDir}/src/dist") {

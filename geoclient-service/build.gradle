@@ -1,69 +1,49 @@
 plugins {
-	id 'org.springframework.boot' //version '2.1.1.RELEASE'
+  id 'org.springframework.boot' //version '2.1.1.RELEASE'
 }
 
 //apply plugin: 'eclipse-wtp'
 apply plugin: 'org.springframework.boot'
 
-
-configurations {
-	external
-}
-
 dependencies {
-	implementation project(':geoclient-jni')
-	implementation project(':geoclient-core')
-	implementation project(':geoclient-parser')
-	implementation("org.apache.commons:commons-text:${commonsTextVersion}")
-	implementation("com.github.dozermapper:dozer-spring-boot-starter:${dozerVersion}")
-	implementation('org.springframework.boot:spring-boot-starter-web')
-	implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
-	implementation('org.springframework.boot:spring-boot-starter-validation')
-	implementation('org.springframework.boot:spring-boot-devtools')
-	implementation('org.springframework:spring-oxm') { exclude(module: 'commons-lang') }
-	implementation('com.thoughtworks.xstream:xstream')
-	implementation('joda-time:joda-time')
-	
-	testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
-	testImplementation('com.jayway.jsonpath:json-path')
-	
-	external("org.geotools:gt-referencing:${geotoolsVersion}") {
-		exclude(group: "jgridshift", module: "jgridshift")
-	}
-	external("org.geotools:gt-main:${geotoolsVersion}") {
-		exclude(module: 'xerces')
-		exclude(group: 'jgridshift', module: 'jgridshift')
-	}
-	external("org.geotools:gt-epsg-wkt:${geotoolsVersion}") {
-		exclude(group: 'jgridshift', module: 'jgridshift')
-	}
+  implementation project(':geoclient-jni')
+  implementation project(':geoclient-core')
+  implementation project(':geoclient-parser')
+  implementation("org.apache.commons:commons-text:${commonsTextVersion}")
+  implementation("com.github.dozermapper:dozer-spring-boot-starter:${dozerVersion}")
+  implementation('org.springframework.boot:spring-boot-starter-web')
+  implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
+  implementation('org.springframework.boot:spring-boot-starter-validation')
+  implementation('org.springframework.boot:spring-boot-devtools')
+  implementation('org.springframework:spring-oxm') { exclude(module: 'commons-lang') }
+  implementation('com.thoughtworks.xstream:xstream')
+  implementation('joda-time:joda-time')
+  implementation("org.geotools:gt-referencing:${geotoolsVersion}") {
+    exclude(group: "jgridshift", module: "jgridshift")
+  }
+  implementation("org.geotools:gt-main:${geotoolsVersion}") {
+    exclude(module: 'xerces')
+    exclude(group: 'jgridshift', module: 'jgridshift')
+  }
+  implementation("org.geotools:gt-epsg-wkt:${geotoolsVersion}") {
+    exclude(group: 'jgridshift', module: 'jgridshift')
+  }
+  //testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
+  //testImplementation('com.jayway.jsonpath:json-path')
 }
 
 sourceSets {
-	external {
-		java.srcDir 'src/external/java'
-	}
-	main {
-		compileClasspath += sourceSets.external.output
-		runtimeClasspath += sourceSets.external.output
-	}
-	test {
-		compileClasspath += sourceSets.external.output
-		runtimeClasspath += sourceSets.external.output
-	}
-}
-
-tasks.withType(JavaCompile) {
-	classpath += configurations.external
-}
-
-tasks.withType(Test) {
-	classpath += configurations.external
+  main {
+    java {
+      srcDir 'src/main/java'
+      srcDir 'src/external/java'
+    }
+    resources { srcDir 'src/main/resources' }
+  }
 }
 
 tasks.withType(Javadoc) {
-	exclude '**/LatLongEnhancer.java'
-	classpath += configurations.external
+  exclude '**/LatLongEnhancer.java'
 }
 
 jar { enabled = true }
@@ -71,9 +51,9 @@ jar { enabled = true }
 springBoot { buildInfo() }
 
 bootJar {
-	classifier = 'boot'
-	mainClassName = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
-	//requiresUnpack '**/geoclient-jni-*.jar'
+  classifier = 'boot'
+  mainClassName = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
+  //requiresUnpack '**/geoclient-jni-*.jar'
 }
 
 // FIXME Required to avoid encoding error on Windows when platform default:
@@ -81,9 +61,9 @@ bootJar {
 compileJava { options.encoding = 'utf-8' }
 
 processResources {
-	ext.ver = rootProject.version
-	from(sourceSets.main.resources) {
-		include 'version.properties'
-		filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: ver])
-	}
+  ext.ver = rootProject.version
+  from(sourceSets.main.resources) {
+    include 'version.properties'
+    filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: ver])
+  }
 }
