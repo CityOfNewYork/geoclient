@@ -1,5 +1,11 @@
 package gov.nyc.doitt.gis.geoclient.test;
 
+import static gov.nyc.doitt.gis.geoclient.jni.JniContext.SystemProperty.JAVA_LIBRARY_PATH;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.File;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,18 +24,33 @@ class IntegrationTestSupportTest {
 		void debugLogSystemProperties() {
 			logSystemProperties(Level.DEBUG, logger);
 		}
+		
+		File getJavaLibraryPathAsFile() {
+			return getSystemPropertyAsFile(JAVA_LIBRARY_PATH.name());
+		}
+	}
+	
+	private IntegrationTest itestInstance;
+	
+	@BeforeEach
+	void setUp() {
+		this.itestInstance = new IntegrationTest();
+	}
+	
+	@Test
+	void testGetSystemPropertyAsFile() {
+		File actual = itestInstance.getJavaLibraryPathAsFile();
+		assertTrue(actual.exists());
 	}
 	
 	@Test
 	void testLogEnvironment() {
-		IntegrationTest t = new IntegrationTest();
-		t.debugLogEnvironment();
+		itestInstance.debugLogEnvironment();
 	}
 
 	@Test
 	void testLogSystemProperties() {
-		IntegrationTest t = new IntegrationTest();
-		t.debugLogSystemProperties();
+		itestInstance.debugLogSystemProperties();
 	}
 
 }

@@ -4,13 +4,6 @@ plugins {
     id 'c'
 }
 
-tasks.jar {
-    //dependsOn('geoclientjniSharedLibrary')
-    manifest {
-        attributes 'Main-Class': 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest'
-    }
-}
-
 def basePackagePath = "gov/nyc/doitt/gis/geoclient/jni"
 def generatedResources = "${project.buildDir}/generated-resources/main"
 

@@ -122,6 +122,7 @@ subprojects {
         systemProperty 'java.library.path', gsLibraryPath
         // Ensure Geosupport knows where to find its data files
         environment 'GEOFILES', gsGeofilesPath
+		testLogging.showStandardStreams = true
     }
 
     javadoc {

@@ -11,8 +11,19 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
+import static gov.nyc.doitt.gis.geoclient.jni.JniContext.SystemProperty.*;
+
+
 public interface IntegrationTestSupport {
 
+	default String getJavaLibraryPath() {
+		return JAVA_LIBRARY_PATH.toString();
+	}
+	
+	default String getJavaIoTmpdir() {
+		return JAVA_IO_TMPDIR.toString();
+	}
+	
 	default boolean contains(File target) {
 		List<String> paths = Arrays.asList(System.getProperty("PATH").split(File.separator));
 		for (String string : paths) {
