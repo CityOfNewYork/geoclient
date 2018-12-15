@@ -16,7 +16,7 @@ dependencies {
   implementation('org.springframework.boot:spring-boot-starter-validation')
   implementation('org.springframework.boot:spring-boot-devtools')
   implementation('org.springframework:spring-oxm') { exclude(module: 'commons-lang') }
-  implementation('com.thoughtworks.xstream:xstream')
+  implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}")
   implementation('joda-time:joda-time')
   implementation("org.geotools:gt-referencing:${geotoolsVersion}") {
     exclude(group: "jgridshift", module: "jgridshift")
@@ -53,12 +53,12 @@ springBoot { buildInfo() }
 bootJar {
   classifier = 'boot'
   mainClassName = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
-  //requiresUnpack '**/geoclient-jni-*.jar'
+  requiresUnpack '**/geoclient-jni-*.jar'
 }
 
 // FIXME Required to avoid encoding error on Windows when platform default:
 // Cp1252 is used to read the embedded EPSG file database.
-compileJava { options.encoding = 'utf-8' }
+compileJava { options.encoding = 'UTF-8' }
 
 processResources {
   ext.ver = rootProject.version

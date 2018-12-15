@@ -120,9 +120,10 @@ subprojects {
         useJUnitPlatform()
         // Variables set in gradle/env.gradle
         systemProperty 'java.library.path', gsLibraryPath
+        systemProperty 'file.encoding', 'UTF-8'
         // Ensure Geosupport knows where to find its data files
         environment 'GEOFILES', gsGeofilesPath
-		testLogging.showStandardStreams = true
+		//testLogging.showStandardStreams = true
     }
 
     javadoc {
