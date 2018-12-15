@@ -1,14 +1,3 @@
-// spring-javaformat-gradle-plugin:
-//  buildscript {
-//      repositories {
-//          mavenCentral()
-//      }
-//      dependencies {
-//          classpath('io.spring.javaformat:spring-javaformat-gradle-plugin:0.0.6')
-//      }
-//  }
-plugins { id 'org.springframework.boot' version '2.1.1.RELEASE' apply false }
-
 apply from: "${rootDir}/gradle/dependencies.gradle"
 
 allprojects {
@@ -21,13 +10,6 @@ allprojects {
 subprojects {
 
     apply plugin: 'java'
-    //apply plugin: 'checkstyle'
-    apply plugin: 'io.spring.dependency-management'
-    //apply plugin: 'io.spring.javaformat'
-
-    //checkstyle {
-    //    toolVersion = "${checkstyleVersion}"
-    //}
 
     repositories {
         maven { url "http://maven.geotoolkit.org/" }
@@ -35,14 +17,8 @@ subprojects {
         maven { url "http://repo.boundlessgeo.com/main/" }
     }
 
-    dependencyManagement {
-        imports {
-            mavenBom org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES
-            //mavenBom "org.junit:junit-bom:${junitJupiterBomVersion}"
-        }
-    }
-
     dependencies {
+        implementation enforcedPlatform('org.springframework.boot:spring-boot-dependencies:2.1.1.RELEASE')
         implementation 'org.springframework.boot:spring-boot-starter-logging'
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit', module: 'junit'
@@ -50,7 +26,6 @@ subprojects {
         testImplementation 'org.junit.jupiter:junit-jupiter-api'
         testImplementation 'org.junit.jupiter:junit-jupiter-params'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-        //checkstyle "io.spring.javaformat:spring-javaformat-checkstyle:${springJavaformatCheckstyleVersion}"
     }
 
     compileJava.options*.compilerArgs = [
@@ -118,7 +93,6 @@ subprojects {
 
     test {
         useJUnitPlatform()
-        // Variables set in gradle/env.gradle
         systemProperty 'java.library.path', gsLibraryPath
         systemProperty 'file.encoding', 'UTF-8'
         // Ensure Geosupport knows where to find its data files
@@ -136,7 +110,7 @@ subprojects {
             noTimestamp = true
         }
     }
-    // Disable Javadoc if requested
+
     tasks.withType(Javadoc).all { enabled = project.ext.enableJavadoc }
 
     jar {
@@ -156,7 +130,7 @@ subprojects {
             into 'META-INF'
             expand(copyright: new Date().format('yyyy'), version: project.version)
         }
-    } // jar
+    }
 
     task sourcesJar(type: Jar, dependsOn: classes) {
         classifier = 'sources'
@@ -224,7 +198,7 @@ subprojects {
         } //publications
     } // publishing
 
-    signing { sign publishing.publications.mavenJava } // signing
+    signing { sign publishing.publications.mavenJava }
 
 } // allprojects
 

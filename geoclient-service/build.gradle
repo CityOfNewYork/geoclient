@@ -1,9 +1,9 @@
 plugins {
-  id 'org.springframework.boot' //version '2.1.1.RELEASE'
+  id 'org.springframework.boot' version '2.1.1.RELEASE'
 }
 
 //apply plugin: 'eclipse-wtp'
-apply plugin: 'org.springframework.boot'
+//apply plugin: 'org.springframework.boot'
 
 dependencies {
   implementation project(':geoclient-jni')
