@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -32,7 +33,8 @@ import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
 import gov.nyc.doitt.gis.geoclient.service.search.request.AddressRequest;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = { ParserConfig.class, AppConfig.class })
+@SpringBootTest
+//@ContextConfiguration(classes = { ParserConfig.class, AppConfig.class })
 public class SingleFieldSearchHandlerTest {
   @Autowired
   private SingleFieldSearchHandler singleFieldSearchHandler;

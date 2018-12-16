@@ -1,9 +1,29 @@
 spring:
-        mvc:
-                contentnegotiation:
-                        favor-path-extension: true
-                        favor-parameter: false
+    mvc:
+        contentnegotiation:
+            favor-path-extension: true
+            favor-parameter: false
 
 server:
-        servlet:
-                context-path: "/geoclient/v2"
+    servlet:
+        context-path: "/geoclient/v2"
+
+
+logging:
+    group:
+        geoclient:
+            - "gov.nyc.doitt.gis.geoclient"
+        spring:
+            - "org.springframework"
+        spring-boot:
+            - "org.springframework.boot"
+        tomcat:
+            - "org.apache.catalina, org.apache.coyote"
+            - "org.apache.tomcat"
+
+    level:
+        root: "WARN"
+        spring: "INFO"
+        geoclient: "INFO"
+        gov.nyc.doitt.gis.geoclient.jni: "DEBUG"
+        gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
