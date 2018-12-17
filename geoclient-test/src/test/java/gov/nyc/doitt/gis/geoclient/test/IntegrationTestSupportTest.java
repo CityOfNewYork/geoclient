@@ -1,6 +1,5 @@
 package gov.nyc.doitt.gis.geoclient.test;
 
-import static gov.nyc.doitt.gis.geoclient.jni.JniContext.SystemProperty.JAVA_LIBRARY_PATH;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
@@ -10,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
+
+import gov.nyc.doitt.gis.geoclient.jni.JniContext;
 
 // TODO Capture stdout or mock
 class IntegrationTestSupportTest {
@@ -26,7 +27,7 @@ class IntegrationTestSupportTest {
 		}
 		
 		File getJavaLibraryPathAsFile() {
-			return getSystemPropertyAsFile(JAVA_LIBRARY_PATH.name());
+			return getSystemPropertyAsFile(JniContext.getJvmLibraryPath());
 		}
 	}
 	

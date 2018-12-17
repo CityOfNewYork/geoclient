@@ -33,12 +33,16 @@ public class Platform {
 	
 	public static final String LINUX_SHARED_LIB_PREFIX = "lib";
 
+    public static final String LINUX_SHARED_LIB_PATH_VAR = "LD_LIBRARY_PATH";
+
 	public static final String LINUX_SHARED_LIB_FILE_EXTENSION = "so";
 
 	public static final String WINDOWS_OS_FAMILY = "windows";
 	
 	public static final String WINDOWS_SHARED_LIB_PREFIX = "";
 
+    public static final String WINDOWS_SHARED_LIB_PATH_VAR = "PATH";
+    
 	public static final String WINDOWS_SHARED_LIB_FILE_EXTENSION = "dll";
 
 	public static final BiFunction<String, String, String> PLATFORM_NAMER = (String s1, String s2) -> { return String.format("%s_%s", s1, s2); };
@@ -135,6 +139,13 @@ public class Platform {
 	public String getSharedLibraryFileName(String baseName) {
 		return String.format("%s%s.%s", getSharedLibraryPrefix(), baseName,
 				getSharedLibraryFileExtension());
+	}
+	
+	public String getSharedLibraryPathEnvironmentVarName() {
+	    if (isWindows()) {
+	        return WINDOWS_SHARED_LIB_PATH_VAR;
+	    }
+	    return LINUX_SHARED_LIB_PATH_VAR;
 	}
 
 	@Override

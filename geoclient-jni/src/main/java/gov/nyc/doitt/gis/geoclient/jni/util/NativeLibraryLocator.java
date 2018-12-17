@@ -37,106 +37,166 @@ import gov.nyc.doitt.gis.geoclient.jni.JniContext;
 
 public class NativeLibraryLocator {
 
-	final Logger logger = LoggerFactory.getLogger(NativeLibraryLocator.class);
+    final static Logger logger = LoggerFactory.getLogger(NativeLibraryLocator.class);
 
-	private final String extractDir;
+    private final String extractDir;
 
-	public NativeLibraryLocator(String extractDir) {
-		this.extractDir = extractDir;
-	}
+    public NativeLibraryLocator(String extractDir) {
+        this.extractDir = extractDir;
+    }
+    
+    public NativeLibraryLocator() {
+        this(null);
+    }
 
-	public File find(JniLibrary jniLibrary) throws IOException {
-		//String resourceName = "gov/nyc/doitt/gis/geoclient/jni/" + jniLibrary.getResourceName();
-		String resourceName = String.format("%s/%s", JniContext.GC_PACKAGE_PATH, jniLibrary.getResourceName());
-		logger.debug("jniLibrary.resourceName={}", resourceName);
-		if (this.extractDir != null) {
-			File libFile = new File(this.extractDir,
-					String.format("%s/%s", jniLibrary.getVersion(), resourceName));
-			logger.debug("libFile={}", libFile);
-			File lockFile = new File(libFile.getParentFile(),
-					libFile.getName() + ".lock");
-			lockFile.getParentFile().mkdirs();
-			lockFile.createNewFile();
-			RandomAccessFile lockFileAccess = new RandomAccessFile(lockFile, "rw");
-			try {
-				// Take exclusive lock on lock file
-				FileLock lock = lockFileAccess.getChannel().lock();
-				assert lock.isValid();
-				if (lockFile.length() > 0 && lockFileAccess.readBoolean()) {
-					// Library has been extracted
-					return libFile;
-				}
-				URL resource = getClass().getClassLoader().getResource(resourceName);
-				logger.debug("URL resource={}", resource);
-				if (resource != null) {
-					// Extract library and write marker to lock file
-					libFile.getParentFile().mkdirs();
-					copy(resource, libFile);
-					lockFileAccess.seek(0);
-					lockFileAccess.writeBoolean(true);
-					return libFile;
-				}
-			}
-			finally {
-				// Also releases lock
-				lockFileAccess.close();
-			}
-		}
-		else {
-			// Default to using JVM temp-file directory whose value is derived at runtime
-			// from Java system property 'java.io.tmpdir'
-			URL resource = getClass().getClassLoader().getResource(resourceName);
-			if (resource != null) {
-				File libFile;
-				File libDir = File.createTempFile(jniLibrary.getName(), "dir");
-				libDir.delete();
-				libDir.mkdirs();
-				libFile = new File(libDir, jniLibrary.getName());
-				libFile.deleteOnExit();
-				copy(resource, libFile);
-				return libFile;
-			}
-		}
-		// Panic and resort to depraved hackery
-		return loadFromBuildDirectory(jniLibrary);
-	}
+    public File find(JniLibrary jniLibrary) throws IOException {
 
-	private File loadFromBuildDirectory(JniLibrary jniLibrary) {
-		File libFile = new File(String.format("build/libs/%s/shared/%s",
-				jniLibrary.getName(), jniLibrary.getPlatform().getName()));
-		if (libFile.isFile()) {
-			return libFile;
-		}
+        if (this.extractDir != null) {
+            return extractToDirectory(jniLibrary, this.extractDir);
+        }
 
-		return null;
-	}
+        File libFile = extractToDefaultTempDirectory(jniLibrary);
 
-	private static void copy(URL source, File dest) {
-		try {
-			InputStream inputStream = source.openStream();
-			try {
-				OutputStream outputStream = new FileOutputStream(dest);
-				try {
-					byte[] buffer = new byte[4096];
-					while (true) {
-						int nread = inputStream.read(buffer);
-						if (nread < 0) {
-							break;
-						}
-						outputStream.write(buffer, 0, nread);
-					}
-				}
-				finally {
-					outputStream.close();
-				}
-			}
-			finally {
-				inputStream.close();
-			}
-		}
-		catch (IOException e) {
-			throw new JniLibraryException("Could not extract native JNI library.", e);
-		}
-	}
+        if (libFile != null) {
+            return libFile;
+        }
+
+        File buildFile = getBuildDirectory(jniLibrary);
+        logger.warn("Having panic attack and resorting to depraved hackery by searching build directory for shared library file:");
+        logger.warn(buildFile.getAbsolutePath());
+        return loadFromDirectory(jniLibrary, buildFile);
+    }
+
+    protected File extractToDirectory(JniLibrary jniLibrary, String destinationDir) throws IOException {
+        String resourceName = getResourceName(jniLibrary);
+        logger.debug("Target shared library file parent directory is {}", destinationDir);
+        File libFile = new File(destinationDir, String.format("%s/%s", jniLibrary.getVersion(), resourceName));
+        logger.debug("Attempting to extract shared library resource {} to file {}", resourceName, libFile);
+        File lockFile = new File(libFile.getParentFile(), libFile.getName() + ".lock");
+        lockFile.getParentFile().mkdirs();
+        boolean isNew = lockFile.createNewFile();
+        if(isNew) {
+            logger.debug("Successfully created new lock file {}",lockFile.getAbsolutePath());
+        } else {
+            logger.debug("Using existing lock file {}", lockFile.getAbsolutePath());
+        }
+        RandomAccessFile lockFileAccess = new RandomAccessFile(lockFile, "rw");
+        logger.debug("Using RandomAccessFile {}", lockFileAccess);
+        try {
+            // Take exclusive lock on lock file
+            FileLock lock = lockFileAccess.getChannel().lock();
+            assert lock.isValid();
+            if (lockFile.length() > 0 && lockFileAccess.readBoolean()) {
+                // Library has already been extracted
+                logger.debug("Located existing library File {} using FileLock {}", libFile, lock.toString());
+                return libFile;
+            }
+            URL resource = resolveClassLoaderUrlResource(resourceName);
+            if (resource != null) {
+                logger.debug("Using resolved ClassLoader URL resource {}", resource.toString());
+                // Extract library and write marker to lock file
+                libFile.getParentFile().mkdirs();
+                copy(resource, libFile);
+                lockFileAccess.seek(0);
+                lockFileAccess.writeBoolean(true);
+                logger.info("Successfully extracted shared library file {} to parent directory {}.", libFile.getAbsolutePath(), libFile.getParentFile());
+                return libFile;
+            }
+        } finally {
+            // Also releases lock
+            lockFileAccess.close();
+            logger.debug("Closed RandomAccessFile {}", lockFileAccess);
+        }
+        return libFile;
+    }
+
+    protected File extractToDefaultTempDirectory(JniLibrary jniLibrary) throws IOException {
+        String resourceName = getResourceName(jniLibrary);
+        // Default to using runtime JVM temporary file directory
+        URL resource = resolveClassLoaderUrlResource(resourceName);
+        if (resource != null) {
+            File libFile;
+            File libDir = File.createTempFile(jniLibrary.getName(), "dir");
+            libDir.delete();
+            libDir.mkdirs();
+            libFile = new File(libDir, jniLibrary.getName());
+            libFile.deleteOnExit();
+            copy(resource, libFile);
+            logger.debug("Successfully resolved {} to URL {} and copied it to temporary file {}.", resourceName, resource.toString(), libFile.getAbsolutePath());
+            return libFile;
+        }
+        logger.debug("Failed to resolve {} to a URL", resourceName);
+        return null;
+    }
+
+    protected String getResourceName(JniLibrary jniLibrary) {
+        return String.format("%s/%s", JniContext.getJavaPackagePath(), jniLibrary.getResourceName());
+    }
+
+    protected URL resolveClassLoaderUrlResource(String resourceName) {
+        Class<?> clazz = this.getClass();
+        ClassLoader classLoader = clazz.getClassLoader();
+        logger.debug("Attempting to load resource '{}' from {} instance's ClassLoader {}", resourceName,
+                clazz.getCanonicalName(), classLoader.toString());
+        URL resource = classLoader.getResource(resourceName);
+        if (resource != null) {
+            logger.info("Resolved {} to URL {}", resourceName, resource.toString());
+        } else {
+            logger.warn("ClassLoader {} falied to resolve resource {}.", classLoader, resourceName);
+        }
+        return resource;
+    }
+
+    protected File loadFromDirectory(JniLibrary jniLibrary, File parentDir) {
+        String libFileName = jniLibrary.getLibraryFileName();
+        logger.debug("Attempting to load file {} from directory {}...", libFileName, parentDir);
+        File libFile = new File(parentDir, jniLibrary.getLibraryFileName());
+        if (libFile.isFile()) {
+            logger.info("Resolved file {} to absolute path {}", libFileName, libFile.getAbsolutePath());
+            return libFile;
+        }
+        logger.warn("Shared library file {} in directory {} does not exist.", libFileName, parentDir);
+        return null;
+    }
+
+    private File getBuildDirectory(JniLibrary jniLibrary) {
+        File libFile = new File(
+                String.format("build/libs/%s/shared/%s", jniLibrary.getName(), jniLibrary.getPlatform().getName()));
+        return libFile;
+    }
+
+    private static void copy(URL source, File dest) {
+        if (source == null) {
+            throw new NullPointerException("URL source argument cannot be null.");
+        }
+        if (dest == null) {
+            throw new NullPointerException("File destination argument cannot be null.");
+        }
+        logger.debug("Copying URL resource {} to file {}");
+        try {
+            InputStream inputStream = source.openStream();
+            try {
+                OutputStream outputStream = new FileOutputStream(dest);
+                try {
+                    byte[] buffer = new byte[4096];
+                    while (true) {
+                        int nread = inputStream.read(buffer);
+                        if (nread < 0) {
+                            break;
+                        }
+                        outputStream.write(buffer, 0, nread);
+                    }
+                } finally {
+                    outputStream.close();
+                }
+            } finally {
+                inputStream.close();
+            }
+        } catch (IOException e) {
+            logger.error("Error copying from {} to {}", source, dest);
+            throw new JniLibraryException(String.format("Exception while copying URL resource %s to file %s",
+                    source.toString(), dest.getAbsolutePath()), e);
+        }
+    }
 
 }

@@ -7,10 +7,10 @@ public class JniContext {
 
     static final Logger logger = LoggerFactory.getLogger(JniContext.class);
 
-	public static final String GC_SHAREDLIB_BASENAME = "geoclientjni";
-	public static final String GC_PACKAGE_PATH = JniContext.class.getPackage().getName().replaceAll("\\.", "\\/");
+	private static final String GC_SHAREDLIB_BASENAME = "geoclientjni";
+	private static final String GC_PACKAGE_PATH = JniContext.class.getPackage().getName().replaceAll("\\.", "\\/");
 
-	public enum SystemProperty {
+	private enum SystemProperty {
 		JAVA_IO_TMPDIR("java.io.tmpdir"),
 		JAVA_LIBRARY_PATH("java.library.path");
 
@@ -31,8 +31,24 @@ public class JniContext {
 
 	}
 
-	public static String getSystemProperty(SystemProperty sysProp) {
+	private static String getSystemProperty(SystemProperty sysProp) {
         logger.info("Retrieving System property using {}", sysProp);
 		return System.getProperty(sysProp.key());
 	}
+
+    public static String getJvmTempDir() {
+        return JniContext.getSystemProperty(SystemProperty.JAVA_IO_TMPDIR);
+    }
+
+    public static String getJvmLibraryPath() {
+        return JniContext.getSystemProperty(SystemProperty.JAVA_LIBRARY_PATH);
+    }
+
+    public static String getSharedLibraryBaseName() {
+        return GC_SHAREDLIB_BASENAME;
+    }
+    
+    public static String getJavaPackagePath() {
+        return GC_PACKAGE_PATH;
+    }
 }

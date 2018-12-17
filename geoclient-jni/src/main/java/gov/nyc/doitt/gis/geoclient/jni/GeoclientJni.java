@@ -1,7 +1,5 @@
 package gov.nyc.doitt.gis.geoclient.jni;
 
-import static gov.nyc.doitt.gis.geoclient.jni.JniContext.SystemProperty;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import org.slf4j.Logger;
@@ -11,7 +9,7 @@ import gov.nyc.doitt.gis.geoclient.jni.JniContext;
 
 public class GeoclientJni implements Geoclient {
 
-    final Logger logger = LoggerFactory.getLogger(GeoclientJni.class);
+    final static Logger logger = LoggerFactory.getLogger(GeoclientJni.class);
 
 	private enum BufferType {
 
@@ -137,12 +135,15 @@ public class GeoclientJni implements Geoclient {
 
 	// --- Begin CustomJavaCode .cfg declarations
 	static {
-
+	    String libBaseName = JniContext.getSharedLibraryBaseName();
+	    String jvmTempDir = JniContext.getJvmTempDir();
 		try {
-			new NativeLibraryLoader(JniContext.GC_SHAREDLIB_BASENAME)
-					.loadLibrary(JniContext.getSystemProperty(SystemProperty.JAVA_IO_TMPDIR));
+			new NativeLibraryLoader(libBaseName)
+					.loadLibrary(jvmTempDir);
 		}
 		catch (IOException ioe) {
+		    logger.error("Error loading {} library from {}:", libBaseName, jvmTempDir);
+		    logger.error(ioe.getMessage());
 			throw new RuntimeException(ioe);
 		}
 		//

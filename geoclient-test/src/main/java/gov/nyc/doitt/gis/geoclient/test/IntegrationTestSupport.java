@@ -11,17 +11,17 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
-import static gov.nyc.doitt.gis.geoclient.jni.JniContext.SystemProperty.*;
+import gov.nyc.doitt.gis.geoclient.jni.JniContext;
 
 
 public interface IntegrationTestSupport {
 
 	default String getJavaLibraryPath() {
-		return JAVA_LIBRARY_PATH.toString();
+		return JniContext.getJvmLibraryPath();
 	}
 	
 	default String getJavaIoTmpdir() {
-		return JAVA_IO_TMPDIR.toString();
+		return JniContext.getJvmTempDir();
 	}
 	
 	default boolean contains(File target) {
