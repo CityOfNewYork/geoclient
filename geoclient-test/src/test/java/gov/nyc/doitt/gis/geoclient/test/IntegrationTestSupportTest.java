@@ -10,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.event.Level;
 
-import gov.nyc.doitt.gis.geoclient.jni.JniContext;
-
 // TODO Capture stdout or mock
 class IntegrationTestSupportTest {
 
@@ -27,7 +25,7 @@ class IntegrationTestSupportTest {
 		}
 		
 		File getJavaLibraryPathAsFile() {
-			return getSystemPropertyAsFile(JniContext.getJvmLibraryPath());
+			return getSystemPropertyAsFile(getJavaLibraryPath());
 		}
 	}
 	

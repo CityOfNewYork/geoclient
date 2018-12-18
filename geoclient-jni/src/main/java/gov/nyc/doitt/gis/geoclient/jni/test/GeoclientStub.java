@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package gov.nyc.doitt.gis.geoclient.jni;
+package gov.nyc.doitt.gis.geoclient.jni.test;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
@@ -27,7 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
-import gov.nyc.doitt.gis.geoclient.jni.test.TestConfig;
 
 public class GeoclientStub implements Geoclient
 {

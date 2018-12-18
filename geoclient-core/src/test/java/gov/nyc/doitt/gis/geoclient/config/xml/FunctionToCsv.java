@@ -24,7 +24,7 @@ import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
 import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.function.WorkArea;
-import gov.nyc.doitt.gis.geoclient.jni.GeoclientStub;
+import gov.nyc.doitt.gis.geoclient.jni.test.GeoclientStub;
 import gov.nyc.doitt.gis.geoclient.util.OperatingSystemUtils;
 
 public class FunctionToCsv

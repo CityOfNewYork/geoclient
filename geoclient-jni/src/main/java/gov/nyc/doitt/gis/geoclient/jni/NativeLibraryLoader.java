@@ -3,6 +3,9 @@ package gov.nyc.doitt.gis.geoclient.jni;
 import java.io.File;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gov.nyc.doitt.gis.geoclient.jni.util.JniLibrary;
 import gov.nyc.doitt.gis.geoclient.jni.util.NativeLibraryLocator;
 import gov.nyc.doitt.gis.geoclient.jni.util.Platform;
@@ -13,7 +16,9 @@ import gov.nyc.doitt.gis.geoclient.jni.util.Platform;
  */
 public class NativeLibraryLoader {
 
-	private final String baseLibraryName;
+	final Logger logger = LoggerFactory.getLogger(NativeLibraryLocator.class);
+	
+    private final String baseLibraryName;
 
 	public NativeLibraryLoader(String baseLibraryName) {
 		super();
@@ -23,7 +28,9 @@ public class NativeLibraryLoader {
 	public void loadLibrary(String extractDir) throws IOException {
 		NativeLibraryLocator locator = new NativeLibraryLocator(extractDir);
 		File libFile = locator.find(getJniLibrary());
+		logger.info("Attempting to load {} from file {}", baseLibraryName, libFile.getAbsolutePath());
 		System.load(libFile.getCanonicalPath());
+        logger.info("Successfully loaded {} from file {}", baseLibraryName, libFile.getAbsolutePath());
 	}
 
 	protected JniLibrary getJniLibrary() {

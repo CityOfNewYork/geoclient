@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
 import gov.nyc.doitt.gis.geoclient.function.DefaultConfiguration;
 import gov.nyc.doitt.gis.geoclient.function.Filter;
 import gov.nyc.doitt.gis.geoclient.function.Function;
-import gov.nyc.doitt.gis.geoclient.jni.GeoclientStub;
+import gov.nyc.doitt.gis.geoclient.jni.test.GeoclientStub;
 
 // TODO Cleanup this test and move FunctionConfig creation into each test case
 public class FunctionConfigTest

@@ -2,18 +2,6 @@ plugins {
     id 'groovy'
 }
 
-configurations {
-  integrationTest
-}
-
 dependencies {
-    implementation project(':geoclient-jni')
     testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5'
-}
-
-tasks.jar {
-	//dependsOn('geoclientjniSharedLibrary')
-	manifest {
-		attributes 'Main-Class': 'gov.nyc.doitt.gis.geoclient.jni.test.JniTest'
-	}
 }

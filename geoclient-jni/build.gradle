@@ -17,6 +17,11 @@ sourceSets {
 // created dynamically by SharedLibraryBinarySpec
 task syncJniLib(type: Sync)
 
+test {
+    logging.captureStandardOutput LogLevel.LIFECYCLE
+    testLogging.showStandardStreams = true
+}
+
 // High-level build definitions
 model {
 

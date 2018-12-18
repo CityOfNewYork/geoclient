@@ -21,8 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,18 +34,12 @@ import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
 // https://github.com/gradle/gradle/tree/master/subprojects/docs/src/samples/java-library/multiproject
 public class JniTest
 {
-  private static final Charset CHARSET = Charset.forName("UTF-8");
-  private static final CharsetDecoder DECODER = CHARSET.newDecoder();
   private static final String DEFAULT_CLASSPATH_ROOT = "./";
   private static final String DEFAULT_CLASSPATH_ROOT_FROM_JAR = "/";
   private static final String DEFAULT_FILE = "jni-test.conf";
   private static final String CLASSPATH_FLAG = "classpath:";
   private static final int F1A_WA2_LENGTH = 2800;
   private static final int FHR_WA2_LENGTH = 2800;
-  private static final int GEOSUPPORT_RC_LENGTH = 2;
-  private static final int GEOSUPPORT_RC_START = 716;
-  private static final String GEOSUPPORT_RC_SUCCESS = "00";
-  private static final String GEOSUPPORT_RC_SUCCESS_WITH_WARN = "01";
   private static final String INPUT_1A = "1A240                                                   1          rsd                                                                                                                                              C                                                                                                                    X                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      ";
   private static final String INPUT_HR = "HR                                                                                                                                                                                                                  C                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ";
   private static final String OPTION_DEBUG_LONG = "--debug";
@@ -133,7 +125,7 @@ public class JniTest
     System.exit(jniTest.runTest());
   }
 
-  private static List<TestConfig> getTestCaseData(String fileOption) throws IOException
+  public static List<TestConfig> getTestCaseData(String fileOption) throws IOException
   {
     InputStream fileStream = null;
     if (fileOption == null)
@@ -292,25 +284,16 @@ public class JniTest
 
   private boolean isSuccess(String returnCode)
   {
-    if (isNotNullOrEmpty(returnCode))
-    {
-      return GEOSUPPORT_RC_SUCCESS.equals(returnCode) || GEOSUPPORT_RC_SUCCESS_WITH_WARN.equals(returnCode);
-    }
-    return false;
+      return ByteBufferUtils.isSuccess(returnCode);
   }
 
   private String getReturnCode(String workAreaOneResult)
   {
-    return workAreaOneResult.substring(GEOSUPPORT_RC_START, GEOSUPPORT_RC_START + GEOSUPPORT_RC_LENGTH);
+    return ByteBufferUtils.getReturnCode(workAreaOneResult);
   }
 
   private String decode(ByteBuffer buffer) throws Exception
   {
-    return DECODER.decode(buffer).toString();
-  }
-
-  private boolean isNotNullOrEmpty(String s)
-  {
-    return s != null && s.length() > 0;
+    return ByteBufferUtils.decode(buffer);
   }
 }
