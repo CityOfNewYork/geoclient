@@ -93,11 +93,14 @@ subprojects {
 
     test {
         useJUnitPlatform()
+        minHeapSize = '256M'
+        maxHeapSize = '1G'
         systemProperty 'java.library.path', gsLibraryPath
         systemProperty 'file.encoding', 'UTF-8'
+        systemProperty 'sun.jnu.encoding', 'UTF-8'
         // Ensure Geosupport knows where to find its data files
         environment 'GEOFILES', gsGeofilesPath
-        //testLogging.showStandardStreams = true
+        testLogging.showStandardStreams = true
     }
 
     javadoc {
@@ -106,7 +109,7 @@ subprojects {
             author = true
             header = project.name
             use = true
-            encoding = 'UTF-8'
+            //encoding = 'UTF-8'
             noTimestamp = true
         }
     }

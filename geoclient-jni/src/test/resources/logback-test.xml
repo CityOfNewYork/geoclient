@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false" scan="true" scanPeriod="60 seconds">
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <Target>System.out</Target>
+        <encoder>
+            <pattern>%d %p [%c] - &lt;%m&gt;%n</pattern>
+        </encoder>
+    </appender>
+    <logger name="gov.nyc.doitt.gis.geoclient" level="INFO" />
+    <logger name="gov.nyc.doitt.gis.geoclient.jni" level="TRACE" />
+    <root level="WARN">
+        <appender-ref ref="stdout" />
+    </root>
+</configuration>

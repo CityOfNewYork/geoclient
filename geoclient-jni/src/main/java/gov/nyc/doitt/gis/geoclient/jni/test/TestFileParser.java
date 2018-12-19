@@ -31,7 +31,8 @@ public class TestFileParser {
     public List<TestConfig> parse() throws FileNotFoundException, IOException {
         log("Parser debug output is truncated to a max of " + MAX_LOG_LINE_SIZE + " characters per line.");
         List<TestConfig> result = new ArrayList<TestConfig>();
-        InputStreamReader isReader = new InputStreamReader(inputStream, StandardCharsets.US_ASCII);
+        InputStreamReader isReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+
         logger.warn("Test input stream encoding: {}", isReader.getEncoding());
         BufferedReader reader = new BufferedReader(isReader);
         try {

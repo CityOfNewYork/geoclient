@@ -27,15 +27,15 @@ public class TestConfig {
     public ByteBuffer getWorkAreaTwo() {
         return ByteBuffer.allocate(getLengthOfWorkAreaTwo());
     }
-    
+
     public byte[] getWorkAreaOneBytes() {
         return getInput().getBytes();
     }
-    
+
     public byte[] getWorkAreaTwoBytes() {
         return new byte[getLengthOfWorkAreaTwo()];
     }
-    
+
     public String getFunctionName() {
         return functionName;
     }
@@ -51,9 +51,9 @@ public class TestConfig {
     public String getExpectedOutput() {
         return expectedOutput;
     }
-    
+
     public boolean hasExpectedOutput() {
-        return this.expectedOutput !=null;
+        return this.expectedOutput != null;
     }
 
     @Override
