@@ -7,7 +7,7 @@
         </encoder>
     </appender>
     <logger name="gov.nyc.doitt.gis.geoclient" level="INFO" />
-    <logger name="gov.nyc.doitt.gis.geoclient.jni" level="TRACE" />
+    <logger name="gov.nyc.doitt.gis.geoclient.jni" level="INFO" />
     <root level="WARN">
         <appender-ref ref="stdout" />
     </root>

@@ -1,13 +1,17 @@
 package gov.nyc.doitt.gis.geoclient.jni.test;
 
 import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
+import java.nio.charset.CoderResult;
 
 public class ByteBufferUtils {
 
     private static final Charset CHARSET = Charset.forName("UTF-8");
+    private static final CharsetEncoder ENCODER = CHARSET.newEncoder();
     private static final CharsetDecoder DECODER = CHARSET.newDecoder();
     private static final String GEOSUPPORT_RC_SUCCESS = "00";
     private static final String GEOSUPPORT_RC_SUCCESS_WITH_WARN = "01";
@@ -17,11 +21,18 @@ public class ByteBufferUtils {
     public static String decode(ByteBuffer buffer) throws CharacterCodingException {
         return DECODER.decode(buffer).toString();
     }
-    
+
     public static String decode(byte[] buffer) {
         return new String(buffer);
     }
-    
+
+    public void encode(CharBuffer charBuffer, ByteBuffer buffer) throws CharacterCodingException {
+        CoderResult result = ENCODER.encode(charBuffer, buffer, true);
+        if (result.isError()) {
+            result.throwException();
+        }
+    }
+
     public static String getReturnCode(String workAreaOneResult) {
         return workAreaOneResult.substring(GEOSUPPORT_RC_START, GEOSUPPORT_RC_START + GEOSUPPORT_RC_LENGTH);
     }

@@ -2,30 +2,27 @@ package gov.nyc.doitt.gis.geoclient.jni;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gov.nyc.doitt.gis.geoclient.jni.JniContext;
-
+//@formatter:off
 public class GeoclientJni implements Geoclient {
 
     final static Logger logger = LoggerFactory.getLogger(GeoclientJni.class);
 
 	private enum BufferType {
-
-		Direct, Indirect;
-
+		Direct, 
+		Indirect;
 	}
 
 	private enum WorkArea {
-
 		One, Two;
 
 		@Override
 		public String toString() {
 			return String.format("workArea%s", this.name());
 		}
-
 	}
 
 	/**
@@ -167,3 +164,4 @@ public class GeoclientJni implements Geoclient {
 	// ---- End CustomJavaCode .cfg declarations
 
 }
+//@formatter:on

@@ -30,6 +30,7 @@ import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.net.URL;
 import java.nio.channels.FileLock;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +45,7 @@ public class NativeLibraryLocator {
     public NativeLibraryLocator(String extractDir) {
         this.extractDir = extractDir;
     }
-    
+
     public NativeLibraryLocator() {
         this(null);
     }
@@ -62,8 +63,9 @@ public class NativeLibraryLocator {
         }
 
         File buildFile = getBuildDirectory(jniLibrary);
-        logger.warn("Having panic attack and resorting to depraved hackery by searching build directory for shared library file:");
-        logger.warn(buildFile.getAbsolutePath());
+        logger.warn(
+                "Having panic attack and resorting to depraved hackery by searching build directory for shared library file:");
+        logger.warn(buildFile.getCanonicalPath());
         return loadFromDirectory(jniLibrary, buildFile);
     }
 
@@ -75,10 +77,10 @@ public class NativeLibraryLocator {
         File lockFile = new File(libFile.getParentFile(), libFile.getName() + ".lock");
         lockFile.getParentFile().mkdirs();
         boolean isNew = lockFile.createNewFile();
-        if(isNew) {
-            logger.debug("Successfully created new lock file {}",lockFile.getAbsolutePath());
+        if (isNew) {
+            logger.debug("Successfully created new lock file {}", lockFile.getCanonicalPath());
         } else {
-            logger.debug("Using existing lock file {}", lockFile.getAbsolutePath());
+            logger.debug("Using existing lock file {}", lockFile.getCanonicalPath());
         }
         RandomAccessFile lockFileAccess = new RandomAccessFile(lockFile, "rw");
         logger.debug("Using RandomAccessFile {}", lockFileAccess);
@@ -99,7 +101,8 @@ public class NativeLibraryLocator {
                 copy(resource, libFile);
                 lockFileAccess.seek(0);
                 lockFileAccess.writeBoolean(true);
-                logger.info("Successfully extracted shared library file {} to parent directory {}.", libFile.getAbsolutePath(), libFile.getParentFile());
+                logger.info("Successfully extracted shared library file {} to parent directory {}.",
+                        libFile.getCanonicalPath(), libFile.getParentFile());
                 return libFile;
             }
         } finally {
@@ -122,7 +125,8 @@ public class NativeLibraryLocator {
             libFile = new File(libDir, jniLibrary.getName());
             libFile.deleteOnExit();
             copy(resource, libFile);
-            logger.debug("Successfully resolved {} to URL {} and copied it to temporary file {}.", resourceName, resource.toString(), libFile.getAbsolutePath());
+            logger.debug("Successfully resolved {} to URL {} and copied it to temporary file {}.", resourceName,
+                    resource.toString(), libFile.getCanonicalPath());
             return libFile;
         }
         logger.debug("Failed to resolve {} to a URL", resourceName);
@@ -172,7 +176,7 @@ public class NativeLibraryLocator {
         if (dest == null) {
             throw new NullPointerException("File destination argument cannot be null.");
         }
-        logger.debug("Copying URL resource {} to file {}");
+        logger.debug("Copying URL resource {} to file {}", source, dest);
         try {
             InputStream inputStream = source.openStream();
             try {

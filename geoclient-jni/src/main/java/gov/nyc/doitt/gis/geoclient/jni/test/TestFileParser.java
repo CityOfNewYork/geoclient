@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -16,6 +15,7 @@ import org.slf4j.Logger;
 public class TestFileParser {
     final Logger logger;
 
+    public static final int INPUT_LENGTH = 1200;
     private static final String CONF_START = "function=";
     private static final String CONF_PATTERN = "function=(\\w+);length=(\\d+);";
     private static final String COMMENT_PATTERN = "^\\s*#.*";
@@ -31,11 +31,10 @@ public class TestFileParser {
     public List<TestConfig> parse() throws FileNotFoundException, IOException {
         log("Parser debug output is truncated to a max of " + MAX_LOG_LINE_SIZE + " characters per line.");
         List<TestConfig> result = new ArrayList<TestConfig>();
-        InputStreamReader isReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
 
-        logger.warn("Test input stream encoding: {}", isReader.getEncoding());
-        BufferedReader reader = new BufferedReader(isReader);
-        try {
+        try (InputStreamReader isReader = new InputStreamReader(inputStream);
+                BufferedReader reader = new BufferedReader(isReader);) {
+            logger.warn("Test input stream encoding: {}", isReader.getEncoding());
             String line = reader.readLine();
             String functionName = null;
             int length = -1;
@@ -57,7 +56,8 @@ public class TestFileParser {
                         scanner.close();
                     }
                 } else {
-                    String input = parseInputLine(line, length);
+                    // Input (workAreaOne) line
+                    String input = parseInputLine(line, INPUT_LENGTH);
                     log("parsed input line: " + input);
                     TestConfig conf = new TestConfig(functionName, input, length);
                     log("adding " + conf);
@@ -65,9 +65,6 @@ public class TestFileParser {
                 }
                 line = reader.readLine();
             }
-
-        } finally {
-            reader.close();
         }
         return result;
     }

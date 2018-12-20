@@ -1,6 +1,5 @@
 package gov.nyc.doitt.gis.geoclient.jni;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -9,9 +8,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
+import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
@@ -30,20 +30,9 @@ class GeoclientJniTest {
     static Stream<TestConfig> getFixtures() throws IOException {
         InputStream inputStream = GeoclientJni.class.getClassLoader().getResourceAsStream("jni-test.conf");
         TestFileParser parser = new TestFileParser(inputStream, logger);
-        // List<TestConfig> configs = parser.parse();
-        // return configs.subList(0, 1).stream();
-        return parser.parse().stream();
-    }
-
-    @Test
-    void stupid() {
-        // System.getProperties().forEach((k, v) -> {
-        // logger.warn("property={},value={}", k, v);
-        // });
-        // System.getenv().forEach((k, v) -> {
-        // logger.warn("variable={},value={}", k, v);
-        // });
-        assertEquals("foo", "foo");
+        List<TestConfig> configs = parser.parse();
+        // return configs.subList(9, 10).stream();
+        return configs.stream();
     }
 
     @ParameterizedTest
@@ -51,7 +40,9 @@ class GeoclientJniTest {
     void testCallgeoWithByteBuffers(TestConfig conf) throws CharacterCodingException {
         logFunctionCall(conf, "ByteBuffer");
         ByteBuffer wa1 = conf.getWorkAreaOne();
+        logByteBuffer("1", wa1);
         ByteBuffer wa2 = conf.getWorkAreaTwo();
+        logByteBuffer("2", wa2);
         geoclientJni.callgeo(wa1, wa2);
         String actualW1 = ByteBufferUtils.decode(wa1);
         logWorkArea("1", actualW1);
@@ -59,12 +50,17 @@ class GeoclientJniTest {
         logWorkArea("2", actualW2);
         String returnCode = ByteBufferUtils.getReturnCode(actualW1);
         logReturnCode(conf, "ByteBuffer", returnCode);
+        logByteBuffer("1", wa1);
+        logByteBuffer("2", wa2);
+        // wa1.clear();
+        // wa2.clear();
         assertNotNull(actualW2);
         assertFalse(actualW2.isEmpty());
         assertTrue(ByteBufferUtils.isSuccess(returnCode),
                 String.format("Return code from function {} should indicate success", conf.getFunctionName()));
     }
 
+    @Disabled
     @ParameterizedTest
     @MethodSource("getFixtures")
     void testCallgeoWithByteArrays(TestConfig conf) {
@@ -97,7 +93,7 @@ class GeoclientJniTest {
             i++;
         }
         logger.debug(sb.toString());
-        logger.debug("{} request {}", lpad(conf.getFunctionName()), message);
+        logger.debug("{} {} request", lpad(conf.getFunctionName()), message);
     }
 
     private void logReturnCode(TestConfig conf, String message, String returnCode) {
@@ -106,5 +102,10 @@ class GeoclientJniTest {
 
     private void logWorkArea(String workAreaName, String workAreaData) {
         logger.debug("[WA{}]:<{}>", workAreaName, workAreaData);
+    }
+
+    private void logByteBuffer(String workAreaName, ByteBuffer buffer) {
+        logger.trace("[WA{}]: ByteBuffer[capacity: {}, position: {}, limit: {}]", workAreaName, buffer.capacity(),
+                buffer.position(), buffer.limit());
     }
 }

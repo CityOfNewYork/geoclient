@@ -1,10 +1,13 @@
 package gov.nyc.doitt.gis.geoclient.jni.test;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class TestConfig {
     private final String functionName;
     private final String input;
+    private final int lengthOfWorkAreaOne;
     private final int lengthOfWorkAreaTwo;
     private final String expectedOutput;
 
@@ -12,8 +15,10 @@ public class TestConfig {
         super();
         this.functionName = functionName;
         this.input = input;
+        this.lengthOfWorkAreaOne = TestFileParser.INPUT_LENGTH;
         this.lengthOfWorkAreaTwo = lengthOfWorkAreaTwo;
         this.expectedOutput = expectedOutput;
+        validateInput(input);
     }
 
     public TestConfig(String functionName, String input, int lengthOfWorkAreaTwo) {
@@ -21,19 +26,32 @@ public class TestConfig {
     }
 
     public ByteBuffer getWorkAreaOne() {
-        return ByteBuffer.wrap(getInput().getBytes());
+
+        // ByteBuffer buffer = ByteBuffer.wrap(getInput().getBytes());
+        ByteBuffer buffer = ByteBuffer.allocate(getLengthOfWorkAreaOne());
+        buffer.put(getWorkAreaOneBytes());
+        buffer.flip();
+        return buffer;
     }
 
     public ByteBuffer getWorkAreaTwo() {
-        return ByteBuffer.allocate(getLengthOfWorkAreaTwo());
+        ByteBuffer buffer = ByteBuffer.allocate(getLengthOfWorkAreaTwo());
+        buffer.put(getWorkAreaTwoBytes());
+        buffer.flip();
+        return buffer;
     }
 
     public byte[] getWorkAreaOneBytes() {
-        return getInput().getBytes();
+        return getInput().getBytes(StandardCharsets.UTF_8);
     }
 
     public byte[] getWorkAreaTwoBytes() {
-        return new byte[getLengthOfWorkAreaTwo()];
+        // Copied from gov.nyc.doitt.gis.geoclient.function.Field
+        // Allocate result array
+        byte[] bytes = new byte[getLengthOfWorkAreaTwo()];
+        // Fill with blanks
+        Arrays.fill(bytes, (byte) ' ');
+        return bytes;
     }
 
     public String getFunctionName() {
@@ -42,6 +60,10 @@ public class TestConfig {
 
     public String getInput() {
         return input;
+    }
+
+    public int getLengthOfWorkAreaOne() {
+        return lengthOfWorkAreaOne;
     }
 
     public int getLengthOfWorkAreaTwo() {
@@ -54,6 +76,20 @@ public class TestConfig {
 
     public boolean hasExpectedOutput() {
         return this.expectedOutput != null;
+    }
+
+    private void validateInput(String input) {
+        if (input == null) {
+            throw new TestConfigurationException("Function input argument cannot be null");
+        }
+        if (input.isEmpty()) {
+            throw new TestConfigurationException("Function input argument cannot be empty");
+        }
+        if (getLengthOfWorkAreaOne() != input.length()) {
+            throw new TestConfigurationException(
+                    String.format("Expected length of function input to be %d but instead was %d",
+                            getLengthOfWorkAreaOne(), input.length()));
+        }
     }
 
     @Override

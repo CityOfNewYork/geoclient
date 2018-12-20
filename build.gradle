@@ -2,14 +2,14 @@ apply from: "${rootDir}/gradle/dependencies.gradle"
 
 allprojects {
     apply plugin: 'eclipse'
-    apply plugin: 'maven-publish'
-    apply plugin: 'signing'
     apply plugin: 'project-report'
 }
 
 subprojects {
 
     apply plugin: 'java'
+    apply plugin: 'maven-publish'
+    apply plugin: 'signing'
 
     repositories {
         maven { url "http://maven.geotoolkit.org/" }
@@ -28,48 +28,18 @@ subprojects {
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     }
 
-    compileJava.options*.compilerArgs = [
-        '-Xlint:serial',
-        '-Xlint:varargs',
-        '-Xlint:cast',
-        '-Xlint:classfile',
-        '-Xlint:dep-ann',
-        '-Xlint:divzero',
-        '-Xlint:empty',
-        '-Xlint:finally',
-        '-Xlint:overrides',
-        '-Xlint:path',
-        '-Xlint:-processing',
-        '-Xlint:static',
-        '-Xlint:try',
-        '-Xlint:fallthrough',
-        '-Xlint:rawtypes',
-        '-Xlint:deprecation',
-        '-Xlint:unchecked',
-        '-Xlint:-options',
-        '-Werror'
-    ]
+    def commonCompilerArgs =
+            ["-Xlint:serial", "-Xlint:cast", "-Xlint:classfile", "-Xlint:dep-ann",
+             "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally", "-Xlint:overrides",
+             "-Xlint:path", "-Xlint:processing", "-Xlint:static", "-Xlint:try", "-Xlint:-options"]
 
-    compileTestJava.options*.compilerArgs = [
-        '-Xlint:serial',
-        '-Xlint:-varargs',
-        '-Xlint:cast',
-        '-Xlint:classfile',
-        '-Xlint:dep-ann',
-        '-Xlint:divzero',
-        '-Xlint:empty',
-        '-Xlint:finally',
-        '-Xlint:overrides',
-        '-Xlint:path',
-        '-Xlint:-processing',
-        '-Xlint:static',
-        '-Xlint:try',
-        '-Xlint:-fallthrough',
-        '-Xlint:-rawtypes',
-        '-Xlint:-deprecation',
-        '-Xlint:-unchecked',
-        '-Xlint:-options'
-    ]
+    compileJava.options*.compilerArgs = commonCompilerArgs +
+            ["-Xlint:varargs", "-Xlint:fallthrough", "-Xlint:rawtypes",
+             "-Xlint:deprecation", "-Xlint:unchecked", "-Werror"]
+
+    compileTestJava.options*.compilerArgs = commonCompilerArgs +
+            ["-Xlint:-varargs", "-Xlint:-fallthrough", "-Xlint:-rawtypes",
+             "-Xlint:-deprecation", "-Xlint:-unchecked"]
 
     compileJava {
         sourceCompatibility = 1.8
@@ -93,11 +63,13 @@ subprojects {
 
     test {
         useJUnitPlatform()
-        minHeapSize = '256M'
-        maxHeapSize = '1G'
+        //minHeapSize = '256m'
+        //maxHeapSize = '1024m'
+        jvmArgs '-verbose:jni'
+        systemProperty 'gc.jni.version', project.version
         systemProperty 'java.library.path', gsLibraryPath
-        systemProperty 'file.encoding', 'UTF-8'
-        systemProperty 'sun.jnu.encoding', 'UTF-8'
+        //systemProperty 'file.encoding', 'UTF-8'
+        //systemProperty 'sun.jnu.encoding', 'UTF-8'
         // Ensure Geosupport knows where to find its data files
         environment 'GEOFILES', gsGeofilesPath
         testLogging.showStandardStreams = true

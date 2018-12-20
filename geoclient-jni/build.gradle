@@ -17,17 +17,6 @@ sourceSets {
 // created dynamically by SharedLibraryBinarySpec
 task syncJniLib(type: Sync)
 
-test {
-    logging.captureStandardOutput LogLevel.LIFECYCLE
-    testLogging.showStandardStreams = true
-//    beforeTest { descriptor ->
-//        logger.lifecycle("Running test: " + descriptor)
-//        logger.lifecycle("All JVM arguments: ", getAllJvmArgs());
-//        logger.lifecycle("SystemPoperties: ", getSystemProperties());
-//        logger.lifecycle("ENV: ", getEnvironment());
-//    }    
-}
-
 // High-level build definitions
 model {
 
