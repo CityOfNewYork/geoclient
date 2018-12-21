@@ -65,14 +65,14 @@ subprojects {
         useJUnitPlatform()
         //minHeapSize = '256m'
         //maxHeapSize = '1024m'
-        jvmArgs '-verbose:jni'
+        //jvmArgs '-verbose:jni'
         systemProperty 'gc.jni.version', project.version
         systemProperty 'java.library.path', gsLibraryPath
         //systemProperty 'file.encoding', 'UTF-8'
         //systemProperty 'sun.jnu.encoding', 'UTF-8'
         // Ensure Geosupport knows where to find its data files
         environment 'GEOFILES', gsGeofilesPath
-        testLogging.showStandardStreams = true
+        //testLogging.showStandardStreams = true
     }
 
     javadoc {

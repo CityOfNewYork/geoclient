@@ -5,3 +5,7 @@ include 'geoclient-parser'
 include 'geoclient-service'
 
 rootProject.name = 'geoclient'
+
+// Gradle 4.10.x
+//enableFeaturePreview('IMPROVED_POM_SUPPORT')
+//enableFeaturePreview('STABLE_PUBLISHING')
