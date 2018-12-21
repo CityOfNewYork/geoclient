@@ -4,8 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.util.List;
@@ -22,16 +23,14 @@ import gov.nyc.doitt.gis.geoclient.jni.test.TestConfig;
 import gov.nyc.doitt.gis.geoclient.jni.test.TestFileParser;
 
 class GeoclientJniTest {
-
     final static Logger logger = LoggerFactory.getLogger(GeoclientJniTest.class);
 
     private GeoclientJni geoclientJni = new GeoclientJni();
 
-    static Stream<TestConfig> getFixtures() throws IOException {
-        InputStream inputStream = GeoclientJni.class.getClassLoader().getResourceAsStream("jni-test.conf");
-        TestFileParser parser = new TestFileParser(inputStream, logger);
-        List<TestConfig> configs = parser.parse();
-        // return configs.subList(9, 10).stream();
+    static Stream<TestConfig> getFixtures() throws FileNotFoundException, IOException {
+        TestFileParser parser = new TestFileParser();
+        URL url = GeoclientJniTest.class.getResource("/jni-test.conf");
+        List<TestConfig> configs = parser.parse(url);
         return configs.stream();
     }
 
@@ -41,7 +40,8 @@ class GeoclientJniTest {
         logFunctionCall(conf, "ByteBuffer");
         ByteBuffer wa1 = conf.getWorkAreaOne();
         logByteBuffer("1", wa1);
-        ByteBuffer wa2 = conf.getWorkAreaTwo();
+        ByteBuffer wa2 = ByteBuffer.allocate(conf.getLengthOfWorkAreaTwo());
+        // conf.getWorkAreaTwo();
         logByteBuffer("2", wa2);
         geoclientJni.callgeo(wa1, wa2);
         String actualW1 = ByteBufferUtils.decode(wa1);

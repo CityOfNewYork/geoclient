@@ -55,26 +55,22 @@ subprojects {
 
     ext {
         enableJavadoc = getConfigProperty('nojdoc') ? false : true
+        gcJniVersion = getJniVersion()
         gsIncludePath = new File(projectDir, 'lib/geosupport/headers')
         gsLibraryPath = getGeosupportLibraryDir()
-        gsGeofilesPath = getGeofilesDir()
+        gsGeofiles = getGeofiles()
         localLibsDir = new File(rootProject.buildDir, 'libs')
     }
 
     test {
         useJUnitPlatform()
-        //minHeapSize = '256m'
-        //maxHeapSize = '1024m'
-        //jvmArgs '-verbose:jni'
-        systemProperty 'gc.jni.version', project.version
+        systemProperty 'gc.jni.version', gcJniVersion
         systemProperty 'java.library.path', gsLibraryPath
-        //systemProperty 'file.encoding', 'UTF-8'
-        //systemProperty 'sun.jnu.encoding', 'UTF-8'
         // Ensure Geosupport knows where to find its data files
-        environment 'GEOFILES', gsGeofilesPath
-        //testLogging.showStandardStreams = true
+        environment 'GEOFILES', gsGeofiles
+        testLogging.showStandardStreams = true
     }
-
+    
     javadoc {
         options {
             memberLevel = JavadocMemberLevel.PROTECTED
@@ -175,6 +171,29 @@ subprojects {
 
     signing { sign publishing.publications.mavenJava }
 
+    task showMe {
+        doLast() {
+            logger.lifecycle("Gradle Properties:")
+            logger.lifecycle("      enableJavadoc: ${enableJavadoc}")
+            logger.lifecycle("             nojdoc: ${nojdoc}")
+            logger.lifecycle("       gcJniVersion: ${gcJniVersion}")
+            logger.lifecycle("      gsIncludePath: ${gsIncludePath}")
+            logger.lifecycle("      gsLibraryPath: ${gsLibraryPath}")
+            logger.lifecycle("         gsGeofiles: ${gsGeofiles}")
+            
+            logger.lifecycle("Environment:")
+            logger.lifecycle("    GEOSUPPORT_HOME: ${System.getenv('GEOSUPPORT_HOME')}")
+            logger.lifecycle("           GEOFILES: ${System.getenv('GEOFILES')}")
+            logger.lifecycle("    LD_LIBRARY_PATH: ${System.getenv('LD_LIBRARY_PATH')}")
+            logger.lifecycle("               PATH: ${System.getenv('PATH')}")
+            
+            logger.lifecycle("Java SystemProperties:")
+            logger.lifecycle("     gc.jni.version: ${System.getProperty('gc.jni.version')}")
+            logger.lifecycle("  java.library.path: ${System.getProperty('java.library.path')}")
+            logger.lifecycle("     java.io.tmpdir: ${System.getProperty('java.io.tmpdir')}")
+        }
+    }
+
 } // allprojects
 
 // TODO Put this in buildScript plugin
@@ -187,20 +206,56 @@ File getGeosupportLibraryDir() {
     return new File(gsLibraryPath)
 }
 
-File getGeofilesDir() {
-    def gsGeofilesPath = getConfigProperty('gsGeofilesPath')
-    if(!gsGeofilesPath) {
+String getGeofiles() {
+    String geofiles = getConfigProperty('gsGeofiles') ?: getEnv('GEOFILES')    
+    if(!geofiles) {
         String geosupportHome = getGeosupportHome()
         return new File("${geosupportHome}/fls/")
+    }    
+    if(!geofiles.endsWith('/') && !geofiles.endsWith('\\')) {
+        geofiles += System.getProperty('file.separator')
     }
-    return new File(gsGeofilesPath)
+    return geofiles
 }
 
 String getGeosupportHome() {
-    return getConfigProperty('geosupportHome') ?: System.getenv('GEOSUPPORT_HOME')
+    return getConfigProperty('gsHome') ?: getEnv('GEOSUPPORT_HOME')
 }
 
-// https://github.com/bmuschko/gradle-docker-plugin/blob/v3.6.2/gradle/test-setup.gradle
+String getJniVersion() {
+    return getConfigProperty('gcJniVersion')
+}
+
+String getSystemProperty(String name, String defaultValue) {
+    String result = System.getProperty(name, defaultValue)
+    if(result) {
+        logger.info("Configuration '${name}=${result}' resolved from Java system property")
+        return result
+    }
+    logger.info("Java system property '${name}' could not be resolved")
+}
+
+String getEnv(String name) {
+    String result = System.getenv(name)
+    if(result) {
+        logger.info("Configuration '${name}=${result}' resolved from environment variable")
+        return result
+    }
+    logger.info("Environment variable '${name}' could not be resolved")
+}
+
 String getConfigProperty(String key) {
-    project.properties.getOrDefault(key, System.getProperty(key, System.getenv(key)))
+
+    String result = project.properties.getOrDefault(key, "")
+    if(result) {
+        logger.info("Configuration '${key}=${result}' resolved from Gradle project property")
+        return result
+    }
+
+    result = getSystemProperty(key, "")
+    if(result) {
+        return result
+    }
+    
+    logger.info("Configuration key '${key}' could not be resolved")
 }

@@ -1,19 +1,24 @@
 package gov.nyc.doitt.gis.geoclient.jni.test;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.MatchResult;
 
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class TestFileParser {
-    final Logger logger;
+    final Logger logger = LoggerFactory.getLogger(TestFileParser.class);
 
     public static final int INPUT_LENGTH = 1200;
     private static final String CONF_START = "function=";
@@ -22,51 +27,75 @@ public class TestFileParser {
     private static final int MAX_LOG_LINE_SIZE = 100;
     private InputStream inputStream;
 
-    public TestFileParser(InputStream inputStream, Logger logger) {
+    public TestFileParser() {
+        super();
+    }
+
+    public TestFileParser(InputStream inputStream) {
         super();
         this.inputStream = inputStream;
-        this.logger = logger;
+    }
+
+    public List<TestConfig> parse(File file) throws FileNotFoundException, IOException {
+        try (FileInputStream fis = new FileInputStream(file)) {
+            this.inputStream = fis;
+            return parse();
+        }
+    }
+
+    public List<TestConfig> parse(URL url) throws FileNotFoundException, IOException {
+        return parse(url.getFile());
+    }
+
+    public List<TestConfig> parse(String fileName) throws FileNotFoundException, IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            return parse(reader);
+        }
+    }
+
+    private List<TestConfig> parse(BufferedReader reader) throws FileNotFoundException, IOException {
+        log("Parser debug output is truncated to a max of " + MAX_LOG_LINE_SIZE + " characters per line.");
+        List<TestConfig> result = new ArrayList<TestConfig>();
+        String line = reader.readLine();
+        String functionName = null;
+        int length = -1;
+        while (line != null) {
+            if (isComment(line)) {
+                // Do nothing
+                log("comment: " + line);
+            } else if (isConfigLine(line)) {
+                try (Scanner scanner = new Scanner(line);) {
+                    log("config line: " + line);
+                    scanner.findInLine(CONF_PATTERN);
+                    MatchResult match = scanner.match();
+                    functionName = match.group(1);
+                    log("parsed config functionName: " + functionName);
+                    length = Integer.parseInt(match.group(2));
+                    log("parsed config length: " + length);
+                }
+            } else {
+                // Input (workAreaOne) line
+                String input = parseInputLine(line, INPUT_LENGTH);
+                log("parsed input line: " + input);
+                TestConfig conf = new TestConfig(functionName, input, length);
+                log("adding " + conf);
+                result.add(conf);
+            }
+            line = reader.readLine();
+        }
+        return result;
     }
 
     public List<TestConfig> parse() throws FileNotFoundException, IOException {
-        log("Parser debug output is truncated to a max of " + MAX_LOG_LINE_SIZE + " characters per line.");
-        List<TestConfig> result = new ArrayList<TestConfig>();
 
+        if (inputStream == null) {
+            throw new IllegalStateException("InputStream field cannot be null");
+        }
         try (InputStreamReader isReader = new InputStreamReader(inputStream);
                 BufferedReader reader = new BufferedReader(isReader);) {
             logger.warn("Test input stream encoding: {}", isReader.getEncoding());
-            String line = reader.readLine();
-            String functionName = null;
-            int length = -1;
-            while (line != null) {
-                if (isComment(line)) {
-                    // Do nothing
-                    log("comment: " + line);
-                } else if (isConfigLine(line)) {
-                    Scanner scanner = new Scanner(line);
-                    try {
-                        log("config line: " + line);
-                        scanner.findInLine(CONF_PATTERN);
-                        MatchResult match = scanner.match();
-                        functionName = match.group(1);
-                        log("parsed config functionName: " + functionName);
-                        length = Integer.parseInt(match.group(2));
-                        log("parsed config length: " + length);
-                    } finally {
-                        scanner.close();
-                    }
-                } else {
-                    // Input (workAreaOne) line
-                    String input = parseInputLine(line, INPUT_LENGTH);
-                    log("parsed input line: " + input);
-                    TestConfig conf = new TestConfig(functionName, input, length);
-                    log("adding " + conf);
-                    result.add(conf);
-                }
-                line = reader.readLine();
-            }
+            return parse(reader);
         }
-        return result;
     }
 
     public boolean isComment(String line) {
