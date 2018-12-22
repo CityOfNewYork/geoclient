@@ -1,0 +1,12 @@
+plugins {
+    id 'java-gradle-plugin'
+}
+
+gradlePlugin {
+    plugins {
+        geoclientPlugin {
+            id = 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
+            implementationClass = 'gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin'
+        }
+    }
+}

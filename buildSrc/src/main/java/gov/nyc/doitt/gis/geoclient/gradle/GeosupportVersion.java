@@ -1,13 +1,11 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
-import org.gradle.api.DefaultTask;
-import org.gradle.api.tasks.TaskAction;
 
-public class Geosupport extends DefaultTask {
+public class GeosupportVersion {
 
     private String version;
     private String release;
-    
+
     public String getVersion() {
         return this.version;
     }
@@ -23,10 +21,4 @@ public class Geosupport extends DefaultTask {
     public String getRelease() {
         return this.release;
     }
-
-    @TaskAction
-    void showVersion() {
-        System.out.println(String.format("%s_%s%n", getRelease(), getVersion())); 
-    }    
-
 }
