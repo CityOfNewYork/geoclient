@@ -4,6 +4,8 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.testing.Test;
+import java.io.File;
+
 public class GeoclientPlugin implements Plugin<Project> {
     public static final String ENV_VAR_GEOFILES = "GEOFILES";
     public static final String ENV_VAR_GS_HOME = "GEOSUPPORT_HOME";
@@ -37,7 +39,7 @@ public class GeoclientPlugin implements Plugin<Project> {
     boolean resolveGeosupportLibraryPath(Project project, GeosupportExtension geosupportExtension, BuildConfigurationResolver resolver) {
         String defaultValue = null;
         if(project.hasProperty(PROP_GS_HOME)) {
-            defaultValue = new File(project.property(PROP_GS_HOME), "lib").getCanonicalPath();
+            //defaultValue = new File(project.property(PROP_GS_HOME), "lib").getCanonicalPath();
         }
         String geosupportLibraryPath = resolver.resolve(PROP_GS_HOME, ENV_VAR_GS_HOME, null);
         return false;

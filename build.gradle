@@ -62,12 +62,16 @@ subprojects {
     }
 
     ext {
-        enableJavadoc = false
         //enableJavadoc = getConfigProperty('nojdoc') ? false : true
+enableJavadoc = false
         //gcJniVersion = getJniVersion()
+gcJniVersion = 'geoclient-jni-2.0'
         gsIncludePath = new File(projectDir, 'lib/geosupport/headers')
         //gsLibraryPath = getGeosupportLibraryDir()
         //gsGeofiles = getGeofiles()
+def geosupportHome = System.getenv('GEOSUPPORT_HOME')
+gsLibraryPath = new File("${geosupportHome}/lib")
+gsGeofiles = new File("${geosupportHome}/fls")
         localLibsDir = new File(rootProject.buildDir, 'libs')
     }
 
