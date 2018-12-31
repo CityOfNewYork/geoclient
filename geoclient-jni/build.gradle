@@ -7,6 +7,8 @@ plugins {
 def basePackagePath = "gov/nyc/doitt/gis/geoclient/jni"
 def generatedResources = "${project.buildDir}/generated-resources/main"
 
+def gsLibraryPath = geosupport.getLibraryPath().getOrNull()
+
 sourceSets {
   main {
     output.dir(generatedResources, builtBy: 'syncJniLib')
@@ -50,7 +52,7 @@ model {
                         srcDir 'src/main/headers'
                         include '**/*.h'
                     }
-                    lib library: 'geosupport', linkage: 'api'
+                    lib library: 'libgeo', linkage: 'api'
                 }
             } // sources
         } // geoclient
@@ -65,7 +67,7 @@ model {
                         srcDir 'src/main/c'
                         include '**/*_JNI.c'
                     }
-                    lib library: 'geosupport', linkage: 'api'
+                    lib library: 'libgeo', linkage: 'api'
                     lib library: 'geoclient',  linkage: 'static'
                 }
             } // sources
@@ -153,7 +155,7 @@ model {
     // Third-party binaries and header files
     repositories {
         libs(PrebuiltLibraries) {
-            geosupport {
+            libgeo {
                 headers.srcDir(gsIncludePath)
                 binaries.withType(SharedLibraryBinary) {
                     sharedLibraryFile = new File("${gsLibraryPath}/NYCgeo.dll")

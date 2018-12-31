@@ -4,12 +4,14 @@ allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'project-report'
     apply plugin: 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
-    //'gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin'
 
-    geosupport {
-        home = "${System.getenv('GEOSUPPORT_HOME')}"
-        libraryPath = "${System.getenv('GEOSUPPORT_HOME')}/lib"
-        geofiles = "${System.getenv('GEOFILES')}"
+    //geosupport {
+    //    home = "${System.getenv('GEOSUPPORT_HOME')}"
+    //    libraryPath = "${System.getenv('GEOSUPPORT_HOME')}/lib"
+    //    geofiles = "${System.getenv('GEOFILES')}"
+    //}
+    geoclient {
+        nativeTempDir = project.file("${project.buildDir}/temp/native")
     }
 }
 
@@ -65,25 +67,25 @@ subprojects {
         //enableJavadoc = getConfigProperty('nojdoc') ? false : true
 enableJavadoc = false
         //gcJniVersion = getJniVersion()
-gcJniVersion = 'geoclient-jni-2.0'
+//gcJniVersion = 'geoclient-jni-2.0'
         gsIncludePath = new File(projectDir, 'lib/geosupport/headers')
         //gsLibraryPath = getGeosupportLibraryDir()
         //gsGeofiles = getGeofiles()
-def geosupportHome = System.getenv('GEOSUPPORT_HOME')
-gsLibraryPath = new File("${geosupportHome}/lib")
-gsGeofiles = new File("${geosupportHome}/fls")
+//def geosupportHome = System.getenv('GEOSUPPORT_HOME')
+//gsLibraryPath = new File("${geosupportHome}/lib")
+//gsGeofiles = new File("${geosupportHome}/fls")
         localLibsDir = new File(rootProject.buildDir, 'libs')
     }
 
     test {
         useJUnitPlatform()
-        systemProperty 'gc.jni.version', gcJniVersion
-        systemProperty 'java.library.path', gsLibraryPath
+//        systemProperty 'gc.jni.version', gcJniVersion
+//        systemProperty 'java.library.path', gsLibraryPath
         // Ensure Geosupport knows where to find its data files
-        environment 'GEOFILES', gsGeofiles
+//        environment 'GEOFILES', gsGeofiles
         testLogging.showStandardStreams = true
     }
-    
+
     javadoc {
         options {
             memberLevel = JavadocMemberLevel.PROTECTED
@@ -193,13 +195,13 @@ gsGeofiles = new File("${geosupportHome}/fls")
             logger.lifecycle("      gsIncludePath: ${gsIncludePath}")
             logger.lifecycle("      gsLibraryPath: ${gsLibraryPath}")
             logger.lifecycle("         gsGeofiles: ${gsGeofiles}")
-            
+
             logger.lifecycle("Environment:")
             logger.lifecycle("    GEOSUPPORT_HOME: ${System.getenv('GEOSUPPORT_HOME')}")
             logger.lifecycle("           GEOFILES: ${System.getenv('GEOFILES')}")
             logger.lifecycle("    LD_LIBRARY_PATH: ${System.getenv('LD_LIBRARY_PATH')}")
             logger.lifecycle("               PATH: ${System.getenv('PATH')}")
-            
+
             logger.lifecycle("Java SystemProperties:")
             logger.lifecycle("     gc.jni.version: ${System.getProperty('gc.jni.version')}")
             logger.lifecycle("  java.library.path: ${System.getProperty('java.library.path')}")
@@ -220,11 +222,11 @@ gsGeofiles = new File("${geosupportHome}/fls")
 //}
 //
 //String getGeofiles() {
-//    String geofiles = getConfigProperty('gsGeofiles') ?: getEnv('GEOFILES')    
+//    String geofiles = getConfigProperty('gsGeofiles') ?: getEnv('GEOFILES')
 //    if(!geofiles) {
 //        String geosupportHome = getGeosupportHome()
 //        return new File("${geosupportHome}/fls/")
-//    }    
+//    }
 //    if(!geofiles.endsWith('/') && !geofiles.endsWith('\\')) {
 //        geofiles += System.getProperty('file.separator')
 //    }
@@ -269,6 +271,6 @@ gsGeofiles = new File("${geosupportHome}/fls")
 //    if(result) {
 //        return result
 //    }
-//    
+//
 //    logger.info("Configuration key '${key}' could not be resolved")
 //}
