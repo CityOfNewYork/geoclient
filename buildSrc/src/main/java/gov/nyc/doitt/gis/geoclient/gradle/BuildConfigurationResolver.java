@@ -11,20 +11,11 @@ import java.io.IOException;
 
 public class BuildConfigurationResolver {
 
-    public static final String DEFAULT_GC_JNI_VERSION_PREFIX = "geoclient-jni-";
-    // Must end with a trailing slash!
-    public static final String DEFAULT_SUBDIR_GS_GEOFILES = "fls";
+    public static final String DEFAULT_SUBDIR_GS_GEOFILES = "fls"; // Requires trailing slash!
     public static final String DEFAULT_SUBDIR_GS_LIBRARY_PATH = "lib";
-
     public static final String ENV_VAR_GEOFILES = "GEOFILES";
     public static final String ENV_VAR_GEOSUPPORT_HOME = "GEOSUPPORT_HOME";
     public static final String ENV_VAR_GS_LIBRARY_PATH = "GS_LIBRARY_PATH";
-
-    public static final String PROP_GC_JNI_VERSION = "gcJniVersion";
-    public static final String PROP_GS_HOME = "gsHome";
-    public static final String PROP_GS_GEOFILES = "gsGeofiles";
-    public static final String PROP_GS_LIBRARY_PATH = "gsLibraryPath";
-
     public static final String SYSPROP_GC_NATIVE_TEMP_DIR = "gc.jni.version";
 
     final Logger logger = Logging.getLogger(BuildConfigurationResolver.class);
