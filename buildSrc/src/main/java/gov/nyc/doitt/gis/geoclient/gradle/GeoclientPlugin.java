@@ -27,6 +27,11 @@ public class GeoclientPlugin implements Plugin<Project> {
                 test.environment(ENV_VAR_GEOFILES,  resolver.resolveGeosupportGeofiles());
             }
         });
+        // TODO fixme
+        resolver.resolveGeoclientNativeTempDir();
+        resolver.resolveGeosupportLibraryPath();
+        resolver.resolveGeosupportGeofiles();
+        project.getTasks().create("geosupportInfo", GeosupportInfo.class, project);        
     }
     /*
     task showMe {

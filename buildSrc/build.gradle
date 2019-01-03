@@ -1,6 +1,10 @@
 plugins {
     id 'java-gradle-plugin'
-    id 'eclipse'
+    id 'groovy'
+}
+
+dependencies {
+    testImplementation localGroovy()
 }
 
 gradlePlugin {
