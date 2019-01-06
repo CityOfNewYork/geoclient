@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 the original author or authors.
+ * Copyright 2018 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,26 +25,23 @@ import static org.gradle.testkit.runner.TaskOutcome.*
 
 class BuildLogicFunctionalTest extends Specification {
 
-    // tag::clean-build-cache[]
     @Rule final TemporaryFolder testProjectDir = new TemporaryFolder()
     File buildFile
-    File localBuildCacheDirectory
+    //File geosupportHome
+    //File gsLibDir
+    //File geofilesDir
 
     def setup() {
-        localBuildCacheDirectory = testProjectDir.newFolder('local-cache')
-        testProjectDir.newFile('settings.gradle') << """
-            buildCache {
-                local {
-                    directory '${localBuildCacheDirectory.toURI()}'
-                }
-            }
-        """
+        //geosupportHome = testProjectDir.newFolder('geosupport')
+        //gsLibDir = new File(geosupportHome, 'lib')
+        //geofilesDir = new File(geosupportHome, 'fls')
+        //testProjectDir.newFile('gradle.properties') << """
+        //systemProp.java.library.path=${gsLibDir.toURI()}
+        //"""
         buildFile = testProjectDir.newFile('build.gradle')
     }
-    // end::clean-build-cache[]
 
-    // tag::functional-test-build-cache[]
-    def "cacheableTask is loaded from cache"() {
+    def "applying plugin without configuration succeeds"() {
         given:
         buildFile << """
             plugins {
@@ -54,22 +51,12 @@ class BuildLogicFunctionalTest extends Specification {
 
         when:
         def result = runner()
-            .withArguments( '--build-cache', 'cacheableTask')
+            .withArguments('tasks')
             .build()
 
         then:
-        result.task(":cacheableTask").outcome == SUCCESS
-
-        when:
-        new File(testProjectDir.root, 'build').deleteDir()
-        result = runner()
-            .withArguments( '--build-cache', 'cacheableTask')
-            .build()
-
-        then:
-        result.task(":cacheableTask").outcome == FROM_CACHE
+        result.task(':tasks').outcome == SUCCESS
     }
-    // end::functional-test-build-cache[]
 
     def runner() {
         return GradleRunner.create()

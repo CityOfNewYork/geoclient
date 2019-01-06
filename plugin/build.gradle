@@ -17,7 +17,6 @@ plugins {
     id 'java-gradle-plugin'
     id 'groovy'
     id 'maven-publish'
-    id 'ivy-publish'
 }
 
 group 'gov.nyc.doitt.gis.geoclient.gradle'
@@ -46,10 +45,7 @@ dependencies {
 publishing {
     repositories {
         maven {
-            url "${rootProject.buildDir}/maven-repo"
-        }
-        ivy {
-            url "${rootProject.buildDir}/ivy-repo"
+            url "../maven-repo"
         }
     }
 }

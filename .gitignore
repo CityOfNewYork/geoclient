@@ -33,6 +33,7 @@
 
 # Local native development artifacts
 #**/geoclient-test
+**/maven-repo
 
 # User-specific stuff
 **/.local

@@ -1,3 +1,13 @@
+pluginManagement {
+    repositories {
+        maven {
+            url './maven-repo'
+        }
+        gradlePluginPortal()
+    }
+}
+
+//include 'geoclient-plugin'
 include 'geoclient-test'
 include 'geoclient-jni'
 include 'geoclient-core'
@@ -5,7 +15,4 @@ include 'geoclient-parser'
 include 'geoclient-service'
 
 rootProject.name = 'geoclient'
-
-// Gradle 4.10.x
-//enableFeaturePreview('IMPROVED_POM_SUPPORT')
-//enableFeaturePreview('STABLE_PUBLISHING')
+//project(':geoclient-plugin').projectDir = new File(settingsDir, './plugin')

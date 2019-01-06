@@ -1,22 +1,18 @@
+plugins {
+    id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin' version '1.0.0' apply true
+}
+
 apply from: "${rootDir}/gradle/dependencies.gradle"
 
 allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'project-report'
-    apply plugin: 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
-
-    //geosupport {
-    //    home = "${System.getenv('GEOSUPPORT_HOME')}"
-    //    libraryPath = "${System.getenv('GEOSUPPORT_HOME')}/lib"
-    //    geofiles = "${System.getenv('GEOFILES')}"
-    //}
     geoclient {
         nativeTempDir = project.file("${project.buildDir}/temp/native")
     }
 }
 
 subprojects {
-
     apply plugin: 'java'
     apply plugin: 'maven-publish'
     apply plugin: 'signing'
@@ -124,7 +120,7 @@ subprojects {
         repositories {
             maven {
                 name = 'localBuild'
-                url = "file://${rootProject.buildDir}/repo"
+                url = "file://${rootProject.projectDir}/maven-repo"
             }
         }
         publications {
