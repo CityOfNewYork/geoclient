@@ -1,7 +1,7 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
 import org.gradle.api.Project;
-import org.gradle.api.file.DirectoryProperty;
+//import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.provider.Provider;
@@ -60,13 +60,13 @@ public class BuildConfigurationResolver {
         return null;
     }
 
-    private String getGradlePropertyAsString(String propName) {
-        Object prop = getGradleProperty(propName);
-        if(prop != null) {
-            return prop.toString();
-        }
-        return null;
-    }
+    //private String getGradlePropertyAsString(String propName) {
+    //    Object prop = getGradleProperty(propName);
+    //    if(prop != null) {
+    //        return prop.toString();
+    //    }
+    //    return null;
+    //}
 
     public String resolveGeosupportHome() {
         // 1. Resolve from plugin extension
@@ -85,7 +85,7 @@ public class BuildConfigurationResolver {
 
     public String resolveGeosupportLibraryPath() {
         // 1. Resolve from plugin extension
-        String gsLibraryPath = gsLibraryPath = geosupportExtension.getLibraryPath().getOrNull();
+        String gsLibraryPath = geosupportExtension.getLibraryPath().getOrNull();
         logger.info("geosupport.libraryPath extension value: '{}'", gsLibraryPath);
         // 2. Resolve from environment variable
         if(!Utils.hasValue(gsLibraryPath)) {

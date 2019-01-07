@@ -6,7 +6,7 @@ import static gov.nyc.doitt.gis.geoclient.gradle.BuildConfigurationResolver.SYSP
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.provider.Property;
+//import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.testing.Test;
 
 public class GeoclientPlugin implements Plugin<Project> {
@@ -31,7 +31,7 @@ public class GeoclientPlugin implements Plugin<Project> {
         resolver.resolveGeoclientNativeTempDir();
         resolver.resolveGeosupportLibraryPath();
         resolver.resolveGeosupportGeofiles();
-        project.getTasks().create("geosupportInfo", GeosupportInfo.class, project);        
+        project.getTasks().create("geosupportInfo", GeosupportInfo.class, project);
     }
     /*
     task showMe {
