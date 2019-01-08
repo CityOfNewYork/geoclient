@@ -1,20 +1,23 @@
 #
 # 1. Before running this image create a volume with Geosupport installed:
 #
-#   $ docker pull mlipper/geosupport-docker
+#   $ docker pull mlipper/geosupport-docker:latest
 #   ...
-#   $ docker run --rm --mount source=gsvol,target=/opt/geosupport mlipper/geosupport-docker
+#   $ docker run -d --name geosupport \
+#                   --mount source=vol-geosupport,target=/opt/geosupport \
+#                   mlipper/geosupport-docker:latest
 #
 #
 # 2. Build this image
 #
-#   $ docker build -t geoclient .
+#   $ docker build -t geoclient -f Dockerfile.build .
 #
 # 3. Run this image
 #
-#   $ docker run -it --name geoclient \
+#   $ docker run -it --name gcbuild \
+#                -p 8080:8080 \
 #                -p 5005:5005 \
-#                --mount source=gsvol,target=/opt/geosupport \
+#                --mount source=vol-geosupport,target=/opt/geosupport \
 #                -v "$(pwd)":/app \
 #                geoclient
 #
@@ -36,12 +39,11 @@ RUN set -o errexit -o nounset \
       vim \
   && rm -rf /var/lib/apt/lists/*
 
-#ADD . /app
-
 WORKDIR /app
 
 RUN ["/bin/bash", "-c", "echo \". $GEOSUPPORT_HOME/bin/initenv\" >> ~/.bashrc"]
 
+EXPOSE 8080:8080
 EXPOSE 5005:5005
 
 #ENTRYPOINT ["/bin/bash", "-c"]
