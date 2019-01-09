@@ -10,6 +10,11 @@ allprojects {
     geoclient {
         nativeTempDir = project.file("${project.buildDir}/temp/native")
     }
+    //geosupport {
+    //    geofiles = 'c:/lib/geosupport/current/fls/'
+    //    home = 'c:/lib/geosupport/current'
+    //    libraryPath = 'c:/lib/geosupport/current/lib'
+    //}
 }
 
 subprojects {
@@ -66,7 +71,12 @@ subprojects {
 
     test {
         useJUnitPlatform()
-        testLogging.showStandardStreams = true
+        testLogging {
+            displayGranularity = 3
+            events "failed", "skipped", "passed"
+            exceptionFormat "full"
+            showStandardStreams = true
+        }
     }
 
     javadoc {
