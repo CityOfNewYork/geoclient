@@ -16,12 +16,25 @@
 plugins {
     id 'java-gradle-plugin'
     id 'groovy'
-    id 'maven-publish'
     id 'eclipse'
+    id 'maven-publish'
 }
 
 group 'gov.nyc.doitt.gis.geoclient.gradle'
 version '1.0.0'
+
+def eclipseBuildDir = file('bin')
+println "eclipseBuildDir=${eclipseBuildDir}"
+
+eclipse {
+  classpath {
+    println "defaultOutputDir.parent=${defaultOutputDir.parent}"
+    if(eclipseBuildDir != defaultOutputDir.parent) {
+        eclipseBuildDir = defaultOutputDir.parent
+    }
+    println "Resolved eclipseBuildDir=${eclipseBuildDir}"
+  }
+}
 
 gradlePlugin {
     plugins {
@@ -32,6 +45,10 @@ gradlePlugin {
     }
 }
 
+task deleteEclipseBuildDir(type: Delete) {
+  delete eclipseBuildDir
+}
+
 repositories {
     mavenCentral()
 }
@@ -40,6 +57,15 @@ dependencies {
     testImplementation localGroovy()
     testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
         exclude module: 'groovy-all'
+    }
+}
+
+test {
+    testLogging {
+        displayGranularity = 3
+        events "failed", "skipped", "passed"
+        exceptionFormat "full"
+        showStandardStreams = true
     }
 }
 

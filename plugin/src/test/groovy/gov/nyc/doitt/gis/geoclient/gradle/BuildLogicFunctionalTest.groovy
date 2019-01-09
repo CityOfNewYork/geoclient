@@ -16,20 +16,27 @@
 
 package gov.nyc.doitt.gis.geoclient.gradle
 
+import static org.gradle.testkit.runner.TaskOutcome.*
+
 import org.gradle.testkit.runner.GradleRunner
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
-import spock.lang.Specification
 
-import static org.gradle.testkit.runner.TaskOutcome.*
+import spock.lang.Specification
 
 class BuildLogicFunctionalTest extends Specification {
 
+    //static final String GEOSUPPORT_HOME='/opt/geosupport'
+    //static final String GEOFILES="${GEOSUPPORT_HOME}/fls/"
+    //static final String GS_LIBRARY_PATH="${GEOSUPPORT_HOME}/lib"
+
     @Rule final TemporaryFolder testProjectDir = new TemporaryFolder()
     File buildFile
-    //File geosupportHome
-    //File gsLibDir
-    //File geofilesDir
+    File settingsFile
+    String sysPropGcNativeTempDir = BuildConfigurationResolver.SYSPROP_GC_NATIVE_TEMP_DIR
+    String geosupportHome = BuildConfigurationResolver.ENV_VAR_GEOSUPPORT_HOME
+    String geosupportLibraryPath = BuildConfigurationResolver.ENV_VAR_GS_LIBRARY_PATH
+    String geofiles = BuildConfigurationResolver.ENV_VAR_GEOFILES
 
     def setup() {
         //geosupportHome = testProjectDir.newFolder('geosupport')
@@ -38,11 +45,14 @@ class BuildLogicFunctionalTest extends Specification {
         //testProjectDir.newFile('gradle.properties') << """
         //systemProp.java.library.path=${gsLibDir.toURI()}
         //"""
+        settingsFile = testProjectDir.newFile('settings.gradle')
         buildFile = testProjectDir.newFile('build.gradle')
+
     }
 
     def "applying plugin without configuration succeeds"() {
         given:
+        settingsFile << "rootProject.name = 'plugin-funtest'"
         buildFile << """
             plugins {
                 id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
@@ -51,16 +61,21 @@ class BuildLogicFunctionalTest extends Specification {
 
         when:
         def result = runner()
-            .withArguments('tasks')
-            .build()
+                .withArguments('geosupportInfo')
+                .build()
 
         then:
-        result.task(':tasks').outcome == SUCCESS
+        println result.output
+        result.output.contains('geoclient.nativeTempDir=')
+        result.output.contains('geosupport.geofiles=')
+        result.output.contains('geosupport.home=')
+        result.output.contains('geosupport.libraryPath=')
+        result.task(':geosupportInfo').outcome == SUCCESS
     }
 
     def runner() {
         return GradleRunner.create()
-            .withProjectDir(testProjectDir.root)
-            .withPluginClasspath()
+                .withProjectDir(testProjectDir.root)
+                .withPluginClasspath()
     }
 }

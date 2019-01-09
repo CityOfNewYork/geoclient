@@ -1,25 +1,51 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
+
+import java.util.List;
+
 import org.gradle.api.Project;
-import org.gradle.api.provider.Property;
 
-public class GeosupportExtension {
+import gov.nyc.doitt.gis.geoclient.gradle.annotation.Property;
+import gov.nyc.doitt.gis.geoclient.gradle.annotation.PropertySource;
+import gov.nyc.doitt.gis.geoclient.gradle.annotation.Source;
+import gov.nyc.doitt.gis.geoclient.gradle.ctx.AbstractPluginExtension;
 
-    private final Property<String> geofiles;
-    private final Property<String> home;
-    private final Property<String> libraryPath;
+public class GeosupportExtension extends AbstractPluginExtension {
+
+    private final org.gradle.api.provider.Property<String> geofiles;
+    private final org.gradle.api.provider.Property<String> home;
+    private final org.gradle.api.provider.Property<String> libraryPath;
 
     public GeosupportExtension(Project project) {
-        this.geofiles = project.getObjects().property(String.class);
-        this.home = project.getObjects().property(String.class);
-        this.libraryPath = project.getObjects().property(String.class);
+        super(project);
+        this.geofiles = getExtensionProperty(String.class);
+        this.home = getExtensionProperty(String.class);
+        this.libraryPath = getExtensionProperty(String.class);
     }
-    public Property<String> getGeofiles() {
+
+    @PropertySource(Source.ENVIRONMENT_VARIABLE)
+    public org.gradle.api.provider.Property<String> getGeofiles() {
         return this.geofiles;
     }
-    public Property<String> getHome() {
+
+    @PropertySource(Source.ENVIRONMENT_VARIABLE)
+    public org.gradle.api.provider.Property<String> getHome() {
         return this.home;
     }
-    public Property<String> getLibraryPath() {
+
+    @PropertySource(Source.ENVIRONMENT_VARIABLE)
+    public org.gradle.api.provider.Property<String> getLibraryPath() {
         return this.libraryPath;
+    }
+
+    @Override
+    protected void initialize(List<Property> props) {
+        props.add(withIdFromSource("Geofiles", Source.ENVIRONMENT_VARIABLE));
+        props.add(withIdFromSource("Home", Source.ENVIRONMENT_VARIABLE));
+        props.add(withIdFromSource("LibraryPath", Source.ENVIRONMENT_VARIABLE));
+    }
+
+    @Override
+    public String getNamespace() {
+        return "gs";
     }
 }
