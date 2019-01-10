@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import org.gradle.api.Project;
 import org.gradle.api.file.DirectoryProperty;
@@ -45,7 +44,7 @@ public abstract class AbstractPluginExtension implements PluginExtension {
 
     @Override
     public SystemProperties getSystemProperties() {
-        Stream<Property> sysProps = getProperties().stream().filter(new Predicate<Property>() {
+        getProperties().stream().filter(new Predicate<Property>() {
             @Override
             public boolean test(Property t) {
                 return t.getSource().equals(Source.SYSTEM_PROPERTY);

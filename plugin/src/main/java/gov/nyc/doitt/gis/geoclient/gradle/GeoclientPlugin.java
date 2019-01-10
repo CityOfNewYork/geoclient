@@ -7,27 +7,31 @@ import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 //import org.gradle.api.provider.Property;
+import org.gradle.api.logging.Logger;
+import org.gradle.api.logging.Logging;
 import org.gradle.api.tasks.testing.Test;
-
-import gov.nyc.doitt.gis.geoclient.gradle.annotation.Property;
 
 public class GeoclientPlugin implements Plugin<Project> {
 
+    private static final Logger logger = Logging.getLogger(GeoclientPlugin.class);
     public static final String SYSPROP_JAVA_LIBRARY_PATH = "java.library.path";
     // TODO
     // public static final String SYSPROP_JAVA_IO_TEMPDIR = "java.io.tempdir";
 
     public void apply(Project project) {
 
-        final GeoclientExtension geoclient = project.getExtensions().create("geoclient", GeoclientExtension.class,
-                project);
-
-        for (Property property : geoclient.getProperties()) {
-            // property.
-        }
-
-        final GeosupportExtension geosupport = project.getExtensions().create("geosupport", GeosupportExtension.class,
-                project);
+        // @formatter:off
+        logger.debug("Configuring GeoclientExtension...");
+        final GeoclientExtension geoclient = project.getExtensions().create("geoclient", 
+                                                                            GeoclientExtension.class,
+                                                                            project);
+        logger.info("GeoclientExtension configured successfully");
+        logger.debug("Configuring GeosupportExtension...");
+        final GeosupportExtension geosupport = project.getExtensions().create("geosupport",
+                                                                              GeosupportExtension.class,
+                                                                              project);
+        logger.info("GeosupportExtension configured successfully");
+        // @formatter:on
 
         final BuildConfigurationResolver resolver = new BuildConfigurationResolver(project, geoclient, geosupport);
 
@@ -44,6 +48,7 @@ public class GeoclientPlugin implements Plugin<Project> {
         resolver.resolveGeosupportGeofiles();
         project.getTasks().create("geosupportInfo", GeosupportInfo.class, project);
     }
+
     /*
      * task showMe { doLast() { logger.lifecycle("Gradle Properties:")
      * logger.lifecycle("      enableJavadoc: ${enableJavadoc}")

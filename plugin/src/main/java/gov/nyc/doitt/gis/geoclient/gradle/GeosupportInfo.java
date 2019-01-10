@@ -1,5 +1,12 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+import javax.inject.Inject;
+
 import org.gradle.api.DefaultTask;
 import org.gradle.api.Project;
 import org.gradle.api.file.DirectoryProperty;
@@ -9,13 +16,6 @@ import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.OutputDirectory;
 import org.gradle.api.tasks.TaskAction;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.lang.StringBuffer;
-import javax.inject.Inject;
 
 public class GeosupportInfo extends DefaultTask {
 
@@ -78,27 +78,28 @@ public class GeosupportInfo extends DefaultTask {
 
     private String format(DirectoryProperty dirProperty) throws IOException {
         Provider<File> dirProvider = dirProperty.getAsFile();
-        if(dirProvider.isPresent()) {
+        if (dirProvider.isPresent()) {
             File dir = dirProvider.get();
-            if(dir.exists()) {
-                return dir.getCanonicalPath();
+            if (dir.exists()) {
+                return "'" + dir.getCanonicalPath() + "'";
             }
-            return dir.getAbsolutePath();
+            return "'" + dir.getAbsolutePath() + "'";
         }
-        return "";
+        return "''";
     }
 
     private String format(Property<String> stringProperty) {
-        if(stringProperty.isPresent()) {
-            return stringProperty.get();
+        if (stringProperty.isPresent()) {
+            return "'" + stringProperty.get() + "'";
         }
-        return "";
+        return "''";
     }
 
     private void writeFile(File destination, String content) throws IOException {
         try (BufferedWriter output = new BufferedWriter(new FileWriter(destination));) {
             output.write(content);
         }
+        System.out.println(getClass().getSimpleName() + " report written to '" + destination + "'");
     }
 
 }

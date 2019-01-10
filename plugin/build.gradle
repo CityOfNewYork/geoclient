@@ -1,5 +1,5 @@
-/*
- * Copyright 2013 the original author or authors.
+/*c.jni.tmpdir
+ * Copyright 2013 cthe original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,15 +24,12 @@ group 'gov.nyc.doitt.gis.geoclient.gradle'
 version '1.0.0'
 
 def eclipseBuildDir = file('bin')
-println "eclipseBuildDir=${eclipseBuildDir}"
 
 eclipse {
   classpath {
-    println "defaultOutputDir.parent=${defaultOutputDir.parent}"
     if(eclipseBuildDir != defaultOutputDir.parent) {
         eclipseBuildDir = defaultOutputDir.parent
     }
-    println "Resolved eclipseBuildDir=${eclipseBuildDir}"
   }
 }
 
@@ -61,12 +58,45 @@ dependencies {
 }
 
 test {
+    // All tests
     testLogging {
         displayGranularity = 3
         events "failed", "skipped", "passed"
         exceptionFormat "full"
         showStandardStreams = true
     }
+}
+
+def noPropsType = 'gov.nyc.doitt.gis.geoclient.gradle.BuildLogicFunctionalTest'
+def noPropsTest = 'apply plugin without any configuration succeeds'
+def sysPropGcJniTmpdir = 'gc.jni.tmpdir'
+def envGsHome = 'GEOSUPPORT_HOME'
+def envGsLibPath = 'GS_LIBRARY_PATH'
+def envGsGeofiles = 'GEOFILES'  
+
+test {
+    // Most tests, including TestKit functional tests except for test $noPropsTest
+    filter {
+        excludeTest noPropsType, noPropsTest
+        includeTestsMatching "gov.nyc.doitt.gis.geoclient.gradle.*"
+        includeTestsMatching "${noPropsType}.*"
+    }
+    systemProperty sysPropGcJniTmpdir, '/tmp'
+    environment envGsHome,    '/opt/geosupport'
+    environment envGsLibPath, '/opt/geosupport/lib'
+    environment envGsGeofiles,'/opt/geosupport/fls/'
+}
+
+test {
+    // Only TestKit functional test method "${noPropsType}.${noPropsTest}" which requires that no related system or
+    // environment be populated when the JVM forks and runs
+    filter {
+        includeTest  noPropsType, noPropsTest
+    }
+    //systemProperty.remove "${sysPropGcJniTmpdir}"
+    environment.remove envGsHome
+    environment.remove envGsLibPath
+    environment.remove envGsGeofiles
 }
 
 publishing {

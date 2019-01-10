@@ -16,5 +16,8 @@ import java.lang.annotation.Target;
 @Inherited
 @Repeatable(PropertySources.class)
 public @interface PropertySource {
+
     Source value();
+
+    int order() default 0;
 }
