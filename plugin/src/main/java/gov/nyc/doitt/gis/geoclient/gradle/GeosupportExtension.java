@@ -1,51 +1,39 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
-import java.util.List;
+import static gov.nyc.doitt.gis.geoclient.gradle.property.Source.ENVIRONMENT_VARIABLE;
 
 import org.gradle.api.Project;
+import org.gradle.api.provider.Property;
 
-import gov.nyc.doitt.gis.geoclient.gradle.annotation.Property;
-import gov.nyc.doitt.gis.geoclient.gradle.annotation.PropertySource;
-import gov.nyc.doitt.gis.geoclient.gradle.annotation.Source;
-import gov.nyc.doitt.gis.geoclient.gradle.ctx.AbstractPluginExtension;
+import gov.nyc.doitt.gis.geoclient.gradle.property.AnnotatedPluginExtension;
+import gov.nyc.doitt.gis.geoclient.gradle.property.Source;
+import gov.nyc.doitt.gis.geoclient.gradle.property.ValueSource;
 
-public class GeosupportExtension extends AbstractPluginExtension {
+public class GeosupportExtension extends AnnotatedPluginExtension {
 
-    private final org.gradle.api.provider.Property<String> geofiles;
-    private final org.gradle.api.provider.Property<String> home;
-    private final org.gradle.api.provider.Property<String> libraryPath;
+    private final Property<String> geofiles;
+    private final Property<String> home;
+    private final Property<String> libraryPath;
 
     public GeosupportExtension(Project project) {
         super(project);
-        this.geofiles = getExtensionProperty(String.class);
-        this.home = getExtensionProperty(String.class);
-        this.libraryPath = getExtensionProperty(String.class);
+        this.geofiles = providerProperty(String.class);
+        this.home = providerProperty(String.class);
+        this.libraryPath = providerProperty(String.class);
     }
 
-    @PropertySource(Source.ENVIRONMENT_VARIABLE)
-    public org.gradle.api.provider.Property<String> getGeofiles() {
+    @ValueSource(ENVIRONMENT_VARIABLE)
+    public Property<String> getGeofiles() {
         return this.geofiles;
     }
 
-    @PropertySource(Source.ENVIRONMENT_VARIABLE)
-    public org.gradle.api.provider.Property<String> getHome() {
+    @ValueSource(ENVIRONMENT_VARIABLE)
+    public Property<String> getHome() {
         return this.home;
     }
 
-    @PropertySource(Source.ENVIRONMENT_VARIABLE)
+    @ValueSource(Source.ENVIRONMENT_VARIABLE)
     public org.gradle.api.provider.Property<String> getLibraryPath() {
         return this.libraryPath;
-    }
-
-    @Override
-    protected void initialize(List<Property> props) {
-        props.add(withIdFromSource("Geofiles", Source.ENVIRONMENT_VARIABLE));
-        props.add(withIdFromSource("Home", Source.ENVIRONMENT_VARIABLE));
-        props.add(withIdFromSource("LibraryPath", Source.ENVIRONMENT_VARIABLE));
-    }
-
-    @Override
-    public String getNamespace() {
-        return "gs";
     }
 }

@@ -8,16 +8,9 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.provider.Provider;
 
-import gov.nyc.doitt.gis.geoclient.gradle.ctx.Utils;
+import gov.nyc.doitt.gis.geoclient.gradle.common.Utils;
 
 public class BuildConfigurationResolver {
-
-    public static final String DEFAULT_SUBDIR_GS_GEOFILES = "fls"; // Requires trailing slash!
-    public static final String DEFAULT_SUBDIR_GS_LIBRARY_PATH = "lib";
-    public static final String ENV_VAR_GEOFILES = "GEOFILES";
-    public static final String ENV_VAR_GEOSUPPORT_HOME = "GEOSUPPORT_HOME";
-    public static final String ENV_VAR_GS_LIBRARY_PATH = "GS_LIBRARY_PATH";
-    public static final String SYSPROP_GC_NATIVE_TEMP_DIR = "gc.jni.version";
 
     final Logger logger = Logging.getLogger(BuildConfigurationResolver.class);
 
@@ -68,7 +61,7 @@ public class BuildConfigurationResolver {
         logger.info("geosupport.home extension value: '{}'", geosupportHome);
         // 2. Resolve from environment variable and update extension (if successful)
         if (!Utils.hasValue(geosupportHome)) {
-            geosupportHome = getEnv(ENV_VAR_GEOSUPPORT_HOME);
+            geosupportHome = getEnv(GeoclientPlugin.ENV_VAR_GEOSUPPORT_HOME);
             logger.info("GEOSUPPORT_HOME environment variable value: '{}'", geosupportHome);
             if (geosupportHome != null) {
                 geosupportExtension.getHome().set(geosupportHome);
@@ -83,12 +76,12 @@ public class BuildConfigurationResolver {
         logger.info("geosupport.libraryPath extension value: '{}'", gsLibraryPath);
         // 2. Resolve from environment variable
         if (!Utils.hasValue(gsLibraryPath)) {
-            gsLibraryPath = getEnv(ENV_VAR_GS_LIBRARY_PATH);
+            gsLibraryPath = getEnv(GeoclientPlugin.ENV_VAR_GS_LIBRARY_PATH);
             logger.info("GS_LIBRARY_PATH environment variable value: '{}'", gsLibraryPath);
         }
         // 3. Try using default lib subdirectory if geosupport.home can be resolved
         if (!Utils.hasValue(gsLibraryPath)) {
-            gsLibraryPath = resolveGeosupportHomeSubdir(DEFAULT_SUBDIR_GS_LIBRARY_PATH);
+            gsLibraryPath = resolveGeosupportHomeSubdir(GeoclientPlugin.DEFAULT_SUBDIR_GS_LIBRARY_PATH);
             logger.info("geosupport.libraryPath value derived from '${geosupport.home}/lib': '{}'", gsLibraryPath);
         }
         // 4. If the value was found by steps 2. or 3., update the extension
@@ -104,12 +97,12 @@ public class BuildConfigurationResolver {
         logger.info("geosupport.geofiles extension value: '{}'", gsGeofiles);
         // 2. Resolve from environment variable
         if (!Utils.hasValue(gsGeofiles)) {
-            gsGeofiles = getEnv(ENV_VAR_GEOFILES);
+            gsGeofiles = getEnv(GeoclientPlugin.ENV_VAR_GEOFILES);
             logger.info("GEOFILES environment variable value: '{}'", gsGeofiles);
         }
         // 3. Try using default fls/ subdirectory if geosupport.home can be resolved
         if (!Utils.hasValue(gsGeofiles)) {
-            gsGeofiles = resolveGeosupportHomeSubdir(DEFAULT_SUBDIR_GS_GEOFILES);
+            gsGeofiles = resolveGeosupportHomeSubdir(GeoclientPlugin.DEFAULT_SUBDIR_GS_GEOFILES);
             logger.info("geosupport.geofiles value derived from '${geosupport.home}/fls/': '{}'", gsGeofiles);
         }
         // 4. Insure that any value set ends with the required trailing slash!
@@ -162,9 +155,9 @@ public class BuildConfigurationResolver {
 
         // 2. Resolve from java system property and update extension (if successfull)
         if (dir == null) {
-            String nativeTempDirString = getSystemProperty(SYSPROP_GC_NATIVE_TEMP_DIR);
+            String nativeTempDirString = getSystemProperty(GeoclientPlugin.SYSPROP_GC_NATIVE_TEMP_DIR);
             logger.info("geoclient.nativeTempDir resolved from java system property '{}' to value: '{}'",
-                    SYSPROP_GC_NATIVE_TEMP_DIR, nativeTempDirString);
+                    GeoclientPlugin.SYSPROP_GC_NATIVE_TEMP_DIR, nativeTempDirString);
             if (nativeTempDirString != null) {
                 geoclientExtension.getNativeTempDir().dir(nativeTempDirString);
                 Provider<File> viewOfDir = geoclientExtension.getNativeTempDir().getAsFile();

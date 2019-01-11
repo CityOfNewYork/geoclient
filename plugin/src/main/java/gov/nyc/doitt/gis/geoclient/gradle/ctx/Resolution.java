@@ -2,28 +2,28 @@ package gov.nyc.doitt.gis.geoclient.gradle.ctx;
 
 import java.time.LocalDateTime;
 
-import gov.nyc.doitt.gis.geoclient.gradle.annotation.Property;
+import gov.nyc.doitt.gis.geoclient.gradle.property.Configuration;
 
-public class Configuration {
+public class Resolution {
 
-    public enum Resolution {
+    public enum Outcome {
         RESOLVED, UNRESOLVED
     }
 
-    private final Property property;
-    private Resolution resolution;
+    private final Configuration property;
+    private Outcome resolution;
     private LocalDateTime timestamp;
 
-    public Configuration(Property property) {
+    public Resolution(Configuration property) {
         super();
         this.property = property;
     }
 
-    public Property getProperty() {
+    public Configuration getProperty() {
         return property;
     }
 
-    public Resolution getResolution() {
+    public Outcome getResolution() {
         return resolution;
     }
 
@@ -31,8 +31,8 @@ public class Configuration {
         return this.timestamp;
     }
 
-    public synchronized Configuration resolve() {
-        if (Utils.hasValueAsString(this.property.getValue())) {
+    public synchronized Resolution resolve() {
+        if (this.property.getValue().isPresent()) {
             markResolved();
         } else {
             markUnresolved();
@@ -42,11 +42,11 @@ public class Configuration {
     }
 
     private void markResolved() {
-        this.resolution = Resolution.RESOLVED;
+        this.resolution = Outcome.RESOLVED;
     }
 
     private void markUnresolved() {
-        this.resolution = Resolution.UNRESOLVED;
+        this.resolution = Outcome.UNRESOLVED;
     }
 
     private void timestamp() {

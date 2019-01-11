@@ -1,4 +1,4 @@
-package gov.nyc.doitt.gis.geoclient.gradle;
+package gov.nyc.doitt.gis.geoclient.gradle.common;
 
 public class GeosupportVersion {
     private String version;

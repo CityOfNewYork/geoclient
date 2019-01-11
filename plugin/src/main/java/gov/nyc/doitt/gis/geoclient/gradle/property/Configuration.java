@@ -1,25 +1,35 @@
-package gov.nyc.doitt.gis.geoclient.gradle.annotation;
+package gov.nyc.doitt.gis.geoclient.gradle.property;
 
-import gov.nyc.doitt.gis.geoclient.gradle.ctx.Utils;
+import java.util.Optional;
 
-public class Property {
+import gov.nyc.doitt.gis.geoclient.gradle.common.Utils;
+
+public class Configuration {
 
     private final String id;
     private final Source source;
-    private Object value;
+    private Optional<? extends Object> value;
 
-    public Property(String id, Source source) {
-        this(id, source, null);
+    public Configuration(String id, Source source) {
+        this(id, source, Optional.empty());
     }
 
-    public Property(String id, Source source, Object value) {
+    public Configuration(String id, Source source, Object value) {
+        this(id, source, Optional.ofNullable(value));
+    }
+
+    public Configuration(String id, Source source, String value) {
+        this(id, source, Optional.ofNullable(value));
+    }
+
+    public Configuration(String id, Source source, Optional<? extends Object> value) {
         super();
         this.id = id;
         this.source = source;
-        this.value = value;
+        this.value = (value != null) ? value : Optional.empty();
     }
 
-    public Object getValue() {
+    public Optional<? extends Object> getValue() {
         return value;
     }
 
@@ -27,8 +37,8 @@ public class Property {
         return this.source;
     }
 
-    public void setValue(Object value) {
-        this.value = value;
+    public void setValue(Optional<? extends Object> value) {
+        this.value = (value != null) ? value : Optional.empty();
     }
 
     public String getId() {
@@ -36,7 +46,10 @@ public class Property {
     }
 
     public boolean hasValue() {
-        return Utils.hasValueAsString(this.value);
+        if (this.value.isPresent()) {
+            return Utils.hasValue(this.value.get());
+        }
+        return false;
     }
 
     @Override
@@ -56,7 +69,7 @@ public class Property {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        Property other = (Property) obj;
+        Configuration other = (Configuration) obj;
         if (id == null) {
             if (other.id != null)
                 return false;

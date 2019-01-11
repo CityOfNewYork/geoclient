@@ -13,24 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package gov.nyc.doitt.gis.geoclient.gradle.annotation
+package gov.nyc.doitt.gis.geoclient.gradle.property
 
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
 import spock.lang.Specification
 
-class PropertySourcesTest extends Specification {
+class ValueSourcesTest extends Specification {
     FruitExtension fruit
     def setup() {
         fruit = new FruitExtension()
     }
 
-    def "repeatable annotation type container @PropertySources returns elements in declaration order"() {
+    def "repeatable annotation type container @ValueSources returns elements in declaration order"() {
         given:
-        PropertySources gAggregateSources = getPropertySources(fruit, "getGrape")
+        ValueSources gAggregateSources = getValueSources(fruit, "getGrape")
         and:
-        PropertySource[] gSources = gAggregateSources.value()
+        ValueSource[] gSources = gAggregateSources.value()
         expect:
         gSources.length == 4
         gSources[0].value() == Source.ENVIRONMENT_VARIABLE
@@ -43,49 +43,49 @@ class PropertySourcesTest extends Specification {
         gSources[3].order() == 1
     }
 
-    def "stand-alone declarations of @PropertySource will be returned in declaration order"() {
+    def "stand-alone declarations of @ValueSource will be returned in declaration order"() {
         given:
-        PropertySources bAggregateSources = getPropertySources(fruit, "getBanana")
+        ValueSources bAggregateSources = getValueSources(fruit, "getBanana")
         and:
-        PropertySource[] bSources = bAggregateSources.value()
+        ValueSource[] bSources = bAggregateSources.value()
         expect:
         bSources.length == 2
         bSources[0].value() == Source.ENVIRONMENT_VARIABLE
         bSources[1].value() == Source.SYSTEM_PROPERTY
     }
 
-    def "repeatable annotation type container @PropertySources does not break when empty"() {
+    def "repeatable annotation type container @ValueSources does not break when empty"() {
         given:
-        PropertySources gAggregateSources = getPropertySources(fruit, "getApple")
+        ValueSources gAggregateSources = getValueSources(fruit, "getApple")
         and:
-        PropertySource[] gSources = gAggregateSources.value()
+        ValueSource[] gSources = gAggregateSources.value()
         expect:
         gSources.length == 0
     }
 
-    def "repeatable annotation @PropertySource can be used on types"() {
+    def "repeatable annotation @ValueSource can be used on types"() {
         given:
-        PropertySource fruitSource = getPropertySource(fruit)
+        ValueSource fruitSource = getValueSource(fruit)
         expect:
         fruitSource.value() == Source.EXTENSION_DEFAULT
     }
 
-    PropertySources getPropertySources(FruitExtension instance, String methodName) {
+    ValueSources getValueSources(FruitExtension instance, String methodName) {
         Method method = instance.class.declaredMethods.find { m ->
             if(m.getName() == methodName) {
                 return m
             }
         }
-        PropertySources result = getPropertySources(method)
+        ValueSources result = getValueSources(method)
         assert result
         result
     }
 
-    PropertySources getPropertySources(Method method) {
+    ValueSources getValueSources(Method method) {
         // Only public or protected methods which take no arguments
         if(Modifier.isPublic(method.modifiers) || Modifier.isProtected(method.modifiers)) {
             if(method.parameterTypes.length == 0) {
-                PropertySources ps = method.getAnnotation(PropertySources)
+                ValueSources ps = method.getAnnotation(ValueSources)
                 if(ps != null) {
                     return ps
                 }
@@ -93,8 +93,8 @@ class PropertySourcesTest extends Specification {
         }
     }
 
-    PropertySource getPropertySource(FruitExtension fruit) {
-        fruit.getClass().getAnnotation(PropertySource)
+    ValueSource getValueSource(FruitExtension fruit) {
+        fruit.getClass().getAnnotation(ValueSource)
     }
 
 }

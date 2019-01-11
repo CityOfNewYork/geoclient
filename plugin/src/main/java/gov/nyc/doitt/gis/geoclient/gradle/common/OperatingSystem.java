@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package gov.nyc.doitt.gis.geoclient.gradle;
+package gov.nyc.doitt.gis.geoclient.gradle.common;
 import java.util.HashMap;
 import java.util.Map;
 /**

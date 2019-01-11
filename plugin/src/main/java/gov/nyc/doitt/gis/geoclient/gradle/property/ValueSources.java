@@ -1,4 +1,4 @@
-package gov.nyc.doitt.gis.geoclient.gradle.annotation;
+package gov.nyc.doitt.gis.geoclient.gradle.property;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
@@ -13,6 +13,6 @@ import java.lang.annotation.Target;
 @Retention(RUNTIME)
 @Documented
 @Inherited
-public @interface PropertySources {
-    PropertySource[] value();
+public @interface ValueSources {
+    ValueSource[] value();
 }
