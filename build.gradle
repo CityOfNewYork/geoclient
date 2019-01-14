@@ -10,11 +10,11 @@ allprojects {
     geoclient {
         nativeTempDir = project.file("${project.buildDir}/temp/native")
     }
-    //geosupport {
-    //    geofiles = 'c:/lib/geosupport/current/fls/'
-    //    home = 'c:/lib/geosupport/current'
-    //    libraryPath = 'c:/lib/geosupport/current/lib'
-    //}
+    geosupport {
+        geofiles = System.getenv('GEOFILES')
+        home = System.getenv('GEOSUPPORT_HOME')
+        libraryPath = "${System.getenv('GEOSUPPORT_HOME')}/lib"
+    }
 }
 
 subprojects {

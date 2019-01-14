@@ -16,10 +16,6 @@
 
 package gov.nyc.doitt.gis.geoclient.gradle
 
-import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.ENV_VAR_GEOFILES
-import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.ENV_VAR_GEOSUPPORT_HOME
-import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.ENV_VAR_GS_LIBRARY_PATH
-import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.SYSPROP_GC_NATIVE_TEMP_DIR
 import static org.gradle.testkit.runner.TaskOutcome.*
 
 import org.gradle.testkit.runner.GradleRunner
@@ -28,48 +24,25 @@ import org.junit.rules.TemporaryFolder
 
 import spock.lang.Specification
 
-/*
- * IMPORTANT: The name of this class and it's methods must match the 'test { filters {...} }' block in build.gradle
- *            to insure that the forked JVM used to run this suite has it's environment variables and Java system 
- *            properties set as expected!
- */
 class BuildLogicFunctionalTest extends Specification {
 
-    //static final String GEOSUPPORT_HOME='/opt/geosupport'
-    //static final String GEOFILES="${GEOSUPPORT_HOME}/fls/"
-    //static final String GS_LIBRARY_PATH="${GEOSUPPORT_HOME}/lib"
-
+    final static String PROJECT_NAME = 'plugin-funtest'
     @Rule final TemporaryFolder testProjectDir = new TemporaryFolder()
     File buildFile
     File settingsFile
-    String sysPropGcNativeTempDir = SYSPROP_GC_NATIVE_TEMP_DIR
-    String geosupportHome         = ENV_VAR_GEOSUPPORT_HOME
-    String geosupportLibraryPath  = ENV_VAR_GS_LIBRARY_PATH
-    String geofiles               = ENV_VAR_GEOFILES
+    String expectedInfoTaskFile
 
     def setup() {
-        //geosupportHome = testProjectDir.newFolder('geosupport')
-        //gsLibDir = new File(geosupportHome, 'lib')
-        //geofilesDir = new File(geosupportHome, 'fls')
-        //testProjectDir.newFile('gradle.properties') << """
-        //systemProp.java.library.path=${gsLibDir.toURI()}
-        //"""
-        //println System.getenv().sort().each { k, v -> println "$k=$v"; }
         settingsFile = testProjectDir.newFile('settings.gradle')
         buildFile = testProjectDir.newFile('build.gradle')
-
+        //String projectDirName = buildFile.parentFile.absolutePath
+        expectedInfoTaskFile = new File("${testProjectDir.root}/build/${PROJECT_NAME}.txt").absolutePath
     }
 
-    def "apply plugin without any configuration succeeds"() {
+    def "plugin without any configuration succeeds"() {
 
         given:
-        //System.getProperty(sysPropGcNativeTempDir) == false
-        //System.getenv().containsKey(geosupportHome) == false
-        //System.getenv().containsKey(geosupportLibraryPath) == false
-        //System.getenv().containsKey(geofiles) == false
-
-        //and:
-        settingsFile << "rootProject.name = 'plugin-funtest'"
+        settingsFile << "rootProject.name = '${PROJECT_NAME}'"
         buildFile << """
             plugins {
                 id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
@@ -81,47 +54,49 @@ class BuildLogicFunctionalTest extends Specification {
                 .build()
 
         then:
-        //println result.output
         result.output.contains("geoclient.nativeTempDir=''")
         result.output.contains("geosupport.geofiles=''")
         result.output.contains("geosupport.home=''")
         result.output.contains("geosupport.libraryPath=''")
-        result.output.contains("GeosupportInfo report written to '${testProjectDir.root}/build'")
+        result.output.contains("GeosupportInfo_Decorated report written to '${expectedInfoTaskFile}'")
         result.task(':geosupportInfo').outcome == SUCCESS
     }
 
-    def "applied plugin is completely configured from system and environment"() {
+    def "plugin is configured from extension properties"() {
 
         given:
-        settingsFile << "rootProject.name = 'plugin-funtest'"
+        settingsFile << "rootProject.name = '${PROJECT_NAME}'"
         buildFile << """
             plugins {
-                id 'groovy'
                 id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
             }
-            //test {
-            //    systemProperty 'gc.jni.tempdir',  '/tmp'
-            //       environment 'GEOSUPPORT_HOME', '/opt/geosupport'
-            //       environment 'GS_LIBRARY_PATH', '/opt/geosupport/lib'
-            //       environment 'GEOFILES',        '/opt/geosupport/fls/'
-            //}
+            geoclient {
+                nativeTempDir = new File(System.getProperty('java.io.tmpdir'))
+            }
+            geosupport {
+                geofiles = System.getProperty('geosupport.geofiles')
+                home = '/foo'
+                libraryPath = System.getProperty('geosupport.libraryPath')
+            }
         """
-	System.getProperty(sysPropGcNativeTempDir) == true
-	System.getenv().containsKey(geosupportHome) == true
-	System.getenv().containsKey(geosupportLibraryPath) == true
-	System.getenv().containsKey(geofiles) == true
+
+        and:
+        def expectedNativeTempDir = new File(System.getProperty("java.io.tmpdir"))
 
         when:
         def result = runner()
-                .withArguments('geosupportInfo', '-Dgc.jni.tempdir=/tmp')
+                .withArguments('geosupportInfo',
+                '-Dgeosupport.geofiles=/foo/fls/',
+                '-Dgeosupport.libraryPath=/foo/lib')
                 .build()
 
+
         then:
-        result.output.contains("geoclient.nativeTempDir='/tmp'")
-        result.output.contains("geosupport.geofiles='/opt/geosupportfls/'")
-        result.output.contains("geosupport.home='/opt/geosupport'")
-        result.output.contains("geosupport.libraryPath='/opt/geosupport/lib'")
-        result.output.contains("GeosupportInfo report written to '${testProjectDir.root}/build'")
+        result.output.contains("geoclient.nativeTempDir='${expectedNativeTempDir}'")
+        result.output.contains("geosupport.geofiles='/foo/fls/'")
+        result.output.contains("geosupport.home='/foo'")
+        result.output.contains("geosupport.libraryPath='/foo/lib'")
+        result.output.contains("GeosupportInfo_Decorated report written to '${expectedInfoTaskFile}'")
         result.task(':geosupportInfo').outcome == SUCCESS
     }
 

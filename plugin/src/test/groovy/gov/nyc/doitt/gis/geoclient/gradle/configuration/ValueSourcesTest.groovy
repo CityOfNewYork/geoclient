@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package gov.nyc.doitt.gis.geoclient.gradle.property
+package gov.nyc.doitt.gis.geoclient.gradle.configuration
 
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
 
+import gov.nyc.doitt.gis.geoclient.gradle.configuration.Source
+import gov.nyc.doitt.gis.geoclient.gradle.configuration.ValueSource
+import gov.nyc.doitt.gis.geoclient.gradle.configuration.ValueSources
 import spock.lang.Specification
 
 class ValueSourcesTest extends Specification {
@@ -35,12 +38,10 @@ class ValueSourcesTest extends Specification {
         gSources.length == 4
         gSources[0].value() == Source.ENVIRONMENT_VARIABLE
         gSources[0].order() == 2
-        gSources[1].value() == Source.EXTENSION_DEFAULT
-        gSources[1].order() == 0
-        gSources[2].value() == Source.GRADLE_PROPERTY
-        gSources[2].order() == 2
-        gSources[3].value() == Source.SYSTEM_PROPERTY
-        gSources[3].order() == 1
+        gSources[1].value() == Source.PROJECT_PROPERTY
+        gSources[1].order() == 2
+        gSources[2].value() == Source.SYSTEM_PROPERTY
+        gSources[2].order() == 1
     }
 
     def "stand-alone declarations of @ValueSource will be returned in declaration order"() {
@@ -61,13 +62,6 @@ class ValueSourcesTest extends Specification {
         ValueSource[] gSources = gAggregateSources.value()
         expect:
         gSources.length == 0
-    }
-
-    def "repeatable annotation @ValueSource can be used on types"() {
-        given:
-        ValueSource fruitSource = getValueSource(fruit)
-        expect:
-        fruitSource.value() == Source.EXTENSION_DEFAULT
     }
 
     ValueSources getValueSources(FruitExtension instance, String methodName) {
@@ -91,10 +85,6 @@ class ValueSourcesTest extends Specification {
                 }
             }
         }
-    }
-
-    ValueSource getValueSource(FruitExtension fruit) {
-        fruit.getClass().getAnnotation(ValueSource)
     }
 
 }

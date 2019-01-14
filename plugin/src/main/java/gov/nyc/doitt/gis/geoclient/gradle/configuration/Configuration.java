@@ -1,4 +1,4 @@
-package gov.nyc.doitt.gis.geoclient.gradle.property;
+package gov.nyc.doitt.gis.geoclient.gradle.configuration;
 
 import java.util.Optional;
 
@@ -6,25 +6,25 @@ import gov.nyc.doitt.gis.geoclient.gradle.common.Utils;
 
 public class Configuration {
 
-    private final String id;
+    private final String key;
     private final Source source;
     private Optional<? extends Object> value;
 
-    public Configuration(String id, Source source) {
-        this(id, source, Optional.empty());
+    public Configuration(String key, Source source) {
+        this(key, source, Optional.empty());
     }
 
-    public Configuration(String id, Source source, Object value) {
-        this(id, source, Optional.ofNullable(value));
+    public Configuration(String key, Source source, Object value) {
+        this(key, source, Optional.ofNullable(value));
     }
 
-    public Configuration(String id, Source source, String value) {
-        this(id, source, Optional.ofNullable(value));
+    public Configuration(String key, Source source, String value) {
+        this(key, source, Optional.ofNullable(value));
     }
 
-    public Configuration(String id, Source source, Optional<? extends Object> value) {
+    public Configuration(String key, Source source, Optional<? extends Object> value) {
         super();
-        this.id = id;
+        this.key = key;
         this.source = source;
         this.value = (value != null) ? value : Optional.empty();
     }
@@ -41,8 +41,8 @@ public class Configuration {
         this.value = (value != null) ? value : Optional.empty();
     }
 
-    public String getId() {
-        return id;
+    public String getKey() {
+        return key;
     }
 
     public boolean hasValue() {
@@ -56,7 +56,7 @@ public class Configuration {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((key == null) ? 0 : key.hashCode());
         result = prime * result + ((source == null) ? 0 : source.hashCode());
         return result;
     }
@@ -70,10 +70,10 @@ public class Configuration {
         if (getClass() != obj.getClass())
             return false;
         Configuration other = (Configuration) obj;
-        if (id == null) {
-            if (other.id != null)
+        if (key == null) {
+            if (other.key != null)
                 return false;
-        } else if (!id.equals(other.id))
+        } else if (!key.equals(other.key))
             return false;
         if (source != other.source)
             return false;
@@ -82,7 +82,7 @@ public class Configuration {
 
     @Override
     public String toString() {
-        return "Property [id=" + id + ", source=" + source + ", value=" + value + "]";
+        return "Property [key=" + key + ", source=" + source + ", value=" + value + "]";
     }
 
 }

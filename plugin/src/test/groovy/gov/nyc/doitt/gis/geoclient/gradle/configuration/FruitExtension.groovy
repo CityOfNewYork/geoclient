@@ -1,11 +1,10 @@
-package gov.nyc.doitt.gis.geoclient.gradle.property
+package gov.nyc.doitt.gis.geoclient.gradle.configuration
 
-import static gov.nyc.doitt.gis.geoclient.gradle.property.Source.*
+import static gov.nyc.doitt.gis.geoclient.gradle.configuration.Source.*
 
-import gov.nyc.doitt.gis.geoclient.gradle.property.ValueSource
-import gov.nyc.doitt.gis.geoclient.gradle.property.ValueSources
+import gov.nyc.doitt.gis.geoclient.gradle.configuration.ValueSource
+import gov.nyc.doitt.gis.geoclient.gradle.configuration.ValueSources
 
-@ValueSource(value = EXTENSION_DEFAULT, order = -1)
 class FruitExtension {
 
     private String apple
@@ -24,8 +23,8 @@ class FruitExtension {
 
     // Use repeatable annotation without containing type.
     // See https://docs.oracle.com/javase/tutorial/java/annotations/repeating.html
-    @ValueSource(ENVIRONMENT_VARIABLE)
-    @ValueSource(SYSTEM_PROPERTY)
+    @ValueSource(key="BANANA", source=ENVIRONMENT_VARIABLE)
+    @ValueSource(key="fruit.banana", source=SYSTEM_PROPERTY)
     String getBanana() {
         return banana;
     }
@@ -36,10 +35,9 @@ class FruitExtension {
     // Use repeatable annotation nested within the containing type.
     // See https://docs.oracle.com/javase/tutorial/java/annotations/repeating.html
     @ValueSources([
-        @ValueSource(value = ENVIRONMENT_VARIABLE, order = 2),
-        @ValueSource(EXTENSION_DEFAULT),
-        @ValueSource(value = GRADLE_PROPERTY, order = 2),
-        @ValueSource(value = SYSTEM_PROPERTY, order = 1)
+        @ValueSource(key="GRAPE", source = ENVIRONMENT_VARIABLE, order = 2),
+        @ValueSource(key="grape", source = PROJECT_PROPERTY, order = 2),
+        @ValueSource(key="fruit.Grape", source = SYSTEM_PROPERTY, order = 1)
     ])
     public String getGrape() {
         return grape;

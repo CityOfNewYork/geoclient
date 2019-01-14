@@ -57,45 +57,17 @@ dependencies {
     }
 }
 
-def noPropsType = 'gov.nyc.doitt.gis.geoclient.gradle.BuildLogicFunctionalTest'
-def noPropsTest = 'apply plugin without any configuration succeeds'
-def sysPropGcJniTmpdir = 'gc.jni.tmpdir'
-def envGsHome = 'GEOSUPPORT_HOME'
-def envGsLibPath = 'GS_LIBRARY_PATH'
-def envGsGeofiles = 'GEOFILES'  
-
 test {
-    // All tests
+    filter {
+        excludeTestsMatching 'gov.nyc.doitt.gis.geoclient.gradle.configuration.*'
+    }
     testLogging {
         displayGranularity = 3
         events "failed", "skipped", "passed"
         exceptionFormat "full"
         showStandardStreams = true
     }
-    // Most tests, including TestKit functional tests except for test $noPropsTest
-    filter {
-	includeTestsMatching "gov.nyc.doitt.gis.geoclient.gradle.property.*"
-        //excludeTest noPropsType, noPropsTest
-        //includeTestsMatching "gov.nyc.doitt.gis.geoclient.gradle.*"
-        //includeTestsMatching "${noPropsType}.*"
-    }
-    systemProperty sysPropGcJniTmpdir, '/tmp'
-    environment envGsHome,    '/opt/geosupport'
-    environment envGsLibPath, '/opt/geosupport/lib'
-    environment envGsGeofiles,'/opt/geosupport/fls/'
 }
-
-//test {
-//    // Only TestKit functional test method "${noPropsType}.${noPropsTest}" which requires that no related system or
-//    // environment be populated when the JVM forks and runs
-//    filter {
-//        includeTest  noPropsType, noPropsTest
-//    }
-//    //systemProperty.remove "${sysPropGcJniTmpdir}"
-//    environment.remove envGsHome
-//    environment.remove envGsLibPath
-//    environment.remove envGsGeofiles
-//}
 
 publishing {
     repositories {

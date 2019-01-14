@@ -1,4 +1,4 @@
-package gov.nyc.doitt.gis.geoclient.gradle;
+package gov.nyc.doitt.gis.geoclient.gradle.common;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,18 +8,20 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.provider.Provider;
 
-import gov.nyc.doitt.gis.geoclient.gradle.common.Utils;
+import gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin;
+import gov.nyc.doitt.gis.geoclient.gradle.ctx.AnnotatedGeoclientExtension;
+import gov.nyc.doitt.gis.geoclient.gradle.ctx.AnnotatedGeosupportExtension;
 
 public class BuildConfigurationResolver {
 
     final Logger logger = Logging.getLogger(BuildConfigurationResolver.class);
 
     private final Project project;
-    private final GeoclientExtension geoclientExtension;
-    private final GeosupportExtension geosupportExtension;
+    private final AnnotatedGeoclientExtension geoclientExtension;
+    private final AnnotatedGeosupportExtension geosupportExtension;
 
-    public BuildConfigurationResolver(Project project, GeoclientExtension geoclientExtension,
-            GeosupportExtension geosupportExtension) {
+    public BuildConfigurationResolver(Project project, AnnotatedGeoclientExtension geoclientExtension,
+            AnnotatedGeosupportExtension geosupportExtension) {
         this.project = project;
         this.geoclientExtension = geoclientExtension;
         this.geosupportExtension = geosupportExtension;

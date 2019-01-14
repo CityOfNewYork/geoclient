@@ -1,23 +1,17 @@
-package gov.nyc.doitt.gis.geoclient.gradle.property;
+package gov.nyc.doitt.gis.geoclient.gradle.configuration;
 
 import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;
-import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
-@Target({ TYPE, METHOD })
+@Target(METHOD)
 @Retention(RUNTIME)
 @Documented
 @Inherited
-@Repeatable(ValueSources.class)
-public @interface ValueSource {
-
-    Source value();
-    String key() default "";
-    int order() default 0;
+public @interface ValueSources {
+    ValueSource[] value();
 }
