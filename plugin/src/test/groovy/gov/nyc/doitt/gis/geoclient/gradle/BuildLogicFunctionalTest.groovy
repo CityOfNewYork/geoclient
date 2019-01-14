@@ -16,6 +16,10 @@
 
 package gov.nyc.doitt.gis.geoclient.gradle
 
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.ENV_VAR_GEOFILES
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.ENV_VAR_GEOSUPPORT_HOME
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.ENV_VAR_GS_LIBRARY_PATH
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.SYSPROP_GC_NATIVE_TEMP_DIR
 import static org.gradle.testkit.runner.TaskOutcome.*
 
 import org.gradle.testkit.runner.GradleRunner
@@ -38,10 +42,10 @@ class BuildLogicFunctionalTest extends Specification {
     @Rule final TemporaryFolder testProjectDir = new TemporaryFolder()
     File buildFile
     File settingsFile
-    String sysPropGcNativeTempDir = BuildConfigurationResolver.SYSPROP_GC_NATIVE_TEMP_DIR
-    String geosupportHome = BuildConfigurationResolver.ENV_VAR_GEOSUPPORT_HOME
-    String geosupportLibraryPath = BuildConfigurationResolver.ENV_VAR_GS_LIBRARY_PATH
-    String geofiles = BuildConfigurationResolver.ENV_VAR_GEOFILES
+    String sysPropGcNativeTempDir = SYSPROP_GC_NATIVE_TEMP_DIR
+    String geosupportHome         = ENV_VAR_GEOSUPPORT_HOME
+    String geosupportLibraryPath  = ENV_VAR_GS_LIBRARY_PATH
+    String geofiles               = ENV_VAR_GEOFILES
 
     def setup() {
         //geosupportHome = testProjectDir.newFolder('geosupport')
@@ -59,12 +63,12 @@ class BuildLogicFunctionalTest extends Specification {
     def "apply plugin without any configuration succeeds"() {
 
         given:
-        System.getProperty(sysPropGcNativeTempDir) == false
-        System.getenv().containsKey(geosupportHome) == false
-        System.getenv().containsKey(geosupportLibraryPath) == false
-        System.getenv().containsKey(geofiles) == false
+        //System.getProperty(sysPropGcNativeTempDir) == false
+        //System.getenv().containsKey(geosupportHome) == false
+        //System.getenv().containsKey(geosupportLibraryPath) == false
+        //System.getenv().containsKey(geofiles) == false
 
-        and:
+        //and:
         settingsFile << "rootProject.name = 'plugin-funtest'"
         buildFile << """
             plugins {
@@ -95,16 +99,21 @@ class BuildLogicFunctionalTest extends Specification {
                 id 'groovy'
                 id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
             }
-            test {
-                systemProperty 'gc.jni.tempdir',  '/tmp'
-                   environment 'GEOSUPPORT_HOME', '/opt/geosupport'
-                   environment 'GS_LIBRARY_PATH', '/opt/geosupport/lib'
-                   environment 'GEOFILES',        '/opt/geosupport/fls/'
-            }
+            //test {
+            //    systemProperty 'gc.jni.tempdir',  '/tmp'
+            //       environment 'GEOSUPPORT_HOME', '/opt/geosupport'
+            //       environment 'GS_LIBRARY_PATH', '/opt/geosupport/lib'
+            //       environment 'GEOFILES',        '/opt/geosupport/fls/'
+            //}
         """
+	System.getProperty(sysPropGcNativeTempDir) == true
+	System.getenv().containsKey(geosupportHome) == true
+	System.getenv().containsKey(geosupportLibraryPath) == true
+	System.getenv().containsKey(geofiles) == true
+
         when:
         def result = runner()
-                .withArguments('geosupportInfo')
+                .withArguments('geosupportInfo', '-Dgc.jni.tempdir=/tmp')
                 .build()
 
         then:

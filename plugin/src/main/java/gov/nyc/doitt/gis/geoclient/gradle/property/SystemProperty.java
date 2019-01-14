@@ -20,8 +20,8 @@ public class SystemProperty extends Configuration {
         super(id, source);
     }
 
-    public Optional<String> getValue(String name) {
-        return Optional.ofNullable(System.getProperty(name));
+    public Optional<String> getValue() {
+        return Optional.ofNullable(System.getProperty(getId()));
     }
 
 }

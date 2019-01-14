@@ -22,7 +22,8 @@ public class GradleProjectProperty extends Configuration {
         super(id, source, Optional.empty());
     }
 
-    public Optional<?> getValue(Project project) {
+    // TODO Fixme - call setValue(xx)
+    public Optional<?> tValue(Project project) {
         if (project.hasProperty(getId())) {
             return Optional.of(project.property(getId()));
         }

@@ -18,6 +18,6 @@ import java.lang.annotation.Target;
 public @interface ValueSource {
 
     Source value();
-
+    String key() default "";
     int order() default 0;
 }
