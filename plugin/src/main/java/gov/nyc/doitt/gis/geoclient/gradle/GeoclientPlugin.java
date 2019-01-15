@@ -1,6 +1,8 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
 import org.gradle.api.Action;
+import org.gradle.api.NamedDomainObjectContainer;
+import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
@@ -21,6 +23,22 @@ public class GeoclientPlugin implements Plugin<Project> {
     public static final String SYSPROP_GC_NATIVE_TEMP_DIR = "gc.jni.version";
 
     public void apply(Project project) {
+        NamedDomainObjectContainer<RuntimeProperty> geoclientPropertyContainer = project
+                .container(RuntimeProperty.class, new NamedDomainObjectFactory<RuntimeProperty>() {
+                    public RuntimeProperty create(String name) {
+                        return new RuntimeProperty(name, project.getObjects());
+                    }
+                });
+        // project.getConvention().
+        project.getExtensions().add("geoclient", geoclientPropertyContainer);
+
+        NamedDomainObjectContainer<RuntimeProperty> geosupportPropertyContainer = project
+                .container(RuntimeProperty.class, new NamedDomainObjectFactory<RuntimeProperty>() {
+                    public RuntimeProperty create(String name) {
+                        return new RuntimeProperty(name, project.getObjects());
+                    }
+                });
+        project.getExtensions().add("geosupport", geosupportPropertyContainer);
 
         final GeoclientExtension geoclient = createGeoclientExtension(project);
         logger.info("GeoclientExtension configured successfully");
