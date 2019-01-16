@@ -1,4 +1,4 @@
-package gov.nyc.doitt.gis.geoclient.gradle;
+package gov.nyc.doitt.gis.geoclient.gradle.common;
 
 import java.io.BufferedWriter;
 import java.io.File;

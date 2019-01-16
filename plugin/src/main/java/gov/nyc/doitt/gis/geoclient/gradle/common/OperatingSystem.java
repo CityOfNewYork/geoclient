@@ -24,7 +24,7 @@ import java.util.Map;
  * @see <a href="https://github.com/gradle/gradle">Gradle</a>
  */
 public enum OperatingSystem {
-    LINUX("linux"),
+    LINUX("isLinux"),
     WINDOWS("windows");
     private final static Map<String, OperatingSystem> MAPPING = new HashMap<String, OperatingSystem>();
     private final String identifier;

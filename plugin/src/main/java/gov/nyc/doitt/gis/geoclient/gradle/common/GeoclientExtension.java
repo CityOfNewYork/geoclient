@@ -1,4 +1,4 @@
-package gov.nyc.doitt.gis.geoclient.gradle;
+package gov.nyc.doitt.gis.geoclient.gradle.common;
 
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.model.ObjectFactory;
