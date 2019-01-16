@@ -1,5 +1,10 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
+import static gov.nyc.doitt.gis.geoclient.gradle.SourceType.environment;
+import static gov.nyc.doitt.gis.geoclient.gradle.SourceType.system;
+
+import java.io.File;
+
 import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.NamedDomainObjectFactory;
@@ -29,7 +34,6 @@ public class GeoclientPlugin implements Plugin<Project> {
                         return new RuntimeProperty(name, project.getObjects());
                     }
                 });
-        // project.getConvention().
         project.getExtensions().add("geoclient", geoclientPropertyContainer);
 
         NamedDomainObjectContainer<RuntimeProperty> geosupportPropertyContainer = project
@@ -56,6 +60,40 @@ public class GeoclientPlugin implements Plugin<Project> {
         project.getTasks().create("geosupportInfo", GeosupportInfo.class, project);
     }
 
+    void nativeTempDirDefaults(Project project, NamedDomainObjectContainer<RuntimeProperty> container) {
+        RuntimeProperty nativeTempDir = container.create("nativeTempDir");
+        PropertySource source = nativeTempDir.getSource().get();
+        File dir = project.getLayout().getBuildDirectory().get().dir("native/temp").getAsFile();
+        source.defaultTo("gc.native.tmpdir", dir, system);
+    }
+    
+    void geofilesDefaults(Project project, NamedDomainObjectContainer<RuntimeProperty> container) {
+        RuntimeProperty geofiles = container.create("geofiles");
+        PropertySource source = geofiles.getSource().get();
+        // Trailing slash required!
+        source.defaultTo("GEOFILES", geosupportHomeDefaultPath() + "/fls/", environment);
+    }
+    
+    void geosupportHomeDefaults(Project project, NamedDomainObjectContainer<RuntimeProperty> container) {
+        RuntimeProperty home = container.create("home");
+        PropertySource source = home.getSource().get();
+        source.defaultTo("GEOSUPPORT_HOME", geosupportHomeDefaultPath(), environment);
+    }
+    
+    void libraryPathDefaults(Project project, NamedDomainObjectContainer<RuntimeProperty> container) {
+        RuntimeProperty libraryPath = container.create("libraryPath");
+        PropertySource source = libraryPath.getSource().get();
+        source.defaultTo("GS_LIBRARY_PATH", geosupportHomeDefaultPath() + "lib", environment);
+    }
+    
+    String geosupportHomeDefaultPath() {
+	String os = System.getProperty("os.name").toLowerCase();
+	if(os.contains("linux")) {
+	    return "/opt/geosupport";
+	}
+	return "c:/lib/geosupport/current";
+    }
+    
     GeoclientExtension createGeoclientExtension(Project project) {
         logger.debug("Configuring GeoclientExtension...");
         return project.getExtensions().create("geoclient", GeoclientExtension.class, project.getObjects());
