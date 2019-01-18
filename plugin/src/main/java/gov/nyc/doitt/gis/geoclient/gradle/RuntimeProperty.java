@@ -44,4 +44,16 @@ public class RuntimeProperty {
         this.source.convention(source);
         this.gradleProperty.convention(gradleProperty);
     }
+
+    public String format() {
+        String exportedGradleProperty = this.gradleProperty.getOrElse("");
+        String source = this.source.get().format();
+        return String.format("%s accessible from project.ext.%s", source, exportedGradleProperty);
+    }
+
+    @Override
+    public String toString() {
+        return "RuntimeProperty [name=" + name + ", source=" + source + ", gradleProperty=" + gradleProperty + "]";
+    }
+
 }

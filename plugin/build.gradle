@@ -60,6 +60,7 @@ dependencies {
 test {
     filter {
         excludeTestsMatching 'gov.nyc.doitt.gis.geoclient.gradle.configuration.*'
+        excludeTestsMatching 'gov.nyc.doitt.gis.geoclient.gradle.common.*'
     }
     testLogging {
         displayGranularity = 3

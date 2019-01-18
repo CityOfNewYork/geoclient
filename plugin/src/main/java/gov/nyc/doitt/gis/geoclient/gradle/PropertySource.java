@@ -1,8 +1,5 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
-import static gov.nyc.doitt.gis.geoclient.gradle.SourceType.environment;
-import static gov.nyc.doitt.gis.geoclient.gradle.SourceType.system;
-
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.Property;
 
@@ -39,22 +36,6 @@ public class PropertySource {
         return value;
     }
 
-    public String environmentValue() {
-        SourceType sourceType = this.type.getOrNull();
-        if (this.value.isPresent() && sourceType != null && sourceType.equals(environment)) {
-            return this.value.toString();
-        }
-        return null;
-    }
-
-    public String systemValue() {
-        SourceType sourceType = this.type.getOrNull();
-        if (this.value.isPresent() && sourceType != null && sourceType.equals(system)) {
-            return this.value.toString();
-        }
-        return null;
-    }
-
     public void setValue(Object value) {
         this.value.set(value);
     }
@@ -67,9 +48,34 @@ public class PropertySource {
         this.type.set(type);
     }
 
+    public String nullSafeName() {
+        return this.name.getOrElse("");
+    }
+
+    public String nullSafeType() {
+        return this.type.isPresent() ? this.type.get().toString() : "";
+    }
+
+    public String nullSafeValue() {
+        return this.value.isPresent() ? this.value.get().toString() : "";
+    }
+
     void defaultTo(String name, Object value, SourceType type) {
         this.name.convention(name);
         this.value.convention(value);
         this.type.convention(type);
+    }
+
+    public String format() {
+        return format("%-10s %s: %-24s", "[" + nullSafeType().toUpperCase() + "]", nullSafeName(), nullSafeValue());
+    }
+
+    public String format(String template, Object... args) {
+        return String.format(template, args);
+    }
+
+    @Override
+    public String toString() {
+        return "PropertySource [name=" + name + ", value=" + value + ", type=" + type + "]";
     }
 }
