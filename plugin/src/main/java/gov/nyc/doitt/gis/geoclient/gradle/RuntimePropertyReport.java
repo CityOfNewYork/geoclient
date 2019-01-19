@@ -1,5 +1,7 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.DEFAULT_REPORT_FILE_NAME_FORMAT;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -14,13 +16,14 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.Property;
+import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.TaskAction;
 
 public class RuntimePropertyReport extends DefaultTask {
 
-    public static final String DEFAULT_REPORT_FILE_NAME = "runtime-properties.txt";
     private static final Logger logger = Logging.getLogger(RuntimePropertyReport.class);
     private final NamedDomainObjectContainer<RuntimeProperty> properties;
+
     private final Property<String> fileName;
     private final DirectoryProperty outputDir;
 
@@ -33,10 +36,11 @@ public class RuntimePropertyReport extends DefaultTask {
         ObjectFactory objectFactory = project.getObjects();
         this.properties = properties;
         this.fileName = objectFactory.property(String.class);
-        this.fileName.convention(containerName + "-" + DEFAULT_REPORT_FILE_NAME);
+        this.fileName.convention(String.format(DEFAULT_REPORT_FILE_NAME_FORMAT, containerName));
         this.outputDir = project.getLayout().getBuildDirectory();
     }
 
+    @Input
     public DirectoryProperty getOutputDir() {
         return outputDir;
     }
@@ -45,6 +49,7 @@ public class RuntimePropertyReport extends DefaultTask {
         this.outputDir.dir(path);
     }
 
+    @Input
     public Property<String> getFileName() {
         return fileName;
     }

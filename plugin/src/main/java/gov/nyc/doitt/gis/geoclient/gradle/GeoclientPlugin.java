@@ -17,49 +17,59 @@ public class GeoclientPlugin implements Plugin<Project> {
     // @formatter:off
     public static final boolean isLinux = "isLinux".equals(System.getProperty("os.name").toLowerCase());
 
+    public static final String DEFAULT_REPORT_FILE_NAME_FORMAT = "%s-runtime-properties.txt";
+    public static final String RUNTIME_REPORT_TASK_NAME_FORMAT = "%sRuntimeReport";
+
+    public static final String SYSPROP_JAVA_IO_TEMPDIR = "java.io.tempdir";
+    public static final String SYSPROP_JAVA_LIBRARY_PATH = "java.library.path";
+
     public static final String GEOCLIENT_CONTAINER_NAME = "geoclient";
     public static final String GEOCLIENT_CONTAINER_ITEM_NATIVE_TEMP_DIR = "nativeTempDir";
+
     public static final String GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR = "temp/jni";
+
     public static final String GEOCLIENT_GRADLE_PROPERTY_NAME_NATIVE_TEMP_DIR = "gcNativeTempDir";
+
+    public static final String GEOCLIENT_REPORT_FILE_NAME = String.format(DEFAULT_REPORT_FILE_NAME_FORMAT, GEOCLIENT_CONTAINER_NAME);
+    public static final String GEOCLIENT_REPORT_TASK_NAME = String.format(RUNTIME_REPORT_TASK_NAME_FORMAT, GEOCLIENT_CONTAINER_NAME);
+
     public static final String GEOCLIENT_SYSPROP_NATIVE_TEMP_DIR = "gc.jni.version";
 
     public static final String GEOSUPPORT_CONTAINER_NAME = "geosupport";
     public static final String GEOSUPPORT_CONTAINER_ITEM_HOME = "home";
     public static final String GEOSUPPORT_CONTAINER_ITEM_GEOFILES = "geofiles";
     public static final String GEOSUPPORT_CONTAINER_ITEM_LIBRARY_PATH = "libraryPath";
+
     public static final String GEOSUPPORT_DEFAULT_LINUX_HOME = "/opt/geosupport";
     public static final String GEOSUPPORT_DEFAULT_WINDOWS_HOME = "c:/lib/geosupport/current";
     public static final String GEOSUPPORT_DEFAULT_HOME = isLinux ? GEOSUPPORT_DEFAULT_LINUX_HOME : GEOSUPPORT_DEFAULT_WINDOWS_HOME;
     public static final String GEOSUPPORT_DEFAULT_GEOFILES = GEOSUPPORT_DEFAULT_HOME + "/fls/"; // Trailing slash required!
     public static final String GEOSUPPORT_DEFAULT_LIBRARY_PATH = GEOSUPPORT_DEFAULT_HOME + "/lib";;
+
     public static final String GEOSUPPORT_ENV_VAR_GEOFILES = "GEOFILES";
     public static final String GEOSUPPORT_ENV_VAR_GEOSUPPORT_HOME = "GEOSUPPORT_HOME";
     public static final String GEOSUPPORT_ENV_VAR_GS_LIBRARY_PATH = "GS_LIBRARY_PATH";
-    
+
     public static final String GEOSUPPORT_GRADLE_PROPERTY_NAME_HOME = "gsHome";
     public static final String GEOSUPPORT_GRADLE_PROPERTY_NAME_GEOFILES = "gsGeofiles";
     public static final String GEOSUPPORT_GRADLE_PROPERTY_NAME_LIBRARY_PATH = "gsLibraryPath";
 
-    public static final String SYSPROP_JAVA_IO_TEMPDIR = "java.io.tempdir";
-    public static final String SYSPROP_JAVA_LIBRARY_PATH = "java.library.path";
+    public static final String GEOSUPPORT_REPORT_FILE_NAME = String.format(DEFAULT_REPORT_FILE_NAME_FORMAT, GEOSUPPORT_CONTAINER_NAME);
+    public static final String GEOSUPPORT_REPORT_TASK_NAME = String.format(RUNTIME_REPORT_TASK_NAME_FORMAT, GEOSUPPORT_CONTAINER_NAME);
     // @formatter:on
 
     public void apply(Project project) {
         NamedDomainObjectContainer<RuntimeProperty> geoclientContainer = createGeoclientContainer(project);
         logger.info("Geoclient RuntimeProperty container configured successfully");
-        createRuntimeReportTask(project, taskNameForReport(GEOCLIENT_CONTAINER_NAME), geoclientContainer);
+        createRuntimeReportTask(project, GEOCLIENT_REPORT_TASK_NAME, GEOCLIENT_CONTAINER_NAME, geoclientContainer);
         NamedDomainObjectContainer<RuntimeProperty> geosupportContainer = createGeosupportContainer(project);
         logger.info("Geosupport RuntimeProperty container configured successfully");
-        createRuntimeReportTask(project, taskNameForReport(GEOSUPPORT_CONTAINER_NAME), geosupportContainer);
+        createRuntimeReportTask(project, GEOSUPPORT_REPORT_TASK_NAME, GEOSUPPORT_CONTAINER_NAME, geosupportContainer);
     }
 
-    String taskNameForReport(String prefix) {
-        return String.format("%sRuntimeReport", prefix);
-    }
-
-    void createRuntimeReportTask(Project project, String taskName,
+    void createRuntimeReportTask(Project project, String taskName, String fileName,
             NamedDomainObjectContainer<RuntimeProperty> container) {
-        project.getTasks().create(taskName, RuntimePropertyReport.class, taskName, container, project);
+        project.getTasks().create(taskName, RuntimePropertyReport.class, fileName, container, project);
     }
 
     NamedDomainObjectContainer<RuntimeProperty> createGeoclientContainer(Project project) {

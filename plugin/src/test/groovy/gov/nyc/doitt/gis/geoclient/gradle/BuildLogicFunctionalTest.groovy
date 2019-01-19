@@ -16,9 +16,10 @@
 
 package gov.nyc.doitt.gis.geoclient.gradle
 
-import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_CONTAINER_NAME
-import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_CONTAINER_NAME
-import static gov.nyc.doitt.gis.geoclient.gradle.RuntimePropertyReport.DEFAULT_REPORT_FILE_NAME
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_FILE_NAME
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_TASK_NAME
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_FILE_NAME
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_TASK_NAME
 import static org.gradle.testkit.runner.TaskOutcome.*
 
 import org.gradle.testkit.runner.GradleRunner
@@ -26,24 +27,26 @@ import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 
 import spock.lang.Specification
+import spock.lang.Unroll
 
 class BuildLogicFunctionalTest extends Specification {
 
     final static String PROJECT_NAME = 'plugin-funtest'
+
     @Rule final TemporaryFolder testProjectDir = new TemporaryFolder()
+
     File buildFile
     File settingsFile
-    String geoclientReport
-    String geosupportReport
+    File testBuildDir
 
     def setup() {
-        settingsFile = testProjectDir.newFile('settings.gradle')
         buildFile = testProjectDir.newFile('build.gradle')
-        geoclientReport = new File("${testProjectDir.root}/build/${GEOCLIENT_CONTAINER_NAME}-${DEFAULT_REPORT_FILE_NAME}").absolutePath
-        geosupportReport = new File("${testProjectDir.root}/build/${GEOSUPPORT_CONTAINER_NAME}-${DEFAULT_REPORT_FILE_NAME}").absolutePath
+        settingsFile = testProjectDir.newFile('settings.gradle')
+        testBuildDir = new File(testProjectDir.root, "build")
     }
 
-    def "plugin without any configuration succeeds"() {
+    @Unroll
+    def "#taskName succeeds using plugin default settings"() {
 
         given:
         settingsFile << "rootProject.name = '${PROJECT_NAME}'"
@@ -52,16 +55,21 @@ class BuildLogicFunctionalTest extends Specification {
                 id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
             }
         """
+
         when:
+        def reportFilePath = new File(testBuildDir, reportFileName).absolutePath
         def result = runner()
-                //.withArguments('geoclientRuntimeReport', 'geosupportRuntimeReport')
-                .withArguments('geoclientRuntimeReport')
+                .withArguments(taskName)
                 .build()
 
         then:
-        println(result.output);
-        result.output.contains("GeosupportInfo_Decorated report written to '${geoclientReport}'")
-        result.task(':geosupportInfo').outcome == SUCCESS
+        //println(result.output);
+        result.output.contains("Runtime property report written to '${reportFilePath}'")
+        result.task(':' + taskName).outcome == SUCCESS
+
+        where:
+        taskName << [GEOCLIENT_REPORT_TASK_NAME, GEOSUPPORT_REPORT_TASK_NAME]
+        reportFileName << [GEOCLIENT_REPORT_FILE_NAME, GEOSUPPORT_REPORT_FILE_NAME]
     }
     /*
      def "plugin is configured from extension properties"() {
