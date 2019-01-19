@@ -57,54 +57,23 @@ class BuildLogicFunctionalTest extends Specification {
         """
 
         when:
-        def reportFilePath = new File(testBuildDir, reportFileName).absolutePath
+        def reportFile = new File(testBuildDir, reportFileName)
         def result = runner()
                 .withArguments(taskName)
                 .build()
 
         then:
-        //println(result.output);
-        result.output.contains("Runtime property report written to '${reportFilePath}'")
+        println(reportFile.text);
+        result.output.contains("Runtime property report written to '${reportFile.absolutePath}'")
         result.task(':' + taskName).outcome == SUCCESS
 
         where:
         taskName << [GEOCLIENT_REPORT_TASK_NAME, GEOSUPPORT_REPORT_TASK_NAME]
         reportFileName << [GEOCLIENT_REPORT_FILE_NAME, GEOSUPPORT_REPORT_FILE_NAME]
     }
-    /*
-     def "plugin is configured from extension properties"() {
-     given:
-     settingsFile << "rootProject.name = '${PROJECT_NAME}'"
-     buildFile << """
-     plugins {
-     id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
-     }
-     geoclient {
-     nativeTempDir = new File(System.getProperty('java.io.tmpdir'))
-     }
-     geosupport {
-     geofiles = System.getProperty('geosupport.geofiles')
-     home = '/foo'
-     libraryPath = System.getProperty('geosupport.libraryPath')
-     }
-     """
-     and:
-     def expectedNativeTempDir = new File(System.getProperty("java.io.tmpdir"))
-     when:
-     def result = runner()
-     .withArguments('geosupportInfo',
-     '-Dgeosupport.geofiles=/foo/fls/',
-     '-Dgeosupport.libraryPath=/foo/lib')
-     .build()
-     then:
-     result.output.contains("geoclient.nativeTempDir='${expectedNativeTempDir}'")
-     result.output.contains("geosupport.geofiles='/foo/fls/'")
-     result.output.contains("geosupport.home='/foo'")
-     result.output.contains("geosupport.libraryPath='/foo/lib'")
-     result.output.contains("GeosupportInfo_Decorated report written to '${geoclientReport}'")
-     result.task(':geosupportInfo').outcome == SUCCESS
-     }
-     */
+
+
+
     def runner() {
         return GradleRunner.create()
                 .withProjectDir(testProjectDir.root)
