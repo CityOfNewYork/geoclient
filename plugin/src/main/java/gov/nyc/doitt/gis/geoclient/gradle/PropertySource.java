@@ -67,11 +67,7 @@ public class PropertySource {
     }
 
     public String format() {
-        return format("%16s %-16s: %-32s", "[" + nullSafeType().toUpperCase() + "]", nullSafeName(), nullSafeValue());
-    }
-
-    public String format(String template, Object... args) {
-        return String.format(template, args);
+        return FormatUtils.format(this);
     }
 
     @Override

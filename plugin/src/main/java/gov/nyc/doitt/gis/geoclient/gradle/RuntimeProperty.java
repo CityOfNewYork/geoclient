@@ -46,9 +46,7 @@ public class RuntimeProperty {
     }
 
     public String format() {
-        String exportedGradleProperty = this.gradleProperty.getOrElse("");
-        String source = this.source.get().format();
-        return String.format("%s -> %s", source, exportedGradleProperty);
+	return FormatUtils.format(this);
     }
 
     @Override
