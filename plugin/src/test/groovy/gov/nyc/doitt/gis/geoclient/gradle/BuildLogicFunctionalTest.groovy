@@ -63,16 +63,18 @@ class BuildLogicFunctionalTest extends Specification {
                 .build()
 
         then:
-        println(reportFile.text);
-        result.output.contains("Runtime property report written to '${reportFile.absolutePath}'")
+        println(reportFile.text)
+	result.output.contains("Runtime property report written to '${reportFile.canonicalPath}'")	
         result.task(':' + taskName).outcome == SUCCESS
 
         where:
         taskName << [GEOCLIENT_REPORT_TASK_NAME, GEOSUPPORT_REPORT_TASK_NAME]
         reportFileName << [GEOCLIENT_REPORT_FILE_NAME, GEOSUPPORT_REPORT_FILE_NAME]
     }
-
-
+    
+    //@Unroll
+    //def "#taskName uses System.properties to override default settings"() {
+    //}
 
     def runner() {
         return GradleRunner.create()

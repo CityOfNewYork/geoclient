@@ -15,7 +15,7 @@ public class GeoclientPlugin implements Plugin<Project> {
     private static final Logger logger = Logging.getLogger(GeoclientPlugin.class);
 
     // @formatter:off
-    public static final boolean isLinux = "isLinux".equals(System.getProperty("os.name").toLowerCase());
+    public static final boolean isWindows = System.getProperty("os.name").toLowerCase().contains("windows");
 
     public static final String DEFAULT_REPORT_FILE_NAME_FORMAT = "%s-runtime-properties.txt";
     public static final String RUNTIME_REPORT_TASK_NAME_FORMAT = "%sRuntimeReport";
@@ -42,7 +42,7 @@ public class GeoclientPlugin implements Plugin<Project> {
 
     public static final String GEOSUPPORT_DEFAULT_LINUX_HOME = "/opt/geosupport";
     public static final String GEOSUPPORT_DEFAULT_WINDOWS_HOME = "c:/lib/geosupport/current";
-    public static final String GEOSUPPORT_DEFAULT_HOME = isLinux ? GEOSUPPORT_DEFAULT_LINUX_HOME : GEOSUPPORT_DEFAULT_WINDOWS_HOME;
+    public static final String GEOSUPPORT_DEFAULT_HOME = isWindows ? GEOSUPPORT_DEFAULT_WINDOWS_HOME : GEOSUPPORT_DEFAULT_LINUX_HOME;
     public static final String GEOSUPPORT_DEFAULT_GEOFILES = GEOSUPPORT_DEFAULT_HOME + "/fls/"; // Trailing slash required!
     public static final String GEOSUPPORT_DEFAULT_LIBRARY_PATH = GEOSUPPORT_DEFAULT_HOME + "/lib";;
 
