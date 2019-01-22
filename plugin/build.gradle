@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 plugins {
-    id 'java-gradle-plugin'
     id 'groovy'
+    id 'java-gradle-plugin'
     id 'eclipse'
     id 'maven-publish'
 }
@@ -33,7 +33,28 @@ eclipse {
   }
 }
 
+sourceSets {
+    functionalTest {
+        groovy {
+            srcDir file('src/functionalTest/groovy')
+        }
+        resources {
+            srcDir file('src/functionalTest/resources')
+        }
+        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+task functionalTest(type: Test) {
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
+}
+
+check.dependsOn functionalTest
+
 gradlePlugin {
+    testSourceSets sourceSets.functionalTest
     plugins {
         geoclientPlugin {
             id = 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
@@ -51,17 +72,13 @@ repositories {
 }
 
 dependencies {
-    testImplementation localGroovy()
-    testCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
+    //testImplementation localGroovy()
+    functionalTestCompile('org.spockframework:spock-core:1.1-groovy-2.4') {
         exclude module: 'groovy-all'
     }
 }
 
 test {
-    filter {
-        excludeTestsMatching 'gov.nyc.doitt.gis.geoclient.gradle.configuration.*'
-        excludeTestsMatching 'gov.nyc.doitt.gis.geoclient.gradle.common.*'
-    }
     testLogging {
         displayGranularity = 3
         events "failed", "skipped", "passed"
