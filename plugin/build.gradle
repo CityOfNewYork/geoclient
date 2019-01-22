@@ -72,7 +72,7 @@ repositories {
 }
 
 dependencies {
-    functionalTestCompile('org.spockframework:spock-core:1.2-groovy-2.5')
+    functionalTestImplementation('org.spockframework:spock-core:1.2-groovy-2.5')
 }
 
 test {
