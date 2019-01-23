@@ -23,6 +23,18 @@ plugins {
 group 'gov.nyc.doitt.gis.geoclient.gradle'
 version '1.0.0'
 
+ext {
+    pluginRepoName = project.findProperty('pluginRepoName') ?: "${project.name}-repo"
+    pluginRepoUrl = project.findProperty('pluginRepoUrl') ?: '../maven-repo'
+    library = [:]
+    library['junit4'] = 'junit:junit:4.12'
+    library['junit5JupiterApi'] = 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+    library['junit5JupiterEngine'] = 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+    library['junit5VintageEngine'] = 'org.junit.vintage:junit-vintage-engine:5.1.0'
+    library['spockCore'] = 'org.spockframework:spock-core:1.2-groovy-2.5'
+    library['spockCoreExcludes'] = ['group' : 'org.codehaus.groovy']
+}
+
 def eclipseBuildDir = file('bin')
 
 eclipse {
@@ -41,14 +53,22 @@ sourceSets {
         resources {
             srcDir file('src/functionalTest/resources')
         }
-        compileClasspath += sourceSets.main.output + configurations.testRuntimeClasspath
-        runtimeClasspath += output + compileClasspath
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
     }
 }
 
 task functionalTest(type: Test) {
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
+    useJUnitPlatform {
+    }
+    testLogging {
+        displayGranularity = 3
+        events 'failed', 'skipped', 'passed'
+        exceptionFormat 'full'
+        showStandardStreams = true
+    }
 }
 
 check.dependsOn functionalTest
@@ -72,7 +92,23 @@ repositories {
 }
 
 dependencies {
-    functionalTestImplementation('org.spockframework:spock-core:1.2-groovy-2.5')
+
+    // Java SourceSet 'main' dependencies provided by plugins
+    // - Groovy lang -> groovy plugin
+    // - Gradle API  -> gradle-java-plugin plugin
+    //
+    // Java SourceSet 'test' dependencies
+    testImplementation(library.junit5JupiterApi)
+    testRuntimeOnly(library.junit5JupiterEngine)
+    // Groovy SourceSet 'functionalTest' dependencies
+    functionalTestImplementation(library.spockCore) {
+        // Exclude transitive Groovy lang dependencies because they are
+        // added by the groovy plugin
+        exclude(library.spockCoreExcludes)
+    }
+    functionalTestImplementation(library.junit4)
+    functionalTestImplementation(library.junit5JupiterApi)
+    functionalTestRuntimeOnly(library.junit5VintageEngine)
 }
 
 test {
@@ -87,7 +123,8 @@ test {
 publishing {
     repositories {
         maven {
-            url "../maven-repo"
+            name pluginRepoName
+            url pluginRepoUrl
         }
     }
 }

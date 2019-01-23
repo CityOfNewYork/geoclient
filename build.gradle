@@ -7,14 +7,19 @@ apply from: "${rootDir}/gradle/dependencies.gradle"
 allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'project-report'
-    geoclient {
-        nativeTempDir = project.file("${project.buildDir}/temp/native")
-    }
-    geosupport {
-        geofiles = System.getenv('GEOFILES')
-        home = System.getenv('GEOSUPPORT_HOME')
-        libraryPath = "${System.getenv('GEOSUPPORT_HOME')}/lib"
-    }
+    //geoclient{
+    //    nativeTempDir {
+    //        'gc.jni.version' {
+    //        //getSource().setValue(project.buildDir)
+    //        //getSource().setType(system)
+    //        }
+    //    }
+    //}
+    //geosupport {
+    //    geofiles = System.getenv('GEOFILES')
+    //    home = System.getenv('GEOSUPPORT_HOME')
+    //    libraryPath = "${System.getenv('GEOSUPPORT_HOME')}/lib"
+    //}
 }
 
 subprojects {

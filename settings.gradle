@@ -7,12 +7,11 @@ pluginManagement {
     }
 }
 
-//include 'geoclient-plugin'
 include 'geoclient-test'
 include 'geoclient-jni'
 include 'geoclient-core'
 include 'geoclient-parser'
 include 'geoclient-service'
+//includeBuild './plugin'
 
 rootProject.name = 'geoclient'
-//project(':geoclient-plugin').projectDir = new File(settingsDir, './plugin')
