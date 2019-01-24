@@ -45,6 +45,10 @@ eclipse {
   }
 }
 
+configurations {
+    functionalTestImplementation.extendsFrom implementation
+}
+
 sourceSets {
     functionalTest {
         groovy {
@@ -61,8 +65,8 @@ sourceSets {
 task functionalTest(type: Test) {
     testClassesDirs = sourceSets.functionalTest.output.classesDirs
     classpath = sourceSets.functionalTest.runtimeClasspath
-    useJUnitPlatform {
-    }
+    //useJUnitPlatform {
+    //}
     testLogging {
         displayGranularity = 3
         events 'failed', 'skipped', 'passed'
@@ -106,9 +110,9 @@ dependencies {
         // added by the groovy plugin
         exclude(library.spockCoreExcludes)
     }
-    functionalTestImplementation(library.junit4)
+    //functionalTestImplementation(library.junit4)
     functionalTestImplementation(library.junit5JupiterApi)
-    functionalTestRuntimeOnly(library.junit5VintageEngine)
+    functionalTestImplementation(library.junit5VintageEngine)
 }
 
 test {
