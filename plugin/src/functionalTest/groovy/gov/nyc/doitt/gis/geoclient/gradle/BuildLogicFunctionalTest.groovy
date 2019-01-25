@@ -16,6 +16,7 @@
 
 package gov.nyc.doitt.gis.geoclient.gradle
 
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_FILE_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_TASK_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_FILE_NAME
@@ -39,6 +40,7 @@ class BuildLogicFunctionalTest extends Specification {
     File settingsFile
     File testBuildDir
 
+
     def setup() {
         buildFile = testProjectDir.newFile('build.gradle')
         settingsFile = testProjectDir.newFile('settings.gradle')
@@ -55,6 +57,14 @@ class BuildLogicFunctionalTest extends Specification {
                 id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
             }
         """
+        def expected = []
+        if(GEOCLIENT_REPORT_TASK_NAME) {
+            expected << FormatUtils.normalize(testBuildDir, GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR)
+        } else {
+            expected << GeoclientPlugin.GEOSUPPORT_DEFAULT_GEOFILES
+            expected << GeoclientPlugin.GEOSUPPORT_DEFAULT_HOME
+            expected << GeoclientPlugin.GEOSUPPORT_DEFAULT_LIBRARY_PATH
+        }
 
         when:
         def reportFile = new File(testBuildDir, reportFileName)
@@ -66,6 +76,9 @@ class BuildLogicFunctionalTest extends Specification {
         println(reportFile.text)
         result.output.contains("Runtime property report written to '${reportFile.canonicalPath}'")
         result.task(':' + taskName).outcome == SUCCESS
+        expected.each { substring ->
+            result.output.contains(substring)
+        }
 
         where:
         taskName << [GEOCLIENT_REPORT_TASK_NAME, GEOSUPPORT_REPORT_TASK_NAME]

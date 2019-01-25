@@ -35,10 +35,6 @@ ext {
     library['spockCoreExcludes'] = ['group' : 'org.codehaus.groovy']
 }
 
-//configurations {
-//    functionalTest
-//}
-
 sourceSets {
     functionalTest {
         groovy {
@@ -81,9 +77,7 @@ def eclipseBuildDir = file('bin')
 
 eclipse {
   classpath {
-    configurations.each { c ->
-      println c
-    }
+    //configurations.each { c -> println c }
     plusConfigurations += [configurations.functionalTestCompileClasspath]
     if(eclipseBuildDir != defaultOutputDir.parent) {
         eclipseBuildDir = defaultOutputDir.parent

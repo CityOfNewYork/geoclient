@@ -88,7 +88,7 @@ public class GeoclientPlugin implements Plugin<Project> {
 
     void nativeTempDirDefaults(Project project, NamedDomainObjectContainer<RuntimeProperty> container) {
         RuntimeProperty nativeTempDir = container.create(GEOCLIENT_CONTAINER_ITEM_NATIVE_TEMP_DIR);
-        String defaultDir = String.format("%s/%s", project.getBuildDir(), GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR);
+        String defaultDir = FormatUtils.normalize(project.getBuildDir(), GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR);
         PropertySource source = new PropertySource(project.getObjects());
         source.defaultTo(GEOCLIENT_SYSPROP_NATIVE_TEMP_DIR, defaultDir, system);
         logDefaultInstanceCreationOf(source);
