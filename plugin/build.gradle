@@ -35,19 +35,9 @@ ext {
     library['spockCoreExcludes'] = ['group' : 'org.codehaus.groovy']
 }
 
-def eclipseBuildDir = file('bin')
-
-eclipse {
-  classpath {
-    if(eclipseBuildDir != defaultOutputDir.parent) {
-        eclipseBuildDir = defaultOutputDir.parent
-    }
-  }
-}
-
-configurations {
-    functionalTestImplementation.extendsFrom implementation
-}
+//configurations {
+//    functionalTest
+//}
 
 sourceSets {
     functionalTest {
@@ -87,8 +77,26 @@ gradlePlugin {
     }
 }
 
+def eclipseBuildDir = file('bin')
+
+eclipse {
+  classpath {
+    configurations.each { c ->
+      println c
+    }
+    plusConfigurations += [configurations.functionalTestCompileClasspath]
+    if(eclipseBuildDir != defaultOutputDir.parent) {
+        eclipseBuildDir = defaultOutputDir.parent
+    }
+  }
+}
+
 task deleteEclipseBuildDir(type: Delete) {
   delete eclipseBuildDir
+}
+
+task cleanAllEclipse(type: Delete) {
+  dependsOn([cleanEclipse, deleteEclipseBuildDir])
 }
 
 repositories {
@@ -110,7 +118,7 @@ dependencies {
         // added by the groovy plugin
         exclude(library.spockCoreExcludes)
     }
-    //functionalTestImplementation(library.junit4)
+    functionalTestImplementation(library.junit4)
     functionalTestImplementation(library.junit5JupiterApi)
     functionalTestImplementation(library.junit5VintageEngine)
 }
