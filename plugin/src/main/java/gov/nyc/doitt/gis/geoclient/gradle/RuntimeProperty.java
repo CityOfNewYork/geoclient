@@ -2,13 +2,15 @@ package gov.nyc.doitt.gis.geoclient.gradle;
 
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.model.ObjectFactory;
+import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
 
 public class RuntimeProperty {
 
     private final String name;
-    private final Property<PropertySource> source;
-    private final Property<String> gradleProperty;
+    private final Property<PropertySource> defaultValue;
+    private final Property<PropertySource> exportValue;
+    private final ListProperty<PropertySource> sources;
 
     /**
      * Creates a named bean-style object suitable for use with Gradle's
@@ -17,41 +19,40 @@ public class RuntimeProperty {
      * 
      * @param name unique name for an instance
      */
+    @javax.inject.Inject
     public RuntimeProperty(String name, ObjectFactory objectFactory) {
         super();
         this.name = name;
-        this.source = objectFactory.property(PropertySource.class);
-        this.gradleProperty = objectFactory.property(String.class);
+        this.defaultValue = objectFactory.property(PropertySource.class);
+        this.exportValue = objectFactory.property(PropertySource.class);
+        this.sources = objectFactory.listProperty(PropertySource.class);
     }
 
     public String getName() {
         return name;
     }
 
-    public Property<PropertySource> getSource() {
-        return source;
+    public Property<PropertySource> getDefaultValue() {
+        return defaultValue;
     }
 
-    public void setSource(PropertySource source) {
-        this.source.set(source);
+    public PropertySource getCurrentDefault() {
+        return this.defaultValue.getOrNull();
     }
 
-    public Property<String> getGradleProperty() {
-        return gradleProperty;
+    public void defaultTo(PropertySource defaultValue) {
+        this.defaultValue.set(defaultValue);
     }
 
-    void defaultTo(PropertySource source, String gradleProperty) {
-        this.source.convention(source);
-        this.gradleProperty.convention(gradleProperty);
+    public Property<PropertySource> getExportValue() {
+        return exportValue;
     }
 
-    public String format() {
-	return FormatUtils.format(this);
+    public void exportAs(PropertySource exportValue) {
+        this.exportValue.set(exportValue);
     }
 
-    @Override
-    public String toString() {
-        return "RuntimeProperty [name=" + name + ", source=" + source + ", gradleProperty=" + gradleProperty + "]";
+    public ListProperty<PropertySource> getSources() {
+        return sources;
     }
-
 }

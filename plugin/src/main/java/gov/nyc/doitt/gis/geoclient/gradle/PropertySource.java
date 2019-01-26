@@ -1,12 +1,12 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
-import org.gradle.api.model.ObjectFactory;
-import org.gradle.api.provider.Property;
+import static gov.nyc.doitt.gis.geoclient.gradle.Resolution.unresolved;
 
 public class PropertySource {
-    private final Property<String> name;
-    private final Property<Object> value;
-    private final Property<SourceType> type;
+    private final String name;
+    private final Object value;
+    private final SourceType type;
+    private Resolution resolution;
 
     /**
      * Build property which is taken from an environment variable or Java system
@@ -16,62 +16,77 @@ public class PropertySource {
      * @param value populated by the Gradle plugin dsl
      * @param type  Java system property or environment variable
      */
-    @javax.inject.Inject
-    public PropertySource(ObjectFactory objectFactory) {
-        super();
-        this.name = objectFactory.property(String.class);
-        this.value = objectFactory.property(Object.class);
-        this.type = objectFactory.property(SourceType.class);
+    public PropertySource(String name, Object value, SourceType type) {
+        this(name, value, type, unresolved);
     }
 
-    public Property<String> getName() {
+    /**
+     * Build property which is taken from an environment variable or Java system
+     * property.
+     * 
+     * @param name  unique name
+     * @param value populated by the Gradle plugin dsl
+     * @param type  Java system property or environment variable
+     * @param resolution how the value was ultimately resolved
+     */
+    public PropertySource(String name, Object value, SourceType type, Resolution resolution) {
+        super();
+        this.name = name;
+        this.value = value;
+        this.type = type;
+        this.resolution = resolution;
+    }
+
+    public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name.set(name);
-    }
-
-    public Property<? extends Object> getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(Object value) {
-        this.value.set(value);
-    }
-
-    public Property<SourceType> getType() {
+    public SourceType getType() {
         return type;
     }
 
-    public void setType(SourceType type) {
-        this.type.set(type);
+    public Resolution getResolution() {
+        return resolution;
     }
 
-    public String nullSafeName() {
-        return this.name.getOrElse("");
-    }
-
-    public String nullSafeType() {
-        return this.type.isPresent() ? this.type.get().toString() : "";
-    }
-
-    public String nullSafeValue() {
-        return this.value.isPresent() ? this.value.get().toString() : "";
-    }
-
-    void defaultTo(String name, Object value, SourceType type) {
-        this.name.convention(name);
-        this.value.convention(value);
-        this.type.convention(type);
-    }
-
-    public String format() {
-        return FormatUtils.format(this);
+    public void setResolution(Resolution resolution) {
+        this.resolution = resolution;
     }
 
     @Override
     public String toString() {
         return "PropertySource [name=" + name + ", value=" + value + ", type=" + type + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        PropertySource other = (PropertySource) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        if (type != other.type)
+            return false;
+        return true;
     }
 }

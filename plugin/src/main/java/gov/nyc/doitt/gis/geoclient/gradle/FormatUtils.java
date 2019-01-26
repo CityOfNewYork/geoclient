@@ -6,7 +6,7 @@ import java.util.Objects;
 public class FormatUtils {
 
     public static String format(PropertySource s) {
-        return format("%16s %-16s: %-32s", "[" + s.nullSafeType().toUpperCase() + "]", s.nullSafeName(), s.nullSafeValue());	
+        return format("%16s %-16s: %-32s", "[" + s.getType().toString().toUpperCase() + "]", s.getName(), s.getValue());	
     }
 
     public static String format(String template, Object... args) {
@@ -14,9 +14,7 @@ public class FormatUtils {
     }
 
     public static String format(RuntimeProperty p) {
-        String exportedGradleProperty = p.getGradleProperty().getOrElse("");
-        String source = p.getSource().get().format();
-        return String.format("%s -> %s", source, exportedGradleProperty);
+        p.getSources().get().stream().forEach(e -> String.format("%s -> %s", e, e.getName()));
     }
 
 
