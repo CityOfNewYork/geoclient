@@ -61,7 +61,7 @@ public class RuntimePropertyReport extends DefaultTask {
     protected String buildContent() {
         StringBuffer buffer = new StringBuffer();
         properties.forEach((p) -> {
-            buffer.append(p.format() + '\n');
+            buffer.append(FormatUtils.format(p) + '\n');
         });
         return buffer.toString();
     }

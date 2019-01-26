@@ -40,6 +40,10 @@ public class RuntimeProperty {
         return this.defaultValue.getOrNull();
     }
 
+    public PropertySource getCurrentExport() {
+        return this.exportValue.getOrNull();
+    }
+
     public void defaultTo(PropertySource defaultValue) {
         this.defaultValue.set(defaultValue);
     }
