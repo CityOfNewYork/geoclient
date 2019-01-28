@@ -13,9 +13,10 @@ public class BaseRuntimePropertyExtension {
 
     /**
      * Creates a convenient named base class which holds a reference to the
-     * {@linkplain Project} and contains a {@linkplain NamedDomainObjectContainer} for ${@link RuntimeProperty} instances.
+     * {@linkplain Project} and contains a {@linkplain NamedDomainObjectContainer}
+     * for ${@link RuntimeProperty} instances.
      * 
-     * @param name unique name for an instance
+     * @param name    unique name for an instance
      * @param project Gradle Project reference
      */
     public BaseRuntimePropertyExtension(String name, Project project) {
@@ -35,6 +36,10 @@ public class BaseRuntimePropertyExtension {
 
     public String getName() {
         return name;
+    }
+
+    public NamedDomainObjectContainer<RuntimeProperty> getRuntimeProperties() {
+        return runtimeProperties;
     }
 
     protected File getBuildDir() {

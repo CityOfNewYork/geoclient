@@ -16,11 +16,14 @@
 
 package gov.nyc.doitt.gis.geoclient.gradle
 
-import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientExtension.GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_FILE_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_TASK_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_FILE_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_TASK_NAME
+import static gov.nyc.doitt.gis.geoclient.gradle.GeosupportExtension.GEOSUPPORT_DEFAULT_GEOFILES
+import static gov.nyc.doitt.gis.geoclient.gradle.GeosupportExtension.GEOSUPPORT_DEFAULT_HOME
+import static gov.nyc.doitt.gis.geoclient.gradle.GeosupportExtension.GEOSUPPORT_DEFAULT_LIBRARY_PATH
 import static org.gradle.testkit.runner.TaskOutcome.*
 
 import org.gradle.testkit.runner.GradleRunner
@@ -61,9 +64,9 @@ class BuildLogicFunctionalTest extends Specification {
         if(GEOCLIENT_REPORT_TASK_NAME) {
             expected << FormatUtils.normalize(testBuildDir, GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR)
         } else {
-            expected << GeoclientPlugin.GEOSUPPORT_DEFAULT_GEOFILES
-            expected << GeoclientPlugin.GEOSUPPORT_DEFAULT_HOME
-            expected << GeoclientPlugin.GEOSUPPORT_DEFAULT_LIBRARY_PATH
+            expected << GEOSUPPORT_DEFAULT_GEOFILES
+            expected << GEOSUPPORT_DEFAULT_HOME
+            expected << GEOSUPPORT_DEFAULT_LIBRARY_PATH
         }
 
         when:
@@ -81,8 +84,14 @@ class BuildLogicFunctionalTest extends Specification {
         }
 
         where:
-        taskName << [GEOCLIENT_REPORT_TASK_NAME, GEOSUPPORT_REPORT_TASK_NAME]
-        reportFileName << [GEOCLIENT_REPORT_FILE_NAME, GEOSUPPORT_REPORT_FILE_NAME]
+        taskName << [
+            GEOCLIENT_REPORT_TASK_NAME,
+            GEOSUPPORT_REPORT_TASK_NAME
+        ]
+        reportFileName << [
+            GEOCLIENT_REPORT_FILE_NAME,
+            GEOSUPPORT_REPORT_FILE_NAME
+        ]
     }
 
     //@Unroll

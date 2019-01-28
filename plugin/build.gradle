@@ -54,9 +54,9 @@ task functionalTest(type: Test) {
     //useJUnitPlatform {
     //}
     testLogging {
-        displayGranularity = 3
-        events 'failed', 'skipped', 'passed'
-        exceptionFormat 'full'
+        //displayGranularity = 3
+        //events 'failed', 'skipped', 'passed'
+        //exceptionFormat 'full'
         showStandardStreams = true
     }
 }
@@ -119,9 +119,9 @@ dependencies {
 
 test {
     testLogging {
-        displayGranularity = 3
-        events "failed", "skipped", "passed"
-        exceptionFormat "full"
+        //displayGranularity = 2
+        //events "failed", "skipped", "passed"
+        //exceptionFormat "full"
         showStandardStreams = true
     }
 }

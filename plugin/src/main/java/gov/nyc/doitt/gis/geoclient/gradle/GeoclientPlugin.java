@@ -29,17 +29,25 @@ public class GeoclientPlugin implements Plugin<Project> {
     // @formatter:on
 
     public void apply(Project project) {
-
-        project.getExtensions().add(GEOCLIENT_CONTAINER_NAME, new GeoclientExtension(GEOCLIENT_CONTAINER_NAME,project));
+        GeoclientExtension geoclient = new GeoclientExtension(GEOCLIENT_CONTAINER_NAME, project);
+        project.getExtensions().add(GEOCLIENT_CONTAINER_NAME, geoclient);
         logger.info("GeoclientExtension container configured successfully");
-        //createRuntimeReportTask(project, GEOCLIENT_REPORT_TASK_NAME, GEOCLIENT_CONTAINER_NAME, geoclientContainer);
-        project.getExtensions().add(GEOSUPPORT_CONTAINER_NAME, new GeosupportExtension(GEOSUPPORT_CONTAINER_NAME, project));
+        createRuntimeReportTask(project, GEOCLIENT_REPORT_TASK_NAME, GEOCLIENT_CONTAINER_NAME,
+                geoclient.getRuntimeProperties());
+        logger.info("{} task configured successfully", GEOCLIENT_REPORT_TASK_NAME);
+
+        GeosupportExtension geosupport = new GeosupportExtension(GEOSUPPORT_CONTAINER_NAME, project);
+        project.getExtensions().add(GEOSUPPORT_CONTAINER_NAME, geosupport);
         logger.info("GeosupportExtension configured successfully");
-        //createRuntimeReportTask(project, GEOSUPPORT_REPORT_TASK_NAME, GEOSUPPORT_CONTAINER_NAME, geosupportContainer);
+        createRuntimeReportTask(project, GEOSUPPORT_REPORT_TASK_NAME, GEOSUPPORT_CONTAINER_NAME,
+                geosupport.getRuntimeProperties());
+        logger.info("{} task configured successfully", GEOSUPPORT_REPORT_TASK_NAME);
     }
 
     void createRuntimeReportTask(Project project, String taskName, String fileName,
             NamedDomainObjectContainer<RuntimeProperty> container) {
-        project.getTasks().create(taskName, RuntimePropertyReport.class, fileName, container, project);
+        RuntimePropertyReport report = project.getTasks().create(taskName, RuntimePropertyReport.class, fileName,
+                container, project);
+        report.setGroup("verification");
     }
 }

@@ -58,7 +58,18 @@ public class RuntimePropertyReport extends DefaultTask {
         this.fileName.set(name);
     }
 
+    private void logState() {
+        logger.quiet("RuntimeReport");
+        logger.quiet("        fileName: '{}'", fileName.getOrNull());
+        logger.quiet("       outputDir: '{}'", outputDir.getOrNull());
+        logger.quiet("      properties:");
+        this.properties.getAsMap().entrySet().forEach(e -> {
+            logger.quiet("                  '{}' = '{}'");
+        });
+    }
+
     protected String buildContent() {
+        logState();
         StringBuffer buffer = new StringBuffer();
         properties.forEach((p) -> {
             buffer.append(FormatUtils.format(p) + '\n');
