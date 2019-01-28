@@ -16,14 +16,10 @@
 
 package gov.nyc.doitt.gis.geoclient.gradle
 
-import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientExtension.GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_FILE_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_TASK_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_FILE_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_TASK_NAME
-import static gov.nyc.doitt.gis.geoclient.gradle.GeosupportExtension.GEOSUPPORT_DEFAULT_GEOFILES
-import static gov.nyc.doitt.gis.geoclient.gradle.GeosupportExtension.GEOSUPPORT_DEFAULT_HOME
-import static gov.nyc.doitt.gis.geoclient.gradle.GeosupportExtension.GEOSUPPORT_DEFAULT_LIBRARY_PATH
 import static org.gradle.testkit.runner.TaskOutcome.*
 
 import org.gradle.testkit.runner.GradleRunner
@@ -60,14 +56,14 @@ class BuildLogicFunctionalTest extends Specification {
                 id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
             }
         """
-        def expected = []
-        if(GEOCLIENT_REPORT_TASK_NAME) {
-            expected << FormatUtils.normalize(testBuildDir, GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR)
-        } else {
-            expected << GEOSUPPORT_DEFAULT_GEOFILES
-            expected << GEOSUPPORT_DEFAULT_HOME
-            expected << GEOSUPPORT_DEFAULT_LIBRARY_PATH
-        }
+        //def expected = []
+        //if(GEOCLIENT_REPORT_TASK_NAME) {
+        //    expected << FormatUtils.normalize(testBuildDir, GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR)
+        //} else {
+        //    expected << GEOSUPPORT_DEFAULT_GEOFILES
+        //    expected << GEOSUPPORT_DEFAULT_HOME
+        //    expected << GEOSUPPORT_DEFAULT_LIBRARY_PATH
+        //}
 
         when:
         def reportFile = new File(testBuildDir, reportFileName)
@@ -76,12 +72,12 @@ class BuildLogicFunctionalTest extends Specification {
                 .build()
 
         then:
-        println(reportFile.text)
+        println(result.output)
         result.output.contains("Runtime property report written to '${reportFile.canonicalPath}'")
         result.task(':' + taskName).outcome == SUCCESS
-        expected.each { substring ->
-            result.output.contains(substring)
-        }
+        //expected.each { substring ->
+        //    result.output.contains(substring)
+        //}
 
         where:
         taskName << [

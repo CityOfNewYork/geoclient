@@ -13,7 +13,6 @@ import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Project;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.logging.Logger;
-import org.gradle.api.logging.Logging;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
@@ -21,7 +20,7 @@ import org.gradle.api.tasks.TaskAction;
 
 public class RuntimePropertyReport extends DefaultTask {
 
-    private static final Logger logger = Logging.getLogger(RuntimePropertyReport.class);
+    private final Logger logger;
     private final NamedDomainObjectContainer<RuntimeProperty> properties;
 
     private final Property<String> fileName;
@@ -33,6 +32,7 @@ public class RuntimePropertyReport extends DefaultTask {
         super();
         Objects.requireNonNull(containerName, "Container name argument cannot be null");
         Objects.requireNonNull(properties, "NamedDomainObjectContainer<RuntimeProperty> argument cannot be null");
+        this.logger = project.getLogger();
         ObjectFactory objectFactory = project.getObjects();
         this.properties = properties;
         this.fileName = objectFactory.property(String.class);
