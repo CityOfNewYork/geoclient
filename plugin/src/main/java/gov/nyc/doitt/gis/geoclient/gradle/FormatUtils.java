@@ -8,7 +8,8 @@ public class FormatUtils {
     public static String format(PropertySource s) {
         String type = s.getType() != null ? s.getType().toString() : "";
         String resolution = s.getResolution() != null ? s.getResolution().toString() : "";
-        return format("%16s %-16s: %-20s %10s", "[" + type.toUpperCase() + "]", s.getName(), s.getValue(), "<" + resolution.toUpperCase() +">");
+        return format("%16s %-16s: %-20s %10s", "[" + type.toUpperCase() + "]", s.getName(), s.getValue(),
+                "<" + resolution.toUpperCase() + ">");
     }
 
     public static String format(String template, Object... args) {
@@ -18,12 +19,10 @@ public class FormatUtils {
     public static String format(RuntimeProperty p) {
         StringBuffer buffer = new StringBuffer();
         buffer.append(p.getName()).append('\n');
-        buffer.append("Default value: ").append(format(p.getCurrentDefault())).append('\n');
-        buffer.append("  Exported to: ").append(format(p.getCurrentExport())).append('\n');
+        buffer.append("    Value: ").append(format(p.getValue())).append('\n');
         p.getSources().get().forEach(e -> buffer.append(format(e)).append('\n'));
         return null;
     }
-
 
     public static String normalize(File parentDir, String subPath) {
         return normalize(String.format("%s/%s", parentDir, subPath));
@@ -34,5 +33,6 @@ public class FormatUtils {
         return path.replaceAll("\\\\", "/");
     }
 
-    private FormatUtils() {}
+    private FormatUtils() {
+    }
 }

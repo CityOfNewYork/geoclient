@@ -1,13 +1,11 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
-import static gov.nyc.doitt.gis.geoclient.gradle.Resolution.computed;
 import static gov.nyc.doitt.gis.geoclient.gradle.Resolution.defaulted;
 import static gov.nyc.doitt.gis.geoclient.gradle.SourceType.environment;
-import static gov.nyc.doitt.gis.geoclient.gradle.SourceType.gradle;
 
 import org.gradle.api.Project;
 
-public class GeosupportExtension extends BaseRuntimePropertyExtension {
+public class GeosupportExtension extends AbstractRuntimePropertyExtension {
 
     // @formatter:off
     public static final boolean isWindows = System.getProperty("os.name").toLowerCase().contains("windows");
@@ -38,24 +36,27 @@ public class GeosupportExtension extends BaseRuntimePropertyExtension {
     }
 
     RuntimeProperty createHome() {
-        RuntimeProperty runtimeProperty = create(GEOSUPPORT_CONTAINER_ITEM_HOME);
-        runtimeProperty.defaultTo(new PropertySource(GEOSUPPORT_ENV_VAR_GEOSUPPORT_HOME, GEOSUPPORT_DEFAULT_HOME, environment, defaulted));
-        runtimeProperty.exportAs(new PropertySource(GEOSUPPORT_GRADLE_PROPERTY_NAME_HOME, GEOSUPPORT_DEFAULT_HOME, gradle, computed));
+        RuntimeProperty runtimeProperty = create(GEOSUPPORT_CONTAINER_ITEM_HOME, new PropertySource(
+                GEOSUPPORT_ENV_VAR_GEOSUPPORT_HOME, GEOSUPPORT_DEFAULT_HOME, environment, defaulted));
         return runtimeProperty;
     }
 
     RuntimeProperty createGeofiles() {
-        RuntimeProperty runtimeProperty = create(GEOSUPPORT_CONTAINER_ITEM_GEOFILES);
-        runtimeProperty.defaultTo(new PropertySource(GEOSUPPORT_ENV_VAR_GEOFILES, GEOSUPPORT_DEFAULT_GEOFILES, environment, defaulted));
-        runtimeProperty.exportAs(new PropertySource(GEOSUPPORT_GRADLE_PROPERTY_NAME_GEOFILES, GEOSUPPORT_DEFAULT_GEOFILES, gradle, computed));
+        RuntimeProperty runtimeProperty = create(GEOSUPPORT_CONTAINER_ITEM_GEOFILES,
+                new PropertySource(GEOSUPPORT_ENV_VAR_GEOFILES, GEOSUPPORT_DEFAULT_GEOFILES, environment, defaulted));
         return runtimeProperty;
     }
 
     RuntimeProperty createLibraryPath() {
-        RuntimeProperty runtimeProperty = create(GEOSUPPORT_CONTAINER_ITEM_LIBRARY_PATH);
-        runtimeProperty.defaultTo(new PropertySource(GEOSUPPORT_ENV_VAR_GS_LIBRARY_PATH, GEOSUPPORT_DEFAULT_LIBRARY_PATH, environment, defaulted));
-        runtimeProperty.exportAs(new PropertySource(GEOSUPPORT_GRADLE_PROPERTY_NAME_LIBRARY_PATH, GEOSUPPORT_DEFAULT_LIBRARY_PATH, gradle, computed));
+        RuntimeProperty runtimeProperty = create(GEOSUPPORT_CONTAINER_ITEM_LIBRARY_PATH, new PropertySource(
+                GEOSUPPORT_ENV_VAR_GS_LIBRARY_PATH, GEOSUPPORT_DEFAULT_LIBRARY_PATH, environment, defaulted));
         return runtimeProperty;
     }
 
+    @Override
+    protected void configure() {
+        configureContainerItem(GEOSUPPORT_CONTAINER_ITEM_HOME);
+        configureContainerItem(GEOSUPPORT_CONTAINER_ITEM_GEOFILES);
+        configureContainerItem(GEOSUPPORT_CONTAINER_ITEM_LIBRARY_PATH);
+    }
 }
