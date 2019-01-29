@@ -3,7 +3,9 @@ package gov.nyc.doitt.gis.geoclient.gradle;
 import static gov.nyc.doitt.gis.geoclient.gradle.Resolution.defaulted;
 import static gov.nyc.doitt.gis.geoclient.gradle.SourceType.environment;
 
-import org.gradle.api.NamedDomainObjectContainer;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.gradle.api.Project;
 
 public class GeosupportExtension extends AbstractRuntimePropertyExtension {
@@ -47,12 +49,16 @@ public class GeosupportExtension extends AbstractRuntimePropertyExtension {
     }
 
     @Override
-    protected void registerRuntimeProperties(NamedDomainObjectContainer<RuntimeProperty> container) {
-        RuntimeProperty home = container.create(GEOSUPPORT_CONTAINER_ITEM_HOME, getDefaultRuntimePropertyAction());
-        home.getValue().convention(createHome());
-        RuntimeProperty geofiles = container.create(GEOSUPPORT_CONTAINER_ITEM_GEOFILES);
-        geofiles.getValue().convention(createGeofiles());
-        RuntimeProperty libraryPath = container.create(GEOSUPPORT_CONTAINER_ITEM_LIBRARY_PATH);
-        libraryPath.getValue().convention(createLibraryPath());
+    protected List<DeferredContainerItemInfo> getContainerItems() {
+        List<DeferredContainerItemInfo> result = new ArrayList<>();
+        return result;
     }
+//    protected void registerRuntimeProperties(NamedDomainObjectContainer<RuntimeProperty> container) {
+//        RuntimeProperty home = container.create(GEOSUPPORT_CONTAINER_ITEM_HOME, getDefaultRuntimePropertyAction());
+//        home.getValue().convention(createHome());
+//        RuntimeProperty geofiles = container.create(GEOSUPPORT_CONTAINER_ITEM_GEOFILES);
+//        geofiles.getValue().convention(createGeofiles());
+//        RuntimeProperty libraryPath = container.create(GEOSUPPORT_CONTAINER_ITEM_LIBRARY_PATH);
+//        libraryPath.getValue().convention(createLibraryPath());
+//    }
 }

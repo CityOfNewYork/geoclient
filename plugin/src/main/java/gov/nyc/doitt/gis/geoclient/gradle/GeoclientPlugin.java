@@ -29,6 +29,7 @@ public class GeoclientPlugin implements Plugin<Project> {
     // @formatter:on
 
     public void apply(Project project) {
+        logger.lifecycle("Attempting to configure GeoclientExtension container...");
         GeoclientExtension geoclient = new GeoclientExtension(GEOCLIENT_CONTAINER_NAME, project);
         project.getExtensions().add(GEOCLIENT_CONTAINER_NAME, geoclient);
         logger.info("GeoclientExtension container configured successfully");

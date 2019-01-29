@@ -24,6 +24,7 @@ public class RuntimeProperty {
         this.name = name;
         this.value = objectFactory.property(PropertySource.class);
         this.sources = objectFactory.listProperty(PropertySource.class);
+        System.out.println(String.format("RuntimeProperty constructed %s", this));
     }
 
     public String getName() {
@@ -35,10 +36,30 @@ public class RuntimeProperty {
     }
 
     public void setValue(PropertySource value) {
+        System.out.println(String.format("Setting final value (%s)", value));
         this.value.set(value);
+    }
+
+    public void setValueConvention(PropertySource value) {
+        System.out.println(String.format("Setting value with convention(%s)", value));
+        this.value.convention(value);
+    }
+
+    public PropertySource getDefaultValue() {
+        if (this.value.isPresent()) {
+            System.out.println(String.format("Returning default value (%s)", value));
+            return this.value.get();
+        }
+        System.out.println("Returning null default value");
+        return null;
     }
 
     public ListProperty<PropertySource> getSources() {
         return sources;
+    }
+
+    @Override
+    public String toString() {
+        return "RuntimeProperty [name=" + name + ", value=" + value + ", sources=" + sources + "]";
     }
 }

@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import org.gradle.api.Action;
 import org.gradle.api.NamedDomainObjectContainer;
+import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 
@@ -15,6 +16,29 @@ public abstract class AbstractRuntimePropertyExtension {
     private final String name;
     private final Project project;
     private final NamedDomainObjectContainer<RuntimeProperty> runtimeProperties;
+
+    static class DeferredContainerItemInfo {
+        private final String containerItemName;
+        private final PropertySource defaultPropertySource;
+
+        /**
+         * @param containerItemName
+         * @param defaultPropertySource
+         */
+        public DeferredContainerItemInfo(String containerItemName, PropertySource defaultPropertySource) {
+            super();
+            this.containerItemName = containerItemName;
+            this.defaultPropertySource = defaultPropertySource;
+        }
+
+        public String getContainerItemName() {
+            return containerItemName;
+        }
+
+        public PropertySource getDefaultPropertySource() {
+            return defaultPropertySource;
+        }
+    }
 
     /**
      * Creates a convenient named base class which holds a reference to the
@@ -27,13 +51,40 @@ public abstract class AbstractRuntimePropertyExtension {
     public AbstractRuntimePropertyExtension(String name, Project project) {
         super();
         this.logger = project.getLogger();
+        logger.lifecycle("Constructing extension {} in class {}", name, getClass().getName());
         this.name = name;
         this.project = project;
-        this.runtimeProperties = project.container(RuntimeProperty.class);
-        registerRuntimeProperties(this.runtimeProperties);
+        this.runtimeProperties = initRuntimeProperties();
+        logger.lifecycle("NamedDomainObjectContainer<RuntimeProperty> '{}' created for '{}' extension",
+                this.runtimeProperties, name);
+        logger.lifecycle("Calling abstract template method registerRuntimePropreties on '{}' extension", name);
+        logger.lifecycle("Registration complete");
     }
 
-    protected abstract void registerRuntimeProperties(NamedDomainObjectContainer<RuntimeProperty> container);
+    protected NamedDomainObjectContainer<RuntimeProperty> initRuntimeProperties() {
+        NamedDomainObjectContainer<RuntimeProperty> container = project.container(RuntimeProperty.class,
+                new NamedDomainObjectFactory<RuntimeProperty>() {
+                    public RuntimeProperty create(String name) {
+                        logger.lifecycle("NamedDomainObjectFactory<RuntimeProperty>#create('{}', '{}')", name, project);
+                        return new RuntimeProperty(name, project.getObjects());
+                    }
+                });
+        List<DeferredContainerItemInfo> containerItems = getContainerItems();
+        for (DeferredContainerItemInfo item : containerItems) {
+            container.create(item.containerItemName, new Action<RuntimeProperty>() {
+                @Override
+                public void execute(RuntimeProperty rProp) {
+                    logger.lifecycle("Action<RuntimeProperty> callback method execute({})", rProp);
+                    rProp.setValueConvention(item.defaultPropertySource);
+                }
+            });
+
+        }
+        container.configureEach(getDefaultRuntimePropertyAction());
+        return container;
+    }
+
+    protected abstract List<DeferredContainerItemInfo> getContainerItems();
 
     protected PropertySource resolve(PropertySource ps) {
         Objects.requireNonNull(ps, "PropertySource argument cannot be null");
