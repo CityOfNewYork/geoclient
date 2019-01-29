@@ -19,7 +19,7 @@ public class FormatUtils {
     public static String format(RuntimeProperty p) {
         StringBuffer buffer = new StringBuffer();
         buffer.append(p.getName()).append('\n');
-        buffer.append("    Value: ").append(format(p.getValue())).append('\n');
+        buffer.append("    Value: ").append(format(p.getValue().get())).append('\n');
         p.getSources().get().forEach(e -> buffer.append(format(e)).append('\n'));
         return null;
     }

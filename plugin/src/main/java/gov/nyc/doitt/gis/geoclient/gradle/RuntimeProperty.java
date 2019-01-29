@@ -1,16 +1,15 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
-import java.util.Arrays;
-
 import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.ListProperty;
+import org.gradle.api.provider.Property;
 
 public class RuntimeProperty {
 
     private final String name;
+    private final Property<PropertySource> value;
     private final ListProperty<PropertySource> sources;
-    private PropertySource value;
 
     /**
      * Creates a named bean-style object suitable for use with Gradle's
@@ -20,24 +19,23 @@ public class RuntimeProperty {
      * @param name unique name for an instance
      */
     @javax.inject.Inject
-    public RuntimeProperty(String name, PropertySource defaultValue, ObjectFactory objectFactory) {
+    public RuntimeProperty(String name, ObjectFactory objectFactory) {
         super();
         this.name = name;
-        this.value = defaultValue;
+        this.value = objectFactory.property(PropertySource.class);
         this.sources = objectFactory.listProperty(PropertySource.class);
-        this.sources.convention(Arrays.asList(this.value));
     }
 
     public String getName() {
         return name;
     }
 
-    public PropertySource getValue() {
+    public Property<PropertySource> getValue() {
         return value;
     }
 
     public void setValue(PropertySource value) {
-        this.value = value;
+        this.value.set(value);
     }
 
     public ListProperty<PropertySource> getSources() {

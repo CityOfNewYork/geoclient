@@ -30,10 +30,10 @@ public abstract class AbstractRuntimePropertyExtension {
         this.name = name;
         this.project = project;
         this.runtimeProperties = project.container(RuntimeProperty.class);
-        configure();
+        registerRuntimeProperties(this.runtimeProperties);
     }
 
-    protected abstract void configure();
+    protected abstract void registerRuntimeProperties(NamedDomainObjectContainer<RuntimeProperty> container);
 
     protected PropertySource resolve(PropertySource ps) {
         Objects.requireNonNull(ps, "PropertySource argument cannot be null");
@@ -75,14 +75,14 @@ public abstract class AbstractRuntimePropertyExtension {
         return null;
     }
 
-    protected void configureContainerItem(String name) {
-        logger.lifecycle("Configuring container item {}", name);
-        this.getRuntimeProperties().getByName(name, new Action<RuntimeProperty>() {
+    protected Action<RuntimeProperty> getDefaultRuntimePropertyAction() {
+        return new Action<RuntimeProperty>() {
             @Override
             public void execute(RuntimeProperty rp) {
                 logger.lifecycle("Executing Action<RuntimeProperty> with {}", rp);
                 List<PropertySource> propertySources = rp.getSources().get();
                 for (PropertySource ps : propertySources) {
+                    logger.lifecycle("Resolving {}", ps);
                     PropertySource resolvedPropertySource = resolve(ps);
                     if (resolvedPropertySource != null) {
                         rp.setValue(resolvedPropertySource);
@@ -90,19 +90,7 @@ public abstract class AbstractRuntimePropertyExtension {
                     }
                 }
             }
-        });
-    }
-
-    protected void export(PropertySource src, PropertySource target) {
-
-    }
-
-    protected void add(RuntimeProperty runtimeProperty) {
-        this.runtimeProperties.add(runtimeProperty);
-    }
-
-    protected RuntimeProperty create(String name, PropertySource defaultValue) {
-        return new RuntimeProperty(name, defaultValue, project.getObjects());
+        };
     }
 
     public String getName() {
