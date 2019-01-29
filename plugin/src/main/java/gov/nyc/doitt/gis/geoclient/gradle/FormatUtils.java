@@ -21,7 +21,7 @@ public class FormatUtils {
         buffer.append(p.getName()).append('\n');
         buffer.append("    Value: ").append(format(p.getValue().get())).append('\n');
         p.getSources().get().forEach(e -> buffer.append(format(e)).append('\n'));
-        return null;
+        return buffer.toString();
     }
 
     public static String normalize(File parentDir, String subPath) {
