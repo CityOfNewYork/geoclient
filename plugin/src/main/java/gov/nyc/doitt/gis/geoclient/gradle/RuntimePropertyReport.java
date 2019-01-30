@@ -21,7 +21,7 @@ import org.gradle.api.tasks.TaskAction;
 public class RuntimePropertyReport extends DefaultTask {
 
     private final Logger logger;
-    private final NamedDomainObjectContainer<RuntimeProperty> properties;
+    private final NamedDomainObjectContainer<RuntimeProperty> runtimeProperties;
 
     private final Property<String> fileName;
     private final DirectoryProperty outputDir;
@@ -34,7 +34,7 @@ public class RuntimePropertyReport extends DefaultTask {
         Objects.requireNonNull(properties, "NamedDomainObjectContainer<RuntimeProperty> argument cannot be null");
         this.logger = project.getLogger();
         ObjectFactory objectFactory = project.getObjects();
-        this.properties = properties;
+        this.runtimeProperties = properties;
         this.fileName = objectFactory.property(String.class);
         this.fileName.convention(String.format(DEFAULT_REPORT_FILE_NAME_FORMAT, containerName));
         this.outputDir = project.getLayout().getBuildDirectory();
@@ -63,15 +63,15 @@ public class RuntimePropertyReport extends DefaultTask {
         logger.quiet("        fileName: '{}'", fileName.getOrNull());
         logger.quiet("       outputDir: '{}'", outputDir.getOrNull());
         logger.quiet("      properties:");
-        this.properties.getAsMap().entrySet().forEach(e -> {
-            logger.quiet("                  '{}' = '{}'");
-        });
+        //this.runtimeProperties.getAsMap().entrySet().forEach(e -> {
+        //    logger.quiet("                  '{}' = '{}'", e.getKey(), e.getValue());
+        //});
     }
 
     protected String buildContent() {
         logState();
         StringBuffer buffer = new StringBuffer();
-        properties.forEach((p) -> {
+        runtimeProperties.forEach((p) -> {
             buffer.append(FormatUtils.format(p) + '\n');
         });
         return buffer.toString();
