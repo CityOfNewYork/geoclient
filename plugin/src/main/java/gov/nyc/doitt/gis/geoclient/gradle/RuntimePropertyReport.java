@@ -21,23 +21,29 @@ import org.gradle.api.tasks.TaskAction;
 public class RuntimePropertyReport extends DefaultTask {
 
     private final Logger logger;
+    private final String containerName;
     private final NamedDomainObjectContainer<RuntimeProperty> runtimeProperties;
 
     private final Property<String> fileName;
     private final DirectoryProperty outputDir;
 
     @javax.inject.Inject
-    public RuntimePropertyReport(String containerName, NamedDomainObjectContainer<RuntimeProperty> properties,
+    public RuntimePropertyReport(String containerName, NamedDomainObjectContainer<RuntimeProperty> container,
             Project project) {
         super();
         Objects.requireNonNull(containerName, "Container name argument cannot be null");
-        Objects.requireNonNull(properties, "NamedDomainObjectContainer<RuntimeProperty> argument cannot be null");
+        Objects.requireNonNull(container, "NamedDomainObjectContainer<RuntimeProperty> argument cannot be null");
         this.logger = project.getLogger();
+        this.containerName = containerName;
         ObjectFactory objectFactory = project.getObjects();
-        this.runtimeProperties = properties;
+        this.runtimeProperties = container;
         this.fileName = objectFactory.property(String.class);
         this.fileName.convention(String.format(DEFAULT_REPORT_FILE_NAME_FORMAT, containerName));
         this.outputDir = project.getLayout().getBuildDirectory();
+    }
+
+    public String getContainerName() {
+        return containerName;
     }
 
     @Input
@@ -58,21 +64,15 @@ public class RuntimePropertyReport extends DefaultTask {
         this.fileName.set(name);
     }
 
-    private void logState() {
-        logger.quiet("RuntimeReport");
-        logger.quiet("        fileName: '{}'", fileName.getOrNull());
-        logger.quiet("       outputDir: '{}'", outputDir.getOrNull());
-        logger.quiet("      properties:");
-        //this.runtimeProperties.getAsMap().entrySet().forEach(e -> {
-        //    logger.quiet("                  '{}' = '{}'", e.getKey(), e.getValue());
-        //});
-    }
-
     protected String buildContent() {
-        logState();
         StringBuffer buffer = new StringBuffer();
-        runtimeProperties.forEach((p) -> {
-            buffer.append(FormatUtils.format(p) + '\n');
+        runtimeProperties.forEach((runtimeProperty) -> {
+            buffer.append(String.format("%-16s: %s\n", "RuntimeReport:", runtimeProperty.getName()));
+            buffer.append(String.format("%-16s: %s\n", "     fileName: '{}'", fileName.getOrNull()));
+            buffer.append(String.format("%-16s: %s\n", "    outputDir: '{}'", outputDir.getOrNull()));
+            runtimeProperty.getSources().get()
+                    .forEach(e -> buffer.append(RuntimePropertyReport.format(e)).append('\n'));
+
         });
         return buffer.toString();
     }
@@ -81,19 +81,47 @@ public class RuntimePropertyReport extends DefaultTask {
     public void generateReport() throws IOException {
         String content = buildContent();
         logger.quiet(content);
-        File dir = this.outputDir.get().getAsFile();
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        File destination = new File(dir, this.fileName.get());
-        if (!destination.exists()) {
-            destination.createNewFile();
-        }
-        logger.quiet("destination: {}", destination.getCanonicalFile());
+        File destination = getReportFile(this.outputDir.get().getAsFile(), this.fileName.get());
+        logger.debug("Writing report to file {}", destination.getCanonicalFile());
         try (BufferedWriter output = new BufferedWriter(new FileWriter(destination));) {
             output.write(content);
         }
         logger.lifecycle("Runtime property report written to '" + destination + "'");
     }
 
+    public static String formatHeader(String containerName, File report) {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(containerName).append('\n');
+        buffer.append("----------------").append('\n');
+        buffer.append(String.format("%-16s: %56s\n", "report", report));
+        return buffer.toString();
+    }
+
+    public static File getReportFile(File dir, String fileName) throws IOException {
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        File destination = new File(dir, fileName);
+        if (!destination.exists()) {
+            destination.createNewFile();
+        }
+        return destination;
+    }
+
+    public static String format(RuntimeProperty runtimeProperty) {
+        StringBuffer buffer = new StringBuffer();
+        String.format("%16s %-16s: %-20s %10s", "Source Type", "Name", "Value", "Resolution");
+        return buffer.toString();
+    }
+
+    public static String format(PropertySource s) {
+        String type = s.getType() != null ? s.getType().toString() : "";
+        String resolution = s.getResolution() != null ? s.getResolution().toString() : "";
+        return format("%16s %-16s: %-20s %10s", "[" + type.toUpperCase() + "]", s.getName(), s.getValue(),
+                "<" + resolution.toUpperCase() + ">");
+    }
+
+    private static String format(String template, Object... args) {
+        return String.format(template, args);
+    }
 }
