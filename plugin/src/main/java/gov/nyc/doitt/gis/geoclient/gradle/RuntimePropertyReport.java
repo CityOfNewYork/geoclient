@@ -64,8 +64,11 @@ public class RuntimePropertyReport extends DefaultTask {
         this.fileName.set(name);
     }
 
-    protected String buildContent() {
+    protected String buildContent() throws IOException {
         StringBuffer buffer = new StringBuffer();
+        File destination = getReportFile(this.outputDir.get().getAsFile(), this.fileName.get());
+        logger.debug("Writing report to file {}", destination.getCanonicalFile());
+        buffer.append(formatHeader(this.containerName, destination));
         runtimeProperties.forEach((runtimeProperty) -> {
             buffer.append(String.format("%-16s: %s\n", "RuntimeReport:", runtimeProperty.getName()));
             buffer.append(String.format("%-16s: %s\n", "     fileName: '{}'", fileName.getOrNull()));
@@ -81,8 +84,6 @@ public class RuntimePropertyReport extends DefaultTask {
     public void generateReport() throws IOException {
         String content = buildContent();
         logger.quiet(content);
-        File destination = getReportFile(this.outputDir.get().getAsFile(), this.fileName.get());
-        logger.debug("Writing report to file {}", destination.getCanonicalFile());
         try (BufferedWriter output = new BufferedWriter(new FileWriter(destination));) {
             output.write(content);
         }
@@ -117,8 +118,7 @@ public class RuntimePropertyReport extends DefaultTask {
     public static String format(PropertySource s) {
         String type = s.getType() != null ? s.getType().toString() : "";
         String resolution = s.getResolution() != null ? s.getResolution().toString() : "";
-        return format("%16s %-16s: %-20s %10s", "[" + type.toUpperCase() + "]", s.getName(), s.getValue(),
-                "<" + resolution.toUpperCase() + ">");
+        return format("%16s %-16s: %-20s %10s", type.toUpperCase(), s.getName(), s.getValue(), resolution.toUpperCase());
     }
 
     private static String format(String template, Object... args) {
