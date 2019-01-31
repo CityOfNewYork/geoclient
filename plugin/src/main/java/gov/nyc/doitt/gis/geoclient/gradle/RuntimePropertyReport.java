@@ -64,37 +64,47 @@ public class RuntimePropertyReport extends DefaultTask {
         this.fileName.set(name);
     }
 
-    protected String buildContent() throws IOException {
-        StringBuffer buffer = new StringBuffer();
-        File destination = getReportFile(this.outputDir.get().getAsFile(), this.fileName.get());
-        logger.debug("Writing report to file {}", destination.getCanonicalFile());
-        buffer.append(formatHeader(this.containerName, destination));
-        runtimeProperties.forEach((runtimeProperty) -> {
-            buffer.append(String.format("%-16s: %s\n", "RuntimeReport:", runtimeProperty.getName()));
-            buffer.append(String.format("%-16s: %s\n", "     fileName: '{}'", fileName.getOrNull()));
-            buffer.append(String.format("%-16s: %s\n", "    outputDir: '{}'", outputDir.getOrNull()));
-            runtimeProperty.getSources().get()
-                    .forEach(e -> buffer.append(RuntimePropertyReport.format(e)).append('\n'));
-
-        });
-        return buffer.toString();
-    }
-
     @TaskAction
     public void generateReport() throws IOException {
-        String content = buildContent();
+        File destination = getReportFile(this.outputDir.get().getAsFile(), this.fileName.get());
+        String content = buildContent(destination);
         logger.quiet(content);
+        logger.debug("Writing report to file {}", destination.getCanonicalFile());
         try (BufferedWriter output = new BufferedWriter(new FileWriter(destination));) {
             output.write(content);
         }
         logger.lifecycle("Runtime property report written to '" + destination + "'");
     }
 
+    protected String buildContent(File destination) throws IOException {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append(formatHeader(this.containerName, destination));
+        runtimeProperties.forEach((runtimeProperty) -> {
+            buffer.append(String.format("%-16s|%-12s|%-16s|%-32s|%-10s\n", "Property", "Type", "Name", "Value",
+                    "resolution"));
+            buffer.append(String.format("%s\n",
+                    "----------------|------------|----------------|--------------------------------|----------"));
+
+            runtimeProperty.getSources().get().forEach(propertySource -> buffer
+                    .append(RuntimePropertyReport.format(runtimeProperty.getName(), propertySource)));
+
+        });
+        return buffer.toString();
+    }
+
+    public static String format(String name, PropertySource propertySource) {
+        String type = propertySource.getType() != null ? propertySource.getType().toString() : "";
+        String resolution = propertySource.getResolution() != null ? propertySource.getResolution().toString() : "";
+        return String.format("%-16s|%-12s|%-16s|%-32s|%-10s\n", name, type.toUpperCase(), propertySource.getName(),
+                propertySource.getValue(), resolution.toUpperCase());
+    }
+
     public static String formatHeader(String containerName, File report) {
         StringBuffer buffer = new StringBuffer();
-        buffer.append(containerName).append('\n');
-        buffer.append("----------------").append('\n');
-        buffer.append(String.format("%-16s: %56s\n", "report", report));
+        // 78 (77 + LF) chars per line
+        buffer.append(String.format("\n%s runtime\n", "'" + containerName + "'"));
+        buffer.append(String.format("%s\n", "------------------------------------------"));
+        buffer.append(String.format("%s: %s\n\n", "report file", report));
         return buffer.toString();
     }
 
@@ -107,21 +117,5 @@ public class RuntimePropertyReport extends DefaultTask {
             destination.createNewFile();
         }
         return destination;
-    }
-
-    public static String format(RuntimeProperty runtimeProperty) {
-        StringBuffer buffer = new StringBuffer();
-        String.format("%16s %-16s: %-20s %10s", "Source Type", "Name", "Value", "Resolution");
-        return buffer.toString();
-    }
-
-    public static String format(PropertySource s) {
-        String type = s.getType() != null ? s.getType().toString() : "";
-        String resolution = s.getResolution() != null ? s.getResolution().toString() : "";
-        return format("%16s %-16s: %-20s %10s", type.toUpperCase(), s.getName(), s.getValue(), resolution.toUpperCase());
-    }
-
-    private static String format(String template, Object... args) {
-        return String.format(template, args);
     }
 }

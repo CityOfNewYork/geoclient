@@ -38,6 +38,13 @@ public abstract class AbstractRuntimePropertyExtension {
         public PropertySource getDefaultPropertySource() {
             return defaultPropertySource;
         }
+
+        @Override
+        public String toString() {
+            return "DeferredContainerItemInfo [containerItemName=" + containerItemName + ", defaultPropertySource="
+                    + defaultPropertySource + "]";
+        }
+
     }
 
     /**
@@ -51,21 +58,22 @@ public abstract class AbstractRuntimePropertyExtension {
     public AbstractRuntimePropertyExtension(String name, Project project) {
         super();
         this.logger = project.getLogger();
-        logger.lifecycle("Constructing extension {} in class {}", name, getClass().getName());
+        logger.debug("Constructing extension {} in class {}", name, getClass().getName());
         this.name = name;
         this.project = project;
         this.runtimeProperties = initRuntimeProperties();
-        logger.lifecycle("NamedDomainObjectContainer<RuntimeProperty> '{}' created for '{}' extension",
+        logger.debug("NamedDomainObjectContainer<RuntimeProperty> '{}' created for '{}' extension",
                 this.runtimeProperties, name);
-        logger.lifecycle("Calling abstract template method registerRuntimePropreties on '{}' extension", name);
-        logger.lifecycle("Registration complete");
+        logger.debug("Calling abstract template method registerRuntimePropreties on '{}' extension", name);
+        logger.debug("Registration complete");
     }
 
     protected NamedDomainObjectContainer<RuntimeProperty> initRuntimeProperties() {
         NamedDomainObjectContainer<RuntimeProperty> container = project.container(RuntimeProperty.class,
                 new NamedDomainObjectFactory<RuntimeProperty>() {
                     public RuntimeProperty create(String name) {
-                        logger.lifecycle("NamedDomainObjectFactory<RuntimeProperty>#create('{}', '{}')", name, project);
+                        logger.lifecycle("### NamedDomainObjectFactory<RuntimeProperty>#create('{}', '{}')", name,
+                                project);
                         return new RuntimeProperty(name, project.getObjects());
                     }
                 });
@@ -74,7 +82,7 @@ public abstract class AbstractRuntimePropertyExtension {
             container.create(item.containerItemName, new Action<RuntimeProperty>() {
                 @Override
                 public void execute(RuntimeProperty rProp) {
-                    logger.lifecycle("Action<RuntimeProperty> callback method execute({})", rProp);
+                    logger.lifecycle("### Defaulting '{}' to '{}'", item.containerItemName, item.defaultPropertySource);
                     rProp.setValueConvention(item.defaultPropertySource);
                 }
             });
