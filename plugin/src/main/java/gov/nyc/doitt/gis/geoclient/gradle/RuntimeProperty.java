@@ -35,14 +35,34 @@ public class RuntimeProperty {
         return value;
     }
 
+    // Sets this.value but does not add it to this.sources
     public void setValue(PropertySource value) {
         System.out.println(String.format("Setting final value (%s)", value));
         this.value.set(value);
     }
 
-    public void setValueConvention(PropertySource value) {
+    // Sets this.value and calls this.sources.empty() to initialize this.sources
+    // with an empty list
+    public void setConventions(PropertySource value) {
         System.out.println(String.format("Setting value with convention(%s)", value));
         this.value.convention(value);
+        this.sources.empty();
+    }
+
+    // Adds this.value to this.sources and calls finalize on both properties
+    // This should be called if none of the user-supplied PropertySources in
+    // this.sources can be resolved
+    public PropertySource finalizeWithCurrentValue() {
+        if (!this.value.isPresent()) {
+            throw new IllegalStateException(this + " 'value' is null");
+        }
+        if (!this.sources.isPresent()) {
+            throw new IllegalStateException(this + " 'sources' is null");
+        }
+        this.value.finalizeValue();
+        this.getSources().add(this.value);
+        this.sources.finalizeValue();
+        return this.value.get();
     }
 
     public PropertySource getDefaultValue() {

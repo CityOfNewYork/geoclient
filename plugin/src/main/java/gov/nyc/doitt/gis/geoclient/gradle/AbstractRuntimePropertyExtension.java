@@ -72,7 +72,8 @@ public abstract class AbstractRuntimePropertyExtension {
         NamedDomainObjectContainer<RuntimeProperty> container = project.container(RuntimeProperty.class,
                 new NamedDomainObjectFactory<RuntimeProperty>() {
                     public RuntimeProperty create(String name) {
-                        logger.lifecycle("### NamedDomainObjectFactory<RuntimeProperty>#create('{}', '{}')", name,
+                        logger.lifecycle(
+                                "[CREATE_CONTAINER] NamedDomainObjectFactory<RuntimeProperty>#create('{}', '{}')", name,
                                 project);
                         return new RuntimeProperty(name, project.getObjects());
                     }
@@ -82,8 +83,9 @@ public abstract class AbstractRuntimePropertyExtension {
             container.create(item.containerItemName, new Action<RuntimeProperty>() {
                 @Override
                 public void execute(RuntimeProperty rProp) {
-                    logger.lifecycle("### Defaulting '{}' to '{}'", item.containerItemName, item.defaultPropertySource);
-                    rProp.setValueConvention(item.defaultPropertySource);
+                    logger.lifecycle("[SET_CONTAINER_ITEM_DEFAULT] Defaulting '{}' to '{}'", item.containerItemName,
+                            item.defaultPropertySource);
+                    rProp.setConventions(item.defaultPropertySource);
                 }
             });
 
@@ -94,9 +96,11 @@ public abstract class AbstractRuntimePropertyExtension {
 
     protected abstract List<DeferredContainerItemInfo> getContainerItems();
 
+    // TODO Need to listen to extension/container events to know how the Resolution
+    // should be set
     protected PropertySource resolve(PropertySource ps) {
         Objects.requireNonNull(ps, "PropertySource argument cannot be null");
-        logger.lifecycle("Resolving {}", ps);
+        logger.lifecycle("[RESOLVE_CONTAINER_ITEM] Resolving {}", ps);
         Object newValue = null;
         SourceType type = ps.getType();
         switch (type) {
@@ -137,17 +141,30 @@ public abstract class AbstractRuntimePropertyExtension {
     protected Action<RuntimeProperty> getDefaultRuntimePropertyAction() {
         return new Action<RuntimeProperty>() {
             @Override
-            public void execute(RuntimeProperty rp) {
-                logger.lifecycle("Executing Action<RuntimeProperty> with {}", rp);
-                List<PropertySource> propertySources = rp.getSources().get();
+            public void execute(RuntimeProperty runtimeProperty) {
+                logger.lifecycle("[RESOLVING_FINAL_VALUE] {}", runtimeProperty);
+                PropertySource finalPropertySource = null;
+                List<PropertySource> propertySources = runtimeProperty.getSources().get();
+                logger.lifecycle("[RESOLVING_FROM_SOURCE_LIST] {} item(s) to try", propertySources.size());
                 for (PropertySource ps : propertySources) {
-                    logger.lifecycle("Resolving {}", ps);
-                    PropertySource resolvedPropertySource = resolve(ps);
-                    if (resolvedPropertySource != null) {
-                        rp.setValue(resolvedPropertySource);
-                        logger.lifecycle("Resolved {}", resolvedPropertySource);
+                    logger.lifecycle("[CHECKING_PROPERTY_SOURCE] {}", ps);
+                    finalPropertySource = resolve(ps);
+                    if (finalPropertySource != null) {
+                        // Replace default PropertySource (RuntimeProperty.value) with successfully
+                        // resolved one from
+                        // user (i.e., in RuntimeProperty.sources)
+                        runtimeProperty.setValue(finalPropertySource);
+                        logger.lifecycle("[RESOLVED_FROM_SOURCE_LIST] {}", finalPropertySource);
+                        break;
                     }
                 }
+                // Finalize RuntimeProperty's PropertySource
+                // If it was found above then that will be used, otherwise the convention
+                // (default) value is used
+                finalPropertySource = runtimeProperty.finalizeWithCurrentValue();
+                logger.lifecycle("[RESOLVED_FROM_DEFAULT] {}", runtimeProperty.getDefaultValue());
+                // Add to sources list
+                runtimeProperty.getSources();
             }
         };
     }
