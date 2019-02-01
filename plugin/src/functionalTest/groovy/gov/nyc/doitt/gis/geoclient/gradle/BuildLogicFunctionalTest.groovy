@@ -73,7 +73,7 @@ class BuildLogicFunctionalTest extends Specification {
 
         then:
         println(result.output)
-        result.output.contains("Runtime property report written to '${reportFile.canonicalPath}'")
+        result.output.contains("report file --> ${reportFile.canonicalPath}")
         result.task(':' + taskName).outcome == SUCCESS
         //expected.each { substring ->
         //    result.output.contains(substring)
