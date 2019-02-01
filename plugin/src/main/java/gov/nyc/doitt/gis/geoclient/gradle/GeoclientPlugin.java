@@ -4,6 +4,8 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
+import org.gradle.api.tasks.TaskContainer;
+import org.gradle.api.tasks.testing.Test;
 
 public class GeoclientPlugin implements Plugin<Project> {
 
@@ -32,6 +34,20 @@ public class GeoclientPlugin implements Plugin<Project> {
         createRuntimeReportTask(project, GEOCLIENT_REPORT_TASK_NAME, geoclient);
         GeosupportExtension geosupport = createGeosupportExtension(project);
         createRuntimeReportTask(project, GEOSUPPORT_REPORT_TASK_NAME, geosupport);
+    }
+
+    void applyTestConfiguration(Project project, RuntimePropertyExtension extension) {
+        TaskContainer taskContainer = project.getTasks();
+        taskContainer.withType(Test.class).forEach((test) -> {
+            // test.getFilter().
+        });
+        // taskContainer.create("GeosupportIntegrationTest", new Action<Task>() {
+        // @Override
+        // public void execute(Task arg0) {
+        // // TODO Auto-generated method stub
+        //
+        // }
+        // });
     }
 
     GeoclientExtension createGeoclientExtension(Project project) {
