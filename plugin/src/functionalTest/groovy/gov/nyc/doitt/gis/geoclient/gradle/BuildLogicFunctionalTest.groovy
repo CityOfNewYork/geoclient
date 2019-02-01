@@ -16,8 +16,10 @@
 
 package gov.nyc.doitt.gis.geoclient.gradle
 
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_CONTAINER_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_FILE_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_TASK_NAME
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_CONTAINER_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_FILE_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_TASK_NAME
 import static org.gradle.testkit.runner.TaskOutcome.*
@@ -73,21 +75,30 @@ class BuildLogicFunctionalTest extends Specification {
 
         then:
         println(result.output)
-        result.output.contains("report file --> ${reportFile.canonicalPath}")
+        result.output.contains(String.format(RuntimePropertyReport.OUT_REPORT_TITLE_FORMAT, containerName));
+        result.output.contains(String.format(RuntimePropertyReport.OUT_REPORT_FILE_FORMAT, reportFile.canonicalPath));
         result.task(':' + taskName).outcome == SUCCESS
         //expected.each { substring ->
         //    result.output.contains(substring)
         //}
 
         where:
-        taskName << [
-            GEOCLIENT_REPORT_TASK_NAME,
-            GEOSUPPORT_REPORT_TASK_NAME
-        ]
-        reportFileName << [
-            GEOCLIENT_REPORT_FILE_NAME,
-            GEOSUPPORT_REPORT_FILE_NAME
-        ]
+        taskName                    | reportFileName              | containerName
+        GEOCLIENT_REPORT_TASK_NAME  | GEOCLIENT_REPORT_FILE_NAME  | GEOCLIENT_CONTAINER_NAME
+        GEOSUPPORT_REPORT_TASK_NAME | GEOSUPPORT_REPORT_FILE_NAME | GEOSUPPORT_CONTAINER_NAME
+
+        //taskName << [
+        //    GEOCLIENT_REPORT_TASK_NAME,
+        //    GEOSUPPORT_REPORT_TASK_NAME
+        //]
+        //reportFileName << [
+        //    GEOCLIENT_REPORT_FILE_NAME,
+        //    GEOSUPPORT_REPORT_FILE_NAME
+        //]
+        //containerName << [
+        //    GEOCLIENT_CONTAINER_NAME,
+        //    GEOSUPPORT_CONTAINER_NAME
+        //]
     }
 
     //@Unroll

@@ -17,11 +17,15 @@ import org.gradle.api.logging.Logger;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.OutputFile;
 import org.gradle.api.tasks.TaskAction;
 
 public class RuntimePropertyReport extends DefaultTask {
 
+    public static final String OUT_REPORT_FILE_FORMAT = "report file --> %s\n";
+    public static final String OUT_REPORT_TITLE_FORMAT = "\n\n'%s' runtime\n";
     private final Logger logger;
+    @Input
     private final RuntimePropertyExtension extension;
     private final Property<String> fileName;
     private final DirectoryProperty outputDir;
@@ -38,6 +42,7 @@ public class RuntimePropertyReport extends DefaultTask {
         this.outputDir = project.getLayout().getBuildDirectory();
     }
 
+    @Input
     public String getExtensionName() {
         return this.extension.getName();
     }
@@ -73,47 +78,52 @@ public class RuntimePropertyReport extends DefaultTask {
     }
 
     protected String buildContent(File destination) throws IOException {
+
+        // @formatter:off
         StringBuffer buffer = new StringBuffer();
+
         formatHeader(buffer, getExtensionName(), destination);
+
         extension.getRuntimeProperties().forEach((runtimeProperty) -> {
             appendSectionHeader(buffer, runtimeProperty.getName());
             runtimeProperty.getSources().get().forEach(p -> {
-                appendRow(buffer, "Name", p.getName());
-                appendRow(buffer, "Value", nullSafeString(p.getValue()));
-                appendRow(buffer, "Type", nullSafeString(p.getType()).toUpperCase());
-                appendRow(buffer, "Resolution", nullSafeString(p.getResolution()).toUpperCase());
+                  appendRow(buffer, "Name", p.getName())
+                 .appendRow(buffer, "Value", nullSafeString(p.getValue()))
+                 .appendRow(buffer, "Type", nullSafeString(p.getType()).toUpperCase())
+                 .appendRow(buffer, "Resolution", nullSafeString(p.getResolution()).toUpperCase());
             });
         });
+
         return buffer.toString();
+        // @formatter:on
     }
 
     protected void formatHeader(StringBuffer buffer, String containerName, File report) {
-        String title = String.format("\n\n%s runtime\n", "'" + containerName + "'");
-        buffer.append(title);
-        int length = title.length();
-        int i = 0;
-        while (i < length) {
-            buffer.append('-');
-            if (i + 1 == length) {
-                buffer.append('\n');
-            }
-            i++;
-        }
-        buffer.append(String.format("%s --> %s\n\n", "report file", report));
+        String title = String.format(OUT_REPORT_TITLE_FORMAT, containerName);
+        // @formatter:off
+        buffer.append(title)
+                .append(fill(title.length(), '-'))
+                .append('\n')
+                .append('\n')
+                .append(String.format(OUT_REPORT_FILE_FORMAT, report));
+        // @formatter:on
     }
 
-    protected void appendSectionHeader(StringBuffer buffer, String runtimePropertyName) {
+    protected RuntimePropertyReport appendSectionHeader(StringBuffer buffer, String runtimePropertyName) {
         int fill = 16 - runtimePropertyName.length() - 2;
         String dashes = fill(fill, '-');
         String line = String.format("\n%s%s %s\n", "+-", dashes, runtimePropertyName);
         buffer.append(line);
+        return this;
     }
 
-    protected void appendRow(StringBuffer buffer, String titleColumn, Object value) {
+    protected RuntimePropertyReport appendRow(StringBuffer buffer, String titleColumn, Object value) {
         buffer.append(String.format("%16s | %s\n", titleColumn, StringUtils.nullSafeString(value)));
+        return this;
     }
 
-    protected File getReportFile(File dir, String fileName) throws IOException {
+    @OutputFile
+    public File getReportFile(File dir, String fileName) throws IOException {
         if (!dir.exists()) {
             dir.mkdirs();
         }

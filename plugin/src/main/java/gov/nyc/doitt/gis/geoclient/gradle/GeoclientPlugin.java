@@ -28,28 +28,29 @@ public class GeoclientPlugin implements Plugin<Project> {
     // @formatter:on
 
     public void apply(Project project) {
+        GeoclientExtension geoclient = createGeoclientExtension(project);
+        createRuntimeReportTask(project, GEOCLIENT_REPORT_TASK_NAME, geoclient);
+        GeosupportExtension geosupport = createGeosupportExtension(project);
+        createRuntimeReportTask(project, GEOSUPPORT_REPORT_TASK_NAME, geosupport);
+    }
 
-        // Geoclient extension
+    GeoclientExtension createGeoclientExtension(Project project) {
         GeoclientExtension geoclient = new GeoclientExtension(GEOCLIENT_CONTAINER_NAME, project);
         project.getExtensions().add(GEOCLIENT_CONTAINER_NAME, geoclient);
         logger.info("GeoclientExtension container configured successfully");
+        return geoclient;
+    }
 
-        // Geoclient report
-        createRuntimeReportTask(project, GEOCLIENT_REPORT_TASK_NAME, geoclient);
-        logger.info("{} task configured successfully", GEOCLIENT_REPORT_TASK_NAME);
-
-        // Geosupport extension
+    GeosupportExtension createGeosupportExtension(Project project) {
         GeosupportExtension geosupport = new GeosupportExtension(GEOSUPPORT_CONTAINER_NAME, project);
         project.getExtensions().add(GEOSUPPORT_CONTAINER_NAME, geosupport);
         logger.info("GeosupportExtension configured successfully");
-
-        // Geosupport report
-        createRuntimeReportTask(project, GEOSUPPORT_REPORT_TASK_NAME, geosupport);
-        logger.info("{} task configured successfully", GEOSUPPORT_REPORT_TASK_NAME);
+        return geosupport;
     }
 
     void createRuntimeReportTask(Project project, String task, RuntimePropertyExtension extension) {
         RuntimePropertyReport report = project.getTasks().create(task, RuntimePropertyReport.class, extension, project);
         report.setGroup("verification");
+        logger.info("{} task configured successfully", task);
     }
 }

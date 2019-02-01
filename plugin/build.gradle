@@ -58,9 +58,7 @@ task functionalTest(type: Test) {
         events 'started', 'passed', 'skipped', 'failed', 'STANDARD_OUT', 'STANDARD_ERROR'
         exceptionFormat 'full'
         showStandardStreams = true
-        quiet {
-            showStandardStreams = true
-        }
+        //quiet { showStandardStreams = true }
     }
 }
 
