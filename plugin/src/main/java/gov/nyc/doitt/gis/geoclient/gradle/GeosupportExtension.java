@@ -35,6 +35,19 @@ public class GeosupportExtension extends AbstractRuntimePropertyExtension {
         super(name, project);
     }
 
+    @Override
+    protected List<DeferredContainerItemInfo> getContainerItems() {
+        List<DeferredContainerItemInfo> result = new ArrayList<>();
+        // GEOSUPPORT_HOME
+        result.add(new DeferredContainerItemInfo(GEOSUPPORT_CONTAINER_ITEM_HOME, createHome()));
+        // GEOFILES
+        result.add(new DeferredContainerItemInfo(GEOSUPPORT_CONTAINER_ITEM_GEOFILES, createGeofiles()));
+        // GS_LIBRARY_PATH
+        result.add(new DeferredContainerItemInfo(GEOSUPPORT_CONTAINER_ITEM_LIBRARY_PATH, createLibraryPath()));
+
+        return result;
+    }
+
     PropertySource createHome() {
         return new PropertySource(GEOSUPPORT_ENV_VAR_GEOSUPPORT_HOME, GEOSUPPORT_DEFAULT_HOME, environment, defaulted);
     }
@@ -48,17 +61,4 @@ public class GeosupportExtension extends AbstractRuntimePropertyExtension {
                 defaulted);
     }
 
-    @Override
-    protected List<DeferredContainerItemInfo> getContainerItems() {
-        List<DeferredContainerItemInfo> result = new ArrayList<>();
-        return result;
-    }
-//    protected void registerRuntimeProperties(NamedDomainObjectContainer<RuntimeProperty> container) {
-//        RuntimeProperty home = container.create(GEOSUPPORT_CONTAINER_ITEM_HOME, getDefaultRuntimePropertyAction());
-//        home.getValue().convention(createHome());
-//        RuntimeProperty geofiles = container.create(GEOSUPPORT_CONTAINER_ITEM_GEOFILES);
-//        geofiles.getValue().convention(createGeofiles());
-//        RuntimeProperty libraryPath = container.create(GEOSUPPORT_CONTAINER_ITEM_LIBRARY_PATH);
-//        libraryPath.getValue().convention(createLibraryPath());
-//    }
 }

@@ -18,6 +18,8 @@ package gov.nyc.doitt.gis.geoclient.gradle
 
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_FILE_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_TASK_NAME
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_FILE_NAME
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_TASK_NAME
 import static org.gradle.testkit.runner.TaskOutcome.*
 
 import org.gradle.testkit.runner.GradleRunner
@@ -79,10 +81,12 @@ class BuildLogicFunctionalTest extends Specification {
 
         where:
         taskName << [
-            GEOCLIENT_REPORT_TASK_NAME //, GEOSUPPORT_REPORT_TASK_NAME
+            GEOCLIENT_REPORT_TASK_NAME,
+            GEOSUPPORT_REPORT_TASK_NAME
         ]
         reportFileName << [
-            GEOCLIENT_REPORT_FILE_NAME //, GEOSUPPORT_REPORT_FILE_NAME
+            GEOCLIENT_REPORT_FILE_NAME,
+            GEOSUPPORT_REPORT_FILE_NAME
         ]
     }
 
