@@ -1,6 +1,8 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.DEFAULT_REPORT_FILE_NAME_FORMAT;
+import static gov.nyc.doitt.gis.geoclient.gradle.StringUtils.fill;
+import static gov.nyc.doitt.gis.geoclient.gradle.StringUtils.nullSafeString;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -9,7 +11,6 @@ import java.io.IOException;
 import java.util.Objects;
 
 import org.gradle.api.DefaultTask;
-import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Project;
 import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.logging.Logger;
@@ -21,29 +22,24 @@ import org.gradle.api.tasks.TaskAction;
 public class RuntimePropertyReport extends DefaultTask {
 
     private final Logger logger;
-    private final String containerName;
-    private final NamedDomainObjectContainer<RuntimeProperty> runtimeProperties;
-
+    private final RuntimePropertyExtension extension;
     private final Property<String> fileName;
     private final DirectoryProperty outputDir;
 
     @javax.inject.Inject
-    public RuntimePropertyReport(String containerName, NamedDomainObjectContainer<RuntimeProperty> container,
-            Project project) {
+    public RuntimePropertyReport(RuntimePropertyExtension extension, Project project) {
         super();
-        Objects.requireNonNull(containerName, "Container name argument cannot be null");
-        Objects.requireNonNull(container, "NamedDomainObjectContainer<RuntimeProperty> argument cannot be null");
+        Objects.requireNonNull(extension, "Extension argument cannot be null");
         this.logger = project.getLogger();
-        this.containerName = containerName;
+        this.extension = extension;
         ObjectFactory objectFactory = project.getObjects();
-        this.runtimeProperties = container;
         this.fileName = objectFactory.property(String.class);
-        this.fileName.convention(String.format(DEFAULT_REPORT_FILE_NAME_FORMAT, containerName));
+        this.fileName.convention(String.format(DEFAULT_REPORT_FILE_NAME_FORMAT, extension.getName()));
         this.outputDir = project.getLayout().getBuildDirectory();
     }
 
-    public String getContainerName() {
-        return containerName;
+    public String getExtensionName() {
+        return this.extension.getName();
     }
 
     @Input
@@ -73,42 +69,51 @@ public class RuntimePropertyReport extends DefaultTask {
         try (BufferedWriter output = new BufferedWriter(new FileWriter(destination));) {
             output.write(content);
         }
-        logger.lifecycle("Runtime property report written to '" + destination + "'");
+        logger.debug("Runtime property report written to '" + destination + "'");
     }
 
     protected String buildContent(File destination) throws IOException {
         StringBuffer buffer = new StringBuffer();
-        buffer.append(formatHeader(this.containerName, destination));
-        runtimeProperties.forEach((runtimeProperty) -> {
-            buffer.append(String.format("%-16s|%-12s|%-16s|%-32s|%-10s\n", "Property", "Type", "Name", "Value",
-                    "resolution"));
-            buffer.append(String.format("%s\n",
-                    "----------------|------------|----------------|--------------------------------|----------"));
-
-            runtimeProperty.getSources().get().forEach(propertySource -> buffer
-                    .append(RuntimePropertyReport.format(runtimeProperty.getName(), propertySource)));
-
+        formatHeader(buffer, getExtensionName(), destination);
+        extension.getRuntimeProperties().forEach((runtimeProperty) -> {
+            appendSectionHeader(buffer, runtimeProperty.getName());
+            runtimeProperty.getSources().get().forEach(p -> {
+                appendRow(buffer, "Name", p.getName());
+                appendRow(buffer, "Value", nullSafeString(p.getValue()));
+                appendRow(buffer, "Type", nullSafeString(p.getType()).toUpperCase());
+                appendRow(buffer, "Resolution", nullSafeString(p.getResolution()).toUpperCase());
+            });
         });
         return buffer.toString();
     }
 
-    public static String format(String name, PropertySource propertySource) {
-        String type = propertySource.getType() != null ? propertySource.getType().toString() : "";
-        String resolution = propertySource.getResolution() != null ? propertySource.getResolution().toString() : "";
-        return String.format("%-16s|%-12s|%-16s|%-32s|%-10s\n", name, type.toUpperCase(), propertySource.getName(),
-                propertySource.getValue(), resolution.toUpperCase());
+    protected void formatHeader(StringBuffer buffer, String containerName, File report) {
+        String title = String.format("\n\n%s runtime\n", "'" + containerName + "'");
+        buffer.append(title);
+        int length = title.length();
+        int i = 0;
+        while (i < length) {
+            buffer.append('-');
+            if (i + 1 == length) {
+                buffer.append('\n');
+            }
+            i++;
+        }
+        buffer.append(String.format("%s --> %s\n\n", "report file", report));
     }
 
-    public static String formatHeader(String containerName, File report) {
-        StringBuffer buffer = new StringBuffer();
-        // 78 (77 + LF) chars per line
-        buffer.append(String.format("\n%s runtime\n", "'" + containerName + "'"));
-        buffer.append(String.format("%s\n", "------------------------------------------"));
-        buffer.append(String.format("%s: %s\n\n", "report file", report));
-        return buffer.toString();
+    protected void appendSectionHeader(StringBuffer buffer, String runtimePropertyName) {
+        int fill = 16 - runtimePropertyName.length() - 2;
+        String dashes = fill(fill, '-');
+        String line = String.format("\n%s%s %s\n", "+-", dashes, runtimePropertyName);
+        buffer.append(line);
     }
 
-    public static File getReportFile(File dir, String fileName) throws IOException {
+    protected void appendRow(StringBuffer buffer, String titleColumn, Object value) {
+        buffer.append(String.format("%16s | %s\n", titleColumn, StringUtils.nullSafeString(value)));
+    }
+
+    protected File getReportFile(File dir, String fileName) throws IOException {
         if (!dir.exists()) {
             dir.mkdirs();
         }

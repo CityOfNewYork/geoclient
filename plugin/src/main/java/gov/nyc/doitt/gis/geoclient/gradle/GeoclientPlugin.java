@@ -1,6 +1,5 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
-import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
@@ -29,26 +28,28 @@ public class GeoclientPlugin implements Plugin<Project> {
     // @formatter:on
 
     public void apply(Project project) {
-        logger.lifecycle("Attempting to configure GeoclientExtension container...");
+
+        // Geoclient extension
         GeoclientExtension geoclient = new GeoclientExtension(GEOCLIENT_CONTAINER_NAME, project);
         project.getExtensions().add(GEOCLIENT_CONTAINER_NAME, geoclient);
         logger.info("GeoclientExtension container configured successfully");
-        createRuntimeReportTask(project, GEOCLIENT_REPORT_TASK_NAME, GEOCLIENT_CONTAINER_NAME,
-                geoclient.getRuntimeProperties());
+
+        // Geoclient report
+        createRuntimeReportTask(project, GEOCLIENT_REPORT_TASK_NAME, geoclient);
         logger.info("{} task configured successfully", GEOCLIENT_REPORT_TASK_NAME);
 
+        // Geosupport extension
         GeosupportExtension geosupport = new GeosupportExtension(GEOSUPPORT_CONTAINER_NAME, project);
         project.getExtensions().add(GEOSUPPORT_CONTAINER_NAME, geosupport);
         logger.info("GeosupportExtension configured successfully");
-        createRuntimeReportTask(project, GEOSUPPORT_REPORT_TASK_NAME, GEOSUPPORT_CONTAINER_NAME,
-                geosupport.getRuntimeProperties());
+
+        // Geosupport report
+        createRuntimeReportTask(project, GEOSUPPORT_REPORT_TASK_NAME, geosupport);
         logger.info("{} task configured successfully", GEOSUPPORT_REPORT_TASK_NAME);
     }
 
-    void createRuntimeReportTask(Project project, String taskName, String fileName,
-            NamedDomainObjectContainer<RuntimeProperty> container) {
-        RuntimePropertyReport report = project.getTasks().create(taskName, RuntimePropertyReport.class, fileName,
-                container, project);
+    void createRuntimeReportTask(Project project, String task, RuntimePropertyExtension extension) {
+        RuntimePropertyReport report = project.getTasks().create(task, RuntimePropertyReport.class, extension, project);
         report.setGroup("verification");
     }
 }

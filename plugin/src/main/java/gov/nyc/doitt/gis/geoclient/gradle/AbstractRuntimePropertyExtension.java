@@ -10,7 +10,7 @@ import org.gradle.api.NamedDomainObjectFactory;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 
-public abstract class AbstractRuntimePropertyExtension {
+public abstract class AbstractRuntimePropertyExtension implements RuntimePropertyExtension {
 
     private final Logger logger;
     private final String name;
@@ -57,24 +57,20 @@ public abstract class AbstractRuntimePropertyExtension {
      */
     public AbstractRuntimePropertyExtension(String name, Project project) {
         super();
+        Objects.requireNonNull(name, "String argument 'name' cannot be null");
         this.logger = project.getLogger();
         logger.debug("Constructing extension {} in class {}", name, getClass().getName());
         this.name = name;
         this.project = project;
         this.runtimeProperties = initRuntimeProperties();
-        logger.debug("NamedDomainObjectContainer<RuntimeProperty> '{}' created for '{}' extension",
-                this.runtimeProperties, name);
-        logger.debug("Calling abstract template method registerRuntimePropreties on '{}' extension", name);
-        logger.debug("Registration complete");
+        logger.debug("Container '{}' created for '{}' extension", this.runtimeProperties, name);
     }
 
     protected NamedDomainObjectContainer<RuntimeProperty> initRuntimeProperties() {
         NamedDomainObjectContainer<RuntimeProperty> container = project.container(RuntimeProperty.class,
                 new NamedDomainObjectFactory<RuntimeProperty>() {
                     public RuntimeProperty create(String name) {
-                        logger.lifecycle(
-                                "[CREATE_CONTAINER] NamedDomainObjectFactory<RuntimeProperty>#create('{}', '{}')", name,
-                                project);
+                        logger.info("Placeholder for RuntimeProperty '{}' created", name);
                         return new RuntimeProperty(name, project.getObjects());
                     }
                 });
@@ -83,14 +79,14 @@ public abstract class AbstractRuntimePropertyExtension {
             container.create(item.containerItemName, new Action<RuntimeProperty>() {
                 @Override
                 public void execute(RuntimeProperty rProp) {
-                    logger.lifecycle("[SET_CONTAINER_ITEM_DEFAULT] Defaulting '{}' to '{}'", item.containerItemName,
+                    logger.info("Setting conventions for RuntimeProperty '{}' using {}", item.containerItemName,
                             item.defaultPropertySource);
                     rProp.setConventions(item.defaultPropertySource);
                 }
             });
 
         }
-        container.configureEach(getDefaultRuntimePropertyAction());
+        container.configureEach(getFinalizeRuntimePropertyAction());
         return container;
     }
 
@@ -100,7 +96,7 @@ public abstract class AbstractRuntimePropertyExtension {
     // should be set
     protected PropertySource resolve(PropertySource ps) {
         Objects.requireNonNull(ps, "PropertySource argument cannot be null");
-        logger.lifecycle("[RESOLVE_CONTAINER_ITEM] Resolving {}", ps);
+        logger.info("Resolving {}", ps);
         Object newValue = null;
         SourceType type = ps.getType();
         switch (type) {
@@ -138,23 +134,23 @@ public abstract class AbstractRuntimePropertyExtension {
         return null;
     }
 
-    protected Action<RuntimeProperty> getDefaultRuntimePropertyAction() {
+    protected Action<RuntimeProperty> getFinalizeRuntimePropertyAction() {
         return new Action<RuntimeProperty>() {
             @Override
             public void execute(RuntimeProperty runtimeProperty) {
-                logger.lifecycle("[RESOLVING_FINAL_VALUE] {}", runtimeProperty);
+                logger.info("Finalizing {}", runtimeProperty);
                 PropertySource finalPropertySource = null;
                 List<PropertySource> propertySources = runtimeProperty.getSources().get();
-                logger.lifecycle("[RESOLVING_FROM_SOURCE_LIST] {} item(s) to try", propertySources.size());
+                logger.debug("RuntimeProperty instance has {} configured source(s)", propertySources.size());
                 for (PropertySource ps : propertySources) {
-                    logger.lifecycle("[CHECKING_PROPERTY_SOURCE] {}", ps);
+                    logger.debug("Checking {}", ps);
                     finalPropertySource = resolve(ps);
                     if (finalPropertySource != null) {
                         // Replace default PropertySource (RuntimeProperty.value) with successfully
                         // resolved one from
                         // user (i.e., in RuntimeProperty.sources)
                         runtimeProperty.setValue(finalPropertySource);
-                        logger.lifecycle("[RESOLVED_FROM_SOURCE_LIST] {}", finalPropertySource);
+                        logger.lifecycle("Resolved {} from sources", finalPropertySource);
                         break;
                     }
                 }
@@ -162,17 +158,19 @@ public abstract class AbstractRuntimePropertyExtension {
                 // If it was found above then that will be used, otherwise the convention
                 // (default) value is used
                 finalPropertySource = runtimeProperty.finalizeWithCurrentValue();
-                logger.lifecycle("[RESOLVED_FROM_DEFAULT] {}", runtimeProperty.getDefaultValue());
+                logger.info("Resolved {} using default value", runtimeProperty.getDefaultValue());
                 // Add to sources list
                 runtimeProperty.getSources();
             }
         };
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public NamedDomainObjectContainer<RuntimeProperty> getRuntimeProperties() {
         return runtimeProperties;
     }
