@@ -14,6 +14,7 @@ public abstract class AbstractRuntimePropertyExtension implements RuntimePropert
 
     private final Logger logger;
     private final String name;
+    private final Resolver resolver;
     private final Project project;
     private final NamedDomainObjectContainer<RuntimeProperty> runtimeProperties;
 
@@ -55,83 +56,61 @@ public abstract class AbstractRuntimePropertyExtension implements RuntimePropert
      * @param name    unique name for an instance
      * @param project Gradle Project reference
      */
-    public AbstractRuntimePropertyExtension(String name, Project project) {
+    public AbstractRuntimePropertyExtension(String name, Resolver resolver, Project project) {
         super();
         Objects.requireNonNull(name, "String argument 'name' cannot be null");
         this.logger = project.getLogger();
         logger.debug("Constructing extension {} in class {}", name, getClass().getName());
         this.name = name;
+        this.resolver = resolver;
         this.project = project;
         this.runtimeProperties = initRuntimeProperties();
         logger.debug("Container '{}' created for '{}' extension", this.runtimeProperties, name);
     }
 
-    protected NamedDomainObjectContainer<RuntimeProperty> initRuntimeProperties() {
-        NamedDomainObjectContainer<RuntimeProperty> container = project.container(RuntimeProperty.class,
-                new NamedDomainObjectFactory<RuntimeProperty>() {
-                    public RuntimeProperty create(String name) {
-                        logger.info("Placeholder for RuntimeProperty '{}' created", name);
-                        return new RuntimeProperty(name, project.getObjects());
-                    }
-                });
-        List<DeferredContainerItemInfo> containerItems = getContainerItems();
-        for (DeferredContainerItemInfo item : containerItems) {
-            container.create(item.containerItemName, new Action<RuntimeProperty>() {
-                @Override
-                public void execute(RuntimeProperty rProp) {
-                    logger.info("Setting conventions for RuntimeProperty '{}' using {}", item.containerItemName,
-                            item.defaultPropertySource);
-                    rProp.setConventions(item.defaultPropertySource);
-                }
-            });
+    protected abstract List<DeferredContainerItemInfo> getContainerItems();
 
-        }
+    protected NamedDomainObjectContainer<RuntimeProperty> initRuntimeProperties() {
+        NamedDomainObjectContainer<RuntimeProperty> container = createContainer(project);
+        createContainerItems(container);
         container.configureEach(getFinalizeRuntimePropertyAction());
         return container;
     }
 
-    protected abstract List<DeferredContainerItemInfo> getContainerItems();
+    protected void createContainerItems(NamedDomainObjectContainer<RuntimeProperty> container) {
+        List<DeferredContainerItemInfo> containerItems = getContainerItems();
+        for (DeferredContainerItemInfo item : containerItems) {
+            container.create(item.containerItemName, new Action<RuntimeProperty>() {
+                @Override
+                public void execute(RuntimeProperty runtimeProperty) {
+                    logger.info("Setting conventions for RuntimeProperty '{}' using {}", item.containerItemName,
+                            item.defaultPropertySource);
+                    runtimeProperty.setConventions(item.defaultPropertySource);
+                    TestPolicy testPolicyConvention = new TestPolicy();
+                    testPolicyConvention.setExport(true);
+                    testPolicyConvention.useDefaultIncludePatterns();
+                    logger.info("Setting TestPolicy convention for RuntimeProperty '{}' using {}",
+                            testPolicyConvention);
+                    runtimeProperty.getTestPolicy().convention(testPolicyConvention);
+                }
+            });
+
+        }
+    }
+
+    protected NamedDomainObjectContainer<RuntimeProperty> createContainer(Project project) {
+        return project.container(RuntimeProperty.class, new NamedDomainObjectFactory<RuntimeProperty>() {
+            public RuntimeProperty create(String name) {
+                logger.info("Placeholder for RuntimeProperty '{}' created", name);
+                return new RuntimeProperty(name, project.getObjects());
+            }
+        });
+    }
 
     // TODO Need to listen to extension/container events to know how the Resolution
     // should be set
-    protected PropertySource resolve(PropertySource ps) {
-        Objects.requireNonNull(ps, "PropertySource argument cannot be null");
-        logger.info("Resolving {}", ps);
-        Object newValue = null;
-        SourceType type = ps.getType();
-        switch (type) {
-        case system:
-            newValue = System.getProperty(ps.getName());
-            if (newValue != null) {
-                return new PropertySource(ps.getName(), newValue, SourceType.system, Resolution.computed);
-            }
-            break;
-        case gradle:
-            newValue = project.findProperty(ps.getName());
-            if (newValue != null) {
-                return new PropertySource(ps.getName(), newValue, SourceType.gradle, Resolution.computed);
-            }
-            break;
-        case extension:
-            // If value is already set, then it's from the explicit dsl configuration
-            if (ps.getValue() != null) {
-                return new PropertySource(ps.getName(), ps.getValue(), SourceType.extension, Resolution.direct);
-            }
-            break;
-        case environment:
-            // Argument propertySource.getValue() is null. Try the environment as a last
-            // resource
-            newValue = System.getenv(ps.getName());
-            if (newValue != null) {
-                return new PropertySource(ps.getName(), newValue, SourceType.environment, Resolution.computed);
-            }
-            break;
-        default:
-            break;
-        }
-        logger.error("Could not resolve {}", ps);
-        // Fail
-        return null;
+    protected PropertySource resolve(PropertySource propertySource) {
+        return getResolver().resolve(propertySource);
     }
 
     protected Action<RuntimeProperty> getFinalizeRuntimePropertyAction() {
@@ -173,6 +152,11 @@ public abstract class AbstractRuntimePropertyExtension implements RuntimePropert
     @Override
     public NamedDomainObjectContainer<RuntimeProperty> getRuntimeProperties() {
         return runtimeProperties;
+    }
+
+    @Override
+    public Resolver getResolver() {
+        return this.resolver;
     }
 
     protected File getBuildDir() {

@@ -41,24 +41,19 @@ public class GeoclientPlugin implements Plugin<Project> {
         taskContainer.withType(Test.class).forEach((test) -> {
             // test.getFilter().
         });
-        // taskContainer.create("GeosupportIntegrationTest", new Action<Task>() {
-        // @Override
-        // public void execute(Task arg0) {
-        // // TODO Auto-generated method stub
-        //
-        // }
-        // });
     }
 
     GeoclientExtension createGeoclientExtension(Project project) {
-        GeoclientExtension geoclient = new GeoclientExtension(GEOCLIENT_CONTAINER_NAME, project);
+        GeoclientExtension geoclient = new GeoclientExtension(GEOCLIENT_CONTAINER_NAME, new DefaultResolver(project),
+                project);
         project.getExtensions().add(GEOCLIENT_CONTAINER_NAME, geoclient);
         logger.info("GeoclientExtension container configured successfully");
         return geoclient;
     }
 
     GeosupportExtension createGeosupportExtension(Project project) {
-        GeosupportExtension geosupport = new GeosupportExtension(GEOSUPPORT_CONTAINER_NAME, project);
+        GeosupportExtension geosupport = new GeosupportExtension(GEOSUPPORT_CONTAINER_NAME,
+                new DefaultResolver(project), project);
         project.getExtensions().add(GEOSUPPORT_CONTAINER_NAME, geosupport);
         logger.info("GeosupportExtension configured successfully");
         return geosupport;

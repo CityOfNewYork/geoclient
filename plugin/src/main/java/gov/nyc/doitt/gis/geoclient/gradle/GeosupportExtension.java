@@ -31,8 +31,8 @@ public class GeosupportExtension extends AbstractRuntimePropertyExtension {
     public static final String GEOSUPPORT_GRADLE_PROPERTY_NAME_LIBRARY_PATH = "gsLibraryPath";
     // @formatter:on
 
-    public GeosupportExtension(String name, Project project) {
-        super(name, project);
+    public GeosupportExtension(String name, Resolver resolver, Project project) {
+        super(name, resolver, project);
     }
 
     @Override

@@ -16,8 +16,8 @@ public class GeoclientExtension extends AbstractRuntimePropertyExtension {
     public static final String GEOCLIENT_GRADLE_PROPERTY_NAME_NATIVE_TEMP_DIR = "gcNativeTempDir";
     public static final String GEOCLIENT_SYSPROP_NATIVE_TEMP_DIR = "gc.jni.version";
 
-    public GeoclientExtension(String name, Project project) {
-        super(name, project);
+    public GeoclientExtension(String name, Resolver resolver, Project project) {
+        super(name, resolver, project);
     }
 
     @Override
