@@ -138,8 +138,6 @@ public abstract class AbstractRuntimePropertyExtension implements RuntimePropert
                 // (default) value is used
                 finalPropertySource = runtimeProperty.finalizeWithCurrentValue();
                 logger.info("Resolved {} using default value", runtimeProperty.getDefaultValue());
-                // Add to sources list
-                runtimeProperty.getSources();
             }
         };
     }

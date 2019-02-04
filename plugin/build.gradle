@@ -54,7 +54,7 @@ task functionalTest(type: Test) {
     // Uses Spock/JUnit 4 instead of 'useJUnitPlatform {}'
     testLogging {
         displayGranularity = 2
-        events 'started', 'passed', 'skipped', 'failed', 'STANDARD_OUT', 'STANDARD_ERROR'
+        events 'passed', 'skipped', 'failed', 'STANDARD_OUT', 'STANDARD_ERROR'
         exceptionFormat 'full'
         showStandardStreams = true
         //quiet { showStandardStreams = true }
