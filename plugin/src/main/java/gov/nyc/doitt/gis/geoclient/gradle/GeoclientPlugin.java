@@ -1,14 +1,9 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
-import org.gradle.api.Action;
-import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.file.FileTree;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
-import org.gradle.api.tasks.TaskContainer;
-import org.gradle.api.tasks.testing.Test;
 
 public class GeoclientPlugin implements Plugin<Project> {
 
@@ -42,7 +37,6 @@ public class GeoclientPlugin implements Plugin<Project> {
     GeoclientExtension createGeoclientExtension(Project project) {
         GeoclientExtension geoclient = new GeoclientExtension(GEOCLIENT_CONTAINER_NAME, new DefaultResolver(project),
                 project);
-        applyTestConfiguration(project, geoclient);
         project.getExtensions().add(GEOCLIENT_CONTAINER_NAME, geoclient);
         logger.info("GeoclientExtension container configured successfully");
         return geoclient;
@@ -51,7 +45,6 @@ public class GeoclientPlugin implements Plugin<Project> {
     GeosupportExtension createGeosupportExtension(Project project) {
         GeosupportExtension geosupport = new GeosupportExtension(GEOSUPPORT_CONTAINER_NAME,
                 new DefaultResolver(project), project);
-        applyTestConfiguration(project, geosupport);
         project.getExtensions().add(GEOSUPPORT_CONTAINER_NAME, geosupport);
         logger.info("GeosupportExtension configured successfully");
         return geosupport;
@@ -62,26 +55,4 @@ public class GeoclientPlugin implements Plugin<Project> {
         report.setGroup("help");
         logger.info("{} task configured successfully", task);
     }
-
-    void applyTestConfiguration(Project project, RuntimePropertyExtension extension) {
-        logger.lifecycle("Applying test configuration to {}", extension.getName());
-        TaskContainer taskContainer = project.getTasks();
-        NamedDomainObjectContainer<RuntimeProperty> container = extension.getRuntimeProperties();
-        taskContainer.withType(Test.class, new Action<Test>() {
-            @Override
-            public void execute(Test test) {
-                logger.lifecycle("Configuring test {}", test.toString());
-                container.configureEach(new Action<RuntimeProperty>() {
-                    @Override
-                    public void execute(RuntimeProperty runtimeProperty) {
-                        TestPolicy policy = runtimeProperty.getTestPolicy().get();
-                        logger.lifecycle("Examining {} for {}", policy, runtimeProperty);
-                        FileTree matches = test.getCandidateClassFiles().matching(policy);
-                        logger.lifecycle("Found matching tests {}", matches);
-                    }
-                });
-            }
-        });
-    }
-
 }

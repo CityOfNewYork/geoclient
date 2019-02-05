@@ -4,14 +4,12 @@ import org.gradle.api.NamedDomainObjectContainer;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.ListProperty;
 import org.gradle.api.provider.Property;
-import org.gradle.api.tasks.util.PatternFilterable;
 
 public class RuntimeProperty {
 
     private final String name;
     private final Property<PropertySource> value;
     private final ListProperty<PropertySource> sources;
-    private final Property<TestPolicy> testPolicy;
 
     /**
      * <p>
@@ -27,12 +25,7 @@ public class RuntimeProperty {
      * {@link PropertySource}s or if none of the provided sources can be resolved at
      * runtime.
      * </p>
-     * <p>
-     * This class also contains a {@link TestPolicy} which can be used
-     * enable/disable the export of a resolved {@link RuntimeProperty} to test
-     * executions. {@link TestPolicy} also implements the Gradle
-     * {@linkplain PatternFilterable} interface allowing for a more granular,
-     * pattern-based specification of which tests to configure. <b>NOTE:</b>
+     * <b>NOTE:</b>
      * <p>
      * The defaults (i.e., Gradle <i>"conventions"</i>) for this class are set by
      * {@link AbstractRuntimePropertyExtension} due to Gradle lifecycle
@@ -49,7 +42,6 @@ public class RuntimeProperty {
         this.name = name;
         this.value = objectFactory.property(PropertySource.class);
         this.sources = objectFactory.listProperty(PropertySource.class);
-        this.testPolicy = objectFactory.property(TestPolicy.class);
     }
 
     public String getName() {
@@ -97,14 +89,6 @@ public class RuntimeProperty {
 
     public ListProperty<PropertySource> getSources() {
         return sources;
-    }
-
-    public Property<TestPolicy> getTestPolicy() {
-        return testPolicy;
-    }
-
-    public void setExportToTest(boolean export) {
-        this.testPolicy.get().setExport(export);
     }
 
     @Override

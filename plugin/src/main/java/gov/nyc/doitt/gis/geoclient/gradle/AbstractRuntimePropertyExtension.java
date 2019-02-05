@@ -86,12 +86,6 @@ public abstract class AbstractRuntimePropertyExtension implements RuntimePropert
                     logger.info("Setting conventions for RuntimeProperty '{}' using {}", item.containerItemName,
                             item.defaultPropertySource);
                     runtimeProperty.setConventions(item.defaultPropertySource);
-                    TestPolicy testPolicyConvention = new TestPolicy();
-                    testPolicyConvention.setExport(true);
-                    testPolicyConvention.useDefaultIncludePatterns();
-                    logger.info("Setting TestPolicy convention for RuntimeProperty '{}' using {}",
-                            testPolicyConvention);
-                    runtimeProperty.getTestPolicy().convention(testPolicyConvention);
                 }
             });
 
