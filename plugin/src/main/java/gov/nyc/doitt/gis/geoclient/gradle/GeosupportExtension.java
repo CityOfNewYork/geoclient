@@ -1,7 +1,7 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
-import static gov.nyc.doitt.gis.geoclient.gradle.Resolution.defaulted;
-import static gov.nyc.doitt.gis.geoclient.gradle.SourceType.environment;
+import static gov.nyc.doitt.gis.geoclient.gradle.Resolution.DEFAULTED;
+import static gov.nyc.doitt.gis.geoclient.gradle.SourceType.ENVIRONMENT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,16 +49,16 @@ public class GeosupportExtension extends AbstractRuntimePropertyExtension {
     }
 
     PropertySource createHome() {
-        return new PropertySource(GEOSUPPORT_ENV_VAR_GEOSUPPORT_HOME, GEOSUPPORT_DEFAULT_HOME, environment, defaulted);
+        return new PropertySource(GEOSUPPORT_ENV_VAR_GEOSUPPORT_HOME, GEOSUPPORT_DEFAULT_HOME, ENVIRONMENT, DEFAULTED);
     }
 
     PropertySource createGeofiles() {
-        return new PropertySource(GEOSUPPORT_ENV_VAR_GEOFILES, GEOSUPPORT_DEFAULT_GEOFILES, environment, defaulted);
+        return new PropertySource(GEOSUPPORT_ENV_VAR_GEOFILES, GEOSUPPORT_DEFAULT_GEOFILES, ENVIRONMENT, DEFAULTED);
     }
 
     PropertySource createLibraryPath() {
-        return new PropertySource(GEOSUPPORT_ENV_VAR_GS_LIBRARY_PATH, GEOSUPPORT_DEFAULT_LIBRARY_PATH, environment,
-                defaulted);
+        return new PropertySource(GEOSUPPORT_ENV_VAR_GS_LIBRARY_PATH, GEOSUPPORT_DEFAULT_LIBRARY_PATH, ENVIRONMENT,
+                DEFAULTED);
     }
 
 }

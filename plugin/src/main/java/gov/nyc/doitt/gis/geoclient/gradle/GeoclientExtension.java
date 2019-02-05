@@ -1,7 +1,7 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
-import static gov.nyc.doitt.gis.geoclient.gradle.Resolution.defaulted;
-import static gov.nyc.doitt.gis.geoclient.gradle.SourceType.system;
+import static gov.nyc.doitt.gis.geoclient.gradle.Resolution.DEFAULTED;
+import static gov.nyc.doitt.gis.geoclient.gradle.SourceType.SYSTEM;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class GeoclientExtension extends AbstractRuntimePropertyExtension {
         List<DeferredContainerItemInfo> result = new ArrayList<>();
         result.add(new DeferredContainerItemInfo(GEOCLIENT_CONTAINER_ITEM_NATIVE_TEMP_DIR,
                 new PropertySource(GEOCLIENT_SYSPROP_NATIVE_TEMP_DIR,
-                        new File(getBuildDir(), GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR), system, defaulted)));
+                        new File(getBuildDir(), GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR), SYSTEM, DEFAULTED)));
         return result;
     }
 

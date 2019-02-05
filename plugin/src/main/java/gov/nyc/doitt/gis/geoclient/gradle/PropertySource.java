@@ -1,6 +1,6 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
-import static gov.nyc.doitt.gis.geoclient.gradle.Resolution.unresolved;
+import static gov.nyc.doitt.gis.geoclient.gradle.Resolution.UNRESOLVED;
 
 public class PropertySource {
     private final String name;
@@ -9,24 +9,24 @@ public class PropertySource {
     private Resolution resolution;
 
     /**
-     * Build property which is taken from an environment variable or Java system
+     * Build property which is taken from an ENVIRONMENT variable or Java SYSTEM
      * property.
      * 
      * @param name  unique name
      * @param value populated by the Gradle plugin dsl
-     * @param type  Java system property or environment variable
+     * @param type  Java SYSTEM property or ENVIRONMENT variable
      */
     public PropertySource(String name, Object value, SourceType type) {
-        this(name, value, type, unresolved);
+        this(name, value, type, UNRESOLVED);
     }
 
     /**
-     * Build property which is taken from an environment variable or Java system
+     * Build property which is taken from an ENVIRONMENT variable or Java SYSTEM
      * property.
      * 
      * @param name  unique name
      * @param value populated by the Gradle plugin dsl
-     * @param type  Java system property or environment variable
+     * @param type  Java SYSTEM property or ENVIRONMENT variable
      * @param resolution how the value was ultimately resolved
      */
     public PropertySource(String name, Object value, SourceType type, Resolution resolution) {

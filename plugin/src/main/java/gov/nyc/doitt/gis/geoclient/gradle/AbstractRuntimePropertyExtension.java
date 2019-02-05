@@ -60,7 +60,7 @@ public abstract class AbstractRuntimePropertyExtension implements RuntimePropert
         super();
         Objects.requireNonNull(name, "String argument 'name' cannot be null");
         this.logger = project.getLogger();
-        logger.debug("Constructing extension {} in class {}", name, getClass().getName());
+        logger.debug("Constructing EXTENSION {} in class {}", name, getClass().getName());
         this.name = name;
         this.resolver = resolver;
         this.project = project;
@@ -101,7 +101,7 @@ public abstract class AbstractRuntimePropertyExtension implements RuntimePropert
         });
     }
 
-    // TODO Need to listen to extension/container events to know how the Resolution
+    // TODO Need to listen to EXTENSION/container events to know how the Resolution
     // should be set
     protected PropertySource resolve(PropertySource propertySource) {
         return getResolver().resolve(propertySource);
@@ -123,6 +123,11 @@ public abstract class AbstractRuntimePropertyExtension implements RuntimePropert
                         // resolved one from
                         // user (i.e., in RuntimeProperty.sources)
                         runtimeProperty.setValue(finalPropertySource);
+                        // If user has not configured a particular ExportType, use defaults
+                        if (!runtimeProperty.isExportTypeSpecified()) {
+                            SourceType sourceType = finalPropertySource.getType();
+                            runtimeProperty.setExportType(sourceType.defaultExportType());
+                        }
                         logger.lifecycle("Resolved {} from sources", finalPropertySource);
                         break;
                     }
@@ -131,7 +136,7 @@ public abstract class AbstractRuntimePropertyExtension implements RuntimePropert
                 // If it was found above then that will be used, otherwise the convention
                 // (default) value is used
                 finalPropertySource = runtimeProperty.finalizeWithCurrentValue();
-                logger.info("Resolved {} using default value", runtimeProperty.getDefaultValue());
+                logger.info("Resolved {} using default value", runtimeProperty.currentValue());
             }
         };
     }

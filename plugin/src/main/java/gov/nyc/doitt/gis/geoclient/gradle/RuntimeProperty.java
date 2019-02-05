@@ -10,17 +10,18 @@ public class RuntimeProperty {
     private final String name;
     private final Property<PropertySource> value;
     private final ListProperty<PropertySource> sources;
+    private final Property<ExportType> exportType;
 
     /**
      * <p>
      * Central plugin abstraction representing "external" sources for runtime
-     * configuration settings (generally Java System properties and environment
+     * configuration settings (generally Java System properties and ENVIRONMENT
      * variables). The {@link GeoclientPlugin} creates extensions to hold named
      * instances of this class in Gradle's {@linkplain NamedDomainObjectContainer}.
      * </p>
      * <p>
      * Each instance contains a single {@code value} {@link PropertySource} member
-     * representing the currently configured value. This member also serves as a way
+     * representing the currently CONFIGURED value. This member also serves as a way
      * to set a default value if the user does not provide custom
      * {@link PropertySource}s or if none of the provided sources can be resolved at
      * runtime.
@@ -42,6 +43,7 @@ public class RuntimeProperty {
         this.name = name;
         this.value = objectFactory.property(PropertySource.class);
         this.sources = objectFactory.listProperty(PropertySource.class);
+        this.exportType = objectFactory.property(ExportType.class);
     }
 
     public String getName() {
@@ -52,9 +54,17 @@ public class RuntimeProperty {
         return value;
     }
 
+    public Property<ExportType> getExportType() {
+        return this.exportType;
+    }
+
     // Sets this.value but does not add it to this.sources
     public void setValue(PropertySource value) {
         this.value.set(value);
+    }
+
+    public void setExportType(ExportType exportType) {
+        this.exportType.set(exportType);
     }
 
     // Sets this.value and calls this.sources.empty() to initialize this.sources
@@ -80,15 +90,23 @@ public class RuntimeProperty {
         return this.value.get();
     }
 
-    public PropertySource getDefaultValue() {
-        if (this.value.isPresent()) {
-            return this.value.get();
-        }
-        return null;
+    public PropertySource currentValue() {
+        return this.value.getOrNull();
     }
 
     public ListProperty<PropertySource> getSources() {
         return sources;
+    }
+
+    public boolean isExportTypeSpecified() {
+        return this.exportType.isPresent();
+    }
+
+    public boolean isResolved() {
+        if (this.value.isPresent()) {
+            return !this.value.get().getResolution().equals(Resolution.UNRESOLVED);
+        }
+        return false;
     }
 
     @Override
