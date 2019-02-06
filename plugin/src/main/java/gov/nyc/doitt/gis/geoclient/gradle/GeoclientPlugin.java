@@ -1,5 +1,6 @@
 package gov.nyc.doitt.gis.geoclient.gradle;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -76,15 +77,21 @@ public class GeoclientPlugin implements Plugin<Project> {
 
     // @formatter:off
     List<RuntimeProperty> collectRuntimeProperties(List<RuntimePropertyExtension> extensions) {
-        List<RuntimeProperty> result = null;
+       
+	logger.lifecycle("Collecting runtime properties from {}", extensions);
+	
+        List<RuntimeProperty> result = new ArrayList<>();
         
-       result = extensions.stream()
+        extensions.stream()
         .map(new Function<RuntimePropertyExtension, List<RuntimeProperty>>() {
             @Override
             public List<RuntimeProperty> apply(RuntimePropertyExtension extension) {
-                return extension.getRuntimeProperties().stream().collect(Collectors.toList());
+                List<RuntimeProperty> result = extension.getRuntimeProperties().stream().collect(Collectors.toList());
+        	logger.lifecycle("Mapping extension {} to List<RuntimeProperty> {}", extension.getName(), result);
+                return result;
             }
-        }).reduce(result, (r, l) -> { 
+        })
+        .reduce(result, (r, l) -> { 
             r.addAll(l);
             return r;
         });
@@ -96,7 +103,9 @@ public class GeoclientPlugin implements Plugin<Project> {
                     .filter(RuntimeProperty::isResolved)
                     .map(new Function<RuntimeProperty, ExportAction<Test>>() {
                         @Override
-                        public ExportAction<Test> apply(RuntimeProperty rp) { return new ExportAction<Test>(rp); }
+                        public ExportAction<Test> apply(RuntimeProperty rp) {
+                            return new ExportAction<Test>(rp);
+                        }
                     })
                     .collect(Collectors.toList());
     }
