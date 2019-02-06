@@ -16,12 +16,16 @@
 
 package gov.nyc.doitt.gis.geoclient.gradle
 
+import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientExtension.GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_CONTAINER_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_FILE_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOCLIENT_REPORT_TASK_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_CONTAINER_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_FILE_NAME
 import static gov.nyc.doitt.gis.geoclient.gradle.GeoclientPlugin.GEOSUPPORT_REPORT_TASK_NAME
+import static gov.nyc.doitt.gis.geoclient.gradle.GeosupportExtension.GEOSUPPORT_DEFAULT_GEOFILES
+import static gov.nyc.doitt.gis.geoclient.gradle.GeosupportExtension.GEOSUPPORT_DEFAULT_HOME
+import static gov.nyc.doitt.gis.geoclient.gradle.GeosupportExtension.GEOSUPPORT_DEFAULT_LIBRARY_PATH
 import static org.gradle.testkit.runner.TaskOutcome.*
 
 import org.gradle.testkit.runner.GradleRunner
@@ -58,14 +62,6 @@ class BuildLogicFunctionalTest extends Specification {
                 id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
             }
         """
-        //def expected = []
-        //if(GEOCLIENT_REPORT_TASK_NAME) {
-        //    expected << FormatUtils.normalize(testBuildDir, GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR)
-        //} else {
-        //    expected << GEOSUPPORT_DEFAULT_GEOFILES
-        //    expected << GEOSUPPORT_DEFAULT_HOME
-        //    expected << GEOSUPPORT_DEFAULT_LIBRARY_PATH
-        //}
 
         when:
         def reportFile = new File(testBuildDir, reportFileName)
@@ -74,36 +70,52 @@ class BuildLogicFunctionalTest extends Specification {
                 .build()
 
         then:
-        println(result.output)
+        //println(result.output)
         result.output.contains(String.format(RuntimePropertyReport.OUT_REPORT_TITLE_FORMAT, containerName));
         result.output.contains(String.format(RuntimePropertyReport.OUT_REPORT_FILE_FORMAT, reportFile.canonicalPath));
         result.task(':' + taskName).outcome == SUCCESS
-        //expected.each { substring ->
-        //    result.output.contains(substring)
-        //}
+        strings.each { substring ->
+            result.output.contains(substring)
+        }
 
         where:
-        taskName                    | reportFileName              | containerName
-        GEOCLIENT_REPORT_TASK_NAME  | GEOCLIENT_REPORT_FILE_NAME  | GEOCLIENT_CONTAINER_NAME
-        GEOSUPPORT_REPORT_TASK_NAME | GEOSUPPORT_REPORT_FILE_NAME | GEOSUPPORT_CONTAINER_NAME
-
-        //taskName << [
-        //    GEOCLIENT_REPORT_TASK_NAME,
-        //    GEOSUPPORT_REPORT_TASK_NAME
-        //]
-        //reportFileName << [
-        //    GEOCLIENT_REPORT_FILE_NAME,
-        //    GEOSUPPORT_REPORT_FILE_NAME
-        //]
-        //containerName << [
-        //    GEOCLIENT_CONTAINER_NAME,
-        //    GEOSUPPORT_CONTAINER_NAME
-        //]
+        // @formatter:off
+        taskName                    | reportFileName              | containerName             | strings
+        GEOCLIENT_REPORT_TASK_NAME  | GEOCLIENT_REPORT_FILE_NAME  | GEOCLIENT_CONTAINER_NAME  | [
+            GEOCLIENT_DEFAULT_SUBDIR_NATIVE_TEMP_DIR
+        ]
+        GEOSUPPORT_REPORT_TASK_NAME | GEOSUPPORT_REPORT_FILE_NAME | GEOSUPPORT_CONTAINER_NAME | [
+            GEOSUPPORT_DEFAULT_GEOFILES,
+            GEOSUPPORT_DEFAULT_HOME,
+            GEOSUPPORT_DEFAULT_LIBRARY_PATH
+        ]
+        // @formatter:on
     }
 
-    //@Unroll
-    //def "#taskName uses System.properties to override default settings"() {
-    //}
+    @Unroll
+    def "#taskName uses dsl config to override default settings"() {
+        given:
+        settingsFile << "rootProject.name = '${PROJECT_NAME}'"
+        buildFile << """
+            plugins {
+                id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin'
+            }
+        """
+
+        when:
+        def result = runner()
+                .withArguments(taskName)
+                .build()
+        then:
+        println(result.output)
+        result.task(':' + taskName).outcome == SUCCESS
+        strings.each { substring ->
+            result.output.contains(substring)
+        }
+
+        where:
+        taskName                    | reportFileName              | containerName             | strings
+        GEOCLIENT_REPORT_TASK_NAME  | GEOCLIENT_REPORT_FILE_NAME  | GEOCLIENT_CONTAINER_NAME  | ["/foo"]}
 
     def runner() {
         return GradleRunner.create()

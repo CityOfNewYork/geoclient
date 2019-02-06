@@ -1,0 +1,33 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+    id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin' version '1.0.0'
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.0'
+}
+
+import gov.nyc.doitt.gis.geoclient.gradle.PropertySource
+import gov.nyc.doitt.gis.geoclient.gradle.SourceType
+
+geoclient {
+    runtimeProperties.nativeTempDir.sources.add(new PropertySource("gc.jni.version", "/foo", SourceType.SYSTEM))
+}
+
+geosupportIntegrationTest {
+    useJUnitPlatform()
+    filter {
+        includeTestsMatching "com.digitalclash.plotz.*"
+    }
+    testLogging {
+        showStandardStreams = true
+    }
+}
+
+task showme {
+    doLast {
+        println project.geoclient.runtimeProperties.nativeTempDir
+    }
+}

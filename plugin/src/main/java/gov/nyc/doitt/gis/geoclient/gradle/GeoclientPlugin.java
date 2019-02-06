@@ -34,7 +34,7 @@ public class GeoclientPlugin implements Plugin<Project> {
     public static final String GEOSUPPORT_REPORT_FILE_NAME = String.format(DEFAULT_REPORT_FILE_NAME_FORMAT, GEOSUPPORT_CONTAINER_NAME);
     public static final String GEOSUPPORT_REPORT_TASK_NAME = String.format(RUNTIME_REPORT_TASK_NAME_FORMAT, GEOSUPPORT_CONTAINER_NAME);
     
-    public static final String INTEGRATION_TEST_TASK_NAME = "GeosupportIntegrationTest";
+    public static final String INTEGRATION_TEST_TASK_NAME = "geosupportIntegrationTest";
     // @formatter:on
 
     public void apply(Project project) {
@@ -77,17 +77,14 @@ public class GeoclientPlugin implements Plugin<Project> {
 
     // @formatter:off
     List<RuntimeProperty> collectRuntimeProperties(List<RuntimePropertyExtension> extensions) {
-       
-	logger.lifecycle("Collecting runtime properties from {}", extensions);
-	
+        logger.info("Collecting runtime properties from {}", extensions);
         List<RuntimeProperty> result = new ArrayList<>();
-        
         extensions.stream()
         .map(new Function<RuntimePropertyExtension, List<RuntimeProperty>>() {
             @Override
             public List<RuntimeProperty> apply(RuntimePropertyExtension extension) {
                 List<RuntimeProperty> result = extension.getRuntimeProperties().stream().collect(Collectors.toList());
-        	logger.lifecycle("Mapping extension {} to List<RuntimeProperty> {}", extension.getName(), result);
+                logger.info("Mapping extension {} to List<RuntimeProperty> {}", extension.getName(), result);
                 return result;
             }
         })
