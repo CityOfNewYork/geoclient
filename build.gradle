@@ -1,25 +1,8 @@
-plugins {
-    id 'gov.nyc.doitt.gis.geoclient.gradle.geoclient-plugin' version '1.0.0' apply true
-}
-
 apply from: "${rootDir}/gradle/dependencies.gradle"
 
 allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'project-report'
-    //geoclient{
-    //    nativeTempDir {
-    //        'gc.jni.version' {
-    //        //getSource().setValue(project.buildDir)
-    //        //getSource().setType(system)
-    //        }
-    //    }
-    //}
-    //geosupport {
-    //    geofiles = System.getenv('GEOFILES')
-    //    home = System.getenv('GEOSUPPORT_HOME')
-    //    libraryPath = "${System.getenv('GEOSUPPORT_HOME')}/lib"
-    //}
 }
 
 subprojects {
@@ -75,12 +58,21 @@ subprojects {
     }
 
     test {
+        environment('GEOFILES', System.getenv('GEOFILES'))
+        environment('GEOSUPPORT_HOME', System.getenv('GEOSUPPORT_HOME'))
+        environment('GS_LIBRARY_PATH', System.getenv('GS_LIBRARY_PATH'))
+
+        systemProperty('java.library.path', System.getenv('GS_LIBRARY_PATH'))
+        // FIXME: breaks if absolute path is given
+        systemProperty('gc.jni.version', "jni-${project.version}")
+
         useJUnitPlatform()
+
         testLogging {
             displayGranularity = 3
             events "failed", "skipped", "passed"
             exceptionFormat "full"
-            showStandardStreams = true
+            showStandardStreams = false
         }
     }
 
