@@ -11,3 +11,7 @@ gradlePlugin {
         }
     }
 }
+
+dependencies {
+    compileOnly gradleApi()
+}
