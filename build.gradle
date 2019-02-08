@@ -59,15 +59,14 @@ subprojects {
     }
 
     test {
-        environment('GEOFILES', System.getenv('GEOFILES'))
-        environment('GEOSUPPORT_HOME', System.getenv('GEOSUPPORT_HOME'))
-        environment('GS_LIBRARY_PATH', System.getenv('GS_LIBRARY_PATH'))
-
-        systemProperty('java.library.path', System.getenv('GS_LIBRARY_PATH'))
-        // FIXME: breaks if absolute path is given
-        systemProperty('gc.jni.version', "jni-${project.version}")
 
         useJUnitPlatform()
+        environment('GEOFILES', gsGeofiles)
+        environment('GEOSUPPORT_HOME', gsHome)
+        environment('GS_LIBRARY_PATH', gsLibraryPath)
+        systemProperty('java.library.path', gsLibraryPath)
+        // FIXME: breaks if absolute path is given
+        systemProperty('gc.jni.version', gcJniVersion)
 
         testLogging {
             displayGranularity = 3

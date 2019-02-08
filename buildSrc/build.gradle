@@ -1,0 +1,13 @@
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+}
+
+gradlePlugin {
+    plugins {
+        geosupportIntegrationTestPlugin {
+            id = 'gov.nyc.doitt.gis.geoclient.gradle'
+            implementationClass = 'gov.nyc.doitt.gis.geoclient.gradle.GeosupportIntegrationTestPlugin'
+        }
+    }
+}
