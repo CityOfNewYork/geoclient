@@ -1,12 +1,17 @@
 apply from: "${rootDir}/gradle/dependencies.gradle"
-apply from: "${rootDir}/gradle/env.gradle"
+//apply from: "${rootDir}/gradle/env.gradle"
 
 allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'project-report'
+    apply plugin: 'java-gradle-plugin'
 }
 
 subprojects {
+    plugins {
+      id 'gov.nyc.doitt.gis.geoclient.gradle'
+    }
+
     apply plugin: 'java'
     apply plugin: 'maven-publish'
     apply plugin: 'signing'
@@ -61,12 +66,12 @@ subprojects {
     test {
 
         useJUnitPlatform()
-        environment('GEOFILES', gsGeofiles)
-        environment('GEOSUPPORT_HOME', gsHome)
-        environment('GS_LIBRARY_PATH', gsLibraryPath)
-        systemProperty('java.library.path', gsLibraryPath)
+        environment('GEOFILES', geosupport.gsGeofiles)
+        environment('GEOSUPPORT_HOME', geosupport.gsHome)
+        environment('GS_LIBRARY_PATH', geosupport.gsLibraryPath)
+        systemProperty('java.library.path', geosupport.gsLibraryPath)
         // FIXME: breaks if absolute path is given
-        systemProperty('gc.jni.version', gcJniVersion)
+        systemProperty('gc.jni.version', geoclient.gcJniVersion)
 
         testLogging {
             displayGranularity = 3
