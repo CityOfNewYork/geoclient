@@ -14,8 +14,8 @@ abstract class AbstractExtension {
         this.project = project
     }
 
-    abstract Map<String, Object> environment()
-    abstract Map<String, Object> systemProperties()
+    abstract Map<String, Object> getEnvironment()
+    abstract Map<String, Object> getSystemProperties()
 
     void resolveConvention(String gradleName, String systemName, String envName, Property<String> property, String defaultValue) {
         Object value = gradleProperty(gradleName)

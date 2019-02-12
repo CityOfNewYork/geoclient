@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -11,30 +12,28 @@ import org.junit.jupiter.api.Test;
 public class GeoclientCoreIntegrationTest
 {
 
-    @BeforeEachClass
-    public static void setUpBeforeClass() throws Exception
+    @BeforeAll
+    public static void beforeAll() throws Exception
     {
     }
 
     @AfterAll
-    public static void tearDownAfterClass() throws Exception
+    public static void afterAll() throws Exception
     {
     }
 
     @BeforeEach
-    public void setUp() throws Exception
+    public void beforeEach() throws Exception
     {
     }
 
     @AfterEach
-    public void tearDown() throws Exception
+    public void afterEach() throws Exception
     {
     }
 
     @Test
     public void test()
     {
-        fail("Not yet implemented");
     }
-
 }

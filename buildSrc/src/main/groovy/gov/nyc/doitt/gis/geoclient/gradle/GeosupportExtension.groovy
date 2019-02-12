@@ -104,18 +104,22 @@ class GeosupportExtension extends AbstractExtension {
         maybeCanonicalPath(getIncludePathAsFile())
     }
 
-    Map<String, Object> environment() {
-        [GS_HOME_ENVVAR: this.home.getOrNull(),
-         GS_GEOFILES_ENVVAR: this.geofiles.getOrNull(),
-         GS_LIBRARY_PATH_ENVVAR: this.libraryPath.getOrNull(),
-         GS_INCLUDE_PATH_ENVVAR: includePathString()]
+    Map<String, Object> getEnvironment() {
+        def result = [:] as Map<String, Object>
+        result."${GS_HOME_ENVVAR}" = this.home.getOrNull()
+        result."${GS_GEOFILES_ENVVAR}" = this.geofiles.getOrNull()
+        result."${GS_LIBRARY_PATH_ENVVAR}" = this.libraryPath.getOrNull()
+        result."${GS_INCLUDE_PATH_ENVVAR}" = includePathString()
+        result
     }
 
-    Map<String, Object> systemProperties() {
-        [GS_HOME_SYSTEM: this.home.getOrNull(),
-         GS_GEOFILES_SYSTEM: this.geofiles.getOrNull(),
-         GS_LIBRARY_PATH_SYSTEM: this.libraryPath.getOrNull(),
-         GS_INCLUDE_PATH_SYSTEM: includePathString()]
+    Map<String, Object> getSystemProperties() {
+        def result = [:] as Map<String, Object>
+        result."${GS_HOME_SYSTEM}" = this.home.getOrNull()
+        result."${GS_GEOFILES_SYSTEM}" = this.geofiles.getOrNull()
+        result."${GS_LIBRARY_PATH_SYSTEM}" = this.libraryPath.getOrNull()
+        result."${GS_INCLUDE_PATH_SYSTEM}" = includePathString()
+        result
     }
 
     private String maybeCanonicalPath(File file) {

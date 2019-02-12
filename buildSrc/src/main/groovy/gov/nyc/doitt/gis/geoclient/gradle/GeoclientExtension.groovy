@@ -33,12 +33,16 @@ class GeoclientExtension extends AbstractExtension {
         this.jniVersion.set(value)
     }
 
-    Map<String, Object> environment() {
-        [GC_JNI_VERSION_ENVVAR: this.jniVersion.getOrNull()]
+    Map<String, Object> getEnvironment() {
+        def result = [:] as Map<String, Object>
+        result."${GC_JNI_VERSION_ENVVAR}" = this.jniVersion.getOrNull()
+        result
     }
 
-    Map<String, Object> systemProperties() {
-        [GC_JNI_VERSION_SYSTEM: this.jniVersion.getOrNull()]
+    Map<String, Object> getSystemProperties() {
+        def result = [:] as Map<String, Object>
+        result."${GC_JNI_VERSION_SYSTEM}" = this.jniVersion.getOrNull()
+        result
     }
 
     @Override
