@@ -17,7 +17,8 @@ class GeoclientExtension extends AbstractExtension {
 
     GeoclientExtension(Project project) {
         super(project)
-        this.jniVersion = project.objects.property(String)
+        this.jniVersion = project.getObjects().property(String)
+        resolveConventions()
     }
 
     void resolveConventions() {
@@ -40,4 +41,8 @@ class GeoclientExtension extends AbstractExtension {
         [GC_JNI_VERSION_SYSTEM: this.jniVersion.getOrNull()]
     }
 
+    @Override
+    String toString() {
+        this.getClass().getSimpleName() + "[ jniVersion=${jniVersion.getOrNull()} ]"
+    }
 }

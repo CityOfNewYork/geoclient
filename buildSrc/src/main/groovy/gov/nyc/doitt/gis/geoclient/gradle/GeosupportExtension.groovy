@@ -6,6 +6,8 @@ import org.gradle.api.file.DirectoryProperty
 import org.gradle.api.Project
 import org.gradle.api.provider.Property
 
+import java.io.File
+import java.io.IOException
 import java.util.Map
 
 class GeosupportExtension extends AbstractExtension {
@@ -44,21 +46,28 @@ class GeosupportExtension extends AbstractExtension {
         this.geofiles = project.objects.property(String)
         this.libraryPath = project.objects.property(String)
         this.includePath = project.objects.directoryProperty()
+        resolveConventions()
     }
 
     void resolveConventions() {
         resolveConvention(GS_HOME_GRADLE, GS_HOME_SYSTEM, GS_HOME_ENVVAR, this.home, DEFAULT_GS_HOME)
         resolveConvention(GS_GEOFILES_GRADLE, GS_GEOFILES_SYSTEM, GS_GEOFILES_ENVVAR, this.geofiles, DEFAULT_GS_GEOFILES)
         resolveConvention(GS_LIBRARY_PATH_GRADLE, GS_LIBRARY_PATH_SYSTEM, GS_LIBRARY_PATH_ENVVAR, this.libraryPath, DEFAULT_GS_LIBRARY_PATH)
-        Directory includeDir = project.project(':geoclient-jni').dir('lib/geosupport/headers')
+        resolveIncludePath()
+    }
+    
+    private void resolveIncludePath() {
+        // NOTE: Member varaible 'includePath' is a DirectoryProperty and local variable 'includeDir' is Directory
+        Directory jniProjectDir = project.project(':geoclient-jni').layout.getProjectDirectory()
+        Directory includeDir = jniProjectDir.dir('lib/geosupport/headers')
         this.includePath.convention(includeDir)
-        project.property(GS_INCLUDE_PATH, includeDir.getAsFile().toString())
+        project.ext.gsIncludePath = includeDir.getAsFile()
     }
 
     Property<String> getHome() {
         this.home
     }
-
+    
     void setHome(String value) {
         this.home.set(value)
     }
@@ -86,28 +95,43 @@ class GeosupportExtension extends AbstractExtension {
     void setIncludePath(File value) {
         this.includePath.set(value)
     }
+    
+    File getIncludePathAsFile() {
+        this.includePath.getAsFile()?.getOrNull()
+    }
 
-    String getIncludeDirAsString() {
-        DirectoryProperty includeDir = this.includePath.getOrNull()
-        String string = ""
-        if(includeDir) {
-            string = includeDir.getAsFile().toString()
-        }
-        string
+    String includePathString() {
+        maybeCanonicalPath(getIncludePathAsFile())
     }
 
     Map<String, Object> environment() {
         [GS_HOME_ENVVAR: this.home.getOrNull(),
          GS_GEOFILES_ENVVAR: this.geofiles.getOrNull(),
          GS_LIBRARY_PATH_ENVVAR: this.libraryPath.getOrNull(),
-         GS_INCLUDE_PATH_ENVVAR: getIncludeDirAsString()]
+         GS_INCLUDE_PATH_ENVVAR: includePathString()]
     }
 
     Map<String, Object> systemProperties() {
         [GS_HOME_SYSTEM: this.home.getOrNull(),
          GS_GEOFILES_SYSTEM: this.geofiles.getOrNull(),
          GS_LIBRARY_PATH_SYSTEM: this.libraryPath.getOrNull(),
-         GS_INCLUDE_PATH_SYSTEM: getIncludeDirAsString()]
+         GS_INCLUDE_PATH_SYSTEM: includePathString()]
     }
 
+    private String maybeCanonicalPath(File file) {
+        try {
+            file.canonicalPath
+        } catch (NullPointerException ignored) {
+            System.out.println("[WARN] File argument was null")
+            "${file}"
+        } catch (IOException ignored) {
+            System.out.println("[WARN] Could not get canonical path for file ${file}. Returning absolutePath instead")
+            file.absolutePath
+        }    
+    }
+    
+    @Override
+    String toString() {
+        "${this.getClass().getSimpleName()} [ geofiles=${geofiles.getOrNull()}, home=${home.getOrNull()}, includePath=${includePathString()}, libraryPath=${libraryPath.getOrNull()}]"
+    }
 }

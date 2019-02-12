@@ -6,9 +6,7 @@ plugins {
 
 def basePackagePath = "gov/nyc/doitt/gis/geoclient/jni"
 def generatedResources = "${project.buildDir}/generated-resources/main"
-
-//def gsIncludePath = new File(projectDir, 'lib/geosupport/headers')
-//def gsLibraryPath = System.getenv('GS_LIBRARY_PATH')
+def libPath = geosupport.libraryPath.getOrNull()
 
 sourceSets {
   main {
@@ -92,13 +90,13 @@ model {
                     //  Required for static libs and executables?
                     cCompiler.args "-fPIC"
                     // Ordering of library linkage is different than on Windows/MSYS2/MINGW64
-                    linker.args "-Wl,--no-as-needed", "-L${gsLibraryPath}", "-lc", "-lgeo", "-lm", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
+                    linker.args "-Wl,--no-as-needed", "-L${libPath}", "-lc", "-lgeo", "-lm", "-ledequiv", "-lapequiv", "-lsan", "-lsnd", "-lstExcpt", "-lStdLast", "-lStdUniv", "-lstEnder", "-lstretch", "-lthined"
 
                 } else if (targetPlatform.operatingSystem.windows && toolChain in VisualCpp) {
                     // MSVC (Windows x64)
                     cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include"
                     cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include/win32"
-                    linker.args "/LIBPATH:${gsLibraryPath}"
+                    linker.args "/LIBPATH:${libPath}"
                     linker.args 'NYCgeo.lib'
                 }
             }
@@ -157,10 +155,10 @@ model {
     repositories {
         libs(PrebuiltLibraries) {
             libgeo {
-                headers.srcDir(gsIncludePath)
+                headers.srcDir(geosupport.includePath.getAsFile())
                 binaries.withType(SharedLibraryBinary) {
-                    sharedLibraryFile = new File("${gsLibraryPath}/NYCgeo.dll")
-                    sharedLibraryLinkFile = new File("${gsLibraryPath}/NYCgeo.lib")
+                    sharedLibraryFile = new File("${libPath}/NYCgeo.dll")
+                    sharedLibraryLinkFile = new File("${libPath}/NYCgeo.lib")
                 }
             }
         }

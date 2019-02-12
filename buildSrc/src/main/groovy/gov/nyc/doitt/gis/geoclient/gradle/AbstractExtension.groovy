@@ -14,7 +14,6 @@ abstract class AbstractExtension {
         this.project = project
     }
 
-    abstract void resolveConventions()
     abstract Map<String, Object> environment()
     abstract Map<String, Object> systemProperties()
 
@@ -27,17 +26,17 @@ abstract class AbstractExtension {
         String stringValue = systemProperty(systemName)
         if(stringValue) {
             property.convention(stringValue)
-            project.property(gradleName, stringValue)
+            project.ext.gradleName = stringValue
             return
         }
         stringValue = environmentVariable(envName)
         if(stringValue) {
             property.convention(stringValue)
-            project.property(gradleName, stringValue)
+            project.ext.gradleName = stringValue
             return
         }
         property.convention(defaultValue)
-        project.property(gradleName, defaultValue)
+        project.ext.gradleName = defaultValue
     }
 
     Object gradleProperty(String name) {

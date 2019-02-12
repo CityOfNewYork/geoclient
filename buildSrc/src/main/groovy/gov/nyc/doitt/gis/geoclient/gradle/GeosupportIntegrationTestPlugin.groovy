@@ -2,6 +2,7 @@ package gov.nyc.doitt.gis.geoclient.gradle
 
 import org.gradle.api.Action
 import org.gradle.api.Plugin
+import org.gradle.api.plugins.PluginManager
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginConvention
@@ -14,45 +15,46 @@ class GeosupportIntegrationTestPlugin<Project> implements Plugin<Project> {
 
     static final String TEST_NAME = "integrationTest"
     static final String SOURCE_SET_NAME = "integrationTest"
-    static final String JAVA_SOURCE_SET_DIR = String.format("src/%s/java", SOURCE_SET_NAME)
+    static final String JAVA_SOURCeE_SET_DIR = String.format("src/%s/java", SOURCE_SET_NAME)
     static final String JAVA_RESOURCES_SOURCE_SET_DIR = String.format("src/%s/resources", SOURCE_SET_NAME)
 
     void apply(Project project) {
         GeoclientExtension geoclient = project.extensions.create("geoclient", GeoclientExtension, project)
         GeosupportExtension geosupport = project.extensions.create("geosupport", GeosupportExtension, project)
-        project.getPlugins().withType(JavaPlugin, new Action<JavaPlugin>() {
-            void execute(JavaPlugin javaPlugin) {
-                def sourceSets = project.convention.getPlugin(JavaPluginConvention).getSourceSets()
-                def testRuntimeClasspath = project.configurations.testRuntimeClasspath
-                def integrationTestSourceSet = sourceSets.create(SOURCE_SET_NAME, new Action<SourceSet>(){
-                    void execute(SourceSet sourceSet) {
-                        with(sourceSet) {
-                            java.srcDir(JAVA_SOURCE_SET_DIR)
-                            resources.srcDir(JAVA_RESOURCES_SOURCE_SET_DIR)
-                            compileClasspath += main.output + testRuntimeClasspath
-                            runtimeClasspath += output + compileClasspath
-                        }
+        def plugins = project.getPlugins()
+        println plugins
+        if(project.pluginManager.hasPlugin("java")) {
+            
+            def sourceSets = project.convention.getPlugin(JavaPluginConvention).getSourceSets()
+            def testRuntimeClasspath = project.configurations.testRuntimeClasspath
+            def integrationTestSourceSet = sourceSets.create(SOURCE_SET_NAME, new Action<SourceSet>(){
+                void execute(SourceSet sourceSet) {
+                    with(sourceSet) {
+                        java.srcDir(JAVA_SOURCE_SET_DIR)
+                        resources.srcDir(JAVA_RESOURCES_SOURCE_SET_DIR)
+                        compileClasspath += main.output + testRuntimeClasspath
+                        runtimeClasspath += output + compileClasspath
                     }
-                });
-                def integrationTest = project.tasks.create(TEST_NAME, Test, new Action<Test>() {
-                    void execute(Test test) {
-                        with(test) {
-                            description = 'Runs tests which call Geosupport native code using JNI.'
-                            group = 'verification'
-                            testClassesDir = integrationTestSourceSet.output.classesDirs
-                            classpath = integrationTestSourceSet.runtimeClasspath
-                            mustRunAfter('test')
-                            systemProperties(geoclient.systemProperties)
-                            environment(geosupport.environment)
-                        }
+                }
+            });
+            def integrationTest = project.tasks.create(TEST_NAME, Test, new Action<Test>() {
+                void execute(Test test) {
+                    with(test) {
+                        description = 'Runs tests which call Geosupport native code using JNI.'
+                        group = 'verification'
+                        testClassesDir = integrationTestSourceSet.output.classesDirs
+                        classpath = integrationTestSourceSet.runtimeClasspath
+                        mustRunAfter('test')
+                        systemProperties(geoclient.systemProperties)
+                        environment(geosupport.environment)
                     }
-                });
-                project.logger.lifecycle("Configured {} task with the following:", TEST_NAME)
-                project.logger.lifecycle("geoclient.systemProperties={}", geoclient.systemProperties)
-                project.logger.lifecycle("geosupport.environment={}", geosupport.environment)
+                }
+            });
+            project.logger.lifecycle("Configured {} task with the following:", TEST_NAME)
+            project.logger.lifecycle("geoclient.systemProperties={}", geoclient.systemProperties)
+            project.logger.lifecycle("geosupport.environment={}", geosupport.environment)
 
-                project.tasks.check.dependsOn(integrationTest)
-            }
-        });
+            project.tasks.check.dependsOn(integrationTest)
+        }
     }
 }
