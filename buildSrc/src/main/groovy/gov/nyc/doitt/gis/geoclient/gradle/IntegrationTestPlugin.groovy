@@ -1,27 +1,39 @@
 package gov.nyc.doitt.gis.geoclient.gradle
 
 import org.gradle.api.Action
+import org.gradle.api.logging.Logger
+import org.gradle.api.logging.Logging
 import org.gradle.api.Plugin
-import org.gradle.api.plugins.PluginManager
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.JavaPluginConvention
+import org.gradle.api.plugins.PluginManager
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.testing.Test
 
 // Based on com.bmuschko.gradle.docker.IntegrationTestPlugin
 // See https://github.com/bmuschko/gradle-docker-plugin/blob/master/buildSrc/src/main/kotlin/com/bmuschko/gradle/docker/IntegrationTestPlugin.kt
-class GeosupportIntegrationTestPlugin<Project> implements Plugin<Project> {
+class IntegrationTestPlugin<Project> implements Plugin<Project> {
 
     static final String TEST_NAME = "integrationTest"
     static final String SOURCE_SET_NAME = "integrationTest"
     static final String JAVA_SOURCE_SET_DIR = String.format("src/%s/java", SOURCE_SET_NAME)
     static final String JAVA_RESOURCES_SOURCE_SET_DIR = String.format("src/%s/resources", SOURCE_SET_NAME)
+    private final Logger logger = Logging.getLogger(getClass())
 
     void apply(Project project) {
-        final GeoclientExtension geoclient = project.extensions.create("geoclient", GeoclientExtension, project)
-        final GeosupportExtension geosupport = project.extensions.create("geosupport", GeosupportExtension, project)
-        println project.name + ".hasPlugin(JavaPlugin) == " + project.getPlugins().hasPlugin(JavaPlugin)
+        GeoclientExtension geoclient = project.extensions.create("geoclient", GeoclientExtension, project)
+        GeosupportExtension geosupport = project.extensions.create("geosupport", GeosupportExtension, project)
+        maybeCreateIntegrationTest(project, geoclient, geosupport)
+    }
+
+    void createRuntimeReportTask(Project project, GeoclientExtension geoclient, GeosupportExtension geosupport) {
+        project.tasks.register(RUNTIME_REPORT_TASK)
+    }
+
+    void maybeCreateIntegrationTest(Project project, GeoclientExtension geoclient, GeosupportExtension geosupport) {
+        logger.info("{}.hasPlugin(JavaPlugin) == {}", project.name, project.getPlugins().hasPlugin(JavaPlugin))
+        logger.info("--------------------------------------------")
         if(project.getPlugins().hasPlugin(JavaPlugin)) {
             def sourceSets = project.convention.getPlugin(JavaPluginConvention).getSourceSets()
             def testRuntimeClasspath = project.configurations.testRuntimeClasspath
@@ -49,9 +61,9 @@ class GeosupportIntegrationTestPlugin<Project> implements Plugin<Project> {
                    }
                 }
             });
-            project.logger.lifecycle("Configured {} task with the following:", TEST_NAME)
-            project.logger.lifecycle("geoclient.systemProperties={}", geoclient.systemProperties)
-            project.logger.lifecycle("geosupport.environment={}", geosupport.environment)
+            logger.quiet(":{}:{} task configured", project.name, integrationTest.name)
+            logger.info("geoclient.systemProperties={}", geoclient.systemProperties)
+            logger.info("geosupport.environment={}", geosupport.environment)
 
             project.tasks.check.dependsOn(integrationTest)
         }

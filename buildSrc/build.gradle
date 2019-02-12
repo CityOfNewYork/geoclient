@@ -6,8 +6,8 @@ plugins {
 gradlePlugin {
     plugins {
         geosupportIntegrationTestPlugin {
-            id = 'gov.nyc.doitt.gis.geoclient.gradle'
-            implementationClass = 'gov.nyc.doitt.gis.geoclient.gradle.GeosupportIntegrationTestPlugin'
+            id = 'gov.nyc.doitt.gis.geoclient.gradle.integration-test'
+            implementationClass = 'gov.nyc.doitt.gis.geoclient.gradle.IntegrationTestPlugin'
         }
     }
 }
