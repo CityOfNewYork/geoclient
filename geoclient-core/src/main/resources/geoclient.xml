@@ -92,7 +92,8 @@
         <field id="nodeNumberIn" start="206" length="7" input="true"><!-- not aliased because of out field --></field>
         <field id="workAreaFormatIndicatorIn" start="213" length="1" input="true" alias="workAreaFormatIndicator"></field>
         <field id="zipCodeIn" start="214" length="5" input="true" alias="zipCode"><!-- FIXME: Needs doc --></field>
-        <field id="filler1In" start="219" length="96" input="true" alias="filler2"><!-- filtered --></field>
+        <field id="unitIn" start="219" length="14" input="true" alias="unitInput"></field>
+        <field id="filler1In" start="233" length="82" input="true" alias="filler2"><!-- filtered --></field>
         <field id="longWorkArea2FlagIn" start="315" length="1" input="true" alias="longWorkArea2Flag"></field>
         <field id="houseNumberJustificationFlagIn" start="316" length="1" input="true" alias="houseNumberJustificationFlag"></field>
         <field id="houseNumberNormalizationLengthIn" start="317" length="2" input="true" alias="houseNumberNormalizationLength"></field>
@@ -101,9 +102,14 @@
         <field id="streetNameNormalizationFormatFlagIn" start="322" length="1" input="true" alias="streetNameNormalizationFormatFlag"></field>
         <field id="crossStreetNamesFlagIn" start="323" length="1" input="true" alias="crossStreetNamesFlag"></field>
         <field id="roadbedRequestSwitchIn" start="324" length="1" input="true" alias="roadbedRequestSwitch"></field>
-        <field id="filler2In" start="325" length="5" input="true" alias="filler3"><!-- filtered --></field>
+        <field id="filler2In" start="325" length="1" input="true" alias="filler3"></field>
+        <field id="auxiliarySegmentSwitchIn" start="326" length="1" input="true" alias="auxiliarySegmentSwitch"></field>
+        <field id="browseFlagIn" start="327" length="1" input="true" alias="browseFlag"></field>
+        <field id="realStreetsOnlyFlagIn" start="328" length="1" input="true" alias="realStreetsOnlyFlag"></field>
+        <field id="tpadSwitchIn" start="329" length="1" input="true" alias="tpadSwitch"></field>
         <field id="modeSwitchIn" start="330" length="1" input="true" alias="modeSwitch"></field>
-        <field id="filler3In" start="331" length="30" input="true" alias="filler4"><!-- filtered --></field>
+        <field id="wtoSwitchIn" start="331" length="1" input="true" alias="wtoSwitch"></field>
+        <field id="filler3In" start="332" length="29" input="true" alias="filler3"><!-- filtered --></field>
         <!-- WA1 output fields -->
         <field id="firstBoroughName" start="361" length="9"><!-- item doc by id --></field>
         <field id="houseNumber" start="370" length="16"><!-- item doc by id --></field>
@@ -125,16 +131,20 @@
         <field id="attributeBytes" start="571" length="3"></field>
         <field id="reasonCode2" start="574" length="1"><!-- item doc by id --></field>
         <field id="reasonCodeQualifier2" start="575" length="1"><!-- item doc by id --></field>
-        <field id="filler1" start="576" length="2"><!-- filtered --></field>
+        <field id="warningCode2" start="576" length="2"><!-- filtered --></field>
         <field id="geosupportReturnCode2" start="578" length="2"><!-- item doc by id --></field>
         <field id="message2" start="580" length="80"><!-- item doc by id --></field>
         <field id="nodeNumberOut" start="660" length="7"></field>
-        <field id="filler2" start="667" length="39"><!-- filtered --></field>
+        <field id="unitSortFormat" start="667" length="14" type="COMP"></field>
+        <field id="unitType" start="667" length="4"></field>
+        <field id="unitIdentifier" start="671" length="10"></field>
+        <field id="unit" start="681" length="14"></field>
+        <field id="filler2" start="695" length="11"><!-- filtered --></field>
         <field id="nin" start="706" length="6"></field>
         <field id="streetAttributeIndicator" start="712" length="1"></field>
         <field id="reasonCode" start="713" length="1"><!-- item doc by id --></field>
         <field id="reasonCodeQualifier" start="714" length="1"></field>
-        <field id="filler3" start="715" length="2"><!-- filtered --></field>
+        <field id="warningCode" start="715" length="2"></field>
         <field id="geosupportReturnCode" start="717" length="2"><!-- item doc by id --></field>
         <field id="message" start="719" length="80"><!-- item doc by id --></field>
         <field id="numberOfStreetCodesAndNamesInList" start="799" length="2"><!-- groupId="listOfStreetNamesWa1" --></field>
