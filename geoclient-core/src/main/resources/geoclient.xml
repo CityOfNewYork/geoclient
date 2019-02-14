@@ -202,7 +202,7 @@
         <field id="xCoordinate" start="126" length="7"><!-- item doc by id --></field>
         <field id="yCoordinate" start="133" length="7"><!-- item doc by id --></field>
         <field id="zCoordinate" start="140" length="7"><!-- item doc by id --></field>
-        <field id="interimAssistanceEligibilityIndicator" start="147" length="1"></field>
+        <field id="interimAssistanceEligibilityIndicator" start="147" length="1"></field><!-- TODO rename to "communityDevelopmentEligibilityIndicator" -->
         <field id="alternativeBoroughFlag" start="148" length="1"><!-- item doc by id --></field>
         <field id="dotStreetLightContractorArea" start="149" length="1"><!-- item doc by id --></field>
         <field id="communityDistrict" start="150" length="3" type="COMP"><!-- item doc by id --></field>
@@ -850,7 +850,7 @@
       <length>4300</length>
       <outputFilters reference="allFilters" />
       <fields>
-          <!-- F1E fields -->
+        <!-- F1EX fields -->
         <field id="internalUse1" start="1" length="21"><!-- filtered --></field>
         <field id="continuousParityIndicator1e" start="22" length="1"><!-- item doc by id --></field>
         <field id="lowHouseNumberOfBlockfaceSortFormat" start="23" length="11"><!-- filtered --></field>
@@ -878,8 +878,8 @@
         <field id="xCoordinate" start="126" length="7"><!-- item doc by id --></field>
         <field id="yCoordinate" start="133" length="7"><!-- item doc by id --></field>
         <field id="zCoordinate" start="140" length="7"><!-- item doc by id --></field>
-        <field id="interimAssistanceEligibilityIndicator" start="147" length="1"><!-- item doc by id --></field>
-        <field id="alternativeBoroughFlag" start="148" length="1"><!-- item doc by id --></field>
+        <field id="interimAssistanceEligibilityIndicator" start="147" length="1"><!-- item doc by id --></field><!-- TODO rename to "communityDevelopmentEligibilityIndicator" -->
+        <field id="alternativeBoroughFlag" start="148" length="1"><!-- item doc by id --></field><!-- AKA "Marble Hill/Rikers Island Alternative Borough Flag" -->
         <field id="dotStreetLightContractorArea" start="149" length="1"><!-- item doc by id --></field>
         <field id="communityDistrict" start="150" length="3" type="COMP"><!-- item doc by id --></field>
         <field id="communityDistrictBoroughCode" start="150" length="1"><!-- item doc by id --></field>
@@ -907,8 +907,10 @@
         <field id="fireCompanyNumber" start="200" length="3"><!-- item doc by id --></field>
         <field id="filler4" start="203" length="1"><!-- filtered --></field>
         <field id="communitySchoolDistrict" start="204" length="2"><!-- item doc by id --></field>
-        <field id="dynamicBlock" start="206" length="3"><!-- item doc by id --></field>
-        <field id="instructionalRegion" start="209" length="2"><!-- item doc by id --></field>
+        <field id="dynamicBlock" start="206" length="3"><!-- item doc by id --></field><!-- AKA "atomic polygon" -->
+        <!-- TODO confirm whether policePatrolBorough replaces instructionalRegion -->
+        <!-- TODO <field id="policePatrolBorough" start="209" length="2"></field> -->
+        <field id="instructionalRegion" start="209" length="2"><!-- item doc by id --></field><!-- AKA "policePatrolBorough" -->
         <field id="featureTypeCode" start="211" length="1"><!-- item doc by id --></field>
         <field id="segmentTypeCode" start="212" length="1"><!-- item doc by id --></field>
         <field id="alleyCrossStreetsFlag" start="213" length="1"><!-- item doc by id --></field>
@@ -927,7 +929,7 @@
         <field id="sanitationBulkPickupSchedule" start="256" length="5"></field>
         <field id="hurricaneEvacuationZone" start="261" length="2"><!-- filtered --></field>
         <field id="filler7" start="263" length="11"><!-- filtered --></field>
-        <field id="underlyingHnsOnTrueStreet" start="274" length="11"><!-- needs doc --></field>
+        <field id="underlyingHnsOnTrueStreet" start="274" length="11"><!-- needs doc --></field><!-- AKA "underlying address number for NAPs" -->
         <field id="underlyingStreetCode" start="285" length="8"><!-- needs doc --></field>
         <field id="segmentIdentifier" start="293" length="7"><!-- needs doc --></field>
         <field id="curveFlag" start="300" length="1"><!-- item doc by id --></field>
@@ -964,13 +966,15 @@
         <field id="genericId" start="454" length="7"><!-- needs doc --></field>
         <field id="nypdId" start="461" length="7"><!-- needs doc --></field>
         <field id="fdnyId" start="468" length="7"><!-- needs doc --></field>
-        <field id="blockfaceId" start="475" length="7"><!-- not implemented --></field>
+        <field id="bikeLane2" start="475" length="2"></field>
+        <field id="bikeTrafficDirection" start="477" length="2"></field>
+        <field id="filler6" start="479" length="3"></field><!-- Formerly called blockfaceId, moved to 730 -->
         <field id="streetStatus" start="482" length="1"><!-- needs doc --></field>
         <field id="streetWidth" start="483" length="3"><!-- not implemented --></field>
         <field id="streetWidthIrregular" start="486" length="1"><!-- not implemented --></field>
         <field id="bikeLane" start="487" length="1"><!-- needs doc --></field>
         <field id="federalClassificationCode" start="488" length="2"><!-- not implemented --></field>
-        <field id="rowType" start="490" length="1"><!-- needs doc --></field>
+        <field id="rowType" start="490" length="1"><!-- needs doc --></field><!-- AKA "right of way type" -->
         <field id="listOfSecondSetOf5Lgcs" start="491" length="10"><!-- needs doc --></field>
         <field id="legacySegmentId" start="501" length="7"><!-- needs doc --></field>
         <field id="fromPreferredLgcsFirstSetOf5" start="508" length="10"><!-- needs doc --></field>
@@ -983,10 +987,25 @@
         <field id="uspsPreferredCityName" start="629" length="25"></field>
         <field id="latitude" start="654" length="9"></field>
         <field id="longitude" start="663" length="11"></field>
-        <field id="filler8" start="674" length="327"><!-- filtered --></field>
+        <field id="fromActualSegmentNodeId" start="674" length="7"></field>
+        <field id="toActualSegmentNodeId" start="681" length="7"></field>
+        <field id="xCoordActualSegmentLowAddressEnd" start="688" length="7"></field>
+        <field id="yCoordActualSegmentLowAddressEnd" start="695" length="7"></field>
+        <field id="zCoordActualSegmentLowAddressEnd" start="702" length="7"></field>
+        <field id="xCoordActualSegmentHighAddressEnd" start="709" length="7"></field>
+        <field id="yCoordActualSegmentHighAddressEnd" start="716" length="7"></field>
+        <field id="zCoordActualSegmentHighAddressEnd" start="723" length="7"></field>
+        <field id="blockfaceId" start="730" length="10"></field>
+        <field id="numberOfTravelLanesOnTheStreet" start="740" length="2"></field>
+        <field id="numberOfParkingLanesOnTheStreet" start="742" length="2"></field>
+        <field id="numberOfTotalLanesOnTheStreet" start="744" length="2"></field>
+        <field id="streetWidthMaximum" start="" length=""></field>
+        <field id="speedLimit" start="" length=""></field>
+        <field id="pumaCode" start="" length=""></field>
+        <field id="filler8" start="756" length="245"><!-- filtered --></field>
         <field id="reasonCode1e" start="1001" length="1"><!-- item doc by id --></field>
-        <field id="reasonCode1eFiller" start="1002" length="1"><!-- filtered --></field>
-        <field id="warningCode1eFiller" start="1003" length="2"><!-- filtered --></field>
+        <field id="reasonCode1eFiller" start="1002" length="1"><!-- filtered --></field><!-- TODO rename to "reasonCodeQualifier"? -->
+        <field id="warningCode1eFiller" start="1003" length="2"><!-- filtered --></field><!-- TODO rename to "warningCodeQualifier"? -->
         <field id="returnCode1e" start="1005" length="2"><!-- item doc by id --></field>
         <field id="numberOfCrossStreetsLowAddressEnd" start="1007" length="1"><!-- groupId="listOfLowCrossStreets1b"--></field>
         <field id="lowCrossStreetCode1" start="1008" length="8"><!-- groupId="listOfLowCrossStreets1b"--></field>
@@ -1013,7 +1032,7 @@
         <field id="boePreferredstreetCode" start="1409" length="8"><!-- needs doc --></field>
         <field id="boePreferredStreetName" start="1417" length="32"><!-- needs doc --></field>
         <field id="filler9" start="1449" length="52"><!-- filtered --></field>
-        <!-- F1A fields -->
+        <!-- F1AX fields -->
         <field id="internalUse2" start="1501" length="21"><!-- filtered --></field>
         <field id="continuousParityIndicator1a" start="1522" length="1"><!-- item doc by id --></field>
         <field id="lowHouseNumberOfDefiningAddressRange" start="1523" length="11"><!-- item doc by id --></field>
@@ -1031,9 +1050,14 @@
         <field id="interiorLotFlag" start="1557" length="1"></field>
         <field id="vacantLotFlag" start="1558" length="1"></field>
         <field id="irregularlyShapedLotFlag" start="1559" length="1"></field>
-        <field id="alternativeBoroughFlag" start="1560" length="1"><!-- item doc by id --></field>
+        <field id="alternativeBoroughFlag" start="1560" length="1"><!-- item doc by id --></field><!-- AKA "Marble Hill/Rikers Island Alternate Borough Flag" -->
         <field id="listOfGeographicIdentifiersOverflowFlag" start="1561" length="1"></field>
-        <field id="filler11" start="1562" length="19"></field>
+        <field id="strollingKey" start="1562" length="19" type="COMP"></field>
+        <field id="strollingKeyBoroughCode" start="1562" length="1"></field>
+        <field id="strollingKeyOnStreetCode" start="1563" length="5"></field>
+        <field id="strollingKeySideOfStreetIndicator" start="1568" length="1"></field>
+        <field id="strollingKeyHighHouseNumber" start="1569" length="11"></field>
+        <field id="filler11" start="1580" length="1"></field>
         <field id="reservedForInternalUse" start="1581" length="1"></field>
         <field id="buildingIdentificationNumber" start="1582" length="7"></field>
         <field id="condominiumFlag" start="1589" length="1"></field>
@@ -1067,10 +1091,11 @@
         <field id="tpadNewBin" start="1721" length="7"></field>
         <field id="tpadNewBinStatus" start="1728" length="1"></field>
         <field id="tpadConflictFlag" start="1729" length="1"></field>
-        <field id="filler15" start="1730" length="9"></field>
+        <field id="dcpZoningMap" start="1730" length="3"></field>
+        <field id="filler15" start="1730" length="6"></field>
         <field id="internalUse3" start="1739" length="8"></field>
         <field id="reasonCode1a" start="1747" length="1"></field>
-        <field id="filler16" start="1748" length="1"></field>
+        <field id="reasonCodeQualifier1a" start="1748" length="1"></field>
         <field id="warningCode1a" start="1749" length="2"></field>
         <field id="returnCode1a" start="1751" length="2"></field>
         <field id="filler17" start="1753" length="108"></field>
@@ -1383,7 +1408,7 @@
         <field id="stateSenatorialDistrict" start="164" length="2"></field>
         <field id="civilCourtDistrict" start="166" length="2"></field>
         <field id="cityCouncilDistrict" start="168" length="2"></field>
-        <field id="interimAssistanceEligibilityIndicator" start="170" length="1"></field>
+        <field id="interimAssistanceEligibilityIndicator" start="170" length="1"></field><!-- TODO rename to "communityDevelopmentEligibilityIndicator" -->
         <field id="filler6" start="171" length="5"></field>
         <field id="censusTract2000" start="176" length="6" whitespace="true"><!-- item doc by id --></field>
         <field id="healthCenterDistrict" start="182" length="2"></field>
