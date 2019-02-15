@@ -999,9 +999,9 @@
         <field id="numberOfTravelLanesOnTheStreet" start="740" length="2"></field>
         <field id="numberOfParkingLanesOnTheStreet" start="742" length="2"></field>
         <field id="numberOfTotalLanesOnTheStreet" start="744" length="2"></field>
-        <field id="streetWidthMaximum" start="" length=""></field>
-        <field id="speedLimit" start="" length=""></field>
-        <field id="pumaCode" start="" length=""></field>
+        <field id="streetWidthMaximum" start="746" length="3"></field>
+        <field id="speedLimit" start="749" length="2"></field>
+        <field id="pumaCode" start="751" length="5"></field>
         <field id="filler8" start="756" length="245"><!-- filtered --></field>
         <field id="reasonCode1e" start="1001" length="1"><!-- item doc by id --></field>
         <field id="reasonCode1eFiller" start="1002" length="1"><!-- filtered --></field><!-- TODO rename to "reasonCodeQualifier"? -->

@@ -24,6 +24,7 @@ logging:
     level:
         root: "WARN"
         spring: "INFO"
-        geoclient: "INFO"
-        gov.nyc.doitt.gis.geoclient.jni: "DEBUG"
-        gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
+        geoclient: "DEBUG"
+        #gov.nyc.doitt.gis.geoclient: "DEBUG"
+        #gov.nyc.doitt.gis.geoclient.jni: "DEBUG"
+        #gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
