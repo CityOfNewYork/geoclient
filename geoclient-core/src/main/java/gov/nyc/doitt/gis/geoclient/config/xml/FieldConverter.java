@@ -84,8 +84,7 @@ public class FieldConverter implements Converter {
         String alias = reader.getAttribute(metadata.xmlFieldAttributeAlias);
         boolean whitespace = "true".equalsIgnoreCase(reader.getAttribute(metadata.xmlFieldAttributeWhitespace));
         Field field = new Field(id, start, length, isComposite, isInput, alias, whitespace);
-        log.info("Created {}", field);
-        // log.trace("Created {}", field);
+        log.debug("Created {}", field);
         return field;
     }
 
