@@ -1,39 +1,30 @@
 package gov.nyc.doitt.gis.geoclient.test;
 
-import static org.junit.Assert.*;
-
-import org.junit.After;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GeoclientCoreIntegrationTest
-{
+public class GeoclientCoreIntegrationTest {
 
     @BeforeAll
-    public static void beforeAll() throws Exception
-    {
+    public static void beforeAll() throws Exception {
     }
 
     @AfterAll
-    public static void afterAll() throws Exception
-    {
+    public static void afterAll() throws Exception {
     }
 
     @BeforeEach
-    public void beforeEach() throws Exception
-    {
+    public void beforeEach() throws Exception {
     }
 
     @AfterEach
-    public void afterEach() throws Exception
-    {
+    public void afterEach() throws Exception {
     }
 
     @Test
-    public void test()
-    {
+    public void test() {
     }
 }
