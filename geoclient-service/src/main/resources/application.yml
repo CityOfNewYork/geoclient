@@ -24,7 +24,14 @@ logging:
     level:
         root: "WARN"
         spring: "INFO"
-        geoclient: "DEBUG"
-        #gov.nyc.doitt.gis.geoclient: "DEBUG"
+        geoclient: "INFO"
+        ## Log Dozer bean mapping framework
+        #com.github.dozermapper: "DEBUG"
+        ## Log XML deserialization into workarea fields at startup
+        #gov.nyc.doitt.gis.geoclient.config.xml: "DEBUG"
+        ## Log native C runtime and JNI configuration at startup
         #gov.nyc.doitt.gis.geoclient.jni: "DEBUG"
+        ## Log character buffer values from geosupport requests/repsonses
         #gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
+        ## Log request/response HashMaps before/after geosupport call
+        #gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl: "DEBUG"
