@@ -36,11 +36,11 @@
        the alias as an input parameter name. The output name for all
        fields, always uses the id.
 
-     For configuration purposes, Fields with the same start and length
-     values are considered equal. Currently, warning messages are
-     logged at start-up when a work area configuration contains multiple
-     equal fields. Equal fields occurring later in this file are
-     ignored.
+       For configuration purposes, Fields with the same start and length
+       values are considered equal. Currently, warning messages are
+       logged at start-up when a work area configuration contains multiple
+       equal fields. Equal fields occurring later in this file are
+       ignored.
 
        Unless there is a good reason to do otherwise, Field id's should
        be unique across each WA1/WA2 function configuration. There are
@@ -93,7 +93,7 @@
         <field id="workAreaFormatIndicatorIn" start="213" length="1" input="true" alias="workAreaFormatIndicator"></field>
         <field id="zipCodeIn" start="214" length="5" input="true" alias="zipCode"><!-- FIXME: Needs doc --></field>
         <field id="unitIn" start="219" length="14" input="true" alias="unitInput"></field>
-        <field id="filler1In" start="233" length="82" input="true" alias="filler2"><!-- filtered --></field>
+        <field id="filler1In" start="233" length="82" input="true" alias="filler1"><!-- filtered --></field>
         <field id="longWorkArea2FlagIn" start="315" length="1" input="true" alias="longWorkArea2Flag"></field>
         <field id="houseNumberJustificationFlagIn" start="316" length="1" input="true" alias="houseNumberJustificationFlag"></field>
         <field id="houseNumberNormalizationLengthIn" start="317" length="2" input="true" alias="houseNumberNormalizationLength"></field>
@@ -102,7 +102,7 @@
         <field id="streetNameNormalizationFormatFlagIn" start="322" length="1" input="true" alias="streetNameNormalizationFormatFlag"></field>
         <field id="crossStreetNamesFlagIn" start="323" length="1" input="true" alias="crossStreetNamesFlag"></field>
         <field id="roadbedRequestSwitchIn" start="324" length="1" input="true" alias="roadbedRequestSwitch"></field>
-        <field id="filler2In" start="325" length="1" input="true" alias="filler3"></field>
+        <field id="filler2In" start="325" length="1" input="true" alias="filler2"><!-- filtered --></field>
         <field id="auxiliarySegmentSwitchIn" start="326" length="1" input="true" alias="auxiliarySegmentSwitch"></field>
         <field id="browseFlagIn" start="327" length="1" input="true" alias="browseFlag"></field>
         <field id="realStreetsOnlyFlagIn" start="328" length="1" input="true" alias="realStreetsOnlyFlag"></field>
@@ -139,7 +139,7 @@
         <field id="unitType" start="667" length="4"></field>
         <field id="unitIdentifier" start="671" length="10"></field>
         <field id="unit" start="681" length="14"></field>
-        <field id="filler2" start="695" length="11"><!-- filtered --></field>
+        <field id="filler4" start="695" length="11"><!-- filtered --></field>
         <field id="nin" start="706" length="6"></field>
         <field id="streetAttributeIndicator" start="712" length="1"></field>
         <field id="reasonCode" start="713" length="1"><!-- item doc by id --></field>
@@ -1681,7 +1681,7 @@
         <field id="dsName18" start="1437" length="60"></field>
         <field id="dsName19" start="1497" length="60"></field>
         <field id="dsName20" start="1557" length="60"></field>
-        <field id="filler1" start="1617" length="3410"></field>
+        <field id="filler4" start="1617" length="3410"></field>
       </fields>
     </workArea>
   </workAreas>
