@@ -19,16 +19,39 @@ class IntegrationTestPlugin<Project> implements Plugin<Project> {
     static final String SOURCE_SET_NAME = "integrationTest"
     static final String JAVA_SOURCE_SET_DIR = String.format("src/%s/java", SOURCE_SET_NAME)
     static final String JAVA_RESOURCES_SOURCE_SET_DIR = String.format("src/%s/resources", SOURCE_SET_NAME)
-    private final Logger logger = Logging.getLogger(getClass())
+	static final String RUNTIME_REPORT_TASK = "runtimeReport"
+    
+	private final Logger logger = Logging.getLogger(getClass())
 
     void apply(Project project) {
         GeoclientExtension geoclient = project.extensions.create("geoclient", GeoclientExtension, project)
         GeosupportExtension geosupport = project.extensions.create("geosupport", GeosupportExtension, project)
         maybeCreateIntegrationTest(project, geoclient, geosupport)
+		createRuntimeReportTask(project, geoclient, geosupport)
     }
 
     void createRuntimeReportTask(Project project, GeoclientExtension geoclient, GeosupportExtension geosupport) {
-        project.tasks.register(RUNTIME_REPORT_TASK)
+        project.task(RUNTIME_REPORT_TASK) {
+			doLast {
+				logger.lifecycle("\ngeoclient")
+				logger.lifecycle("---------")
+				logger.lifecycle("jniVersion: {}\n", geoclient.jniVersion.getOrNull())
+				logger.lifecycle("geosupport")
+				logger.lifecycle("----------")
+				logger.lifecycle("home: {}", geosupport.home.getOrNull())
+				logger.lifecycle("geofiles: {}", geosupport.geofiles.getOrNull())
+				logger.lifecycle("libraryPath: {}", geosupport.libraryPath.getOrNull())
+				logger.lifecycle("includePath: {}\n", geosupport.includePath.getOrNull())
+				logger.lifecycle("gradle properties")
+				logger.lifecycle("-----------------")
+				project.properties.each { p ->
+					if (p.key =~ /g[cs].+/) {
+						logger.lifecycle("{}: {}", p.key, p.value)
+					}
+				}
+				logger.lifecycle("\n")
+			}
+		}
     }
 
     void maybeCreateIntegrationTest(Project project, GeoclientExtension geoclient, GeosupportExtension geosupport) {

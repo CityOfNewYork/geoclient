@@ -15,7 +15,24 @@ subprojects {
     apply plugin: 'signing'
     apply plugin: 'gov.nyc.doitt.gis.geoclient.gradle.integration-test'
 
-    repositories {
+    //
+    // Example:
+    //
+    // integration-test plugin config using DSL and default values
+    //
+	// geoclient {
+	// 	jniVersion = project.version
+	// }
+    // 
+	// geosupport {
+	// 	home = '/opt/geosupport'
+	// 	geofiles = "${home.get()}/fls/"
+	// 	libraryPath = "${home.get()}/lib"
+	// 	includePath = rootProject.project('geoclient-jni').file('lib/geosupport/headers')
+	// }
+    //
+
+	repositories {
         maven { url "http://maven.geotoolkit.org/" }
         mavenCentral()
         maven { url "http://repo.boundlessgeo.com/main/" }
