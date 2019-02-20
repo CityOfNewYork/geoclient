@@ -852,17 +852,17 @@
       <fields>
         <!-- F1EX fields -->
         <field id="internalUse1" start="1" length="21"><!-- filtered --></field>
-        <field id="continuousParityIndicator1e" start="22" length="1"><!-- item doc by id --></field>
-        <field id="lowHouseNumberOfBlockfaceSortFormat" start="23" length="11"><!-- filtered --></field>
-        <field id="highHouseNumberOfBlockfaceSortFormat" start="34" length="11"><!-- filtered --></field>
+        <field id="continuousParityIndicator1e" start="22" length="1"><!-- item doc by id --></field><!-- AKA duplicateAddressIndicator -->
+        <field id="lowHouseNumberOfBlockfaceSortFormat" start="23" length="11"><!-- filtered --></field><!-- AKA lowHouseNumberOfBlockface -->
+        <field id="highHouseNumberOfBlockfaceSortFormat" start="34" length="11"><!-- filtered --></field><!-- AKA highHouseNumberOfBlockface -->
         <field id="dcpPreferredLgc" start="45" length="2"><!-- item doc by id --></field>
-        <field id="numberOfCrossStreetB5SCsLowAddressEnd" start="47" length="1"><!-- filtered --></field>
+        <field id="numberOfCrossStreetB5SCsLowAddressEnd" start="47" length="1"><!-- filtered --></field><!-- AKA numberOfCrossStreetsLowAddressEnd -->
         <field id="lowCrossStreetB5SC1" start="48" length="6"><!-- filtered --></field>
         <field id="lowCrossStreetB5SC2" start="54" length="6"><!-- filtered --></field>
         <field id="lowCrossStreetB5SC3" start="60" length="6"><!-- filtered --></field>
         <field id="lowCrossStreetB5SC4" start="66" length="6"><!-- filtered --></field>
         <field id="lowCrossStreetB5SC5" start="72" length="6"><!-- filtered --></field>
-        <field id="numberOfCrossStreetB5SCsHighAddressEnd" start="78" length="1"><!-- filtered --></field>
+        <field id="numberOfCrossStreetB5SCsHighAddressEnd" start="78" length="1"><!-- filtered --></field><!-- AKA numberOfCrossStreetsHighAddressEnd -->
         <field id="highCrossStreetB5SC1" start="79" length="6"><!-- filtered --></field>
         <field id="highCrossStreetB5SC2" start="85" length="6"><!-- filtered --></field>
         <field id="highCrossStreetB5SC3" start="91" length="6"><!-- filtered --></field>
@@ -907,10 +907,10 @@
         <field id="fireCompanyNumber" start="200" length="3"><!-- item doc by id --></field>
         <field id="filler4" start="203" length="1"><!-- filtered --></field>
         <field id="communitySchoolDistrict" start="204" length="2"><!-- item doc by id --></field>
-        <field id="dynamicBlock" start="206" length="3"><!-- item doc by id --></field><!-- AKA "atomic polygon" -->
+        <field id="dynamicBlock" start="206" length="3"><!-- item doc by id --></field><!-- TODO rename to "atomicPolygon" -->
         <!-- TODO confirm whether policePatrolBorough replaces instructionalRegion -->
         <!-- TODO <field id="policePatrolBorough" start="209" length="2"></field> -->
-        <field id="instructionalRegion" start="209" length="2"><!-- item doc by id --></field><!-- AKA "policePatrolBorough" -->
+        <field id="instructionalRegion" start="209" length="2"><!-- item doc by id --></field><!-- TODO rename to "policePatrolBorough" -->
         <field id="featureTypeCode" start="211" length="1"><!-- item doc by id --></field>
         <field id="segmentTypeCode" start="212" length="1"><!-- item doc by id --></field>
         <field id="alleyCrossStreetsFlag" start="213" length="1"><!-- item doc by id --></field>
@@ -923,14 +923,14 @@
         <field id="censusTract2000" start="235" length="6" whitespace="true"><!-- item doc by id --></field>
         <field id="censusBlock2000" start="241" length="4"><!-- item doc by id --></field>
         <field id="censusBlockSuffix2000" start="245" length="1"><!-- needs doc --></field>
-        <field id="nta" start="246" length="4"><!-- needs doc --></field>
-        <field id="sanitationSnowPriorityCode" start="250" length="1"><!-- needs doc --></field>
-        <field id="sanitationOrganicsCollectionSchedule" start="251" length="5"><!--  needs doc --></field>
-        <field id="sanitationBulkPickupSchedule" start="256" length="5"></field>
+        <field id="nta" start="246" length="4"><!-- needs doc --></field><!-- AKA "neighborhoodTabulationArea" -->
+        <field id="sanitationSnowPriorityCode" start="250" length="1"><!-- needs doc --></field><!-- AKA "dsnySnowPriorityCode" -->
+        <field id="sanitationOrganicsCollectionSchedule" start="251" length="5"><!--  needs doc --></field><!-- AKA "dsnyOrganicsRecyclingSchedule" -->
+        <field id="sanitationBulkPickupSchedule" start="256" length="5"></field><!-- AKA "dsnyBulkPickupSchedule" -->
         <field id="hurricaneEvacuationZone" start="261" length="2"><!-- filtered --></field>
         <field id="filler7" start="263" length="11"><!-- filtered --></field>
-        <field id="underlyingHnsOnTrueStreet" start="274" length="11"><!-- needs doc --></field><!-- AKA "underlying address number for NAPs" -->
-        <field id="underlyingStreetCode" start="285" length="8"><!-- needs doc --></field>
+        <field id="underlyingHnsOnTrueStreet" start="274" length="11"><!-- needs doc --></field><!-- AKA "underlyingAddressNumberForNaps" -->
+        <field id="underlyingStreetCode" start="285" length="8"><!-- needs doc --></field><!-- AKA "underlyingB7sc" -->
         <field id="segmentIdentifier" start="293" length="7"><!-- needs doc --></field>
         <field id="curveFlag" start="300" length="1"><!-- item doc by id --></field>
         <field id="listOf4Lgcs" start="301" length="8"><!-- needs doc --></field>
@@ -974,7 +974,7 @@
         <field id="streetWidthIrregular" start="486" length="1"><!-- not implemented --></field>
         <field id="bikeLane" start="487" length="1"><!-- needs doc --></field>
         <field id="federalClassificationCode" start="488" length="2"><!-- not implemented --></field>
-        <field id="rowType" start="490" length="1"><!-- needs doc --></field><!-- AKA "right of way type" -->
+        <field id="rowType" start="490" length="1"><!-- needs doc --></field><!-- TODO change to "right of way type" -->
         <field id="listOfSecondSetOf5Lgcs" start="491" length="10"><!-- needs doc --></field>
         <field id="legacySegmentId" start="501" length="7"><!-- needs doc --></field>
         <field id="fromPreferredLgcsFirstSetOf5" start="508" length="10"><!-- needs doc --></field>
@@ -1004,8 +1004,8 @@
         <field id="pumaCode" start="751" length="5"></field>
         <field id="filler8" start="756" length="245"><!-- filtered --></field>
         <field id="reasonCode1e" start="1001" length="1"><!-- item doc by id --></field>
-        <field id="reasonCode1eFiller" start="1002" length="1"><!-- filtered --></field><!-- TODO rename to "reasonCodeQualifier"? -->
-        <field id="warningCode1eFiller" start="1003" length="2"><!-- filtered --></field><!-- TODO rename to "warningCodeQualifier"? -->
+        <field id="reasonCode1eQualifier" start="1002" length="1"><!-- filtered --></field>
+        <field id="warningCode1e" start="1003" length="2"><!-- filtered --></field>
         <field id="returnCode1e" start="1005" length="2"><!-- item doc by id --></field>
         <field id="numberOfCrossStreetsLowAddressEnd" start="1007" length="1"><!-- groupId="listOfLowCrossStreets1b"--></field>
         <field id="lowCrossStreetCode1" start="1008" length="8"><!-- groupId="listOfLowCrossStreets1b"--></field>
@@ -1073,6 +1073,7 @@
         <field id="taxLogVersionNumberOfHighBbl" start="1635" length="1"></field>
         <field id="filler13" start="1636" length="15"></field>
         <field id="cooperativeIdNumber" start="1651" length="4"></field>
+        <!-- <field id="sanbornMapIdentifier" start="1655" length="8" type="COMP"></field> AKA "sbvp" -->
         <field id="sanbornBoroughCode" start="1655" length="1"></field>
         <field id="sanbornVolumeNumber" start="1656" length="2"></field>
         <field id="sanbornVolumeNumberSuffix" start="1658" length="1"></field>
@@ -1082,10 +1083,10 @@
         <field id="taxMapNumberSectionAndVolume" start="1668" length="5"></field>
         <field id="reservedForTaxMapPageNumber" start="1673" length="4"></field>
         <field id="filler14" start="1677" length="3"></field>
-        <field id="latitudeInternalLabel" start="1680" length="9"></field>
-        <field id="longitudeInternalLabel" start="1689" length="11"></field>
-        <field id="internalLabelXCoordinate" start="1700" length="7"></field>
-        <field id="internalLabelYCoordinate" start="1707" length="7"></field>
+        <field id="latitudeInternalLabel" start="1680" length="9"></field><!-- TODO rename to "latitudeOfLotCentroid" -->
+        <field id="longitudeInternalLabel" start="1689" length="11"></field><!-- TODO rename to "longitudeOfLotCentroid" -->
+        <field id="internalLabelXCoordinate" start="1700" length="7"></field><!-- TODO rename to "xCoordinateOfLotCentroid" -->
+        <field id="internalLabelYCoordinate" start="1707" length="7"></field><!-- TODO rename to "yCoordinateOfLotCentroid" -->
         <field id="businessImprovementDistrict" start="1714" length="6"></field>
         <field id="tpadBinStatus" start="1720" length="1"></field>
         <field id="tpadNewBin" start="1721" length="7"></field>
@@ -1108,7 +1109,7 @@
         <field id="giDcpPreferredLgc1" start="1903" length="2"><!-- groupId="geographicIdentifiers1b" --></field>
         <field id="giBuildingIdentificationNumber1" start="1905" length="7"><!-- groupId="geographicIdentifiers1b" --></field>
         <field id="giSideOfStreetIndicator1" start="1912" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
-        <field id="giGeographicIdentifier1" start="1913" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
+        <field id="giGeographicIdentifier1" start="1913" length="1"><!-- groupId="geographicIdentifiers1b" --></field><!-- AKA "giGeographicIdentifierEntryTypeCode1" -->
         <field id="giTpadBinStatus1" start="1914" length="1"><!-- groupId="geographicIdentifiers1b" --></field>
         <field id="giStreetName1" start="1915" length="32"><!-- groupId="geographicIdentifiers1b" --></field>
         <field id="giFiller1" start="1947" length="34"><!-- filtered --></field>
