@@ -29,7 +29,7 @@ public class DefaultSearchDepthPolicy extends AbstractPolicy implements SearchDe
 	public static final int DEFAULT_MAX_DEPTH = 3;
 
 	/**
-	 * Whether a {@link Request} which contains an assigned {@link InputValue}
+	 * Whether a {@link CallBuilder} which contains an assigned {@link InputValue}
 	 * (e.g. a guess) can spawn subsearches. The default is false.
 	 */
 	private boolean assignedValueRequestsCanSpawnSubsearch = DEFAULT_ASSIGNED_VALUE_REQUESTS_CAN_SPAWN_SUBSEARCH;

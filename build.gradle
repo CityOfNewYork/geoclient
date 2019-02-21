@@ -20,19 +20,19 @@ subprojects {
     //
     // integration-test plugin config using DSL and default values
     //
-	// geoclient {
-	// 	jniVersion = project.version
-	// }
-    // 
-	// geosupport {
-	// 	home = '/opt/geosupport'
-	// 	geofiles = "${home.get()}/fls/"
-	// 	libraryPath = "${home.get()}/lib"
-	// 	includePath = rootProject.project('geoclient-jni').file('lib/geosupport/headers')
-	// }
+    // geoclient {
+    // 	jniVersion = project.version
+    // }
+    //
+    // geosupport {
+    // 	home = '/opt/geosupport'
+    // 	geofiles = "${home.get()}/fls/"
+    // 	libraryPath = "${home.get()}/lib"
+    // 	includePath = rootProject.project('geoclient-jni').file('lib/geosupport/headers')
+    // }
     //
 
-	repositories {
+    repositories {
         maven { url "http://maven.geotoolkit.org/" }
         mavenCentral()
         maven { url "http://repo.boundlessgeo.com/main/" }
@@ -50,17 +50,40 @@ subprojects {
     }
 
     def commonCompilerArgs =
-            ["-Xlint:serial", "-Xlint:cast", "-Xlint:classfile", "-Xlint:dep-ann",
-             "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally", "-Xlint:overrides",
-             "-Xlint:path", "-Xlint:processing", "-Xlint:static", "-Xlint:try", "-Xlint:-options"]
+            [
+                "-Xlint:serial",
+                "-Xlint:cast",
+                "-Xlint:classfile",
+                "-Xlint:dep-ann",
+                "-Xlint:divzero",
+                "-Xlint:empty",
+                "-Xlint:finally",
+                "-Xlint:overrides",
+                "-Xlint:path",
+                "-Xlint:processing",
+                "-Xlint:static",
+                "-Xlint:try",
+                "-Xlint:-options"
+            ]
 
     compileJava.options*.compilerArgs = commonCompilerArgs +
-            ["-Xlint:varargs", "-Xlint:fallthrough", "-Xlint:rawtypes",
-             "-Xlint:deprecation", "-Xlint:unchecked", "-Werror"]
+            [
+                "-Xlint:varargs",
+                "-Xlint:fallthrough",
+                "-Xlint:rawtypes",
+                "-Xlint:deprecation",
+                "-Xlint:unchecked",
+                "-Werror"
+            ]
 
     compileTestJava.options*.compilerArgs = commonCompilerArgs +
-            ["-Xlint:-varargs", "-Xlint:-fallthrough", "-Xlint:-rawtypes",
-             "-Xlint:-deprecation", "-Xlint:-unchecked"]
+            [
+                "-Xlint:-varargs",
+                "-Xlint:-fallthrough",
+                "-Xlint:-rawtypes",
+                "-Xlint:-deprecation",
+                "-Xlint:-unchecked"
+            ]
 
     compileJava {
         sourceCompatibility = 1.8
@@ -77,6 +100,18 @@ subprojects {
     ext {
         enableJavadoc = project.hasProperty('nojdoc') ? false : true
         localLibsDir = new File(rootProject.buildDir, 'libs')
+    }
+    
+    integrationTest {
+
+        useJUnitPlatform()
+
+        testLogging {
+            displayGranularity = 3
+            events "failed", "skipped", "passed"
+            exceptionFormat "full"
+            showStandardStreams = false
+        }
     }
 
     test {
@@ -107,12 +142,12 @@ subprojects {
     jar {
         manifest {
             attributes(
-                'Implementation-Title': project.name,
-                'Implementation-Version': project.version,
-                'Built-By': System.getProperty('user.name'),
-                'Built-JDK': System.getProperty('java.version'),
-                'Built-Gradle': gradle.gradleVersion
-            )
+                    'Implementation-Title': project.name,
+                    'Implementation-Version': project.version,
+                    'Built-By': System.getProperty('user.name'),
+                    'Built-JDK': System.getProperty('java.version'),
+                    'Built-Gradle': gradle.gradleVersion
+                    )
         }
 
         from("${rootProject.projectDir}/src/dist") {

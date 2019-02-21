@@ -15,31 +15,38 @@
  */
 package gov.nyc.doitt.gis.geoclient.config;
 
+public class OutputParam {
+    public static final String HR_DSNAME = "dsname";
+    public static final int HR_DSNAME_COUNT = 20;
+    public static final String HR_FILE_APEQUIV = "apequiv";
+    public static final String HR_FILE_AUXSEG = "auxSeg";
+    public static final String HR_FILE_GEO = "geo";
+    public static final int HR_FILE_GEO_COUNT = 9;
+    public static final String HR_FILE_GRID1R = "grid1R";
+    public static final String HR_FILE_INFO_DATE = "FileDate";
+    public static final String HR_FILE_INFO_RECORD_COUNT = "FileRecordCount";
+    public static final String HR_FILE_INFO_RECORD_TYPE = "FileRecordType";
+    public static final String HR_FILE_INFO_RELEASE = "FileRelease";
+    public static final String HR_FILE_INFO_TAG = "FileTag";
+    public static final String HR_FILE_THIN = "thin";
+    public static final String HR_FILE_THIN_FILLER = "Filler";
+    public static final int HR_FILE_THIN_FILLER_COUNT = 3;
+    public static final int HR_FILE_THIN_REC_TYPE_COUNT = 3;
+    public static final String HR_FILE_TPAD = "tpad";
+    public static final String XCOORD = "xCoordinate";
+    public static final String XCOORD_INTERNAL_LABEL = "internalLabelXCoordinate";
+    public static final String YCOORD = "yCoordinate";
+    public static final String YCOORD_INTERNAL_LABEL = "internalLabelYCoordinate";
 
-public class OutputParam
-{
-	public static final String HR_DSNAME = "dsname";
-	public static final int HR_DSNAME_COUNT = 20;
-	public static final String HR_FILE_APEQUIV = "apequiv";
-	public static final String HR_FILE_AUXSEG = "auxSeg";
-	public static final String HR_FILE_GEO = "geo";
-	public static final int HR_FILE_GEO_COUNT = 9;
-	public static final String HR_FILE_GRID1R = "grid1R";
-	public static final String HR_FILE_INFO_DATE = "FileDate";
-	public static final String HR_FILE_INFO_RECORD_COUNT = "FileRecordCount";
-	public static final String HR_FILE_INFO_RECORD_TYPE = "FileRecordType";
-	public static final String HR_FILE_INFO_RELEASE = "FileRelease";
-	public static final String HR_FILE_INFO_TAG = "FileTag";
-	public static final String HR_FILE_THIN = "thin";
-	public static final String HR_FILE_THIN_FILLER = "Filler";
-	public static final int HR_FILE_THIN_FILLER_COUNT = 3;
-	public static final int HR_FILE_THIN_REC_TYPE_COUNT = 3;
-	public static final String HR_FILE_TPAD = "tpad";
-	public static final String XCOORD = "xCoordinate";
-	public static final String XCOORD_INTERNAL_LABEL = "internalLabelXCoordinate";
-	public static final String YCOORD = "yCoordinate";	
-	public static final String YCOORD_INTERNAL_LABEL = "internalLabelYCoordinate";
-	
-	private OutputParam(){}
+    // Return code information is from WA1 output fields
+    public static final String GEOSUPPORT_RETURN_CODE = "geosupportReturnCode";
+    public static final String GEOSUPPORT_RETURN_CODE2 = "geosupportReturnCode2";
+    public static final String REASON_CODE = "reasonCode";
+    public static final String REASON_CODE2 = "reasonCode2";
+    public static final String REASON_CODE_QUALIFIER = "reasonCodeQualifier";
+    public static final String REASON_CODE_QUALIFIER2 = "reasonCodeQualifier2";
+
+    private OutputParam() {
+    }
 
 }

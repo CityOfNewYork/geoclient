@@ -1956,6 +1956,15 @@
     </workArea>
   </workAreas>
   <functions>
+    <function id="AP">
+      <workAreaOne reference="WA1" />
+      <workAreaTwo reference="WA2_FAP" />
+      <configuration>
+        <requiredArgument name="geosupportFunctionCode" value="AP"/>
+        <requiredArgument name="workAreaFormatIndicator" value="C"/>
+        <requiredArgument name="modeSwitch" value="X" />
+      </configuration>
+    </function>
     <function id="HR">
       <workAreaOne reference="WA1" />
       <workAreaTwo reference="WA2_HR" />

@@ -54,7 +54,7 @@ public class RequestUtils
 			return type.cast(zeroLevelPlaceRequest(locationTokens, countyInputValue));
 		}
 		
-		throw new IllegalArgumentException("Unknown Request type " + type);
+		throw new IllegalArgumentException("Unknown CallBuilder type " + type);
 	}
 	
 	private static AddressRequest zeroLevelAddressRequest(LocationTokens locationTokens, InputValue countyInputValue)

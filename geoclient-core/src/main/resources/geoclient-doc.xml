@@ -2702,6 +2702,11 @@ City Name field. See the defaults listed below.</p>
     </groupDocumentation>
  </fieldGroups>
 <functions>
+    <functionDocumentation id="AP">
+        <description>
+            <p>Function AP returns address point information derived from a real property address.</p>
+        </description>
+    </functionDocumentation>
     <functionDocumentation id="HR">
         <description>
             <p>Function HR returns metadata about the Geosupport installation.</p>
