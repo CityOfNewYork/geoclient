@@ -1,8 +1,8 @@
 package gov.nyc.doitt.gis.geoclient.test;
 
-import gov.nyc.doitt.gis.geoclient.config.GeoclientXmlReader;
 import gov.nyc.doitt.gis.geoclient.config.xml.ConfigurationConverter;
 import gov.nyc.doitt.gis.geoclient.config.xml.FieldConverter;
+import gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader;
 
 public class Fixtures
 {

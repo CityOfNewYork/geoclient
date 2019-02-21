@@ -13,15 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package gov.nyc.doitt.gis.geoclient.config;
+package gov.nyc.doitt.gis.geoclient.config.xml;
 
 import java.util.List;
 
 import com.thoughtworks.xstream.XStream;
 
-import gov.nyc.doitt.gis.geoclient.config.xml.ConfigurationConverter;
-import gov.nyc.doitt.gis.geoclient.config.xml.FieldConverter;
-import gov.nyc.doitt.gis.geoclient.config.xml.XStreamBuilder;
+import gov.nyc.doitt.gis.geoclient.config.FunctionConfig;
+import gov.nyc.doitt.gis.geoclient.config.WorkAreaConfig;
 import gov.nyc.doitt.gis.geoclient.function.DefaultConfiguration;
 import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.function.Filter;
