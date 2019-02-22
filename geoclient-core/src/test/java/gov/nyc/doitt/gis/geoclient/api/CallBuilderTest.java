@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import gov.nyc.doitt.gis.geoclient.config.InputParam;
 import gov.nyc.doitt.gis.geoclient.function.Configuration;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.function.WorkArea;

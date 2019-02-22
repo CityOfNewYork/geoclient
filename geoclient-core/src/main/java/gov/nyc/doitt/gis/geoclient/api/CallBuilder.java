@@ -5,12 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-import gov.nyc.doitt.gis.geoclient.config.InputParam;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 
 public class CallBuilder {
 
-    private static class Builder {
+    private static class Arguments {
         private final Map<String, Object> params = new HashMap<>();
 
         Object arg(String name, Object value) {
@@ -26,10 +25,10 @@ public class CallBuilder {
         }
     }
 
-    protected static abstract class Location {
-        protected final Builder builder = new Builder();
+    protected static abstract class Builder {
+        protected final Arguments builder = new Arguments();
 
-        Location(Function function) {
+        Builder(Function function) {
             this.builder.args(function.getConfiguration().requiredArguments());
         }
 
@@ -65,7 +64,7 @@ public class CallBuilder {
 
     }
 
-    public static class Address extends Location {
+    public static class Address extends Builder {
         public Address(Function function) {
             super(function);
         }
@@ -101,7 +100,7 @@ public class CallBuilder {
         }
     }
 
-    public static <T extends Location> T newInstance(Function function, Class<T> callType) throws NoSuchMethodException,
+    public static <T extends Builder> T newInstance(Function function, Class<T> callType) throws NoSuchMethodException,
             InvocationTargetException, IllegalAccessException, IllegalArgumentException, InstantiationException {
         Constructor<T> ctor = callType.getConstructor(Function.class);
         return ctor.newInstance(function);

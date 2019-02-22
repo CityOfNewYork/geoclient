@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.math.NumberUtils;
 
-import gov.nyc.doitt.gis.geoclient.config.OutputParam;
+import gov.nyc.doitt.gis.geoclient.api.OutputParam;
 import gov.nyc.doitt.gis.geoclient.doc.Description;
 import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
 import gov.nyc.doitt.gis.geoclient.function.Function;

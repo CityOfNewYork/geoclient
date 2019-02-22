@@ -16,7 +16,8 @@
 package gov.nyc.doitt.gis.geoclient.service.invoker;
 
 import static org.junit.jupiter.api.Assertions.*;
-import gov.nyc.doitt.gis.geoclient.config.OutputParam;
+
+import gov.nyc.doitt.gis.geoclient.api.OutputParam;
 import gov.nyc.doitt.gis.geometry.domain.MapPoint;
 
 import java.util.HashMap;

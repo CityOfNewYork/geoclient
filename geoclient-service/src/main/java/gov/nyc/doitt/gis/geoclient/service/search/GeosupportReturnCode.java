@@ -15,7 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search;
 
-import gov.nyc.doitt.gis.geoclient.config.ReturnCodeValue;
+import gov.nyc.doitt.gis.geoclient.api.ReturnCodeValue;
 
 public class GeosupportReturnCode {
     private String returnCode;

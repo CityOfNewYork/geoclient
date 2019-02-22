@@ -1,12 +1,12 @@
 package gov.nyc.doitt.gis.geoclient.api;
 
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.BOROUGH_CODE;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.HOUSE_NUMBER;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.STREET_NAME;
-import static gov.nyc.doitt.gis.geoclient.config.OutputParam.GEOSUPPORT_RETURN_CODE;
-import static gov.nyc.doitt.gis.geoclient.config.OutputParam.GEOSUPPORT_RETURN_CODE2;
-import static gov.nyc.doitt.gis.geoclient.config.ReturnCodeValue.SUCCESS;
-import static gov.nyc.doitt.gis.geoclient.config.ReturnCodeValue.WARN;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.BOROUGH_CODE;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.HOUSE_NUMBER;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME;
+import static gov.nyc.doitt.gis.geoclient.api.OutputParam.GEOSUPPORT_RETURN_CODE;
+import static gov.nyc.doitt.gis.geoclient.api.OutputParam.GEOSUPPORT_RETURN_CODE2;
+import static gov.nyc.doitt.gis.geoclient.api.ReturnCodeValue.SUCCESS;
+import static gov.nyc.doitt.gis.geoclient.api.ReturnCodeValue.WARN;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
@@ -16,7 +16,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
-import gov.nyc.doitt.gis.geoclient.config.InputParam;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
 import gov.nyc.doitt.gis.geoclient.util.StringUtils;

@@ -15,7 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.task;
 
-import gov.nyc.doitt.gis.geoclient.config.InputParam;
+import gov.nyc.doitt.gis.geoclient.api.InputParam;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;

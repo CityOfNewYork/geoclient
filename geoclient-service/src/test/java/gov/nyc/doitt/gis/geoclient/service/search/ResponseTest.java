@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import gov.nyc.doitt.gis.geoclient.config.ReturnCodeValue;
+import gov.nyc.doitt.gis.geoclient.api.ReturnCodeValue;
 
 public class ResponseTest {
 	private Fixtures fix;

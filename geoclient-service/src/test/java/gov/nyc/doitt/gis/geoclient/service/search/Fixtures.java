@@ -15,7 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search;
 
-import gov.nyc.doitt.gis.geoclient.config.ReturnCodeValue;
+import gov.nyc.doitt.gis.geoclient.api.ReturnCodeValue;
 import gov.nyc.doitt.gis.geoclient.parser.Input;
 import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;

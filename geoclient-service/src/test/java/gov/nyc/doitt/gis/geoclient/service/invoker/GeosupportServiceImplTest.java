@@ -15,21 +15,21 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.invoker;
 
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.BBL_BOROUGH_CODE;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.BBL_TAX_BLOCK;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.BBL_TAX_LOT;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.BIN;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.BOROUGH_CODE;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.BOROUGH_CODE2;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.BOROUGH_CODE3;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.COMPASS_DIRECTION;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.GEOSUPPORT_FUNCTION_CODE;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.HOUSE_NUMBER;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.MODE_SWITCH;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.STREET_NAME;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.STREET_NAME2;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.STREET_NAME3;
-import static gov.nyc.doitt.gis.geoclient.config.InputParam.ZIP_CODE;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.BBL_BOROUGH_CODE;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.BBL_TAX_BLOCK;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.BBL_TAX_LOT;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.BIN;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.BOROUGH_CODE;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.BOROUGH_CODE2;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.BOROUGH_CODE3;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.COMPASS_DIRECTION;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.GEOSUPPORT_FUNCTION_CODE;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.HOUSE_NUMBER;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.MODE_SWITCH;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME2;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME3;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.ZIP_CODE;
 import static gov.nyc.doitt.gis.geoclient.function.Function.F1AX;
 import static gov.nyc.doitt.gis.geoclient.function.Function.F1B;
 import static gov.nyc.doitt.gis.geoclient.function.Function.F2;
