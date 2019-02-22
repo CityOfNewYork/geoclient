@@ -9,6 +9,21 @@ import gov.nyc.doitt.gis.geoclient.function.Function;
 
 public class CallBuilder {
 
+    private static class NumberedParamNames {
+        private Map<Integer, String> mapping;
+
+        NumberedParamNames(String... paramNames) {
+            this.mapping = new HashMap<>(paramNames.length);
+            for (int i = 0; i < paramNames.length; i++) {
+                this.mapping.put(i, paramNames[i]);
+            }
+        }
+
+        String nth(int ordinal) {
+            return this.mapping.get(ordinal - 1);
+        }
+    }
+
     private static class Arguments {
         private final Map<String, Object> params = new HashMap<>();
 
@@ -26,42 +41,158 @@ public class CallBuilder {
     }
 
     protected static abstract class Builder {
-        protected final Arguments builder = new Arguments();
+        protected final Arguments arguments = new Arguments();
+        protected final NumberedParamNames boroughCodeParams = new NumberedParamNames(InputParam.BOROUGH_CODE,
+                InputParam.BOROUGH_CODE2, InputParam.BOROUGH_CODE3);
+        protected final NumberedParamNames streetCodeParams = new NumberedParamNames(InputParam.STREET_CODE,
+                InputParam.STREET_CODE2, InputParam.STREET_CODE3);
+        protected final NumberedParamNames streetNameParams = new NumberedParamNames(InputParam.STREET_NAME,
+                InputParam.STREET_NAME2, InputParam.STREET_NAME3);
 
         Builder(Function function) {
-            this.builder.args(function.getConfiguration().requiredArguments());
+            this.arguments.args(function.getConfiguration().requiredArguments());
         }
 
         public Map<String, Object> arguments() {
-            return this.builder.arguments();
+            return this.arguments.arguments();
         }
 
-        void addBoroughCode(String value) {
+        public Builder boroughNameOne(String boroughName) {
+            addBoroughName(boroughName, 1);
+            return this;
+        }
+
+        public Builder boroughNameTwo(String boroughName) {
+            addBoroughName(boroughName, 2);
+            return this;
+        }
+
+        public Builder boroughNameThree(String boroughName) {
+            addBoroughName(boroughName, 3);
+            return this;
+        }
+
+        private void addBoroughName(String name, int number) {
+            if (name == null) {
+                throw new NullPointerException("Borough name argument cannot be null");
+            }
+            Borough borough = null;
+            if ((borough = Boroughs.fromName(name)) == null) {
+                throw new IllegalArgumentException(String.format("Unrecognized borough named '{}'", name));
+            }
+            addBorough(borough, number);
+        }
+
+        public Builder boroughOne(Borough borough) {
+            addBorough(borough, 1);
+            return this;
+        }
+
+        public Builder boroughTwo(Borough borough) {
+            addBorough(borough, 2);
+            return this;
+        }
+
+        public Builder boroughThree(Borough borough) {
+            addBorough(borough, 3);
+            return this;
+        }
+
+        private void addBorough(Borough borough, int number) {
+            if (borough == null) {
+                throw new NullPointerException("Borough argument cannot be null");
+            }
+            addBoroughCode(borough.getCode(), number);
+        }
+
+        public Builder boroughCodeOne(String boroughCode) {
+            addBoroughCode(boroughCode, 1);
+            return this;
+        }
+
+        public Builder boroughCodeTwo(String boroughCode) {
+            addBoroughCode(boroughCode, 2);
+            return this;
+        }
+
+        public Builder boroughCodeThree(String boroughCode) {
+            addBoroughCode(boroughCode, 3);
+            return this;
+        }
+
+        private void addBoroughCode(String value, int number) {
             if (value == null) {
                 throw new NullPointerException("Borough code argument cannot be null");
             }
-            this.builder.arg(InputParam.BOROUGH_CODE, value);
+            this.arguments.arg(this.boroughCodeParams.nth(number), value);
         }
 
-        void addBoroughName(String value) {
-            if (value == null) {
-                throw new NullPointerException("Borough name argument cannot be null");
+        public Builder streetOne(Street street) {
+            addStreet(street, 1);
+            return this;
+        }
+
+        public Builder streetTwo(Street street) {
+            addStreet(street, 2);
+            return this;
+        }
+
+        public Builder streetThree(Street street) {
+            addStreet(street, 3);
+            return this;
+        }
+
+        private void addStreet(Street street, int number) {
+            if (street == null) {
+                throw new NullPointerException("Street argument cannot be null");
             }
-            if ("manhattan".equalsIgnoreCase(value)) {
-                addBoroughCode("1");
-            } else if ("bronx".equalsIgnoreCase(value)) {
-                addBoroughCode("2");
-            } else if ("brooklyn".equalsIgnoreCase(value)) {
-                addBoroughCode("3");
-            } else if ("queens".equalsIgnoreCase(value)) {
-                addBoroughCode("4");
-            } else if ("staten island".equalsIgnoreCase(value)) {
-                addBoroughCode("5");
+            if (street.getName() != null) {
+                // Prefer using street name, if available
+                addStreetName(street.getName(), number);
+            } else if (street.getCode() != null) {
+                addStreetCode(street.getCode(), number);
             } else {
-                throw new IllegalArgumentException(String.format("Unrecognized borough {}", value));
+                throw new IllegalArgumentException("Street argument's code and name fields cannot both be null");
             }
         }
 
+        public Builder streetNameOne(String streetName) {
+            addStreetName(streetName, 1);
+            return this;
+        }
+
+        public Builder streetNameTwo(String streetName) {
+            addStreetName(streetName, 2);
+            return this;
+        }
+
+        public Builder streetNameThree(String streetName) {
+            addStreetName(streetName, 3);
+            return this;
+        }
+
+        private void addStreetName(String streetName, int number) {
+            this.arguments.arg(this.streetNameParams.nth(number), streetName);
+        }
+
+        public Builder streetCodeOne(String streetCode) {
+            addStreetCode(streetCode, 1);
+            return this;
+        }
+
+        public Builder streetCodeTwo(String streetCode) {
+            addStreetCode(streetCode, 2);
+            return this;
+        }
+
+        public Builder streetCodeThree(String streetCode) {
+            addStreetCode(streetCode, 3);
+            return this;
+        }
+
+        private void addStreetCode(String streetCode, int number) {
+            this.arguments.arg(this.streetCodeParams.nth(number), streetCode);
+        }
     }
 
     public static class Address extends Builder {
@@ -69,33 +200,37 @@ public class CallBuilder {
             super(function);
         }
 
+        Address street(Street street) {
+            return (Address) this.streetOne(street);
+        }
+
+        Address streetCode(String code) {
+            return (Address) this.streetCodeOne(code);
+        }
+
+        Address streetName(String name) {
+            return (Address) this.streetNameOne(name);
+        }
+
+        Address borough(Borough borough) {
+            return (Address) this.boroughOne(borough);
+        }
+
+        Address boroughCode(String code) {
+            return (Address) this.boroughCodeOne(code);
+        }
+
+        Address boroughName(String name) {
+            return (Address) this.boroughNameOne(name);
+        }
+
         Address houseNumber(String value) {
-            this.builder.arg(InputParam.HOUSE_NUMBER, value);
-            return this;
-        }
-
-        Address streetName(String value) {
-            this.builder.arg(InputParam.STREET_NAME, value);
-            return this;
-        }
-
-        Address streetCode(String value) {
-            this.builder.arg(InputParam.STREET_CODE, value);
-            return this;
-        }
-
-        Address boroughCode(String value) {
-            addBoroughCode(value);
-            return this;
-        }
-
-        Address boroughName(String value) {
-            addBoroughName(value);
+            this.arguments.arg(InputParam.HOUSE_NUMBER, value);
             return this;
         }
 
         Address zipCode(String value) {
-            this.builder.arg(InputParam.ZIP_CODE, value);
+            this.arguments.arg(InputParam.ZIP_CODE, value);
             return this;
         }
     }

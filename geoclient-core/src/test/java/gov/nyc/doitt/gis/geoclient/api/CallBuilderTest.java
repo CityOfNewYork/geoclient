@@ -25,12 +25,8 @@ class CallBuilderTest {
     @Test
     void testAddressCallBuilder() throws Exception {
         Function function = getFunction(functionCode);
-        CallBuilder.Address location = CallBuilder.newInstance(function, CallBuilder.Address.class);
-        location.houseNumber(houseNumber);
-        location.streetName(streetName);
-        location.boroughName(boroughName);
-        location.zipCode(zipCode);
-        Map<String, Object> result = location.arguments();
+        Map<String, Object> result = CallBuilder.newInstance(function, CallBuilder.Address.class)
+                .houseNumber(houseNumber).streetName(streetName).boroughName(boroughName).zipCode(zipCode).arguments();
         assertEquals(functionCode, result.get(InputParam.GEOSUPPORT_FUNCTION_CODE));
         assertEquals(houseNumber, result.get(InputParam.HOUSE_NUMBER));
         assertEquals(streetName, result.get(InputParam.STREET_NAME));
