@@ -24,11 +24,15 @@
 #
 # 3. Run this image
 #
-#   $ docker run -it --name geoclient \
+#   $ docker run -d --name gcrun \
 #                -p 8080:8080 \
 #               --mount source=vol-geosupport,target=/opt/geosupport \
 #                -v "$(pwd)":/app \
 #                geoclient
+#
+# 4. Default service endpoint is http://localhost:8080/geoclient/v2
+#
+#   $ curl -XGET 'http://localhost:8080/geoclient/v2/search.json?input=Broadway%20and%20W%2042%20st%20Manhattan'
 #
 FROM openjdk:8-jdk
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
@@ -50,8 +54,12 @@ ADD $JARFILE /app/geoclient.jar
 
 WORKDIR /app
 
-RUN set -o errexit -o nounset && . $GEOSUPPORT_HOME/bin/initenv
+RUN printf \
+'#!/bin/bash\n\n\
+. $GEOSUPPORT_HOME/bin/initenv\n\
+$JAVA_HOME/bin/java -Dgc.jni.version=V2 -jar /app/geoclient.jar' >> run.sh \
+  && chmod 755 run.sh
 
 EXPOSE 8080:8080
 
-CMD ["java", "-jar", "geoclient.jar"]
+CMD ["/bin/bash", "-c", "/app/run.sh"]
