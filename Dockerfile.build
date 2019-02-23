@@ -24,7 +24,7 @@
 FROM openjdk:8-jdk
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 
-ENV GRADLE_DEBUG ${GRADLE_DEBUG:-"false"}
+ENV GRADLE_DEBUG ${GRADLE_DEBUG:-""}
 ENV GRADLE_OPTS "-Dorg.gradle.debug=${GRADLE_DEBUG}"
 ENV GEOSUPPORT_HOME /opt/geosupport
 
@@ -46,7 +46,6 @@ RUN ["/bin/bash", "-c", "echo \". $GEOSUPPORT_HOME/bin/initenv\" >> ~/.bashrc"]
 EXPOSE 8080:8080
 EXPOSE 5005:5005
 
-#ENTRYPOINT ["/bin/bash", "-c"]
 #CMD ["/app/gradlew", "-Dorg.gradle.debug=$GRADLE_DEBUG", "build"]
 
 CMD ["/bin/bash"]
