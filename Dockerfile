@@ -32,7 +32,11 @@
 #
 # 4. Default service endpoint is http://localhost:8080/geoclient/v2
 #
+<<<<<<< HEAD
 #   $ curl -XGET 'http://localhost:8080/geoclient/v2/search.json?input=Broadway%20and%20W%2042%20st%20Manhattan'
+=======
+#   $ wget -O- 'http://localhost:8080/geoclient/v2/search.json?input=Broadway%20and%20W%2042%20st%20Manhattan'
+>>>>>>> fce2014... Dockerfile fix
 #
 FROM openjdk:8-jdk
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
@@ -54,6 +58,7 @@ ADD $JARFILE /app/geoclient.jar
 
 WORKDIR /app
 
+<<<<<<< HEAD
 RUN printf \
 '#!/bin/bash\n\n\
 . $GEOSUPPORT_HOME/bin/initenv\n\
@@ -63,3 +68,10 @@ $JAVA_HOME/bin/java -Dgc.jni.version=V2 -jar /app/geoclient.jar' >> run.sh \
 EXPOSE 8080:8080
 
 CMD ["/bin/bash", "-c", "/app/run.sh"]
+=======
+RUN ["/bin/bash", "-c", "echo \". $GEOSUPPORT_HOME/bin/initenv\" >> ~/.bashrc"]
+
+EXPOSE 8080:8080
+
+CMD ["java", "-jar", "/app/geoclient.jar"]
+>>>>>>> fce2014... Dockerfile fix
