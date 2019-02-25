@@ -10,7 +10,9 @@
 #
 # 2. Build this image
 #
-#   # Use relative path to default geoclient-service build artifact
+#   # Assuming you've successfully built this project from source 
+#   # (e.g., using Dockerfile.build) and the following relative file path to
+#   # to the default geoclient-service build artifact is valid:
 #   # ./geoclient-service/build/libs/geoclient-service-<VERSION>-boot.jar
 #
 #   $ docker build -t geoclient -f Dockerfile .
@@ -27,16 +29,11 @@
 #   $ docker run -d --name gcrun \
 #                -p 8080:8080 \
 #               --mount source=vol-geosupport,target=/opt/geosupport \
-#                -v "$(pwd)":/app \
 #                geoclient
 #
 # 4. Default service endpoint is http://localhost:8080/geoclient/v2
 #
-<<<<<<< HEAD
 #   $ curl -XGET 'http://localhost:8080/geoclient/v2/search.json?input=Broadway%20and%20W%2042%20st%20Manhattan'
-=======
-#   $ wget -O- 'http://localhost:8080/geoclient/v2/search.json?input=Broadway%20and%20W%2042%20st%20Manhattan'
->>>>>>> fce2014... Dockerfile fix
 #
 FROM openjdk:8-jdk
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
@@ -58,20 +55,16 @@ ADD $JARFILE /app/geoclient.jar
 
 WORKDIR /app
 
-<<<<<<< HEAD
-RUN printf \
-'#!/bin/bash\n\n\
-. $GEOSUPPORT_HOME/bin/initenv\n\
-$JAVA_HOME/bin/java -Dgc.jni.version=V2 -jar /app/geoclient.jar' >> run.sh \
-  && chmod 755 run.sh
+RUN set -ex; \
+  { \
+    echo '#!/bin/bash'; \
+    echo; \
+    echo '. $GEOSUPPORT_HOME/bin/initenv'; \
+    echo '$JAVA_HOME/bin/java -Dgc.jni.version=V2 -jar /app/geoclient.jar'; \
+  } > /app/run.sh; \
+  \
+  chmod 755 /app/run.sh;
 
 EXPOSE 8080:8080
 
 CMD ["/bin/bash", "-c", "/app/run.sh"]
-=======
-RUN ["/bin/bash", "-c", "echo \". $GEOSUPPORT_HOME/bin/initenv\" >> ~/.bashrc"]
-
-EXPOSE 8080:8080
-
-CMD ["java", "-jar", "/app/geoclient.jar"]
->>>>>>> fce2014... Dockerfile fix
