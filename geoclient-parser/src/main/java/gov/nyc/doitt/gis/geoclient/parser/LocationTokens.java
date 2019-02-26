@@ -15,106 +15,91 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser;
 
-import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
-import gov.nyc.doitt.gis.geoclient.parser.token.Token;
-import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 
+import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
+import gov.nyc.doitt.gis.geoclient.parser.token.Token;
+import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
-public class LocationTokens
-{
-	private final Input input;
-	private final List<Chunk> chunks;
-	
-	public LocationTokens(Input input, List<Chunk> chunks)
-	{
-		super();
-		this.input = input;
-		this.chunks = chunks;
-	}
-	
-	public List<Token> tokensOfType(TokenType... tokenTypes)
-	{
-		List<Token> tokensOfType = new ArrayList<>();
-		for (Token token : getTokens())
-		{
-			for (int i = 0; i < tokenTypes.length; i++)
-			{
-				if(tokenTypes[i].equals(token.getType()))
-				{
-					tokensOfType.add(token);
-				}
-			}
-		}
-		return tokensOfType;
-	}
-	
-	public Token firstTokenOfType(TokenType tokenType)
-	{
-		List<Token> tokens = tokensOfType(tokenType);
-		if(tokens.isEmpty())
-		{
-			return  null;
-		}
-		return tokens.get(0);
-	}
+public class LocationTokens {
+    private final Input input;
+    private final List<Chunk> chunks;
 
-	public Input getInput()
-	{
-		return input;
-	}
+    public LocationTokens(Input input, List<Chunk> chunks) {
+        super();
+        this.input = input;
+        this.chunks = chunks;
+    }
 
-	public List<Chunk> getChunks()
-	{
-		return chunks;
-	}
+    public List<Token> tokensOfType(TokenType... tokenTypes) {
+        List<Token> tokensOfType = new ArrayList<>();
+        for (Token token : getTokens()) {
+            for (int i = 0; i < tokenTypes.length; i++) {
+                if (tokenTypes[i].equals(token.getType())) {
+                    tokensOfType.add(token);
+                }
+            }
+        }
+        return tokensOfType;
+    }
 
-	
-	public List<Token> getTokens()
-	{
-		List<Token> tokens = new ArrayList<>();
-		for (Chunk chunk : chunks)
-		{
-			tokens.addAll(chunk.getTokens());
-		}
-		return tokens;
-	}
-	
-	public String parseSummary()
-	{
-		Deque<String> stack = new ArrayDeque<>();
-		for (Chunk chunk: chunks)
-		{
-			StringBuffer chunkBuffer = new StringBuffer();
-			chunkBuffer.append(chunk.getType());
-			chunkBuffer.append("{ ");
-			for (Iterator<Token> iter = chunk.getTokens().iterator(); iter.hasNext();)
-			{
-				Token token = iter.next();
-				chunkBuffer.append(String.format("%s[%s]", token.getType(),token.getValue()));
-				if(iter.hasNext())
-				{
-					chunkBuffer.append(", ");
-				}
-			}
-			chunkBuffer.append(" }");
-			stack.push(chunkBuffer.toString());			
-		}
-		StringBuffer buff = new StringBuffer();
-		for (Iterator<String> iter = stack.iterator(); iter.hasNext();)
-		{
-			buff.append(iter.next());
-			if(iter.hasNext())
-			{
-				buff.append(", ");
-			}
-		}
-		return String.format("%s", buff.toString());
-	}
+    public Token firstTokenOfType(TokenType tokenType) {
+        List<Token> tokens = tokensOfType(tokenType);
+        if (tokens.isEmpty()) {
+            return null;
+        }
+        return tokens.get(0);
+    }
+
+    public Input getInput() {
+        return input;
+    }
+
+    public List<Chunk> getChunks() {
+        return chunks;
+    }
+
+    public List<Token> getTokens() {
+        List<Token> tokens = new ArrayList<>();
+        for (Chunk chunk : chunks) {
+            tokens.addAll(chunk.getTokens());
+        }
+        return tokens;
+    }
+
+    public String parseSummary() {
+        Deque<String> stack = new ArrayDeque<>();
+        for (Chunk chunk : chunks) {
+            StringBuffer chunkBuffer = new StringBuffer();
+            chunkBuffer.append(chunk.getType());
+            chunkBuffer.append("{ ");
+            for (Iterator<Token> iter = chunk.getTokens().iterator(); iter.hasNext();) {
+                Token token = iter.next();
+                chunkBuffer.append(String.format("%s[%s]", token.getType(), token.getValue()));
+                if (iter.hasNext()) {
+                    chunkBuffer.append(", ");
+                }
+            }
+            chunkBuffer.append(" }");
+            stack.push(chunkBuffer.toString());
+        }
+        StringBuffer buff = new StringBuffer();
+        for (Iterator<String> iter = stack.iterator(); iter.hasNext();) {
+            buff.append(iter.next());
+            if (iter.hasNext()) {
+                buff.append(", ");
+            }
+        }
+        return String.format("%s", buff.toString());
+    }
+
+    @Override
+    public String toString() {
+        return "LocationTokens [" + parseSummary() + "]";
+    }
 
 }
