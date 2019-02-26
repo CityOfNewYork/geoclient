@@ -36,145 +36,106 @@ import org.springframework.web.servlet.config.annotation.ContentNegotiationConfi
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
-//import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-//import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-//import com.intera.util.web.servlet.filter.JsonpCallbackFilter;
 
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResultConverter;
 import gov.nyc.doitt.gis.geoclient.service.web.ViewHelper;
 
-//@EnableWebMvc
 @Configuration
-@ComponentScan(basePackages = {"gov.nyc.doitt.gis.geoclient.service", "gov.nyc.doitt.gis.geoclient.parser.configuration"})
-public class WebConfig implements WebMvcConfigurer
-{
-  private static final Logger log = LoggerFactory.getLogger(WebConfig.class);
+@ComponentScan(basePackages = { "gov.nyc.doitt.gis.geoclient.service",
+        "gov.nyc.doitt.gis.geoclient.parser.configuration" })
+public class WebConfig implements WebMvcConfigurer {
+    private static final Logger log = LoggerFactory.getLogger(WebConfig.class);
 
-  @Autowired
-  private Environment environment;
+    @Autowired
+    private Environment environment;
 
-  // Autowired by Spring using the AppConfig#marshaller() method
-  @Autowired
-  private XStreamMarshaller marshaller;
+    // Autowired by Spring using the AppConfig#marshaller() method
+    @Autowired
+    private XStreamMarshaller marshaller;
 
-  @PostConstruct
-  public void logActiveProfiles()
-  {
-    log.info("===[{}]===", environment);
-  }
+    @PostConstruct
+    public void logEnvironment() {
+        log.info("Spring Environment: {}", environment);
+    }
 
-//  /**
-//   * Expose "resources" folder
-//   *
-//   * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#addResourceHandlers(org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry)
-//   */
-//  @Override
-//  public void addResourceHandlers(ResourceHandlerRegistry registry)
-//  {
-//    // Serves requests to /api/** from the resources folder at the doc root
-//    registry.addResourceHandler("/api/**").addResourceLocations("/api/");
-//    registry.addResourceHandler("/css/**").addResourceLocations("/css/");
-//    registry.addResourceHandler("/download/**").addResourceLocations("/download/");
-//    registry.addResourceHandler("/images/**").addResourceLocations("/images/");
-//    registry.addResourceHandler("/js/**").addResourceLocations("/js/");
-//  }
+    /**
+     * Set JSON as the default content type that gets returned
+     *
+     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureContentNegotiation(org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer)
+     */
+    @Override
+    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+        log.debug("[configureContentNegotiation]");
+        configurer.defaultContentType(MediaType.APPLICATION_JSON).mediaType("json", MediaType.APPLICATION_JSON)
+                .mediaType("xml", MediaType.APPLICATION_XML).favorPathExtension(true);
+    }
 
-  /**
-   * Set JSON as the default content type that gets returned
-   *
-   * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureContentNegotiation(org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer)
-   */
-  @Override
-  public void configureContentNegotiation(ContentNegotiationConfigurer configurer)
-  {
-    log.info("===============CALLED[configureContentNegotiation]==============");
-    configurer.defaultContentType(MediaType.APPLICATION_JSON).
-      mediaType("json", MediaType.APPLICATION_JSON).
-      mediaType("xml", MediaType.APPLICATION_XML).
-      favorPathExtension(true);
-  }
+    /**
+     * Enable default MVC dispatcher set-up
+     *
+     * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureDefaultServletHandling(org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer)
+     */
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        log.debug("[configureDefaultServletHandling]");
+        configurer.enable();
+    }
 
-  /**
-   * Enable default MVC dispatcher set-up
-   *
-   * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureDefaultServletHandling(org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer)
-   */
-  @Override
-  public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer)
-  {
-    log.info("===============CALLED[configureDefaultServletHandling]==============");
-    configurer.enable();
-  }
+    /**
+     * Added JSON and XML message converters
+     */
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        log.debug("[configureMessageConverters]");
+        converters.add(jsonMessageConverter());
+        converters.add(xmlMessageConverter());
+    }
 
-  /**
-   * Added JSON and XML message converters
-   */
-  @Override
-  public void configureMessageConverters(List<HttpMessageConverter<?>> converters)
-  {
-    log.info("===============CALLED[configureMessageConverters]==============");
-    converters.add(jsonMessageConverter());
-    converters.add(xmlMessageConverter());
-  }
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        log.debug("[configurePathMatch]");
+        configurer.setUseSuffixPatternMatch(true).setUseTrailingSlashMatch(false)
+                .setUseRegisteredSuffixPatternMatch(true);
+    }
 
-  @Override
-  public void configurePathMatch(PathMatchConfigurer configurer) {
-    configurer
-        .setUseSuffixPatternMatch(true)
-        .setUseTrailingSlashMatch(false)
-        .setUseRegisteredSuffixPatternMatch(true);
-        //.setPathMatcher(antPathMatcher())
-        //.setUrlPathHelper(urlPathHelper())
-        //.addPathPrefix("/api",
-        //        HandlerTypePredicate.forAnnotation(RestController.class));
-  }
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        log.debug("[addFormatters]");
+        registry.addConverter(searchResultConverter());
+    }
 
-  @Override
-  public void addFormatters(FormatterRegistry registry)
-  {
-    log.info("===============CALLED[addFormatters]==============");
-    registry.addConverter(searchResultConverter());
-  }
+    @Bean
+    public SearchResultConverter searchResultConverter() {
+        log.debug("[searchResultConverter]");
+        return new SearchResultConverter();
+    }
 
-  @Bean
-  public SearchResultConverter searchResultConverter()
-  {
-    log.info("===============CALLED[searchResultConverter]==============");
-    return new SearchResultConverter();
-  }
+    @Bean
+    public HttpMessageConverter<?> jsonMessageConverter() {
+        log.debug("[jsonMessageConverter]");
+        return new MappingJackson2HttpMessageConverter();
+    }
 
-  @Bean
-  public HttpMessageConverter<?> jsonMessageConverter()
-  {
-    log.info("===============CALLED[jsonMessageConverter]==============");
-    return new MappingJackson2HttpMessageConverter();
-  }
+    @Bean
+    public HttpMessageConverter<?> xmlMessageConverter() {
+        log.debug("[xmlMessageConverter]");
+        return new MarshallingHttpMessageConverter(this.marshaller);
+    }
 
-  @Bean
-  public HttpMessageConverter<?> xmlMessageConverter()
-  {
-    log.info("===============CALLED[xmlMessageConverter]==============");
-    return new MarshallingHttpMessageConverter(this.marshaller);
-  }
+    @Bean(name = "viewHelper")
+    public ViewHelper viewHelper() {
+        return new ViewHelper();
+    }
 
-  @Bean(name = "viewHelper")
-  public ViewHelper viewHelper()
-  {
-    return new ViewHelper();
-  }
+    /*
+     * TODO Fixme! I am insecure.
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
 
-  /*
-   * TODO Fixme! I am insecure.
-   */
-  @Override
-  public void addCorsMappings(CorsRegistry registry) {
-
-    log.info("===============CALLED[addCorsMappings]==============");
-    registry.addMapping("/**")
-        .allowedOrigins("*")
-        .allowedMethods("GET");
-  }
+        log.debug("[addCorsMappings]");
+        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET");
+    }
 
 }
