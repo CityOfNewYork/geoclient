@@ -24,6 +24,7 @@ public interface Function {
     public static final String F1B = "1B";
     public static final String F1E = "1E";
     public static final String F2 = "2";
+    public static final String F2W = "2W";
     public static final String F3 = "3";
     public static final String FAP = "AP";
     public static final String FBB = "BB";

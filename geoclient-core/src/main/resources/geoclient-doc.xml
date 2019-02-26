@@ -2809,6 +2809,15 @@ City Name field. See the defaults listed below.</p>
             <groupDocumentation reference="listOfStreetNamesWa1" />
         </groups>
     </functionDocumentation>
+    <functionDocumentation id="2W">
+        <description>
+            <p>Function 2W returns the same information as Function 2 (intersection
+                defined by two intersecting streets) but with several additional attributes.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+        </groups>
+    </functionDocumentation>
     <functionDocumentation id="3">
         <description>
             <p>Function 3 returns information about a street segment

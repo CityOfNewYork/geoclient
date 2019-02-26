@@ -217,16 +217,6 @@
         <field id="numberOfEntriesInListOfGeographicIdentifiers" start="247" length="4"></field><!-- Per DCP docs, this will always be "0001" -->
         <!-- LIST OF GEOGRAPHIC IDENTIFIERS: DCP docs specify that there is only 1 set of geographic identifiers returned but there's a potential of 21 max -->
         <!-- At  53 characters per set, this final part of the work area is 21x53 = 1,113 characters long  -->
-        <field id="giLowHouseNumber1" start="251" length="16"></field>
-        <field id="giHighHouseNumber1" start="267" length="16"></field>
-        <field id="giBoroughCode1" start="283" length="1"></field>
-        <field id="gi5DigitStreetCode1" start="284" length="5"></field>
-        <field id="giDcpPreferredLgc1" start="289" length="2"></field>
-        <field id="giBuildingIdentificationNumber1" start="291" length="7"></field>
-        <field id="giSideOfStreetIndicator1" start="298" length="1"></field>
-        <field id="giGeographicIdentifier1" start="299" length="1"></field><!-- AKA "giGeographicIdentifierEntryTypeCode1" -->
-        <field id="giFiller1" start="300" length="4"></field>
-        
         <field id="giLowHouseNumber1" start="251" length="16"></field><!-- geographic identifier 1 -->
         <field id="giHighHouseNumber1" start="267" length="16"></field>
         <field id="giStreetCode1" start="283" length="8" type="COMP"></field>
@@ -235,7 +225,7 @@
         <field id="giDcpPreferredLgc1" start="289" length="2"></field>
         <field id="giBuildingIdentificationNumber1" start="291" length="7"></field>
         <field id="giSideOfStreetIndicator1" start="298" length="1"></field>
-        <field id="giGeographicIdentifier1" start="299" length="1"></field>
+        <field id="giGeographicIdentifier1" start="299" length="1"></field><!-- AKA "giGeographicIdentifierEntryTypeCode1" -->
         <field id="giFiller1" start="300" length="4"></field>
         <field id="giLowHouseNumber2" start="304" length="16"></field><!-- geographic identifier 2 -->
         <field id="giHighHouseNumber2" start="320" length="16"></field>
@@ -501,7 +491,7 @@
         <field id="filler4" start="203" length="1"></field>
         <field id="communitySchoolDistrict" start="204" length="2"></field>
         <field id="dynamicBlock" start="206" length="3"></field>
-        <field id="instructionalRegion" start="209" length="2"></field>
+        <field id="instructionalRegion" start="209" length="2"></field><!-- TODO rename to "policePatrolBorough" -->
         <field id="featureTypeCode" start="211" length="1"></field>
         <field id="segmentTypeCode" start="212" length="1"></field>
         <field id="alleyCrossStreetsFlag" start="213" length="1"></field>
@@ -1640,11 +1630,12 @@
         <field id="intersectingStreet4" start="46" length="6"></field>
         <field id="intersectingStreet5" start="52" length="6"></field>
         <field id="compassDirection" start="58" length="1"></field>
-        <field id="filler4" start="59" length="5"></field>
+        <field id="atomicPolygon" start="59" length="3"></field>
+        <field id="filler5" start="62" length="2"></field>
         <field id="lionNodeNumber" start="64" length="7"></field>
         <field id="xCoordinate" start="71" length="7"><!-- item doc by id --></field>
         <field id="yCoordinate" start="78" length="7"><!-- item doc by id --></field>
-        <field id="filler5" start="85" length="7"></field>
+        <field id="zCoordinate" start="85" length="7"></field>
         <field id="sanbornBoroughCode1" start="92" length="1"></field>
         <field id="sanbornVolumeNumber1" start="93" length="2"></field>
         <field id="sanbornVolumeNumberSuffix1" start="95" length="1"></field>
@@ -1672,20 +1663,131 @@
         <field id="censusTract2010" start="136" length="6" whitespace="true"><!-- item doc by id --></field>
         <field id="censusTract1990" start="142" length="6" whitespace="true"><!-- item doc by id --></field>
         <field id="listOfPairsOfLevelCodes" start="148" length="10"></field>
-        <field id="instructionalRegion" start="158" length="2"></field>
+        <field id="instructionalRegion" start="158" length="2"></field><!-- TODO rename to "policePatrolBorough" -->
         <field id="assemblyDistrict" start="160" length="2"></field>
         <field id="congressionalDistrict" start="162" length="2"></field>
         <field id="stateSenatorialDistrict" start="164" length="2"></field>
         <field id="civilCourtDistrict" start="166" length="2"></field>
         <field id="cityCouncilDistrict" start="168" length="2"></field>
-        <field id="interimAssistanceEligibilityIndicator" start="170" length="1"></field><!-- TODO rename to "communityDevelopmentEligibilityIndicator" -->
-        <field id="filler6" start="171" length="5"></field>
+        <field id="interimAssistanceEligibilityIndicator" start="170" length="1"></field><!-- TODO rename to "communityDevelopmentEligibilityIndicator" or "communityDevelopmentEligibility" -->
+        <field id="distanceBetweenDuplicateIntersections" start="171" length="5"></field>
         <field id="censusTract2000" start="176" length="6" whitespace="true"><!-- item doc by id --></field>
         <field id="healthCenterDistrict" start="182" length="2"></field>
         <field id="sanitationDistrict" start="184" length="3"></field>
         <field id="sanitationSection" start="182" length="3" type="COMP"></field>
         <field id="sanitationCollectionSchedulingSectionAndSubsection" start="187" length="2"></field>
-        <field id="filler7" start="189" length="12"></field>
+        <field id="filler6" start="189" length="12"></field>
+      </fields>
+    </workArea>
+    <workArea id="WA2_F2W">
+      <length>4000</length>
+      <outputFilters reference="allFilters" />
+      <fields>
+        <!-- First 200 characters are exactly the same as WA2_F2 -->
+        <field id="internalUse" start="1" length="21"></field>
+        <field id="intersectionReplicationCounter" start="22" length="1"></field>
+        <field id="dcpPreferredLgcForStreet1" start="23" length="2"></field>
+        <field id="dcpPreferredLgcForStreet2" start="25" length="2"></field>
+        <field id="numberOfIntersectingStreets" start="27" length="1"></field>
+        <field id="intersectingStreet1" start="28" length="6"></field>
+        <field id="intersectingStreet2" start="34" length="6"></field>
+        <field id="intersectingStreet3" start="40" length="6"></field>
+        <field id="intersectingStreet4" start="46" length="6"></field>
+        <field id="intersectingStreet5" start="52" length="6"></field>
+        <field id="compassDirection" start="58" length="1"></field>
+        <field id="atomicPolygon" start="59" length="3"></field>
+        <field id="filler5" start="62" length="2"></field>
+        <field id="lionNodeNumber" start="64" length="7"></field>
+        <field id="xCoordinate" start="71" length="7"><!-- item doc by id --></field>
+        <field id="yCoordinate" start="78" length="7"><!-- item doc by id --></field>
+        <field id="zCoordinate" start="85" length="7"></field>
+        <field id="sanbornBoroughCode1" start="92" length="1"></field>
+        <field id="sanbornVolumeNumber1" start="93" length="2"></field>
+        <field id="sanbornVolumeNumberSuffix1" start="95" length="1"></field>
+        <field id="sanbornPageNumber1" start="96" length="3"></field>
+        <field id="sanbornPageNumberSuffix1" start="99" length="1"></field>
+        <field id="sanbornBoroughCode2" start="100" length="1"></field>
+        <field id="sanbornVolumeNumber2" start="101" length="2"></field>
+        <field id="sanbornVolumeNumberSuffix2" start="103" length="1"></field>
+        <field id="sanbornPageNumber2" start="104" length="3"></field>
+        <field id="sanbornPageNumberSuffix2" start="107" length="1"></field>
+        <field id="alternativeBoroughFlag" start="108" length="1"><!-- item doc by id --></field>
+        <field id="dotStreetLightContractorArea" start="109" length="1"><!-- item doc by id --></field>
+        <field id="communityDistrict" start="110" length="3" type="COMP"></field>
+        <field id="communityDistrictBoroughCode" start="110" length="1"><!-- item doc by id --></field>
+        <field id="communityDistrictNumber" start="111" length="2"><!-- item doc by id --></field>
+        <field id="zipCode" start="113" length="5"></field>
+        <field id="healthArea" start="118" length="4"></field>
+        <field id="policePatrolBoroughCommand" start="122" length="1"></field>
+        <field id="policePrecinct" start="123" length="3"></field>
+        <field id="fireDivision" start="126" length="2"></field>
+        <field id="fireBattalion" start="128" length="2"></field>
+        <field id="fireCompanyType" start="130" length="1"></field>
+        <field id="fireCompanyNumber" start="131" length="3"></field>
+        <field id="communitySchoolDistrict" start="134" length="2"></field>
+        <field id="censusTract2010" start="136" length="6" whitespace="true"><!-- item doc by id --></field>
+        <field id="censusTract1990" start="142" length="6" whitespace="true"><!-- item doc by id --></field>
+        <field id="listOfPairsOfLevelCodes" start="148" length="10"></field>
+        <field id="instructionalRegion" start="158" length="2"></field><!-- TODO rename to "policePatrolBorough" -->
+        <field id="assemblyDistrict" start="160" length="2"></field>
+        <field id="congressionalDistrict" start="162" length="2"></field>
+        <field id="stateSenatorialDistrict" start="164" length="2"></field>
+        <field id="civilCourtDistrict" start="166" length="2"></field>
+        <field id="cityCouncilDistrict" start="168" length="2"></field>
+        <field id="interimAssistanceEligibilityIndicator" start="170" length="1"></field><!-- TODO rename to "communityDevelopmentEligibilityIndicator" or "communityDevelopmentEligibility" -->
+        <field id="distanceBetweenDuplicateIntersections" start="171" length="5"></field>
+        <field id="censusTract2000" start="176" length="6" whitespace="true"><!-- item doc by id --></field>
+        <field id="healthCenterDistrict" start="182" length="2"></field>
+        <field id="sanitationDistrict" start="184" length="3"></field>
+        <field id="sanitationSection" start="182" length="3" type="COMP"></field>
+        <field id="sanitationCollectionSchedulingSectionAndSubsection" start="187" length="2"></field>
+        <field id="filler6" start="189" length="12"></field>
+        <field id="filler7" start="201" length="22"></field>
+		<field id="lgcListForStreet1" start="223" length="8"></field>
+		<field id="lgcListForStreet2" start="231" length="8"></field>
+		<field id="turnRestrictions" start="239" length="10"></field>
+		<field id="preferredLgcsForIntersectingStreets" start="249" length="10"></field>
+		<field id="trueReplicationCounter" start="259" length="2"></field>
+        <field id="node1" start="261" length="7"></field>
+        <field id="node2" start="268" length="7"></field>
+        <field id="node3" start="275" length="7"></field>
+        <field id="node4" start="282" length="7"></field>
+        <field id="node5" start="289" length="7"></field>
+        <field id="node6" start="296" length="7"></field>
+        <field id="node7" start="303" length="7"></field>
+        <field id="node8" start="310" length="7"></field>
+        <field id="node9" start="317" length="7"></field>
+        <field id="node10" start="324" length="7"></field>
+        <field id="node11" start="331" length="7"></field>
+        <field id="node12" start="338" length="7"></field>
+        <field id="node13" start="345" length="7"></field>
+        <field id="node14" start="352" length="7"></field>
+        <field id="node15" start="359" length="7"></field>
+        <field id="node16" start="366" length="7"></field>
+        <field id="node17" start="373" length="7"></field>
+        <field id="node18" start="380" length="7"></field>
+        <field id="node19" start="387" length="7"></field>
+        <field id="node20" start="394" length="7"></field>
+		<!-- Not implemented 401 through 3600 -->
+		<!-- See Geosupport workarea layouts for COWS 2W -->
+		<!--
+		<field id="node1Street1" start="401" length="8"></field>
+		<field id="node1Street1Lgc1" start="409" length="8"></field>
+		<field id="node1Street1Lgc2" start="417" length="8"></field>
+		<field id="node1Street1Lgc3" start="425" length="8"></field>
+		<field id="node1Street1Lgc4" start="433" length="8"></field>
+		<field id="node1Street2" start="441" length="8"></field>
+		<field id="node1Street2Lgc1" start="449" length="8"></field>
+		...
+		-->
+        <field id="nodesStreetsAndLgcs" start="401" length="3200"></field>	
+		<field id="reasonCode2w" start="3601" length="1"></field>
+		<field id="reasonCodeQualifier2w" start="3602" length="1"></field>
+		<field id="warningCode2w" start="3603" length="2"></field>
+		<field id="returnCode2w" start="3605" length="2"></field>
+		<field id="latitude" start="3607" length="9"></field>
+		<field id="longitude" start="3616" length="11"></field>
+		<field id="filler8" start="3627" length="374"></field>
       </fields>
     </workArea>
     <workArea id="WA2_F3">
@@ -2041,6 +2143,15 @@
       <workAreaTwo reference="WA2_F2" />
       <configuration>
         <requiredArgument name="geosupportFunctionCode" value="2"/>
+        <requiredArgument name="workAreaFormatIndicator" value="C"/>
+        <requiredArgument name="crossStreetNamesFlag" value="E" />
+      </configuration>
+    </function>
+    <function id="2W">
+      <workAreaOne reference="WA1" />
+      <workAreaTwo reference="WA2_F2W" />
+      <configuration>
+        <requiredArgument name="geosupportFunctionCode" value="2W"/>
         <requiredArgument name="workAreaFormatIndicator" value="C"/>
         <requiredArgument name="crossStreetNamesFlag" value="E" />
       </configuration>
