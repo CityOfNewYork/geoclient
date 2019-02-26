@@ -3,6 +3,8 @@ spring:
         contentnegotiation:
             favor-path-extension: true
             favor-parameter: false
+    thymeleaf:
+        enable-spring-el-compiler: true
 
 server:
     servlet:
