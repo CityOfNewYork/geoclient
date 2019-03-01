@@ -41,6 +41,8 @@ public class OutputParam {
     // Return code information is from WA1 output fields
     public static final String GEOSUPPORT_RETURN_CODE = "geosupportReturnCode";
     public static final String GEOSUPPORT_RETURN_CODE2 = "geosupportReturnCode2";
+    public static final String MESSAGE = "message";
+    public static final String MESSAGE2 = "message2";
     public static final String REASON_CODE = "reasonCode";
     public static final String REASON_CODE2 = "reasonCode2";
     public static final String REASON_CODE_QUALIFIER = "reasonCodeQualifier";

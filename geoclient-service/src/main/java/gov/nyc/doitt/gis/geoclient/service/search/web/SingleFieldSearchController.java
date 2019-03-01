@@ -15,12 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.web;
 
-import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
-import gov.nyc.doitt.gis.geoclient.service.search.SingleFieldSearchHandler;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.ParamsAndResult;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchParameters;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResponse;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,28 +25,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
+import gov.nyc.doitt.gis.geoclient.service.search.SingleFieldSearchHandler;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.ParamsAndResult;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchParameters;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResponse;
+
 @CrossOrigin
 @Controller
-public class SingleFieldSearchController
-{
-	@Autowired
-	private SingleFieldSearchHandler singleFieldSearchHandler;
+public class SingleFieldSearchController {
 
-	@Autowired
-	private ConversionService conversionService;
-	
-	@RequestMapping(value = "/search", method = RequestMethod.GET)
-	public @ResponseBody SearchResponse search(@Valid SearchParameters params)
-	{
-		ParamsAndResult paramsAndResult = new ParamsAndResult(params, this.singleFieldSearchHandler.findLocation(params.buildSearchPolicy(),params.getInput()));
-		SearchResponse searchResponse = this.conversionService.convert(paramsAndResult, SearchResponse.class);
-		return searchResponse;
-	}
+    @Autowired
+    private SingleFieldSearchHandler singleFieldSearchHandler;
 
-	@RequestMapping(value = "/search/debug", method = RequestMethod.GET)
-	public @ResponseBody SearchResult searchDebug(SearchParameters params)
-	{
-		return this.singleFieldSearchHandler.findLocation(params.buildSearchPolicy(),params.getInput());
-	}	
-	
+    @Autowired
+    private ConversionService conversionService;
+
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public @ResponseBody SearchResponse search(@Valid SearchParameters params) {
+        ParamsAndResult paramsAndResult = new ParamsAndResult(params,
+                this.singleFieldSearchHandler.findLocation(params.buildSearchPolicy(), params.getInput()));
+        SearchResponse searchResponse = this.conversionService.convert(paramsAndResult, SearchResponse.class);
+        return searchResponse;
+    }
+
+    @RequestMapping(value = "/search/debug", method = RequestMethod.GET)
+    public @ResponseBody SearchResult searchDebug(SearchParameters params) {
+        return this.singleFieldSearchHandler.findLocation(params.buildSearchPolicy(), params.getInput());
+    }
+
 }

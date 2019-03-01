@@ -1,5 +1,5 @@
 plugins {
-  id 'org.springframework.boot' version '2.1.1.RELEASE'
+  id 'org.springframework.boot' version '2.1.3.RELEASE'
 }
 
 //apply plugin: 'eclipse-wtp'
@@ -28,7 +28,7 @@ dependencies {
   implementation("org.geotools:gt-epsg-wkt:${geotoolsVersion}") {
     exclude(group: 'jgridshift', module: 'jgridshift')
   }
-  testImplementation("org.apache.httpcomponents:httpclient:4.5.7")
+  testImplementation("org.apache.httpcomponents:httpclient:${httpclient}")
   //testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
   //testImplementation('com.jayway.jsonpath:json-path')
 }

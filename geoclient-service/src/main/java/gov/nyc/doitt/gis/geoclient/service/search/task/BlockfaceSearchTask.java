@@ -15,40 +15,33 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.task;
 
-import gov.nyc.doitt.gis.geoclient.function.Function;
-import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-import gov.nyc.doitt.gis.geoclient.service.search.request.BlockfaceRequest;
-import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
-
 import java.util.Map;
 
-import com.github.dozermapper.core.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BlockfaceSearchTask extends SearchTask
-{
-  private static final Logger LOGGER = LoggerFactory.getLogger(BlockfaceSearchTask.class);
+import gov.nyc.doitt.gis.geoclient.function.Function;
+import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
+import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
+import gov.nyc.doitt.gis.geoclient.service.search.request.BlockfaceRequest;
+import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
-  public BlockfaceSearchTask(Request request, GeosupportService geosupportService, Mapper mapper)
-  {
-    super(request, geosupportService, mapper);
-  }
+public class BlockfaceSearchTask extends SearchTask {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BlockfaceSearchTask.class);
 
-  @Override
-  protected Map<String, Object> doCall()
-  {
-    BlockfaceRequest blockfaceRequest = (BlockfaceRequest) this.request;
-    LOGGER.debug("Calling {} with {}.", Function.F3, blockfaceRequest);
-    return this.geosupportService.callFunction3(
-        blockfaceRequest.getOnStreet(),
-        blockfaceRequest.getBorough(),
-        blockfaceRequest.getCrossStreetOne(),
-        null, // borough cross street one
-        blockfaceRequest.getCrossStreetTwo(),
-        null, // borough cross street two
-        null  // compass direction
+    public BlockfaceSearchTask(Request request, GeosupportService geosupportService, Mapper mapper) {
+        super(request, geosupportService, mapper);
+    }
+
+    @Override
+    protected Map<String, Object> doCall() {
+        BlockfaceRequest blockfaceRequest = (BlockfaceRequest) this.request;
+        LOGGER.debug("Calling {} with {}.", Function.F3, blockfaceRequest);
+        return this.geosupportService.callFunction3(blockfaceRequest.getOnStreet(), blockfaceRequest.getBorough(),
+                blockfaceRequest.getCrossStreetOne(), null, // borough cross street one
+                blockfaceRequest.getCrossStreetTwo(), null, // borough cross street two
+                null // compass direction
         );
-  }
+    }
 
 }

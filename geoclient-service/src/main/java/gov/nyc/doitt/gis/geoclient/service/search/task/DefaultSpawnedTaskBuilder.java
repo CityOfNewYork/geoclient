@@ -15,40 +15,36 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
+import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
 import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 
-import java.util.ArrayList;
-import java.util.List;
+public class DefaultSpawnedTaskBuilder extends TaskBuilderSupport implements SpawnedSearchTaskBuilder {
+    private final SimilarNamesTaskBuilder similarNamesTaskBuilder;
+    private final CompassDirectionTaskBuilder compassDirectionTaskBuilder;
 
-import com.github.dozermapper.core.Mapper;
-
-public class DefaultSpawnedTaskBuilder extends TaskBuilderSupport implements SpawnedSearchTaskBuilder
-{
-  private final SimilarNamesTaskBuilder similarNamesTaskBuilder;
-  private final CompassDirectionTaskBuilder compassDirectionTaskBuilder;
-
-  public DefaultSpawnedTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService, Mapper mapper)
-  {
-    super(countyResolver, geosupportService, mapper);
-    this.similarNamesTaskBuilder = new SimilarNamesTaskBuilder(countyResolver, geosupportService, mapper);
-    this.compassDirectionTaskBuilder = new CompassDirectionTaskBuilder(countyResolver, geosupportService, mapper);
-  }
-
-  @Override
-  public List<SearchTask> getSearchTasks(SearchResult searchResult)
-  {
-    List<Search> previousSearches = searchResult.inputForSubSearches();
-    if(previousSearches.isEmpty())
-    {
-      return new ArrayList<>();
+    public DefaultSpawnedTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService,
+            Mapper mapper) {
+        super(countyResolver, geosupportService, mapper);
+        this.similarNamesTaskBuilder = new SimilarNamesTaskBuilder(countyResolver, geosupportService, mapper);
+        this.compassDirectionTaskBuilder = new CompassDirectionTaskBuilder(countyResolver, geosupportService, mapper);
     }
-    List<SearchTask> tasks = new ArrayList<>();
-    tasks.addAll(similarNamesTaskBuilder.getSearchTasks(searchResult));
-    tasks.addAll(compassDirectionTaskBuilder.getSearchTasks(searchResult));
-    return tasks;
-  }
+
+    @Override
+    public List<SearchTask> getSearchTasks(SearchResult searchResult) {
+        List<Search> previousSearches = searchResult.inputForSubSearches();
+        if (previousSearches.isEmpty()) {
+            return new ArrayList<>();
+        }
+        List<SearchTask> tasks = new ArrayList<>();
+        tasks.addAll(similarNamesTaskBuilder.getSearchTasks(searchResult));
+        tasks.addAll(compassDirectionTaskBuilder.getSearchTasks(searchResult));
+        return tasks;
+    }
 
 }

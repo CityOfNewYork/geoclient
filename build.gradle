@@ -39,7 +39,8 @@ subprojects {
     }
 
     dependencies {
-        implementation enforcedPlatform('org.springframework.boot:spring-boot-dependencies:2.1.1.RELEASE')
+        implementation enforcedPlatform('org.springframework.boot:spring-boot-dependencies:2.1.3.RELEASE') // Must be in sync with geoclient-service/build.gradle
+                                                                                                           // spring-boot plugin
         implementation 'org.springframework.boot:spring-boot-starter-logging'
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
             exclude group: 'org.junit', module: 'junit'
@@ -110,7 +111,7 @@ subprojects {
             displayGranularity = 3
             events "failed", "skipped", "passed"
             exceptionFormat "full"
-            showStandardStreams = false
+            showStandardStreams = true
         }
     }
 

@@ -15,8 +15,15 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.task;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
+import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
 import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;
 import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
@@ -28,132 +35,107 @@ import gov.nyc.doitt.gis.geoclient.service.search.request.IntersectionRequest;
 import gov.nyc.doitt.gis.geoclient.service.search.request.PlaceRequest;
 import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
-import java.util.ArrayList;
-import java.util.List;
+public class SimilarNamesTaskBuilder extends TaskBuilderSupport {
+    protected static final Logger LOGGER = LoggerFactory.getLogger(SimilarNamesTaskBuilder.class);
 
-import com.github.dozermapper.core.Mapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-public class SimilarNamesTaskBuilder extends TaskBuilderSupport
-{
-  protected static final Logger LOGGER = LoggerFactory.getLogger(SimilarNamesTaskBuilder.class);
-
-  public SimilarNamesTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService, Mapper mapper)
-  {
-    super(countyResolver, geosupportService, mapper);
-  }
-
-  public List<SearchTask> getSearchTasks(SearchResult searchResult)
-  {
-    List<SearchTask> searchTasks = new ArrayList<>();
-    List<Search> previousSearches = searchResult.inputForSubSearches();
-    for (Search search : previousSearches)
-    {
-      searchTasks.addAll(buildSearchTasks(searchResult.getSearchPolicy(), search));
+    public SimilarNamesTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService, Mapper mapper) {
+        super(countyResolver, geosupportService, mapper);
     }
-    return searchTasks;
-  }
 
-  protected List<SearchTask> buildSearchTasks(SearchPolicy searchPolicy, Search search)
-  {
-    List<SearchTask> searchTasks = new ArrayList<>();
-    for (String similarName : search.getSimilarNames())
-    {
+    public List<SearchTask> getSearchTasks(SearchResult searchResult) {
+        List<SearchTask> searchTasks = new ArrayList<>();
+        List<Search> previousSearches = searchResult.inputForSubSearches();
+        for (Search search : previousSearches) {
+            searchTasks.addAll(buildSearchTasks(searchResult.getSearchPolicy(), search));
+        }
+        return searchTasks;
+    }
 
-      SearchTask task = null;
-      Request req = search.getRequest();
-      if (AddressRequest.class.equals(req.getClass()))
-      {
-        task = buildSearchTask(searchPolicy, (AddressRequest) req, similarName);
-      } else if (BlockfaceRequest.class.equals(req.getClass()))
-      {
-        task = buildSearchTask(searchPolicy, search, (BlockfaceRequest) req, similarName);
-      } else if (IntersectionRequest.class.equals(req.getClass()))
-      {
-        task = buildSearchTask(searchPolicy, search, (IntersectionRequest) req, similarName);
-      } else if (PlaceRequest.class.equals(req.getClass()))
-      {
-        task = buildSearchTask(searchPolicy, (PlaceRequest) req, similarName);
-      }
+    protected List<SearchTask> buildSearchTasks(SearchPolicy searchPolicy, Search search) {
+        List<SearchTask> searchTasks = new ArrayList<>();
+        for (String similarName : search.getSimilarNames()) {
 
-      if (task != null)
-      {
-        searchTasks.add(task);
-      }
-    }
-    return searchTasks;
-  }
+            SearchTask task = null;
+            Request req = search.getRequest();
+            if (AddressRequest.class.equals(req.getClass())) {
+                task = buildSearchTask(searchPolicy, (AddressRequest) req, similarName);
+            } else if (BlockfaceRequest.class.equals(req.getClass())) {
+                task = buildSearchTask(searchPolicy, search, (BlockfaceRequest) req, similarName);
+            } else if (IntersectionRequest.class.equals(req.getClass())) {
+                task = buildSearchTask(searchPolicy, search, (IntersectionRequest) req, similarName);
+            } else if (PlaceRequest.class.equals(req.getClass())) {
+                task = buildSearchTask(searchPolicy, (PlaceRequest) req, similarName);
+            }
 
-  protected SearchTask buildSearchTask(SearchPolicy searchPolicy, AddressRequest request, String similarName)
-  {
-    if (searchPolicy.isSimilarName(request.getStreet(), similarName))
-    {
-      AddressRequest newRequest = new AddressRequest(request);
-      newRequest.incrementLevel();
-      newRequest.setStreetInputValue(new InputValue(TokenType.STREET_NAME, similarName));
-      LOGGER.debug("Created {} from {}.", newRequest, request);
-      return new AddressSearchTask(newRequest, geosupportService, mapper);
+            if (task != null) {
+                searchTasks.add(task);
+            }
+        }
+        return searchTasks;
     }
-    return null;
-  }
 
-  protected SearchTask buildSearchTask(SearchPolicy searchPolicy, Search search, BlockfaceRequest request,
-      String similarName)
-  {
-    String onStreet = request.getOnStreet();
-    BlockfaceRequest newRequest = new BlockfaceRequest(request);
-    newRequest.incrementLevel();
-    if (search.responseMessageAppliesTo(onStreet) && searchPolicy.isSimilarName(onStreet, similarName))
-    {
-      newRequest.setOnStreetInputValue(new InputValue(TokenType.ON_STREET, similarName));
-      return new BlockfaceSearchTask(newRequest, geosupportService, mapper);
+    protected SearchTask buildSearchTask(SearchPolicy searchPolicy, AddressRequest request, String similarName) {
+        if (searchPolicy.isSimilarName(request.getStreet(), similarName)) {
+            AddressRequest newRequest = new AddressRequest(request);
+            newRequest.incrementLevel();
+            newRequest.setStreetInputValue(new InputValue(TokenType.STREET_NAME, similarName));
+            LOGGER.debug("Created {} from {}.", newRequest, request);
+            return new AddressSearchTask(newRequest, geosupportService, mapper);
+        }
+        return null;
     }
-    String crossStreetOne = request.getCrossStreetOne();
-    if (search.responseMessageAppliesTo(crossStreetOne) && searchPolicy.isSimilarName(crossStreetOne, similarName))
-    {
-      newRequest.setCrossStreetOneInputValue(new InputValue(TokenType.CROSS_STREET_ONE, similarName));
-      return new BlockfaceSearchTask(newRequest, geosupportService, mapper);
-    }
-    String crossStreetTwo = request.getCrossStreetTwo();
-    if (search.responseMessageAppliesTo(crossStreetTwo) && searchPolicy.isSimilarName(crossStreetTwo, similarName))
-    {
-      newRequest.setCrossStreetTwoInputValue(new InputValue(TokenType.CROSS_STREET_TWO, similarName));
-      return new BlockfaceSearchTask(newRequest, geosupportService, mapper);
-    }
-    return null;
-  }
 
-  protected SearchTask buildSearchTask(SearchPolicy searchPolicy, Search search, IntersectionRequest request,
-      String similarName)
-  {
-    IntersectionRequest newRequest = new IntersectionRequest(request);
-    newRequest.incrementLevel();
-    String crossStreetOne = request.getCrossStreetOne();
-    if (search.responseMessageAppliesTo(crossStreetOne) && searchPolicy.isSimilarName(crossStreetOne, similarName))
-    {
-      newRequest.setCrossStreetOneInputValue(new InputValue(TokenType.CROSS_STREET_ONE, similarName));
-      return new IntersectionSearchTask(newRequest, geosupportService, mapper);
+    protected SearchTask buildSearchTask(SearchPolicy searchPolicy, Search search, BlockfaceRequest request,
+            String similarName) {
+        String onStreet = request.getOnStreet();
+        BlockfaceRequest newRequest = new BlockfaceRequest(request);
+        newRequest.incrementLevel();
+        if (search.responseMessageAppliesTo(onStreet) && searchPolicy.isSimilarName(onStreet, similarName)) {
+            newRequest.setOnStreetInputValue(new InputValue(TokenType.ON_STREET, similarName));
+            return new BlockfaceSearchTask(newRequest, geosupportService, mapper);
+        }
+        String crossStreetOne = request.getCrossStreetOne();
+        if (search.responseMessageAppliesTo(crossStreetOne)
+                && searchPolicy.isSimilarName(crossStreetOne, similarName)) {
+            newRequest.setCrossStreetOneInputValue(new InputValue(TokenType.CROSS_STREET_ONE, similarName));
+            return new BlockfaceSearchTask(newRequest, geosupportService, mapper);
+        }
+        String crossStreetTwo = request.getCrossStreetTwo();
+        if (search.responseMessageAppliesTo(crossStreetTwo)
+                && searchPolicy.isSimilarName(crossStreetTwo, similarName)) {
+            newRequest.setCrossStreetTwoInputValue(new InputValue(TokenType.CROSS_STREET_TWO, similarName));
+            return new BlockfaceSearchTask(newRequest, geosupportService, mapper);
+        }
+        return null;
     }
-    String crossStreetTwo = request.getCrossStreetTwo();
-    if (search.responseMessageAppliesTo(crossStreetTwo) && searchPolicy.isSimilarName(crossStreetTwo, similarName))
-    {
-      newRequest.setCrossStreetTwoInputValue(new InputValue(TokenType.CROSS_STREET_TWO, similarName));
-      return new IntersectionSearchTask(newRequest, geosupportService, mapper);
-    }
-    return null;
-  }
 
-  protected SearchTask buildSearchTask(SearchPolicy searchPolicy, PlaceRequest request, String similarName)
-  {
-    if (searchPolicy.isSimilarName(request.getStreet(), similarName))
-    {
-      PlaceRequest newRequest = new PlaceRequest(request);
-      newRequest.incrementLevel();
-      newRequest.setStreetInputValue(new InputValue(TokenType.STREET_NAME, similarName));
-      LOGGER.debug("Created {} from {}.", newRequest, request);
-      return new PlaceSearchTask(newRequest, geosupportService, mapper);
+    protected SearchTask buildSearchTask(SearchPolicy searchPolicy, Search search, IntersectionRequest request,
+            String similarName) {
+        IntersectionRequest newRequest = new IntersectionRequest(request);
+        newRequest.incrementLevel();
+        String crossStreetOne = request.getCrossStreetOne();
+        if (search.responseMessageAppliesTo(crossStreetOne)
+                && searchPolicy.isSimilarName(crossStreetOne, similarName)) {
+            newRequest.setCrossStreetOneInputValue(new InputValue(TokenType.CROSS_STREET_ONE, similarName));
+            return new IntersectionSearchTask(newRequest, geosupportService, mapper);
+        }
+        String crossStreetTwo = request.getCrossStreetTwo();
+        if (search.responseMessageAppliesTo(crossStreetTwo)
+                && searchPolicy.isSimilarName(crossStreetTwo, similarName)) {
+            newRequest.setCrossStreetTwoInputValue(new InputValue(TokenType.CROSS_STREET_TWO, similarName));
+            return new IntersectionSearchTask(newRequest, geosupportService, mapper);
+        }
+        return null;
     }
-    return null;
-  }
+
+    protected SearchTask buildSearchTask(SearchPolicy searchPolicy, PlaceRequest request, String similarName) {
+        if (searchPolicy.isSimilarName(request.getStreet(), similarName)) {
+            PlaceRequest newRequest = new PlaceRequest(request);
+            newRequest.incrementLevel();
+            newRequest.setStreetInputValue(new InputValue(TokenType.STREET_NAME, similarName));
+            LOGGER.debug("Created {} from {}.", newRequest, request);
+            return new PlaceSearchTask(newRequest, geosupportService, mapper);
+        }
+        return null;
+    }
 }

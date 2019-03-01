@@ -15,32 +15,29 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.task;
 
-import gov.nyc.doitt.gis.geoclient.function.Function;
-import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-import gov.nyc.doitt.gis.geoclient.service.search.request.BinRequest;
-import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
-
 import java.util.Map;
 
-import com.github.dozermapper.core.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BinSearchTask extends SearchTask
-{
-  private static final Logger LOGGER = LoggerFactory.getLogger(BinSearchTask.class);
+import gov.nyc.doitt.gis.geoclient.function.Function;
+import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
+import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
+import gov.nyc.doitt.gis.geoclient.service.search.request.BinRequest;
+import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
-  public BinSearchTask(Request request, GeosupportService geosupportService, Mapper mapper)
-  {
-    super(request, geosupportService, mapper);
-  }
+public class BinSearchTask extends SearchTask {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BinSearchTask.class);
 
-  @Override
-  protected Map<String, Object> doCall()
-  {
-    BinRequest binRequest = (BinRequest) this.request;
-    LOGGER.debug("Calling {} with {}.", Function.FBN, binRequest);
-    return this.geosupportService.callFunctionBN(binRequest.getBin());
-  }
+    public BinSearchTask(Request request, GeosupportService geosupportService, Mapper mapper) {
+        super(request, geosupportService, mapper);
+    }
+
+    @Override
+    protected Map<String, Object> doCall() {
+        BinRequest binRequest = (BinRequest) this.request;
+        LOGGER.debug("Calling {} with {}.", Function.FBN, binRequest);
+        return this.geosupportService.callFunctionBN(binRequest.getBin());
+    }
 
 }

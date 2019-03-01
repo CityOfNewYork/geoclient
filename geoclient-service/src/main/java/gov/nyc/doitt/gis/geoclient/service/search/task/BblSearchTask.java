@@ -15,34 +15,29 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.task;
 
-import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-import gov.nyc.doitt.gis.geoclient.service.search.request.BblRequest;
-import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
-
 import java.util.Map;
 
-import com.github.dozermapper.core.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class BblSearchTask extends SearchTask
-{
-  private static final Logger LOGGER = LoggerFactory.getLogger(BblSearchTask.class);
+import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
+import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
+import gov.nyc.doitt.gis.geoclient.service.search.request.BblRequest;
+import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
-  public BblSearchTask(Request request, GeosupportService geosupportService, Mapper mapper)
-  {
-    super(request, geosupportService, mapper);
-  }
+public class BblSearchTask extends SearchTask {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BblSearchTask.class);
 
-  @Override
-  protected Map<String, Object> doCall()
-  {
-    BblRequest bblRequest = (BblRequest) this.request;
-    LOGGER.debug("Calling FBL with {}.", bblRequest);
-    return this.geosupportService.callFunctionBL(
-        bblRequest.getBorough(),
-        bblRequest.getBlock(),
-        bblRequest.getLot());
-  }
+    public BblSearchTask(Request request, GeosupportService geosupportService, Mapper mapper) {
+        super(request, geosupportService, mapper);
+    }
+
+    @Override
+    protected Map<String, Object> doCall() {
+        BblRequest bblRequest = (BblRequest) this.request;
+        LOGGER.debug("Calling FBL with {}.", bblRequest);
+        return this.geosupportService.callFunctionBL(bblRequest.getBorough(), bblRequest.getBlock(),
+                bblRequest.getLot());
+    }
 
 }

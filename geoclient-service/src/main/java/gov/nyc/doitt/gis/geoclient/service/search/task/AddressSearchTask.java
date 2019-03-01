@@ -15,36 +15,30 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.task;
 
-import gov.nyc.doitt.gis.geoclient.function.Function;
-import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-import gov.nyc.doitt.gis.geoclient.service.search.request.AddressRequest;
-import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
-
 import java.util.Map;
 
-import com.github.dozermapper.core.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AddressSearchTask extends SearchTask
-{
-	private static final Logger LOGGER = LoggerFactory.getLogger(AddressSearchTask.class);
+import gov.nyc.doitt.gis.geoclient.function.Function;
+import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
+import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
+import gov.nyc.doitt.gis.geoclient.service.search.request.AddressRequest;
+import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
-	public AddressSearchTask(Request request, GeosupportService geosupportService, Mapper mapper)
-	{
-		super(request, geosupportService, mapper);
-	}
+public class AddressSearchTask extends SearchTask {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AddressSearchTask.class);
 
-	@Override
-	protected Map<String, Object> doCall()
-	{
-		AddressRequest addressRequest = (AddressRequest) this.request;
-		LOGGER.debug("Calling {} with {}.", Function.F1B, addressRequest);
-		return this.geosupportService.callFunction1B(
-				addressRequest.getHouseNumber(), 
-				addressRequest.getStreet(), 
-				addressRequest.getBorough(), 
-				addressRequest.getZip());
-	}
+    public AddressSearchTask(Request request, GeosupportService geosupportService, Mapper mapper) {
+        super(request, geosupportService, mapper);
+    }
+
+    @Override
+    protected Map<String, Object> doCall() {
+        AddressRequest addressRequest = (AddressRequest) this.request;
+        LOGGER.debug("Calling {} with {}.", Function.F1B, addressRequest);
+        return this.geosupportService.callFunction1B(addressRequest.getHouseNumber(), addressRequest.getStreet(),
+                addressRequest.getBorough(), addressRequest.getZip());
+    }
 
 }
