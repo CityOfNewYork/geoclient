@@ -30,7 +30,8 @@ public class GeosupportReturnCodeFixture {
         return this.grc;
     }
 
-    public void reset() {
+    public synchronized void reset() {
+        // Does NOT alter this.isOne
         this.grc.setReturnCode(null);
         this.grc.setReasonCode(null);
         this.grc.setMessage(null);
@@ -57,6 +58,15 @@ public class GeosupportReturnCodeFixture {
 
     public boolean isTwo() {
         return !one;
+    }
+
+    public synchronized void resetAndPopulate(MapWrapper mapWrap) {
+        reset();
+        if (this.isOne()) {
+            returnCode(mapWrap.getReturnCode1()).reasonCode(mapWrap.getReasonCode1()).message(mapWrap.getMessage1());
+        } else {
+            returnCode(mapWrap.getReturnCode2()).reasonCode(mapWrap.getReasonCode2()).message(mapWrap.getMessage2());
+        }
     }
 
     // @formatter:off

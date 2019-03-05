@@ -88,33 +88,12 @@ public class MapWrapper {
 
     public static MapWrapper successWithWarning() {
         ReturnCodeData rdc = new ReturnCodeData();
-        // @formatter:off
-        return MapWrapper.wrapMap(
-                rdc.success().returnCode()
-                   .then().success().reasonCode()
-                   .then().success().message()
-                   .then().warning().returnCode()
-                   .then().warning().reasonCode()
-                   .then().warning().message()
-                   .values());
-        // @formatter:on
+        return MapWrapper.wrapMap(rdc.successCodes().then().warningCodes().values());
     }
 
     public static MapWrapper warningWithSuccess() {
         ReturnCodeData rdc = new ReturnCodeData();
-        // @formatter:off
-        return MapWrapper.wrapMap(
-                rdc.warning().returnCode()
-                   .then().warning().reasonCode()
-                   .then().warning().message()
-                   .then().success().returnCode()
-                   .then().success().reasonCode()
-                   .then().success().message()
-                   .then().values());
-        // @formatter:on
-        // return MapWrapper.wrapMap(rdc.WARNING_RETURN_CODE, rdc.WARNING_REASON_CODE,
-        // rdc.WARNING_MESSAGE,
-        // rdc.SUCCESS_RETURN_CODE, rdc.SUCCESS_REASON_CODE, rdc.SUCCESS_MESSAGE);
+        return MapWrapper.wrapMap(rdc.warningCodes().then().successCodes().values());
     }
 
     // Assumes one to six arguments in the following order:
