@@ -22,14 +22,14 @@ import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
 import gov.nyc.doitt.gis.geoclient.service.search.request.AddressRequest;
 import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
 public class AddressSearchTask extends SearchTask {
     private static final Logger LOGGER = LoggerFactory.getLogger(AddressSearchTask.class);
 
-    public AddressSearchTask(Request request, GeosupportService geosupportService, Mapper mapper) {
+    public AddressSearchTask(Request request, GeosupportService geosupportService, LegacyMapper mapper) {
         super(request, geosupportService, mapper);
     }
 

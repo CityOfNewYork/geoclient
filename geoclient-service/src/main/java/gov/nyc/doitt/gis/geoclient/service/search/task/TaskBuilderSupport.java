@@ -16,16 +16,16 @@
 package gov.nyc.doitt.gis.geoclient.service.search.task;
 
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
 import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;
 
 public class TaskBuilderSupport {
 
     protected final CountyResolver countyResolver;
     protected final GeosupportService geosupportService;
-    protected final Mapper mapper;
+    protected final LegacyMapper mapper;
 
-    public TaskBuilderSupport(CountyResolver countyResolver, GeosupportService geosupportService, Mapper mapper) {
+    public TaskBuilderSupport(CountyResolver countyResolver, GeosupportService geosupportService, LegacyMapper mapper) {
         super();
         this.countyResolver = countyResolver;
         this.geosupportService = geosupportService;

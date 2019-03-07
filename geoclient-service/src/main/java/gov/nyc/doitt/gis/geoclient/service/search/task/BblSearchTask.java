@@ -21,14 +21,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
 import gov.nyc.doitt.gis.geoclient.service.search.request.BblRequest;
 import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
 public class BblSearchTask extends SearchTask {
     private static final Logger LOGGER = LoggerFactory.getLogger(BblSearchTask.class);
 
-    public BblSearchTask(Request request, GeosupportService geosupportService, Mapper mapper) {
+    public BblSearchTask(Request request, GeosupportService geosupportService, LegacyMapper mapper) {
         super(request, geosupportService, mapper);
     }
 

@@ -21,7 +21,7 @@ import java.util.List;
 import gov.nyc.doitt.gis.geoclient.api.InputParam;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
 import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;
 import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
@@ -30,7 +30,7 @@ import gov.nyc.doitt.gis.geoclient.service.search.request.IntersectionRequest;
 
 public class CompassDirectionTaskBuilder extends TaskBuilderSupport implements SpawnedSearchTaskBuilder {
     public CompassDirectionTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService,
-            Mapper mapper) {
+            LegacyMapper mapper) {
         super(countyResolver, geosupportService, mapper);
     }
 

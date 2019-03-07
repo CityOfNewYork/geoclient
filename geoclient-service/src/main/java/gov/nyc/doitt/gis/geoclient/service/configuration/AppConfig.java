@@ -45,7 +45,7 @@ import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl;
 import gov.nyc.doitt.gis.geoclient.service.invoker.LatLongEnhancer;
-import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
 import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchId;
 import gov.nyc.doitt.gis.geoclient.service.search.SingleFieldSearchHandler;
@@ -131,12 +131,12 @@ public class AppConfig {
     }
 
     @Bean
-    public gov.nyc.doitt.gis.geoclient.service.mapper.Mapper beanMapper() {
+    public gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper beanMapper() {
         // Expects a mapping file called dozerBeanMapping.xml to be on the
         // classpath. Singleton wrapper insures that mapping file is only
         // parsed once.
         // return DozerBeanMapperSingletonWrapper.getInstance();
-        return new Mapper(com.github.dozermapper.core.DozerBeanMapperBuilder.buildDefault());
+        return new LegacyMapper(com.github.dozermapper.core.DozerBeanMapperBuilder.buildDefault());
     }
 
     public Function geosupportFunction(String id) {

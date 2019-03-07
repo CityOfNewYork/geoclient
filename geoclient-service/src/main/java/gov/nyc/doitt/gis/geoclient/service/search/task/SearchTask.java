@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
 import gov.nyc.doitt.gis.geoclient.service.search.Response;
 import gov.nyc.doitt.gis.geoclient.service.search.ResponseStatus;
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
@@ -33,9 +33,9 @@ public abstract class SearchTask implements Callable<Search> {
 
     protected final Request request;
     protected final GeosupportService geosupportService;
-    private final Mapper mapper;
+    private final LegacyMapper mapper;
 
-    public SearchTask(Request request, GeosupportService geosupportService, Mapper mapper) {
+    public SearchTask(Request request, GeosupportService geosupportService, LegacyMapper mapper) {
         super();
         this.request = request;
         this.geosupportService = geosupportService;
