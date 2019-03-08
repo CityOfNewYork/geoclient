@@ -11,10 +11,61 @@ import gov.nyc.doitt.gis.geoclient.api.OutputParam;
 import gov.nyc.doitt.gis.geoclient.service.search.GeosupportReturnCode;
 import gov.nyc.doitt.gis.geoclient.service.search.ResponseStatus;
 
-public class ResponseStatusMapper implements CustomConverter {
+public class ResponseStatusMapper extends AbstractParameterMapper<ResponseStatus>
+        implements Mapper<ResponseStatus>, CustomConverter {
 
     public ResponseStatusMapper() {
         super();
+    }
+
+    @Override
+    public ResponseStatus fromParameters(Map<String, Object> source, ResponseStatus responseStatus)
+            throws MappingException {
+
+        GeosupportReturnCode rc1 = responseStatus.getGeosupportReturnCode();
+        if (rc1 == null) {
+            rc1 = new GeosupportReturnCode();
+            responseStatus.setGeosupportReturnCode(rc1);
+        }
+
+        convertToGeosupportReturnCodeOne(source, rc1);
+
+        GeosupportReturnCode rc2 = responseStatus.getGeosupportReturnCode2();
+        if (rc2 == null) {
+            rc2 = new GeosupportReturnCode();
+            responseStatus.setGeosupportReturnCode2(rc2);
+        }
+
+        convertToGeosupportReturnCodeTwo(source, rc2);
+
+        List<String> similarNames = responseStatus.getSimilarNames();
+        similarNames = similarNames != null ? similarNames : new ArrayList<>();
+
+        convertToSimilarNamesList(source, similarNames);
+
+        return responseStatus;
+    }
+
+    @Override
+    public Map<String, Object> toParameters(ResponseStatus responseStatus, Map<String, Object> map)
+            throws MappingException {
+        GeosupportReturnCode rc1 = responseStatus.getGeosupportReturnCode();
+        if (rc1 == null) {
+            rc1 = new GeosupportReturnCode();
+            responseStatus.setGeosupportReturnCode(rc1);
+        }
+        GeosupportReturnCode rc2 = responseStatus.getGeosupportReturnCode2();
+        if (rc2 == null) {
+            rc2 = new GeosupportReturnCode();
+            responseStatus.setGeosupportReturnCode2(rc2);
+        }
+
+        convertToMapOfGeosupportReturnCodeOne(rc1, map);
+        convertToMapOfGeosupportReturnCodeTwo(rc2, map);
+        List<String> similarNames = responseStatus.getSimilarNames();
+        similarNames = similarNames != null ? similarNames : new ArrayList<>();
+        convertToMapOfSimilarNames(similarNames, map);
+        return map;
     }
 
     @SuppressWarnings("unchecked")
@@ -27,44 +78,13 @@ public class ResponseStatusMapper implements CustomConverter {
         if (source instanceof Map<?, ?>) {
 
             ResponseStatus responseStatus = destination != null ? (ResponseStatus) destination : new ResponseStatus();
-            GeosupportReturnCode rc1 = responseStatus.getGeosupportReturnCode();
-            if (rc1 == null) {
-                rc1 = new GeosupportReturnCode();
-                responseStatus.setGeosupportReturnCode(rc1);
-            }
-            convertToGeosupportReturnCodeOne((Map<String, Object>) source, rc1);
-
-            GeosupportReturnCode rc2 = responseStatus.getGeosupportReturnCode2();
-            if (rc2 == null) {
-                rc2 = new GeosupportReturnCode();
-                responseStatus.setGeosupportReturnCode2(rc2);
-            }
-            convertToGeosupportReturnCodeTwo((Map<String, Object>) source, rc2);
-            List<String> similarNames = responseStatus.getSimilarNames();
-            similarNames = similarNames != null ? similarNames : new ArrayList<>();
-            convertToSimilarNamesList((Map<String, Object>) source, similarNames);
-            return responseStatus;
+            return fromParameters((Map<String, Object>) source, responseStatus);
         }
+
         if (source instanceof ResponseStatus) {
             ResponseStatus responseStatus = (ResponseStatus) source;
-            GeosupportReturnCode rc1 = responseStatus.getGeosupportReturnCode();
-            if (rc1 == null) {
-                rc1 = new GeosupportReturnCode();
-                responseStatus.setGeosupportReturnCode(rc1);
-            }
-            GeosupportReturnCode rc2 = responseStatus.getGeosupportReturnCode2();
-            if (rc2 == null) {
-                rc2 = new GeosupportReturnCode();
-                responseStatus.setGeosupportReturnCode2(rc2);
-            }
             Map<String, Object> map = destination != null ? (Map<String, Object>) destination : new HashMap<>();
-
-            convertToMapOfGeosupportReturnCodeOne(rc1, map);
-            convertToMapOfGeosupportReturnCodeTwo(rc2, map);
-            List<String> similarNames = responseStatus.getSimilarNames();
-            similarNames = similarNames != null ? similarNames : new ArrayList<>();
-            convertToMapOfSimilarNames(similarNames, map);
-            return map;
+            return toParameters(responseStatus, map);
         }
 
         throw new IllegalArgumentException(buildIllegalArgumentExceptionMessage(source, destination));
