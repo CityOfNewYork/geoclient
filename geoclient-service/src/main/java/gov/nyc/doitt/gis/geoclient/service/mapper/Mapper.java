@@ -4,9 +4,11 @@ import java.util.Map;
 
 public interface Mapper<T> {
 
-    void fromParameters(Map<String, Object> source, T destination) throws MappingException;
+    T fromParameters(Map<String, Object> source, Class<T> destinationClass) throws MappingException;
+
+    T fromParameters(Map<String, Object> source, T destination) throws MappingException;
+
+    Map<String, Object> toParameters(T source, Map<String, Object> destination) throws MappingException;
     
-    void toParameters(T source, Map<String, Object> destination) throws MappingException;
-    
-    String getId();
+    Map<String, Object> toParameters(T source) throws MappingException;
 }

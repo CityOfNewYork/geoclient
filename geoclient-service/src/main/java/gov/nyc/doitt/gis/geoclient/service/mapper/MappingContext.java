@@ -8,23 +8,28 @@ import java.util.stream.Collectors;
 
 public class MappingContext {
 
-    private final ConcurrentMap<String, Mapper<? extends Object>> mappers = new ConcurrentHashMap<String, Mapper<? extends Object>>();
+    private final ConcurrentMap<Class<?>, Mapper<?>> mappers = new ConcurrentHashMap<Class<?>, Mapper<?>>();
 
     public MappingContext() {
     }
 
-    public MappingContext(List<Mapper<? extends Object>> mappers) {
-	this.mappers.putAll(mappers.stream().collect(Collectors.toMap(Mapper::getId, Function.identity())));
+    public MappingContext(List<Mapper<?>> mappers) {
+        this.mappers.putAll(mappers.stream().collect(Collectors.toMap(Mapper::getClass, Function.identity())));
     }
-    
-    public Mapper<? extends Object> add(Mapper<? extends Object> mapper) {
-	return this.mappers.put(mapper.getId(), mapper);
+
+    public Mapper<?> add(Mapper<?> mapper) {
+        return this.mappers.put(mapper.getClass(), mapper);
     }
-    
-    public Mapper<?> getMapper(String id) {
-	if(this.mappers.containsKey(id)) {
-	    return this.mappers.get(id);
-	}
-	throw new IllegalArgumentException(String.format("No Mapper configured with id '%s'", id));
+
+    public boolean containsMapper(Class<?> mapperClass) {
+        return this.mappers.containsKey(mapperClass);
+    }
+
+    public Mapper<?> getMapper(Class<?> clazz) {
+        if (this.mappers.containsKey(clazz)) {
+            return this.mappers.get(clazz);
+        }
+        throw new IllegalArgumentException(
+                String.format("No Mapper configured for Class<%s>", clazz.getCanonicalName()));
     }
 }

@@ -11,9 +11,9 @@ import gov.nyc.doitt.gis.geoclient.api.OutputParam;
 import gov.nyc.doitt.gis.geoclient.service.search.GeosupportReturnCode;
 import gov.nyc.doitt.gis.geoclient.service.search.ResponseStatus;
 
-public class ResponseStatusCustomConverter implements CustomConverter {
+public class ResponseStatusMapper implements CustomConverter {
 
-    public ResponseStatusCustomConverter() {
+    public ResponseStatusMapper() {
         super();
     }
 

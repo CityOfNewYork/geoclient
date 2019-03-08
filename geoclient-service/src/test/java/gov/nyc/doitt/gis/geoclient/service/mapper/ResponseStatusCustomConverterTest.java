@@ -17,14 +17,14 @@ import gov.nyc.doitt.gis.geoclient.service.search.ResponseStatus;
 
 class ResponseStatusCustomConverterTest {
 
-    private ResponseStatusCustomConverter converter;
+    private ResponseStatusMapper converter;
     private GeosupportReturnCodeFixture grc1;
     private GeosupportReturnCodeFixture grc2;
     private List<String> similarNames;
 
     @BeforeEach
     void setUp() throws Exception {
-        this.converter = new ResponseStatusCustomConverter();
+        this.converter = new ResponseStatusMapper();
         this.grc1 = new GeosupportReturnCodeFixture();
         this.grc2 = new GeosupportReturnCodeFixture(false);
         this.similarNames = new ArrayList<>();
