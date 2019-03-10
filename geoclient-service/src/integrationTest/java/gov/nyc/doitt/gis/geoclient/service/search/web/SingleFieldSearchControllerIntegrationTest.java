@@ -1,7 +1,6 @@
 package gov.nyc.doitt.gis.geoclient.service.search.web;
 
-import java.util.HashMap;
-import java.util.Map;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.MatchStatus;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResponse;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.Status;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -25,30 +35,31 @@ public class SingleFieldSearchControllerIntegrationTest {
 
     @BeforeEach
     public void setUp() {
+        // restTemplate
     }
 
     @Test
     public void testSearch() {
-        Map<String, Object> params = new HashMap<>();
-        params.put("input", "120 Broadway");
-        String searchResponse = this.restTemplate.getForObject("/search", String.class, params);
-        logger.info("response--->{}", searchResponse);
-        // SearchParameters searchParameters = new SearchParameters("120 Broadway");
-        // HttpHeaders headers = new HttpHeaders();
-        // headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE);
-        // HttpEntity<SearchParameters> request = new
-        // HttpEntity<SearchParameters>(searchParameters, headers);
-        // ResponseEntity<String> httpResponse =
-        // this.restTemplate.exchange("/search.json", HttpMethod.GET, request,
-        // String.class, params);
-        // assertThat(httpResponse.getStatusCodeValue() == 200);
-        // String searchResponse = httpResponse.getBody();
-        // assertThat(searchResponse.contains("POSSIBLE_MATCH"));
-        // Status status = searchResponse.getStatus();
-        // assertThat(status.equals(Status.OK));
-        // assertThat(
-        // searchResponse.getResults().stream().anyMatch(s ->
-        // s.getStatus().equals(MatchStatus.POSSIBLE_MATCH)));
+        UriComponents uriComponents = UriComponentsBuilder.fromPath("/search.json").queryParam("input", "120 broadway")
+                .build();
+        ResponseEntity<SearchResponse> httpResponse = this.restTemplate.exchange(uriComponents.toUri(), HttpMethod.GET,
+                getRequest(), SearchResponse.class);
+        SearchResponse searchResponse = httpResponse.getBody();
+        logger.debug("Response: {}", searchResponse);
+        assertThat(httpResponse.getStatusCodeValue() == 200);
+        Status status = searchResponse.getStatus();
+        assertThat(status.equals(Status.OK));
+        assertThat(
+                searchResponse.getResults().stream().anyMatch(s -> s.getStatus().equals(MatchStatus.POSSIBLE_MATCH)));
     }
 
+    private HttpEntity<?> getRequest() {
+        return new HttpEntity<>(getHeaders());
+    }
+
+    private HttpHeaders getHeaders() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_UTF8_VALUE);
+        return headers;
+    }
 }

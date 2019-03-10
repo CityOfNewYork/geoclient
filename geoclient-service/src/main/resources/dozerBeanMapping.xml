@@ -425,10 +425,11 @@
       </field>
     </mapping>
 
+    <!--
     <mapping map-null="false" wildcard="false">
         <class-a>java.util.Map</class-a>
         <class-b>gov.nyc.doitt.gis.geoclient.service.search.ResponseStatus</class-b>
-        <!-- GRC -->
+        //GRC
         <field>
             <a>geosupportReturnCode</a>
             <b>geosupportReturnCode.returnCode</b>
@@ -441,7 +442,7 @@
             <a>message</a>
             <b>geosupportReturnCode.message</b>
         </field>
-        <!-- Second GRC for F1B -->
+        //Second GRC for F1B
         <field>
             <a>geosupportReturnCode2</a>
             <b>geosupportReturnCode2.returnCode</b>
@@ -454,7 +455,7 @@
             <a>message2</a>
             <b>geosupportReturnCode2.message</b>
         </field>
-        <!-- Similar names -->
+        //Similar names
         <field>
             <a>streetName1</a>
             <b>similarNames[0]</b>
@@ -496,4 +497,5 @@
             <b>similarNames[9]</b>
         </field>
     </mapping>
+    -->
 </mappings>

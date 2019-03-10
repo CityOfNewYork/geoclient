@@ -27,6 +27,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
+import com.github.dozermapper.core.DozerBeanMapperBuilder;
 //import com.github.dozermapper.core.DozerBeanMapperBuilder;
 //import com.github.dozermapper.core.Mapper;
 import com.thoughtworks.xstream.converters.ConverterMatcher;
@@ -46,7 +47,10 @@ import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl;
 import gov.nyc.doitt.gis.geoclient.service.invoker.LatLongEnhancer;
 import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.ResponseStatusMapper;
 import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;
+import gov.nyc.doitt.gis.geoclient.service.search.ResponseStatus;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchId;
 import gov.nyc.doitt.gis.geoclient.service.search.SingleFieldSearchHandler;
 import gov.nyc.doitt.gis.geoclient.service.search.task.DefaultInitialSearchTaskBuilder;
@@ -131,12 +135,8 @@ public class AppConfig {
     }
 
     @Bean
-    public gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper beanMapper() {
-        // Expects a mapping file called dozerBeanMapping.xml to be on the
-        // classpath. Singleton wrapper insures that mapping file is only
-        // parsed once.
-        // return DozerBeanMapperSingletonWrapper.getInstance();
-        return new LegacyMapper(com.github.dozermapper.core.DozerBeanMapperBuilder.buildDefault());
+    public Mapper<ResponseStatus> beanMapper() {
+        return new ResponseStatusMapper();
     }
 
     public Function geosupportFunction(String id) {
@@ -167,12 +167,15 @@ public class AppConfig {
         return geosupportFunction(Function.FHR);
     }
 
+    public LegacyMapper versionMapper() {
+        return new LegacyMapper(DozerBeanMapperBuilder.buildDefault());
+    }
     // Do not declare as @Bean, but as a regular method
     // since we don't want proxies generated for incoming args
     public Version version(Map<String, Object> functionHrData) {
 
         Version version = new Version();
-        beanMapper().map(functionHrData, version);
+        versionMapper().map(functionHrData, version);
         version.setGeoclientJniVersion(getImplementationVersion(Geoclient.class));
         version.setGeoclientVersion(getImplementationVersion(GeosupportConfig.class));
         version.setGeoclientParserVersion(getImplementationVersion(LocationTokenizer.class));

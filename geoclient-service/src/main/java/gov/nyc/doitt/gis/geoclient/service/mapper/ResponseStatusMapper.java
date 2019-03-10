@@ -130,8 +130,7 @@ public class ResponseStatusMapper extends AbstractParameterMapper<ResponseStatus
     private void convertToMapOfSimilarNames(List<String> similarNames, Map<String, Object> dest) {
         int i = 1;
         for (String name : similarNames) {
-            String numberString = i < 10 ? "0" + i : "" + i;
-            String key = "streetName" + numberString;
+            String key = "streetName" + Integer.toString(i);
             dest.put(key, name);
             i++;
         }
@@ -139,9 +138,7 @@ public class ResponseStatusMapper extends AbstractParameterMapper<ResponseStatus
 
     private void convertToSimilarNamesList(Map<String, Object> source, List<String> dest) {
         for (int i = 0; i < 10; i++) {
-            int number = i + 1;
-            String numberString = number < 10 ? "0" + number : "" + number;
-            String key = "streetName" + numberString;
+            String key = "streetName" + Integer.toString(i);
             String value = stringValue(source.get(key));
             if (value != null) {
                 dest.add(value);

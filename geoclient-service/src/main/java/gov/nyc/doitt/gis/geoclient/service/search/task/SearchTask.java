@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
 import gov.nyc.doitt.gis.geoclient.service.search.Response;
 import gov.nyc.doitt.gis.geoclient.service.search.ResponseStatus;
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
@@ -33,9 +33,9 @@ public abstract class SearchTask implements Callable<Search> {
 
     protected final Request request;
     protected final GeosupportService geosupportService;
-    private final LegacyMapper mapper;
+    private final Mapper<ResponseStatus> mapper;
 
-    public SearchTask(Request request, GeosupportService geosupportService, LegacyMapper mapper) {
+    public SearchTask(Request request, GeosupportService geosupportService, Mapper<ResponseStatus> mapper) {
         super();
         this.request = request;
         this.geosupportService = geosupportService;
@@ -45,11 +45,8 @@ public abstract class SearchTask implements Callable<Search> {
     @Override
     public Search call() throws Exception {
         Map<String, Object> actualResult = doCall();
-        // FIXME Without this use of the actualResult reference here, the call to Dozer
-        // mapper.map fails apparently because the dynamic proxy does get resolved.
         LOGGER.debug("Results from doCall(): {}", actualResult);
-        ResponseStatus responseStatus = new ResponseStatus();
-        this.mapper.map(actualResult, responseStatus);
+        ResponseStatus responseStatus =  this.mapper.fromParameters(actualResult, ResponseStatus.class);
         return new Search(request, new Response(responseStatus, actualResult));
     }
 

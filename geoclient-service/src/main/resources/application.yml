@@ -30,7 +30,7 @@ logging:
         spring: "INFO"
         spring-boot: "INFO"
         geoclient: "INFO"
-        geoclient-service: "DEBUG"
+        geoclient-service: "INFO"
         ## Log Dozer bean mapping framework
         #com.github.dozermapper: "DEBUG"
         ## Log XML deserialization into workarea fields at startup

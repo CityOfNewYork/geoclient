@@ -23,9 +23,10 @@ import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
 import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;
 import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
+import gov.nyc.doitt.gis.geoclient.service.search.ResponseStatus;
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
@@ -38,7 +39,7 @@ import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 public class SimilarNamesTaskBuilder extends TaskBuilderSupport {
     protected static final Logger LOGGER = LoggerFactory.getLogger(SimilarNamesTaskBuilder.class);
 
-    public SimilarNamesTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService, LegacyMapper mapper) {
+    public SimilarNamesTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService, Mapper<ResponseStatus> mapper) {
         super(countyResolver, geosupportService, mapper);
     }
 

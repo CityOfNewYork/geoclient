@@ -24,9 +24,10 @@ import org.apache.commons.lang3.reflect.ConstructorUtils;
 import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
 import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;
 import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
+import gov.nyc.doitt.gis.geoclient.service.search.ResponseStatus;
 import gov.nyc.doitt.gis.geoclient.service.search.ValueResolution;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
 import gov.nyc.doitt.gis.geoclient.service.search.request.AddressRequest;
@@ -40,7 +41,7 @@ import gov.nyc.doitt.gis.geoclient.service.search.request.RequestUtils;
 
 public class DefaultInitialSearchTaskBuilder extends TaskBuilderSupport implements InitialSearchTaskBuilder {
     public DefaultInitialSearchTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService,
-            LegacyMapper mapper) {
+            Mapper<ResponseStatus> mapper) {
         super(countyResolver, geosupportService, mapper);
     }
 
