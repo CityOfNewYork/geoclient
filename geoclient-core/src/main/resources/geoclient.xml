@@ -1972,7 +1972,8 @@
         <field id="geoFileDate5" start="113" length="6"></field>
         <field id="geoFileRelease5" start="119" length="4"></field>
         <field id="geoFileRecordCount5" start="123" length="8"></field>
-        <!-- geoFileInfo 6 -->        <field id="geoFile6RecordType" start="131" length="4"></field>
+        <!-- geoFileInfo 6 -->
+        <field id="geoFile6RecordType" start="131" length="4"></field>
         <field id="geoFileTag6" start="135" length="4"></field>
         <field id="geoFileDate6" start="139" length="6"></field>
         <field id="geoFileRelease6" start="145" length="4"></field>
@@ -1996,13 +1997,16 @@
         <field id="geoFileRelease9" start="223" length="4"></field>
         <field id="geoFileRecordCount9" start="227" length="8"></field>
         <!-- thinInfo -->
+        <!-- thinFileInfo 1 -->
         <field id="thinFileRecordType1" start="235" length="4"></field>
         <field id="thinFileTag" start="239" length="4"></field>
         <field id="thinFileDate" start="243" length="6"></field>
         <field id="thinFiller1" start="249" length="12"></field>
+        <!-- thinFileInfo 2 -->
         <field id="thinFileRecordType2" start="261" length="4"></field>
         <field id="thinFileRelease" start="265" length="4"></field>
         <field id="thinFileFiller2" start="269" length="18"></field>
+        <!-- thinFileInfo 3 -->        
         <field id="thinFileRecordType3" start="287" length="4"></field>
         <field id="thinFileRecordCount" start="291" length="8"></field>
         <field id="thinFileFiller3" start="299" length="14"></field>
@@ -2030,7 +2034,21 @@
         <field id="apequivFileDate" start="399" length="6"></field>
         <field id="apequivFileRelease" start="405" length="4"></field>
         <field id="apequivFileRecordCount" start="409" length="8"></field>
-        <!-- dsNames -->
+        <!-- ap    (26) start="417" -->
+        <!-- upad  (26) -->
+        <!-- STAT   (5) -->
+        <!-- STT1  (26) -->
+        <!-- STT1A (26) -->
+        <!-- STT2  (26) -->
+        <!-- STT3  (26) -->
+        <!-- STT3S (26) -->
+        <!-- STTAP (26) -->
+        <!-- STTBL (26) -->
+        <!-- STTBN (26) -->
+        <!-- STTD  (26) -->
+        <!-- sneq  (26) -->
+        <!-- edquiv (8) -->
+        <!-- dsNames 1 through 15 -->
         <field id="dsName1" start="417" length="60"></field>
         <field id="dsName2" start="477" length="60"></field>
         <field id="dsName3" start="537" length="60"></field>
@@ -2045,15 +2063,23 @@
         <field id="dsName12" start="1077" length="60"></field>
         <field id="dsName13" start="1137" length="60"></field>
         <field id="dsName14" start="1197" length="60"></field>
+        <!-- ds15  (5) -->
         <field id="dsName15" start="1257" length="60"></field>
+        <!-- ds16 (60) through 26 -->
         <field id="dsName16" start="1317" length="60"></field>
-        <!-- In the W_FHR header file, there are only 16 dsNames, -->
-        <!-- but the data seems to include at least two more. -->
+        <!-- In the W2_FHR header file, there are only 16 dsNames, -->
+        <!-- but the data seems to include at least ten more. -->
         <field id="dsName17" start="1377" length="60"></field>
         <field id="dsName18" start="1437" length="60"></field>
         <field id="dsName19" start="1497" length="60"></field>
         <field id="dsName20" start="1557" length="60"></field>
-        <field id="filler4" start="1617" length="3410"></field>
+        <!-- <field id="dsName21" start="" length="60"></field> -->
+        <!-- <field id="dsName22" start="" length="60"></field> -->
+        <!-- <field id="dsName23" start="" length="60"></field> -->
+        <!-- <field id="dsName24" start="" length="60"></field> -->
+        <!-- <field id="dsName25" start="" length="60"></field> -->
+        <!-- <field id="dsName26" start="" length="60"></field> -->
+        <field id="filler4" start="1617" length="3410"></field> <!-- reduce by 360 -->
       </fields>
     </workArea>
   </workAreas>
