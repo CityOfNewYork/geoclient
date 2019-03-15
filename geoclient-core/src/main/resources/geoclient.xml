@@ -1261,7 +1261,9 @@
         <field id="streetWidthMaximum" start="746" length="3"></field>
         <field id="speedLimit" start="749" length="2"></field>
         <field id="pumaCode" start="751" length="5"></field>
-        <field id="filler8" start="756" length="245"><!-- filtered --></field>
+        <field id="policeSector" start="756" length="4"></field>
+        <field id="policeServiceArea" start="760" length="1"></field>`
+        <field id="filler8" start="761" length="240"><!-- filtered --></field>
         <field id="reasonCode1e" start="1001" length="1"><!-- item doc by id --></field>
         <field id="reasonCode1eQualifier" start="1002" length="1"><!-- filtered --></field>
         <field id="warningCode1e" start="1003" length="2"><!-- filtered --></field>
@@ -1676,7 +1678,8 @@
         <field id="sanitationDistrict" start="184" length="3"></field>
         <field id="sanitationSection" start="182" length="3" type="COMP"></field>
         <field id="sanitationCollectionSchedulingSectionAndSubsection" start="187" length="2"></field>
-        <field id="filler6" start="189" length="12"></field>
+        <field id="policeSector" start="189" length="4"></field>
+        <field id="filler6" start="193" length="8"></field>
       </fields>
     </workArea>
     <workArea id="WA2_F2W">
@@ -1741,7 +1744,8 @@
         <field id="sanitationDistrict" start="184" length="3"></field>
         <field id="sanitationSection" start="182" length="3" type="COMP"></field>
         <field id="sanitationCollectionSchedulingSectionAndSubsection" start="187" length="2"></field>
-        <field id="filler6" start="189" length="12"></field>
+        <field id="policeSector" start="189" length="4"></field>
+        <field id="filler6" start="193" length="8"></field>
         <field id="filler7" start="201" length="22"></field>
 		<field id="lgcListForStreet1" start="223" length="8"></field>
 		<field id="lgcListForStreet2" start="231" length="8"></field>
