@@ -1,69 +1,66 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <geoclient>
-  <filters id="allFilters">
-    <!-- References to filters can either reference the entire "filters"
-         element id, selectively choose from this list or define their
-         own locally:
+   <filters id="allFilters">
+     <!-- References to filters can either reference the entire "filters"
+          element id, selectively choose from this list or define their
+          own locally:
 
-         Reference all:         <outputFilters reference="allFilters" />
+          Reference all:         <outputFilters reference="allFilters" />
 
-         Reference selectively: <outputFilters>
-                                  <filter reference="fillerFilter" />
-                                  <filter reference="internalUseFilter" />
-                                </outputFilters>
+          Reference selectively: <outputFilters>
+                                   <filter reference="fillerFilter" />
+                                   <filter reference="internalUseFilter" />
+                                 </outputFilters>
 
-         Define locally:        <outputFilters>
-                                  <filter pattern="(foo|bar)" />
-                                </outputFilters>
-     -->
-    <filter id="angleToFilter" pattern="angleTo(From|To)Node(Alpha|Beta)Value" /><!-- specific to 1B -->
-    <filter id="attributeBytesFilter" pattern="attributeBytes" />
-    <filter id="fillerFilter" pattern="\w*[fF]iller\d*\w*" />
-    <filter id="fractionForCurveCalculationFilter" pattern="fractionForCurveCalculation" /><!-- specific to 1B -->
-    <!-- <filter id="hiLoCrossStreetB5SCFilter" pattern="(low|high)CrossStreetB5SC\d\d?" /> -->
-    <filter id="internalUseFilter" pattern="\w*[Ii]nternalUse\w*" />
-    <filter id="lowHouseNumberFilter" pattern="lowHouseNumber(In|SortFormat|SortFormatIn)?" />
-    <filter id="ninFilter" pattern="nin" />
-    <!-- <filter id="numberOfCrossStreetB5SCFilter" pattern="numberOfCrossStreetB5SCs(Low|High)AddressEnd" /> -->
-    <filter id="reasonCodeQualifierFilter" pattern="reasonCodeQualifier(.)?" />
-    <filter id="reservedForFilter" pattern="reservedFor\w*" />
-    <filter id="streetAttributeIndicatorFilter" pattern="streetAttributeIndicator" />
-    <filter id="taxLotVersionNumberFilter" pattern="taxLotVersionNumber\w*" />
-  </filters>
-  <workAreas>
-  <!-- The "alias" attribute of the field tag currently applies to
-       to WA1 input fields. The alias allows calling clients to use
-       the alias as an input parameter name. The output name for all
-       fields, always uses the id.
+          Define locally:        <outputFilters>
+                                   <filter pattern="(foo|bar)" />
+                                 </outputFilters>
+      -->
+     <filter id="angleToFilter" pattern="angleTo(From|To)Node(Alpha|Beta)Value" /><!-- specific to 1B -->
+     <filter id="attributeBytesFilter" pattern="attributeBytes" />
+     <filter id="fillerFilter" pattern="\w*[fF]iller\d*\w*" />
+     <filter id="fractionForCurveCalculationFilter" pattern="fractionForCurveCalculation" /><!-- specific to 1B -->
+     <filter id="internalUseFilter" pattern="\w*[Ii]nternalUse\w*" />
+     <filter id="lowHouseNumberFilter" pattern="lowHouseNumber(In|SortFormat|SortFormatIn)?" />
+     <filter id="ninFilter" pattern="nin" />
+     <filter id="reasonCodeQualifierFilter" pattern="reasonCodeQualifier(.)?" />
+     <filter id="reservedForFilter" pattern="reservedFor\w*" />
+     <filter id="streetAttributeIndicatorFilter" pattern="streetAttributeIndicator" />
+     <filter id="taxLotVersionNumberFilter" pattern="taxLotVersionNumber\w*" />
+   </filters>
+   <workAreas>
+   <!-- The "alias" attribute of the field tag currently applies to
+        to WA1 input fields. The alias allows calling clients to use
+        the alias as an input parameter name. The output name for all
+        fields, always uses the id.
 
-       For configuration purposes, Fields with the same start and length
-       values are considered equal. Currently, warning messages are
-       logged at start-up when a work area configuration contains multiple
-       equal fields. Equal fields occurring later in this file are
-       ignored.
+        For configuration purposes, Fields with the same start and length
+        values are considered equal. Currently, warning messages are
+        logged at start-up when a work area configuration contains multiple
+        equal fields. Equal fields occurring later in this file are
+        ignored.
 
-       Unless there is a good reason to do otherwise, Field id's should
-       be unique across each WA1/WA2 function configuration. There are
-       currently a few field id duplicates (mostly relating to BBL)
-       between WA1 and WA2. Since WA2 fields are parsed after WA1, the WA2
-       field id duplicates will overwrite the WA1 field values when the
-       response is parsed. Currently, warning messages are logged at
-       start-up when a function configuration contains duplicate id's.
+        Unless there is a good reason to do otherwise, Field id's should
+        be unique across each WA1/WA2 function configuration. There are
+        currently a few field id duplicates (mostly relating to BBL)
+        between WA1 and WA2. Since WA2 fields are parsed after WA1, the WA2
+        field id duplicates will overwrite the WA1 field values when the
+        response is parsed. Currently, warning messages are logged at
+        start-up when a function configuration contains duplicate id's.
 
-       The following naming conventions have been used:
+        The following naming conventions have been used:
 
-         - WA1 input field id's have "In" added to the name with the
-           sole exception of geosupportFunctionCode
+          - WA1 input field id's have "In" added to the name with the
+            sole exception of geosupportFunctionCode
 
-         - All WA1 fields have been aliased to exclude the "In" suffix
+          - All WA1 fields have been aliased to exclude the "In" suffix
 
-         - Where there are multiple fields with the same name in the same
-           work area, numbers starting with 1 have been appended. For
-           input fields, the number occurs before the "In" suffix
+          - Where there are multiple fields with the same name in the same
+            work area, numbers starting with 1 have been appended. For
+            input fields, the number occurs before the "In" suffix
 
-   -->
+    -->
     <workArea id="WA1" isWA1="true">
-      <!-- <description><p>Work Area 1 is used in all function calls. It contains input fields used as function arguments as well as output fields.</p></description> -->
       <length>1200</length>
       <outputFilters reference="allFilters" />
       <fields>
@@ -430,7 +427,6 @@
       </fields>
     </workArea>
     <workArea id="WA2_F1">
-      <!-- <description><p>Used by functions 1 and 1E. Returns a total of 300 bytes in Work Area 2.</p></description> -->
       <length>300</length>
       <outputFilters reference="allFilters" />
       <fields>
@@ -517,7 +513,6 @@
       </fields>
     </workArea>
     <workArea id="WA2_F1A">
-      <!-- <description><p>Used by function 1A, BL ,BN. Returns a total of 1363 bytes in Work Area 2.</p></description> -->
       <length>1363</length>
       <outputFilters reference="allFilters" />
       <fields>
@@ -785,7 +780,6 @@
       </fields>
     </workArea>
     <workArea id="WA2_F1AX">
-      <!-- <description><p>Extended version of 1A returning 2800 bytes in work area 2.</p></description> -->
       <length>2800</length>
       <outputFilters reference="allFilters" />
       <fields>
@@ -1105,7 +1099,6 @@
       </fields>
     </workArea>
     <workArea id="WA2_F1B">
-      <!-- <description><p>Used by function 1B. Returns a total of 4300 bytes in Work Area 2. The first 1500 are for the Block Face (Function 1E) portion of the call. The next 2800 bytes are for the Property Level (1A) portion of the call.</p></description> -->
       <length>4300</length>
       <outputFilters reference="allFilters" />
       <fields>
@@ -1617,7 +1610,6 @@
       </fields>
     </workArea>
     <workArea id="WA2_F2">
-      <!-- <description><p>Used by function 2. Returns a total of 200 bytes in Work Area 2. The first 1500 are for the Block Face (Function 1E) portion of the call. The next 2800 bytes are for the Property Level (1A) portion of the call.</p></description> -->
       <length>200</length>
       <outputFilters reference="allFilters" />
       <fields>
@@ -1795,7 +1787,6 @@
       </fields>
     </workArea>
     <workArea id="WA2_F3">
-      <!-- <description><p>Used by function 3. Returns a total of 1000 bytes in Work Area 2. The first 1500 are for the Block Face (Function 1E) portion of the call. The next 2800 bytes are for the Property Level (1A) portion of the call.</p></description> -->
       <length>1000</length>
       <outputFilters reference="allFilters" />
       <fields>
