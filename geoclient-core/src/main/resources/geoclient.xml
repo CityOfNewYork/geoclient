@@ -1738,6 +1738,7 @@
         <field id="sanitationCollectionSchedulingSectionAndSubsection" start="187" length="2"></field>
         <field id="policeSector" start="189" length="4"></field>
         <field id="filler6" start="193" length="8"></field>
+        <!-- WA2_F2W fields -->
         <field id="filler7" start="201" length="22"></field>
 		<field id="lgcListForStreet1" start="223" length="8"></field>
 		<field id="lgcListForStreet2" start="231" length="8"></field>
@@ -1821,8 +1822,9 @@
         <field id="alternativeBoroughFlag" start="114" length="1"><!-- item doc by id --></field>
         <field id="fromNode" start="115" length="7"><!-- needs doc --></field>
         <field id="toNode" start="122" length="7"><!-- needs doc --></field>
+        <!-- AKA DSNY Snow Priority Code -->
         <field id="sanitationSnowPriorityCode" start="129" length="1"><!-- needs doc --></field>
-        <field id="filler4" start="130" length="4"><!-- filtered --></field>
+        <field id="filler5" start="130" length="4"><!-- filtered --></field>
         <field id="segmentIdentifier" start="134" length="7"><!-- needs doc --></field>
         <field id="dotStreetLightContractorArea" start="141" length="1"><!-- item doc by id --></field>
         <field id="curveFlag" start="142" length="1"><!-- item doc by id --></field>
@@ -1830,13 +1832,14 @@
         <field id="featureTypeCode" start="144" length="1"></field>
         <field id="segmentTypeCode" start="145" length="1"></field>
         <field id="coincidentSegmentCount" start="146" length="1"></field>
-        <field id="filler5" start="147" length="4"></field>
+        <field id="filler6" start="147" length="4"></field>
         <field id="leftSegmentCommunityDistrict" start="151" length="3" type="COMP"></field>
         <field id="leftSegmentCommunityDistrictBoroughCode" start="151" length="1"></field>
         <field id="leftSegmentCommunityDistrictNumber" start="152" length="2"></field>
         <field id="leftSegmentLowHouseNumber" start="154" length="16"></field>
         <field id="leftSegmentHighHouseNumber" start="170" length="16"></field>
         <field id="leftSegmentReservedForGeosupportUse" start="186" length="32"></field>
+        <!-- AKA Left segment Community Development Eligibility Indicator  -->
         <field id="leftSegmentInterimAssistanceEligibilityIndicator" start="218" length="1"></field>
         <field id="leftSegmentZipCode" start="219" length="5"></field>
         <field id="leftSegmentHealthArea" start="224" length="4"></field>
@@ -1847,10 +1850,13 @@
         <field id="leftSegmentFireCompanyType" start="236" length="1"></field>
         <field id="leftSegmentFireCompanyNumber" start="237" length="3"></field>
         <field id="leftSegmentCommunitySchoolDistrict" start="240" length="2"></field>
+        <!-- AKA Left segment atomic polygon. TODO: Rename? -->
         <field id="leftSegmentDynamicBlock" start="242" length="3"></field>
         <field id="leftSegmentElectionDistrict" start="245" length="3"></field>
         <field id="leftSegmentAssemblyDistrict" start="248" length="2"></field>
-        <field id="leftSegmentFiller1" start="250" length="4"></field>
+        <field id="leftSegmentPolicePatrolBorough" start="250" length="2"></field>
+        <field id="leftSegmentFiller1" start="252" length="1"></field>
+        <field id="leftSegmentBoroughCode" start="253" length="1"></field>
         <field id="leftSegment1990CensusTract" start="254" length="6" whitespace="true"></field>
         <field id="leftSegment2010CensusTract" start="260" length="6" whitespace="true"></field>
         <field id="leftSegment2010CensusBlock" start="266" length="4"></field>
@@ -1858,15 +1864,16 @@
         <field id="leftSegment2000CensusTract" start="271" length="6" whitespace="true"></field>
         <field id="leftSegment2000CensusBlock" start="277" length="4"></field>
         <field id="leftSegment2000CensusBlockSuffix" start="281" length="1"></field>
-        <field id="leftSegmentBlockfaceId" start="282" length="7"></field>
+        <field id="leftSegmentfiller2" start="282" length="7"></field><!-- formerly leftSegmentBlockfaceId, moved WA2_F2W -->
         <field id="leftSegmentNta" start="289" length="4"></field>
-        <field id="leftSegmentFiller2" start="293" length="8"></field>
+        <field id="leftSegmentFiller3" start="293" length="8"></field>
         <field id="rightSegmentCommunityDistrict" start="301" length="3" type="COMP"></field>
         <field id="rightSegmentCommunityDistrictBoroughCode" start="301" length="1"></field>
         <field id="rightSegmentCommunityDistrictNumber" start="302" length="2"></field>
         <field id="rightSegmentLowHouseNumber" start="304" length="16"></field>
         <field id="rightSegmentHighHouseNumber" start="320" length="16"></field>
         <field id="rightSegmentReservedForGeosupportUse" start="336" length="32"></field>
+        <!-- AKA Right segment Community Development Eligibility Indicator  -->
         <field id="rightSegmentInterimAssistanceEligibilityIndicator" start="368" length="1"></field>
         <field id="rightSegmentZipCode" start="369" length="5"></field>
         <field id="rightSegmentHealthArea" start="374" length="4"></field>
@@ -1877,10 +1884,13 @@
         <field id="rightSegmentFireCompanyType" start="386" length="1"></field>
         <field id="rightSegmentFireCompanyNumber" start="387" length="3"></field>
         <field id="rightSegmentCommunitySchoolDistrict" start="390" length="2"></field>
+        <!-- AKA Right segment atomic polygon. TODO: Rename? -->
         <field id="rightSegmentDynamicBlock" start="392" length="3"></field>
         <field id="rightSegmentElectionDistrict" start="395" length="3"></field>
         <field id="rightSegmentAssemblyDistrict" start="398" length="2"></field>
-        <field id="rightSegmentFiller1" start="400" length="4"></field>
+        <field id="rightSegmentPolicePatrolBorough" start="400" length="2"></field>
+        <field id="rightSegmentFiller1" start="402" length="1"></field>
+        <field id="rightSegmentBoroughCode" start="403" length="1"></field>
         <field id="rightSegment1990CensusTract" start="404" length="6" whitespace="true"></field>
         <field id="rightSegment2010CensusTract" start="410" length="6" whitespace="true"></field>
         <field id="rightSegment2010CensusBlock" start="416" length="4"></field>
@@ -1888,24 +1898,25 @@
         <field id="rightSegment2000CensusTract" start="421" length="6" whitespace="true"></field>
         <field id="rightSegment2000CensusBlock" start="427" length="4"></field>
         <field id="rightSegment2000CensusBlockSuffix" start="431" length="1"></field>
-        <field id="rightSegmentBlockfaceId" start="432" length="7"></field>
+        <field id="rightSegmentFiller2" start="432" length="7"></field><!-- formerly rightSegmentBlockfaceId, moved WA2_F2W -->
         <field id="rightSegmentNta" start="439" length="4"></field>
-        <field id="rightSegmentFiller2" start="443" length="8"></field>
-        <field id="lgc1" start="451" length="2"></field>
-        <field id="lgc2" start="453" length="2"></field>
-        <field id="lgc3" start="455" length="2"></field>
-        <field id="lgc4" start="457" length="2"></field>
-        <field id="fromLgc1" start="459" length="2"></field>
-        <field id="fromLgc2" start="461" length="2"></field>
-        <field id="fromLgc3" start="463" length="2"></field>
-        <field id="fromLgc4" start="465" length="2"></field>
-        <field id="toLgc1" start="467" length="2"></field>
-        <field id="toLgc2" start="469" length="2"></field>
-        <field id="toLgc3" start="471" length="2"></field>
-        <field id="toLgc4" start="473" length="2"></field>
+        <field id="rightSegmentFiller3" start="443" length="8"></field>
+        <!-- WA2_F3X fields -->
+        <field id="lgc1" start="451" length="2"></field><!-- lgc1 onstreet -->
+        <field id="lgc2" start="453" length="2"></field><!-- lgc2 onstreet -->
+        <field id="lgc3" start="455" length="2"></field><!-- lgc3 onstreet -->
+        <field id="lgc4" start="457" length="2"></field><!-- lgc4 onstreet -->
+        <field id="fromLgc1" start="459" length="2"></field><!-- input cross street 1 w/lower B5sc -->
+        <field id="fromLgc2" start="461" length="2"></field><!-- input cross street 2 w/lower B5sc -->
+        <field id="fromLgc3" start="463" length="2"></field><!-- input cross street 3 w/lower B5sc -->
+        <field id="fromLgc4" start="465" length="2"></field><!-- input cross street 4 w/lower B5sc -->
+        <field id="toLgc1" start="467" length="2"></field><!-- input cross street 1 w/higher B5sc -->
+        <field id="toLgc2" start="469" length="2"></field><!-- input cross street 2 w/higher B5sc -->
+        <field id="toLgc3" start="471" length="2"></field><!-- input cross street 3 w/higher B5sc -->
+        <field id="toLgc4" start="473" length="2"></field><!-- input cross street 4 w/higher B5sc -->
         <field id="leftSegmentHealthCenterDistrict" start="475" length="2"></field>
         <field id="rightSegmentHealthCenterDistrict" start="477" length="2"></field>
-        <field id="filler6" start="479" length="1"></field>
+        <field id="filler7" start="479" length="1"></field>
         <field id="trafficDirection" start="480" length="1"><!-- needs doc --></field>
         <field id="roadwayType" start="481" length="2"><!-- needs doc --></field>
         <field id="physicalId" start="483" length="7"><!-- needs doc --></field>
@@ -1917,12 +1928,12 @@
         <field id="streetWidthIrregular" start="515" length="1"><!-- needs doc --></field>
         <field id="bikeLane" start="516" length="1"><!-- needs doc --></field>
         <field id="federalClassificationCode" start="517" length="2"><!-- needs doc --></field>
-        <field id="rightOfWarType" start="519" length="1"></field>
-        <field id="csclLgc1" start="520" length="2"></field>
-        <field id="csclLgc2" start="522" length="2"></field>
-        <field id="csclLgc3" start="524" length="2"></field>
-        <field id="csclLgc4" start="526" length="2"></field>
-        <field id="csclLgc5" start="528" length="2"></field>
+        <field id="rightOfWayType" start="519" length="1"></field>
+        <field id="csclLgc1" start="520" length="2"></field><!-- AKA addtional lgc1 for street 1 -->
+        <field id="csclLgc2" start="522" length="2"></field><!-- AKA addtional lgc2 for street 1 -->
+        <field id="csclLgc3" start="524" length="2"></field><!-- AKA addtional lgc3 for street 1 -->
+        <field id="csclLgc4" start="526" length="2"></field><!-- AKA addtional lgc4 for street 1 -->
+        <field id="csclLgc5" start="528" length="2"></field><!-- AKA addtional lgc5 for street 1 -->
         <field id="legacyId" start="530" length="7"></field>
         <field id="leftSegmentNtaName" start="537" length="75"></field>
         <field id="rightSegmentNtaName" start="612" length="75"></field>
@@ -1930,7 +1941,24 @@
         <field id="fromYCoordinate" start="694" length="7"></field>
         <field id="toXCoordinate" start="701" length="7"></field>
         <field id="toYCoordinate" start="708" length="7"></field>
-        <field id="filler7" start="715" length="286"></field>
+        <field id="latitudeOfFromIntersection" start="715" length="9"></field>
+        <field id="longitudeOfFromIntersection" start="724" length="11"></field>
+        <field id="latitudeOfToIntersection" start="735" length="9"></field>
+        <field id="longitudeOfToIntersection" start="744" length="11"></field>
+        <field id="leftSegmentBlockfaceId" start="755" length="10"></field>
+        <field id="rightSegmentBlockfaceId" start="765" length="10"></field>
+        <field id="numberOfTravelLanesOnStreet" start="775" length="2"></field>
+        <field id="numberOfParkingLanesOnStreet" start="777" length="2"></field>
+        <field id="numberOfTotalLanesOnStreet" start="779" length="2"></field>
+        <field id="bikeLane2" start="781" length="2"></field>
+        <field id="streetWidthMaximum" start="783" length="3"></field>
+        <field id="bikeTrafficDirection" start="786" length="2"></field>
+        <field id="speedLimit" start="788" length="2"></field>
+        <field id="leftSegmentPumaCode" start="790" length="2"></field>
+        <field id="rightSegmentPumaCode" start="795" length="2"></field>
+        <field id="leftSegmentPoliceSector" start="800" length="4"></field>
+        <field id="rightSegmentPoliceSector" start="804" length="4"></field>
+        <field id="filler8" start="808" length="193"></field>
       </fields>
     </workArea>
     <workArea id="WA2_HR">
