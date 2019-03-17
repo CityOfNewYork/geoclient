@@ -210,10 +210,13 @@
         <field id="yCoordinate" start="207" length="7"></field>
         <field id="filler13" start="214" length="16"></field>
         <field id="addressPointId" start="230" length="9"></field>
-        <field id="listOf4Lgcs" start="239" length="8"></field>
-        <field id="numberOfEntriesInListOfGeographicIdentifiers" start="247" length="4"></field><!-- Per DCP docs, this will always be "0001" -->
-        <!-- LIST OF GEOGRAPHIC IDENTIFIERS: DCP docs specify that there is only 1 set of geographic identifiers returned but there's a potential of 21 max -->
-        <!-- At  53 characters per set, this final part of the work area is 21x53 = 1,113 characters long  -->
+        <field id="listOf4LgcsInternalUse" start="239" length="8"><!-- filtered --></field>
+        <!-- Differences between W2_FAP and W2_FAPX start here (position 247) -->
+        <!-- Each entry in AP's list is 53 characters:    53 chars x 21 elements == 1,113 -->
+        <!-- Each entry in APX's list is 116 characters: 116 chars x 21 elements == 2,436 -->
+        <!-- However, since both AP and APX return only a single list of ids (up to 21) -->
+        <!-- both functions _always_ return "0001" for "numberOfEntriesInListOfGeographicIdentifiers" -->
+        <field id="numberOfEntriesInListOfGeographicIdentifiers" start="247" length="4"></field>
         <field id="giLowHouseNumber1" start="251" length="16"></field><!-- geographic identifier 1 -->
         <field id="giHighHouseNumber1" start="267" length="16"></field>
         <field id="giStreetCode1" start="283" length="8" type="COMP"></field>
@@ -223,7 +226,15 @@
         <field id="giBuildingIdentificationNumber1" start="291" length="7"></field>
         <field id="giSideOfStreetIndicator1" start="298" length="1"></field>
         <field id="giGeographicIdentifier1" start="299" length="1"></field><!-- AKA "giGeographicIdentifierEntryTypeCode1" -->
+        <!-- AP/APX 49 chars same until here -->
+        <!-- AP has 4 more chars -->
         <field id="giFiller1" start="300" length="4"></field>
+        <!-- APX has 67 chars-->
+        <!--
+        <field id="giFiller1a" start="" length="1"></field>
+        <field id="giStreetName1" start="" length="32"></field>
+        <field id="giFiller1b" start="" length="34"></field>
+         -->
         <field id="giLowHouseNumber2" start="304" length="16"></field><!-- geographic identifier 2 -->
         <field id="giHighHouseNumber2" start="320" length="16"></field>
         <field id="giStreetCode2" start="336" length="8" type="COMP"></field>
@@ -1954,8 +1965,8 @@
         <field id="streetWidthMaximum" start="783" length="3"></field>
         <field id="bikeTrafficDirection" start="786" length="2"></field>
         <field id="speedLimit" start="788" length="2"></field>
-        <field id="leftSegmentPumaCode" start="790" length="2"></field>
-        <field id="rightSegmentPumaCode" start="795" length="2"></field>
+        <field id="leftSegmentPumaCode" start="790" length="5"></field> <!-- Error in DCP Git 3X docs: size="2" -->
+        <field id="rightSegmentPumaCode" start="795" length="5"></field><!-- Error in DCP Git 3X docs: size="2" -->
         <field id="leftSegmentPoliceSector" start="800" length="4"></field>
         <field id="rightSegmentPoliceSector" start="804" length="4"></field>
         <field id="filler8" start="808" length="193"></field>
@@ -2113,7 +2124,7 @@
       <configuration>
         <requiredArgument name="geosupportFunctionCode" value="AP"/>
         <requiredArgument name="workAreaFormatIndicator" value="C"/>
-        <requiredArgument name="modeSwitch" value="X" />
+        <!-- <requiredArgument name="modeSwitch" value="X" />  -->
       </configuration>
     </function>
     <function id="HR">
@@ -2142,6 +2153,18 @@
        <requiredArgument name="crossStreetNamesFlag" value="E" />
       </configuration>
     </function>
+    <!--
+    <function id="1EX">
+      <workAreaOne reference="WA1" />
+      <workAreaTwo reference="WA2_F1EX" />
+      <configuration>
+       <requiredArgument name="geosupportFunctionCode" value="1E"/>
+       <requiredArgument name="workAreaFormatIndicator" value="C"/>
+       <requiredArgument name="crossStreetNamesFlag" value="E" />
+        <requiredArgument name="modeSwitch" value="X" />
+      </configuration>
+    </function>
+     -->
     <function id="1A">
       <workAreaOne reference="WA1" />
       <workAreaTwo reference="WA2_F1A" />
@@ -2157,6 +2180,7 @@
       <configuration>
         <requiredArgument name="geosupportFunctionCode" value="1AX"/>
         <requiredArgument name="workAreaFormatIndicator" value="C"/>
+        <requiredArgument name="crossStreetNamesFlag" value="E" />
         <requiredArgument name="modeSwitch" value="X" />
       </configuration>
     </function>

@@ -7,6 +7,7 @@ import static gov.nyc.doitt.gis.geoclient.api.OutputParam.GEOSUPPORT_RETURN_CODE
 import static gov.nyc.doitt.gis.geoclient.api.OutputParam.GEOSUPPORT_RETURN_CODE2;
 import static gov.nyc.doitt.gis.geoclient.api.ReturnCodeValue.SUCCESS;
 import static gov.nyc.doitt.gis.geoclient.api.ReturnCodeValue.WARN;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.HashMap;
@@ -27,6 +28,23 @@ public class GeoclientCoreIntegrationTest {
     @BeforeAll
     public static void beforeAll() throws Exception {
         geosupportConfig = new GeosupportConfig(new GeoclientJni());
+    }
+
+    @Test
+    public void testFunction3() {
+        Function function = geosupportConfig.getFunction(Function.F3);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.putAll(function.getConfiguration().requiredArguments());
+        parameters.put(InputParam.STREET_NAME, "Broadway");
+        parameters.put(InputParam.STREET_NAME2, "W 144 ST");
+        parameters.put(InputParam.STREET_NAME3,"W 143 ST");
+        parameters.put(InputParam.BOROUGH_CODE, "1");
+        Map<String, Object> result = function.call(parameters);
+        assertTrue(succeeded(GEOSUPPORT_RETURN_CODE, result));
+        String expectedLeftSegmentBlockfaceId = "1322602403";
+        String expectedRightSegmentBlockfaceId = "1322601168";
+        assertEquals(expectedLeftSegmentBlockfaceId, result.get("leftSegmentBlockfaceId"));
+        assertEquals(expectedRightSegmentBlockfaceId, result.get("rightSegmentBlockfaceId"));
     }
 
     @Test

@@ -1,7 +1,7 @@
 #!/usr/bin/python
 
-# WA2_FAP: list of up to 21 entries, 53 characters each
-start=251
+# WA2_FAPX: list of up to 21 entries, 116 characters each
+start=365
 length=16
 for x in range(1,22):
   #print('#################################')
@@ -42,9 +42,17 @@ for x in range(1,22):
   start = start + 1
   print('<field id="giGeographicIdentifier{0}" start="{1}" length="{2}"></field>'.format(x,start,length))
 
-  length = 4
+  length = 1
   start = start + 1
-  print('<field id="giFiller{0}" start="{1}" length="{2}"></field>'.format(x,start,length))
+  print('<field id="giFiller{0}a" start="{1}" length="{2}"></field>'.format(x,start,length))
+
+  length = 32
+  start = start + 1
+  print('<field id="giStreetName{0}" start="{1}" length="{2}"></field>'.format(x,start,length))
+
+  length = 34
+  start = start + 32
+  print('<field id="giFiller{0}b" start="{1}" length="{2}"></field>'.format(x,start,length))
 
   length = 16
-  start = start + 4
+  start = start + 34
