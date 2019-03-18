@@ -12,9 +12,14 @@ server:
 
 
 logging:
+
+    file: "build/geoclient.log"
+
     group:
         geoclient:
             - "gov.nyc.doitt.gis.geoclient"
+        geoclient-jni:
+            - "gov.nyc.doitt.gis.geoclient.jni"
         geoclient-service:
             - "gov.nyc.doitt.gis.geoclient.service"
         spring:
@@ -30,6 +35,7 @@ logging:
         spring: "INFO"
         spring-boot: "INFO"
         geoclient: "INFO"
+        geoclient-jni: "DEBUG"
         geoclient-service: "INFO"
         ## Log Dozer bean mapping framework
         #com.github.dozermapper: "DEBUG"
