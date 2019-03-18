@@ -1,0 +1,254 @@
+<fields>
+<field id="giLowHouseNumber1" start="365" length="16"></field><!-- geographic identifier 1 -->
+<field id="giHighHouseNumber1" start="381" length="16"></field>
+<field id="giStreetCode1" start="397" length="8" type="COMP"></field>
+<field id="giBoroughCode1" start="397" length="1"></field>
+<field id="gi5DigitStreetCode1" start="398" length="5"></field>
+<field id="giDcpPreferredLgc1" start="403" length="2"></field>
+<field id="giBuildingIdentificationNumber1" start="405" length="7"></field>
+<field id="giSideOfStreetIndicator1" start="412" length="1"></field>
+<field id="giGeographicIdentifier1" start="413" length="1"></field>
+<field id="giFiller1a" start="414" length="1"></field>
+<field id="giStreetName1" start="415" length="32"></field>
+<field id="giFiller1b" start="447" length="34"></field>
+<field id="giLowHouseNumber2" start="481" length="16"></field><!-- geographic identifier 2 -->
+<field id="giHighHouseNumber2" start="497" length="16"></field>
+<field id="giStreetCode2" start="513" length="8" type="COMP"></field>
+<field id="giBoroughCode2" start="513" length="1"></field>
+<field id="gi5DigitStreetCode2" start="514" length="5"></field>
+<field id="giDcpPreferredLgc2" start="519" length="2"></field>
+<field id="giBuildingIdentificationNumber2" start="521" length="7"></field>
+<field id="giSideOfStreetIndicator2" start="528" length="1"></field>
+<field id="giGeographicIdentifier2" start="529" length="1"></field>
+<field id="giFiller2a" start="530" length="1"></field>
+<field id="giStreetName2" start="531" length="32"></field>
+<field id="giFiller2b" start="563" length="34"></field>
+<field id="giLowHouseNumber3" start="597" length="16"></field><!-- geographic identifier 3 -->
+<field id="giHighHouseNumber3" start="613" length="16"></field>
+<field id="giStreetCode3" start="629" length="8" type="COMP"></field>
+<field id="giBoroughCode3" start="629" length="1"></field>
+<field id="gi5DigitStreetCode3" start="630" length="5"></field>
+<field id="giDcpPreferredLgc3" start="635" length="2"></field>
+<field id="giBuildingIdentificationNumber3" start="637" length="7"></field>
+<field id="giSideOfStreetIndicator3" start="644" length="1"></field>
+<field id="giGeographicIdentifier3" start="645" length="1"></field>
+<field id="giFiller3a" start="646" length="1"></field>
+<field id="giStreetName3" start="647" length="32"></field>
+<field id="giFiller3b" start="679" length="34"></field>
+<field id="giLowHouseNumber4" start="713" length="16"></field><!-- geographic identifier 4 -->
+<field id="giHighHouseNumber4" start="729" length="16"></field>
+<field id="giStreetCode4" start="745" length="8" type="COMP"></field>
+<field id="giBoroughCode4" start="745" length="1"></field>
+<field id="gi5DigitStreetCode4" start="746" length="5"></field>
+<field id="giDcpPreferredLgc4" start="751" length="2"></field>
+<field id="giBuildingIdentificationNumber4" start="753" length="7"></field>
+<field id="giSideOfStreetIndicator4" start="760" length="1"></field>
+<field id="giGeographicIdentifier4" start="761" length="1"></field>
+<field id="giFiller4a" start="762" length="1"></field>
+<field id="giStreetName4" start="763" length="32"></field>
+<field id="giFiller4b" start="795" length="34"></field>
+<field id="giLowHouseNumber5" start="829" length="16"></field><!-- geographic identifier 5 -->
+<field id="giHighHouseNumber5" start="845" length="16"></field>
+<field id="giStreetCode5" start="861" length="8" type="COMP"></field>
+<field id="giBoroughCode5" start="861" length="1"></field>
+<field id="gi5DigitStreetCode5" start="862" length="5"></field>
+<field id="giDcpPreferredLgc5" start="867" length="2"></field>
+<field id="giBuildingIdentificationNumber5" start="869" length="7"></field>
+<field id="giSideOfStreetIndicator5" start="876" length="1"></field>
+<field id="giGeographicIdentifier5" start="877" length="1"></field>
+<field id="giFiller5a" start="878" length="1"></field>
+<field id="giStreetName5" start="879" length="32"></field>
+<field id="giFiller5b" start="911" length="34"></field>
+<field id="giLowHouseNumber6" start="945" length="16"></field><!-- geographic identifier 6 -->
+<field id="giHighHouseNumber6" start="961" length="16"></field>
+<field id="giStreetCode6" start="977" length="8" type="COMP"></field>
+<field id="giBoroughCode6" start="977" length="1"></field>
+<field id="gi5DigitStreetCode6" start="978" length="5"></field>
+<field id="giDcpPreferredLgc6" start="983" length="2"></field>
+<field id="giBuildingIdentificationNumber6" start="985" length="7"></field>
+<field id="giSideOfStreetIndicator6" start="992" length="1"></field>
+<field id="giGeographicIdentifier6" start="993" length="1"></field>
+<field id="giFiller6a" start="994" length="1"></field>
+<field id="giStreetName6" start="995" length="32"></field>
+<field id="giFiller6b" start="1027" length="34"></field>
+<field id="giLowHouseNumber7" start="1061" length="16"></field><!-- geographic identifier 7 -->
+<field id="giHighHouseNumber7" start="1077" length="16"></field>
+<field id="giStreetCode7" start="1093" length="8" type="COMP"></field>
+<field id="giBoroughCode7" start="1093" length="1"></field>
+<field id="gi5DigitStreetCode7" start="1094" length="5"></field>
+<field id="giDcpPreferredLgc7" start="1099" length="2"></field>
+<field id="giBuildingIdentificationNumber7" start="1101" length="7"></field>
+<field id="giSideOfStreetIndicator7" start="1108" length="1"></field>
+<field id="giGeographicIdentifier7" start="1109" length="1"></field>
+<field id="giFiller7a" start="1110" length="1"></field>
+<field id="giStreetName7" start="1111" length="32"></field>
+<field id="giFiller7b" start="1143" length="34"></field>
+<field id="giLowHouseNumber8" start="1177" length="16"></field><!-- geographic identifier 8 -->
+<field id="giHighHouseNumber8" start="1193" length="16"></field>
+<field id="giStreetCode8" start="1209" length="8" type="COMP"></field>
+<field id="giBoroughCode8" start="1209" length="1"></field>
+<field id="gi5DigitStreetCode8" start="1210" length="5"></field>
+<field id="giDcpPreferredLgc8" start="1215" length="2"></field>
+<field id="giBuildingIdentificationNumber8" start="1217" length="7"></field>
+<field id="giSideOfStreetIndicator8" start="1224" length="1"></field>
+<field id="giGeographicIdentifier8" start="1225" length="1"></field>
+<field id="giFiller8a" start="1226" length="1"></field>
+<field id="giStreetName8" start="1227" length="32"></field>
+<field id="giFiller8b" start="1259" length="34"></field>
+<field id="giLowHouseNumber9" start="1293" length="16"></field><!-- geographic identifier 9 -->
+<field id="giHighHouseNumber9" start="1309" length="16"></field>
+<field id="giStreetCode9" start="1325" length="8" type="COMP"></field>
+<field id="giBoroughCode9" start="1325" length="1"></field>
+<field id="gi5DigitStreetCode9" start="1326" length="5"></field>
+<field id="giDcpPreferredLgc9" start="1331" length="2"></field>
+<field id="giBuildingIdentificationNumber9" start="1333" length="7"></field>
+<field id="giSideOfStreetIndicator9" start="1340" length="1"></field>
+<field id="giGeographicIdentifier9" start="1341" length="1"></field>
+<field id="giFiller9a" start="1342" length="1"></field>
+<field id="giStreetName9" start="1343" length="32"></field>
+<field id="giFiller9b" start="1375" length="34"></field>
+<field id="giLowHouseNumber10" start="1409" length="16"></field><!-- geographic identifier 10 -->
+<field id="giHighHouseNumber10" start="1425" length="16"></field>
+<field id="giStreetCode10" start="1441" length="8" type="COMP"></field>
+<field id="giBoroughCode10" start="1441" length="1"></field>
+<field id="gi5DigitStreetCode10" start="1442" length="5"></field>
+<field id="giDcpPreferredLgc10" start="1447" length="2"></field>
+<field id="giBuildingIdentificationNumber10" start="1449" length="7"></field>
+<field id="giSideOfStreetIndicator10" start="1456" length="1"></field>
+<field id="giGeographicIdentifier10" start="1457" length="1"></field>
+<field id="giFiller10a" start="1458" length="1"></field>
+<field id="giStreetName10" start="1459" length="32"></field>
+<field id="giFiller10b" start="1491" length="34"></field>
+<field id="giLowHouseNumber11" start="1525" length="16"></field><!-- geographic identifier 11 -->
+<field id="giHighHouseNumber11" start="1541" length="16"></field>
+<field id="giStreetCode11" start="1557" length="8" type="COMP"></field>
+<field id="giBoroughCode11" start="1557" length="1"></field>
+<field id="gi5DigitStreetCode11" start="1558" length="5"></field>
+<field id="giDcpPreferredLgc11" start="1563" length="2"></field>
+<field id="giBuildingIdentificationNumber11" start="1565" length="7"></field>
+<field id="giSideOfStreetIndicator11" start="1572" length="1"></field>
+<field id="giGeographicIdentifier11" start="1573" length="1"></field>
+<field id="giFiller11a" start="1574" length="1"></field>
+<field id="giStreetName11" start="1575" length="32"></field>
+<field id="giFiller11b" start="1607" length="34"></field>
+<field id="giLowHouseNumber12" start="1641" length="16"></field><!-- geographic identifier 12 -->
+<field id="giHighHouseNumber12" start="1657" length="16"></field>
+<field id="giStreetCode12" start="1673" length="8" type="COMP"></field>
+<field id="giBoroughCode12" start="1673" length="1"></field>
+<field id="gi5DigitStreetCode12" start="1674" length="5"></field>
+<field id="giDcpPreferredLgc12" start="1679" length="2"></field>
+<field id="giBuildingIdentificationNumber12" start="1681" length="7"></field>
+<field id="giSideOfStreetIndicator12" start="1688" length="1"></field>
+<field id="giGeographicIdentifier12" start="1689" length="1"></field>
+<field id="giFiller12a" start="1690" length="1"></field>
+<field id="giStreetName12" start="1691" length="32"></field>
+<field id="giFiller12b" start="1723" length="34"></field>
+<field id="giLowHouseNumber13" start="1757" length="16"></field><!-- geographic identifier 13 -->
+<field id="giHighHouseNumber13" start="1773" length="16"></field>
+<field id="giStreetCode13" start="1789" length="8" type="COMP"></field>
+<field id="giBoroughCode13" start="1789" length="1"></field>
+<field id="gi5DigitStreetCode13" start="1790" length="5"></field>
+<field id="giDcpPreferredLgc13" start="1795" length="2"></field>
+<field id="giBuildingIdentificationNumber13" start="1797" length="7"></field>
+<field id="giSideOfStreetIndicator13" start="1804" length="1"></field>
+<field id="giGeographicIdentifier13" start="1805" length="1"></field>
+<field id="giFiller13a" start="1806" length="1"></field>
+<field id="giStreetName13" start="1807" length="32"></field>
+<field id="giFiller13b" start="1839" length="34"></field>
+<field id="giLowHouseNumber14" start="1873" length="16"></field><!-- geographic identifier 14 -->
+<field id="giHighHouseNumber14" start="1889" length="16"></field>
+<field id="giStreetCode14" start="1905" length="8" type="COMP"></field>
+<field id="giBoroughCode14" start="1905" length="1"></field>
+<field id="gi5DigitStreetCode14" start="1906" length="5"></field>
+<field id="giDcpPreferredLgc14" start="1911" length="2"></field>
+<field id="giBuildingIdentificationNumber14" start="1913" length="7"></field>
+<field id="giSideOfStreetIndicator14" start="1920" length="1"></field>
+<field id="giGeographicIdentifier14" start="1921" length="1"></field>
+<field id="giFiller14a" start="1922" length="1"></field>
+<field id="giStreetName14" start="1923" length="32"></field>
+<field id="giFiller14b" start="1955" length="34"></field>
+<field id="giLowHouseNumber15" start="1989" length="16"></field><!-- geographic identifier 15 -->
+<field id="giHighHouseNumber15" start="2005" length="16"></field>
+<field id="giStreetCode15" start="2021" length="8" type="COMP"></field>
+<field id="giBoroughCode15" start="2021" length="1"></field>
+<field id="gi5DigitStreetCode15" start="2022" length="5"></field>
+<field id="giDcpPreferredLgc15" start="2027" length="2"></field>
+<field id="giBuildingIdentificationNumber15" start="2029" length="7"></field>
+<field id="giSideOfStreetIndicator15" start="2036" length="1"></field>
+<field id="giGeographicIdentifier15" start="2037" length="1"></field>
+<field id="giFiller15a" start="2038" length="1"></field>
+<field id="giStreetName15" start="2039" length="32"></field>
+<field id="giFiller15b" start="2071" length="34"></field>
+<field id="giLowHouseNumber16" start="2105" length="16"></field><!-- geographic identifier 16 -->
+<field id="giHighHouseNumber16" start="2121" length="16"></field>
+<field id="giStreetCode16" start="2137" length="8" type="COMP"></field>
+<field id="giBoroughCode16" start="2137" length="1"></field>
+<field id="gi5DigitStreetCode16" start="2138" length="5"></field>
+<field id="giDcpPreferredLgc16" start="2143" length="2"></field>
+<field id="giBuildingIdentificationNumber16" start="2145" length="7"></field>
+<field id="giSideOfStreetIndicator16" start="2152" length="1"></field>
+<field id="giGeographicIdentifier16" start="2153" length="1"></field>
+<field id="giFiller16a" start="2154" length="1"></field>
+<field id="giStreetName16" start="2155" length="32"></field>
+<field id="giFiller16b" start="2187" length="34"></field>
+<field id="giLowHouseNumber17" start="2221" length="16"></field><!-- geographic identifier 17 -->
+<field id="giHighHouseNumber17" start="2237" length="16"></field>
+<field id="giStreetCode17" start="2253" length="8" type="COMP"></field>
+<field id="giBoroughCode17" start="2253" length="1"></field>
+<field id="gi5DigitStreetCode17" start="2254" length="5"></field>
+<field id="giDcpPreferredLgc17" start="2259" length="2"></field>
+<field id="giBuildingIdentificationNumber17" start="2261" length="7"></field>
+<field id="giSideOfStreetIndicator17" start="2268" length="1"></field>
+<field id="giGeographicIdentifier17" start="2269" length="1"></field>
+<field id="giFiller17a" start="2270" length="1"></field>
+<field id="giStreetName17" start="2271" length="32"></field>
+<field id="giFiller17b" start="2303" length="34"></field>
+<field id="giLowHouseNumber18" start="2337" length="16"></field><!-- geographic identifier 18 -->
+<field id="giHighHouseNumber18" start="2353" length="16"></field>
+<field id="giStreetCode18" start="2369" length="8" type="COMP"></field>
+<field id="giBoroughCode18" start="2369" length="1"></field>
+<field id="gi5DigitStreetCode18" start="2370" length="5"></field>
+<field id="giDcpPreferredLgc18" start="2375" length="2"></field>
+<field id="giBuildingIdentificationNumber18" start="2377" length="7"></field>
+<field id="giSideOfStreetIndicator18" start="2384" length="1"></field>
+<field id="giGeographicIdentifier18" start="2385" length="1"></field>
+<field id="giFiller18a" start="2386" length="1"></field>
+<field id="giStreetName18" start="2387" length="32"></field>
+<field id="giFiller18b" start="2419" length="34"></field>
+<field id="giLowHouseNumber19" start="2453" length="16"></field><!-- geographic identifier 19 -->
+<field id="giHighHouseNumber19" start="2469" length="16"></field>
+<field id="giStreetCode19" start="2485" length="8" type="COMP"></field>
+<field id="giBoroughCode19" start="2485" length="1"></field>
+<field id="gi5DigitStreetCode19" start="2486" length="5"></field>
+<field id="giDcpPreferredLgc19" start="2491" length="2"></field>
+<field id="giBuildingIdentificationNumber19" start="2493" length="7"></field>
+<field id="giSideOfStreetIndicator19" start="2500" length="1"></field>
+<field id="giGeographicIdentifier19" start="2501" length="1"></field>
+<field id="giFiller19a" start="2502" length="1"></field>
+<field id="giStreetName19" start="2503" length="32"></field>
+<field id="giFiller19b" start="2535" length="34"></field>
+<field id="giLowHouseNumber20" start="2569" length="16"></field><!-- geographic identifier 20 -->
+<field id="giHighHouseNumber20" start="2585" length="16"></field>
+<field id="giStreetCode20" start="2601" length="8" type="COMP"></field>
+<field id="giBoroughCode20" start="2601" length="1"></field>
+<field id="gi5DigitStreetCode20" start="2602" length="5"></field>
+<field id="giDcpPreferredLgc20" start="2607" length="2"></field>
+<field id="giBuildingIdentificationNumber20" start="2609" length="7"></field>
+<field id="giSideOfStreetIndicator20" start="2616" length="1"></field>
+<field id="giGeographicIdentifier20" start="2617" length="1"></field>
+<field id="giFiller20a" start="2618" length="1"></field>
+<field id="giStreetName20" start="2619" length="32"></field>
+<field id="giFiller20b" start="2651" length="34"></field>
+<field id="giLowHouseNumber21" start="2685" length="16"></field><!-- geographic identifier 21 -->
+<field id="giHighHouseNumber21" start="2701" length="16"></field>
+<field id="giStreetCode21" start="2717" length="8" type="COMP"></field>
+<field id="giBoroughCode21" start="2717" length="1"></field>
+<field id="gi5DigitStreetCode21" start="2718" length="5"></field>
+<field id="giDcpPreferredLgc21" start="2723" length="2"></field>
+<field id="giBuildingIdentificationNumber21" start="2725" length="7"></field>
+<field id="giSideOfStreetIndicator21" start="2732" length="1"></field>
+<field id="giGeographicIdentifier21" start="2733" length="1"></field>
+<field id="giFiller21a" start="2734" length="1"></field>
+<field id="giStreetName21" start="2735" length="32"></field>
+<field id="giFiller21b" start="2767" length="34"></field>
+</fields>
