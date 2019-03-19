@@ -1751,11 +1751,11 @@
         <field id="filler6" start="193" length="8"></field>
         <!-- WA2_F2W fields -->
         <field id="filler7" start="201" length="22"></field>
-		<field id="lgcListForStreet1" start="223" length="8"></field>
-		<field id="lgcListForStreet2" start="231" length="8"></field>
-		<field id="turnRestrictions" start="239" length="10"></field>
-		<field id="preferredLgcsForIntersectingStreets" start="249" length="10"></field>
-		<field id="trueReplicationCounter" start="259" length="2"></field>
+    <field id="lgcListForStreet1" start="223" length="8"></field>
+    <field id="lgcListForStreet2" start="231" length="8"></field>
+    <field id="turnRestrictions" start="239" length="10"></field>
+    <field id="preferredLgcsForIntersectingStreets" start="249" length="10"></field>
+    <field id="trueReplicationCounter" start="259" length="2"></field>
         <field id="node1" start="261" length="7"></field>
         <field id="node2" start="268" length="7"></field>
         <field id="node3" start="275" length="7"></field>
@@ -1776,26 +1776,26 @@
         <field id="node18" start="380" length="7"></field>
         <field id="node19" start="387" length="7"></field>
         <field id="node20" start="394" length="7"></field>
-		<!-- Not implemented 401 through 3600 -->
-		<!-- See Geosupport workarea layouts for COWS 2W -->
-		<!--
-		<field id="node1Street1" start="401" length="8"></field>
-		<field id="node1Street1Lgc1" start="409" length="8"></field>
-		<field id="node1Street1Lgc2" start="417" length="8"></field>
-		<field id="node1Street1Lgc3" start="425" length="8"></field>
-		<field id="node1Street1Lgc4" start="433" length="8"></field>
-		<field id="node1Street2" start="441" length="8"></field>
-		<field id="node1Street2Lgc1" start="449" length="8"></field>
-		...
-		-->
-        <field id="nodesStreetsAndLgcs" start="401" length="3200"></field>	
-		<field id="reasonCode2w" start="3601" length="1"></field>
-		<field id="reasonCodeQualifier2w" start="3602" length="1"></field>
-		<field id="warningCode2w" start="3603" length="2"></field>
-		<field id="returnCode2w" start="3605" length="2"></field>
-		<field id="latitude" start="3607" length="9"></field>
-		<field id="longitude" start="3616" length="11"></field>
-		<field id="filler8" start="3627" length="374"></field>
+    <!-- Not implemented 401 through 3600 -->
+    <!-- See Geosupport workarea layouts for COWS 2W -->
+    <!--
+    <field id="node1Street1" start="401" length="8"></field>
+    <field id="node1Street1Lgc1" start="409" length="8"></field>
+    <field id="node1Street1Lgc2" start="417" length="8"></field>
+    <field id="node1Street1Lgc3" start="425" length="8"></field>
+    <field id="node1Street1Lgc4" start="433" length="8"></field>
+    <field id="node1Street2" start="441" length="8"></field>
+    <field id="node1Street2Lgc1" start="449" length="8"></field>
+    ...
+    -->
+        <field id="nodesStreetsAndLgcs" start="401" length="3200"></field>
+        <field id="reasonCode2w" start="3601" length="1"></field>
+        <field id="reasonCodeQualifier2w" start="3602" length="1"></field>
+        <field id="warningCode2w" start="3603" length="2"></field>
+        <field id="returnCode2w" start="3605" length="2"></field>
+        <field id="latitude" start="3607" length="9"></field>
+        <field id="longitude" start="3616" length="11"></field>
+        <field id="filler8" start="3627" length="374"></field>
       </fields>
     </workArea>
     <workArea id="WA2_F3">
@@ -2040,7 +2040,7 @@
         <field id="thinFileRecordType2" start="261" length="4"></field>
         <field id="thinFileRelease" start="265" length="4"></field>
         <field id="thinFileFiller2" start="269" length="18"></field>
-        <!-- thinFileInfo 3 -->        
+        <!-- thinFileInfo 3 -->
         <field id="thinFileRecordType3" start="287" length="4"></field>
         <field id="thinFileRecordCount" start="291" length="8"></field>
         <field id="thinFileFiller3" start="299" length="14"></field>
