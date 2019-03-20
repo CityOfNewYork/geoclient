@@ -12,14 +12,28 @@
 #
 #   $ docker build -t geoclient -f Dockerfile.build .
 #
-# 3. Run this image
+# 3a. Run this image in detached mode to have Gradle clean and build this 
+#     project (use this file's default CMD). Delete the container once the
+#     build exits:
+#
+#   $ docker run -d --rm \
+#                --mount source=vol-geosupport,target=/opt/geosupport \
+#                -v "$(pwd)":/app \
+#                geoclient
+#
+# OR
+#
+# 3b. Run this image interactively to invoke Gradle tasks from the 
+#     container's shell (override this file's default CMD). Creates a container
+#     named "gcbuild":
 #
 #   $ docker run -it --name gcbuild \
 #                -p 8080:8080 \
 #                -p 5005:5005 \
 #                --mount source=vol-geosupport,target=/opt/geosupport \
 #                -v "$(pwd)":/app \
-#                geoclient
+#                geoclient \
+#                /bin/bash
 #
 FROM openjdk:8-jdk
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
@@ -46,6 +60,4 @@ RUN ["/bin/bash", "-c", "echo \". $GEOSUPPORT_HOME/bin/initenv\" >> ~/.bashrc"]
 EXPOSE 8080:8080
 EXPOSE 5005:5005
 
-#CMD ["/app/gradlew", "-Dorg.gradle.debug=$GRADLE_DEBUG", "build"]
-
-CMD ["/bin/bash"]
+CMD ["/app/gradlew", "-Dorg.gradle.debug=$GRADLE_DEBUG", "clean", "build"]

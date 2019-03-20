@@ -44,6 +44,9 @@ ENV JARFILE ${JARFILE:-"./geoclient-service/build/libs/*boot.jar"}
 ARG GEOSUPPORT_HOME
 ENV GEOSUPPORT_HOME ${GEOSUPPORT_HOME:-/opt/geosupport}
 
+ARG GC_JNI_VERSION
+ENV GC_JNI_VERSION ${GC_JNI_VERSION:-V2}
+
 RUN set -o errexit -o nounset \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
@@ -60,7 +63,7 @@ RUN set -ex; \
     echo '#!/bin/bash'; \
     echo; \
     echo '. $GEOSUPPORT_HOME/bin/initenv'; \
-    echo '$JAVA_HOME/bin/java -Dgc.jni.version=V2 -jar /app/geoclient.jar'; \
+    echo '$JAVA_HOME/bin/java -Dgc.jni.version=$GC_JNI_VERSION -jar /app/geoclient.jar'; \
   } > /app/run.sh; \
   \
   chmod 755 /app/run.sh;

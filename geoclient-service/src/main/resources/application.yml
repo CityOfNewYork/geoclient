@@ -34,8 +34,9 @@ logging:
         root: "WARN"
         spring: "INFO"
         spring-boot: "INFO"
+        tomcat: "INFO"
         geoclient: "INFO"
-        geoclient-jni: "DEBUG"
+        geoclient-jni: "INFO"
         geoclient-service: "INFO"
         ## Log Dozer bean mapping framework
         #com.github.dozermapper: "DEBUG"

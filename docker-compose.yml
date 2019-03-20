@@ -5,7 +5,7 @@ services:
     image: mlipper/geosupport-docker
     volumes:
       - type: volume
-        source: gsvol
+        source: vol-geosupport
         target: /opt/geosupport
   gcbuild:
     depends_on:
@@ -15,7 +15,7 @@ services:
       dockerfile: Dockerfile.build
     volumes:
       - type: volume
-        source: gsvol
+        source: vol-geosupport
         target: /opt/geosupport
     ports:
       - "5005:5005"
@@ -24,14 +24,14 @@ services:
       - geosupport
       - gcbuild
     build:
-      context: ./geoclient-service
-      dockerfile: Dockerfile.debug
+      context: .
+      dockerfile: Dockerfile
     volumes:
       - type: volume
-        source: gsvol
+        source: vol-geosupport
         target: /opt/geosupport
     ports:
       - "8000:8000"
       - "8080:8080"
 volumes:
-  gsvol:
+  vol-geosupport:
