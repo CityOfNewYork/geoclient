@@ -1,12 +1,9 @@
 #
 # 1. Before running this image create a volume with Geosupport installed:
 #
-#   $ docker pull mlipper/geosupport-docker:latest
+#   $ docker pull mlipper/geosupport-docker
 #   ...
-#   $ docker run -d --name geosupport \
-#                   --mount source=vol-geosupport,target=/opt/geosupport \
-#                   mlipper/geosupport-docker
-#
+#   $ docker run -it --rm --mount source=vol-geosupport,target=/opt/geosupport mlipper/geosupport-docker
 #
 # 2. Build this image
 #
@@ -21,15 +18,11 @@
 #
 #   # Specify a non-default path to the geoclient-service Spring Boot jar file
 #
-#   $ docker build --build-arg JARFILE=./build/libs/gc.jar \
-#                  -t geoclient -f Dockerfile .
+#   $ docker build --build-arg JARFILE=./build/libs/gc.jar -t geoclient -f Dockerfile .
 #
 # 3. Run this image
 #
-#   $ docker run -d --name gcrun \
-#                -p 8080:8080 \
-#               --mount source=vol-geosupport,target=/opt/geosupport \
-#                geoclient
+#   $ docker run -d --name gcrun -p 8080:8080 --mount source=vol-geosupport,target=/opt/geosupport geoclient
 #
 # 4. Default service endpoint is http://localhost:8080/geoclient/v2
 #
@@ -39,7 +32,7 @@ FROM openjdk:8-jdk
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 
 ARG JARFILE
-ENV JARFILE ${JARFILE:-"./geoclient-service/build/libs/*boot.jar"}
+ENV JARFILE ${JARFILE:-"./geoclient-service/build/libs/geoclient-service-*-boot.jar"}
 
 ARG GEOSUPPORT_HOME
 ENV GEOSUPPORT_HOME ${GEOSUPPORT_HOME:-/opt/geosupport}
@@ -58,15 +51,16 @@ ADD $JARFILE /app/geoclient.jar
 
 WORKDIR /app
 
-RUN set -ex; \
+RUN set -o errexit -o nounset; \
+  [ -f /app/geoclient.jar ] || exit 1; \
   { \
     echo '#!/bin/bash'; \
     echo; \
     echo '. $GEOSUPPORT_HOME/bin/initenv'; \
     echo '$JAVA_HOME/bin/java -Dgc.jni.version=$GC_JNI_VERSION -jar /app/geoclient.jar'; \
-  } > /app/run.sh; \
-  \
-  chmod 755 /app/run.sh;
+  } > /app/run.sh \
+  && chmod 755 /app/run.sh \
+  && cat /app/run.sh
 
 EXPOSE 8080:8080
 
