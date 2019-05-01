@@ -2260,5 +2260,12 @@
         <requiredArgument name="workAreaFormatIndicator" value="C"/>
       </configuration>
     </function>
+    <function id="N">
+      <workAreaOne reference="WA1" />
+      <configuration>
+        <requiredArgument name="geosupportFunctionCode" value="N"/>
+        <requiredArgument name="workAreaFormatIndicator" value="C"/>
+      </configuration>
+    </function>
   </functions>
 </geoclient>

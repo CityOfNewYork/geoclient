@@ -16,6 +16,7 @@
 package gov.nyc.doitt.gis.geoclient.service.web;
 
 import gov.nyc.doitt.gis.geoclient.service.domain.BadRequest;
+//import gov.nyc.doitt.gis.geoclient.service.domain.StreetNameFormat;
 import gov.nyc.doitt.gis.geoclient.service.domain.ServiceType;
 import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
@@ -50,23 +51,29 @@ public class RestController
 {
 
 	public static final String ADDRESS_URI = "/address";
+	public static final String ADDRESSPOINT_URI = "/addresspoint";
 	public static final String BBL_URI = "/bbl";
 	public static final String BIN_URI = "/bin";
 	public static final String BLOCKFACE_URI = "/blockface";
 	public static final String DOC_URI = "/doc";
 	public static final String GEOSUPPORT_URI = "/geosupport";
 	public static final String INTERSECTION_URI = "/intersection";
+	public static final String NORMALIZE_URI= "/normalize";	
 	public static final String PLACE_URI = "/place";
 	public static final String VERSION_URI = "/version";
 	
 	public static final String ADDRESS_OBJ = ServiceType.ADDRESS.elementName();
+	public static final String ADDRESSPOINT_OBJ = ServiceType.ADDRESSPOINT.elementName();
 	public static final String BBL_OBJ = ServiceType.BBL.elementName();
 	public static final String BIN_OBJ = ServiceType.BIN.elementName();
 	public static final String BLOCKFACE_OBJ = ServiceType.BLOCKFACE.elementName();
 	public static final String DOC_OBJ = ServiceType.DOC.elementName();
 	public static final String INTERSECTION_OBJ = ServiceType.INTERSECTION.elementName();
+	public static final String NORMALIZE_OBJ = ServiceType.NORMALIZE.elementName();
 	public static final String PLACE_OBJ = ServiceType.PLACE.elementName();
 	public static final String VERSION_OBJ = ServiceType.VERSION.elementName();
+	
+	//public static final String DEFAULT_STREET_NAME_FORMAT = StreetNameFormat.SORT.elementName();
 	
 	public static final String DOC_VIEW_NAME = "index";
 
@@ -90,6 +97,23 @@ public class RestController
 		Map<String, Object> addressMap = new HashMap<String, Object>();
 		addressMap.put(ADDRESS_OBJ, this.geosupportService.callFunction1B(houseNumber, street, borough, zip));
 		return addressMap;
+	}
+
+	@RequestMapping(value = ADDRESSPOINT_URI, method = RequestMethod.GET)
+	public @ResponseBody Map<String, Object> addresspoint(
+		    @RequestParam(required = false) String houseNumber,
+			@RequestParam String street, 
+			@RequestParam(required = false) String borough,
+			@RequestParam(required = false) String zip) throws Exception
+	{
+		logger.debug("addresspoint[houseNumber='{}', street='{}', borough='{}', zip='{}']", houseNumber, street, borough, zip);
+		if (borough == null && zip == null)
+		{
+			throw new MissingAnyOfOptionalServletRequestParametersException("borough", "zip");
+		}
+		Map<String, Object> addressPointMap = new HashMap<String, Object>();
+		addressPointMap.put(ADDRESSPOINT_OBJ, this.geosupportService.callFunctionAP(houseNumber, street, borough, zip));
+		return addressPointMap;
 	}
 	
 	@RequestMapping(value = PLACE_URI, method = RequestMethod.GET)
@@ -159,6 +183,16 @@ public class RestController
 		logger.debug("bin[bin='{}']", bin);
 		Map<String, Object> binMap = new HashMap<String, Object>();
 		binMap.put(BIN_OBJ, this.geosupportService.callFunctionBN(bin));
+		return binMap;
+	}
+
+	@RequestMapping(value = NORMALIZE_URI, method = RequestMethod.GET)
+	public @ResponseBody
+	Map<String, Object> normalize(@RequestParam String name, @RequestParam(required = false, defaultValue = "32") Integer length, @RequestParam(required = false, defaultValue = "S") String format)
+	{
+		logger.debug("normalize[name='{}',length='{}',format='{}']", name, length, format);
+		Map<String, Object> binMap = new HashMap<String, Object>();
+		binMap.put(NORMALIZE_OBJ, this.geosupportService.callFunctionN(name, length, format));
 		return binMap;
 	}
 

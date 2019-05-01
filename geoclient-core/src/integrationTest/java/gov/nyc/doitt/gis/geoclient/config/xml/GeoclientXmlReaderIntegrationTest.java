@@ -80,7 +80,7 @@ public class GeoclientXmlReaderIntegrationTest {
         String id = fConfig.getId();
         assertNotNull(id);
         assertNotNull(fConfig.getWorkAreaOneConfig());
-        if (!Function.FDG.equals(id) && !Function.FBB.equals(id) && !Function.FBF.equals(id)) {
+        if (!Function.FDG.equals(id) && !Function.FBB.equals(id) && !Function.FBF.equals(id) && !Function.FN.equals(id)) {
             assertNotNull(fConfig.getWorkAreaTwoConfig());
         } else {
             assertNull(fConfig.getWorkAreaTwoConfig());

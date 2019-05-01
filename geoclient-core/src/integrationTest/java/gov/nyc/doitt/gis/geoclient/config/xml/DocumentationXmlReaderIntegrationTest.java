@@ -53,9 +53,11 @@ public class DocumentationXmlReaderIntegrationTest
 		functionIds.add(Function.F1E);
 		functionIds.add(Function.F2);
 		functionIds.add(Function.F3);
+		functionIds.add(Function.FAP);
 		functionIds.add(Function.FBL);
 		functionIds.add(Function.FBN);
 		functionIds.add(Function.FDG);
+		functionIds.add(Function.FN);
 		assertNull(xmlReader.getFunctionDocumentation("zzzz"));
 	}
 

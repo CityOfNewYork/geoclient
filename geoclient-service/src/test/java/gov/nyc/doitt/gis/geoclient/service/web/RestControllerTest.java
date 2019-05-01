@@ -88,6 +88,17 @@ public class RestControllerTest {
 	}
 
 	@Test
+	public void testAddressPoint_withBorough() throws Exception {
+		String houseNumber = "59";
+		String street = "Maiden Ln";
+		String borough = "Manhattan";
+		Mockito.when(this.geosupportServiceMock.callFunctionAP(houseNumber, street, borough, null))
+				.thenReturn(expectedResult);
+		Map<String, Object> actualResult = this.restController.addresspoint(houseNumber, street, borough, null);
+		assertSame(expectedResult, actualResult.get(RestController.ADDRESSPOINT_OBJ));
+	}
+
+	@Test
 	public void testPlace_withBorough() throws Exception {
 		String street = "Empire State Building";
 		String borough = "Manhattan";
@@ -170,6 +181,16 @@ public class RestControllerTest {
 		Mockito.when(this.geosupportServiceMock.callFunctionBN(bin)).thenReturn(expectedResult);
 		Map<String, Object> actualResult = this.restController.bin(bin);
 		assertSame(expectedResult, actualResult.get(RestController.BIN_OBJ));
+	}
+
+	@Test
+	public void testNormalize() {
+		String streetName = "w 100 st";
+		Integer max = 24;
+		String format = "C";
+		Mockito.when(this.geosupportServiceMock.callFunctionN(streetName, max, format)).thenReturn(expectedResult);
+		Map<String, Object> actualResult = this.restController.normalize(streetName, max, format);
+		assertSame(expectedResult, actualResult.get(RestController.NORMALIZE_OBJ));
 	}
 
 	@Test

@@ -143,6 +143,10 @@ public class AppConfig {
         return geosupportConfiguration().getFunction(id);
     }
 
+    public Function functionAP() {
+        return geosupportFunction(Function.FAP);
+    }
+
     public Function function1B() {
         return geosupportFunction(Function.F1B);
     }
@@ -165,6 +169,10 @@ public class AppConfig {
 
     public Function functionHR() {
         return geosupportFunction(Function.FHR);
+    }
+
+    public Function functionN() {
+        return geosupportFunction(Function.FN);
     }
 
     public LegacyMapper versionMapper() {

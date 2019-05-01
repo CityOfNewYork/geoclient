@@ -42,6 +42,10 @@ public class InputParam
 	public static final String STREET_NAME = "streetName";
 	public static final String STREET_NAME2 = "streetName2";
 	public static final String STREET_NAME3 = "streetName3";
+	public static final String NORMALIZATION_FORMAT = "streetNameNormalizationFormatFlag";
+	public static final String NORMALIZATION_FORMAT_COMPACT_VALUE = "C";
+	public static final String NORMALIZATION_FORMAT_SORT_VALUE = "S"; // Default if format unspecified
+	public static final String NORMALIZATION_LENGTH = "streetNameNormalizationLengthLimit"; // Defaults to maximum value of 32 if unspecified
 	public static final String WORK_AREA_FORMAT_INDICATOR = "workAreaFormatIndicator";
 	public static final String WORK_AREA_FORMAT_INDICATOR_VALUE = "C";
 	public static final String ZIP_CODE = "zipCode";

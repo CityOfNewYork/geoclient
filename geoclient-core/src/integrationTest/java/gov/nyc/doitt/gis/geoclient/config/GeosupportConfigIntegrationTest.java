@@ -66,6 +66,7 @@ public class GeosupportConfigIntegrationTest {
         assertNotNull(geosupportConfig.getFunction(Function.F3));
         assertNotNull(geosupportConfig.getFunction(Function.FDG));
         assertNotNull(geosupportConfig.getFunction(Function.FHR));
+        assertNotNull(geosupportConfig.getFunction(Function.FN));        
     }
 
     @Test
@@ -83,6 +84,7 @@ public class GeosupportConfigIntegrationTest {
         assertNotNull(geosupportConfig.getFunction(Function.F3).getConfiguration());
         assertNotNull(geosupportConfig.getFunction(Function.FDG).getConfiguration());
         assertNotNull(geosupportConfig.getFunction(Function.FHR).getConfiguration());
+        assertNotNull(geosupportConfig.getFunction(Function.FN).getConfiguration());
     }
 
     @Test

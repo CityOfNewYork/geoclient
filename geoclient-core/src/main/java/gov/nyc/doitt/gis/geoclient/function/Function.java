@@ -33,6 +33,8 @@ public interface Function {
     public static final String FBN = "BN";
     public static final String FDG = "DG";
     public static final String FHR = "HR";
+    public static final String FN = "N";
+    
 
     public Map<String, Object> call(Map<String, Object> parameters);
 

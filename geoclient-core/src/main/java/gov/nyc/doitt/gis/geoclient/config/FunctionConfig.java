@@ -27,104 +27,116 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FunctionConfig
-{
-	private static final Logger log = LoggerFactory.getLogger(FunctionConfig.class);
+public class FunctionConfig {
+    private static final Logger log = LoggerFactory.getLogger(FunctionConfig.class);
 
-	private final String id;
-	private final WorkAreaConfig workAreaOneConfig;
-	private final WorkAreaConfig workAreaTwoConfig;
+    private final String id;
+    private final WorkAreaConfig workAreaOneConfig;
+    private final WorkAreaConfig workAreaTwoConfig;
     // Use concrete type for easier XStream setup
-	private final DefaultConfiguration configuration;
+    private final DefaultConfiguration configuration;
 
-	public FunctionConfig(String id, WorkAreaConfig workAreaOneConfig,
-			WorkAreaConfig workAreaTwoConfig, DefaultConfiguration configuration)
-	{
-		super();
-		this.id = id;
-		this.workAreaOneConfig = workAreaOneConfig;
-		this.workAreaTwoConfig = workAreaTwoConfig;
-        this.configuration = configuration;       
-	}
-    
-	public FunctionConfig(String id, WorkAreaConfig workAreaOneConfig,
-            WorkAreaConfig workAreaTwoConfig) {
-        this(id, workAreaOneConfig, workAreaTwoConfig, null);
-    }
-    
-	public Function createFunction(Geoclient geoclient)
-	{
-		log.debug("Attempting to create function {}", this.id);
-		WorkArea workAreaOne = this.workAreaOneConfig.createWorkArea();
-		WorkArea workAreaTwo = null;
-		if (isTwoWorkAreaFunction())
-		{
-			workAreaTwo = this.workAreaTwoConfig.createWorkArea();
-			warnIfDuplicateFieldIds(workAreaOne, workAreaTwo);
-		}
-		DefaultConfiguration funConf = this.configuration;
-		if(funConf == null){
-		    log.warn("Function.configuration is null. Defaulting to new instance.");
-		    funConf = new DefaultConfiguration();
-		}		
-		GeosupportFunction function = new GeosupportFunction(this.id, workAreaOne, workAreaTwo, geoclient, funConf);
-		return function;
-	}
-
-	public boolean isTwoWorkAreaFunction()
-	{
-		return this.workAreaTwoConfig != null;
-	}
-
-    public boolean hasDefaultArguments()
-    {
-        return this.configuration != null;
+    public FunctionConfig(String id, WorkAreaConfig workAreaOneConfig, WorkAreaConfig workAreaTwoConfig,
+	    DefaultConfiguration configuration) {
+	super();
+	this.id = id;
+	this.workAreaOneConfig = workAreaOneConfig;
+	this.workAreaTwoConfig = workAreaTwoConfig;
+	this.configuration = configuration;
     }
 
-	public String getId()
-	{
-		return id;
-	}
+    public FunctionConfig(String id, WorkAreaConfig workAreaOneConfig, WorkAreaConfig workAreaTwoConfig) {
+	this(id, workAreaOneConfig, workAreaTwoConfig, null);
+    }
 
-	public WorkAreaConfig getWorkAreaOneConfig()
-	{
-		return workAreaOneConfig;
+    public Function createFunction(Geoclient geoclient) {
+	log.debug("Attempting to create function {}", this.id);
+	WorkArea workAreaOne = this.workAreaOneConfig.createWorkArea();
+	WorkArea workAreaTwo = null;
+	if (isTwoWorkAreaFunction()) {
+	    workAreaTwo = this.workAreaTwoConfig.createWorkArea();
+	    warnIfDuplicateFieldIds(workAreaOne, workAreaTwo);
 	}
-
-	public WorkAreaConfig getWorkAreaTwoConfig()
-	{
-		return workAreaTwoConfig;
+	DefaultConfiguration funConf = this.configuration;
+	if (funConf == null) {
+	    log.warn("Function.configuration is null. Defaulting to new instance.");
+	    funConf = new DefaultConfiguration();
 	}
+	GeosupportFunction function = new GeosupportFunction(this.id, workAreaOne, workAreaTwo, geoclient, funConf);
+	return function;
+    }
 
-	public Configuration getConfiguration()
-    {
-        return configuration;
+    public boolean isTwoWorkAreaFunction() {
+	return this.workAreaTwoConfig != null;
+    }
+
+    public boolean hasDefaultArguments() {
+	return this.configuration != null;
+    }
+
+    public String getId() {
+	return id;
+    }
+
+    public WorkAreaConfig getWorkAreaOneConfig() {
+	return workAreaOneConfig;
+    }
+
+    public WorkAreaConfig getWorkAreaTwoConfig() {
+	return workAreaTwoConfig;
+    }
+
+    public Configuration getConfiguration() {
+	return configuration;
     }
 
     @Override
-	public String toString()
-	{
-		return "FunctionConfig [id=" + this.id + ", workAreaOne=" + workAreaOneConfig + ", workAreaTwo=" + workAreaTwoConfig + "]";
-	}
+    public String toString() {
+	return "FunctionConfig [id=" + this.id + ", workAreaOne=" + workAreaOneConfig + ", workAreaTwo="
+		+ workAreaTwoConfig + "]";
+    }
 
-	private void warnIfDuplicateFieldIds(WorkArea workAreaOne, WorkArea workAreaTwo)
-	{
-		List<String> duplicateIds = workAreaOne.getFieldIds();
-		// Find the duplicates
-		duplicateIds.retainAll(workAreaTwo.getFieldIds());
-		if (duplicateIds.size() > 0)
-		{
-			String wa1Id = workAreaOne.getId();
-			String wa2Id = workAreaTwo.getId();
-			log.debug("=====================================================");
-			log.debug("== The following field id's are defined in both WorkArea[id={}] and WorkArea[id={}].", wa1Id, wa2Id);
-			for (String id : duplicateIds)
-			{
-				log.debug("== Field [id={}]", id);
-			}
-			log.debug("== Only the value from WorkArea[id={}] will be returned.", wa2Id);
-			log.debug("=====================================================");
-		}
+    private void warnIfDuplicateFieldIds(WorkArea workAreaOne, WorkArea workAreaTwo) {
+	List<String> duplicateIds = workAreaOne.getFieldIds();
+	// Find the duplicates
+	duplicateIds.retainAll(workAreaTwo.getFieldIds());
+	if (duplicateIds.size() > 0) {
+	    String wa1Id = workAreaOne.getId();
+	    String wa2Id = workAreaTwo.getId();
+	    log.debug("=====================================================");
+	    log.debug("== The following field id's are defined in both WorkArea[id={}] and WorkArea[id={}].", wa1Id,
+		    wa2Id);
+	    for (String id : duplicateIds) {
+		log.debug("== Field [id={}]", id);
+	    }
+	    log.debug("== Only the value from WorkArea[id={}] will be returned.", wa2Id);
+	    log.debug("=====================================================");
 	}
+    }
+
+    @Override
+    public int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = prime * result + ((id == null) ? 0 : id.hashCode());
+	return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+	if (this == obj)
+	    return true;
+	if (obj == null)
+	    return false;
+	if (getClass() != obj.getClass())
+	    return false;
+	FunctionConfig other = (FunctionConfig) obj;
+	if (id == null) {
+	    if (other.id != null)
+		return false;
+	} else if (!id.equals(other.id))
+	    return false;
+	return true;
+    }
 
 }

@@ -2707,6 +2707,11 @@ City Name field. See the defaults listed below.</p>
             <p>Function AP returns address point information derived from a real property address.</p>
         </description>
     </functionDocumentation>
+    <functionDocumentation id="N">
+        <description>
+            <p>Function N attempts to normalize an input string to use Geosupport street naming conventions.</p>
+        </description>
+    </functionDocumentation>
     <functionDocumentation id="HR">
         <description>
             <p>Function HR returns metadata about the Geosupport installation.</p>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2016 the original author or authors.
+ * Copyright 2013-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,24 +15,15 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.domain;
 
-public enum ServiceType 
+public enum StreetNameFormat 
 {
 
-	ADDRESS("address"),
-	ADDRESSPOINT("addresspoint"),
-	BBL("bbl"),
-	BIN("bin"),
-	BLOCKFACE("blockface"),
-	DOC("doc"),
-	INTERSECTION("intersection"),
-	NORMALIZE("normalize"),
-	PLACE("place"),
-	UNKNOWN("unknown"),
-	VERSION("version");
+	SORT("S"),
+	COMPACT("C");
 	
 	private final String elementName;
 
-	private ServiceType(String elementName)
+	private StreetNameFormat(String elementName)
 	{
 		this.elementName = elementName;
 	}
