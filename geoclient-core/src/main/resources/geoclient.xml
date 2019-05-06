@@ -1751,11 +1751,11 @@
         <field id="filler6" start="193" length="8"></field>
         <!-- WA2_F2W fields -->
         <field id="filler7" start="201" length="22"></field>
-    <field id="lgcListForStreet1" start="223" length="8"></field>
-    <field id="lgcListForStreet2" start="231" length="8"></field>
-    <field id="turnRestrictions" start="239" length="10"></field>
-    <field id="preferredLgcsForIntersectingStreets" start="249" length="10"></field>
-    <field id="trueReplicationCounter" start="259" length="2"></field>
+        <field id="lgcListForStreet1" start="223" length="8"></field>
+        <field id="lgcListForStreet2" start="231" length="8"></field>
+        <field id="turnRestrictions" start="239" length="10"></field>
+        <field id="preferredLgcsForIntersectingStreets" start="249" length="10"></field>
+        <field id="trueReplicationCounter" start="259" length="2"></field>
         <field id="node1" start="261" length="7"></field>
         <field id="node2" start="268" length="7"></field>
         <field id="node3" start="275" length="7"></field>
@@ -2263,7 +2263,7 @@
     <function id="N">
       <workAreaOne reference="WA1" />
       <configuration>
-        <requiredArgument name="geosupportFunctionCode" value="N"/>
+        <requiredArgument name="geosupportFunctionCode" value="N*"/>
         <requiredArgument name="workAreaFormatIndicator" value="C"/>
       </configuration>
     </function>
