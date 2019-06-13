@@ -1,0 +1,43 @@
+#FROM openjdk:8-jdk AS builder
+#LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
+#ENV GEOSUPPORT_HOME /opt/geosupport
+#ENV GEOFILES $GEOSUPPORT_HOME/fls/
+#ENV GS_LIBRARY_PATH $GEOSUPPORT_HOME/lib
+#ENV LD_LIBRARY_PATH=$GS_LIBRARY_PATH
+#RUN set -o errexit -o nounset \
+#  && echo "Validating Geosupport environment variables." \
+#  && apt-get update \
+#  && apt-get install -y --no-install-recommends \
+#      bash \
+#      gcc \
+#      g++ \
+#      libc6-dev \
+#      vim \
+#  && rm -rf /var/lib/apt/lists/*
+#WORKDIR /app
+#CMD ["/app/gradlew", "clean", "build"]
+#
+FROM openjdk:8-jdk
+LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
+ENV GEOSUPPORT_HOME /opt/geosupport
+ENV GEOFILES $GEOSUPPORT_HOME/fls/
+ENV GS_LIBRARY_PATH $GEOSUPPORT_HOME/lib
+ENV LD_LIBRARY_PATH=$GS_LIBRARY_PATH
+ENV GC_JNI_VERSION geoclient-jni-2.0.0
+WORKDIR /app
+#COPY --from=builder "/app/geoclient-service/build/libs/geoclient-service-*-boot.jar" /app/geoclient.jar
+COPY "./geoclient-service/build/libs/geoclient-service-*-boot.jar" /app/geoclient.jar
+RUN set -o errexit -o nounset; \
+  [ -f /app/geoclient.jar ] || exit 1; \
+  { \
+    echo '#!/bin/bash'; \
+    echo; \
+    echo '. $GEOSUPPORT_HOME/bin/initenv || exit 1'; \
+    echo '$JAVA_HOME/bin/java -jar -Dspring.profiles.active=bootjar -Dgc.jni.version=$GC_JNI_VERSION /app/geoclient.jar'; \
+  } > /app/run.sh \
+  && chmod 755 /app/run.sh \
+  && cat /app/run.sh
+
+EXPOSE 8080:8080
+
+CMD ["/bin/bash", "-c", "/app/run.sh"]
