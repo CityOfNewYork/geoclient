@@ -137,7 +137,9 @@ public class GeoclientJni implements Geoclient {
 		try {
 			new NativeLibraryLoader(libBaseName)
 					.loadLibrary(jvmTempDir);
-            logger.info("Successfully loaded {} library from {}:", libBaseName, jvmTempDir);
+                        logger.info(
+                        	"Successfully loaded {} library from {}:",
+                        	libBaseName, jvmTempDir);
 		}
 		catch (IOException ioe) {
 		    logger.error("Error loading {} library from {}:", libBaseName, jvmTempDir);
