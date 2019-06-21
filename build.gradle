@@ -40,7 +40,7 @@ subprojects {
     }
 
     dependencies {
-        implementation enforcedPlatform('org.springframework.boot:spring-boot-dependencies:2.1.5.RELEASE') // Must be in sync with geoclient-service/build.gradle
+        implementation enforcedPlatform('org.springframework.boot:spring-boot-dependencies:2.1.6.RELEASE') // Must be in sync with geoclient-service/build.gradle
                                                                                                            // spring-boot plugin
         implementation 'org.springframework.boot:spring-boot-starter-logging'
         testImplementation('org.springframework.boot:spring-boot-starter-test') {

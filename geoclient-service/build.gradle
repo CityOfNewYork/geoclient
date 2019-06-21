@@ -1,5 +1,5 @@
 plugins {
-  id 'org.springframework.boot' version '2.1.5.RELEASE' // Must be in sync with $rootProject/build.gradle
+  id 'org.springframework.boot' version '2.1.6.RELEASE' // Must be in sync with $rootProject/build.gradle
   id 'io.spring.dependency-management' version '1.0.8.RELEASE'
   id 'war' // Required when building an executable war file
 }
