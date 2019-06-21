@@ -20,7 +20,7 @@ class IntegrationTestPlugin<Project> implements Plugin<Project> {
     static final String JAVA_SOURCE_SET_DIR = String.format("src/%s/java", SOURCE_SET_NAME)
     static final String JAVA_RESOURCES_SOURCE_SET_DIR = String.format("src/%s/resources", SOURCE_SET_NAME)
 	static final String RUNTIME_REPORT_TASK = "runtimeReport"
-    
+
 	private final Logger logger = Logging.getLogger(getClass())
 
     void apply(Project project) {
