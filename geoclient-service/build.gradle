@@ -50,11 +50,29 @@ tasks.withType(Javadoc) {
   exclude '**/LatLongEnhancer.java'
 }
 
-jar { enabled = true }
+// Uncomment to allow building "non-executable", traditional jar or war files
+// TODO These tasks still appear when gradle tasks is run but should indicate
+// that they're dsabled.
+// TODO When run with default logging level, these tasks give no indication
+// that they've been disabled and the build still reports success.
+// jar { enabled = true }
+// war { enabled = true }
 
 springBoot { buildInfo() }
 
 bootJar {
+  // Assembles runnable jar file: e.g., 'java -jar -Dprop1=abc </path/to/jar>'
+  // To make fully executable: add a 'launchScript {...}' closure
+  classifier = 'boot'
+  mainClassName = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
+  requiresUnpack '**/geoclient-jni-*.jar'
+}
+
+bootWar {
+  // Assembles runnable war file: e.g., 'java -jar -Dprop1=abc </path/to/war>'
+  // To make fully executable: add a 'launchScript {...}' closure
+  // Because the GeoclientBootApplication extends SpringBootServletInitializer,
+  // the war file _can_also_be_run_in_a_servlet_container_
   classifier = 'boot'
   mainClassName = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
   requiresUnpack '**/geoclient-jni-*.jar'
