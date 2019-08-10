@@ -10,10 +10,7 @@ server:
     servlet:
         context-path: "/geoclient/v2"
 
-
 logging:
-
-    file: "logs/geoclient.log"
 
     group:
         geoclient:
@@ -48,9 +45,10 @@ logging:
         #gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
         ## Log request/response HashMaps before/after geosupport call
         #gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl: "DEBUG"
----
-spring:
-    profiles: bootjar
+#---
+#spring:
+    #profiles: k8s-eks
 
-logging:
-    file: logs/geoclient-bootjar.log
+#logging:
+    #file: logs/geoclient-bootjar.log
+
