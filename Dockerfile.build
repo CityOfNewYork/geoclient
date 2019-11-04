@@ -27,7 +27,6 @@ LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 
 ENV GEOSUPPORT_HOME "${GEOSUPPORT_HOME:-/opt/geosupport}"
 ENV  GC_JNI_VERSION "${GC_JNI_VERSION:-geoclient-jni-2}"
-ENV GS_LIBRARY_PATH "${GS_LIBRARY_PATH:-${GEOSUPPORT_HOME}/lib}"
 
 ENV GRADLE_DEBUG "${GRADLE_DEBUG:-"false"}"
 ENV GRADLE_OPTS "-Dorg.gradle.debug=${GRADLE_DEBUG} ${GRADLE_OPTS}"

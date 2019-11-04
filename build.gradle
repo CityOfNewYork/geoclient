@@ -5,6 +5,10 @@ plugins {
 
 apply from: "${rootDir}/gradle/dependencies.gradle"
 
+task clean(type: Delete) {
+    delete "${rootDir}/build"
+}
+
 allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'project-report'
