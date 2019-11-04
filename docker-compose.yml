@@ -1,37 +1,26 @@
-version: "3.7"
-
+version: '3'
 services:
-  geosupport:
-    image: mlipper/geosupport-docker
-    volumes:
-      - type: volume
-        source: vol-geosupport
-        target: /opt/geosupport
   gcbuild:
-    depends_on:
-      - geosupport
     build:
       context: .
       dockerfile: Dockerfile.build
     volumes:
-      - type: volume
-        source: vol-geosupport
-        target: /opt/geosupport
+      - .:/app
+      - vol-geosupport:/opt/geosupport
     ports:
       - "5005:5005"
-  gcservice:
+      - "8080:8080"
+  geoclient-boot:
     depends_on:
-      - geosupport
       - gcbuild
     build:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - type: volume
-        source: vol-geosupport
-        target: /opt/geosupport
+      - vol-geosupport:/opt/geosupport
     ports:
       - "8000:8000"
       - "8080:8080"
 volumes:
   vol-geosupport:
+    external: true
