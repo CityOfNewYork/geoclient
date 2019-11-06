@@ -22,15 +22,18 @@ import java.util.Map;
 
 public interface GeosupportService
 {
-	Map<String, Object> callFunctionAP(String houseNumber, String street, String borough, String zip);
-	Map<String, Object> callFunction1B(String houseNumber, String street, String borough, String zip);
-	Map<String, Object> callFunction2(String crossStreetOne, String boroughCrossStreetOne, String crossStreetTwo, String boroughCrossStreetTwo, String compassDirection);
-	Map<String, Object> callFunction3(String onStreet, String boroughOnStreet, String crossStreetOne, String boroughCrossStreetOne, String crossStreetTwo, String boroughCrossStreetTwo, String compassDirection);
-	Map<String, Object> callFunctionBL(String borough, String block, String lot);
-	Map<String, Object> callFunctionBN(String bin);
-	Map<String, Object> callFunctionHR();
-	Map<String, Object> callGeosupport(Map<String, Object> params);
-	Map<String, Object> callFunctionN(String name, Integer length, String format);
-	Documentation getDocumentation();
-	Version version();
+    Map<String, Object> callFunctionAP(String houseNumber, String street, String borough, String zip);
+    Map<String, Object> callFunction1B(String houseNumber, String street, String borough, String zip);
+    Map<String, Object> callFunction2(String crossStreetOne, String boroughCrossStreetOne, String crossStreetTwo, String boroughCrossStreetTwo, String compassDirection);
+    Map<String, Object> callFunction3(String onStreet, String boroughOnStreet, String crossStreetOne, String boroughCrossStreetOne, String crossStreetTwo, String boroughCrossStreetTwo, String compassDirection);
+    Map<String, Object> callFunctionBL(String borough, String block, String lot);
+    Map<String, Object> callFunctionBN(String bin);
+    Map<String, Object> callFunctionD(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format);
+    Map<String, Object> callFunctionDG(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format);
+    Map<String, Object> callFunctionDN(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format);
+    Map<String, Object> callFunctionHR();
+    Map<String, Object> callGeosupport(Map<String, Object> params);
+    Map<String, Object> callFunctionN(String name, Integer length, String format);
+    Documentation getDocumentation();
+    Version version();
 }

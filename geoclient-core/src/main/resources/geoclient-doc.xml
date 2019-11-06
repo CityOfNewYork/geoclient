@@ -2836,9 +2836,27 @@ City Name field. See the defaults listed below.</p>
       <groupDocumentation reference="listOfLowCrossStreetB5SCs" />
         </groups>
     </functionDocumentation>
+    <functionDocumentation id="D">
+        <description>
+            <p>Function D returns street names for the given B5SC input
+                street code.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+        </groups>
+    </functionDocumentation>
     <functionDocumentation id="DG">
         <description>
-            <p>Function DG returns street names for the given input
+            <p>Function DG returns street names for the given B7SC input
+                street code.</p>
+        </description>
+        <groups>
+            <groupDocumentation reference="listOfStreetNamesWa1" />
+        </groups>
+    </functionDocumentation>
+    <functionDocumentation id="DN">
+        <description>
+            <p>Function DN returns street names for the given B10SC input
                 street code.</p>
         </description>
         <groups>

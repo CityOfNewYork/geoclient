@@ -58,10 +58,11 @@ public class RestController
 	public static final String DOC_URI = "/doc";
 	public static final String GEOSUPPORT_URI = "/geosupport";
 	public static final String INTERSECTION_URI = "/intersection";
-	public static final String NORMALIZE_URI= "/normalize";	
-	public static final String PLACE_URI = "/place";
+	public static final String NORMALIZE_URI= "/normalize";
+    public static final String PLACE_URI = "/place";
+    public static final String STREET_URI = "/street";
 	public static final String VERSION_URI = "/version";
-	
+
 	public static final String ADDRESS_OBJ = ServiceType.ADDRESS.elementName();
 	public static final String ADDRESSPOINT_OBJ = ServiceType.ADDRESSPOINT.elementName();
 	public static final String BBL_OBJ = ServiceType.BBL.elementName();
@@ -71,10 +72,11 @@ public class RestController
 	public static final String INTERSECTION_OBJ = ServiceType.INTERSECTION.elementName();
 	public static final String NORMALIZE_OBJ = ServiceType.NORMALIZE.elementName();
 	public static final String PLACE_OBJ = ServiceType.PLACE.elementName();
-	public static final String VERSION_OBJ = ServiceType.VERSION.elementName();
-	
+    public static final String STREET_OBJ = ServiceType.STREET.elementName();
+    public static final String VERSION_OBJ = ServiceType.VERSION.elementName();
+
 	//public static final String DEFAULT_STREET_NAME_FORMAT = StreetNameFormat.SORT.elementName();
-	
+
 	public static final String DOC_VIEW_NAME = "index";
 
 	private static final Logger logger = LoggerFactory.getLogger(RestController.class);
@@ -85,7 +87,7 @@ public class RestController
 	@RequestMapping(value = ADDRESS_URI, method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> address(
 		    @RequestParam(required = false) String houseNumber,
-			@RequestParam String street, 
+			@RequestParam String street,
 			@RequestParam(required = false) String borough,
 			@RequestParam(required = false) String zip) throws Exception
 	{
@@ -102,7 +104,7 @@ public class RestController
 	@RequestMapping(value = ADDRESSPOINT_URI, method = RequestMethod.GET)
 	public @ResponseBody Map<String, Object> addresspoint(
 		    @RequestParam(required = false) String houseNumber,
-			@RequestParam String street, 
+			@RequestParam String street,
 			@RequestParam(required = false) String borough,
 			@RequestParam(required = false) String zip) throws Exception
 	{
@@ -115,11 +117,11 @@ public class RestController
 		addressPointMap.put(ADDRESSPOINT_OBJ, this.geosupportService.callFunctionAP(houseNumber, street, borough, zip));
 		return addressPointMap;
 	}
-	
+
 	@RequestMapping(value = PLACE_URI, method = RequestMethod.GET)
 	public @ResponseBody
 	Map<String, Object> place(
-			@RequestParam String name, 
+			@RequestParam String name,
 			@RequestParam(required = false) String borough,
 			@RequestParam(required = false) String zip) throws Exception
 	{
@@ -191,10 +193,20 @@ public class RestController
 	Map<String, Object> normalize(@RequestParam String name, @RequestParam(required = false, defaultValue = "32") Integer length, @RequestParam(required = false, defaultValue = "S") String format)
 	{
 		logger.debug("normalize[name='{}',length='{}',format='{}']", name, length, format);
-		Map<String, Object> binMap = new HashMap<String, Object>();
-		binMap.put(NORMALIZE_OBJ, this.geosupportService.callFunctionN(name, length, format));
-		return binMap;
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put(NORMALIZE_OBJ, this.geosupportService.callFunctionN(name, length, format));
+		return resultMap;
 	}
+
+    @RequestMapping(value = STREET_URI, method = RequestMethod.GET)
+    public @ResponseBody Map<String, Object> street(@RequestParam String streetCode,
+            @RequestParam(required = false, defaultValue = "32") Integer length,
+            @RequestParam(required = false, defaultValue = "S") String format) {
+        logger.debug("street[streetCode='{}',length='{}',format='{}']", streetCode, length, format);
+        Map<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put(STREET_OBJ, this.geosupportService.callFunctionD(streetCode, length, format));
+        return resultMap;
+    }
 
 	@RequestMapping(value = GEOSUPPORT_URI, method = RequestMethod.GET)
 	public @ResponseBody

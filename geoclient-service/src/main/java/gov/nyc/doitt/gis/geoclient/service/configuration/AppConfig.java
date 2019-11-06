@@ -171,6 +171,18 @@ public class AppConfig {
         return geosupportFunction(Function.FHR);
     }
 
+    public Function functionD() {
+        return geosupportFunction(Function.FD);
+    }
+
+    public Function functionDG() {
+        return geosupportFunction(Function.FDG);
+    }
+
+    public Function functionDN() {
+        return geosupportFunction(Function.FDN);
+    }
+
     public Function functionN() {
         return geosupportFunction(Function.FN);
     }

@@ -58,6 +58,7 @@ public class GeosupportClient
 		FUNCTIONS.put(Function.F3, 9);
 		FUNCTIONS.put(Function.FDG, 10);
 		FUNCTIONS.put(Function.FHR, 11);
+		// TODO: Add functions N*, D, DN
 		SortedSet<String> functionNames = new TreeSet<String>();
 		functionNames.addAll(FUNCTIONS.keySet());
 		for (Iterator<String> iterator = functionNames.iterator(); iterator.hasNext();)

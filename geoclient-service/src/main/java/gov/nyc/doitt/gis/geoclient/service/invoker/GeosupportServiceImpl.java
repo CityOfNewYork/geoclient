@@ -29,6 +29,9 @@ import static gov.nyc.doitt.gis.geoclient.api.InputParam.NORMALIZATION_FORMAT;
 import static gov.nyc.doitt.gis.geoclient.api.InputParam.NORMALIZATION_FORMAT_COMPACT_VALUE;
 import static gov.nyc.doitt.gis.geoclient.api.InputParam.NORMALIZATION_FORMAT_SORT_VALUE;
 import static gov.nyc.doitt.gis.geoclient.api.InputParam.NORMALIZATION_LENGTH;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_CODE;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_CODE2;
+import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_CODE3;
 import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME;
 import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME2;
 import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME3;
@@ -50,7 +53,7 @@ import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 
 /**
  * Default implementation for making Geoclient calls to Geosupport.
- * 
+ *
  * @author mlipper
  *
  */
@@ -59,7 +62,7 @@ public class GeosupportServiceImpl implements GeosupportService {
 
     /**
      * Callback for configuring calls.
-     * 
+     *
      * @author mlipper
      *
      */
@@ -73,7 +76,6 @@ public class GeosupportServiceImpl implements GeosupportService {
             this.latLongEnhancer = latLongEnhancer;
         }
 
-        // TODO Refactor for brevity or leave as is for clarity?
         public Map<String, Object> execute() {
             // Arguments required by function for every call
             Map<String, Object> requiredArguments = requiredArguments(function);
@@ -130,26 +132,26 @@ public class GeosupportServiceImpl implements GeosupportService {
     @Override
     public Map<String, Object> callFunctionAP(String houseNumber, String street, String borough, String zip) {
 
-	return new Call(serviceConfiguration.functionAP(), serviceConfiguration.latLongEnhancer()) {
-	    @Override
-	    public Map<String, Object> userArguments() {
-		Map<String, Object> params = newMap();
-		if (houseNumber != null) {
-		    params.put(HOUSE_NUMBER, houseNumber);
-		}
+        return new Call(serviceConfiguration.functionAP(), serviceConfiguration.latLongEnhancer()) {
+            @Override
+            public Map<String, Object> userArguments() {
+            Map<String, Object> params = newMap();
+            if (houseNumber != null) {
+                params.put(HOUSE_NUMBER, houseNumber);
+            }
 
-		params.put(STREET_NAME, street);
+            params.put(STREET_NAME, street);
 
-		if (borough != null) {
-		    params.put(BOROUGH_CODE, Borough.parseInt(borough));
-		}
+            if (borough != null) {
+                params.put(BOROUGH_CODE, Borough.parseInt(borough));
+            }
 
-		if (zip != null) {
-		    params.put(ZIP_CODE, zip);
-		}
-		return params;
-	    }
-	}.execute();
+            if (zip != null) {
+                params.put(ZIP_CODE, zip);
+            }
+            return params;
+            }
+        }.execute();
     }
 
     @Override
@@ -284,7 +286,97 @@ public class GeosupportServiceImpl implements GeosupportService {
                 if (length != null) {
                     params.put(NORMALIZATION_LENGTH, String.valueOf(length));
                 }
-            
+
+                if (isValidNormalizationFormat(format)) {
+                    params.put(NORMALIZATION_FORMAT, format);
+                }
+
+                return params;
+            }
+        }.execute();
+    }
+
+    @Override
+    public Map<String, Object> callFunctionD(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format) {
+        return new Call(serviceConfiguration.functionD(), serviceConfiguration.latLongEnhancer()) {
+            @Override
+            public Map<String, Object> userArguments() {
+                Map<String, Object> params = newMap();
+
+                params.put(STREET_CODE, streetCodeOne);
+
+                if (streetCodeTwo != null) {
+                    params.put(STREET_CODE2, streetCodeTwo);
+                }
+
+                if (streetCodeThree != null) {
+                    params.put(STREET_CODE3, streetCodeThree);
+                }
+
+                if (length != null) {
+                    params.put(NORMALIZATION_LENGTH, String.valueOf(length));
+                }
+
+                if (isValidNormalizationFormat(format)) {
+                    params.put(NORMALIZATION_FORMAT, format);
+                }
+
+                return params;
+            }
+        }.execute();
+    }
+
+    @Override
+    public Map<String, Object> callFunctionDG(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format) {
+        return new Call(serviceConfiguration.functionDG(), serviceConfiguration.latLongEnhancer()) {
+            @Override
+            public Map<String, Object> userArguments() {
+                Map<String, Object> params = newMap();
+
+                params.put(STREET_CODE, streetCodeOne);
+
+                if (streetCodeTwo != null) {
+                    params.put(STREET_CODE2, streetCodeTwo);
+                }
+
+                if (streetCodeThree != null) {
+                    params.put(STREET_CODE3, streetCodeThree);
+                }
+
+                if (length != null) {
+                    params.put(NORMALIZATION_LENGTH, String.valueOf(length));
+                }
+
+                if (isValidNormalizationFormat(format)) {
+                    params.put(NORMALIZATION_FORMAT, format);
+                }
+
+                return params;
+            }
+        }.execute();
+    }
+
+    @Override
+    public Map<String, Object> callFunctionDN(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format) {
+        return new Call(serviceConfiguration.functionDN(), serviceConfiguration.latLongEnhancer()) {
+            @Override
+            public Map<String, Object> userArguments() {
+                Map<String, Object> params = newMap();
+
+                params.put(STREET_CODE, streetCodeOne);
+
+                if (streetCodeTwo != null) {
+                    params.put(STREET_CODE2, streetCodeTwo);
+                }
+
+                if (streetCodeThree != null) {
+                    params.put(STREET_CODE3, streetCodeThree);
+                }
+
+                if (length != null) {
+                    params.put(NORMALIZATION_LENGTH, String.valueOf(length));
+                }
+
                 if (isValidNormalizationFormat(format)) {
                     params.put(NORMALIZATION_FORMAT, format);
                 }
@@ -295,7 +387,7 @@ public class GeosupportServiceImpl implements GeosupportService {
     }
 
     private boolean isValidNormalizationFormat(String format) {
-	return format != null && (NORMALIZATION_FORMAT_SORT_VALUE.equals(format) || NORMALIZATION_FORMAT_COMPACT_VALUE.equals(format));
+        return format != null && (NORMALIZATION_FORMAT_SORT_VALUE.equals(format) || NORMALIZATION_FORMAT_COMPACT_VALUE.equals(format));
     }
 
     public Documentation getDocumentation() {
