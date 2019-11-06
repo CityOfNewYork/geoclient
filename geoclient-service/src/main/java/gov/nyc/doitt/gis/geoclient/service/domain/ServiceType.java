@@ -15,37 +15,38 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.domain;
 
-public enum ServiceType 
+public enum ServiceType
 {
 
-	ADDRESS("address"),
-	ADDRESSPOINT("addresspoint"),
-	BBL("bbl"),
-	BIN("bin"),
-	BLOCKFACE("blockface"),
-	DOC("doc"),
-	INTERSECTION("intersection"),
-	NORMALIZE("normalize"),
-	PLACE("place"),
-	UNKNOWN("unknown"),
-	VERSION("version");
-	
-	private final String elementName;
+    ADDRESS("address"),
+    ADDRESSPOINT("addresspoint"),
+    BBL("bbl"),
+    BIN("bin"),
+    BLOCKFACE("blockface"),
+    DOC("doc"),
+    INTERSECTION("intersection"),
+    NORMALIZE("normalize"),
+    PLACE("place"),
+    STREET("street"),
+    UNKNOWN("unknown"),
+    VERSION("version");
 
-	private ServiceType(String elementName)
-	{
-		this.elementName = elementName;
-	}
-	
-	public String elementName()
-	{
-		return this.elementName;
-	}
+    private final String elementName;
 
-	@Override
-	public String toString()
-	{
-		return this.elementName;
-	}
-	
+    private ServiceType(String elementName)
+    {
+        this.elementName = elementName;
+    }
+
+    public String elementName()
+    {
+        return this.elementName;
+    }
+
+    @Override
+    public String toString()
+    {
+        return this.elementName;
+    }
+
 }

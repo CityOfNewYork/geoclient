@@ -2239,10 +2239,24 @@
         <requiredArgument name="modeSwitch" value="X" />
       </configuration>
     </function>
+    <function id="D">
+        <workAreaOne reference="WA1" />
+        <configuration>
+            <requiredArgument name="geosupportFunctionCode" value="D" />
+            <requiredArgument name="workAreaFormatIndicator" value="C" />
+        </configuration>
+    </function>
     <function id="DG">
       <workAreaOne reference="WA1" />
       <configuration>
         <requiredArgument name="geosupportFunctionCode" value="DG"/>
+        <requiredArgument name="workAreaFormatIndicator" value="C"/>
+      </configuration>
+    </function>
+    <function id="DN">
+      <workAreaOne reference="WA1" />
+      <configuration>
+        <requiredArgument name="geosupportFunctionCode" value="DN"/>
         <requiredArgument name="workAreaFormatIndicator" value="C"/>
       </configuration>
     </function>

@@ -44,7 +44,9 @@ public class DocumentationTest
 		ids.add(Function.F1A);
 		ids.add(Function.F3);
 		ids.add(Function.F2);
+		ids.add(Function.FD);
 		ids.add(Function.FDG);
+		ids.add(Function.FDN);
 		ids.add(Function.F1B);
 		ids.add(Function.FBN);
 		ids.add("bogus");
