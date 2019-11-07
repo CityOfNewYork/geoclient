@@ -31,6 +31,34 @@ public class GeoclientCoreIntegrationTest {
     }
 
     @Test
+    public void testFunctionD() {
+        Function function = geosupportConfig.getFunction(Function.FD);
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.putAll(function.getConfiguration().requiredArguments());
+        parameters.put(InputParam.STREET_CODE, "10410");
+        parameters.put(InputParam.BOROUGH_CODE, "1");
+        parameters.put(InputParam.STREET_CODE2, "10510");
+        parameters.put(InputParam.BOROUGH_CODE2, "1");
+        parameters.put(InputParam.STREET_CODE3, "10610");
+        parameters.put(InputParam.BOROUGH_CODE3, "1");
+        Map<String, Object> result = function.call(parameters);
+        assertTrue(succeeded(GEOSUPPORT_RETURN_CODE, result));
+        String expectedStreetName = "5 AVENUE";
+        String expectedStreetCode = "11041001010";
+        String expectedStreetNameTwo = "AVENUE OF THE AMERICAS";
+        String expectedStreetCodeTwo = "11051001030";
+        String expectedStreetNameThree = "7 AVENUE";
+        String expectedStreetCodeThree = "11061004010";
+
+        assertEquals(expectedStreetName, result.get("firstStreetNameNormalized"));
+        assertEquals(expectedStreetCode, result.get("firstStreetCode"));
+        assertEquals(expectedStreetNameTwo, result.get("secondStreetNameNormalized"));
+        assertEquals(expectedStreetCodeTwo, result.get("secondStreetCode"));
+        assertEquals(expectedStreetNameThree, result.get("thirdStreetNameNormalized"));
+        assertEquals(expectedStreetCodeThree, result.get("thirdStreetCode"));
+    }
+
+    @Test
     public void testFunction3() {
         Function function = geosupportConfig.getFunction(Function.F3);
         Map<String, Object> parameters = new HashMap<>();
