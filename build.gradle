@@ -113,7 +113,7 @@ subprojects {
 
         testLogging {
             displayGranularity = 3
-            events "failed"
+            events "failed", "skipped", "passed"
             exceptionFormat "full"
             showStandardStreams = false
         }
