@@ -207,7 +207,7 @@ public class RestController
         logger.debug("street[streetCode='{}',streetCodeTwo='{}',streetCodeThree='{}',length='{}',format='{}']",
                 streetCode, streetCodeTwo, streetCodeThree, length, format);
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put(STREET_OBJ, this.geosupportService.callFunctionD(streetCode, streetCodeTwo, streetCodeThree, length, format));
+        resultMap.put(STREET_OBJ, this.geosupportService.callStreetNameFunction(streetCode, streetCodeTwo, streetCodeThree, length, format));
         return resultMap;
     }
 
