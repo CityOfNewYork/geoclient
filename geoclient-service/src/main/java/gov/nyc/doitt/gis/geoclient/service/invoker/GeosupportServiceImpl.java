@@ -50,6 +50,7 @@ import gov.nyc.doitt.gis.geoclient.service.configuration.AppConfig;
 import gov.nyc.doitt.gis.geoclient.service.domain.Borough;
 import gov.nyc.doitt.gis.geoclient.service.domain.Documentation;
 import gov.nyc.doitt.gis.geoclient.service.domain.Version;
+import gov.nyc.doitt.gis.geoclient.util.Assert;
 
 /**
  * Default implementation for making Geoclient calls to Geosupport.
@@ -294,6 +295,23 @@ public class GeosupportServiceImpl implements GeosupportService {
                 return params;
             }
         }.execute();
+    }
+
+    @Override
+    public Map<String, Object> callStreetNameFunction(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format) {
+        Assert.notNull(streetCodeOne, STREET_CODE + " argument cannot be null");
+        int codeLength = streetCodeOne.length();
+        switch (codeLength) {
+            case 6:
+                return callFunctionD(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
+            case 8:
+                return callFunctionDG(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
+            case 11:
+                return callFunctionDN(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
+            default:
+                throw new IllegalArgumentException(
+                            String.format("Invalid B5SC (6 chars), B7SC (8 chars), or B10SC (11 chars) length %d", codeLength));
+        }
     }
 
     @Override
