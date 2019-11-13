@@ -15,14 +15,24 @@
  */
 package gov.nyc.doitt.gis.geoclient.api;
 
-public class Street extends CodeNamedValue {
+/**
+ * Indicates that the given street code is not valid. Typically, this is based
+ * on the set of known types defined in {@link StreetCodeType}.
+ * 
+ * @see StreetCodeType
+ * @author mlipper
+ *
+ */
+public class InvalidStreetCodeException extends RuntimeException {
 
-    public Street(String code, String name) {
-        super(code, name, false);
+    private static final long serialVersionUID = 971853261039580054L;
+
+    /**
+     * Creates an instance using a default message built with the given street code argument.
+     * 
+     * @param streetCode street code value that is invalid
+     */
+    public InvalidStreetCodeException(String streetCode) {
+        super(String.format("Invalid street code '%s'", streetCode));
     }
-
-    public Street(String name) {
-        super(null, name, false);
-    }
-
 }
