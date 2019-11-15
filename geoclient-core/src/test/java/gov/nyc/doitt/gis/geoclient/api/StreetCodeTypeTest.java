@@ -72,19 +72,38 @@ public class StreetCodeTypeTest {
 
     public static class StreetCodeFixture {
         
-        private final IntStream randomBoroughCodes = new Random().ints(1, 5 + 1); // 1..5 inclusive
-        private final IntStream randomSingleDigitInteger = new Random().ints(0, 10); // 0..9 inclusive
+        // This method courtesy of:
+        //
+        // https://www.mkyong.com/java/java-generate-random-integers-in-a-range/ 
+        //
+        private int getRandomNumberInRange(int min, int max) {
+
+            if (min >= max) {
+                throw new IllegalArgumentException("max must be greater than min");
+            }
+
+            Random r = new Random();
+            return r.nextInt((max - min) + 1) + min;
+        }
+
+        private String lpad(int numberOfLeadingZeros, int value) {
+            return String.format(("%0" + numberOfLeadingZeros + "d"), value);
+        }
+
+        public String getRandomBoroughCode() {
+            return String.valueOf(getRandomNumberInRange(1,5));
+        }
 
         public String getValid5SC() {
-            return getRandomStreetCode(5);
+            return lpad(5, getRandomNumberInRange(0,99999));
         }
 
         public String getValid7SC() {
-            return getRandomStreetCode(7);
+            return lpad(7, getRandomNumberInRange(0,9999999));
         }
 
         public String getValid10SC() {
-            return getRandomStreetCode(10);
+            return lpad(10, getRandomNumberInRange(0,99999999));
         }
 
         public String getValidB5SC() {
@@ -97,18 +116,6 @@ public class StreetCodeTypeTest {
 
         public String getValidB10SC() {
             return String.format("%s%s", getRandomBoroughCode(), getValid10SC());
-        }
-
-        public String getRandomBoroughCode() {
-            return String.valueOf(this.randomBoroughCodes.findFirst().getAsInt());
-        }
-
-        public String getRandomStreetCode(int length) {
-            StringBuffer buff = new StringBuffer(length);
-            for (int i = 0; i < length; i++) {
-                buff.append(this.randomSingleDigitInteger.findFirst().getAsInt());
-            }
-            return buff.toString();
         }
     }
 
