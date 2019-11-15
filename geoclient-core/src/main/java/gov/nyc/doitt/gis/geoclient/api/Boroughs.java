@@ -31,31 +31,31 @@ public class Boroughs {
 
     public static class Manhattan extends Borough {
         public Manhattan() {
-            super("1", "Manhattan");
+            super("1", "MANHATTAN", new String[] { "MN" });
         }
     }
 
     public static class Bronx extends Borough {
         public Bronx() {
-            super("2", "Bronx");
+            super("2", "BRONX", new String[] { "BX" });
         }
     }
 
     public static class Brooklyn extends Borough {
         public Brooklyn() {
-            super("3", "Brooklyn");
+            super("3", "BROOKLYN", new String[] { "BK" });
         }
     }
 
     public static class Queens extends Borough {
         public Queens() {
-            super("4", "Queens");
+            super("4", "QUEENS", new String[] { "QN" });
         }
     }
 
     public static class StatenIsland extends Borough {
         public StatenIsland() {
-            super("5", "Staten Island");
+            super("5", "STATEN ISLAND", new String[] { "SI", "STATEN IS" });
         }
     }
 
