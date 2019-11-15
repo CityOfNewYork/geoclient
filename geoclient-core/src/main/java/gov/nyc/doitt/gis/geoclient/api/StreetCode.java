@@ -100,4 +100,8 @@ public class StreetCode extends CodeNamedValue {
         return null;
     }
 
+    public StreetCodeType getStreetCodeType() {
+        return this.streetCodeType;
+    }
+
 }

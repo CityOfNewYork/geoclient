@@ -36,6 +36,7 @@ import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME;
 import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME2;
 import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME3;
 import static gov.nyc.doitt.gis.geoclient.api.InputParam.ZIP_CODE;
+import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -45,6 +46,7 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gov.nyc.doitt.gis.geoclient.api.*;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.service.configuration.AppConfig;
 import gov.nyc.doitt.gis.geoclient.service.domain.Borough;
@@ -297,20 +299,33 @@ public class GeosupportServiceImpl implements GeosupportService {
         }.execute();
     }
 
+    private StreetCode getStreetCodeOrNull(String code) {
+        if (code == null) {
+            return null;
+        }
+        try {
+            return new StreetCode(code);
+        } catch (NullPointerException | InvalidStreetCodeException e) {
+            LOGGER.warn("Invalid borough + street code: %s", code);
+            return null;
+        }
+    }
+
     @Override
     public Map<String, Object> callStreetNameFunction(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format) {
         Assert.notNull(streetCodeOne, STREET_CODE + " argument cannot be null");
-        int codeLength = streetCodeOne.length();
-        switch (codeLength) {
-            case 6:
+        StreetCode streetCode = getStreetCodeOrNull(streetCodeOne);
+        // TODO error handling here?
+        switch (streetCode.getStreetCodeType()) {
+            case B5SC:
                 return callFunctionD(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
-            case 8:
+            case B7SC:
                 return callFunctionDG(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
-            case 11:
+            case B10SC:
                 return callFunctionDN(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
             default:
                 throw new IllegalArgumentException(
-                            String.format("Invalid B5SC (6 chars), B7SC (8 chars), or B10SC (11 chars) length %d", codeLength));
+                            String.format("Invalid B5SC (6 chars), B7SC (8 chars), or B10SC (11 chars) length %d", streetCodeOne));
         }
     }
 
