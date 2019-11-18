@@ -36,7 +36,6 @@ import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME;
 import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME2;
 import static gov.nyc.doitt.gis.geoclient.api.InputParam.STREET_NAME3;
 import static gov.nyc.doitt.gis.geoclient.api.InputParam.ZIP_CODE;
-import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,10 +45,11 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gov.nyc.doitt.gis.geoclient.api.*;
+import gov.nyc.doitt.gis.geoclient.api.Boroughs;
+import gov.nyc.doitt.gis.geoclient.api.InvalidStreetCodeException;
+import gov.nyc.doitt.gis.geoclient.api.StreetCode;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.service.configuration.AppConfig;
-import gov.nyc.doitt.gis.geoclient.service.domain.Borough;
 import gov.nyc.doitt.gis.geoclient.service.domain.Documentation;
 import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 import gov.nyc.doitt.gis.geoclient.util.Assert;
@@ -146,7 +146,7 @@ public class GeosupportServiceImpl implements GeosupportService {
             params.put(STREET_NAME, street);
 
             if (borough != null) {
-                params.put(BOROUGH_CODE, Borough.parseInt(borough));
+                params.put(BOROUGH_CODE, Boroughs.parseInt(borough));
             }
 
             if (zip != null) {
@@ -171,7 +171,7 @@ public class GeosupportServiceImpl implements GeosupportService {
                 params.put(STREET_NAME, street);
 
                 if (borough != null) {
-                    params.put(BOROUGH_CODE, Borough.parseInt(borough));
+                    params.put(BOROUGH_CODE, Boroughs.parseInt(borough));
                 }
 
                 if (zip != null) {
@@ -191,9 +191,9 @@ public class GeosupportServiceImpl implements GeosupportService {
                 Map<String, Object> params = newMap();
                 params.put(STREET_NAME, crossStreetOne);
                 params.put(STREET_NAME2, crossStreetTwo);
-                params.put(BOROUGH_CODE, Borough.parseInt(boroughCrossStreetOne));
+                params.put(BOROUGH_CODE, Boroughs.parseInt(boroughCrossStreetOne));
                 if (boroughCrossStreetTwo != null) {
-                    params.put(BOROUGH_CODE2, Borough.parseInt(boroughCrossStreetTwo));
+                    params.put(BOROUGH_CODE2, Boroughs.parseInt(boroughCrossStreetTwo));
                 }
                 if (compassDirection != null) {
                     params.put(COMPASS_DIRECTION, compassDirection);
@@ -214,12 +214,12 @@ public class GeosupportServiceImpl implements GeosupportService {
                 params.put(STREET_NAME, onStreet);
                 params.put(STREET_NAME2, crossStreetOne);
                 params.put(STREET_NAME3, crossStreetTwo);
-                params.put(BOROUGH_CODE, Borough.parseInt(boroughOnStreet));
+                params.put(BOROUGH_CODE, Boroughs.parseInt(boroughOnStreet));
                 if (boroughCrossStreetOne != null) {
-                    params.put(BOROUGH_CODE2, Borough.parseInt(boroughCrossStreetOne));
+                    params.put(BOROUGH_CODE2, Boroughs.parseInt(boroughCrossStreetOne));
                 }
                 if (boroughCrossStreetTwo != null) {
-                    params.put(BOROUGH_CODE3, Borough.parseInt(boroughCrossStreetTwo));
+                    params.put(BOROUGH_CODE3, Boroughs.parseInt(boroughCrossStreetTwo));
                 }
                 if (compassDirection != null) {
                     params.put(COMPASS_DIRECTION, compassDirection);
@@ -235,7 +235,7 @@ public class GeosupportServiceImpl implements GeosupportService {
             @Override
             public Map<String, Object> userArguments() {
                 Map<String, Object> params = newMap();
-                params.put(BBL_BOROUGH_CODE, Borough.parseInt(borough));
+                params.put(BBL_BOROUGH_CODE, Boroughs.parseInt(borough));
                 params.put(BBL_TAX_BLOCK, block);
                 params.put(BBL_TAX_LOT, lot);
                 return params;

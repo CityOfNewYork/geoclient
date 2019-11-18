@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
  */
 public enum StreetCodeType {
 
-    B5SC(1 + 5), B7SC(1 + 7), B10SC(1 + 10), _5SC(5), _7SC(7), _10SC(10);
+    B5SC(1 + 5), B7SC(1 + 7), B10SC(1 + 10), _5SC(5), _7SC(7), _10SC(10), UNRECOGNIZED(-1);
 
     private final int length;
     private final Pattern pattern;
@@ -35,6 +35,9 @@ public enum StreetCodeType {
     private StreetCodeType(int length) {
         this.length = length;
         switch (this.length) {
+        case -1:
+            this.pattern = null;
+            break;
         case 5:
         case 7:
         case 10:
@@ -45,7 +48,7 @@ public enum StreetCodeType {
         case 11:
             this.pattern = Pattern.compile("[1-5][0-9]{" + (this.length - 1) + "}");
             break;
-        default:
+        default:            
             throw new IllegalArgumentException("Invalid street code length: " + this.length);
         }
     }
@@ -53,13 +56,13 @@ public enum StreetCodeType {
     public int length() {
         return this.length;
     }
-
-    public boolean isLength(int length) {
-        return this.length == length;
+    
+    public boolean hasBorough() {
+        return this.equals(B5SC) || this.equals(B7SC) || this.equals(B10SC);
     }
 
     public boolean isValid(String streetCode) {
-        return this.pattern.matcher(streetCode).matches();
+        return this.pattern != null && this.pattern.matcher(streetCode).matches();
     }
 
     public static boolean isValidNoBorough(String streetCode) {
@@ -69,7 +72,7 @@ public enum StreetCodeType {
         return _5SC.isValid(streetCode) || _7SC.isValid(streetCode) || _10SC.isValid(streetCode);
     }
 
-    public static boolean isValidBSC(String streetCode) {
+    public static boolean isValidWithBorough(String streetCode) {
         if (streetCode == null) {
             return false;
         }
@@ -79,18 +82,17 @@ public enum StreetCodeType {
     }
 
     public static StreetCodeType fromCode(String streetCode)
-            throws NullPointerException, InvalidStreetCodeException {
+            throws NullPointerException {
         if (streetCode == null) {
             throw new NullPointerException("street code argument cannot be null");
         }
 
         for (StreetCodeType type : StreetCodeType.types()) {
-            if (type.isLength(streetCode.length())) {
+            if (type.isValid(streetCode)) {
                 return type;
             }
         }
-
-        throw new InvalidStreetCodeException(streetCode);
+        return UNRECOGNIZED;
     }
 
     private static List<StreetCodeType> types() {

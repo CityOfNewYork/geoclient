@@ -12,6 +12,8 @@ public class Boroughs {
     public static final Borough BROOKLYN = new Brooklyn();
     public static final Borough QUEENS = new Queens();
     public static final Borough STATEN_ISLAND = new StatenIsland();
+    
+    public static final int UNPARSABLE_BOROUGH_CODE_SENTINEL_VALUE = 0;
 
     public static final List<Borough> THE_FIVE_BOROUGHS = Arrays.asList(MANHATTAN, BRONX, BROOKLYN, QUEENS,
             STATEN_ISLAND);
@@ -22,6 +24,16 @@ public class Boroughs {
 
     public static final Borough fromName(String name) {
         return findFirst((Borough b) -> b.getName().equalsIgnoreCase(name));
+    }
+    
+    // TODO test me!
+    public static int parseInt(String boroughString)
+    {
+        try {
+            return Integer.parseInt(boroughString);
+        } catch (NumberFormatException ignored) {
+            return UNPARSABLE_BOROUGH_CODE_SENTINEL_VALUE;
+        }
     }
 
     public static final Borough findFirst(Predicate<? super Borough> predicate) {

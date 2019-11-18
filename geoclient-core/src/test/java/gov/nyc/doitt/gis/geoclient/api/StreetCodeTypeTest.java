@@ -18,56 +18,104 @@ package gov.nyc.doitt.gis.geoclient.api;
 import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType.B10SC;
 import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType.B5SC;
 import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType.B7SC;
+import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType.UNRECOGNIZED;
 import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType._10SC;
 import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType._5SC;
 import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType._7SC;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertSame;
 
 import java.util.Random;
-import java.util.stream.IntStream;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class StreetCodeTypeTest {
     
-    private StreetCodeFixture fixture = new StreetCodeFixture();
+    private String validB5SC;
+    private String validB7SC;
+    private String validB10SC;
+    private String valid5SC;
+    private String valid7SC;
+    private String valid10SC;
+    
+    @BeforeEach
+    public void setUp() {
+        StreetCodeFixture fixture = new StreetCodeFixture();
+        this.valid5SC = fixture.getValid5SC();
+        this.valid7SC = fixture.getValid7SC();
+        this.valid10SC = fixture.getValid10SC();
+        this.validB5SC = fixture.getValidB5SC();
+        this.validB7SC = fixture.getValidB7SC();
+        this.validB10SC = fixture.getValidB10SC();        
+    }
 
+    @AfterEach
+    public void tearDown() {
+        this.valid5SC = null;
+        this.valid7SC = null;
+        this.valid10SC = null;
+        this.validB5SC = null;
+        this.validB7SC = null;
+        this.validB10SC = null;
+    }
+    
+    @Test
+    public void testHasBorough() {
+        assertTrue(B5SC.hasBorough(), "B5SC has a borough");
+        assertTrue(B7SC.hasBorough(), "B7SC has a borough");
+        assertTrue(B10SC.hasBorough(), "B10SC has a borough");
+        assertFalse(_5SC.hasBorough(), "5-digit street code does have a borough");
+        assertFalse(_7SC.hasBorough(), "7-digit street code does have a borough");
+        assertFalse(_10SC.hasBorough(), "10-digit street code does have a borough");
+        assertFalse(UNRECOGNIZED.hasBorough(), "Unrecognized street code does have a borough");
+    }
+    
     @Test
     public void testIsValid() {
-        String streetCode = fixture.getValid5SC();
-        assertTrue(String.format("%s is a valid 5-digit street code", streetCode), _5SC.isValid(streetCode));
-        
-        streetCode = fixture.getValid7SC();
-        assertTrue(String.format("%s is a valid 7-digit street code", streetCode), _7SC.isValid(streetCode));
-        
-        streetCode = fixture.getValid10SC();
-        assertTrue(String.format("%s is a valid 10-digit street code", streetCode), _10SC.isValid(streetCode));
-        
-        streetCode = fixture.getValidB5SC();
-        assertTrue(String.format("%s is a valid B5SC", streetCode), B5SC.isValid(streetCode));
-        
-        streetCode = fixture.getValidB7SC();
-        assertTrue(String.format("%s is a valid B7SC", streetCode), B7SC.isValid(streetCode));
-        
-        streetCode = fixture.getValidB10SC();
-        assertTrue(String.format("%s is a valid B10SC", streetCode), B10SC.isValid(streetCode));
+        assertTrue(_5SC.isValid(valid5SC), String.format("%s is a valid 5-digit street code", valid5SC));
+        assertFalse(_5SC.isValid("1212"), String.format("%s is not a valid 5-digit street code", "1212"));
+        assertTrue(_7SC.isValid(valid7SC), String.format("%s is a valid 7-digit street code", valid7SC));
+        assertFalse(_7SC.isValid("1212"), String.format("%s is not a valid 7-digit street code", "1212"));
+        assertTrue(_10SC.isValid(valid10SC), String.format("%s is a valid 10-digit street code", valid10SC));
+        assertFalse(_10SC.isValid("1212"), String.format("%s is not a valid 10-digit street code", "1212"));
+        assertFalse(B7SC.isValid("1212"), String.format("%s is not a valid B7SC", "1212"));
+
+        assertTrue(B5SC.isValid(validB5SC), String.format("%s is a valid B5SC", validB5SC));
+        assertFalse(B5SC.isValid("1212"), String.format("%s is not a valid B5SC", "1212"));
+        assertTrue(B7SC.isValid(validB7SC), String.format("%s is a valid B7SC", validB7SC));
+        assertFalse(B7SC.isValid("1212"), String.format("%s is not a valid B7SC", "1212"));
+        assertTrue(B10SC.isValid(validB10SC), String.format("%s is a valid B10SC", validB10SC));
+        assertFalse(B10SC.isValid("1212"), String.format("%s is not a valid B10SC", "1212"));
     }
 
     @Test
     public void testIsValidNoBorough() {
-        String streetCode = fixture.getValid5SC();
-        assertTrue(String.format("%s is a valid 5-digit street code", streetCode), StreetCodeType.isValidNoBorough(streetCode));
-        
-        streetCode = fixture.getValid7SC();
-        assertTrue(String.format("%s is a valid 7-digit street code", streetCode), StreetCodeType.isValidNoBorough(streetCode));
-        
-        streetCode = fixture.getValid10SC();
-        assertTrue(String.format("%s is a valid 10-digit street code", streetCode), StreetCodeType.isValidNoBorough(streetCode));        
+        assertTrue(StreetCodeType.isValidNoBorough(valid5SC), String.format("%s is a valid 5-digit street code", valid5SC));
+        assertTrue(StreetCodeType.isValidNoBorough(valid7SC), String.format("%s is a valid 7-digit street code", valid7SC));
+        assertTrue(StreetCodeType.isValidNoBorough(valid10SC), String.format("%s is a valid 10-digit street code", valid10SC));        
+    }
+
+    @Test
+    public void testIsValidWithBorough() {
+        assertTrue(StreetCodeType.isValidWithBorough(validB5SC), String.format("%s is a valid B5SC", validB5SC));
+        assertTrue(StreetCodeType.isValidWithBorough(validB7SC), String.format("%s is a valid B7SC", validB7SC));
+        assertTrue(StreetCodeType.isValidWithBorough(validB10SC), String.format("%s is a valid B10SC", validB10SC));        
     }
 
     @Test
     public void testFromCode() {
-//        fail("Not yet implemented");
+        assertSame(_5SC,StreetCodeType.fromCode(valid5SC), String.format("StreetCodeType %s resolves to the same instance as the type derived from 5-digit street code literal %s",_5SC, valid5SC));
+        assertSame(_7SC,StreetCodeType.fromCode(valid7SC), String.format("StreetCodeType %s resolves to the same instance as the type derived from 7-digit street code literal %s",_7SC, valid7SC));
+        assertSame(_10SC,StreetCodeType.fromCode(valid10SC), String.format("StreetCodeType %s resolves to the same instance as the type derived from 10-digit street code literal %s",_10SC, valid10SC));
+
+        assertSame(B5SC,StreetCodeType.fromCode(validB5SC),  String.format("StreetCodeType %s resolves to the same instance as the type derived from B5SC literal %s",B5SC, validB5SC));
+        assertSame(B7SC,StreetCodeType.fromCode(validB7SC),  String.format("StreetCodeType %s resolves to the same instance as the type derived from B7SC literal %s",B7SC, validB7SC));
+        assertSame(B10SC,StreetCodeType.fromCode(validB10SC), String.format("StreetCodeType %s resolves to the same instance as the type derived from B10SC literal %s",B10SC, validB10SC));
+        
+        assertSame(UNRECOGNIZED,StreetCodeType.fromCode("1212"), String.format("StreetCodeType %s resolves to the same instance as the type derived from invalid literal %s",UNRECOGNIZED, "1212"));        
     }
 
     public static class StreetCodeFixture {
