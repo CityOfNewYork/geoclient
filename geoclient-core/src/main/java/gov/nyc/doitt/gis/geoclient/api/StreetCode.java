@@ -39,13 +39,11 @@ public class StreetCode extends CodeNamedValue {
      * @param code street code
      * 
      * @throws NullPointerException       if the given code is null
-     * @throws InvalidStreetCodeException if the given code is not a valid
      * 
      * @see CodeNamedValue
      * @see StreetCodeType
-     * @see InvalidStreetCodeException
      */
-    public StreetCode(String code) throws NullPointerException, InvalidStreetCodeException {
+    public StreetCode(String code) {
         super(code, null);
         this.streetCodeType = StreetCodeType.fromCode(code);
     }
@@ -57,14 +55,12 @@ public class StreetCode extends CodeNamedValue {
      * @param name street name (may be null)
      * 
      * @throws NullPointerException       if the given code is null
-     * @throws InvalidStreetCodeException if the given code is not a valid
      * 
      * @see CodeNamedValue
      * @see StreetCodeType
-     * @see InvalidStreetCodeException
      * 
      */
-    public StreetCode(String code, String name) throws NullPointerException, InvalidStreetCodeException {
+    public StreetCode(String code, String name) {
         super(code, name);
         this.streetCodeType = StreetCodeType.fromCode(code);
     }
@@ -77,24 +73,21 @@ public class StreetCode extends CodeNamedValue {
      * @param caseSensitive whether the street name is considered case sensitive
      * 
      * @throws NullPointerException       if the given code is null
-     * @throws InvalidStreetCodeException if the given code is not a valid
      * 
      * @see CodeNamedValue
      * @see StreetCodeType
-     * @see InvalidStreetCodeException
      */
     public StreetCode(String code, String name, boolean caseSensitive, StreetCodeType streetCodeType) {
         super(code, name, caseSensitive);
         this.streetCodeType = StreetCodeType.fromCode(code);
     }
 
-    public boolean isBoroughStreetCode() {
-        return this.streetCodeType.equals(StreetCodeType.B10SC) || this.streetCodeType.equals(StreetCodeType.B7SC)
-                || this.streetCodeType.equals(StreetCodeType.B5SC);
+    public boolean hasBorough() {
+        return this.streetCodeType.hasBorough();
     }
 
     public String getBoroughCode() {
-        if(isBoroughStreetCode()) {
+        if(hasBorough()) {
             return Boroughs.fromCode(getCode().substring(0, 1)).getCode();
         }
         return null;
