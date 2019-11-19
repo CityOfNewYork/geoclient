@@ -93,6 +93,17 @@ public class StreetCode extends CodeNamedValue {
         return null;
     }
 
+    public int getBoroughCodeAsInt() {
+        return Boroughs.parseInt(getBoroughCode());
+    }
+
+    public String getStreetCodeWithoutBorough() {
+        if(hasBorough()) {
+           return getCode().substring(1);
+        }
+        return getCode();
+    }
+
     public StreetCodeType getStreetCodeType() {
         return this.streetCodeType;
     }
