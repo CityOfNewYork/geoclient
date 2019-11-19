@@ -52,7 +52,7 @@ tasks.withType(Javadoc) {
 
 // Uncomment to allow building "non-executable", traditional jar or war files
 // TODO These tasks still appear when gradle tasks is run but should indicate
-// that they're dsabled.
+// that they're disabled.
 // TODO When run with default logging level, these tasks give no indication
 // that they've been disabled and the build still reports success.
 // jar { enabled = true }
@@ -89,3 +89,5 @@ processResources {
     filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: ver])
   }
 }
+
+project.build.dependsOn bootJar, bootWar

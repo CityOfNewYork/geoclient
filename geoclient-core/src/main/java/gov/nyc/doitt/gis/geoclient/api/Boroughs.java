@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 public class Boroughs {
 
     public static final Borough MANHATTAN = new Manhattan();
@@ -18,22 +20,32 @@ public class Boroughs {
     public static final List<Borough> THE_FIVE_BOROUGHS = Arrays.asList(MANHATTAN, BRONX, BROOKLYN, QUEENS,
             STATEN_ISLAND);
 
+    // TODO Decide if this method should trim whitespace (currently, does not)
     public static final Borough fromCode(String code) {
         return findFirst((Borough b) -> b.getCode().equalsIgnoreCase(code));
     }
 
     public static final Borough fromName(String name) {
-        return findFirst((Borough b) -> b.getName().equalsIgnoreCase(name));
+        return findFirst((Borough b) -> b.isAlsoKnownAs(name));
     }
     
-    // TODO test me!
-    public static int parseInt(String boroughString)
+    // Originally from gov.nyc.doitt.gis.geoclient.service.domain.Borough in the geoclient-service project.
+    public static int parseInt(String boroughCodeOrName)
     {
-        try {
-            return Integer.parseInt(boroughString);
-        } catch (NumberFormatException ignored) {
-            return UNPARSABLE_BOROUGH_CODE_SENTINEL_VALUE;
+        // TODO revisit this logic?
+        // If argument is a parse-able integer, return it regardless of validity as an actual borough code 
+        if (NumberUtils.isParsable(boroughCodeOrName))
+        {
+            return Integer.valueOf(boroughCodeOrName);
         }
+        
+        Borough borough = fromName(boroughCodeOrName);
+        
+        if(borough != null) {
+            return Integer.valueOf(borough.getCode());
+        }
+
+        return UNPARSABLE_BOROUGH_CODE_SENTINEL_VALUE;
     }
 
     public static final Borough findFirst(Predicate<? super Borough> predicate) {

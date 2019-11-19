@@ -2,6 +2,7 @@ package gov.nyc.doitt.gis.geoclient.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,13 +17,13 @@ class Borough extends CodeNamedValue {
         this.aliases.addAll(Arrays.asList(aliases));
     }
     
-    public Borough isAlsoKnownAs(String name) {
+    public boolean isAlsoKnownAs(String name) {
         Optional<String> result = this.aliases.stream().filter(alias -> alias.equalsIgnoreCase(name)).findFirst();
-        if(result.isPresent()) {
-            return this;
-        }
-        return null;
+        return result.isPresent();
     }
 
+    public List<String> getAliases() {
+        return Collections.unmodifiableList(this.aliases);
+    }
     
 }
