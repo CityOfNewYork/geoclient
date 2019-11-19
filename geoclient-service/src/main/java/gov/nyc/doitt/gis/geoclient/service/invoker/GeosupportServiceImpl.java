@@ -315,7 +315,6 @@ public class GeosupportServiceImpl implements GeosupportService {
     public Map<String, Object> callStreetNameFunction(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format) {
         Assert.notNull(streetCodeOne, STREET_CODE + " argument cannot be null");
         StreetCode streetCode = getStreetCodeOrNull(streetCodeOne);
-        // TODO error handling here?
         switch (streetCode.getStreetCodeType()) {
             case B5SC:
                 return callFunctionD(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
@@ -329,21 +328,24 @@ public class GeosupportServiceImpl implements GeosupportService {
         }
     }
 
-    @Override
-    public Map<String, Object> callFunctionD(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format) {
-        return new Call(serviceConfiguration.functionD(), serviceConfiguration.latLongEnhancer()) {
+    private Call populateStreetNameCall(Function function, StreetCode streetCodeOne, StreetCode streetCodeTwo,
+            StreetCode streetCodeThree, Integer length, String format) {
+        return new Call(function, serviceConfiguration.latLongEnhancer()) {
             @Override
             public Map<String, Object> userArguments() {
                 Map<String, Object> params = newMap();
 
-                params.put(STREET_CODE, streetCodeOne);
+                params.put(BOROUGH_CODE, streetCodeOne.getBoroughCodeAsInt());
+                params.put(STREET_CODE, streetCodeOne.getStreetCodeWithoutBorough());
 
                 if (streetCodeTwo != null) {
-                    params.put(STREET_CODE2, streetCodeTwo);
+                    params.put(BOROUGH_CODE2, streetCodeTwo.getBoroughCodeAsInt());
+                    params.put(STREET_CODE2, streetCodeTwo.getStreetCodeWithoutBorough());
                 }
 
                 if (streetCodeThree != null) {
-                    params.put(STREET_CODE3, streetCodeThree);
+                    params.put(BOROUGH_CODE3, streetCodeThree.getBoroughCodeAsInt());
+                    params.put(STREET_CODE3, streetCodeThree.getStreetCodeWithoutBorough());
                 }
 
                 if (length != null) {
@@ -356,67 +358,26 @@ public class GeosupportServiceImpl implements GeosupportService {
 
                 return params;
             }
-        }.execute();
+        };
+    }
+
+    @Override
+    public Map<String, Object> callFunctionD(String streetCodeOne, String streetCodeTwo, String streetCodeThree,
+            Integer length, String format) {
+        return populateStreetNameCall(serviceConfiguration.functionD(), new StreetCode(streetCodeOne),
+                new StreetCode(streetCodeTwo), new StreetCode(streetCodeThree), length, format).execute();
     }
 
     @Override
     public Map<String, Object> callFunctionDG(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format) {
-        return new Call(serviceConfiguration.functionDG(), serviceConfiguration.latLongEnhancer()) {
-            @Override
-            public Map<String, Object> userArguments() {
-                Map<String, Object> params = newMap();
-
-                params.put(STREET_CODE, streetCodeOne);
-
-                if (streetCodeTwo != null) {
-                    params.put(STREET_CODE2, streetCodeTwo);
-                }
-
-                if (streetCodeThree != null) {
-                    params.put(STREET_CODE3, streetCodeThree);
-                }
-
-                if (length != null) {
-                    params.put(NORMALIZATION_LENGTH, String.valueOf(length));
-                }
-
-                if (isValidNormalizationFormat(format)) {
-                    params.put(NORMALIZATION_FORMAT, format);
-                }
-
-                return params;
-            }
-        }.execute();
+        return populateStreetNameCall(serviceConfiguration.functionDG(), new StreetCode(streetCodeOne),
+                new StreetCode(streetCodeTwo), new StreetCode(streetCodeThree), length, format).execute();
     }
 
     @Override
     public Map<String, Object> callFunctionDN(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format) {
-        return new Call(serviceConfiguration.functionDN(), serviceConfiguration.latLongEnhancer()) {
-            @Override
-            public Map<String, Object> userArguments() {
-                Map<String, Object> params = newMap();
-
-                params.put(STREET_CODE, streetCodeOne);
-
-                if (streetCodeTwo != null) {
-                    params.put(STREET_CODE2, streetCodeTwo);
-                }
-
-                if (streetCodeThree != null) {
-                    params.put(STREET_CODE3, streetCodeThree);
-                }
-
-                if (length != null) {
-                    params.put(NORMALIZATION_LENGTH, String.valueOf(length));
-                }
-
-                if (isValidNormalizationFormat(format)) {
-                    params.put(NORMALIZATION_FORMAT, format);
-                }
-
-                return params;
-            }
-        }.execute();
+        return populateStreetNameCall(serviceConfiguration.functionDN(), new StreetCode(streetCodeOne),
+                new StreetCode(streetCodeTwo), new StreetCode(streetCodeThree), length, format).execute();
     }
 
     private boolean isValidNormalizationFormat(String format) {
