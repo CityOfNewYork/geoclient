@@ -90,4 +90,4 @@ processResources {
   }
 }
 
-project.build.dependsOn bootJar, bootWar
+project.assemble.dependsOn bootJar, bootWar
