@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true" scanPeriod="60 seconds">
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <Target>System.out</Target>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+<!--
+        <encoder>
+            <pattern>%d %p [%c] - &lt;%m&gt;%n</pattern>
+        </encoder>
+ -->
+    </appender>
+<!--
+    <logger name="gov.nyc.doitt.gis.geoclient" level="debug" />
+    <logger name="org.mockito.Mockito.*" level="debug" />
+-->
+    <root level="debug">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
