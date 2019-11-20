@@ -312,20 +312,39 @@ public class GeosupportServiceImpl implements GeosupportService {
     }
 
     @Override
-    public Map<String, Object> callStreetNameFunction(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format) {
-        Assert.notNull(streetCodeOne, STREET_CODE + " argument cannot be null");
-        StreetCode streetCode = getStreetCodeOrNull(streetCodeOne);
-        switch (streetCode.getStreetCodeType()) {
+    public Map<String, Object> callStreetNameFunction(String codeOne, String codeTwo, String codeThree, Integer length, String format) {
+        Assert.notNull(codeOne, STREET_CODE + " argument cannot be null");
+        StreetCode streetCodeOne = getStreetCodeOrNull(codeOne);
+        StreetCode streetCodeTwo = getStreetCodeOrNull(codeTwo);
+        StreetCode streetCodeThree = getStreetCodeOrNull(codeThree);
+        switch (streetCodeOne.getStreetCodeType()) {
             case B5SC:
-                return callFunctionD(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
+                return populateStreetNameCall(serviceConfiguration.functionD(), streetCodeOne, streetCodeTwo, streetCodeThree, length, format).execute();
             case B7SC:
-                return callFunctionDG(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
+                return populateStreetNameCall(serviceConfiguration.functionDG(), streetCodeOne, streetCodeTwo, streetCodeThree, length, format).execute();
             case B10SC:
-                return callFunctionDN(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
+                return populateStreetNameCall(serviceConfiguration.functionDN(), streetCodeOne, streetCodeTwo, streetCodeThree, length, format).execute();
             default:
-                throw new IllegalArgumentException(
-                            String.format("Invalid B5SC (6 chars), B7SC (8 chars), or B10SC (11 chars) length %d", streetCodeOne));
+                throw new InvalidStreetCodeException(codeOne, "Valid street code formats: B5SC (6 chars), B7SC (8 chars), or B10SC (11 chars)");
         }
+    }
+
+    @Override
+    public Map<String, Object> callFunctionD(String streetCodeOne, String streetCodeTwo, String streetCodeThree,
+            Integer length, String format) {
+        return callStreetNameFunction(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
+    }
+
+    @Override
+    public Map<String, Object> callFunctionDG(String streetCodeOne, String streetCodeTwo, String streetCodeThree,
+            Integer length, String format) {
+        return callStreetNameFunction(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
+    }
+
+    @Override
+    public Map<String, Object> callFunctionDN(String streetCodeOne, String streetCodeTwo, String streetCodeThree,
+            Integer length, String format) {
+        return callStreetNameFunction(streetCodeOne, streetCodeTwo, streetCodeThree, length, format);
     }
 
     private Call populateStreetNameCall(Function function, StreetCode streetCodeOne, StreetCode streetCodeTwo,
@@ -359,25 +378,6 @@ public class GeosupportServiceImpl implements GeosupportService {
                 return params;
             }
         };
-    }
-
-    @Override
-    public Map<String, Object> callFunctionD(String streetCodeOne, String streetCodeTwo, String streetCodeThree,
-            Integer length, String format) {
-        return populateStreetNameCall(serviceConfiguration.functionD(), new StreetCode(streetCodeOne),
-                new StreetCode(streetCodeTwo), new StreetCode(streetCodeThree), length, format).execute();
-    }
-
-    @Override
-    public Map<String, Object> callFunctionDG(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format) {
-        return populateStreetNameCall(serviceConfiguration.functionDG(), new StreetCode(streetCodeOne),
-                new StreetCode(streetCodeTwo), new StreetCode(streetCodeThree), length, format).execute();
-    }
-
-    @Override
-    public Map<String, Object> callFunctionDN(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format) {
-        return populateStreetNameCall(serviceConfiguration.functionDN(), new StreetCode(streetCodeOne),
-                new StreetCode(streetCodeTwo), new StreetCode(streetCodeThree), length, format).execute();
     }
 
     private boolean isValidNormalizationFormat(String format) {

@@ -27,7 +27,7 @@ public enum ServiceType
     INTERSECTION("intersection"),
     NORMALIZE("normalize"),
     PLACE("place"),
-    STREET("street"),
+    STREETCODE("streetcode"),
     UNKNOWN("unknown"),
     VERSION("version");
 

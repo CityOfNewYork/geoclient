@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2016 the original author or authors.
+ * Copyright 2013-2019 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.web;
 
+import gov.nyc.doitt.gis.geoclient.api.InvalidStreetCodeException;
 import gov.nyc.doitt.gis.geoclient.service.domain.BadRequest;
 //import gov.nyc.doitt.gis.geoclient.service.domain.StreetNameFormat;
 import gov.nyc.doitt.gis.geoclient.service.domain.ServiceType;
@@ -60,7 +61,7 @@ public class RestController
     public static final String INTERSECTION_URI = "/intersection";
     public static final String NORMALIZE_URI= "/normalize";
     public static final String PLACE_URI = "/place";
-    public static final String STREET_URI = "/street";
+    public static final String STREETCODE_URI = "/streetcode";
     public static final String VERSION_URI = "/version";
 
     public static final String ADDRESS_OBJ = ServiceType.ADDRESS.elementName();
@@ -72,7 +73,7 @@ public class RestController
     public static final String INTERSECTION_OBJ = ServiceType.INTERSECTION.elementName();
     public static final String NORMALIZE_OBJ = ServiceType.NORMALIZE.elementName();
     public static final String PLACE_OBJ = ServiceType.PLACE.elementName();
-    public static final String STREET_OBJ = ServiceType.STREET.elementName();
+    public static final String STREET_OBJ = ServiceType.STREETCODE.elementName();
     public static final String VERSION_OBJ = ServiceType.VERSION.elementName();
 
     //public static final String DEFAULT_STREET_NAME_FORMAT = StreetNameFormat.SORT.elementName();
@@ -198,8 +199,8 @@ public class RestController
         return resultMap;
     }
 
-    @RequestMapping(value = STREET_URI, method = RequestMethod.GET)
-    public @ResponseBody Map<String, Object> street(@RequestParam String streetCode,
+    @RequestMapping(value = STREETCODE_URI, method = RequestMethod.GET)
+    public @ResponseBody Map<String, Object> streetcode(@RequestParam String streetCode,
             @RequestParam(required = false) String streetCodeTwo,
             @RequestParam(required = false) String streetCodeThree,
             @RequestParam(required = false, defaultValue = "32") Integer length,
@@ -234,17 +235,33 @@ public class RestController
         return this.geosupportService.version();
     }
 
+    // TODO refactor to ControllerAdvice
+    private BadRequest handleBadRequest(Exception exception,
+            HttpServletRequest req) {
+        BadRequest badRequest = new BadRequest();
+        badRequest.setHttpStatus(HttpStatus.BAD_REQUEST.toString());
+        badRequest.setMessage(exception.getMessage());
+        badRequest.setRequestUri(String.format("%s?%s", req.getRequestURI(), req.getQueryString()));
+        return badRequest;
+    }
+
+    // TODO refactor to ControllerAdvice
     @ExceptionHandler(value = { MissingAnyOfOptionalServletRequestParametersException.class,
             MissingServletRequestParameterException.class })
     public @ResponseBody
     ResponseEntity<BadRequest> handleMissingRequestParameter(ServletRequestBindingException exception,
             HttpServletRequest req)
     {
-        BadRequest badRequest = new BadRequest();
-        badRequest.setHttpStatus(HttpStatus.BAD_REQUEST.toString());
-        badRequest.setMessage(exception.getMessage());
-        badRequest.setRequestUri(String.format("%s?%s", req.getRequestURI(), req.getQueryString()));
-        return new ResponseEntity<BadRequest>(badRequest, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<BadRequest>(handleBadRequest(exception, req), HttpStatus.BAD_REQUEST);
+    }
+
+    // TODO refactor to ControllerAdvice
+    @ExceptionHandler
+    public @ResponseBody
+    ResponseEntity<BadRequest> handleInvalidStreetCodeRequestParameter(InvalidStreetCodeException exception,
+            HttpServletRequest req)
+    {
+        return new ResponseEntity<BadRequest>(handleBadRequest(exception, req), HttpStatus.BAD_REQUEST);
     }
 
     public void setGeosupportService(GeosupportService geosupportService)
