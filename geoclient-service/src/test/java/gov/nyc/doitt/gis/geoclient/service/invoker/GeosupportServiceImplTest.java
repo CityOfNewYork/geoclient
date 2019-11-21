@@ -56,8 +56,10 @@ import static org.mockito.Mockito.when;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import gov.nyc.doitt.gis.geoclient.function.Configuration;
 import gov.nyc.doitt.gis.geoclient.function.Function;
@@ -71,7 +73,13 @@ public class GeosupportServiceImplTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        this.serviceConfigurationMock = mock(AppConfig.class);
+        this.serviceConfigurationMock = mock(AppConfig.class, Mockito.withSettings().verboseLogging());
+        this.geosupportServiceImpl = new GeosupportServiceImpl(serviceConfigurationMock);
+    }
+
+    @AfterEach
+    public void tearDown() throws Exception {
+        Mockito.reset( new Class[] {AppConfig.class} );
         this.geosupportServiceImpl = new GeosupportServiceImpl(serviceConfigurationMock);
     }
 
