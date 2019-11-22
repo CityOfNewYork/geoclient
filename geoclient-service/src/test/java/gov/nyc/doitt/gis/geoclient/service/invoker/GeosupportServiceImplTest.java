@@ -52,7 +52,7 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class StreetCodeServiceTest extends AbstractMockInvokerTests {
+public class GeosupportServiceImplTest extends AbstractMockInvokerTests {
 
     @Test
     public void testCallFunction1B_withBorough() {
