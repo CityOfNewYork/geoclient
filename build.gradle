@@ -1,19 +1,24 @@
 plugins {
     id 'gov.nyc.doitt.gis.geoclient.gradle.integration-test' apply false
     id 'com.github.ben-manes.versions' version '0.27.0'
-    id "com.github.hierynomus.license" version '0.15.0' apply false
+// Conflicts with Spring Boot Gradle Plugin's buildInfo task.
+// Uncomment as needed.
+//  id "com.github.hierynomus.license" version '0.15.0' apply false
 }
 
 apply from: "${rootDir}/gradle/dependencies.gradle"
 
 task clean(type: Delete) {
+    description = 'Delete rootProject build directory'
+    group = 'Build'
     delete "${rootDir}/build"
 }
 
 allprojects {
     apply plugin: 'eclipse'
     apply plugin: 'project-report'
-    apply from: "${rootDir}/gradle/license.gradle"
+// Conflicts with Spring Boot Gradle Plugin. See above for details
+//    apply from: "${rootDir}/gradle/license.gradle"
 }
 
 subprojects {
@@ -45,7 +50,7 @@ subprojects {
     }
 
     dependencies {
-        implementation enforcedPlatform('org.springframework.boot:spring-boot-dependencies:2.2.0.RELEASE') // Must be in sync with geoclient-service/build.gradle
+        implementation enforcedPlatform('org.springframework.boot:spring-boot-dependencies:2.2.1.RELEASE') // Must be in sync with geoclient-service/build.gradle
                                                                                                            // spring-boot plugin
         implementation 'org.springframework.boot:spring-boot-starter-logging'
         testImplementation('org.springframework.boot:spring-boot-starter-test') {
