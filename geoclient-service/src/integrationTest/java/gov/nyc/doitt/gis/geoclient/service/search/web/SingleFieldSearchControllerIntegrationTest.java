@@ -2,15 +2,12 @@ package gov.nyc.doitt.gis.geoclient.service.search.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -23,26 +20,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.MatchStatus;
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResponse;
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.Status;
+import gov.nyc.doitt.gis.geoclient.service.test.WebContainerIntegrationTest;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class SingleFieldSearchControllerIntegrationTest {
+public class SingleFieldSearchControllerIntegrationTest extends WebContainerIntegrationTest {
 
     private final Logger logger = LoggerFactory.getLogger(SingleFieldSearchController.class);
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-
-    @BeforeEach
-    public void setUp() {
-        // restTemplate
-    }
 
     @Test
     public void testSearch() {
         UriComponents uriComponents = UriComponentsBuilder.fromPath("/search.json").queryParam("input", "120 broadway")
                 .build();
-        ResponseEntity<SearchResponse> httpResponse = this.restTemplate.exchange(uriComponents.toUri(), HttpMethod.GET,
+        ResponseEntity<SearchResponse> httpResponse = restTemplate().exchange(uriComponents.toUri(), HttpMethod.GET,
                 getRequest(), SearchResponse.class);
         SearchResponse searchResponse = httpResponse.getBody();
         logger.debug("Response: {}", searchResponse);
