@@ -59,7 +59,13 @@ public class GeosupportVersion
 
 	String formatVersion(String version)
 	{
+
 		String v = version.trim();
+		// Remove trailing zeros
+		while (v.endsWith("0"))
+		{
+			v = v.substring(0, v.length() - 1);
+		}
 		// Remove leading zeros
 		while (v.startsWith("0"))
 		{

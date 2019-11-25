@@ -73,7 +73,7 @@ public class RestController
     public static final String INTERSECTION_OBJ = ServiceType.INTERSECTION.elementName();
     public static final String NORMALIZE_OBJ = ServiceType.NORMALIZE.elementName();
     public static final String PLACE_OBJ = ServiceType.PLACE.elementName();
-    public static final String STREET_OBJ = ServiceType.STREETCODE.elementName();
+    public static final String STREETCODE_OBJ = ServiceType.STREETCODE.elementName();
     public static final String VERSION_OBJ = ServiceType.VERSION.elementName();
 
     //public static final String DEFAULT_STREET_NAME_FORMAT = StreetNameFormat.SORT.elementName();
@@ -208,7 +208,7 @@ public class RestController
         logger.debug("street[streetCode='{}',streetCodeTwo='{}',streetCodeThree='{}',length='{}',format='{}']",
                 streetCode, streetCodeTwo, streetCodeThree, length, format);
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put(STREET_OBJ, this.geosupportService.callStreetNameFunction(streetCode, streetCodeTwo, streetCodeThree, length, format));
+        resultMap.put(STREETCODE_OBJ, this.geosupportService.callStreetNameFunction(streetCode, streetCodeTwo, streetCodeThree, length, format));
         return resultMap;
     }
 
