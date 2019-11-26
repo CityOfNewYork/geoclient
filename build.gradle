@@ -1,12 +1,16 @@
 plugins {
     id 'gov.nyc.doitt.gis.geoclient.gradle.integration-test' apply false
     id 'com.github.ben-manes.versions' version '0.27.0'
-// Conflicts with Spring Boot Gradle Plugin's buildInfo task.
-// Uncomment as needed.
-//  id "com.github.hierynomus.license" version '0.15.0' apply false
+    // Conflicts with Spring Boot Gradle Plugin's buildInfo task.
+    // Uncomment as needed.
+    //id "com.github.hierynomus.license" version '0.15.0' apply false
 }
 
 apply from: "${rootDir}/gradle/dependencies.gradle"
+
+ext {
+    javaProjects = subprojects
+}
 
 task clean(type: Delete) {
     description = 'Delete rootProject build directory'
@@ -15,10 +19,10 @@ task clean(type: Delete) {
 }
 
 allprojects {
-    apply plugin: 'eclipse'
     apply plugin: 'project-report'
-// Conflicts with Spring Boot Gradle Plugin. See above for details
-//    apply from: "${rootDir}/gradle/license.gradle"
+    apply from: "${rootDir}/gradle/ide.gradle"
+    // Conflicts with Spring Boot Gradle Plugin. See above for details
+    //apply from: "${rootDir}/gradle/license.gradle"
 }
 
 subprojects {
@@ -99,6 +103,7 @@ subprojects {
 
     compileJava {
         sourceCompatibility = 1.8
+
         targetCompatibility = 1.8
         options.encoding = 'UTF-8'
     }

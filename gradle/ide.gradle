@@ -1,6 +1,17 @@
 apply plugin: 'eclipse'
-apply plugin: 'idea'
 
 eclipse {
-  pathVariables 'FOO': file(System.getProperty('user.dir'))
+    project {
+        //
+        // For EclipseProject reference, see:
+        // https://docs.gradle.org/current/dsl/org.gradle.plugins.ide.eclipse.model.EclipseProject.html
+        //
+        natures 'org.eclipse.buildship.core.gradleprojectnature'
+        buildCommand 'org.eclipse.buildship.core.gradleprojectbuilder'
+    }
 }
+
+//if (javaProjects.contains(project)) {
+//    // Default value for java system property 'gc.jni.version' is set in $rootProject/gradle.properties
+//    eclipse.pathVariables 'GEOSUPPORT_HOME': file('/opt/geosupport')
+//}
