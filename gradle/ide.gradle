@@ -15,3 +15,9 @@ eclipse {
 //    // Default value for java system property 'gc.jni.version' is set in $rootProject/gradle.properties
 //    eclipse.pathVariables 'GEOSUPPORT_HOME': file('/opt/geosupport')
 //}
+
+task cleanEclipseBin(type: Delete) {
+    description = 'Delete Eclipse bin directory'
+    group = 'IDE'
+    delete "${projectDir}/bin"
+}
