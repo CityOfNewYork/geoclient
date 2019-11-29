@@ -15,7 +15,7 @@ task filter(type: Copy) {
 }
 
 task dist(type: Zip) {
-  baseName = distname
+  archiveBaseName = distname
   from filter
   into distname
 }
