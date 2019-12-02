@@ -48,9 +48,9 @@ subprojects {
     // }
 
     repositories {
-        maven { url "http://maven.geotoolkit.org/" }
+        maven { url "https://nexus.geomatys.com/repository/geotoolkit/" }
         mavenCentral()
-        maven { url "http://repo.boundlessgeo.com/main/" }
+        maven { url "https://repo.boundlessgeo.com/main/" }
     }
 
     dependencies {
@@ -193,8 +193,8 @@ subprojects {
     publishing {
         repositories {
             maven {
-                name = 'localBuild'
-                url = "file://${rootProject.projectDir}/maven-repo"
+                name = 'localRepo'
+                url = "file://${buildDir}/repo"
             }
         }
         publications {
@@ -241,6 +241,6 @@ subprojects {
         } //publications
     } // publishing
 
-    signing { sign publishing.publications.mavenJava }
+    //signing { sign publishing.publications.mavenJava }
 
 } // allprojects
