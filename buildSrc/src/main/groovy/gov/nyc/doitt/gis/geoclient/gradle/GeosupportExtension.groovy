@@ -55,11 +55,11 @@ class GeosupportExtension extends AbstractExtension {
         resolveConvention(GS_LIBRARY_PATH_GRADLE, GS_LIBRARY_PATH_SYSTEM, GS_LIBRARY_PATH_ENVVAR, this.libraryPath, DEFAULT_GS_LIBRARY_PATH)
         resolveIncludePath()
     }
-    
+
     private void resolveIncludePath() {
         // NOTE: Member varaible 'includePath' is a DirectoryProperty and local variable 'includeDir' is Directory
-        Directory jniProjectDir = project.project(':geoclient-jni').layout.getProjectDirectory()
-        Directory includeDir = jniProjectDir.dir('lib/geosupport/headers')
+        Directory jniProjectDir = project.rootProject.layout.getProjectDirectory()
+        Directory includeDir = jniProjectDir.dir('geoclient-jni/lib/geosupport/headers')
         this.includePath.convention(includeDir)
         project.ext.gsIncludePath = includeDir.getAsFile()
     }
@@ -67,7 +67,7 @@ class GeosupportExtension extends AbstractExtension {
     Property<String> getHome() {
         this.home
     }
-    
+
     void setHome(String value) {
         this.home.set(value)
     }
@@ -95,7 +95,7 @@ class GeosupportExtension extends AbstractExtension {
     void setIncludePath(File value) {
         this.includePath.set(value)
     }
-    
+
     File getIncludePathAsFile() {
         this.includePath.getAsFile()?.getOrNull()
     }
@@ -131,9 +131,9 @@ class GeosupportExtension extends AbstractExtension {
         } catch (IOException ignored) {
             System.out.println("[WARN] Could not get canonical path for file ${file}. Returning absolutePath instead")
             file.absolutePath
-        }    
+        }
     }
-    
+
     @Override
     String toString() {
         "${this.getClass().getSimpleName()} [ geofiles=${geofiles.getOrNull()}, home=${home.getOrNull()}, includePath=${includePathString()}, libraryPath=${libraryPath.getOrNull()}]"
