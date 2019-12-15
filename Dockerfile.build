@@ -7,12 +7,12 @@
 #
 # 2. Build this image
 #
-#   $ docker build -t geoclient -f Dockerfile.build .
+#   $ docker build -t mlipper/geoclient:2-build -f Dockerfile.build .
 #
 # 3a. Run this image to run a clean Gradle build and then delete the container
 #     once the build exits:
 #
-#   $ docker run -d --rm --mount source=vol-geosupport,target=/opt/geosupport  -v "$(pwd):/app" geoclient
+#   $ docker run -d --rm --mount source=vol-geosupport,target=/opt/geosupport  -v "$(pwd):/app" mlipper/geoclient:2-build
 #
 # OR
 #
@@ -20,9 +20,9 @@
 #     container's shell (override this file's default CMD). Creates a container
 #     named "gcbuild":
 #
-#   $ docker run -it --name gcbuild -p 8080:8080 -p 5005:5005 --mount source=vol-geosupport,target=/opt/geosupport -v "$(pwd):/app" geoclient /bin/bash
+#   $ docker run -it --name gcbuild -p 8080:8080 -p 5005:5005 --mount source=vol-geosupport,target=/opt/geosupport -v "$(pwd):/app" mlipper/geoclient:2-build /bin/bash -il
 #
-FROM openjdk:8-jdk
+FROM openjdk:8-jdk-slim
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 
 ENV GEOSUPPORT_HOME "${GEOSUPPORT_HOME:-/opt/geosupport}"

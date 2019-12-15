@@ -28,7 +28,7 @@
 #
 #   $ curl -XGET 'http://localhost:8080/geoclient/v2/search.json?input=Broadway%20and%20W%2042%20st%20Manhattan'
 #
-FROM openjdk:8-jdk
+FROM openjdk:8-jdk-slim
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 
 ARG JARFILE
