@@ -1,0 +1,56 @@
+publishing {
+    repositories {
+        maven {
+            name = 'localRepo'
+            url = "file://${buildDir}/repo"
+        }
+    }
+    publications {
+        mavenJava(MavenPublication) {
+            pom {
+                afterEvaluate {
+                    name = project.description
+                    description = project.description
+                }
+                url = 'https://github.com/CityOfNewYork/geoclient'
+                inceptionYear = '2013'
+                organization {
+                    name = 'City of New York / DoITT / Citywide GIS'
+                    url = 'https://maps.nyc.gov'
+                }
+                licenses {
+                    license {
+                        name = "Apache License, Version 2.0"
+                        url = "https://www.apache.org/licenses/LICENSE-2.0"
+                        distribution = "repo"
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://git@github.com/CityOfNewYork/geoclient.git'
+                    developerConnection = 'scm:git:git://github.com/CityOfNewYork/geoclient.git'
+                    url = 'https://maps.nyc.gov/geoclient/v1/doc'
+                }
+                developers {
+                    developer {
+                        id = 'mlipper'
+                        name = 'Matthew Lipper'
+                        email = 'mlipper@doitt.nyc.gov'
+                    }
+                }
+                issueManagement {
+                    system = "GitHub"
+                    url = 'https://github.com/CityOfNewYork/geoclient/issues'
+                }
+            }
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionResult()
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+    }
+}
+

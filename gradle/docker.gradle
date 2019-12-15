@@ -34,7 +34,7 @@ String getConfigurationProperty(String envVar, String sysProp) {
 //task dockerInfo(type: DockerInfo) {}
 task createDockerfile(type: Dockerfile) {
     destFile = project.file("$buildDir/Dockerfile")
-    from 'debian:stretch'
+    from 'debian:buster-slim'
     maintainer 'Matthew Lipper "mlipper@gmail.com"'
 }
 

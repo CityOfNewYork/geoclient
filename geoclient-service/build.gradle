@@ -1,93 +1,110 @@
-plugins {
-  id 'org.springframework.boot' version '2.2.1.RELEASE' // Must be in sync with $rootProject/build.gradle
-  id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-  id 'war' // Required when building an executable war file
-}
+// plins {
+//     id "org.springframework.boot" version "2.2.1.RELEASE" // Must be in sync with $rootProject/build.gradle
+//     id "io.spring.dependency-management" version "1.0.8.RELEASE"
+//     id "war" // Required when building an executable war file
+// }
+
+// apply plugin: "io.spring.dependency-management"
+
+apply plugin: "org.springframework.boot"
 
 dependencies {
-  implementation project(':geoclient-jni')
-  implementation project(':geoclient-core')
-  implementation project(':geoclient-parser')
-  implementation("org.apache.commons:commons-text:${commonsTextVersion}")
-  implementation("com.github.dozermapper:dozer-spring-boot-starter:${dozerVersion}")
-  implementation('org.springframework.boot:spring-boot-starter-web')
-  implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
-  implementation('org.springframework.boot:spring-boot-starter-validation')
-  implementation('org.springframework.boot:spring-boot-devtools')
-  implementation('org.springframework:spring-oxm') { exclude(module: 'commons-lang') }
-  implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}")
-  implementation('joda-time:joda-time')
-  implementation("org.geotools:gt-referencing:${geotoolsVersion}") {
-    exclude(group: "jgridshift", module: "jgridshift")
-  }
-  implementation("org.geotools:gt-main:${geotoolsVersion}") {
-    exclude(module: 'xerces')
-    exclude(group: 'jgridshift', module: 'jgridshift')
-  }
-  implementation("org.geotools:gt-epsg-wkt:${geotoolsVersion}") {
-    exclude(group: 'jgridshift', module: 'jgridshift')
-  }
+    implementation project(":geoclient-jni")
+    implementation project(":geoclient-core")
+    implementation project(":geoclient-parser")
+    implementation("org.apache.commons:commons-text:${commonsTextVersion}")
+    implementation("com.github.dozermapper:dozer-spring-boot-starter:${dozerVersion}")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
+    implementation("org.springframework.boot:spring-boot-devtools")
+    implementation("org.springframework:spring-oxm") { exclude(module: "commons-lang") }
+    implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}")
+    implementation("joda-time:joda-time")
+    implementation("org.geotools:gt-referencing:${geotoolsVersion}") {
+        exclude(group: "jgridshift", module: "jgridshift")
+    }
+    implementation("org.geotools:gt-main:${geotoolsVersion}") {
+        exclude(module: "xerces")
+        exclude(group: "jgridshift", module: "jgridshift")
+    }
+    implementation("org.geotools:gt-epsg-wkt:${geotoolsVersion}") {
+        exclude(group: "jgridshift", module: "jgridshift")
+    }
 
-  // Required when building an executable and deployable war file
-  providedRuntime('org.springframework.boot:spring-boot-starter-tomcat')
+//  // Required when building an executable and deployable war file
+//  // Also requires spring-dependency-management plugin because gradle's
+//  // compileOnly does not include test classes needed for integration tests
+//  providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 
-  testImplementation("org.apache.httpcomponents:httpclient:${httpclient}")
-  //testImplementation('org.springframework.restdocs:spring-restdocs-mockmvc')
-  //testImplementation('com.jayway.jsonpath:json-path')
+    testImplementation("org.apache.httpcomponents:httpclient:${httpclient}")
 }
 
 sourceSets {
-  main {
-    java {
-      srcDir 'src/main/java'
-      srcDir 'src/external/java'
+    main {
+        java {
+            srcDir "src/main/java"
+            srcDir "src/external/java"
+        }
+        resources {
+            srcDir "src/main/resources"
+        }
     }
-    resources { srcDir 'src/main/resources' }
+}
+
+processResources {
+  from(sourceSets.main.resources) {
+    include "version.properties"
+    filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: project.version])
   }
 }
 
 tasks.withType(Javadoc) {
-  exclude '**/LatLongEnhancer.java'
+  exclude "**/LatLongEnhancer.java"
 }
-
-// Uncomment to allow building "non-executable", traditional jar or war files
-// TODO These tasks still appear when gradle tasks is run but should indicate
-// that they're disabled.
-// TODO When run with default logging level, these tasks give no indication
-// that they've been disabled and the build still reports success.
-// jar { enabled = true }
-// war { enabled = true }
 
 springBoot { buildInfo() }
 
+// // Uncomment to allow building "non-executable", traditional jar file
+// // This project's publishing block in the rootProject's build.gradle script
+// // also needs to be updated for the regular jar file to be published. 
+// jar { enabled = true }
+
 bootJar {
-  // Assembles runnable jar file: e.g., 'java -jar -Dprop1=abc </path/to/jar>'
-  // To make fully executable: add a 'launchScript {...}' closure
-  classifier = 'boot'
-  mainClassName = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
-  requiresUnpack '**/geoclient-jni-*.jar'
+    classifier = "boot"
+    mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
+    requiresUnpack "**/geoclient-jni-*.jar"
+    manifest = project.manifest {
+        from sharedManifest
+    }
+    from("${rootDir}/src/dist") { // TODO replace with CopySpec
+        include "license.txt"
+        include "notice.txt"
+        into "META-INF"
+        expand(copyright: new Date().format("yyyy"), version: project.version)
+    }
 }
 
-bootWar {
-  // Assembles runnable war file: e.g., 'java -jar -Dprop1=abc </path/to/war>'
-  // To make fully executable: add a 'launchScript {...}' closure
-  // Because the GeoclientBootApplication extends SpringBootServletInitializer,
-  // the war file _can_also_be_run_in_a_servlet_container_
-  classifier = 'boot'
-  mainClassName = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
-  requiresUnpack '**/geoclient-jni-*.jar'
+// // Uncomment to allow building "non-executable", traditional war file
+// // This project's publishing block in the rootProject's build.gradle script
+// // also needs to be updated for the regular jar file to be published. 
+// war { enabled = true }
+
+// // Because the GeoclientBootApplication extends SpringBootServletInitializer,
+// // the war file _can_also_be_run_in_a_servlet_container_
+// bootWar {
+//     classifier = "boot"
+//     mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
+//     requiresUnpack "**/geoclient-jni-*.jar"
+//}
+
+publishing {
+    publications {
+        bootJava(MavenPublication) {
+            artifact bootJar
+            artifact sourcesJar
+            artifact javadocJar
+        }
+    }
 }
 
-// FIXME Required to avoid encoding error on Windows when platform default:
-// Cp1252 is used to read the embedded EPSG file database.
-compileJava { options.encoding = 'UTF-8' }
-
-processResources {
-  ext.ver = rootProject.version
-  from(sourceSets.main.resources) {
-    include 'version.properties'
-    filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: ver])
-  }
-}
-
-project.assemble.dependsOn bootJar, bootWar

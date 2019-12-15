@@ -1,128 +1,108 @@
 plugins {
-    id 'gov.nyc.doitt.gis.geoclient.gradle.integration-test' apply false
-    id 'com.github.ben-manes.versions' version '0.27.0'
-    // Conflicts with Spring Boot Gradle Plugin's buildInfo task.
-    // Uncomment as needed.
-    //id "com.github.hierynomus.license" version '0.15.0' apply false
+    id "gov.nyc.doitt.gis.geoclient.gradle.integration-test" apply false
+    id "io.spring.dependency-management" version "1.0.8.RELEASE" apply false
+    id "org.springframework.boot" version "2.2.1.RELEASE" apply false
+    id "com.github.ben-manes.versions" version "0.27.0"
 }
-
-apply from: "${rootDir}/gradle/dependencies.gradle"
 
 ext {
-    javaProjects = subprojects
+    moduleProjects = subprojects.findAll { it.name.startsWith("geoclient-") }
+    jarPublishProjects = moduleProjects - project(":geoclient-service")
+    springBootProject = project(":geoclient-service")
 }
 
-task clean(type: Delete) {
-    description = 'Delete rootProject build directory'
-    group = 'Build'
-    delete "${rootDir}/build"
+configure(allprojects) { project ->
+    task("configs") {
+        doLast {
+            println ""
+            println "${project.name}"
+            println "---------------"
+            println "moduleProjects: ${moduleProjects}"
+            println "jarPublishProjects: ${jarPublishProjects}"
+            println "springBootProject: ${springBootProject}"
+            //project.configurations.each {
+            //    println "${it.name}"
+            //    if(it.artifacts) {
+            //        println "   artifacts: ${it.artifacts.getFiles().asPath}"
+            //    }
+            //    if(it.dependencies) {
+            //        println "   dependencies: ${it.dependencies.collect { d -> d.name + ":" + (d.version ?: "<unspecified>") }}"
+            //    }
+            //}
+        }
+    }
 }
 
-allprojects {
-    apply plugin: 'project-report'
-    apply from: "${rootDir}/gradle/ide.gradle"
-    // Conflicts with Spring Boot Gradle Plugin. See above for details
-    //apply from: "${rootDir}/gradle/license.gradle"
-}
+configure(moduleProjects){ project ->
 
-subprojects {
-    apply plugin: 'java'
-    apply plugin: 'maven-publish'
-    apply plugin: 'signing'
-    apply plugin: 'gov.nyc.doitt.gis.geoclient.gradle.integration-test'
+    apply plugin: "java"
+    apply plugin: "maven-publish"
+    apply from: "$rootDir/gradle/publications.gradle"
 
-    //
-    // Example:
-    //
-    // integration-test plugin config using DSL and default values
-    //
-    // geoclient {
-    //     jniVersion = project.version
-    // }
-
-    // geosupport {
-    //     home = '/opt/geosupport'
-    //     geofiles = "${home.get()}/fls/"
-    //     libraryPath = "${home.get()}/lib"
-    //     includePath = rootProject.project('geoclient-jni').file('lib/geosupport/headers')
-    // }
-
+    // Java dependency configuration
     repositories {
         maven { url "https://nexus.geomatys.com/repository/geotoolkit/" }
         mavenCentral()
         maven { url "https://repo.boundlessgeo.com/main/" }
     }
 
-    dependencies {
-        implementation enforcedPlatform('org.springframework.boot:spring-boot-dependencies:2.2.1.RELEASE') // Must be in sync with geoclient-service/build.gradle
-                                                                                                           // spring-boot plugin
-        implementation 'org.springframework.boot:spring-boot-starter-logging'
-        testImplementation('org.springframework.boot:spring-boot-starter-test') {
-            exclude group: 'org.junit', module: 'junit'
+    ext{
+
+        //checkstyleVersion         = '8.11'
+        //commonsLang3Version       = '3.9'
+        commonsTextVersion        = '1.8'
+        diffutilsVersion          = '1.3.0'
+        // Sync version with geoclient-service/src/main/resources/META-INF/spring-devtools.properties
+        dozerVersion              = '6.5.0'
+        geotoolsVersion           = '19.0'
+        httpclient                = '4.5.10'
+        thymeleafVersion          = '3.0.11.RELEASE'
+        xstreamVersion            = '1.4.11.1'
+
+        licenseFilesSpec = copySpec {
+            from("${rootDir}/src/dist") {
+                include "license.txt"
+                include "notice.txt"
+                into "META-INF"
+                expand(copyright: new Date().format("yyyy"), version: project.version)
+            }
         }
-        testImplementation 'org.junit.jupiter:junit-jupiter-api'
-        testImplementation 'org.junit.jupiter:junit-jupiter-params'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
     }
 
-    def commonCompilerArgs =
-            [
-                "-Xlint:serial",
-                "-Xlint:cast",
-                "-Xlint:classfile",
-                "-Xlint:dep-ann",
-                "-Xlint:divzero",
-                "-Xlint:empty",
-                "-Xlint:finally",
-                "-Xlint:overrides",
-                "-Xlint:path",
-                "-Xlint:processing",
-                "-Xlint:static",
-                "-Xlint:try",
-                "-Xlint:-options"
-            ]
-
-    compileJava.options*.compilerArgs = commonCompilerArgs +
-            [
-                "-Xlint:varargs",
-                "-Xlint:fallthrough",
-                "-Xlint:rawtypes",
-                "-Xlint:deprecation",
-                "-Xlint:unchecked",
-                "-Werror"
-            ]
-
-    compileTestJava.options*.compilerArgs = commonCompilerArgs +
-            [
-                "-Xlint:-varargs",
-                "-Xlint:-fallthrough",
-                "-Xlint:-rawtypes",
-                "-Xlint:-deprecation",
-                "-Xlint:-unchecked"
-            ]
-
-    compileJava {
-        sourceCompatibility = 1.8
-
-        targetCompatibility = 1.8
-        options.encoding = 'UTF-8'
+    dependencies {
+        implementation enforcedPlatform("org.springframework.boot:spring-boot-dependencies:2.2.1.RELEASE") // Must be in sync with geoclient-service/build.gradle
+        implementation "org.springframework.boot:spring-boot-starter-logging"
+        testImplementation("org.springframework.boot:spring-boot-starter-test") {
+            exclude group: "org.junit", module: "junit"
+        }
+        testImplementation "org.junit.jupiter:junit-jupiter-api"
+        testImplementation "org.junit.jupiter:junit-jupiter-params"
+        testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
     }
 
-    compileTestJava {
-        sourceCompatibility = 1.8
-        targetCompatibility = 1.8
-        options.encoding = 'UTF-8'
+    // Java build configuration
+    java {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        withJavadocJar()
+        withSourcesJar()
     }
 
-    ext {
-        enableJavadoc = project.hasProperty('nojdoc') ? false : true
-        localLibsDir = new File(rootProject.buildDir, 'libs')
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
     }
+
+    normalization {
+        runtimeClasspath {
+            ignore "META-INF/MANIFEST.MF"
+        }
+    }
+
+    // Test Java configuration
+    apply plugin: "gov.nyc.doitt.gis.geoclient.gradle.integration-test"
 
     integrationTest {
-
         useJUnitPlatform()
-
         testLogging {
             displayGranularity = 3
             events "failed", "skipped", "passed"
@@ -132,9 +112,7 @@ subprojects {
     }
 
     test {
-
         useJUnitPlatform()
-
         testLogging {
             displayGranularity = 3
             events "failed", "skipped", "passed"
@@ -143,104 +121,74 @@ subprojects {
         }
     }
 
+    // Javadoc configuration
+    ext {
+        javadocLinks = [
+            "https://docs.oracle.com/javase/8/docs/api/",
+            "https://fasterxml.github.io/jackson-core/javadoc/2.10/",
+            "https://fasterxml.github.io/jackson-databind/javadoc/2.10/",
+            "https://fasterxml.github.io/jackson-dataformat-xml/javadoc/2.10/",
+            "https://junit.org/junit5/docs/5.5.2/api/"
+        ] as String[]
+    }
+
     javadoc {
-        options {
-            memberLevel = JavadocMemberLevel.PROTECTED
-            author = true
-            header = project.name
-            use = true
-            encoding = 'UTF-8'
-            noTimestamp = true
-        }
+        description = "Generates project-level javadoc for use in -javadoc jar"
+
+        options.encoding = "UTF-8"
+        options.memberLevel = JavadocMemberLevel.PROTECTED
+        options.author = true
+        options.header = project.name
+        options.use = true
+        options.links(project.ext.javadocLinks)
+        options.addStringOption("Xdoclint:none", "-quiet")
+
+        // Suppress warnings due to cross-module @see and @link references.
+        // Note that global 'api' task does display all warnings.
+        logging.captureStandardError LogLevel.INFO
+        logging.captureStandardOutput LogLevel.INFO  // suppress "## warnings" message
     }
 
-    tasks.withType(Javadoc).all { enabled = project.ext.enableJavadoc }
+    // Shared jar manifest configuration
+    ext {
+        sharedManifest = jar.manifest {
+           attributes(
+               "Implementation-Title": project.name,
+               "Implementation-Version": project.version,
+               "Automatic-Module-Name": project.name.replace('-', '.'),  // for Jigsaw
+               "Built-By": "${System.getProperty("user.name")}",
+               "Created-By": "${System.getProperty("java.version")} (${System.getProperty("java.specification.vendor")})",
+               "Built-Gradle": gradle.gradleVersion)
+        }
+    }
+}
 
+//
+// Jar packaging & publishing of modules except for :geoclient-service:bootJar 
+// 
+configure(jarPublishProjects) { project ->
+    
     jar {
-        manifest {
-            attributes(
-                    'Implementation-Title': project.name,
-                    'Implementation-Version': project.version,
-                    'Built-By': System.getProperty('user.name'),
-                    'Built-JDK': System.getProperty('java.version'),
-                    'Built-Gradle': gradle.gradleVersion
-                    )
+        from components.java
+        manifest = project.manifest {
+            from sharedManifest
         }
-
-        from("${rootProject.projectDir}/src/dist") {
-            include 'LICENSE.txt'
-            include 'NOTICE.txt'
-            into 'META-INF'
-            expand(copyright: new Date().format('yyyy'), version: project.version)
-        }
-    }
-
-    task sourcesJar(type: Jar, dependsOn: classes) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-
-    task javadocJar(type: Jar) {
-        classifier = 'javadoc'
-        from javadoc
-    }
-
-    artifacts {
-        archives sourcesJar
-        archives javadocJar
+        with(licenseFilesSpec)
     }
 
     publishing {
-        repositories {
-            maven {
-                name = 'localRepo'
-                url = "file://${buildDir}/repo"
-            }
-        }
         publications {
             mavenJava(MavenPublication) {
                 from components.java
                 artifact sourcesJar
                 artifact javadocJar
-                pom {
-                    name = project.name
-                    description = project.description
-                    url = 'https://github.com/CityOfNewYork/geoclient'
-                    inceptionYear = '2013'
-                    licenses {
-                        license {
-                            name = 'The Apache License, Version 2.0'
-                            url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
-                            distribution = 'repo'
-                        }
-                    }
-                    organization {
-                        name = 'City of New York / DoITT / Citywide GIS'
-                        url = 'https://maps.nyc.gov'
-                    }
-                    developers {
-                        developer {
-                            id = 'mlipper'
-                            name = 'Matthew Lipper'
-                            email = 'mlipper@doitt.nyc.gov'
-                        }
-                    }
-                    scm {
-                        connection = 'scm:https://git@github.com/CityOfNewYork/geoclient.git'
-                        developerConnection = 'scm:git://github.com/CityOfNewYork/geoclient.git'
-                        url = 'https://maps.nyc.gov/geoclient/v1/doc'
-                    }
+            }
+        }
+    }
+}
 
-                    issueManagement {
-                        system = 'GitHub'
-                        url = 'https://github.com/CityOfNewYork/geoclient/issues'
-                    }
-
-                } // pom
-            } // mavenJava(MavenPublication)
-        } //publications
-    } // publishing
-
-    //signing { sign publishing.publications.mavenJava }
-
-} // allprojects
+//
+// // Jar packaging & publishing of geoclient-service module 
+// 
+// configure(springBootProject) { project ->
+// }

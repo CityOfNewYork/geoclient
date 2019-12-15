@@ -1,8 +1,5 @@
 pluginManagement {
     repositories {
-        maven {
-            url './maven-repo'
-        }
         gradlePluginPortal()
     }
 }
@@ -14,4 +11,3 @@ include 'geoclient-jni'
 include 'geoclient-core'
 include 'geoclient-parser'
 include 'geoclient-service'
-//includeBuild './plugin'
