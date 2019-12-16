@@ -11,28 +11,6 @@ ext {
     springBootProject = project(":geoclient-service")
 }
 
-configure(allprojects) { project ->
-    task("configs") {
-        doLast {
-            println ""
-            println "${project.name}"
-            println "---------------"
-            println "moduleProjects: ${moduleProjects}"
-            println "jarPublishProjects: ${jarPublishProjects}"
-            println "springBootProject: ${springBootProject}"
-            //project.configurations.each {
-            //    println "${it.name}"
-            //    if(it.artifacts) {
-            //        println "   artifacts: ${it.artifacts.getFiles().asPath}"
-            //    }
-            //    if(it.dependencies) {
-            //        println "   dependencies: ${it.dependencies.collect { d -> d.name + ":" + (d.version ?: "<unspecified>") }}"
-            //    }
-            //}
-        }
-    }
-}
-
 configure(moduleProjects){ project ->
 
     apply plugin: "java"
@@ -48,16 +26,16 @@ configure(moduleProjects){ project ->
 
     ext{
 
-        //checkstyleVersion         = '8.11'
-        //commonsLang3Version       = '3.9'
-        commonsTextVersion        = '1.8'
-        diffutilsVersion          = '1.3.0'
+        //checkstyleVersion         = "8.11"
+        //commonsLang3Version       = "3.9"
+        commonsTextVersion        = "1.8"
+        diffutilsVersion          = "1.3.0"
         // Sync version with geoclient-service/src/main/resources/META-INF/spring-devtools.properties
-        dozerVersion              = '6.5.0'
-        geotoolsVersion           = '19.0'
-        httpclient                = '4.5.10'
-        thymeleafVersion          = '3.0.11.RELEASE'
-        xstreamVersion            = '1.4.11.1'
+        dozerVersion              = "6.5.0"
+        geotoolsVersion           = "19.0"
+        httpclient                = "4.5.10"
+        thymeleafVersion          = "3.0.11.RELEASE"
+        xstreamVersion            = "1.4.11.1"
 
         licenseFilesSpec = copySpec {
             from("${rootDir}/src/dist") {
@@ -144,22 +122,20 @@ configure(moduleProjects){ project ->
         options.addStringOption("Xdoclint:none", "-quiet")
 
         // Suppress warnings due to cross-module @see and @link references.
-        // Note that global 'api' task does display all warnings.
+        // Note that global "api" task does display all warnings.
         logging.captureStandardError LogLevel.INFO
         logging.captureStandardOutput LogLevel.INFO  // suppress "## warnings" message
     }
 
-    // Shared jar manifest configuration
-    ext {
-        sharedManifest = jar.manifest {
+    // Shared manifest configuration for jar and bootJar tasks
+    ext.sharedManifest = manifest {
            attributes(
                "Implementation-Title": project.name,
                "Implementation-Version": project.version,
-               "Automatic-Module-Name": project.name.replace('-', '.'),  // for Jigsaw
+               "Automatic-Module-Name": project.name.replace("-", "."),  // for Jigsaw
                "Built-By": "${System.getProperty("user.name")}",
                "Created-By": "${System.getProperty("java.version")} (${System.getProperty("java.specification.vendor")})",
                "Built-Gradle": gradle.gradleVersion)
-        }
     }
 }
 
@@ -167,21 +143,19 @@ configure(moduleProjects){ project ->
 // Jar packaging & publishing of modules except for :geoclient-service:bootJar 
 // 
 configure(jarPublishProjects) { project ->
-    
+
+    println "Configuring jarPublishProject: $project.name"
     jar {
-        from components.java
-        manifest = project.manifest {
-            from sharedManifest
-        }
-        with(licenseFilesSpec)
+        manifest = project.sharedManifest
+        with(project.licenseFilesSpec)
     }
 
     publishing {
         publications {
-            mavenJava(MavenPublication) {
+            mavenJava {
                 from components.java
-                artifact sourcesJar
-                artifact javadocJar
+                //artifact sourcesJar
+                //artifact javadocJar
             }
         }
     }

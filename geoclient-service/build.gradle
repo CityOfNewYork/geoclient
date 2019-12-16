@@ -74,15 +74,8 @@ bootJar {
     classifier = "boot"
     mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
     requiresUnpack "**/geoclient-jni-*.jar"
-    manifest = project.manifest {
-        from sharedManifest
-    }
-    from("${rootDir}/src/dist") { // TODO replace with CopySpec
-        include "license.txt"
-        include "notice.txt"
-        into "META-INF"
-        expand(copyright: new Date().format("yyyy"), version: project.version)
-    }
+    manifest = project.sharedManifest
+    with(project.licenseFilesSpec)
 }
 
 // // Uncomment to allow building "non-executable", traditional war file
@@ -102,6 +95,7 @@ publishing {
     publications {
         bootJava(MavenPublication) {
             artifact bootJar
+            //from components.java
             artifact sourcesJar
             artifact javadocJar
         }
