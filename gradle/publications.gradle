@@ -1,7 +1,7 @@
 publishing {
     repositories {
         maven {
-            name = 'localRepo'
+            name = "localRepo"
             url = "file://${buildDir}/repo"
         }
     }
@@ -12,11 +12,11 @@ publishing {
                     name = project.description
                     description = project.description
                 }
-                url = 'https://github.com/CityOfNewYork/geoclient'
-                inceptionYear = '2013'
+                url = "https://github.com/CityOfNewYork/geoclient"
+                inceptionYear = "2013"
                 organization {
-                    name = 'City of New York / DoITT / Citywide GIS'
-                    url = 'https://maps.nyc.gov'
+                    name = "City of New York / DoITT / Citywide GIS"
+                    url = "https://maps.nyc.gov"
                 }
                 licenses {
                     license {
@@ -26,27 +26,27 @@ publishing {
                     }
                 }
                 scm {
-                    connection = 'scm:git:https://git@github.com/CityOfNewYork/geoclient.git'
-                    developerConnection = 'scm:git:git://github.com/CityOfNewYork/geoclient.git'
-                    url = 'https://maps.nyc.gov/geoclient/v1/doc'
+                    connection = "scm:git:https://git@github.com/CityOfNewYork/geoclient.git"
+                    developerConnection = "scm:git:git://github.com/CityOfNewYork/geoclient.git"
+                    url = "https://maps.nyc.gov/geoclient/v1/doc"
                 }
                 developers {
                     developer {
-                        id = 'mlipper'
-                        name = 'Matthew Lipper'
-                        email = 'mlipper@doitt.nyc.gov'
+                        id = "mlipper"
+                        name = "Matthew Lipper"
+                        email = "mlipper@doitt.nyc.gov"
                     }
                 }
                 issueManagement {
                     system = "GitHub"
-                    url = 'https://github.com/CityOfNewYork/geoclient/issues'
+                    url = "https://github.com/CityOfNewYork/geoclient/issues"
                 }
             }
             versionMapping {
-                usage('java-api') {
+                usage("java-api") {
                     fromResolutionResult()
                 }
-                usage('java-runtime') {
+                usage("java-runtime") {
                     fromResolutionResult()
                 }
             }

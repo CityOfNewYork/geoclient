@@ -1,8 +1,8 @@
 dependencies {
-  implementation project(':geoclient-jni')
+  implementation project(":geoclient-jni")
   implementation("org.apache.commons:commons-lang3")
   implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}") {
-      exclude group: 'xpp3', module: 'xpp3_min'
-      exclude group: 'xmlpull', module: 'xmlpull'
+      exclude group: "xpp3", module: "xpp3_min"
+      exclude group: "xmlpull", module: "xmlpull"
   }
 }
