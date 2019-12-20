@@ -1,15 +1,8 @@
-// plugins {
-//     id "org.springframework.boot" version "2.2.1.RELEASE" // Must be in sync with $rootProject/build.gradle
-//     id "io.spring.dependency-management" version "1.0.8.RELEASE"
-//     id "war" // Required when building an executable war file
-// }
-
-// apply plugin: "war"
-apply plugin: "org.springframework.boot"
-
-//configurations {
-//    providedRuntime.extendsFrom(runtimeOnly)
-//}
+plugins {
+    id "war" // Required when building an executable war file
+    id "org.springframework.boot" version "2.2.2.RELEASE"
+    //id "io.spring.dependency-management" version "1.0.8.RELEASE" false
+}
 
 dependencies {
     implementation project(":geoclient-jni")
@@ -34,17 +27,8 @@ dependencies {
     implementation("org.geotools:gt-epsg-wkt:${geotoolsVersion}") {
         exclude(group: "jgridshift", module: "jgridshift")
     }
-
-    // // Required when building an executable and deployable war file
-    // // Also requires spring-dependency-management plugin because gradle's
-    // // compileOnly does not include test classes needed for integration tests
-    // providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-
-    // // Also needs "fake" providedRuntime configuration when not using dependency-management plugin
-    // runtimeOnly enforcedPlatform("org.springframework.boot:spring-boot-dependencies:2.2.2.RELEASE")
-    // runtimeOnly("org.springframework.boot:spring-boot-starter-tomcat")
-
     testImplementation("org.apache.httpcomponents:httpclient:${httpclient}")
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:2.2.2.RELEASE")
 }
 
 sourceSets {
@@ -72,53 +56,51 @@ tasks.withType(Javadoc) {
 
 springBoot {
     buildInfo()
-    //mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
+    mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
 }
 
-// // Uncomment to allow building "non-executable", traditional jar file
-// // This project's publishing block in the rootProject's build.gradle script
-// // also needs to be updated for the regular jar file to be published. 
-// jar { enabled = true }
+// Uncomment to allow building "non-executable", traditional jar file
+// This project's publishing block in the rootProject's build.gradle script
+// also needs to be updated for the regular jar file to be published. 
+//jar { enabled = true }
 
 bootJar {
     //classifier = "boot"
-    mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
+    //mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
     requiresUnpack "**/geoclient-jni-*.jar"
-    //manifest = project.sharedManifest
     manifest {
         from project.sharedManifest
     }
     with(project.licenseFilesSpec)
 }
 
-// // Uncomment to allow building "non-executable", traditional war file
-// // This project's publishing block in the rootProject's build.gradle script
-// // also needs to be updated for the regular jar file to be published. 
-// war { enabled = true }
+// Uncomment to allow building "non-executable", traditional war file
+// This project's publishing block in the rootProject's build.gradle script
+// also needs to be updated for the regular jar file to be published. 
+//war { enabled = true }
 
-// // Because the GeoclientBootApplication extends SpringBootServletInitializer,
-// // the war file _can_also_be_run_in_a_servlet_container_
-// bootWar {
-//     //classifier = "boot"
-//     mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
-//     requiresUnpack "**/geoclient-jni-*.jar"
-//     manifest = project.sharedManifest
-//     with(project.licenseFilesSpec)
-// }
+// Because the GeoclientBootApplication extends SpringBootServletInitializer,
+// the war file _can_also_be_run_in_a_servlet_container_
+bootWar {
+    //classifier = "boot"
+    //mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
+    requiresUnpack "**/geoclient-jni-*.jar"
+    manifest {
+        from project.sharedManifest
+    }
+    with(project.licenseFilesSpec)
+}
 
 publishing {
     publications {
         bootJava(MavenPublication) {
             artifact bootJar
-            // artifact bootWar
-            // artifact sourcesJar
-            // artifact javadocJar
+            artifact bootWar
         }
     }
 }
 
 signing {
-    //sign publishing.publications.mavenJava
     sign publishing.publications.bootJava
 }
 
