@@ -1,10 +1,34 @@
+// Shared artifact signing policy
+ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+
+signing {
+    required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
+}
+
+
 publishing {
     repositories {
         maven {
             name = "localRepo"
             url = "file://${buildDir}/repo"
         }
+        if(gisNexusActive) {
+          maven {
+            if (project.ext.isReleaseVersion) {
+              name "gisNexusReleases"
+              url "${project.gisNexusReleases}"
+            } else {
+              name "gisNexusSnapshots"
+              url "${project.gisNexusSnapshots}"
+            }
+            credentials {
+              username "${project.gisNexusUsername}"
+              password "${project.gisNexusPassword}"
+            }
+          }
+        }
     }
+
     publications {
         mavenJava(MavenPublication) {
             pom {
@@ -40,14 +64,6 @@ publishing {
                 issueManagement {
                     system = "GitHub"
                     url = "https://github.com/CityOfNewYork/geoclient/issues"
-                }
-            }
-            versionMapping {
-                usage("java-api") {
-                    fromResolutionResult()
-                }
-                usage("java-runtime") {
-                    fromResolutionResult()
                 }
             }
         }
