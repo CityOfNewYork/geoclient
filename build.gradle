@@ -1,7 +1,8 @@
 plugins {
+    id "signing"
     id "gov.nyc.doitt.gis.geoclient.gradle.integration-test" apply false
     id "io.spring.dependency-management" version "1.0.8.RELEASE" apply false
-    id "org.springframework.boot" version "2.2.1.RELEASE" apply false
+    id "org.springframework.boot" version "2.2.2.RELEASE" apply false
     id "com.github.ben-manes.versions" version "0.27.0"
 }
 
@@ -48,7 +49,8 @@ configure(moduleProjects){ project ->
     }
 
     dependencies {
-        implementation enforcedPlatform("org.springframework.boot:spring-boot-dependencies:2.2.1.RELEASE") // Must be in sync with geoclient-service/build.gradle
+        implementation enforcedPlatform("org.springframework.boot:spring-boot-dependencies:2.2.2.RELEASE") // Must be in sync with rootProject plugin block above
+                                                                                                           // and geoclient-service/build.gradle
         implementation "org.springframework.boot:spring-boot-starter-logging"
         testImplementation("org.springframework.boot:spring-boot-starter-test") {
             exclude group: "org.junit", module: "junit"
@@ -137,16 +139,20 @@ configure(moduleProjects){ project ->
                "Created-By": "${System.getProperty("java.version")} (${System.getProperty("java.specification.vendor")})",
                "Built-Gradle": gradle.gradleVersion)
     }
-}
+
+    //ext.sharedPom = pom {
+    //}
+/////}
 
 //
 // Jar packaging & publishing of modules except for :geoclient-service:bootJar 
 // 
-configure(jarPublishProjects) { project ->
+/////configure(jarPublishProjects) { project ->
 
-    println "Configuring jarPublishProject: $project.name"
     jar {
-        manifest = project.sharedManifest
+        manifest {
+            from project.sharedManifest
+        }
         with(project.licenseFilesSpec)
     }
 
@@ -154,15 +160,28 @@ configure(jarPublishProjects) { project ->
         publications {
             mavenJava {
                 from components.java
-                //artifact sourcesJar
-                //artifact javadocJar
+                //afterEvaluate {
+                //    if (project.name == "geoclient-service") {
+                //        artifact bootJar
+                //    }
+                //}
+            }
+        }
+    }
+
+    afterEvaluate {
+        project.task("showPub") {
+            doLast {
+                publishing.publications.each {
+                    println "publication ${it.name}: ${it.artifactId}:${it.version}"
+                    it.artifacts.each { a ->
+                        println "         ${a.extension}: ${a.file.absolutePath}"
+                    }
+                }
             }
         }
     }
 }
 
-//
-// // Jar packaging & publishing of geoclient-service module 
-// 
-// configure(springBootProject) { project ->
-// }
+
+

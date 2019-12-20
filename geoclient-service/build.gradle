@@ -1,12 +1,15 @@
-// plins {
+// plugins {
 //     id "org.springframework.boot" version "2.2.1.RELEASE" // Must be in sync with $rootProject/build.gradle
 //     id "io.spring.dependency-management" version "1.0.8.RELEASE"
 //     id "war" // Required when building an executable war file
 // }
 
-// apply plugin: "io.spring.dependency-management"
-
+// apply plugin: "war"
 apply plugin: "org.springframework.boot"
+
+//configurations {
+//    providedRuntime.extendsFrom(runtimeOnly)
+//}
 
 dependencies {
     implementation project(":geoclient-jni")
@@ -32,10 +35,14 @@ dependencies {
         exclude(group: "jgridshift", module: "jgridshift")
     }
 
-//  // Required when building an executable and deployable war file
-//  // Also requires spring-dependency-management plugin because gradle's
-//  // compileOnly does not include test classes needed for integration tests
-//  providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+    // // Required when building an executable and deployable war file
+    // // Also requires spring-dependency-management plugin because gradle's
+    // // compileOnly does not include test classes needed for integration tests
+    // providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+
+    // // Also needs "fake" providedRuntime configuration when not using dependency-management plugin
+    // runtimeOnly enforcedPlatform("org.springframework.boot:spring-boot-dependencies:2.2.2.RELEASE")
+    // runtimeOnly("org.springframework.boot:spring-boot-starter-tomcat")
 
     testImplementation("org.apache.httpcomponents:httpclient:${httpclient}")
 }
@@ -63,7 +70,10 @@ tasks.withType(Javadoc) {
   exclude "**/LatLongEnhancer.java"
 }
 
-springBoot { buildInfo() }
+springBoot {
+    buildInfo()
+    //mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
+}
 
 // // Uncomment to allow building "non-executable", traditional jar file
 // // This project's publishing block in the rootProject's build.gradle script
@@ -71,10 +81,13 @@ springBoot { buildInfo() }
 // jar { enabled = true }
 
 bootJar {
-    classifier = "boot"
+    //classifier = "boot"
     mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
     requiresUnpack "**/geoclient-jni-*.jar"
-    manifest = project.sharedManifest
+    //manifest = project.sharedManifest
+    manifest {
+        from project.sharedManifest
+    }
     with(project.licenseFilesSpec)
 }
 
@@ -86,19 +99,26 @@ bootJar {
 // // Because the GeoclientBootApplication extends SpringBootServletInitializer,
 // // the war file _can_also_be_run_in_a_servlet_container_
 // bootWar {
-//     classifier = "boot"
+//     //classifier = "boot"
 //     mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
 //     requiresUnpack "**/geoclient-jni-*.jar"
-//}
+//     manifest = project.sharedManifest
+//     with(project.licenseFilesSpec)
+// }
 
 publishing {
     publications {
         bootJava(MavenPublication) {
             artifact bootJar
-            //from components.java
-            artifact sourcesJar
-            artifact javadocJar
+            // artifact bootWar
+            // artifact sourcesJar
+            // artifact javadocJar
         }
     }
+}
+
+signing {
+    //sign publishing.publications.mavenJava
+    sign publishing.publications.bootJava
 }
 
