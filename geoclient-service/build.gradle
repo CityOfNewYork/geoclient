@@ -1,7 +1,6 @@
 plugins {
     id "war" // Required when building an executable war file
     id "org.springframework.boot" version "2.2.2.RELEASE"
-    //id "io.spring.dependency-management" version "1.0.8.RELEASE" false
 }
 
 dependencies {
@@ -59,14 +58,13 @@ springBoot {
     mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
 }
 
-// Uncomment to allow building "non-executable", traditional jar file
-// This project's publishing block in the rootProject's build.gradle script
-// also needs to be updated for the regular jar file to be published. 
+// Uncomment to allow building "non-executable", traditional jar/war file
+// Also uncomment classifiers in bootJar/bootWar tasks below
 //jar { enabled = true }
+//war { enabled = true }
 
 bootJar {
     //classifier = "boot"
-    //mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
     requiresUnpack "**/geoclient-jni-*.jar"
     manifest {
         from project.sharedManifest
@@ -74,16 +72,10 @@ bootJar {
     with(project.licenseFilesSpec)
 }
 
-// Uncomment to allow building "non-executable", traditional war file
-// This project's publishing block in the rootProject's build.gradle script
-// also needs to be updated for the regular jar file to be published. 
-//war { enabled = true }
-
 // Because the GeoclientBootApplication extends SpringBootServletInitializer,
 // the war file _can_also_be_run_in_a_servlet_container_
 bootWar {
     //classifier = "boot"
-    //mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
     requiresUnpack "**/geoclient-jni-*.jar"
     manifest {
         from project.sharedManifest
@@ -97,10 +89,23 @@ publishing {
             artifact bootJar
             artifact bootWar
         }
+        //
+        // Add source and javadoc jars to the publication.
+        // Java plugin is configured in $rootDir/build.gradle.
+        //
+        // Although the spring-boot-plugin disables the regular jar task,
+        // this still causes the publish task to warn about output of one
+        // publication overwriting another. To prevent the warning,
+        // configure bootJar to use a classifier.
+        //
+        mavenJava(MavenPublication) {
+            from components.java
+        }
     }
 }
 
 signing {
     sign publishing.publications.bootJava
+    sign publishing.publications.mavenJava // Sign source and javadoc jars
 }
 
