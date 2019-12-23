@@ -1,5 +1,4 @@
 plugins {
-    id "signing"
     id "gov.nyc.doitt.gis.geoclient.gradle.integration-test" apply false
     id "com.github.ben-manes.versions" version "0.27.0"
 }
@@ -14,6 +13,7 @@ configure(moduleProjects){ project ->
 
     apply plugin: "java"
     apply plugin: "maven-publish"
+    apply plugin: "signing"
     apply from: "$rootDir/gradle/publications.gradle"
 
     // Java dependency configuration
@@ -157,14 +157,22 @@ configure(jarPublishProjects) { project ->
             }
         }
     }
+    signing {
+        sign publishing.publications.mavenJava
+    }
+}
 
+configure(moduleProjects) { project ->
     afterEvaluate {
-        project.task("showPub") {
+        project.task("publications") {
+            group = "Help"
+            description "Lists all module project publications."
             doLast {
                 publishing.publications.each {
-                    println "publication ${it.name}: ${it.artifactId}:${it.version}"
+                    logger.quiet("[{}] {}:{}", it.name, it.artifactId, it.version)
                     it.artifacts.each { a ->
-                        println "         ${a.extension}: ${a.file.absolutePath}"
+                        String padding = " ".multiply(it.name.length() - a.extension.length())
+                        logger.quiet("{}[{}] {}", padding, a.extension, a.file.absolutePath)
                     }
                 }
             }
