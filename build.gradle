@@ -12,8 +12,10 @@ ext {
 configure(moduleProjects){ project ->
 
     apply plugin: "java"
+    apply plugin: "checkstyle"
     apply plugin: "maven-publish"
     apply plugin: "signing"
+    apply from: "$rootDir/gradle/checkstyle.gradle"
     apply from: "$rootDir/gradle/publications.gradle"
 
     // Java dependency configuration
