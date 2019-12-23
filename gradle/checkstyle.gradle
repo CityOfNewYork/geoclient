@@ -1,0 +1,19 @@
+project.ext {
+    checkstyleReportsDir = file("${reportsDir}/checkstyle")
+    checkstyleXslTemplate = file("${rootDir}/config/checkstyle/xsl/checkstyle-frames.xsl")
+}
+
+task prepareCheckstyleXsl(type: Copy) {
+    from(project.checkstyleXslTemplate)
+    into(project.checkstyleReportsDir)
+    filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [outputDir: project.checkstyleReportsDir.absolutePath])
+}
+
+tasks.withType(Checkstyle) {
+    dependsOn prepareCheckstyleXsl
+    reports {
+        xml.enabled false
+        html.enabled true
+        html.stylesheet resources.text.fromFile("${project.checkstyleReportsDir.absolutePath}/checkstyle-frames.xsl")
+    }
+}
