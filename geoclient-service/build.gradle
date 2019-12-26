@@ -17,14 +17,19 @@ dependencies {
     implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}")
     implementation("joda-time:joda-time")
     implementation("org.geotools:gt-referencing:${geotoolsVersion}") {
-        exclude(group: "jgridshift", module: "jgridshift")
+        exclude(group: "jgridshift", module: "jgridshift-core")
+        exclude(group: "javax.media", module: "jai_core")
     }
     implementation("org.geotools:gt-main:${geotoolsVersion}") {
         exclude(module: "xerces")
-        exclude(group: "jgridshift", module: "jgridshift")
+        exclude(group: "jgridshift", module: "jgridshift-core")
+        exclude(group: "javax.media", module: "jai_core")
+        exclude(group: "com.fasterxml.jackson.core", module: "jackson-core")
+        exclude(group: "org.jdom", module: "jdom2")
     }
     implementation("org.geotools:gt-epsg-wkt:${geotoolsVersion}") {
-        exclude(group: "jgridshift", module: "jgridshift")
+        exclude(group: "jgridshift", module: "jgridshift-core")
+        exclude(group: "javax.media", module: "jai_core")
     }
     testImplementation("org.apache.httpcomponents:httpclient:${httpclient}")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:2.2.2.RELEASE")

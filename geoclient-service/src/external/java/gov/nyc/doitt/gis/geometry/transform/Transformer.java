@@ -25,7 +25,6 @@ import gov.nyc.doitt.gis.geometry.domain.MapPoint;
  */
 public interface Transformer {
 
-	MapPoint transform(double x, double y)
-			throws CoordinateTranformationException;
+    MapPoint transform(double x, double y) throws CoordinateTranformationException;
 
 }

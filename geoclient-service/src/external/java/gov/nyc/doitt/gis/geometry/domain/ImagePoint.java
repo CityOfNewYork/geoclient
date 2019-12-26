@@ -24,13 +24,13 @@ package gov.nyc.doitt.gis.geometry.domain;
  */
 public class ImagePoint extends PointImpl {
 
-	public ImagePoint() {
-		super();
-		setUnits(PIXELS);
-	}
+    public ImagePoint() {
+        super();
+        setUnits(PIXELS);
+    }
 
-	public ImagePoint(double x, double y) {
-		super(x, y);
-		setUnits(PIXELS);
-	}
+    public ImagePoint(double x, double y) {
+        super(x, y);
+        setUnits(PIXELS);
+    }
 }

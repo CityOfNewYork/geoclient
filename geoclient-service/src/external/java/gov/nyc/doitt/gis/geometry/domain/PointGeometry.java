@@ -19,31 +19,30 @@ import java.util.Collection;
 import java.util.Collections;
 
 public class PointGeometry extends GeometryImpl {
-	private DoittPoint point;
+    private DoittPoint point;
 
-	public PointGeometry() {
-	}
+    public PointGeometry() {
+    }
 
-	public PointGeometry(DoittPoint point) {
-		this.point = point;
-	}
+    public PointGeometry(DoittPoint point) {
+        this.point = point;
+    }
 
-	public DoittPoint getPoint() {
-		return point;
-	}
+    public DoittPoint getPoint() {
+        return point;
+    }
 
-	public void setPoint(DoittPoint point) {
-		this.point = point;
-	}
+    public void setPoint(DoittPoint point) {
+        this.point = point;
+    }
 
-	@Override
-	public Collection<DoittPoint> getAllPoints() {
-		return Collections.singleton(point);
-	}
-	
-	@Override
-    public int hashCode()
-    {
+    @Override
+    public Collection<DoittPoint> getAllPoints() {
+        return Collections.singleton(point);
+    }
+
+    @Override
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((point == null) ? 0 : point.hashCode());
@@ -51,8 +50,7 @@ public class PointGeometry extends GeometryImpl {
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -60,14 +58,12 @@ public class PointGeometry extends GeometryImpl {
         if (getClass() != obj.getClass())
             return false;
         PointGeometry other = (PointGeometry) obj;
-        if (point == null)
-        {
+        if (point == null) {
             if (other.point != null)
                 return false;
         } else if (!point.equals(other.point))
             return false;
         return true;
     }
-	
-	
+
 }

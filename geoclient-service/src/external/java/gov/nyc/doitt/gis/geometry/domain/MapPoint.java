@@ -15,7 +15,6 @@
  */
 package gov.nyc.doitt.gis.geometry.domain;
 
-
 /**
  * The MapPoint is an extension of PointImpl for a point specifed in map
  * coordinates (also known as database coordinates).
@@ -25,11 +24,11 @@ package gov.nyc.doitt.gis.geometry.domain;
  */
 public class MapPoint extends PointImpl {
 
-	public MapPoint() {
-		super();
-	}
+    public MapPoint() {
+        super();
+    }
 
-	public MapPoint(double x, double y) {
-		super(x, y);
-	}
+    public MapPoint(double x, double y) {
+        super(x, y);
+    }
 }

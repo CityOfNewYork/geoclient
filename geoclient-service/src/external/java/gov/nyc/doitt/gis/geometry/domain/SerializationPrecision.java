@@ -18,42 +18,41 @@ package gov.nyc.doitt.gis.geometry.domain;
 import java.text.DecimalFormat;
 
 public abstract class SerializationPrecision implements Units {
-	private static final DecimalFormat FORMATTER = new DecimalFormat();
-	private int units = FEET;
-	
-	public int getUnits() {
-		return units;
-	}
+    private static final DecimalFormat FORMATTER = new DecimalFormat();
+    private int units = FEET;
 
-	public void setUnits(int units) {
-		this.units = units;
-	}
+    public int getUnits() {
+        return units;
+    }
 
-	public int getDecimalPlaces(){
-		switch (units) {
-		case PIXELS:
-			return 0;
-		case FEET:
-			return 1;
-		case METERS:
-			return 2;
-		case DECIMAL_DEGREES:
-			return 4;
-		default:
-			return 4;
-		}
-	}
-	
-	public Double getValueWithPrecision(Double value){
-		FORMATTER.setMinimumFractionDigits(0);
-		FORMATTER.setMaximumFractionDigits(getDecimalPlaces());
-		FORMATTER.setGroupingUsed(false);
-		return new Double(FORMATTER.format(value));
-	}
+    public void setUnits(int units) {
+        this.units = units;
+    }
+
+    public int getDecimalPlaces() {
+        switch (units) {
+        case PIXELS:
+            return 0;
+        case FEET:
+            return 1;
+        case METERS:
+            return 2;
+        case DECIMAL_DEGREES:
+            return 4;
+        default:
+            return 4;
+        }
+    }
+
+    public Double getValueWithPrecision(Double value) {
+        FORMATTER.setMinimumFractionDigits(0);
+        FORMATTER.setMaximumFractionDigits(getDecimalPlaces());
+        FORMATTER.setGroupingUsed(false);
+        return new Double(FORMATTER.format(value));
+    }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + units;
@@ -61,8 +60,7 @@ public abstract class SerializationPrecision implements Units {
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
