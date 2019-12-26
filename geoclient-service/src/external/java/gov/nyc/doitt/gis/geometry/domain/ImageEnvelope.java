@@ -25,20 +25,20 @@ package gov.nyc.doitt.gis.geometry.domain;
  * @version 1.0
  */
 public class ImageEnvelope extends EnvelopeImpl {
-	
-	public ImageEnvelope() {
-		super();
-		setUnits(PIXELS);
-	}
 
-	public ImageEnvelope(double minX, double minY, double maxX, double maxY) {
-		super(minX, minY, maxX, maxY);
-		setUnits(PIXELS);
-	}
+    public ImageEnvelope() {
+        super();
+        setUnits(PIXELS);
+    }
 
-	@Override
-	public DoittPoint getPoint(double x, double y) {
-		return new ImagePoint(x, y);
-	}
+    public ImageEnvelope(double minX, double minY, double maxX, double maxY) {
+        super(minX, minY, maxX, maxY);
+        setUnits(PIXELS);
+    }
+
+    @Override
+    public DoittPoint getPoint(double x, double y) {
+        return new ImagePoint(x, y);
+    }
 
 }

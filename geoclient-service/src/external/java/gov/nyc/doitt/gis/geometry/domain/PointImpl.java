@@ -23,109 +23,107 @@ package gov.nyc.doitt.gis.geometry.domain;
  */
 public abstract class PointImpl extends SerializationPrecision implements DoittPoint {
 
-	private double x;
-	private double y;
+    private double x;
+    private double y;
 
-	public PointImpl() {
-	}
+    public PointImpl() {
+    }
 
-	/**
-	 * Constructs a new point with the specified coordinates.
-	 * 
-	 * @param x
-	 *            The x coordinate of the point.
-	 * @param y
-	 *            The y coordinate of the point.
-	 */
-	public PointImpl(double x, double y) {
-		this.x = x;
-		this.y = y;
-	}
+    /**
+     * Constructs a new point with the specified coordinates.
+     * 
+     * @param x The x coordinate of the point.
+     * @param y The y coordinate of the point.
+     */
+    public PointImpl(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 
-	public final double getX() {
-		return x;
-	}
+    public final double getX() {
+        return x;
+    }
 
-	public final double getY() {
-		return y;
-	}
+    public final double getY() {
+        return y;
+    }
 
-	public final void setX(double x) {
-		this.x = x;
-	}
+    public final void setX(double x) {
+        this.x = x;
+    }
 
-	public final void setY(double y) {
-		this.y = y;
-	}
-	
-	public boolean isValid() {
-		return x > 0 && y > 0;
-	}
+    public final void setY(double y) {
+        this.y = y;
+    }
 
-	private int compare(double d1, double d2) {
-		if (d1 < d2)
-			return -1;
+    public boolean isValid() {
+        return x > 0 && y > 0;
+    }
 
-		if (d1 > d2)
-			return 1;
+    private int compare(double d1, double d2) {
+        if (d1 < d2)
+            return -1;
 
-		return 0;
-	}
+        if (d1 > d2)
+            return 1;
 
-	public int compareTo(DoittPoint point) {
-		if (point == null) {
-			return -1;
-		}
-		
-		double pointX = point.getX();
-		double pointY = point.getY();
-		
-		int result = compare(x, pointX);
+        return 0;
+    }
 
-		if (result == 0) {
-			result = compare(y, pointY);
-		}
+    public int compareTo(DoittPoint point) {
+        if (point == null) {
+            return -1;
+        }
 
-		return result;
-	}
-	
-	public int hashCode() {
-		return 37 * new Double(1 + x).intValue() / new Double(1 + y).intValue();
-	}
-	
-	public boolean equals(Object o) {
-		if (o == null) {
-			return false;
-		}
-		
-		if (o == this)
-			return true;
+        double pointX = point.getX();
+        double pointY = point.getY();
 
-		if (!(o.getClass().equals(this.getClass()))) {
-			return false;
-		}
+        int result = compare(x, pointX);
 
-		PointImpl other = (PointImpl) o;
+        if (result == 0) {
+            result = compare(y, pointY);
+        }
 
-		return x == other.x && y == other.y;
-	}
+        return result;
+    }
 
-	@Override
-	public Object clone() {
-		Object clone = null;
-		try {
-			clone = super.clone();
-		} catch (CloneNotSupportedException e) {
-			// ignore, clone is supported
-		}
-		PointImpl point = (PointImpl) clone;
-		point.setX(getX());
-		point.setY(getY());
-		return point;
-	}
+    public int hashCode() {
+        return 37 * new Double(1 + x).intValue() / new Double(1 + y).intValue();
+    }
 
-	@Override
-	public String toString() {
-		return getClass().getName() + ": " + x + ", " + y;
-	}
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+
+        if (o == this)
+            return true;
+
+        if (!(o.getClass().equals(this.getClass()))) {
+            return false;
+        }
+
+        PointImpl other = (PointImpl) o;
+
+        return x == other.x && y == other.y;
+    }
+
+    @Override
+    public Object clone() {
+        Object clone = null;
+        try {
+            clone = super.clone();
+        } catch (CloneNotSupportedException e) {
+            // ignore, clone is supported
+        }
+        PointImpl point = (PointImpl) clone;
+        point.setX(getX());
+        point.setY(getY());
+        return point;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getName() + ": " + x + ", " + y;
+    }
 }

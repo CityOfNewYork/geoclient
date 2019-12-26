@@ -21,201 +21,197 @@ import java.util.Collection;
 import gov.nyc.doitt.gis.geometry.util.EnvelopeUtil;
 
 public abstract class EnvelopeImpl extends GeometryImpl implements DoittEnvelope {
-	private DoittPoint lowerLeft;
-	private DoittPoint upperRight;
+    private DoittPoint lowerLeft;
+    private DoittPoint upperRight;
 
-	public EnvelopeImpl() {
-		setLowerLeft(getPoint(0,0));
-		setUpperRight(getPoint(0,0));
-	}
+    public EnvelopeImpl() {
+        setLowerLeft(getPoint(0, 0));
+        setUpperRight(getPoint(0, 0));
+    }
 
-	/**
-	 * Constructs an envelope with the specified coordinates.
-	 * 
-	 * @param minX
-	 *            The minimum x coordinate of the envelope.
-	 * @param minY
-	 *            The minimum y coordinate of the envelope.
-	 * @param maxX
-	 *            The maximum x coordinate of the envelope.
-	 * @param maxY
-	 *            The maximum y coordinate of the envelope.
-	 */
-	public EnvelopeImpl(double minX, double minY, double maxX, double maxY) {
-		setLowerLeft(getPoint(minX, minY));
-		setUpperRight(getPoint(maxX, maxY));
-	}
+    /**
+     * Constructs an envelope with the specified coordinates.
+     * 
+     * @param minX The minimum x coordinate of the envelope.
+     * @param minY The minimum y coordinate of the envelope.
+     * @param maxX The maximum x coordinate of the envelope.
+     * @param maxY The maximum y coordinate of the envelope.
+     */
+    public EnvelopeImpl(double minX, double minY, double maxX, double maxY) {
+        setLowerLeft(getPoint(minX, minY));
+        setUpperRight(getPoint(maxX, maxY));
+    }
 
-	public abstract DoittPoint getPoint(double x, double y);
+    public abstract DoittPoint getPoint(double x, double y);
 
-	@Override
-	public Collection<DoittPoint> getAllPoints(){
-		DoittPoint upperLeft = (DoittPoint)upperRight.clone();
-		upperLeft.setX(upperLeft.getX() - getWidth());
-		DoittPoint lowerRight = (DoittPoint)lowerLeft.clone();
-		lowerRight.setX(lowerLeft.getX() + getWidth());
-		Collection<DoittPoint> result = new ArrayList<DoittPoint>(4);
-		result.add(lowerLeft);
-		result.add(upperRight);
-		result.add(upperLeft);
-		result.add(lowerRight);
-		return result;
-	}
-	
-	public void setCenter(DoittPoint center) {
-		double currentWidth = getWidth();
-		double currentHeight = getHeight();
+    @Override
+    public Collection<DoittPoint> getAllPoints() {
+        DoittPoint upperLeft = (DoittPoint) upperRight.clone();
+        upperLeft.setX(upperLeft.getX() - getWidth());
+        DoittPoint lowerRight = (DoittPoint) lowerLeft.clone();
+        lowerRight.setX(lowerLeft.getX() + getWidth());
+        Collection<DoittPoint> result = new ArrayList<DoittPoint>(4);
+        result.add(lowerLeft);
+        result.add(upperRight);
+        result.add(upperLeft);
+        result.add(lowerRight);
+        return result;
+    }
 
-		double halfCurrentWidth = currentWidth / 2;
-		double halfCurrentHeight = currentHeight / 2;
-		
-		double centerX = center.getX();
-		double centerY = center.getY();
+    public void setCenter(DoittPoint center) {
+        double currentWidth = getWidth();
+        double currentHeight = getHeight();
 
-		lowerLeft.setX(centerX - halfCurrentWidth);
-		lowerLeft.setY(centerY - halfCurrentHeight);
+        double halfCurrentWidth = currentWidth / 2;
+        double halfCurrentHeight = currentHeight / 2;
 
-		upperRight.setX(centerX + halfCurrentWidth);
-		upperRight.setY(centerY + halfCurrentHeight);
-	}
+        double centerX = center.getX();
+        double centerY = center.getY();
 
-	public final double getHeight() {
-		return upperRight.getY() - lowerLeft.getY();
-	}
+        lowerLeft.setX(centerX - halfCurrentWidth);
+        lowerLeft.setY(centerY - halfCurrentHeight);
 
-	public Object clone() {
-		Object clone = null;
-		try {
-			clone = super.clone();
-		} catch (CloneNotSupportedException e) {
-			// ignore, clone is supported
-		}
-		EnvelopeImpl env = (EnvelopeImpl) clone;
-		env.setLowerLeft((DoittPoint)getLowerLeft().clone());
-		env.setUpperRight((DoittPoint)getUpperRight().clone());
-		return env;
-	}
+        upperRight.setX(centerX + halfCurrentWidth);
+        upperRight.setY(centerY + halfCurrentHeight);
+    }
 
-	public int hashCode() {
-		int hashCodeFactor = 37;
-		int hashCode = 0;
-		if (getLowerLeft() != null) {
-			hashCode =  getLowerLeft().hashCode();
-		}
-		if (getUpperRight() != null) {
-			hashCode += getUpperRight().hashCode();
-		}
-		return hashCodeFactor * hashCode;
-	}
+    public final double getHeight() {
+        return upperRight.getY() - lowerLeft.getY();
+    }
 
-	public String toString() {
-		return getClass().getName() + ": " + lowerLeft.toString() + ", " + upperRight.toString();
-	}
+    public Object clone() {
+        Object clone = null;
+        try {
+            clone = super.clone();
+        } catch (CloneNotSupportedException e) {
+            // ignore, clone is supported
+        }
+        EnvelopeImpl env = (EnvelopeImpl) clone;
+        env.setLowerLeft((DoittPoint) getLowerLeft().clone());
+        env.setUpperRight((DoittPoint) getUpperRight().clone());
+        return env;
+    }
 
-	public final DoittPoint getLowerLeft() {
-		return lowerLeft;
-	}
+    public int hashCode() {
+        int hashCodeFactor = 37;
+        int hashCode = 0;
+        if (getLowerLeft() != null) {
+            hashCode = getLowerLeft().hashCode();
+        }
+        if (getUpperRight() != null) {
+            hashCode += getUpperRight().hashCode();
+        }
+        return hashCodeFactor * hashCode;
+    }
 
-	public final double getMaxX() {
-		return upperRight.getX();
-	}
+    public String toString() {
+        return getClass().getName() + ": " + lowerLeft.toString() + ", " + upperRight.toString();
+    }
 
-	public final double getMaxY() {
-		return upperRight.getY();
-	}
+    public final DoittPoint getLowerLeft() {
+        return lowerLeft;
+    }
 
-	public final double getMinX() {
-		return lowerLeft.getX();
-	}
+    public final double getMaxX() {
+        return upperRight.getX();
+    }
 
-	public final double getMinY() {
-		return lowerLeft.getY();
-	}
+    public final double getMaxY() {
+        return upperRight.getY();
+    }
 
-	public final DoittPoint getUpperRight() {
-		return upperRight;
-	}
+    public final double getMinX() {
+        return lowerLeft.getX();
+    }
 
-	public final double getWidth() {
-		return upperRight.getX() - lowerLeft.getX();
-	}
+    public final double getMinY() {
+        return lowerLeft.getY();
+    }
 
-	public final void setLowerLeft(DoittPoint lowerLeft) {
-		this.lowerLeft = lowerLeft;
-	}
+    public final DoittPoint getUpperRight() {
+        return upperRight;
+    }
 
-	public final void setMaxX(double maxX) {
-		upperRight.setX(maxX);
-	}
+    public final double getWidth() {
+        return upperRight.getX() - lowerLeft.getX();
+    }
 
-	public final void setMaxY(double maxY) {
-		upperRight.setY(maxY);
-	}
+    public final void setLowerLeft(DoittPoint lowerLeft) {
+        this.lowerLeft = lowerLeft;
+    }
 
-	public final void setMinX(double minX) {
-		lowerLeft.setX(minX);
-	}
+    public final void setMaxX(double maxX) {
+        upperRight.setX(maxX);
+    }
 
-	public final void setMinY(double minY) {
-		lowerLeft.setY(minY);
-	}
+    public final void setMaxY(double maxY) {
+        upperRight.setY(maxY);
+    }
 
-	public final void setUpperRight(DoittPoint upperRight) {
-		this.upperRight = upperRight;
-	}
-	
-	public final boolean isValid() {
-		return getLowerLeft().isValid() && getUpperRight().isValid();
-	}
-	
-	public boolean equals(Object o) {
-		if (o == null) {
-			return false;
-		}
-		
-		if (o == this) {
-			return true;
-		}
-		
-		if (!(this.getClass().equals(o.getClass())))
-			return false;
+    public final void setMinX(double minX) {
+        lowerLeft.setX(minX);
+    }
 
-		EnvelopeImpl other = (EnvelopeImpl) o;
+    public final void setMinY(double minY) {
+        lowerLeft.setY(minY);
+    }
 
-		boolean isLowerLeftEqual;
-		
-		if (getLowerLeft() == null && other.getLowerLeft() == null) {
-			isLowerLeftEqual = true;
-		} else if (getLowerLeft() == null || other.getLowerLeft() == null) {
-			isLowerLeftEqual = false;
-		} else {
-			isLowerLeftEqual = getLowerLeft().equals(other.getLowerLeft());
-		}
-		
-		if (!isLowerLeftEqual) {
-			return false;
-		}
-		
-		boolean isUpperRightEqual;
-		if (getUpperRight() == null && other.getUpperRight() == null) {
-			isUpperRightEqual = true;
-		} else if (getUpperRight() == null || other.getUpperRight() == null) {
-			isUpperRightEqual = false;
-		} else {
-			isUpperRightEqual = getUpperRight().equals(other.getUpperRight());
-		}
-		
-		return isUpperRightEqual;
-	}
-	
-	static void updateEnvelope(DoittEnvelope template, DoittEnvelope e) {
-		e.setMinX(template.getMinX());
-		e.setMinY(template.getMinY());
-		e.setMaxX(template.getMaxX());
-		e.setMaxY(template.getMaxY());
-	}
+    public final void setUpperRight(DoittPoint upperRight) {
+        this.upperRight = upperRight;
+    }
 
-	public boolean contains(Geometry geometry) {
-		return EnvelopeUtil.contains(this, geometry);
-	}
+    public final boolean isValid() {
+        return getLowerLeft().isValid() && getUpperRight().isValid();
+    }
+
+    public boolean equals(Object o) {
+        if (o == null) {
+            return false;
+        }
+
+        if (o == this) {
+            return true;
+        }
+
+        if (!(this.getClass().equals(o.getClass())))
+            return false;
+
+        EnvelopeImpl other = (EnvelopeImpl) o;
+
+        boolean isLowerLeftEqual;
+
+        if (getLowerLeft() == null && other.getLowerLeft() == null) {
+            isLowerLeftEqual = true;
+        } else if (getLowerLeft() == null || other.getLowerLeft() == null) {
+            isLowerLeftEqual = false;
+        } else {
+            isLowerLeftEqual = getLowerLeft().equals(other.getLowerLeft());
+        }
+
+        if (!isLowerLeftEqual) {
+            return false;
+        }
+
+        boolean isUpperRightEqual;
+        if (getUpperRight() == null && other.getUpperRight() == null) {
+            isUpperRightEqual = true;
+        } else if (getUpperRight() == null || other.getUpperRight() == null) {
+            isUpperRightEqual = false;
+        } else {
+            isUpperRightEqual = getUpperRight().equals(other.getUpperRight());
+        }
+
+        return isUpperRightEqual;
+    }
+
+    static void updateEnvelope(DoittEnvelope template, DoittEnvelope e) {
+        e.setMinX(template.getMinX());
+        e.setMinY(template.getMinY());
+        e.setMaxX(template.getMaxX());
+        e.setMaxY(template.getMaxY());
+    }
+
+    public boolean contains(Geometry geometry) {
+        return EnvelopeUtil.contains(this, geometry);
+    }
 }

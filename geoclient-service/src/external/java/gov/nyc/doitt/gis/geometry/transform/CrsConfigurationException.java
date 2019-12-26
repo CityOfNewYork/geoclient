@@ -24,14 +24,14 @@ package gov.nyc.doitt.gis.geometry.transform;
  */
 public class CrsConfigurationException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public CrsConfigurationException(String message) {
-		super(message);
-	}
+    public CrsConfigurationException(String message) {
+        super(message);
+    }
 
-	public CrsConfigurationException(String message, Throwable cause) {
-		super(message, cause);
-	}
+    public CrsConfigurationException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
 }
