@@ -1,6 +1,5 @@
 // Java plugin is applied in the parent build
 plugins {
-    id 'groovy'
     id 'c'
 }
 
@@ -76,12 +75,7 @@ model {
         all {
             // Compiler/linker customizations
             binaries.all {
-                //if (targetPlatform.operatingSystem.name in ['linux', 'freebsd'] && targetPlatform.architecture != arch) {
-                //    // Native plugins don't detect whether multilib support is available or not. Assume not for now
-                //    buildable = false
-                //}
                 if (targetPlatform.operatingSystem.linux && toolChain in Gcc) {
-                //if (targetPlatform.operatingSystem.linux && toolChain in Gcc) {
                     cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include"
                     cCompiler.args "-I${org.gradle.internal.jvm.Jvm.current().javaHome}/include/linux"
                     cCompiler.args "-o0", "-g3", "-Wall", "-std=c99"
@@ -102,7 +96,7 @@ model {
             }
 
             // When building our project's shared libraries on Windows, insure
-            // that we enable the Microsoft macros to export pur dlls
+            // that we enable the Microsoft macros to export our dlls
             binaries.withType(SharedLibraryBinarySpec) { binary ->
                 logger.info("Configuring ${displayName}")
                 if(targetPlatform.operatingSystem == "windows") {
