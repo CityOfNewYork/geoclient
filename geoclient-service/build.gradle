@@ -12,7 +12,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-validation")
-    implementation("org.springframework.boot:spring-boot-devtools")
+    //implementation("org.springframework.boot:spring-boot-devtools")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework:spring-oxm") { exclude(module: "commons-lang") }
     implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}")
     implementation("joda-time:joda-time")
@@ -47,11 +48,18 @@ sourceSets {
     }
 }
 
+ext {
+    String rundir = "${buildDir}/boot-run"
+    bootRunDir = rundir
+}
+
 processResources {
-  from(sourceSets.main.resources) {
-    include "version.properties"
-    filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: project.version])
-  }
+    dependsOn(props)
+    from(sourceSets.main.resources) {
+        include 'version.properties'
+        include 'application.yml'
+        filter(org.apache.tools.ant.filters.ReplaceTokens, tokens: [version: project.version, bootRunDir: project.bootRunDir])
+    }
 }
 
 tasks.withType(Javadoc) {
