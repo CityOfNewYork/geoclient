@@ -54,7 +54,6 @@ ext {
 }
 
 processResources {
-    dependsOn(props)
     from(sourceSets.main.resources) {
         include 'version.properties'
         include 'application.yml'
