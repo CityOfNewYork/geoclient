@@ -17,7 +17,8 @@ package gov.nyc.doitt.gis.geoclient.parser.regex;
 
 import java.util.Collection;
 
-import org.springframework.util.Assert;
+import gov.nyc.doitt.gis.geoclient.parser.util.Assert;
+
 
 
 public class PatternUtils

@@ -18,29 +18,34 @@ package gov.nyc.doitt.gis.geoclient.parser.regex;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.util.Assert;
-
 import gov.nyc.doitt.gis.geoclient.parser.ParseContext;
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
+import gov.nyc.doitt.gis.geoclient.parser.util.Assert;
 
-public class UnrecognizedTextParser extends AbstractRegexParser
-{
-	private final Pattern ANYTHING = Pattern.compile("(.*)");
+/**
+ * Always matches zero or more characters in the current {@link Chunk} and marks
+ * the {@link TokenType} and {@link ChunkType} as unrecogized.
+ * 
+ * @see TokenType#UNRECOGNIZED
+ * @see ChunkType#UNRECOGNIZED
+ * 
+ * @author mlipper
+ * @since 2.0
+ */
+public class UnrecognizedTextParser extends AbstractRegexParser {
+    private final Pattern ANYTHING = Pattern.compile("(.*)");
 
-	@Override
-	public void parse(ParseContext parseContext)
-	{
-		Chunk currentChunk = parseContext.getCurrent();
-		Matcher matcher = ANYTHING.matcher(currentChunk.getText());
-		Assert.isTrue(matcher.matches(), String.format("Pattern %s should match any input but it doesn't match '%s'",ANYTHING.pattern(),currentChunk.getText()));
-		MatchBuilder builder = new MatchBuilder()
-			.add(matcher)
-			.add(MatchType.COMPLETE)
-			.add(parseContext)
-			.add(ANYTHING,1,TokenType.UNRECOGNIZED);
-		handleMatch(builder.build(), ChunkType.UNRECOGNIZED);
-	}
+    @Override
+    public void parse(ParseContext parseContext) {
+        Chunk currentChunk = parseContext.getCurrent();
+        Matcher matcher = ANYTHING.matcher(currentChunk.getText());
+        Assert.isTrue(matcher.matches(), String.format("Pattern %s should match any input but it doesn't match '%s'",
+                ANYTHING.pattern(), currentChunk.getText()));
+        MatchBuilder builder = new MatchBuilder().add(matcher).add(MatchType.COMPLETE).add(parseContext).add(ANYTHING,
+                1, TokenType.UNRECOGNIZED);
+        handleMatch(builder.build(), ChunkType.UNRECOGNIZED);
+    }
 
 }
