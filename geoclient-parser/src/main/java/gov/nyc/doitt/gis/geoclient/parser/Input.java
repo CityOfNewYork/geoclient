@@ -16,8 +16,8 @@
 package gov.nyc.doitt.gis.geoclient.parser;
 
 import gov.nyc.doitt.gis.geoclient.parser.token.TextUtils;
+import gov.nyc.doitt.gis.geoclient.parser.util.Assert;
 
-import org.springframework.util.Assert;
 
 /**
  * @author mlipper
