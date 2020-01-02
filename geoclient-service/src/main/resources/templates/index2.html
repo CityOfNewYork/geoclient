@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Geoclient # | geoclient</title>
+<meta name="generator" content="Jekyll v3.8.5">
+<meta property="og:title" content="Geoclient #">
+<meta property="og:locale" content="en_US">
+<meta name="description" content="Geoclient geocoder">
+<meta property="og:description" content="Geoclient geocoder">
+<link rel="canonical" href="http://cityofnewyork.github.io/geoclient/">
+<meta property="og:url" content="http://cityofnewyork.github.io/geoclient/">
+<meta property="og:site_name" content="geoclient">
+<script type="application/ld+json">
+{"@type":"WebSite","url":"http://cityofnewyork.github.io/geoclient/","name":"geoclient","headline":"Geoclient #","description":"Geoclient geocoder","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">geoclient</h1>
+        <p class="header">Geoclient geocoder</p>
+        <ul>
+          <li><a class="buttons github" href="https://github.com/CityOfNewYork/geoclient">View On GitHub</a></li>
+        </ul>
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/CityOfNewYork">CityOfNewYork</a></p>
+      </header>
+
+      <section>
+        <h1 id="geoclient">Geoclient</h1>
+
+<p><strong>Geoclient</strong> is software which provides developer-friendly API’s for calling the <em>Geosupport</em> application. Geosupport
+is the City of New York’s official geocoder of record, written and maintained by the
+Department of City Planning. <strong>Geoclient</strong> is maintained by the DoITT/Citywide GIS group.</p>
+
+<ul>
+  <li>
+    <p>Geoclient provides local and remote client API’s for calling the City’s official geocoder. Geoclient is designed to simplify programmatic access to this geocoder from modern local and remote platforms</p>
+  </li>
+  <li>
+    <p>Although Geoclient is already available to the public as a free RESTful service (sign up at the <a href="https://developer.cityofnewyork.us/">New York City Developer Portal</a>), by releasing the source code under the Apache 2.0 license, “power users” of the API can run the application on their own servers and not worry about resource limits</p>
+  </li>
+  <li>
+    <p>In the coming weeks, we will be releasing version 2.0 of the Geoclient API. Development will take place, here, on GitHub.</p>
+  </li>
+  <li>
+    <p>If you are a developer looking to build from source, please see the Building section  below.</p>
+  </li>
+  <li>
+    <p>A new approach to generated documentation for Geoclient v2.0 is under active development. The most comprehensive project documentation is available for the currently deployed <a href="https://api.cityofnewyork.us/geoclient/v1/doc">Geoclient API v1</a>.</p>
+  </li>
+</ul>
+
+<blockquote>
+  <p><strong>NOTE:</strong> Before you read more about Geoclient, it is important to be aware of the difference between Geo<em>client</em> (this project) and Geo<em>support</em>. Geoclient is basically just a proxy API for accessing the Geosupport application which is the actual Geocoder and data repository. The former is like a JDBC/ODBC/DBI/etc. driver, whereas the latter is the database itself (<em>with application logic</em>, in this case).</p>
+</blockquote>
+
+<h3 id="news">News</h3>
+
+<p><em>2016/06/29</em></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">master</code> branch has been updated with some important build fixes.</p>
+
+<blockquote>
+  <p><strong>CAUTION:</strong></p>
+
+  <p>The Geoclient v1.0 codebase is being actively re-organized for v2.0. Please consider the <code class="language-plaintext highlighter-rouge">dev</code> branch as <strong>unstable and subject to rebase</strong>.
+For now, think about this ancient saying before relying on <code class="language-plaintext highlighter-rouge">dev</code> downstream: <em>“Fork not lest ye be vexed!”</em>. (yes, we are naughty)</p>
+</blockquote>
+
+<h3 id="documentation">Documentation</h3>
+
+<ul>
+  <li><a href="http://betanyc.us/">BetaNYC</a> <a href="https://github.com/CityOfNewYork/geoclient/blob/master/src/doc/presentations/BetaNYC-nyc-doitt-geoclient.pdf">presentation</a></li>
+  <li><a href="http://code4lib.org/">Code4LibNyc</a> <a href="https://github.com/CityOfNewYork/geoclient/blob/master/src/doc/presentations/Code4LibNYC-geoclient-overview.pdf">presentation</a></li>
+  <li><a href="http://www.meetup.com/geonyc">GeoNYC</a> <a href="https://github.com/CityOfNewYork/geoclient/blob/master/src/doc/presentations/nyc-geoclient-api.pdf">presentation</a></li>
+  <li><a href="http://www1.nyc.gov/site/doitt/index.page">DoITT</a> <a href="http://on.nyc.gov/1ZnZwEX">Press Release</a></li>
+</ul>
+
+<h3 id="installation-of-the-geoclient-service">Installation of the Geoclient Service</h3>
+
+<p>The geoclient-service subproject provides the code to run Geoclient in a Java Servlet container. If you are just looking to run Geoclient as a REST service on your own servers, this section describes the high-level concepts that you need to understand to run the provided binary distribution.</p>
+
+<h4 id="concepts">Concepts</h4>
+
+<p>The big picture:</p>
+
+<p><img src="images/deployment-landscape.png" alt="Geoclient components"></p>
+
+<p>Geoclient is written in Java and Geosupport is written in C. Java applications use the Java Native Interface (JNI) to call C applications.</p>
+
+<ul>
+  <li>
+    <p>Before you run/build Geoclient, download and extract Geosupport binaries and C header files.</p>
+  </li>
+  <li>
+    <p>Platforms</p>
+    <ul>
+      <li>Currently - Linux x86_64</li>
+      <li>Unsupported but working - Windows x86_64</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="install-geosupport">Install Geosupport</h3>
+
+<ul>
+  <li>
+    <p>Download the Linux version of Geosupport Desktop files <a href="http://www.nyc.gov/html/dcp/html/bytes/applbyte.shtml#geocoding_application">here</a></p>
+  </li>
+  <li>
+    <p><em>details in flux but coming shortly…</em></p>
+  </li>
+</ul>
+
+<h3 id="building">Building</h3>
+
+<blockquote>
+  <p>Building Geoclient from source is tricky because of the many combinations of platforms, runtimes, tools, and pre-existing Geosupport binary artifacts. If you have a choice, prefer building/running on Linux as more of the standard C/JNI conventions work as expected. It is possible to build and run Geoclient/Geosupport on 64bit Windows, but we highly recommend Linux for the best performance.</p>
+</blockquote>
+
+<h4 id="high-level-requirements">High-level Requirements</h4>
+<ul>
+  <li>64-bit Linux or Windows</li>
+  <li>64-bit Geosupport 15+</li>
+  <li>64-bit native compiler: gcc/g++ 4.3+</li>
+  <li>64-bit JDK: 1.7 or 1.8 (“Full” JDK required. JRE by itself will <em>not</em> build)</li>
+  <li>Gradle 2.14+ (pre-install not required if your build machine has Internet connectivity)</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nv">$ </span>git clone https://github.com/CityOfNewYork/geoclient
+
+<span class="nv">$ </span><span class="nb">cd </span>geoclient
+
+<span class="nv">$ </span>./gradlew build
+
+</code></pre></div></div>
+
+<p>See the <a href="http://cityofnewyork.github.io/geoclient/src/doc/BUILD.html">build documentation</a> for real details.</p>
+
+<h3 id="history">History</h3>
+
+<p>For the past 30 years, the Department of City Planning (DCP) has created and maintained the <strong>Geosupport</strong> application. <strong>Geosupport</strong> is the City’s official geocoder used by City agencies as the “lingua franca” for validation and standardization of New York City location data.</p>
+
+<p>Until recently, Geosupport existed only on internal City mainframe systems and although it was possible to access the application there, developers of client applications running on non-mainframe systems needed to know detailed information about Geosupport’s internal data structures in order to extract and parse returned location data.</p>
+
+<p>In 2013, at the request of DoITT/Citywide GIS, the programmers at DCP compiled Geosupport as a native Linux C application. This allowed for the creation of <strong>Geoclient</strong> which uses a thin layer of C and JNI to provide a lightweight in-process Java library for calling Geosupport functions. Although Geoclient is primarily written in Java, this project also provides the code for running Geoclient as a platform-neutral web service which can be accessed through a simple REST API.</p>
+
+<h3 id="geosupport-documentation">Geosupport Documentation</h3>
+
+<ul>
+  <li>The Department of City Planning’s <a href="http://nyc.gov/goat">GOAT</a> is an HTML-based front-end for calling Geosupport</li>
+  <li>The <a href="http://nyc.gov/goat/userguide.aspx">GOAT User Guide</a> is a good introductary overview to the different kinds of location data that’s available from Geosupport</li>
+</ul>
+
+<h3 id="contributing">Contributing</h3>
+
+<ul>
+  <li>The source is rife with FIXME and TODO comments. Real milestone and release plans coming soon…</li>
+</ul>
+
+<h3 id="support">Support</h3>
+
+<ul>
+  <li>Found a bug (<em>..gasp..</em>)? Please <a href="https://github.com/cityofnewyork/geoclient/issues">let us know</a></li>
+  <li>Unanswered technical questions? mlipper at doitt.nyc.gov</li>
+</ul>
+
+<h3 id="license">License</h3>
+
+<p><a href="https://github.com/CityOfNewYork/geoclient/blob/master/src/dist/license.txt">Apache 2.0</a></p>
+
+
+      </section>
+
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com/">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+
+</body>
+</html>
