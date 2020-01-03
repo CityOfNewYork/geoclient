@@ -24,7 +24,11 @@ logging:
         spring-boot:
             - "org.springframework.boot"
         thymeleaf:
-            - "ord.thymeleaf"
+            - "org.thymeleaf"
+        thymeleaf-trace:
+            - "org.thymeleaf.TemplateEngine.CONFIG"
+            - "org.thymeleaf.TemplateEngine.TIMER"
+            - "org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE"
         tomcat:
             - "org.apache.catalina, org.apache.coyote"
             - "org.apache.tomcat"
@@ -33,7 +37,8 @@ logging:
         root: "WARN"
         spring: "INFO"
         spring-boot: "INFO"
-        thymeleaf: "INFO"
+        thymeleaf: "DEBUG"
+        thymeleaf-trace: "TRACE"
         tomcat: "INFO"
         geoclient: "INFO"
         geoclient-jni: "INFO"
@@ -57,15 +62,20 @@ spring:
     profiles: bootRun
 server:
     tomcat:
-      basedir: @bootRunDir@
+      basedir: "@bootRunDir@"
       accesslog:
           directory: logs
           enabled: true
           pattern: "%t %a \"%r\" %s (%D ms)"
           prefix: access_
 logging:
+    level:
+        spring: "INFO"
+        spring-boot: "INFO"
+        thymeleaf: "DEBUG"
+        thymeleaf-trace: "TRACE"
     file:
-        name: @bootRunDir@/logs/geoclient.log
+        name: "@bootRunDir@/logs/geoclient.log"
 
 management:
     endpoints:
