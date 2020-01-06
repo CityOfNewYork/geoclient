@@ -42,12 +42,4 @@ public class RestControllerIntegrationTest {
         assertThat(result.containsKey("geosupportFunctionCode"));
         assertThat(result.get("geosupportFunctionCode").equals(FDG));
     }
-    
-    @Test
-    public void testDoc() {
-        String body = this.restTemplate.getForObject("/doc", String.class);
-        LOGGER.debug("/doc response body: {}",body);
-        assertThat(body.contains("geosupportVersion"));
-        assertThat(body.contains("geosupportRelease"));
-    }
 }

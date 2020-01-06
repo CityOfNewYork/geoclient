@@ -15,23 +15,23 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.web;
 
-import static org.junit.jupiter.api.Assertions.*;
-import gov.nyc.doitt.gis.geoclient.service.domain.BadRequest;
-import gov.nyc.doitt.gis.geoclient.service.domain.Documentation;
-import gov.nyc.doitt.gis.geoclient.service.domain.Version;
-import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpServletRequest;
-import org.springframework.ui.ModelMap;
+
+import gov.nyc.doitt.gis.geoclient.service.domain.BadRequest;
+import gov.nyc.doitt.gis.geoclient.service.domain.Version;
+import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 
 public class RestControllerTest {
     private GeosupportService geosupportServiceMock;
@@ -198,18 +198,6 @@ public class RestControllerTest {
         Version version = new Version();
         Mockito.when(this.geosupportServiceMock.version()).thenReturn(version);
         assertSame(version, this.restController.version());
-    }
-
-    @Test
-    public void testDoc() {
-        Documentation doc = new Documentation();
-        ModelMap modelMap = new ModelMap();
-        Mockito.when(this.geosupportServiceMock.getDocumentation()).thenReturn(doc);
-        Version version = new Version();
-        Mockito.when(this.geosupportServiceMock.version()).thenReturn(version);
-        assertEquals(RestController.DOC_VIEW_NAME, this.restController.doc(modelMap));
-        assertSame(version, modelMap.get("version"));
-        assertSame(doc, modelMap.get("doc"));
     }
 
     @Test

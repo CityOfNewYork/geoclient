@@ -23,6 +23,8 @@ logging:
             - "org.springframework"
         spring-boot:
             - "org.springframework.boot"
+        spring-web:
+            - "org.springframework.web"
         thymeleaf:
             - "org.thymeleaf"
         thymeleaf-trace:
@@ -37,8 +39,9 @@ logging:
         root: "WARN"
         spring: "INFO"
         spring-boot: "INFO"
-        thymeleaf: "DEBUG"
-        thymeleaf-trace: "TRACE"
+        spring-web: "INFO"
+        thymeleaf: "INFO"
+        thymeleaf-trace: "INFO"
         tomcat: "INFO"
         geoclient: "INFO"
         geoclient-jni: "INFO"
@@ -72,8 +75,10 @@ logging:
     level:
         spring: "INFO"
         spring-boot: "INFO"
+        spring-web: "DEBUG"
         thymeleaf: "DEBUG"
-        thymeleaf-trace: "TRACE"
+        #thymeleaf-trace: "TRACE"
+        gov.nyc.doitt.gis.geoclient.service.web: "DEBUG"
     file:
         name: "@bootRunDir@/logs/geoclient.log"
 

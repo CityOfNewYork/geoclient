@@ -15,13 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.web;
 
-import gov.nyc.doitt.gis.geoclient.api.InvalidStreetCodeException;
-import gov.nyc.doitt.gis.geoclient.service.domain.BadRequest;
-//import gov.nyc.doitt.gis.geoclient.service.domain.StreetNameFormat;
-import gov.nyc.doitt.gis.geoclient.service.domain.ServiceType;
-import gov.nyc.doitt.gis.geoclient.service.domain.Version;
-import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -42,6 +34,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import gov.nyc.doitt.gis.geoclient.api.InvalidStreetCodeException;
+import gov.nyc.doitt.gis.geoclient.service.domain.BadRequest;
+import gov.nyc.doitt.gis.geoclient.service.domain.ServiceType;
+import gov.nyc.doitt.gis.geoclient.service.domain.Version;
+import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 
 /**
  * Handles RESTful requests for Geosupport data.
@@ -56,7 +54,6 @@ public class RestController
     public static final String BBL_URI = "/bbl";
     public static final String BIN_URI = "/bin";
     public static final String BLOCKFACE_URI = "/blockface";
-    public static final String DOC_URI = "/doc";
     public static final String GEOSUPPORT_URI = "/geosupport";
     public static final String INTERSECTION_URI = "/intersection";
     public static final String NORMALIZE_URI= "/normalize";
@@ -69,16 +66,10 @@ public class RestController
     public static final String BBL_OBJ = ServiceType.BBL.elementName();
     public static final String BIN_OBJ = ServiceType.BIN.elementName();
     public static final String BLOCKFACE_OBJ = ServiceType.BLOCKFACE.elementName();
-    public static final String DOC_OBJ = ServiceType.DOC.elementName();
     public static final String INTERSECTION_OBJ = ServiceType.INTERSECTION.elementName();
     public static final String NORMALIZE_OBJ = ServiceType.NORMALIZE.elementName();
     public static final String PLACE_OBJ = ServiceType.PLACE.elementName();
     public static final String STREETCODE_OBJ = ServiceType.STREETCODE.elementName();
-    public static final String VERSION_OBJ = ServiceType.VERSION.elementName();
-
-    //public static final String DEFAULT_STREET_NAME_FORMAT = StreetNameFormat.SORT.elementName();
-
-    public static final String DOC_VIEW_NAME = "index";
 
     private static final Logger logger = LoggerFactory.getLogger(RestController.class);
 
@@ -137,8 +128,7 @@ public class RestController
     }
 
     @RequestMapping(value = INTERSECTION_URI, method = RequestMethod.GET)
-    public @ResponseBody
-    Map<String, Object> intersection(@RequestParam String crossStreetOne, @RequestParam String crossStreetTwo,
+    public @ResponseBody Map<String, Object> intersection(@RequestParam String crossStreetOne, @RequestParam String crossStreetTwo,
             @RequestParam String borough, @RequestParam(required = false) String boroughCrossStreetTwo,
             @RequestParam(required = false) String compassDirection)
     {
@@ -220,17 +210,8 @@ public class RestController
         return this.geosupportService.callGeosupport(params);
     }
 
-    @RequestMapping(value = DOC_URI, method = RequestMethod.GET)
-    public String doc(ModelMap modelMap)
-    {
-        modelMap.put(DOC_OBJ, this.geosupportService.getDocumentation());
-        modelMap.put(VERSION_OBJ, this.geosupportService.version());
-        return DOC_VIEW_NAME;
-    }
-
     @RequestMapping(value = VERSION_URI, method = RequestMethod.GET)
-    public @ResponseBody
-    Version version()
+    public @ResponseBody Version version()
     {
         return this.geosupportService.version();
     }
