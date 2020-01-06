@@ -28,8 +28,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
 import com.github.dozermapper.core.DozerBeanMapperBuilder;
-//import com.github.dozermapper.core.DozerBeanMapperBuilder;
-//import com.github.dozermapper.core.Mapper;
 import com.thoughtworks.xstream.converters.ConverterMatcher;
 
 import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;

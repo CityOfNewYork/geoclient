@@ -28,12 +28,12 @@ public class ViewHelper
 	{
 		return String.format("%s - %s (Function %s)", sectionNumber(section, subsection), functionDocumentation.getDisplayName(),functionDocumentation.getId());
 	}
-	
+
 	public String sectionAnchor(int section, int subsection)
 	{
 		return String.format("section-%s", sectionNumber(section, subsection));
 	}
-	
+
 	public String sectionNumber(int section, int subsection)
 	{
 		return String.format("%d.%d", section, subsection);
@@ -47,37 +47,37 @@ public class ViewHelper
 	  }
 		return String.format("#%s",id);
 	}
-	
+
 	public String href(ItemDocumentation itemDocumentation)
 	{
 		return href(itemAnchor(itemDocumentation));
 	}
-	
+
 	public String href(ItemDocumentationSupport ids)
 	{
 		return href(ids.getItemDocumentation());
 	}
-	
+
 	public String itemAnchor(ItemDocumentation itemDocumentation)
 	{
 		return String.format("item-%s", itemDocumentation.getId());
 	}
-	
-	public String memberText(GroupDocumentation g, GroupMember m) 
+
+	public String memberText(GroupDocumentation g, GroupMember m)
 	{
 		StringBuffer sb = new StringBuffer(m.getId());
-		
+
 		if(!m.isSizeIndicator())
 		{
 			// Not the size indicator so add 1..max
 			sb.append("1 to " + g.getMax());
 		}
-		
+
 		return sb.toString();
 	}
-	
+
 	public String summarize(BaseDocumentation doc, int length, String elideText)
-	{	
+	{
 		StringBuffer summary = new StringBuffer(doc.summarize(length));
 		if(length == summary.length())
 		{
