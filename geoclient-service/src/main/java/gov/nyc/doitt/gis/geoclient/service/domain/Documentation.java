@@ -56,7 +56,7 @@ public class Documentation
 	{
 		return !applicableFunctions(itemDocumentation).isEmpty();
 	}
-	
+
 	public List<String> applicableFunctions(ItemDocumentation itemDocumentation)
 	{
 		List<String> result = new ArrayList<String>();

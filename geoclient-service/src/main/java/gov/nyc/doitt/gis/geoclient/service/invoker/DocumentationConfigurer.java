@@ -47,7 +47,7 @@ public class DocumentationConfigurer
 		configurePlaceDocumentation(documentation);
 		return documentation;
 	}
-	
+
 	private void configureDataDictionary(Documentation documentation)
 	{
 		DataDictionary dataDictionary = this.geosupportConfig.getDataDictionary();
@@ -62,15 +62,15 @@ public class DocumentationConfigurer
 		addLatLong(addressDocumentation);
 		documentation.setAddressDocumentation(addressDocumentation);
 	}
-	
+
 	private void configureBblDocumentation(Documentation documentation)
 	{
 		FunctionDocumentation bblDocumentation = this.geosupportConfig.getFunctionDocumentation(Function.FBL);
 		bblDocumentation.setDisplayName(Documentation.BBL_FUNCTION);
 		addLatLong(bblDocumentation);
-		documentation.setBblDocumentation(bblDocumentation);		
+		documentation.setBblDocumentation(bblDocumentation);
 	}
-	
+
 	private void configureBinDocumentation(Documentation documentation)
 	{
 		FunctionDocumentation binDocumentation = this.geosupportConfig.getFunctionDocumentation(Function.FBN);
@@ -78,14 +78,14 @@ public class DocumentationConfigurer
 		addLatLong(binDocumentation);
 		documentation.setBinDocumentation(binDocumentation);
 	}
-	
+
 	private void configureBlockfaceDocumentation(Documentation documentation)
 	{
 		FunctionDocumentation blockfaceDocumentation = this.geosupportConfig.getFunctionDocumentation(Function.F3);
 		blockfaceDocumentation.setDisplayName(Documentation.BLOCKFACE_FUNCTION);
-		documentation.setBlockfaceDocumentation(blockfaceDocumentation);		
+		documentation.setBlockfaceDocumentation(blockfaceDocumentation);
 	}
-	
+
 	private void configureIntersectionDocumentation(Documentation documentation)
 	{
 		FunctionDocumentation intersectionDocumentation = this.geosupportConfig.getFunctionDocumentation(Function.F2);
@@ -93,7 +93,7 @@ public class DocumentationConfigurer
 		addLatLong(intersectionDocumentation);
 		documentation.setIntersectionDocumentation(intersectionDocumentation);
 	}
-	
+
 	private void configurePlaceDocumentation(Documentation documentation)
 	{
 		FunctionDocumentation placeDocumentation = new FunctionDocumentation();
@@ -106,24 +106,24 @@ public class DocumentationConfigurer
 		addLatLong(placeDocumentation);
 		documentation.setPlaceDocumentation(placeDocumentation);
 	}
-	
+
 	private void addLatLong(FunctionDocumentation functionDocumentation)
 	{
 		List<ItemDocumentation> itemDocs = this.latLongEnhancer.getItemDocumentation();
 		for (ItemDocumentation itemDocumentation : itemDocs)
 		{
-			if(appliesToFunction(functionDocumentation.getId(), itemDocumentation)) 
+			if(appliesToFunction(functionDocumentation.getId(), itemDocumentation))
 			{
 				functionDocumentation.getFields().add(itemDocumentation);
 			}
 		}
 	}
 
-	private boolean appliesToFunction(String functionId, ItemDocumentation itemDocumentation) 
+	private boolean appliesToFunction(String functionId, ItemDocumentation itemDocumentation)
 	{
 		for (String id : itemDocumentation.getFunctionNames())
 		{
-			if(functionId.equals(id)) 
+			if(functionId.equals(id))
 			{
 				return true;
 			}
@@ -131,5 +131,4 @@ public class DocumentationConfigurer
 		return false;
 	}
 
-	
 }
