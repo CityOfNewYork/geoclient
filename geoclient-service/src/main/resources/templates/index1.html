@@ -1,128 +1,151 @@
 <!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+  <title>Geoclient API</title>
+  <link rel="stylesheet" href="../../css/styles.css" th:href="@{/css/styles.css}" />
+  <link rel="stylesheet" href="../../css/pygment_trac.css" th:href="@{/css/pygment_trac.css}" />
+  <script src="../../js/scale.js" th:src="@{/js/scale.js}"></script>
+    <script src="../../js/jquery-1.10.1.js" th:src="@{/js/jquery-1.10.1.js}"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
-<html xmlns:th="http://www.thymeleaf.org">
+<style type="text/css">
+ol li {
+  padding-top: 20px;
+}
 
-    <head>
-        <title>Geoclient API</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <link rel="stylesheet" type="text/css" href="../../css/style.css" th:href="@{/css/style.css}" />
-        <script src="../../js/jquery-1.10.1.js" th:src="@{/js/jquery-1.10.1.js}"></script>
-        <script src="../../js/scale.fix.js" th:src="@{/js/scale.fix.js}"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-        <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-        <style type="text/css">
-        ol li {
-          padding-top: 20px;
-        }
-        
-        div.exampleJsonResponse, div.exampleXmlResponse {
-          display: none;
-        }
-        
-        div#geoclientVersion, div#geosupportVersion {
-          display: none;
-        }
-        
-        .headerVersion {
-          margin-bottom: 10px;
-        }
-        
-        sup {
-          vertical-align: super;
-        }
-        
-        th.httpStatusCode, td.httpStatusCode {
-          text-align: right;
-        }
-        
-        img.new {
-          border: none;
-          height: 50px;
-          width: 50px;
-          float: left;
-        }
-        </style>
-    </head>
+div.exampleJsonResponse, div.exampleXmlResponse {
+    display: none;
+}
 
-    <!--  <body th:with="vh=${@viewHelper}"> -->
-    <body>
-        <div class="wrapper">
-          <header>
-            <h1 class="header">geoclient</h1>
-            <p class="header">
-            <span>Geoclient v2</span>
-            Version <span th:text="${version.geoclientServiceVersion}">Geoclient v2</span>
-            </p>
-            <ul>
-              <li><a class="buttons github" href="https://github.com/CityOfNewYork/geoclient">View On GitHub</a></li>
-            </ul>
-            <h3 class="header">geosupport</h3>
-            <p>
-            Version <span th:text="${version.geosupportVersion.version}">Version 19.4</span><br />
-            Release <span th:text="${version.geosupportVersion.release}">Release 19D</span>
-            </p>
-          </header>
-          <section>
-              <h1 id="geoclient">Geoclient</h1>
-              <p><strong>Geoclient</strong> is software which provides developer-friendly API’s for calling the <em>Geosupport</em> application. Geosupport is the City of New York’s official geocoder of record, written and maintained by the Department of City Planning. <strong>Geoclient</strong> is maintained by the DoITT/Citywide GIS group.</p>
-              <p>Geoclient exposes select function calls to the New York City Department of City Planning's <strong>Geosupport</strong> application. The service provides:</p>
-      <table>
-        <tbody>
-          <tr>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Geosupport Function</th>
-          </tr>
-          <tr>
-            <td>Address</td>
-            <td>Given a valid address, provides blockface-level,
-              property-level, and political information.</td>
-            <td>1B</td>
-          </tr>
-          <tr>
-            <td>Address Point</td>
-            <td>TODO</td>
-            <td>AP</td>
-          </tr>
-          <tr>
-            <td>BBL</td>
-            <td>Given a valid borough, block, and lot provides
-              property-level information.</td>
-            <td>BL</td>
-          </tr>
-          <tr>
-            <td>BIN</td>
-            <td>Given a valid building identification number
-              provides property-level information.</td>
-            <td>BN</td>
-          </tr>
-          <tr>
-            <td>Blockface</td>
-            <td>Given a valid borough, "on street" and cross
-              streets provides blockface-level information.</td>
-            <td>3</td>
-          </tr>
-          <tr>
-            <td>Intersection</td>
-            <td>Given a valid borough and cross streets returns
-              information for the point defined by the two streets.</td>
-            <td>2</td>
-          </tr>
-          <tr>
-            <td>Place</td>
-            <td>Same as 'Address' above using well-known NYC place
-              name for input.</td>
-            <td>1B</td>
-          </tr>
-          <tr>
-            <td>Street Code</td>
-            <td>TODO</td>
-            <td>D,&nbsp;DG,&nbsp;and&nbsp;DN</td>
-          </tr>
-        </tbody>
-      </table>
-      <p>
+div#geoclientVersion, div#geosupportVersion {
+    display: none;
+}
+
+.headerVersion {
+  margin-bottom: 10px;
+}
+
+sup {
+  vertical-align: super;
+}
+
+th.httpStatusCode, td.httpStatusCode {
+    text-align: right;
+}
+
+img.new {
+    border: none;
+    height: 50px;
+    width: 50px;
+    float: left;
+}
+</style>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.showJsonResponse').click(function(event) {
+      $('.exampleJsonResponse').slideToggle('slow');
+      event.preventDefault();
+    });
+        $('.showXmlResponse').click(function(event) {
+            $('.exampleXmlResponse').slideToggle('slow');
+            event.preventDefault();
+        });
+        $('#showGeoclientVersion').click(function(event) {
+            $('#geosupportVersion').hide();
+            $('#geoclientVersion').slideToggle('slow');
+            event.preventDefault();
+        });
+        $('#showGeosupportVersion').click(function(event) {
+            $('#geoclientVersion').hide();
+            $('#geosupportVersion').slideToggle('slow');
+            event.preventDefault();
+        });
+  });
+</script>
+</head>
+<body th:with="vh=${@viewHelper}">
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Geoclient</h1>
+        <ul>
+          <li><a class="buttons github" href="https://github.com/CityOfNewYork/geoclient.git/">Source code</a></li>
+        </ul>
+        <p class="header">Geosupport Documentation</p>
+        <ul>
+          <li class="download"><a class="buttons" href="http://a030-goat.nyc.gov/goat/UserGuide">User Guide</a></li>
+          <li class="download"><a class="buttons" href="https://nycplanning.github.io/Geosupport-UPG/">Universal Programming Guide</a></li>
+        </ul>
+
+        <p id="showGeoclientVersion" class="header headerVersion ">
+            <a class="header name" href="#">Geoclient Version</a>
+            <div id="geoclientVersion">
+               <span th:text="|REST API v${version.geoclientServiceVersion}|">&nbsp;&nbsp;REST API v1.0.9</span><br/>
+               <span th:text="|Library v${version.geoclientVersion}|">&nbsp;&nbsp;Library v1.0.2</span><br/>
+               <span th:text="|Parser v${version.geoclientParserVersion}|">&nbsp;&nbsp;Parser v1.0</span><br/>
+               <span th:text="|Native v${version.geoclientJniVersion}|">&nbsp;&nbsp;Native v1.0.5</span>
+            </div>
+        </p>
+        <p id="showGeosupportVersion" class="header headerVersion ">
+            <a class="header name" href="#">Geosupport Version</a>
+            <div id="geosupportVersion">
+               <span th:text="|Release ${version.geosupportVersion.release}|">&nbsp;&nbsp;Release 13E</span><br/>
+               <span th:text="|Version ${version.geosupportVersion.version}|">&nbsp;&nbsp;Version 13.4</span><br/>
+            </div>
+        </p>
+<!--
+         <p class="header">This project is maintained by DoITT <a class="header name" href="http://maps.nyc.gov/doitt/nycitymap">Citywide GIS</a></p>
+ -->
+ </header>
+
+    <section>
+<h1 id="home">Geoclient API v2</h1>
+
+<p>The Geoclient application is a cloud based web service which exposes select
+function calls to the New York City Department of City Planning's <strong>Geosupport</strong>
+application. At the current time, there are six types of location requests
+that the Geoclient service provides:</p>
+
+<table>
+<tbody><tr>
+<th>Type</th>
+<th>Description</th>
+<th>Geosupport Function</th>
+</tr>
+<tr>
+<td>Address</td>
+<td>Given a valid address, provides blockface-level, property-level, and political information.</td>
+<td>1B</td>
+</tr>
+<tr>
+<td>BBL</td>
+<td>Given a valid borough, block, and lot provides property-level information.</td>
+<td>BL</td>
+</tr>
+<tr>
+<td>BIN</td>
+<td>Given a valid building identification number provides property-level information.</td>
+<td>BN</td>
+</tr>
+<tr>
+<td>Blockface</td>
+<td>Given a valid borough, "on street" and cross streets provides blockface-level information.</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Intersection</td>
+<td>Given a valid borough and cross streets returns information for the point defined by the two streets.</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Place</td>
+<td>Same as 'Address' above using well-known NYC place name for input.</td>
+<td>1B</td>
+</tr>
+</tbody></table>
+<p>
 <img class="new" src="../../images/new.jpg" th:src="@{/images/new.jpg}"/>
 Starting with Geoclient service version 1.10, any of these request types can
 be called using the new single-field search endpoint. Service calls can now be
@@ -224,7 +247,7 @@ optional query parameters are listed for each type of supported call.
 Although the actual Geosupport API can be called with a vast number of
 optional parameters, at this time this service only supports what's listed
 below.</p>
-format
+
 <p><em><strong>Note:</strong></em> Example <code>GET</code> requests are shown unencoded (for example, with space
 characters instead of '%20'). When making these requests programmatically,
 you may need to URL-encode the URL if your tool or platform does not do so
@@ -1962,7 +1985,6 @@ the <strong>Geosupport</strong> application and they are documented in the UPG S
 
        </footer>
     </div>
-        
-        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    </body>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+</body>
 </html>
