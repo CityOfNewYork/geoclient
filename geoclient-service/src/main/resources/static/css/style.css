@@ -489,7 +489,7 @@ h1.header {
     margin-top: 0
 }
 
-h1.header,a.header,a.name,header a {
+h1.header,h3.header,a.header,a.name,header a {
     color: #fff
 }
 

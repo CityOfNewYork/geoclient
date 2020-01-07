@@ -61,6 +61,12 @@ management:
     endpoints:
         enabled-by-default: false
 ---
+#
+# Command line for using this profile with the gradle bootRun task:
+#
+#     ./gradlew -Dgc.jni.version=geoclient-jni-2 \
+#         bootRun --args='--spring.profiles.active=bootRun'
+#
 spring:
     profiles: bootRun
 server:
