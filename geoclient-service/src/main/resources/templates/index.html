@@ -63,22 +63,23 @@
             });
         </script>
     </head>
-    <body>
-        <div class="wrapper">
-          <header>
-            <h1 class="header">Geoclient</h1>
-            <p class="header">
-            Version <span th:text="${version.geoclientServiceVersion}">v2</span>
-            </p>
-            <ul>
-              <li><a class="buttons github" href="https://github.com/CityOfNewYork/geoclient">View On GitHub</a></li>
-            </ul>
-            <h3 class="header">Geosupport</h3>
-            <p>
-            Version <span th:text="${version.geosupportVersion.version}">20.1</span><br />
-            Release <span th:text="${version.geosupportVersion.release}">20A</span>
-            </p>
-          </header>
+<body>
+  <div class="wrapper">
+    <header>
+      <h1 class="header">Geoclient</h1>
+      <p class="header">
+        Version <span th:text="${version.geoclientServiceVersion}">v2</span>
+      </p>
+      <ul>
+        <li><a class="buttons github"
+          href="https://github.com/CityOfNewYork/geoclient">View On GitHub</a></li>
+      </ul>
+      <h3 class="header">Geosupport</h3>
+      <p>
+        Version <span th:text="${version.geosupportVersion.version}">20.1</span><br />
+        Release <span th:text="${version.geosupportVersion.release}">20A</span>
+      </p>
+    </header>
     <section>
       <!-- Background -->
       <h1 id="geoclient">Geoclient</h1>
@@ -91,17 +92,20 @@
         group.
       </p>
       <p>
-        <span class="geosupport">Geosupport</span> is
-        the City of New York’s official geocoder of record, written and
-        maintained by the <a
-          href="https://www1.nyc.gov/site/planning/index.page">Department
+        <span class="geosupport">Geosupport</span> is the City of New
+        York’s official geocoder of record, written and maintained by
+        the <a href="https://www1.nyc.gov/site/planning/index.page">Department
           of City Planning</a>.
       </p>
       <p>
         The Geoclient service provides a
-        <code>REST</code><em>ish</em> API for calling most of <strong>Geosupport's</strong>
+        <code>REST</code>
+        <em>ish</em> API for calling most of <strong>Geosupport's</strong>
         functions and returning the results in either
-        <code>JSON</code> or <code>XML</code> formatD,&nbsp;DG,&nbsp;and&nbsp;D. The service provides:
+        <code>JSON</code>
+        or
+        <code>XML</code>
+        formatD,&nbsp;DG,&nbsp;and&nbsp;D. The service provides:
       </p>
       <table>
         <tbody>
@@ -123,7 +127,9 @@
               approximately five feet inside the building along the
               corresponding street frontage. Address points do not exist
               for all administrative address ranges assigned to a
-              building, but usually only reflect the posted address." (<a class="dcp-url" href="http://a030-goat.nyc.gov/goat/FunctionAP">source</a>)
+              building, but usually only reflect the posted address." (<a
+              class="dcp-url"
+              href="http://a030-goat.nyc.gov/goat/FunctionAP">source</a>)
             </td>
             <td>AP</td>
           </tr>
@@ -162,24 +168,32 @@
             <td>Provides parsing and search algorithm customization
               for several of the other endpoints listed in this section.
               Typically used for geocoding unstructured text to support
-              "single-field" user searches.
-              See <a href="#section-1.3">Section 1.3</a> for details.
+              "single-field" user searches. See <a href="#section-1.3">Section
+                1.3</a> for details.
             </td>
             <td>Address, BBL, BIN, Blockface, Intersection, Place</td>
           </tr>
           <tr>
             <td>Streetcode</td>
-            <td>Translates a Geosupport street code (<code>B5SC</code>, <code>B7SC</code>, or <code>B10SC</code>) to a street name and <code>B10SC</code>.</td>
+            <td>Translates a Geosupport street code (<code>B5SC</code>,
+              <code>B7SC</code>, or <code>B10SC</code>) to a street name
+              and <code>B10SC</code>.
+            </td>
             <td>D,&nbsp;DG,&nbsp;and&nbsp;DN</td>
           </tr>
           <tr>
             <td>Normalize</td>
-            <td>Normalizes a street name (but does <strong>not</strong> verify that it actually exists)</td>
+            <td>Normalizes a street name (but does <strong>not</strong>
+              verify that it actually exists)
+            </td>
             <td>N</td>
           </tr>
           <tr>
             <td>Version</td>
-            <td>Provides software version information about the Geoclient endpoint itself and Geosupport version/release info directly from the Geosupport instance this endpoint is currently using.</td>
+            <td>Provides software version information about the
+              Geoclient endpoint itself and Geosupport version/release
+              info directly from the Geosupport instance this endpoint
+              is currently using.</td>
             <td>HR (for Geosupport metadata)</td>
           </tr>
         </tbody>
@@ -3124,6 +3138,7 @@
       </p>
     </section>
     <section>
+      <!-- 3.0 - Geosupport Documentation -->
       <h2>
         <a id="section-3.0">3.0 - Geosupport Documentation</a>
       </h2>
@@ -3136,29 +3151,41 @@
             <th>Description</th>
           </tr>
           <tr>
-            <td><a href="http://a030-goat.nyc.gov/goat">GOAT</a> - Geographic Online Address Translator</td>
-            <td>Department of City Planning website which provides direct, web-based access to Geosupport. This site also includes information for contacting DCP with questions about Geosupport.</td>
+            <td><a href="http://a030-goat.nyc.gov/goat">GOAT</a> -
+              Geographic Online Address Translator</td>
+            <td>Department of City Planning website which provides
+              direct, web-based access to Geosupport. This site also
+              includes information for contacting DCP with questions
+              about Geosupport.</td>
           </tr>
           <tr>
-            <td><a href="http://a030-goat.nyc.gov/goat/UserGuide">GOAT User Guide</a></td>
-            <td>Brief but precise documentation of Geosupport's logic, data and function APIs</td>
+            <td><a href="http://a030-goat.nyc.gov/goat/UserGuide">GOAT
+                User Guide</a></td>
+            <td>Brief but precise documentation of Geosupport's
+              logic, data and function APIs</td>
           </tr>
           <tr>
-            <td>
-                <a href="https://nycplanning.github.io/Geosupport-UPG/">Geosupport Universal Programming Guide</a>
-            </td>
-            <td>Comprehensive documentation of Geosupport's logic, data, function APIs, data dictionary, and more</td>
+            <td><a
+              href="https://nycplanning.github.io/Geosupport-UPG/">Geosupport
+                Universal Programming Guide</a></td>
+            <td>Comprehensive documentation of Geosupport's logic,
+              data, function APIs, data dictionary, and more</td>
           </tr>
         </tbody>
       </table>
     </section>
     <section>
-    <!-- Section 4.0 -->
-    <h2><a id="section-4.0">4.0 - Version Information</a></h2>
-    <p>This section provides version information about the Geoclient and Geosupport software providing this service.</p>
-    <h3><a id="section-4.1">4.1 - Geoclient Version</a></h3>
-    <p>The Geoclient service provides a simple API for calling Geosupport
-    functions.</p>
+      <!-- 4.0 - Version Information -->
+      <h2>
+        <a id="section-4.0">4.0 - Version Information</a>
+      </h2>
+      <p>This section provides version information about the
+        Geoclient and Geosupport software providing this service.</p>
+      <h3>
+        <a id="section-4.1">4.1 - Geoclient Version</a>
+      </h3>
+      <p>The Geoclient service provides a simple API for calling
+        Geosupport functions.</p>
       <table>
         <thead>
           <tr>
@@ -3189,116 +3216,130 @@
           </tr>
         </tbody>
       </table>
-      <h3><a id="section-4.2">4.2 - Geosupport Version</a></h3>
-    <p>Geosupport is the underlying system that does the actual geocoding for
-    the Geoclient service. It is written and maintained by the Department
-    of City Planning. Geosupport uses "version" to refer to software component
-    versioning and "release" to refer to data changes.
-    </p>
-    <table th:with="gv=${version.geosupportVersion}">
-      <thead>
-        <tr>
-          <th colspan="3">Geosupport</th>
-          <th colspan="3">Release/Version</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td colspan="3">Release</td>
-          <td colspan="3" th:text="${gv.release}">20A</td>
-        </tr>
-        <tr>
-          <td colspan="3">Version</td>
-          <td colspan="3" th:text="${gv.version}">20.1</td>
-        </tr>
-        <tr>
-          <th>File</th>
-          <th>Record Type</th>
-          <th>Tag</th>
-          <th>File Date</th>
-          <th>Release</th>
-          <th>Record Count</th>
-        </tr>
-        <tr th:each="geoFile,stat : ${gv.geoFileInfo}">
-          <td th:text="|GEO${stat.count}|">GEO</td>
-          <td th:text="${geoFile.recordType}">0000</td>
-          <td th:text="${geoFile.tag}">GEO</td>
-          <td th:text="${geoFile.formattedDate}">2013-07-01</td>
-          <td th:text="${geoFile.release}">0132</td>
-          <td th:text="${geoFile.recordCount}">00000001</td>
-        </tr>
-        <tr th:each="thinFile : ${gv.thinFileInfo}">
-          <td>THINED</td>
-          <td>
-          <span th:each="thinRecType,stat : ${thinFile.recordTypes}">
-            <span th:text="|rectype${stat.count}: ${thinRecType}|">0000</span><br/>
-          </span>
-          </td>
-          <td th:text="${thinFile.tag}">THIN</td>
-          <td th:text="${thinFile.formattedDate}">2012-07-09</td>
-          <td th:text="${thinFile.release}">12B</td>
-          <td th:text="${thinFile.recordCount}">00005290</td>
-        </tr>
-        <tr th:each="grid1RFile : ${gv.grid1RFileInfo}">
-          <td>GRID1R</td>
-          <td th:text="${grid1RFile.recordType}">0000</td>
-          <td th:text="${grid1RFile.tag}">GR1R</td>
-          <td th:text="${grid1RFile.formattedDate}">2013-11-08</td>
-          <td th:text="${grid1RFile.release}">13D</td>
-          <td th:text="${grid1RFile.recordCount}">00215556</td>
-        </tr>
-        <tr th:each="auxsegFile : ${gv.auxsegFileInfo}">
-          <td>AUXSEG</td>
-          <td th:text="${auxsegFile.recordType}">0000</td>
-          <td th:text="${auxsegFile.tag}">SAUX</td>
-          <td th:text="${auxsegFile.formattedDate}">2013-11-08</td>
-          <td th:text="${auxsegFile.release}">13D</td>
-          <td th:text="${auxsegFile.recordCount}">00215556</td>
-        </tr>
-        <tr th:each="tpadFile : ${gv.tpadFileInfo}">
-          <td>TPAD</td>
-          <td th:text="${tpadFile.recordType}">0000</td>
-          <td th:text="${tpadFile.tag}">TPAD</td>
-          <td th:text="${tpadFile.formattedDate}">2014-01-06</td>
-          <td th:text="${tpadFile.release}">13D</td>
-          <td th:text="${tpadFile.recordCount}">00000000</td>
-        </tr>
-        <tr th:each="apequivFile : ${gv.apequivFileInfo}">
-          <td>APEQUIV</td>
-          <td th:text="${apequivFile.recordType}">0000</td>
-          <td th:text="${apequivFile.tag}">APEQ</td>
-          <td th:text="${apequivFile.formattedDate}">2013-08-27</td>
-          <td th:text="${apequivFile.release}">13C</td>
-          <td th:text="${apequivFile.recordCount}">00000001</td>
-        </tr>
-        <tr>
-          <th colspan="3">DSNAMES</th>
-          <th colspan="3">Value</th>
-        </tr>
-        <tr th:each="dsName,stat : ${gv.dsNames}">
-          <td colspan="3" th:text="|DSNAME ${stat.count}|">DSNAME 1</td>
-          <td colspan="3" th:text="${dsName}">apequiv</td>
-        </tr>
-      </tbody>
-    </table>
+      <h3>
+        <a id="section-4.2">4.2 - Geosupport Version</a>
+      </h3>
+      <p>Geosupport is the underlying system that does the actual
+        geocoding for the Geoclient service. It is written and
+        maintained by the Department of City Planning. Geosupport uses
+        "version" to refer to software component versioning and
+        "release" to refer to data changes.</p>
+      <table th:with="gv=${version.geosupportVersion}">
+        <thead>
+          <tr>
+            <th colspan="3">Geosupport</th>
+            <th colspan="3">Release/Version</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td colspan="3">Release</td>
+            <td colspan="3" th:text="${gv.release}">20A</td>
+          </tr>
+          <tr>
+            <td colspan="3">Version</td>
+            <td colspan="3" th:text="${gv.version}">20.1</td>
+          </tr>
+          <tr>
+            <th>File</th>
+            <th>Record Type</th>
+            <th>Tag</th>
+            <th>File Date</th>
+            <th>Release</th>
+            <th>Record Count</th>
+          </tr>
+          <tr th:each="geoFile,stat : ${gv.geoFileInfo}">
+            <td th:text="|GEO${stat.count}|">GEO</td>
+            <td th:text="${geoFile.recordType}">0000</td>
+            <td th:text="${geoFile.tag}">GEO</td>
+            <td th:text="${geoFile.formattedDate}">2013-07-01</td>
+            <td th:text="${geoFile.release}">0132</td>
+            <td th:text="${geoFile.recordCount}">00000001</td>
+          </tr>
+          <tr th:each="thinFile : ${gv.thinFileInfo}">
+            <td>THINED</td>
+            <td><span
+              th:each="thinRecType,stat : ${thinFile.recordTypes}">
+                <span th:text="|rectype${stat.count}: ${thinRecType}|">0000</span><br />
+            </span></td>
+            <td th:text="${thinFile.tag}">THIN</td>
+            <td th:text="${thinFile.formattedDate}">2012-07-09</td>
+            <td th:text="${thinFile.release}">12B</td>
+            <td th:text="${thinFile.recordCount}">00005290</td>
+          </tr>
+          <tr th:each="grid1RFile : ${gv.grid1RFileInfo}">
+            <td>GRID1R</td>
+            <td th:text="${grid1RFile.recordType}">0000</td>
+            <td th:text="${grid1RFile.tag}">GR1R</td>
+            <td th:text="${grid1RFile.formattedDate}">2013-11-08</td>
+            <td th:text="${grid1RFile.release}">13D</td>
+            <td th:text="${grid1RFile.recordCount}">00215556</td>
+          </tr>
+          <tr th:each="auxsegFile : ${gv.auxsegFileInfo}">
+            <td>AUXSEG</td>
+            <td th:text="${auxsegFile.recordType}">0000</td>
+            <td th:text="${auxsegFile.tag}">SAUX</td>
+            <td th:text="${auxsegFile.formattedDate}">2013-11-08</td>
+            <td th:text="${auxsegFile.release}">13D</td>
+            <td th:text="${auxsegFile.recordCount}">00215556</td>
+          </tr>
+          <tr th:each="tpadFile : ${gv.tpadFileInfo}">
+            <td>TPAD</td>
+            <td th:text="${tpadFile.recordType}">0000</td>
+            <td th:text="${tpadFile.tag}">TPAD</td>
+            <td th:text="${tpadFile.formattedDate}">2014-01-06</td>
+            <td th:text="${tpadFile.release}">13D</td>
+            <td th:text="${tpadFile.recordCount}">00000000</td>
+          </tr>
+          <tr th:each="apequivFile : ${gv.apequivFileInfo}">
+            <td>APEQUIV</td>
+            <td th:text="${apequivFile.recordType}">0000</td>
+            <td th:text="${apequivFile.tag}">APEQ</td>
+            <td th:text="${apequivFile.formattedDate}">2013-08-27</td>
+            <td th:text="${apequivFile.release}">13C</td>
+            <td th:text="${apequivFile.recordCount}">00000001</td>
+          </tr>
+          <tr>
+            <th colspan="3">DSNAMES</th>
+            <th colspan="3">Value</th>
+          </tr>
+          <tr th:each="dsName,stat : ${gv.dsNames}">
+            <td colspan="3" th:text="|DSNAME ${stat.count}|">DSNAME
+              1</td>
+            <td colspan="3" th:text="${dsName}">apequiv</td>
+          </tr>
+        </tbody>
+      </table>
     </section>
     <section>
-    <h2><a id="section-5.0">5.0 - Contact Us</a></h2>
-    <p>
-    For Geoclient API usage, bug reporting and enhancement requests, please
-    contact the <a href="mailto:gis-development@doitt.nyc.gov">Citywide GIS Development</a>
-    group.
-    </p>
-    <p>For questions or issues with the data provided by Geosupport, please
-    contact the <a href="http://www.nyc.gov/dcp">Department of City Planning</a>.</p>
-    <p>The look and feel of this documentation page was generated on <a href="https://pages.github.com/">GitHub Pages</a> using the Dinky theme.</p>
-  </section>
-      <footer>
-               <p><small>&copy;2014 The City of New York - <a href="http://maps.nyc.gov/doitt/nycitymap">Citywide GIS</a></small></p>
-
-       </footer>
-    </div>
-
-        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    </body>
+      <!-- 5.0 - Contact Us -->
+      <h2>
+        <a id="section-5.0">5.0 - Contact Us</a>
+      </h2>
+      <p>
+        For Geoclient API usage, bug reporting and enhancement requests,
+        please contact the <a
+          href="mailto:gis-development@doitt.nyc.gov">Citywide GIS
+          Development</a> group.
+      </p>
+      <p>
+        For questions or issues with the data provided by Geosupport,
+        please contact the <a href="http://www.nyc.gov/dcp">Department
+          of City Planning</a>.
+      </p>
+      <p>
+        The look and feel of this documentation page was generated on <a
+          href="https://pages.github.com/">GitHub Pages</a> using the
+        Dinky theme.
+      </p>
+    </section>
+    <footer>
+      <p>
+        <small>&copy;2014 The City of New York - <a
+          href="http://maps.nyc.gov/doitt/nycitymap">Citywide GIS</a></small>
+      </p>
+    </footer>
+  </div>
+  <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+</body>
 </html>
