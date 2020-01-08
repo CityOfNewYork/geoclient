@@ -1,68 +1,76 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Geoclient API</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <link rel="stylesheet" type="text/css" href="../../css/style.css" th:href="@{/css/style.css}" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <style type="text/css">
+h3.header {
+  color: #fff;
+  border-bottom: none;
+}
 
-    <head>
-        <title>Geoclient API</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <link rel="stylesheet" type="text/css" href="../../css/style.css" th:href="@{/css/style.css}" />
-        <script src="../../js/jquery-1.10.1.js" th:src="@{/js/jquery-1.10.1.js}"></script>
-        <script src="../../js/scale.fix.js" th:src="@{/js/scale.fix.js}"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        <!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-        <style type="text/css">
-        h3.header {
-            color: #fff;
-            border-bottom: none;
-        }
+.geo {
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 1px 5px;
+}
 
-        span.geoclient {
-            background-color: green;
-            font-weight: bold;
-        }
+.support {
+  color: rgb(255, 255, 0);
+  font-weight: bold;
+}
 
-        span.geosupport {
-            background-color: yellow;
-            font-weight: bold;
-        }
+.client {
+  color: rgb(128, 255, 128);
+  font-weight: bold;
+}
 
-        ol li {
-          padding-top: 20px;
-        }
+ol li {
+  padding-top: 20px;
+}
 
-        div.exampleJsonResponse, div.exampleXmlResponse {
-          display: none;
-        }
+div.exampleJsonResponse, div.exampleXmlResponse {
+  display: none;
+}
 
-        sup {
-          vertical-align: super;
-        }
+sup {
+  vertical-align: super;
+}
 
-        th.httpStatusCode, td.httpStatusCode {
-          text-align: right;
-        }
+th.httpStatusCode, td.httpStatusCode {
+  text-align: right;
+}
 
-        img.new {
-          border: none;
-          height: 50px;
-          width: 50px;
-          float: left;
-        }
-        </style>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('.showJsonResponse').click(function(event) {
-                  $('.exampleJsonResponse').slideToggle('slow');
-                  event.preventDefault();
-                });
-                $('.showXmlResponse').click(function(event) {
-                    $('.exampleXmlResponse').slideToggle('slow');
-                    event.preventDefault();
-                });
-            });
-        </script>
-    </head>
+img.new {
+  border: none;
+  height: 50px;
+  width: 50px;
+  float: left;
+}
+  </style>
+<!--[if lt IE 9]>
+  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  <script src="../../js/jquery-1.10.1.js" th:src="@{/js/jquery-1.10.1.js}"></script>
+  <script src="../../js/scale.fix.js" th:src="@{/js/scale.fix.js}"></script>
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('.showJsonResponse').click(function(event) {
+            $('.exampleJsonResponse').slideToggle('slow');
+            event.preventDefault();
+        });
+        $('.showXmlResponse').click(function(event) {
+            $('.exampleXmlResponse').slideToggle('slow');
+            event.preventDefault();
+        });
+    });
+  </script>
+</head>
 <body>
   <div class="wrapper">
     <header>
@@ -82,9 +90,9 @@
     </header>
     <section>
       <!-- Background -->
-      <h1 id="geoclient">Geoclient</h1>
+      <h1 id="geoclient">Geoclient</h1>      
       <p>
-        <span class="geoclient">Geoclient</span> is software which
+        <span class="geo">Geo<span class="client">client</span></span> is software which
         provides developer-friendly API’s for <em>geocoding</em> New
         York City location information. Behind the scenes, Geoclient
         uses the Geosupport application as its first-level geocoder.
@@ -92,20 +100,37 @@
         group.
       </p>
       <p>
-        <span class="geosupport">Geosupport</span> is the City of New
+        <span class="geo">Geo<span class="support">support</span></span> is the City of New
         York’s official geocoder of record, written and maintained by
         the <a href="https://www1.nyc.gov/site/planning/index.page">Department
           of City Planning</a>.
       </p>
+      <h3 id="readme">README first!</h3>
+      <h4>Geoclient and Geosupport Are Different Systems</h4>
       <p>
-        The Geoclient service provides a
+      One of the most confusing things (I've discovered) about the magic land of spatial software development is that <em>every. single. project.</em> is named <strong>geo<em>*something*</em></strong>.
+      </p>
+      <p>
+        <span class="geo">Geo<span class="client">client</span></span>
+        (this project) and the <span class="geo">Geo<span
+          class="support">support</span></span> application are two completely
+        different systems built and maintained by different teams.
+      </p>
+      <h4>Attribute Data</h4>
+      <ul>
+        <li>The example <code>JSON</code> and <code>XML</code> responses shown in this documentation are a moment-in-time snapshot of the data attributes returned by Geoclient. They may not include all of the actual data available from the current version of Geosupport in use by this service.</li>
+        <li>By default, Geoclient does not serialize attributes whose values have not been populated by the results of Geosupport function calls to reduce unecessary <code>HTTP</code> response size. This also reflects the fact that data may simply not be available for some locations and/or that some attributes only make sense for certain location types.</li>
+        <li>As should be the case when consuming data from any kind of external source/service, please write your client code to account for missing, <code>null</code> or unexpected spatial attribute data (e.g., streaming/evented parsing instead of schema-defined/DOM parsing).</li>
+      </ul>
+      <p>
+        The <span class="geo">Geo<span class="client">client</span></span> service provides a
         <code>REST</code>
-        <em>ish</em> API for calling most of <strong>Geosupport's</strong>
+        <em>ish</em> API for calling most of <span class="geo">Geo<span class="support">support</span></span>'s
         functions and returning the results in either
         <code>JSON</code>
         or
         <code>XML</code>
-        formatD,&nbsp;DG,&nbsp;and&nbsp;D. The service provides:
+        The service provides:
       </p>
       <table>
         <tbody>
@@ -138,6 +163,7 @@
             <td>Given a valid borough, block, and lot provides
               property-level information.</td>
             <td>BL</td>
+        
           </tr>
           <tr>
             <td>BIN</td>
@@ -146,7 +172,7 @@
             <td>BN</td>
           </tr>
           <tr>
-            <td>Blockface</td>
+            <td>Blockface</td>: 
             <td>Given a valid borough, "on street" and cross
               streets provides blockface-level information.</td>
             <td>3</td>
@@ -199,7 +225,7 @@
         </tbody>
       </table>
     </section>
-    <section>
+    <section>: 
       <!-- Roadmap -->
       <h2>
         <a id="roadmap">Roadmap</a>
@@ -213,7 +239,8 @@
           titled "Understanding Geoclient Return Codes" provides
           reference information for the HTTP and application-level
           return codes which are provided for all requests.</li>
-        <li><a href="#section-3.0"><strong>Section 3.0</strong></a>
+        <li><a href="#section-3.
+        0"><strong>Section 3.0</strong></a>
           titled "Geoclient Function Reference" details what data
           elements are returned from each request type.</li>
         <li><a href="#section-4.0"><strong>Section 4.0</strong></a>
@@ -221,7 +248,7 @@
           reference information on available data items.</li>
         <li><a href="#section-5.0"><strong>Section 5.0</strong></a>
           titled "Version Information" provides information about the
-          versions of Geoclient and Geosupport used by this service.</li>
+          versions of Geocl: ient and Geosupport used by this service.</li>
         <li><a href="#section-6.0"><strong>Section 6.0</strong></a>
           titled "Contact Us" provides contact information for the
           Citywide GIS group.</li>
@@ -238,7 +265,8 @@
         types, depending on the requested file extension.</p>
       <p>
         Note that although the XML and JSON example responses are
-        "pretty-printed" in this document, calling applications should
+        "pretty-printed" in t
+        his document, calling applications should
         not depend on any particular formatting of responses.
         Furthermore, the ordering of returned data elements is
         unspecified. Client code which parses responses from Geoclient <em>should
@@ -293,8 +321,7 @@
         be called with a vast number of optional parameters, at this
         time this service only supports what's listed below.</p>
       <p>
-        <em><strong>Note:</strong></em> Example
-        <code>GET</code>
+        <strong>Note:</strong> Example <code>GET</code>
         requests are shown unencoded (for example, with space characters
         instead of '%20'). When making these requests programmatically,
         you may need to URL-encode the URL if your tool or platform does
@@ -3340,6 +3367,8 @@
       </p>
     </footer>
   </div>
-  <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+<!--[if !IE]>
+  <script>fixScale(document);</script>
+<![endif]-->
 </body>
 </html>
