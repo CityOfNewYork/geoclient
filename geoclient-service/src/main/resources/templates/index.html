@@ -79,8 +79,7 @@ img.new {
         Version <span th:text="${version.geoclientServiceVersion}">v2</span>
       </p>
       <ul>
-        <li><a class="buttons github"
-          href="https://github.com/CityOfNewYork/geoclient">View On GitHub</a></li>
+        <li><a class="buttons github" href="https://github.com/CityOfNewYork/geoclient">View On GitHub</a></li>
       </ul>
       <h3 class="header">Geosupport</h3>
       <p>
@@ -89,7 +88,6 @@ img.new {
       </p>
     </header>
     <section>
-      <!-- Background -->
       <h1 id="geoclient">Geoclient</h1>
       <p>
         <span class="geo">Geo<span class="client">client</span></span> is software which
@@ -101,31 +99,76 @@ img.new {
       </p>
       <p>
         <span class="geo">Geo<span class="support">support</span></span> is the City of New
-        York’s official geocoder of record, written and maintained by
-        the <a href="https://www1.nyc.gov/site/planning/index.page">Department
-          of City Planning</a>.
-      </p>
-      <h3 id="readme">README first!</h3>
-      <h4>Geoclient and Geosupport Are Different Systems</h4>
-      <p>
-      One of the most confusing things (I've discovered) about the magic land of spatial software development is that <em>every. single. project.</em> is named <strong>geo<em>*something*</em></strong>.
+        York’s official geocoder of record, written and maintained by the
+        <a href="https://www1.nyc.gov/site/planning/index.page">Department of City Planning</a>.
       </p>
       <p>
         <span class="geo">Geo<span class="client">client</span></span>
-        (this project) and the <span class="geo">Geo<span
-          class="support">support</span></span> application are two completely
+        (this project) and the <span class="geo">Geo<span class="support">support</span></span> application are two completely
         different systems built and maintained by different teams.
       </p>
-      <h4>Attribute Data</h4>
-      <ul>
-        <li>The example <code>JSON</code> and <code>XML</code> responses shown in this documentation are a moment-in-time snapshot of the data attributes returned by Geoclient. They may not include all of the actual data available from the current version of Geosupport in use by this service.</li>
-        <li>By default, Geoclient does not serialize attributes whose values have not been populated by the results of Geosupport function calls to reduce unecessary <code>HTTP</code> response size. This also reflects the fact that data may simply not be available for some locations and/or that some attributes only make sense for certain location types.</li>
-        <li>As should be the case when consuming data from any kind of external source/service, please write your client code to account for missing, <code>null</code> or unexpected spatial attribute data (e.g., streaming/evented parsing instead of schema-defined/DOM parsing).</li>
-      </ul>
+      <p>
+        <!-- Roadmap -->
+        <h2>
+          <a id="roadmap">Roadmap</a>
+        </h2>
+        <ol>
+          <li><a href="#intro"><strong>Intro</strong></a>
+            titled "Before Using Geoclient" describes the most fundamental,
+            yet often misunderstood, purpose and technical design of
+            this project.</li>
+          <li><a href="#section-1.0"><strong>Section 1.0</strong></a>
+            titled "Calling the Geoclient API" documents how application
+            clients call the Geoclient service. It also provides example
+            responses.</li>
+          <li><a href="#section-2.0"><strong>Section 2.0</strong></a>
+            titled "Understanding Geoclient Return Codes" provides
+            reference information for the HTTP and application-level
+            return codes which are provided for all requests.</li>
+          <li><a href="#section-3.0"><strong>Section 3.0</strong></a>
+            titled "Geoclient Function Reference" details what data
+            elements are returned from each request type.</li>
+          <li><a href="#section-4.0"><strong>Section 4.0</strong></a>
+            titled "Geoclient Data Dictionary" provides more detailed
+            reference information on available data items.</li>
+          <li><a href="#section-5.0"><strong>Section 5.0</strong></a>
+            titled "Version Information" provides information about the
+            versions of Geocl: ient and Geosupport used by this service.</li>
+          <li><a href="#section-6.0"><strong>Section 6.0</strong></a>
+            titled "Contact Us" provides contact information for the
+            Citywide GIS group.</li>
+        </ol>
+      </p>
+    </section>
+    <section>
+      <!-- intro -->
+      <h3 id="intro">Before Using Geoclient</h3>
+      <p>
+      One of the most confusing things about the magic land of spatial software development is that <em>every. single. project.</em> is named <strong>geo<em>*something*</em></strong>.
+      </p>
+      <p><blockquote>Geoclient and Geosupport <strong>are different systems</strong>!!</blockquote>
+      </p>
+      <table>
+        <tbody>
+          <tr>
+            <th>System</th>
+            <th>Description</th>
+          </tr>
+          <tr>
+            <td><span class="geo">Geo<span class="client">client</span></span></td>
+            <td>blah blah blah</td>
+          </tr>
+          <tr>
+            <td><span class="geo">Geo<span class="support">support</span></span></td>
+            <td>blah blah blah</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section>
       <p>
         The <span class="geo">Geo<span class="client">client</span></span> service provides a
-        <code>REST</code>
-        <em>ish</em> API for calling most of <span class="geo">Geo<span class="support">support</span></span>'s
+        <code>REST</code><em>ish</em> API for calling most of <span class="geo">Geo<span class="support">support</span></span>'s
         functions and returning the results in either
         <code>JSON</code>
         or
@@ -142,8 +185,11 @@ img.new {
           <tr>
             <td>Address</td>
             <td>Given a valid address, provides blockface-level,
-              property-level, and political information.</td>
-            <td>1B</td>
+              property-level, and political information (<a class="goat-url" href="http://a030-goat.nyc.gov/goat/Function1B">source</a>).
+            </td>
+            <td>
+            <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-1b">1B<sup>*</sup></a>
+            </td>
           </tr>
           <tr>
             <td>Address Point</td>
@@ -152,50 +198,58 @@ img.new {
               approximately five feet inside the building along the
               corresponding street frontage. Address points do not exist
               for all administrative address ranges assigned to a
-              building, but usually only reflect the posted address." (<a
-              class="dcp-url"
-              href="http://a030-goat.nyc.gov/goat/FunctionAP">source</a>)
+              building, but usually only reflect the posted address."
+              (<a class="goat-url" href="http://a030-goat.nyc.gov/goat/FunctionAP">source</a>)
             </td>
-            <td>AP</td>
+            <td><a class="upg-url" href="https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-ap">AP</a></td>
           </tr>
           <tr>
             <td>BBL</td>
             <td>Given a valid borough, block, and lot provides
-              property-level information.</td>
-            <td>BL</td>
+              property-level information.
+              (<a class="goat-url" href="http://a030-goat.nyc.gov/goat/FunctionBL">source</a>)
+            </td>
+            <td><a class="upg-url" href="https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-functions-1a-bl-bn-extended">BL</a></td>
 
           </tr>
           <tr>
             <td>BIN</td>
             <td>Given a valid building identification number
-              provides property-level information.</td>
-            <td>BN</td>
+              provides property-level information.
+              (<a class="goat-url" href="http://a030-goat.nyc.gov/goat/FunctionBN">source</a>)
+            </td>
+            <td><a class="upg-url" href="https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-functions-1a-bl-bn-extended">BN</a></td>
           </tr>
           <tr>
             <td>Blockface</td>
             <td>Given a valid borough, "on street" and cross
-              streets provides blockface-level information.</td>
-            <td>3</td>
+              streets provides blockface-level information.
+              (<a class="goat-url" href="http://a030-goat.nyc.gov/goat/Function3">source</a>)
+            </td>
+            <td><a class="upg-url" href="https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-3#work-area-2-cow-function-3-extended">3</a></td>
           </tr>
           <tr>
             <td>Intersection</td>
             <td>Given a valid borough and cross streets returns
-              information for the point defined by the two streets.</td>
-            <td>2</td>
+              information for the point defined by the two streets.
+              (<a class="goat-url" href="http://a030-goat.nyc.gov/goat/Function2">source</a>)
+            </td>
+            <td><a class="upg-url" href="https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-2">2</a></td>
           </tr>
           <tr>
             <td>Place</td>
-            <td>Same as 'Address' above using well-known NYC place
-              name for input.</td>
-            <td>1B</td>
+            <td>Same as 'Address' above using well-known NYC place name for input (instead of a house number and street).</td>
+            <td>
+            <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-1b">1B<sup>*</sup></a>
+            </td>
           </tr>
           <tr>
             <td>Search</td>
             <td>Provides parsing and search algorithm customization
               for several of the other endpoints listed in this section.
               Typically used for geocoding unstructured text to support
-              "single-field" user searches. See <a href="#section-1.3">Section
-                1.3</a> for details.
+              "single-field" user searches.
+              See <a href="#section-1.3">Section 1.3</a> for details.
             </td>
             <td>Address, BBL, BIN, Blockface, Intersection, Place</td>
           </tr>
@@ -204,15 +258,14 @@ img.new {
             <td>Translates a Geosupport street code (<code>B5SC</code>,
               <code>B7SC</code>, or <code>B10SC</code>) to a street name
               and <code>B10SC</code>.
+              (<a class="goat-url" href="http://a030-goat.nyc.gov/goat/FunctionD">source</a>)
             </td>
-            <td>D,&nbsp;DG,&nbsp;and&nbsp;DN</td>
+            <td><a class="upg-url" href="https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#character-only-work-area-1-cow-all-functions">D, DG, DN</a></td>
           </tr>
           <tr>
             <td>Normalize</td>
-            <td>Normalizes a street name (but does <strong>not</strong>
-              verify that it actually exists)
-            </td>
-            <td>N</td>
+            <td>Normalizes a street name (but does <strong>not</strong> verify that it actually exists. <a class="goat-url" href="http://a030-goat.nyc.gov/goat/FunctionN">source</a>)</td>
+            <td><a class="upg-url" href="https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#character-only-work-area-1-cow-all-functions">N</a></td>
           </tr>
           <tr>
             <td>Version</td>
@@ -220,61 +273,64 @@ img.new {
               Geoclient endpoint itself and Geosupport version/release
               info directly from the Geosupport instance this endpoint
               is currently using.</td>
-            <td>HR (for Geosupport metadata)</td>
+            <td>HR (undocumented Geosupport metadata function)</td>
           </tr>
         </tbody>
       </table>
-    </section>
-    <section>
-      <!-- Roadmap -->
-      <h2>
-        <a id="roadmap">Roadmap</a>
-      </h2>
-      <ol>
-        <li><a href="#section-1.0"><strong>Section 1.0</strong></a>
-          titled "Calling the Geoclient API" documents how application
-          clients call the Geoclient service. It also provides example
-          responses.</li>
-        <li><a href="#section-2.0"><strong>Section 2.0</strong></a>
-          titled "Understanding Geoclient Return Codes" provides
-          reference information for the HTTP and application-level
-          return codes which are provided for all requests.</li>
-        <li><a href="#section-3.0"><strong>Section 3.0</strong></a>
-          titled "Geoclient Function Reference" details what data
-          elements are returned from each request type.</li>
-        <li><a href="#section-4.0"><strong>Section 4.0</strong></a>
-          titled "Geoclient Data Dictionary" provides more detailed
-          reference information on available data items.</li>
-        <li><a href="#section-5.0"><strong>Section 5.0</strong></a>
-          titled "Version Information" provides information about the
-          versions of Geocl: ient and Geosupport used by this service.</li>
-        <li><a href="#section-6.0"><strong>Section 6.0</strong></a>
-          titled "Contact Us" provides contact information for the
-          Citywide GIS group.</li>
-      </ol>
+      <sup>*</sup>See also: <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-functions-1-1e-extended">1EX</a> and
+      <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-functions-1a-bl-bn-extended">1AX</a>
     </section>
     <section>
       <!-- 1.0 - Calling the Geoclient API -->
       <h2>
         <a id="section-1.0">1.0 - Calling the Geoclient API</a>
       </h2>
-      <p>All requests are made as simple HTTP GET's with input
+      <p>
+        All requests are made as simple <code>HTTP GET</code>'s with input
         arguments specified as URL query parameters. The service returns
         the JSON (application/json) or XML (application/xml) media
-        types, depending on the requested file extension.</p>
-      <p>
-        Note that although the XML and JSON example responses are
-        "pretty-printed" in t
-        his document, calling applications should
-        not depend on any particular formatting of responses.
-        Furthermore, the ordering of returned data elements is
-        unspecified. Client code which parses responses from Geoclient <em>should
-          not rely upon significant whitespace or element/attribute
-          ordering</em>.
+        types, depending on the requested file extension.
       </p>
-      <p>Also, even within the same service call types (Address,
-        Intersection, etc...) the set of returned data elements will
-        vary since those elements with NULL values are not returned.</p>
+      <p>
+        Any response from <span class="geo">Geo<span class="client">client</span></span>
+        is composed almost entirely from the results of the proxied
+        <span class="geo">Geo<span class="support">support</span></span> function
+        call. This documentation no longer attempts to provide in-depth information
+        about these functions. Instead, links are provided to the
+        Department of City Planning's
+        <a class="dcp-url" href="https://nycplanning.github.io/Geosupport-UPG/">detailed documentation</a>
+        about their geocoding logic and return data.
+      </p>
+      <p>
+      Here's some high-level guidelines that will allow your code to remain
+      loosely coupled with this API:
+      <ul>
+          <li>By default, <span class="geo">Geo<span class="client">client</span></span>
+          does not serialize fields returned from
+          <span class="geo">Geo<span class="support">support</span></span>
+          with <code>NULL</code> values in order to reduce unecessary
+          network I/O.</li>
+          <li>The <code>JSON</code> and <code>XML</code> responses shown
+          below are for example purposes only and do <strong>not</strong>
+          include all possible fields that may be returned.</li>
+          <li>Even for successfully recognized input, certain data
+          attributes may not be available for some locations.
+          Similarly, some attributes only make sense for certain input types.
+          </li>
+          <li>Although the XML and JSON example responses are "pretty-printed"
+          in this document, calling applications should not depend on any
+          particular formatting of responses.</li>
+          <li>The order of returned data elements is unspecified.</li>
+          <li>Client code which parses responses from Geoclient <em>should
+          not rely upon significant whitespace or element/attribute
+          ordering</em>.</li>
+          <li>Occasionally, <span class="geo">Geo<span class="support">support</span></span>
+          fails to recognize a valid location or there is a bug in the
+          <span class="geo">Geo<span class="client">client</span></span> code.
+          See <a href="#section-5.0">Section 5.0</a> for information on when
+          and how to contact the appropriate team.</li>
+      </ul>
+      </p>
       <h3>
         <a id="section-1.1">1.1 - Common Request Parameters</a>
       </h3>
@@ -307,9 +363,9 @@ img.new {
           </ul></li>
       </ul>
       <p>
-        <sup>1</sup>Not applicable to BIN calls<br /> <sup>2</sup>Not
-        required for ADDRESS or PLACE calls if zip is given <sup>3</sup>Some
-        caveats apply for single-field search requests
+        <sup>1</sup>Not applicable to BIN calls<br />
+        <sup>2</sup>Not required for ADDRESS or PLACE calls if zip is given<br />
+        <sup>3</sup>Some caveats apply for single-field search requests
       </p>
       <h3>
         <a id="section-1.2">1.2 - Request Parameters by Type</a>
@@ -332,7 +388,7 @@ img.new {
         <a id="section-1.2.1">1.2.1 - Address</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v1/address.{format}
+        <strong>Path:</strong> /v2/address.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -375,17 +431,13 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre>
-        <code>/v1/address.json?houseNumber=314&amp;street=west 100 st&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
-/v1/address.xml?houseNumber=109-20&amp;street=71st rd&amp;borough=queens&amp;app_id=abc123&amp;app_key=def456
-</code>
-      </pre>
+      <pre><code>/v2/address.json?houseNumber=314&amp;street=west 100 st&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456</code>
+        <code>/v2/address.xml?houseNumber=109-20&amp;street=71st rd&amp;borough=queens&amp;app_id=abc123&amp;app_key=def456</code></pre>
       <p class="showJsonResponse">
         <a href="#">Example JSON response</a>
       </p>
       <div class="highlight exampleJsonResponse">
-        <pre>
-          <span class="p">{</span>
+        <pre><span class="p">{</span>
   <span class="nt">"address"</span><span class="p">:</span> <span
             class="p">{</span>
     <span class="nt">"assemblyDistrict"</span><span class="p">:</span> <span
@@ -693,8 +745,7 @@ img.new {
         <a href="#">Example XML response</a>
       </p>
       <div class="highlight exampleXmlResponse">
-        <pre>
-          <span class="nt">&lt;geosupportResponse&gt;</span>
+        <pre><span class="nt">&lt;geosupportResponse&gt;</span>
   <span class="nt">&lt;address&gt;</span>
     <span class="nt">&lt;assemblyDistrict&gt;</span>28<span class="nt">&lt;/assemblyDistrict&gt;</span>
     <span class="nt">&lt;attributeBytes&gt;</span>H<span class="nt">&lt;/attributeBytes&gt;</span>
@@ -932,7 +983,7 @@ img.new {
         <a id="section-1.2.2">1.2.2 - BBL</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v1/bbl.{format}
+        <strong>Path:</strong> /v2/bbl.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -965,16 +1016,14 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre>
-        <code>/v1/bbl.json?borough=manhattan&amp;block=1889&amp;lot=1&amp;app_id=abc123&amp;app_key=def456
-/v1/bbl.xml?borough=manhattan&amp;block=67&amp;lot=1&amp;app_id=abc123&amp;app_key=def456</code>
+      <pre><code>/v2/bbl.json?borough=manhattan&amp;block=1889&amp;lot=1&amp;app_id=abc123&amp;app_key=def456
+/v2/bbl.xml?borough=manhattan&amp;block=67&amp;lot=1&amp;app_id=abc123&amp;app_key=def456</code>
       </pre>
       <p class="showJsonResponse">
         <a href="#">Example JSON response</a>
       </p>
       <div class="highlight exampleJsonResponse">
-        <pre>
-          <span class="p">{</span>
+        <pre><span class="p">{</span>
    <span class="nt">"bbl"</span><span class="p">:</span>
    <span class="p">{</span>
        <span class="nt">"bbl"</span><span class="p">:</span> <span
@@ -1093,8 +1142,7 @@ img.new {
         <a href="#">Example XML response</a>
       </p>
       <div class="highlight exampleXmlResponse">
-        <pre>
-          <span class="nt">&lt;geosupportResponse&gt;</span>
+        <pre><span class="nt">&lt;geosupportResponse&gt;</span>
   <span class="nt">&lt;bbl&gt;</span>
     <span class="nt">&lt;bbl&gt;</span>1000670001<span class="nt">&lt;/bbl&gt;</span>
     <span class="nt">&lt;bblBoroughCode&gt;</span>1<span class="nt">&lt;/bblBoroughCode&gt;</span>
@@ -1207,7 +1255,7 @@ img.new {
         <a id="section-1.2.3">1.2.3 - BIN</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v1/bin.{format}
+        <strong>Path:</strong> /v2/bin.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -1229,17 +1277,15 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre>
-        <code>/v1/bin.json?bin=1079043&amp;app_id=abc123&amp;app_key=def456
-/v1/bin.xml?bin=1057127&amp;app_id=abc123&amp;app_key=def456
+      <pre><code>/v2/bin.json?bin=1079043&amp;app_id=abc123&amp;app_key=def456
+/v2/bin.xml?bin=1057127&amp;app_id=abc123&amp;app_key=def456
 </code>
       </pre>
       <p class="showJsonResponse">
         <a href="#">Example JSON response</a>
       </p>
       <div class="highlight exampleJsonResponse">
-        <pre>
-          <span class="p">{</span>
+        <pre><span class="p">{</span>
    <span class="nt">"bin"</span><span class="p">:</span>
    <span class="p">{</span>
        <span class="nt">"bbl"</span><span class="p">:</span> <span
@@ -1389,8 +1435,7 @@ img.new {
         <a href="#">Example XML response</a>
       </p>
       <div class="highlight exampleXmlResponse">
-        <pre>
-          <span class="nt">&lt;geosupportResponse&gt;</span>
+        <pre><span class="nt">&lt;geosupportResponse&gt;</span>
   <span class="nt">&lt;bin&gt;</span>
     <span class="nt">&lt;bbl&gt;</span>1018890001<span class="nt">&lt;/bbl&gt;</span>
     <span class="nt">&lt;bblBoroughCode&gt;</span>1<span class="nt">&lt;/bblBoroughCode&gt;</span>
@@ -1479,7 +1524,7 @@ img.new {
         <a id="section-1.2.4">1.2.4 - Blockface</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v1/blockface.{format}
+        <strong>Path:</strong> /v2/blockface.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -1540,18 +1585,16 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre>
-        <code>/v1/blockface.json?onStreet=amsterdam ave&amp;crossStreetOne=w 110 st&amp;crossStreetTwo=w 111 st&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
-/v1/blockface.xml?onStreet=amsterdam ave&amp;crossStreetOne=w 110 st&amp;crossStreetTwo=w 111 st&amp;borough=manhattan&amp;compassDirection=e&amp;app_id=abc123&amp;app_key=def456
-/v1/blockface.xml?onStreet=eldert ln&amp;crossStreetOne=etna street&amp;crossStreetTwo=ridgewood ave&amp;borough=queens&amp;boroughCrossStreetOne=brooklyn&amp;boughCrossStreetTwo=brooklyn&amp;compassDirection=e&amp;app_id=abc123&amp;app_key=def456
+      <pre><code>/v2/blockface.json?onStreet=amsterdam ave&amp;crossStreetOne=w 110 st&amp;crossStreetTwo=w 111 st&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
+/v2/blockface.xml?onStreet=amsterdam ave&amp;crossStreetOne=w 110 st&amp;crossStreetTwo=w 111 st&amp;borough=manhattan&amp;compassDirection=e&amp;app_id=abc123&amp;app_key=def456
+/v2/blockface.xml?onStreet=eldert ln&amp;crossStreetOne=etna street&amp;crossStreetTwo=ridgewood ave&amp;borough=queens&amp;boroughCrossStreetOne=brooklyn&amp;boughCrossStreetTwo=brooklyn&amp;compassDirection=e&amp;app_id=abc123&amp;app_key=def456
 </code>
       </pre>
       <p class="showJsonResponse">
         <a href="#">Example JSON response</a>
       </p>
       <div class="highlight exampleJsonResponse">
-        <pre>
-          <span class="p">{</span>
+        <pre><span class="p">{</span>
    <span class="nt">"blockface"</span><span class="p">:</span>
    <span class="p">{</span>
        <span class="nt">"boroughCode1In"</span><span class="p">:</span> <span
@@ -1793,8 +1836,7 @@ img.new {
         <a href="#">Example XML response</a>
       </p>
       <div class="highlight exampleXmlResponse">
-        <pre>
-          <span class="nt">&lt;geosupportResponse&gt;</span>
+        <pre><span class="nt">&lt;geosupportResponse&gt;</span>
   <span class="nt">&lt;blockface&gt;</span>
     <span class="nt">&lt;boroughCode1In&gt;</span>1<span class="nt">&lt;/boroughCode1In&gt;</span>
     <span class="nt">&lt;coincidentSegmentCount&gt;</span>1<span
@@ -1975,7 +2017,7 @@ img.new {
         <a id="section-1.2.5">1.2.5 - Intersection</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v1/intersection.{format}
+        <strong>Path:</strong> /v2/intersection.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -2023,18 +2065,16 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre>
-        <code>/v1/intersection.json?crossStreetOne=broadway&amp;crossStreetTwo=w 99 st&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
-/v1/intersection.xml?crossStreetOne=rsd&amp;crossStreetTwo=w 97 st&amp;borough=manhattan&amp;compassDirection=e&amp;app_id=abc123&amp;app_key=def456
-/v1/intersection.json?crossStreetOne=jamaica ave&amp;crossStreetTwo=eldert ln&amp;borough=brooklyn&amp;boroughCrossStreetTwo=queens&amp;app_id=abc123&amp;app_key=def456
+      <pre><code>/v2/intersection.json?crossStreetOne=broadway&amp;crossStreetTwo=w 99 st&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
+/v2/intersection.xml?crossStreetOne=rsd&amp;crossStreetTwo=w 97 st&amp;borough=manhattan&amp;compassDirection=e&amp;app_id=abc123&amp;app_key=def456
+/v2/intersection.json?crossStreetOne=jamaica ave&amp;crossStreetTwo=eldert ln&amp;borough=brooklyn&amp;boroughCrossStreetTwo=queens&amp;app_id=abc123&amp;app_key=def456
 </code>
       </pre>
       <p class="showJsonResponse">
         <a href="#">Example JSON response</a>
       </p>
       <div class="highlight exampleJsonResponse">
-        <pre>
-          <span class="p">{</span>
+        <pre><span class="p">{</span>
    <span class="nt">"intersection"</span><span class="p">:</span>
    <span class="p">{</span>
        <span class="nt">"assemblyDistrict"</span><span class="p">:</span> <span
@@ -2177,8 +2217,7 @@ img.new {
         <a href="#">Example XML response</a>
       </p>
       <div class="highlight exampleXmlResponse">
-        <pre>
-          <span class="nt">&lt;geosupportResponse&gt;</span>
+        <pre> <span class="nt">&lt;geosupportResponse&gt;</span>
   <span class="nt">&lt;intersection&gt;</span>
     <span class="nt">&lt;assemblyDistrict&gt;</span>69<span class="nt">&lt;/assemblyDistrict&gt;</span>
     <span class="nt">&lt;attributeBytes&gt;</span>M<span class="nt">&lt;/attributeBytes&gt;</span>
@@ -2290,7 +2329,7 @@ img.new {
         <a id="section-1.2.6">1.2.6 - Place</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v1/place.{format}
+        <strong>Path:</strong> /v2/place.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -2328,17 +2367,15 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre>
-        <code>/v1/place.json?name=empire state building&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
-/v1/place.xml?name=rfk bridge&amp;borough=queens&amp;app_id=abc123&amp;app_key=def456
+      <pre><code>/v2/place.json?name=empire state building&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
+/v2/place.xml?name=rfk bridge&amp;borough=queens&amp;app_id=abc123&amp;app_key=def456
 </code>
       </pre>
       <p class="showJsonResponse">
         <a href="#">Example JSON response</a>
       </p>
       <div class="highlight exampleJsonResponse">
-        <pre>
-          <span class="p">{</span>
+        <pre><span class="p">{</span>
    <span class="nt">"place"</span><span class="p">:</span>
    <span class="p">{</span>
        <span class="nt">"assemblyDistrict"</span><span class="p">:</span> <span
@@ -2730,8 +2767,7 @@ img.new {
         <a href="#">Example XML response</a>
       </p>
       <div class="highlight exampleXmlResponse">
-        <pre>
-          <span class="nt">&lt;geosupportResponse&gt;</span>
+        <pre><span class="nt">&lt;geosupportResponse&gt;</span>
   <span class="nt">&lt;place&gt;</span>
     <span class="nt">&lt;assemblyDistrict&gt;</span>36<span class="nt">&lt;/assemblyDistrict&gt;</span>
     <span class="nt">&lt;attributeBytes&gt;</span>B<span class="nt">&lt;/attributeBytes&gt;</span>
@@ -3006,7 +3042,7 @@ img.new {
         <a id="section-1.3.1">1.3.1 - SFS (Single-field search)</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v1/search.{format}
+        <strong>Path:</strong> /v2/search.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -3076,9 +3112,8 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre>
-        <code>/v1/search.json?input=314 west 100 st manhattan&amp;app_id=abc123&amp;app_key=def456
-/v1/search.xml?input=broadway and w 100 st&amp;app_id=abc123&amp;app_key=def456
+      <pre><code>/v2/search.json?input=314 west 100 st manhattan&amp;app_id=abc123&amp;app_key=def456
+/v2/search.xml?input=broadway and w 100 st&amp;app_id=abc123&amp;app_key=def456
 </code>
       </pre>
       <!--
