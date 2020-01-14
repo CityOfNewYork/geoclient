@@ -36,12 +36,12 @@ public class WorkAreaConfig
 	private boolean isWorkAreaOne;
 	private List<Field> fields;
 	private List<Filter> outputFilters;
-	
+
 	public WorkAreaConfig()
 	{
 		super();
 	}
-	
+
 	public WorkAreaConfig(String id, int length, boolean isWorkAreaOne, List<Field> fields, List<Filter> outputFilters)
 	{
 		super();
@@ -66,7 +66,7 @@ public class WorkAreaConfig
 		Registry.addWorkArea(workArea);
 		return workArea;
 	}
-	
+
 	public String getId()
 	{
 		return id;
@@ -132,7 +132,7 @@ public class WorkAreaConfig
 		}
 		return duplicates;
 	}
-	
+
 	private Field findDuplicate(Field field, SortedSet<Field> uniqueSet)
 	{
 		for (Field possibleMatch : uniqueSet)
@@ -144,7 +144,7 @@ public class WorkAreaConfig
 		}
 		return null;
 	}
-	
+
 	private void validate(WorkArea workArea)
 	{
 		if (workArea.length() != this.length)
