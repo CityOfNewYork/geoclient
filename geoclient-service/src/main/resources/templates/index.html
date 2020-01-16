@@ -41,21 +41,8 @@ div.exampleJsonResponse, div.exampleXmlResponse {
 sup {
   vertical-align: super;
 }
-
-th.httpStatusCode, td.httpStatusCode {
-  text-align: right;
-}
-
-img.new {
-  border: none;
-  height: 50px;
-  width: 50px;
-  float: left;
-}
   </style>
-<!--[if lt IE 9]>
-  <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-<![endif]-->
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
   <script src="../../js/jquery-1.10.1.js" th:src="@{/js/jquery-1.10.1.js}"></script>
   <script src="../../js/scale.fix.js" th:src="@{/js/scale.fix.js}"></script>
   <script type="text/javascript">
@@ -92,88 +79,27 @@ img.new {
       <p>
         <span class="geo">Geo<span class="client">client</span></span> is software which
         provides developer-friendly API’s for <em>geocoding</em> New
-        York City location information. Behind the scenes, Geoclient
-        uses the Geosupport application as its first-level geocoder.
-        Geoclient is maintained by the <a href="https://maps.nyc.gov">DoITT/DMI/GIS</a>
-        group.
+        York City location information by proxying requests to
+        <span class="geo">Geo<span class="support">support</span></span> which
+        is the City's official geocoder of record.
       </p>
       <p>
-        <span class="geo">Geo<span class="support">support</span></span> is the City of New
-        York’s official geocoder of record, written and maintained by the
-        <a href="https://www1.nyc.gov/site/planning/index.page">Department of City Planning</a>.
+        Although, the names are similar,
+        <span class="geo">Geo<span class="client">client</span></span> and
+        <span class="geo">Geo<span class="support">support</span></span> are
+        completely different systems built and maintained by two different teams:
+        <ul>
+            <li><span class="geo">Geo<span class="client">client</span></span>
+                (this project) is maintained by
+                <a href="https://maps.nyc.gov">DoITT/DMI/GIS</a>.</li>
+            <li><span class="geo">Geo<span class="support">support</span></span>
+                is maintained by the
+                <a href="https://www1.nyc.gov/site/planning/index.page">Department of City Planning</a>.</li>
+        </ul>
       </p>
       <p>
-        <span class="geo">Geo<span class="client">client</span></span>
-        (this project) and the <span class="geo">Geo<span class="support">support</span></span> application are two completely
-        different systems built and maintained by different teams.
-      </p>
-      <p>
-        <!-- Roadmap -->
-        <h2>
-          <a id="roadmap">Roadmap</a>
-        </h2>
-        <ol>
-          <li><a href="#intro"><strong>Intro</strong></a>
-            titled "Before Using Geoclient" describes the most fundamental,
-            yet often misunderstood, purpose and technical design of
-            this project.</li>
-          <li><a href="#section-1.0"><strong>Section 1.0</strong></a>
-            titled "Calling the Geoclient API" documents how application
-            clients call the Geoclient service. It also provides example
-            responses.</li>
-          <li><a href="#section-2.0"><strong>Section 2.0</strong></a>
-            titled "Understanding Geoclient Return Codes" provides
-            reference information for the HTTP and application-level
-            return codes which are provided for all requests.</li>
-          <li><a href="#section-3.0"><strong>Section 3.0</strong></a>
-            titled "Geoclient Function Reference" details what data
-            elements are returned from each request type.</li>
-          <li><a href="#section-4.0"><strong>Section 4.0</strong></a>
-            titled "Geoclient Data Dictionary" provides more detailed
-            reference information on available data items.</li>
-          <li><a href="#section-5.0"><strong>Section 5.0</strong></a>
-            titled "Version Information" provides information about the
-            versions of Geocl: ient and Geosupport used by this service.</li>
-          <li><a href="#section-6.0"><strong>Section 6.0</strong></a>
-            titled "Contact Us" provides contact information for the
-            Citywide GIS group.</li>
-        </ol>
-      </p>
-    </section>
-    <section>
-      <!-- intro -->
-      <h3 id="intro">Before Using Geoclient</h3>
-      <p>
-      One of the most confusing things about the magic land of spatial software development is that <em>every. single. project.</em> is named <strong>geo<em>*something*</em></strong>.
-      </p>
-      <p><blockquote>Geoclient and Geosupport <strong>are different systems</strong>!!</blockquote>
-      </p>
-      <table>
-        <tbody>
-          <tr>
-            <th>System</th>
-            <th>Description</th>
-          </tr>
-          <tr>
-            <td><span class="geo">Geo<span class="client">client</span></span></td>
-            <td>blah blah blah</td>
-          </tr>
-          <tr>
-            <td><span class="geo">Geo<span class="support">support</span></span></td>
-            <td>blah blah blah</td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
-    <section>
-      <p>
-        The <span class="geo">Geo<span class="client">client</span></span> service provides a
-        <code>REST</code><em>ish</em> API for calling most of <span class="geo">Geo<span class="support">support</span></span>'s
-        functions and returning the results in either
-        <code>JSON</code>
-        or
-        <code>XML</code>
-        The service provides:
+        The <span class="geo">Geo<span class="client">client</span></span> 
+        service provides the following endpoints:
       </p>
       <table>
         <tbody>
@@ -188,7 +114,7 @@ img.new {
               property-level, and political information (<a class="goat-url" href="http://a030-goat.nyc.gov/goat/Function1B">source</a>).
             </td>
             <td>
-            <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-1b">1B<sup>*</sup></a>
+            <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-1b">1B<sup>1</sup></a>
             </td>
           </tr>
           <tr>
@@ -240,7 +166,7 @@ img.new {
             <td>Place</td>
             <td>Same as 'Address' above using well-known NYC place name for input (instead of a house number and street).</td>
             <td>
-            <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-1b">1B<sup>*</sup></a>
+            <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-1b">1B<sup>1</sup></a>
             </td>
           </tr>
           <tr>
@@ -277,8 +203,69 @@ img.new {
           </tr>
         </tbody>
       </table>
-      <sup>*</sup>See also: <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-functions-1-1e-extended">1EX</a> and
+      <sup>1</sup>See also: <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-functions-1-1e-extended">1EX</a> and
       <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-functions-1a-bl-bn-extended">1AX</a>
+      <p>
+        <!-- Roadmap -->
+        <h2>
+          <a id="roadmap">Roadmap</a>
+        </h2>
+        <ol>
+          <li><a href="#intro"><strong>Intro</strong></a>
+            titled "Before Using Geoclient" describes the purpose and
+            high-level design of this project.</li>
+          <li><a href="#section-1.0"><strong>Section 1.0</strong></a>
+            titled "Calling the Geoclient API" documents how application
+            clients call the Geoclient service. It also provides example
+            responses.</li>
+          <li><a href="#section-2.0"><strong>Section 2.0</strong></a>
+            titled "Understanding Geoclient Return Codes" provides
+            reference information for the HTTP and application-level
+            return codes which are provided for all requests.</li>
+          <li><a href="#section-3.0"><strong>Section 3.0</strong></a>
+            titled "Geosupport Documentation" provides links to Department of
+            City Planning's documentation of
+            <span class="geo">Geo<span class="support">support</span></span>.</li>
+          <li><a href="#section-4.0"><strong>Section 4.0</strong></a>
+            titled "Version Information" provides real-time software version
+            information about the current node serving this page.
+          <li><a href="#section-5.0"><strong>Section 5.0</strong></a>
+            titled "Contact Us" provides contact information for the
+            Citywide GIS group.</li>
+        </ol>
+      </p>
+    </section>
+    <section>
+      <!-- intro -->
+      <h3 id="intro">Before Using Geoclient</h3>
+      <p>Once upon a time, the developers at DoITT/DMI/GIS found themselves
+      repeatedly copying a fairly large amount of platform-specific
+      <code>Java/JNI</code> and <code>C</code> client code between their own
+      projects which depended on
+      <span class="geo">Geo<span class="support">support</span></span> for
+      geocoding services.
+      </p>
+      <p>
+      <span class="geo">Geo<span class="client">client</span></span> was
+      built to provide a simplified service API for interacting with
+      <span class="geo">Geo<span class="support">support</span></span>
+      from any runtime capable of making simple <code>HTTP GET</code> requests.
+      In other words, <span class="geo">Geo<span class="client">client</span></span>
+      is just a proxy API for calling <span class="geo">Geo<span class="support">support</span></span>
+      which works dilligently behind the scenes doing the actual geocoding with
+      its own data carefully researched and maintained by the Department of
+      City Planning.
+      </p>
+      <p>
+        <span class="geo">Geo<span class="client">client</span></span> itself
+        contains no additional spatial logic or reference data and by design
+        tries only to make it easier for applications to call
+        <span class="geo">Geo<span class="support">support</span></span>.
+        The one exception is the <code>/search</code> endpoint which adds
+        NYC location-aware, natural language parsing functionality appropriate
+        for user-driven, "single-field search" e.g., via Ajax calls from an
+        web page. See <a href="#section-1.3">Section 1.3</a> for details.
+      </p>
     </section>
     <section>
       <!-- 1.0 - Calling the Geoclient API -->
@@ -288,8 +275,13 @@ img.new {
       <p>
         All requests are made as simple <code>HTTP GET</code>'s with input
         arguments specified as URL query parameters. The service returns
-        the JSON (application/json) or XML (application/xml) media
-        types, depending on the requested file extension.
+        the
+        <ul>
+            <li><strong><code>JSON</code></strong> (<code>application/json</code>)</li>
+            <li>or</li>
+            <li><strong><code>XML</code></strong> (<code>application/xml</code>)</li>
+        </ul>
+        media types, depending on the file extension of the requested resource.
       </p>
       <p>
         Any response from <span class="geo">Geo<span class="client">client</span></span>
@@ -352,7 +344,7 @@ img.new {
               access application key</li>
           </ul>
         </li>
-        <li><strong>borough</strong> (required<sup>1</sup>,<sup>2</sup>,<sup>3</sup>)
+        <li><strong>borough</strong> (required<sup>2</sup>,<sup>3</sup>,<sup>4</sup>)
           parameter - must be one of the following (case-insensitive):
           <ul>
             <li><code>Manhattan</code></li>
@@ -363,9 +355,9 @@ img.new {
           </ul></li>
       </ul>
       <p>
-        <sup>1</sup>Not applicable to BIN calls<br />
-        <sup>2</sup>Not required for ADDRESS or PLACE calls if zip is given<br />
-        <sup>3</sup>Some caveats apply for single-field search requests
+        <sup>2</sup>Not applicable to BIN calls<br />
+        <sup>3</sup>Not required for ADDRESS or PLACE calls if zip is given<br />
+        <sup>4</sup>Some caveats apply for single-field search requests
       </p>
       <h3>
         <a id="section-1.2">1.2 - Request Parameters by Type</a>
@@ -388,7 +380,7 @@ img.new {
         <a id="section-1.2.1">1.2.1 - Address</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v2/address.{format}
+        <strong>URI:</strong> address.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -431,8 +423,8 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre><code>/v2/address.json?houseNumber=314&amp;street=west 100 st&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456</code>
-        <code>/v2/address.xml?houseNumber=109-20&amp;street=71st rd&amp;borough=queens&amp;app_id=abc123&amp;app_key=def456</code></pre>
+      <pre><code>&lt;baseuri&gt;/address.json?houseNumber=314&amp;street=west 100 st&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
+&lt;baseuri&gt;/address.xml?houseNumber=109-20&amp;street=71st rd&amp;borough=queens&amp;app_id=abc123&amp;app_key=def456</code></pre>
       <p class="showJsonResponse">
         <a href="#">Example JSON response</a>
       </p>
@@ -983,7 +975,7 @@ img.new {
         <a id="section-1.2.2">1.2.2 - BBL</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v2/bbl.{format}
+        <strong>URI:</strong> bbl.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -1016,9 +1008,8 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre><code>/v2/bbl.json?borough=manhattan&amp;block=1889&amp;lot=1&amp;app_id=abc123&amp;app_key=def456
-/v2/bbl.xml?borough=manhattan&amp;block=67&amp;lot=1&amp;app_id=abc123&amp;app_key=def456</code>
-      </pre>
+      <pre><code>&lt;baseuri&gt;/bbl.json?borough=manhattan&amp;block=1889&amp;lot=1&amp;app_id=abc123&amp;app_key=def456
+&lt;baseuri&gt;/bbl.xml?borough=manhattan&amp;block=67&amp;lot=1&amp;app_id=abc123&amp;app_key=def456</code></pre>
       <p class="showJsonResponse">
         <a href="#">Example JSON response</a>
       </p>
@@ -1255,7 +1246,7 @@ img.new {
         <a id="section-1.2.3">1.2.3 - BIN</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v2/bin.{format}
+        <strong>URI:</strong> bin.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -1277,10 +1268,8 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre><code>/v2/bin.json?bin=1079043&amp;app_id=abc123&amp;app_key=def456
-/v2/bin.xml?bin=1057127&amp;app_id=abc123&amp;app_key=def456
-</code>
-      </pre>
+      <pre><code>&lt;baseuri&gt;/bin.json?bin=1079043&amp;app_id=abc123&amp;app_key=def456
+&lt;baseuri&gt;/bin.xml?bin=1057127&amp;app_id=abc123&amp;app_key=def456</code></pre>
       <p class="showJsonResponse">
         <a href="#">Example JSON response</a>
       </p>
@@ -1524,7 +1513,7 @@ img.new {
         <a id="section-1.2.4">1.2.4 - Blockface</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v2/blockface.{format}
+        <strong>URI:</strong> blockface.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -1585,11 +1574,9 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre><code>/v2/blockface.json?onStreet=amsterdam ave&amp;crossStreetOne=w 110 st&amp;crossStreetTwo=w 111 st&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
-/v2/blockface.xml?onStreet=amsterdam ave&amp;crossStreetOne=w 110 st&amp;crossStreetTwo=w 111 st&amp;borough=manhattan&amp;compassDirection=e&amp;app_id=abc123&amp;app_key=def456
-/v2/blockface.xml?onStreet=eldert ln&amp;crossStreetOne=etna street&amp;crossStreetTwo=ridgewood ave&amp;borough=queens&amp;boroughCrossStreetOne=brooklyn&amp;boughCrossStreetTwo=brooklyn&amp;compassDirection=e&amp;app_id=abc123&amp;app_key=def456
-</code>
-      </pre>
+      <pre><code>&lt;baseuri&gt;/blockface.json?onStreet=amsterdam ave&amp;crossStreetOne=w 110 st&amp;crossStreetTwo=w 111 st&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
+&lt;baseuri&gt;/blockface.xml?onStreet=amsterdam ave&amp;crossStreetOne=w 110 st&amp;crossStreetTwo=w 111 st&amp;borough=manhattan&amp;compassDirection=e&amp;app_id=abc123&amp;app_key=def456
+&lt;baseuri&gt;/blockface.xml?onStreet=eldert ln&amp;crossStreetOne=etna street&amp;crossStreetTwo=ridgewood ave&amp;borough=queens&amp;boroughCrossStreetOne=brooklyn&amp;boughCrossStreetTwo=brooklyn&amp;compassDirection=e&amp;app_id=abc123&amp;app_key=def456</code></pre>
       <p class="showJsonResponse">
         <a href="#">Example JSON response</a>
       </p>
@@ -2017,7 +2004,7 @@ img.new {
         <a id="section-1.2.5">1.2.5 - Intersection</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v2/intersection.{format}
+        <strong>URI:</strong> intersection.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -2065,11 +2052,9 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre><code>/v2/intersection.json?crossStreetOne=broadway&amp;crossStreetTwo=w 99 st&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
-/v2/intersection.xml?crossStreetOne=rsd&amp;crossStreetTwo=w 97 st&amp;borough=manhattan&amp;compassDirection=e&amp;app_id=abc123&amp;app_key=def456
-/v2/intersection.json?crossStreetOne=jamaica ave&amp;crossStreetTwo=eldert ln&amp;borough=brooklyn&amp;boroughCrossStreetTwo=queens&amp;app_id=abc123&amp;app_key=def456
-</code>
-      </pre>
+      <pre><code>&lt;baseuri&gt;/intersection.json?crossStreetOne=broadway&amp;crossStreetTwo=w 99 st&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
+&lt;baseuri&gt;/intersection.xml?crossStreetOne=rsd&amp;crossStreetTwo=w 97 st&amp;borough=manhattan&amp;compassDirection=e&amp;app_id=abc123&amp;app_key=def456
+&lt;baseuri&gt;/intersection.json?crossStreetOne=jamaica ave&amp;crossStreetTwo=eldert ln&amp;borough=brooklyn&amp;boroughCrossStreetTwo=queens&amp;app_id=abc123&amp;app_key=def456</code></pre>
       <p class="showJsonResponse">
         <a href="#">Example JSON response</a>
       </p>
@@ -2329,7 +2314,7 @@ img.new {
         <a id="section-1.2.6">1.2.6 - Place</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v2/place.{format}
+        <strong>URI:</strong> place.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -2367,10 +2352,8 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre><code>/v2/place.json?name=empire state building&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
-/v2/place.xml?name=rfk bridge&amp;borough=queens&amp;app_id=abc123&amp;app_key=def456
-</code>
-      </pre>
+      <pre><code>&lt;baseuri&gt;/place.json?name=empire state building&amp;borough=manhattan&amp;app_id=abc123&amp;app_key=def456
+&lt;baseuri&gt;/place.xml?name=rfk bridge&amp;borough=queens&amp;app_id=abc123&amp;app_key=def456</code></pre>
       <p class="showJsonResponse">
         <a href="#">Example JSON response</a>
       </p>
@@ -2986,7 +2969,7 @@ img.new {
           zipcode it is removed and kept as a &lt;ZIP&gt; token: <pre>314 W 100 ST, NY, NY [10025]</pre>
         </li>
         <li>If the input string ends with a valid two-character
-          U.S. state abreviation it is recognized and removed<sup>1</sup>:
+          U.S. state abreviation it is recognized and removed<sup>5</sup>:
           <pre>314 W 100 ST, NY, [NY]</pre>
         </li>
         <li>If the input string ends with a known N.Y.C. city name
@@ -3013,7 +2996,7 @@ img.new {
           recognized as an ADDRESS request, otherwise it is defaulted to
           a PLACE request</li>
       </ol>
-      <sup>1</sup>Input ending in only a single instance of "NY" or "New
+      <sup>5</sup>Input ending in only a single instance of "NY" or "New
       York" (case-insensitive) is treated as a city name alias for
       Manhattan and not the state of New York.
       <p>All matching is case-insensitive. Leading/trailing
@@ -3042,7 +3025,7 @@ img.new {
         <a id="section-1.3.1">1.3.1 - SFS (Single-field search)</a>
       </h3>
       <p>
-        <strong>Path:</strong> /v2/search.{format}
+        <strong>URI:</strong> search.{format}
       </p>
       <p>
         <strong>Parameters:</strong>
@@ -3112,20 +3095,8 @@ img.new {
       <p>
         <strong>Example Requests:</strong>
       </p>
-      <pre><code>/v2/search.json?input=314 west 100 st manhattan&amp;app_id=abc123&amp;app_key=def456
-/v2/search.xml?input=broadway and w 100 st&amp;app_id=abc123&amp;app_key=def456
-</code>
-      </pre>
-      <!--
-<p class="showJsonResponse"><a href="#">Example JSON response</a></p>
-
-<div class="highlight exampleJsonResponse"></div>
-
-<p class="showXmlResponse"><a href="#">Example XML response</a></p>
-
-<div class="highlight exampleXmlResponse"></div>
- -->
-      <!-- ################################ -->
+      <pre><code>&lt;baseuri&gt;/search.json?input=314 west 100 st manhattan&amp;app_id=abc123&amp;app_key=def456
+&lt;baseuri&gt;/search.xml?input=broadway and w 100 st&amp;app_id=abc123&amp;app_key=def456</code></pre>
     </section>
     <section>
       <!-- 2.0 - Understanding Geoclient Return Codes -->
@@ -3147,11 +3118,12 @@ img.new {
         Geoclient service will always provide status codes for all
         requests made to a valid Geoclient service URL. Full
         documentation of possible HTTP status codes are beyond the scope
-        of this document, but <a
-          href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">section
-          10</a> of <a
-          href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">RFC
-          2616</a> provides detailed information.
+        of this document, but
+        <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">Mozilla</a>
+        provides an easy to understand reference site. For more detailed
+        information, please see
+        <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html">section 10</a>
+        of <a href="http://www.w3.org/Protocols/rfc2616/rfc2616.html">RFC 2616</a>.
       </p>
       <p>In brief, here are the most commonly returned HTTP status
         codes:</p>
@@ -3171,9 +3143,23 @@ img.new {
           </tr>
           <tr>
             <td class="httpStatusCode">400</td>
-            <td>A required query parameter is missing. See <a
-              href="#section-1.2">section 1.2</a> for information on
-              call parameters.
+            <td>A required query parameter is missing. See
+                <a href="#section-1.2">section 1.2</a> for information on
+                call parameters.
+            </td>
+          </tr>
+          <tr>
+            <td class="httpStatusCode">401</td>
+            <td>Unauthorized: indicates that the request has not been applied
+                because it lacks valid authentication credentials for the
+                target resource.
+            </td>
+          </tr>
+          <tr>
+            <td class="httpStatusCode">403</td>
+            <td>Forbidden: The HTTP 403 Forbidden client error status response
+                code indicates that the server understood the request but
+                refuses to authorize it.
             </td>
           </tr>
           <tr>
@@ -3192,11 +3178,119 @@ img.new {
         <a id="section-2.2">2.2 - Geosupport Return Codes</a>
       </h3>
       <p>
-        The following table decribes the various Geosupport return codes
-        that are returned by the Geoclient service. Note that these
-        codes come directly from the <strong>Geosupport</strong>
-        application and they are documented in the UPG Section II.2.
+        The following table summarizes the meaning of the codes
+        returned by
+        <span class="geo">Geo<span class="support">support</span></span> to
+        indicate the processing status of a given function call.
+        This is only a very high-level summary. Please see DCP's official<br />
+        <a href="https://nycplanning.github.io/Geosupport-UPG/appendices/appendix04/">
+            return code documentation</a>
+        <br />
+        for a complete explanation of all codes and their meaning.
+        <blockquote>
+        Note that return codes come directly from the <strong>Geosupport</strong>
+        application; as mentioned in <a href="#section-2.1">section 2.1</a>
+        above, the <span class="geo">Geo<span class="client">client</span></span>
+        service uses standard <code>HTTP</code> status codes to report on
+        it's own request processing.
+        </blockquote>
       </p>
+      <table>
+        <tbody>
+          <tr>
+            <th>Return Code</th>
+            <th>Description</th>
+            <th>Response Fields</th>
+          </tr>
+          <tr>
+            <td>00</td>
+            <td>Success</td>
+            <td>
+            <code>geosupportReturnCode</code>,
+            (<code>reasonCode</code> and
+            <code>message</code> will be <em>blank</em>)
+            </td>
+          </tr>
+          <tr>
+            <td>01</td>
+            <td>Success with warnings</td>
+            <td>
+                <code>geosupportReturnCode</code>,
+                <code>reasonCode</code>,
+                <code>message</code>
+            </td>
+          </tr>
+          <tr>
+            <td>GRC &gt; 01</td>
+            <td>Reject or error</td>
+            <td>
+                <code>geosupportReturnCode</code>,
+                <code>reasonCode</code>,
+                <code>message</code>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p>
+      Some <span class="geo">Geo<span class="support">support</span></span>
+      functions are actually just the combined results of two "sub-function"
+      calls. At this time, function <code>1B</code>
+      (exposed by the <span class="geo">Geo<span class="client">client</span></span>
+      <code>address</code> endpoint) is the only case where this applies.
+      </p>
+      <p>
+      Results returned by function <code>1B</code> are composed of calls to
+      functions <code>1EX</code>(theoretical address that may or may not exist
+      in reality computed using the house number range based off of segment
+      information from the street's centerline) and <code>1AX</code> (real
+      address and associated property-level information based on tax lot
+      information).
+      </p>
+      <p>Although it is uncommon, there are a significant number of locations
+      where data is valid and/or available for only one of these two
+      sub-function calls. Therefore, please check the following fields when
+      calling <span class="geo">Geo<span class="client">client</span></span>'s
+      <code>address</code> endpoint:
+      </p>
+      <table>
+        <tbody>
+          <tr>
+            <th>1B sub-function</th>
+            <th>Field</th>
+            <th>Alias</th>
+          </tr>
+          <tr>
+            <td><code>1EX</code></td>
+            <td><code>geosupportReturnCode</code></td>
+            <td><code>returnCode1e</code></td>
+          </tr>
+          <tr>
+            <td><code>1EX</code></td>
+            <td><code>reasonCode</code></td>
+            <td><code>reasonCode1e</code></td>
+          </tr>
+          <tr>
+            <td><code>1EX</code></td>
+            <td><code>message</code></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><code>1AX</code></td>
+            <td><code>geosupportReturnCode2</code></td>
+            <td><code>returnCode1a</code></td>
+          </tr>
+          <tr>
+            <td><code>1AX</code></td>
+            <td><code>reasonCode2</code></td>
+            <td><code>reasonCode1a</code></td>
+          </tr>
+          <tr>
+            <td><code>1AX</code></td>
+            <td><code>message2</code></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
     </section>
     <section>
       <!-- 3.0 - Geosupport Documentation -->
@@ -3384,9 +3478,13 @@ img.new {
           Development</a> group.
       </p>
       <p>
-        For questions or issues with the data provided by Geosupport,
-        please contact the <a href="http://www.nyc.gov/dcp">Department
-          of City Planning</a>.
+        For questions or issues about geocoding accuracy, with the data
+        returned from <span class="geo">Geo<span class="support">support</span></span>,
+        or alternatives to this project please contact
+        <a href="mailto:GSS_Software@planning.nyc.gov"></a>.<br />
+        For general information about DCP, including other services they
+        provide, please visit the official
+        <a href="http://www.nyc.gov/dcp">Department of City Planning</a> site.
       </p>
       <p>
         The look and feel of this documentation page was generated on <a
@@ -3401,8 +3499,6 @@ img.new {
       </p>
     </footer>
   </div>
-<!--[if !IE]>
-  <script>fixScale(document);</script>
-<![endif]-->
+<!--[if !IE]><script>fixScale(document);</script><![endif]-->
 </body>
 </html>
