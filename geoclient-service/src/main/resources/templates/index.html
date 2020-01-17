@@ -30,8 +30,12 @@ h3.header {
   font-weight: bold;
 }
 
-ol li {
-  padding-top: 20px;
+h1.client {
+  font-weight: normal;
+}
+
+.header span.client, .header span.support {
+  font-weight: lighter;
 }
 
 div.exampleJsonResponse, div.exampleXmlResponse {
@@ -61,21 +65,21 @@ sup {
 <body>
   <div class="wrapper">
     <header>
-      <h1 class="header">Geoclient</h1>
+      <h1 class="header">Geo<span class="client">client</span></h1>
       <p class="header">
         Version <span th:text="${version.geoclientServiceVersion}">v2</span>
       </p>
       <ul>
         <li><a class="buttons github" href="https://github.com/CityOfNewYork/geoclient">View On GitHub</a></li>
       </ul>
-      <h3 class="header">Geosupport</h3>
+      <h3 class="header">Geo<span class="support">support</span></h3>
       <p>
         Version <span th:text="${version.geosupportVersion.version}">20.1</span><br />
         Release <span th:text="${version.geosupportVersion.release}">20A</span>
       </p>
     </header>
     <section>
-      <h1 id="geoclient">Geoclient</h1>
+        <h1 id="geoclient"><span class="geo">Geo<span class="client">client</span></span></h1>
       <p>
         <span class="geo">Geo<span class="client">client</span></span> is software which
         provides developer-friendly API’s for <em>geocoding</em> New
@@ -196,7 +200,8 @@ sup {
           <tr>
             <td>Version</td>
             <td>Provides software version information about the
-              Geoclient endpoint itself and Geosupport version/release
+              <span class="geo">Geo<span class="client">client</span></span>
+              endpoint itself and Geosupport version/release
               info directly from the Geosupport instance this endpoint
               is currently using.</td>
             <td>HR (undocumented Geosupport metadata function)</td>
@@ -216,8 +221,8 @@ sup {
             high-level design of this project.</li>
           <li><a href="#section-1.0"><strong>Section 1.0</strong></a>
             titled "Calling the Geoclient API" documents how application
-            clients call the Geoclient service. It also provides example
-            responses.</li>
+            clients call the <span class="geo">Geo<span class="client">client</span></span>
+            service. It also provides example responses.</li>
           <li><a href="#section-2.0"><strong>Section 2.0</strong></a>
             titled "Understanding Geoclient Return Codes" provides
             reference information for the HTTP and application-level
@@ -313,8 +318,9 @@ sup {
           in this document, calling applications should not depend on any
           particular formatting of responses.</li>
           <li>The order of returned data elements is unspecified.</li>
-          <li>Client code which parses responses from Geoclient <em>should
-          not rely upon significant whitespace or element/attribute
+          <li>Client code which parses responses from
+          <span class="geo">Geo<span class="client">client</span></span>
+          <em>should not rely upon significant whitespace or element/attribute
           ordering</em>.</li>
           <li>Occasionally, <span class="geo">Geo<span class="support">support</span></span>
           fails to recognize a valid location or there is a bug in the
@@ -362,10 +368,12 @@ sup {
       <h3>
         <a id="section-1.2">1.2 - Request Parameters by Type</a>
       </h3>
-      <p>The following sections describe how to call the Geoclient
+      <p>The following sections describe how to call the
+        <span class="geo">Geo<span class="client">client</span></span>
         API. Required and optional query parameters are listed for each
-        type of supported call. Although the actual Geosupport API can
-        be called with a vast number of optional parameters, at this
+        type of supported call. Although the actual
+        <span class="geo">Geo<span class="support">support</span></span> API
+        can be called with a vast number of optional parameters, at this
         time this service only supports what's listed below.</p>
       <p>
         <strong>Note:</strong> Example <code>GET</code>
@@ -2946,10 +2954,12 @@ sup {
         Begining with version 1.10, any of the six request types
         documented in <a href="section-1.2">section 1.2</a> can be
         accessed using a single unparsed location string. Assuming that
-        the Geoclient parser can guess the location type requested and
+        the <span class="geo">Geo<span class="client">client</span></span>
+        parser can guess the location type requested and
         the given single-field input parameter contains contains enough
-        information to generate a successful Geosupport call, the
-        service will return one or more sets of geocodes corresponding
+        information to generate a successful
+        <span class="geo">Geo<span class="support">support</span></span> call,
+        the service will return one or more sets of geocodes corresponding
         to the type of request that was made.
       </p>
       <p>The single-field search will attempt to recognize the type
@@ -3007,7 +3017,9 @@ sup {
         (1=Manhattan, 2=Bronx, 3=Brooklyn, 4=Queens, 5=Staten Island).</p>
       <ul>
         <li>If a valid borough code has been resolved, a single
-          request is made to Geosupport using the specified borough
+          request is made to
+          <span class="geo">Geo<span class="support">support</span></span>
+          using the specified borough
           code. The request is assigned a "level" of zero.</li>
         <li>If a valid borough code cannot be derived (either
           because no borough was provided or the provided borough/city
@@ -3015,10 +3027,12 @@ sup {
           submitted - one for each borough. Each request is assigned a
           "level" of one.</li>
       </ul>
-      <p>The Geoclient service uses the concept of search levels to
+      <p>The <span class="geo">Geo<span class="client">client</span></span>
+        service uses the concept of search levels to
         classify the degree to which any user input has been modified by
-        the program before making the request to Geosupport. Roughly
-        speaking, each additional level indicates a round of
+        the program before making the request to
+        <span class="geo">Geo<span class="support">support</span></span>.
+        Roughly speaking, each additional level indicates a round of
         sub-searches undertaken when the service does not find an exact
         match.</p>
       <h3>
@@ -3104,9 +3118,11 @@ sup {
         <a id="section-2.0">2.0 - Understanding Geoclient Return
           Codes</a>
       </h2>
-      <p>There are two ways in which the Geoclient service
+      <p>There are two ways in which the
+        <span class="geo">Geo<span class="client">client</span></span> service
         communicates call status information: HTTP status codes and
-        Geosupport API return codes. The former will always be provided;
+        <span class="geo">Geo<span class="support">support</span></span>
+        API return codes. The former will always be provided;
         the only time in which latter will not be available is when the
         service itself is down or system error prevents the application
         from returning data to the client.</p>
@@ -3115,10 +3131,12 @@ sup {
       </h3>
       <p>
         The HTTP protocol implementation used by clients to call the
-        Geoclient service will always provide status codes for all
-        requests made to a valid Geoclient service URL. Full
-        documentation of possible HTTP status codes are beyond the scope
-        of this document, but
+        <span class="geo">Geo<span class="client">client</span></span>
+        service will always provide status codes for all
+        requests made to a valid
+        <span class="geo">Geo<span class="client">client</span></span>
+        service URL. Full documentation of possible HTTP status codes are
+        beyond the scope of this document, but
         <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">Mozilla</a>
         provides an easy to understand reference site. For more detailed
         information, please see
@@ -3135,7 +3153,8 @@ sup {
           </tr>
           <tr>
             <td class="httpStatusCode">200</td>
-            <td>The call successfully reached the Geoclient
+            <td>The call successfully reached the
+                <span class="geo">Geo<span class="client">client</span></span>
               application. Application-level return codes contain
               information on success or failure of the call (see <a
               href="#section-2.2">section 2.2</a>
@@ -3169,8 +3188,9 @@ sup {
           </tr>
           <tr>
             <td class="httpStatusCode">500</td>
-            <td>The Geoclient service could not process the request
-              due to an internal server error.</td>
+            <td>The <span class="geo">Geo<span class="client">client</span></span>
+            service could not process the request due to an internal server
+            error.</td>
           </tr>
         </tbody>
       </table>
@@ -3221,7 +3241,7 @@ sup {
             </td>
           </tr>
           <tr>
-            <td>GRC &gt; 01</td>
+            <td>GRC greater than 01</td>
             <td>Reject or error</td>
             <td>
                 <code>geosupportReturnCode</code>,
@@ -3246,6 +3266,7 @@ sup {
       address and associated property-level information based on tax lot
       information).
       </p>
+      <h4>Function 1B</h4>
       <p>Although it is uncommon, there are a significant number of locations
       where data is valid and/or available for only one of these two
       sub-function calls. Therefore, please check the following fields when
@@ -3255,7 +3276,7 @@ sup {
       <table>
         <tbody>
           <tr>
-            <th>1B sub-function</th>
+            <th>1B Sub-function</th>
             <th>Field</th>
             <th>Alias</th>
           </tr>
@@ -3298,7 +3319,9 @@ sup {
         <a id="section-3.0">3.0 - Geosupport Documentation</a>
       </h2>
       <p>This section provides links to some of the Department of
-        City Planning's online Geosupport documentation.</p>
+        City Planning's online
+        <span class="geo">Geo<span class="support">support</span></span>
+        documentation.</p>
       <table>
         <tbody>
           <tr>
@@ -3309,9 +3332,10 @@ sup {
             <td><a href="http://a030-goat.nyc.gov/goat">GOAT</a> -
               Geographic Online Address Translator</td>
             <td>Department of City Planning website which provides
-              direct, web-based access to Geosupport. This site also
-              includes information for contacting DCP with questions
-              about Geosupport.</td>
+              direct, web-based access to
+              <span class="geo">Geo<span class="support">support</span></span>.
+              This site also includes information for contacting DCP with
+              questions about Geosupport.</td>
           </tr>
           <tr>
             <td><a href="http://a030-goat.nyc.gov/goat/UserGuide">GOAT
@@ -3335,12 +3359,15 @@ sup {
         <a id="section-4.0">4.0 - Version Information</a>
       </h2>
       <p>This section provides version information about the
-        Geoclient and Geosupport software providing this service.</p>
+        <span class="geo">Geo<span class="client">client</span></span>
+        and <span class="geo">Geo<span class="support">support</span></span>
+        software providing this service.</p>
       <h3>
         <a id="section-4.1">4.1 - Geoclient Version</a>
       </h3>
-      <p>The Geoclient service provides a simple API for calling
-        Geosupport functions.</p>
+      <p>The <span class="geo">Geo<span class="client">client</span></span>
+      service provides a simple API for calling
+      <span class="geo">Geo<span class="support">support</span></span> functions.</p>
       <table>
         <thead>
           <tr>
@@ -3374,11 +3401,14 @@ sup {
       <h3>
         <a id="section-4.2">4.2 - Geosupport Version</a>
       </h3>
-      <p>Geosupport is the underlying system that does the actual
-        geocoding for the Geoclient service. It is written and
-        maintained by the Department of City Planning. Geosupport uses
-        "version" to refer to software component versioning and
-        "release" to refer to data changes.</p>
+      <p><span class="geo">Geo<span class="support">support</span></span>
+        is the underlying system that does the actual
+        geocoding for the
+        <span class="geo">Geo<span class="client">client</span></span>
+        service. It is written and maintained by the Department of City
+        Planning. <span class="geo">Geo<span class="support">support</span></span>
+        uses "version" to refer to software component
+        versioning and "release" to refer to data changes.</p>
       <table th:with="gv=${version.geosupportVersion}">
         <thead>
           <tr>
@@ -3472,9 +3502,9 @@ sup {
         <a id="section-5.0">5.0 - Contact Us</a>
       </h2>
       <p>
-        For Geoclient API usage, bug reporting and enhancement requests,
-        please contact the <a
-          href="mailto:gis-development@doitt.nyc.gov">Citywide GIS
+        For <span class="geo">Geo<span class="client">client</span></span>
+        API usage, bug reporting and enhancement requests, please contact
+        the <a href="mailto:gis-development@doitt.nyc.gov">Citywide GIS
           Development</a> group.
       </p>
       <p>
