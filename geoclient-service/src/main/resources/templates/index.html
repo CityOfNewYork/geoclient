@@ -30,9 +30,6 @@ h3.header {
   font-weight: bold;
 }
 
-h1.client {
-  font-weight: normal;
-}
 
 .header span.client, .header span.support {
   font-weight: lighter;
@@ -67,19 +64,19 @@ sup {
     <header>
       <h1 class="header">Geo<span class="client">client</span></h1>
       <p class="header">
-        Version <span th:text="${version.geoclientServiceVersion}">v2</span>
+        Version <span class="client" th:text="${version.geoclientServiceVersion}">v2</span>
       </p>
       <ul>
         <li><a class="buttons github" href="https://github.com/CityOfNewYork/geoclient">View On GitHub</a></li>
       </ul>
       <h3 class="header">Geo<span class="support">support</span></h3>
       <p>
-        Version <span th:text="${version.geosupportVersion.version}">20.1</span><br />
-        Release <span th:text="${version.geosupportVersion.release}">20A</span>
+        Version <span class="support" th:text="${version.geosupportVersion.version}">20.1</span><br />
+        Release <span class="support" th:text="${version.geosupportVersion.release}">20A</span>
       </p>
     </header>
     <section>
-        <h1 id="geoclient"><span class="geo">Geo<span class="client">client</span></span></h1>
+        <h1 id="geoclient">Geoclient v2</h1>
       <p>
         <span class="geo">Geo<span class="client">client</span></span> is software which
         provides developer-friendly API’s for <em>geocoding</em> New
@@ -87,7 +84,6 @@ sup {
         <span class="geo">Geo<span class="support">support</span></span> which
         is the City's official geocoder of record.
       </p>
-      <p>
         Although, the names are similar,
         <span class="geo">Geo<span class="client">client</span></span> and
         <span class="geo">Geo<span class="support">support</span></span> are
@@ -100,9 +96,8 @@ sup {
                 is maintained by the
                 <a href="https://www1.nyc.gov/site/planning/index.page">Department of City Planning</a>.</li>
         </ul>
-      </p>
       <p>
-        The <span class="geo">Geo<span class="client">client</span></span> 
+        The <span class="geo">Geo<span class="client">client</span></span>
         service provides the following endpoints:
       </p>
       <table>
@@ -118,7 +113,7 @@ sup {
               property-level, and political information (<a class="goat-url" href="http://a030-goat.nyc.gov/goat/Function1B">source</a>).
             </td>
             <td>
-            <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-1b">1B<sup>1</sup></a>
+            <a class="upg-url" href="https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-1b">1B<sup>1</sup></a>
             </td>
           </tr>
           <tr>
@@ -170,7 +165,7 @@ sup {
             <td>Place</td>
             <td>Same as 'Address' above using well-known NYC place name for input (instead of a house number and street).</td>
             <td>
-            <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-1b">1B<sup>1</sup></a>
+            <a class="upg-url" href="https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-function-1b">1B<sup>1</sup></a>
             </td>
           </tr>
           <tr>
@@ -199,19 +194,16 @@ sup {
           </tr>
           <tr>
             <td>Version</td>
-            <td>Provides software version information about the
-              <span class="geo">Geo<span class="client">client</span></span>
-              endpoint itself and Geosupport version/release
-              info directly from the Geosupport instance this endpoint
-              is currently using.</td>
+            <td>Provides software version information about the Geoclient
+              endpoint itself and Geosupport version/release info directly
+              from the Geosupport instance this endpoint is currently using.
+            </td>
             <td>HR (undocumented Geosupport metadata function)</td>
           </tr>
         </tbody>
       </table>
-      <sup>1</sup>See also: <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-functions-1-1e-extended">1EX</a> and
-      <a class="upg-url" "https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-functions-1a-bl-bn-extended">1AX</a>
-      <p>
-        <!-- Roadmap -->
+      <sup>1</sup>See also: <a class="upg-url" href="https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-functions-1-1e-extended">1EX</a> and
+      <a class="upg-url" href="https://nycplanning.github.io/Geosupport-UPG/appendices/appendix13#work-area-2-cow-functions-1a-bl-bn-extended">1AX</a>
         <h2>
           <a id="roadmap">Roadmap</a>
         </h2>
@@ -238,10 +230,8 @@ sup {
             titled "Contact Us" provides contact information for the
             Citywide GIS group.</li>
         </ol>
-      </p>
     </section>
     <section>
-      <!-- intro -->
       <h3 id="intro">Before Using Geoclient</h3>
       <p>Once upon a time, the developers at DoITT/DMI/GIS found themselves
       repeatedly copying a fairly large amount of platform-specific
@@ -273,11 +263,9 @@ sup {
       </p>
     </section>
     <section>
-      <!-- 1.0 - Calling the Geoclient API -->
       <h2>
         <a id="section-1.0">1.0 - Calling the Geoclient API</a>
       </h2>
-      <p>
         All requests are made as simple <code>HTTP GET</code>'s with input
         arguments specified as URL query parameters. The service returns
         the
@@ -287,7 +275,6 @@ sup {
             <li><strong><code>XML</code></strong> (<code>application/xml</code>)</li>
         </ul>
         media types, depending on the file extension of the requested resource.
-      </p>
       <p>
         Any response from <span class="geo">Geo<span class="client">client</span></span>
         is composed almost entirely from the results of the proxied
@@ -298,7 +285,6 @@ sup {
         <a class="dcp-url" href="https://nycplanning.github.io/Geosupport-UPG/">detailed documentation</a>
         about their geocoding logic and return data.
       </p>
-      <p>
       Here's some high-level guidelines that will allow your code to remain
       loosely coupled with this API:
       <ul>
@@ -328,7 +314,6 @@ sup {
           See <a href="#section-5.0">Section 5.0</a> for information on when
           and how to contact the appropriate team.</li>
       </ul>
-      </p>
       <h3>
         <a id="section-1.1">1.1 - Common Request Parameters</a>
       </h3>
@@ -2946,7 +2931,6 @@ sup {
 <span class="nt">&lt;/geosupportResponse&gt;</span>
 </pre>
       </div>
-      <!-- ################################ -->
       <h3>
         <a id="section-1.3">1.3 - Single-field Search</a>
       </h3>
@@ -3113,7 +3097,6 @@ sup {
 &lt;baseuri&gt;/search.xml?input=broadway and w 100 st&amp;app_id=abc123&amp;app_key=def456</code></pre>
     </section>
     <section>
-      <!-- 2.0 - Understanding Geoclient Return Codes -->
       <h2>
         <a id="section-2.0">2.0 - Understanding Geoclient Return
           Codes</a>
@@ -3148,56 +3131,53 @@ sup {
       <table>
         <tbody>
           <tr>
-            <th class="httpStatusCode">HTTP Status Code</th>
+            <th>HTTP Status Code</th>
             <th>Meaning</th>
           </tr>
           <tr>
-            <td class="httpStatusCode">200</td>
-            <td>The call successfully reached the
-                <span class="geo">Geo<span class="client">client</span></span>
+            <td>200</td>
+            <td>The call successfully reached the Geoclient
               application. Application-level return codes contain
               information on success or failure of the call (see <a
-              href="#section-2.2">section 2.2</a>
+              href="#section-2.2">section 2.2</a>)
             </td>
           </tr>
           <tr>
-            <td class="httpStatusCode">400</td>
+            <td>400</td>
             <td>A required query parameter is missing. See
                 <a href="#section-1.2">section 1.2</a> for information on
                 call parameters.
             </td>
           </tr>
           <tr>
-            <td class="httpStatusCode">401</td>
+            <td>401</td>
             <td>Unauthorized: indicates that the request has not been applied
                 because it lacks valid authentication credentials for the
                 target resource.
             </td>
           </tr>
           <tr>
-            <td class="httpStatusCode">403</td>
+            <td>403</td>
             <td>Forbidden: The HTTP 403 Forbidden client error status response
                 code indicates that the server understood the request but
                 refuses to authorize it.
             </td>
           </tr>
           <tr>
-            <td class="httpStatusCode">404</td>
+            <td>404</td>
             <td>An incorrect URL has been used. There is no service
               mapped to it.</td>
           </tr>
           <tr>
-            <td class="httpStatusCode">500</td>
-            <td>The <span class="geo">Geo<span class="client">client</span></span>
-            service could not process the request due to an internal server
-            error.</td>
+            <td>500</td>
+            <td>The Geoclient service could not process the request due to
+                an internal server error.</td>
           </tr>
         </tbody>
       </table>
       <h3>
         <a id="section-2.2">2.2 - Geosupport Return Codes</a>
       </h3>
-      <p>
         The following table summarizes the meaning of the codes
         returned by
         <span class="geo">Geo<span class="support">support</span></span> to
@@ -3214,7 +3194,6 @@ sup {
         service uses standard <code>HTTP</code> status codes to report on
         it's own request processing.
         </blockquote>
-      </p>
       <table>
         <tbody>
           <tr>
@@ -3314,7 +3293,6 @@ sup {
       </table>
     </section>
     <section>
-      <!-- 3.0 - Geosupport Documentation -->
       <h2>
         <a id="section-3.0">3.0 - Geosupport Documentation</a>
       </h2>
@@ -3332,10 +3310,9 @@ sup {
             <td><a href="http://a030-goat.nyc.gov/goat">GOAT</a> -
               Geographic Online Address Translator</td>
             <td>Department of City Planning website which provides
-              direct, web-based access to
-              <span class="geo">Geo<span class="support">support</span></span>.
-              This site also includes information for contacting DCP with
-              questions about Geosupport.</td>
+              direct, web-based access to Geosupport. This site also includes
+              information for contacting DCP with questions about Geosupport.
+            </td>
           </tr>
           <tr>
             <td><a href="http://a030-goat.nyc.gov/goat/UserGuide">GOAT
@@ -3354,7 +3331,6 @@ sup {
       </table>
     </section>
     <section>
-      <!-- 4.0 - Version Information -->
       <h2>
         <a id="section-4.0">4.0 - Version Information</a>
       </h2>
@@ -3497,7 +3473,6 @@ sup {
       </table>
     </section>
     <section>
-      <!-- 5.0 - Contact Us -->
       <h2>
         <a id="section-5.0">5.0 - Contact Us</a>
       </h2>
