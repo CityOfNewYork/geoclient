@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import gov.nyc.doitt.gis.geoclient.parser.AbstractSpecTest;
 import gov.nyc.doitt.gis.geoclient.parser.Input;
 import gov.nyc.doitt.gis.geoclient.parser.ParseContext;
-import gov.nyc.doitt.gis.geoclient.parser.regex.ZipParser;
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
 import gov.nyc.doitt.gis.geoclient.parser.token.Token;
@@ -30,7 +29,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ZipParserTest extends AbstractSpecTest 
+public class ZipParserTest extends AbstractSpecTest
 {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ZipParserTest.class);
 	private ZipParser parser;
@@ -40,13 +39,13 @@ public class ZipParserTest extends AbstractSpecTest
 	{
 		parser = new ZipParser();
 	}
-	
+
 	@Test
 	public void testTokens()
 	{
 		testParser(parser, LOGGER);
 	}
-	
+
 	@Test
 	public void testParseSuccessChangesCurrentChunk()
 	{
@@ -57,7 +56,7 @@ public class ZipParserTest extends AbstractSpecTest
 		parser.parse(context);
 		assertThat(context.isParsed()).isFalse().as("ParseContext.isParsed should be");
 		assertThat(initialChunk.getType()).isEqualTo(ChunkType.COUNTY).as("Chunk.Type of initial Chunk:");
-		assertThat(initialChunk.contains(new Token(TokenType.ZIP, "10025", 23, 28))).isTrue().as("Initial Chunk contains:");		
+		assertThat(initialChunk.contains(new Token(TokenType.ZIP, "10025", 23, 28))).isTrue().as("Initial Chunk contains:");
 		assertThat(initialChunk.tokenCount()).isEqualTo(1).as("Initial Chunk token count:");
 		Chunk actualChunk = context.getCurrent();
 		assertThat(actualChunk.getType()).isEqualTo(ChunkType.SUBSTRING);

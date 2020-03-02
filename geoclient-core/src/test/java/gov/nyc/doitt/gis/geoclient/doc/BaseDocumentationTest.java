@@ -21,8 +21,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import gov.nyc.doitt.gis.geoclient.doc.BaseDocumentation;
-import gov.nyc.doitt.gis.geoclient.doc.Description;
 
 import org.junit.jupiter.api.Test;
 
@@ -36,20 +34,20 @@ public class BaseDocumentationTest
 		bd.setId("xxx");
 		assertTrue(bd.isDocumented());
 	}
-	
-	
+
+
 	@Test
 	public void testCompareTo()
 	{
 		BaseDocumentation abc = new BaseDocumentation("abc",null);
 		BaseDocumentation def = new BaseDocumentation("def",null);
 		assertEquals(abc.getId().compareTo(def.getId()),abc.compareTo(def));
-		assertEquals(def.getId().compareTo(abc.getId()),def.compareTo(abc));		
+		assertEquals(def.getId().compareTo(abc.getId()),def.compareTo(abc));
 		BaseDocumentation abcAlso = new BaseDocumentation("abc",new Description("duh"));
 		assertEquals(0, abc.compareTo(abcAlso));
 		assertEquals(0, abcAlso.compareTo(abc));
 	}
-	
+
 	@Test
 	public void testCompareToThrowsNullPointerExceptionBecauseIdIsNotSet()
 	{
@@ -58,7 +56,7 @@ public class BaseDocumentationTest
 			bd.compareTo(new BaseDocumentation());
 		});
 	}
-	
+
 	@Test
 	public void testSummarize()
 	{
@@ -78,7 +76,7 @@ public class BaseDocumentationTest
 		fd.setDescription(description);
 		assertEquals(description.joinText(" "), fd.joinDescriptionText(" "));
 	}
-	
+
 	@Test
 	public void testHasText()
 	{
@@ -89,7 +87,7 @@ public class BaseDocumentationTest
 		bd.setDescription(desc);
 		assertTrue(bd.hasText());
 	}
-	
+
 	@Test
 	public void testConstructorWithArgs()
 	{
