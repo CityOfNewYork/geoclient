@@ -22,23 +22,20 @@
 #
 #   $ docker run -it --name gcbuild -p 8080:8080 -p 5005:5005 --mount source=vol-geosupport,target=/opt/geosupport -v "$(pwd):/app" mlipper/geoclient:2-build /bin/bash -il
 #
-FROM openjdk:8-jdk-slim
+FROM openjdk:8-jdk-slim AS builder
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 
+ARG GC_VERSION
+ARG GEOSUPPORT_HOME
+ENV GC_VERSION "${GC_VERSION:-2.0.0-rc.5}"
 ENV GEOSUPPORT_HOME "${GEOSUPPORT_HOME:-/opt/geosupport}"
-ENV  GC_JNI_VERSION "${GC_JNI_VERSION:-geoclient-jni-2}"
 
-ENV GRADLE_DEBUG "${GRADLE_DEBUG:-"false"}"
-ENV GRADLE_OPTS "-Dorg.gradle.debug=${GRADLE_DEBUG} ${GRADLE_OPTS}"
-
-RUN set -o errexit -o nounset \
-  && echo "Validating Geosupport environment variables." \
+RUN set -ex \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
       gcc \
       g++ \
       libc6-dev \
-      vim \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
@@ -46,4 +43,4 @@ WORKDIR /app
 EXPOSE 8080:8080
 EXPOSE 5005:5005
 
-CMD ["/bin/bash", "-c", ". ${GEOSUPPORT_HOME}/bin/initenv && /app/gradlew -Dorg.gradle.debug=${GRADLE_DEBUG} clean build bootJar"]
+CMD ["/bin/bash", "-il"]
