@@ -24,27 +24,27 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ZipParser extends AbstractRegexParser {
-	
-	private static final Pattern ZIP = Pattern.compile("(?:.*)\\b(\\d{5})(-\\d{4})?\\s*$");
-	
-	@Override
-	public void parse(ParseContext parseContext)
-	{
-		Chunk currentChunk = parseContext.getCurrent();
-		Matcher matcher = ZIP.matcher(currentChunk.getText());
-		if(!matcher.matches())
-		{
-			patternNotMatched(parseContext, ZIP);
-			return;
-		}
-		
-		MatchBuilder builder = new MatchBuilder();
-		builder.add(matcher)
-		.add(parseContext)
-	 	.add(MatchType.END_OF_INPUT)
-		.add(ZIP,1, TokenType.ZIP)
-		.add(ZIP,2,TokenType.PLUS4);
-		handleMatch(builder.build(), ChunkType.COUNTY);
-	}
-	
+    
+    private static final Pattern ZIP = Pattern.compile("(?:.*)\\b(\\d{5})(-\\d{4})?\\s*$");
+    
+    @Override
+    public void parse(ParseContext parseContext)
+    {
+        Chunk currentChunk = parseContext.getCurrent();
+        Matcher matcher = ZIP.matcher(currentChunk.getText());
+        if(!matcher.matches())
+        {
+            patternNotMatched(parseContext, ZIP);
+            return;
+        }
+        
+        MatchBuilder builder = new MatchBuilder();
+        builder.add(matcher)
+        .add(parseContext)
+        .add(MatchType.END_OF_INPUT)
+        .add(ZIP,1, TokenType.ZIP)
+        .add(ZIP,2,TokenType.PLUS4);
+        handleMatch(builder.build(), ChunkType.COUNTY);
+    }
+    
 }

@@ -21,51 +21,51 @@ import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 
 public class PlaceRequest extends CountyRequest
 {
-	private InputValue streetInputValue;
-	
-	public PlaceRequest()
-	{
-		super();
-	}
-	
-	// Copy constructor
-	public PlaceRequest(PlaceRequest anotherRequest)
-	{
-		super(anotherRequest.getLevel(), anotherRequest.getBoroughInputValue(), anotherRequest.getZipInputValue());		
-		this.streetInputValue = anotherRequest.getStreetInputValue();
-	}
-	
-	public String getStreet()
-	{
-		return stringValueOrNull(streetInputValue);
-	}
+    private InputValue streetInputValue;
+    
+    public PlaceRequest()
+    {
+        super();
+    }
+    
+    // Copy constructor
+    public PlaceRequest(PlaceRequest anotherRequest)
+    {
+        super(anotherRequest.getLevel(), anotherRequest.getBoroughInputValue(), anotherRequest.getZipInputValue());     
+        this.streetInputValue = anotherRequest.getStreetInputValue();
+    }
+    
+    public String getStreet()
+    {
+        return stringValueOrNull(streetInputValue);
+    }
 
-	public InputValue getStreetInputValue()
-	{
-		return streetInputValue;
-	}
+    public InputValue getStreetInputValue()
+    {
+        return streetInputValue;
+    }
 
-	public void setStreetInputValue(InputValue streetInputValue)
-	{
-		this.streetInputValue = streetInputValue;
-	}
+    public void setStreetInputValue(InputValue streetInputValue)
+    {
+        this.streetInputValue = streetInputValue;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "PlaceRequest [level= " + getLevel() + ", street=" + getStreet() + ", borough=" + getBorough() + ", zip=" + getZip() + "]";
-	}
+    @Override
+    public String toString()
+    {
+        return "PlaceRequest [level= " + getLevel() + ", street=" + getStreet() + ", borough=" + getBorough() + ", zip=" + getZip() + "]";
+    }
 
-	@Override
-	public boolean containsAssignedValue()
-	{
-		return super.containsAssignedValue() || isAssigned(streetInputValue);
-	}
-	
-	// TODO TESTME
-	@Override
-	public String summarize()
-	{
-		return String.format("place [name=%s, borough=%s, zip=%s]", getStreet(), getBorough(), getZip());
-	}
+    @Override
+    public boolean containsAssignedValue()
+    {
+        return super.containsAssignedValue() || isAssigned(streetInputValue);
+    }
+    
+    // TODO TESTME
+    @Override
+    public String summarize()
+    {
+        return String.format("place [name=%s, borough=%s, zip=%s]", getStreet(), getBorough(), getZip());
+    }
 }

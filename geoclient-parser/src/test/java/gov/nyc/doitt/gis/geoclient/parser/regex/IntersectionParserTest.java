@@ -24,19 +24,19 @@ import org.slf4j.LoggerFactory;
 
 public class IntersectionParserTest extends AbstractSpecTest
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(IntersectionParserTest.class);
-	private IntersectionParser parser;
+    private static final Logger LOGGER = LoggerFactory.getLogger(IntersectionParserTest.class);
+    private IntersectionParser parser;
 
-	@BeforeEach
-	public void setUp() throws Exception
-	{
-		parser = new IntersectionParser();
-	}
+    @BeforeEach
+    public void setUp() throws Exception
+    {
+        parser = new IntersectionParser();
+    }
 
-	@Test
-	public void testParse()
-	{
-		testParser(this.parser, LOGGER);
-	}
+    @Test
+    public void testParse()
+    {
+        testParser(this.parser, LOGGER);
+    }
 
 }

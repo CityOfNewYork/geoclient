@@ -30,63 +30,63 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class ParseContext
 {
-	private final Input input;
-	private final List<Chunk> chunks;
-	private final AtomicInteger currentChunkIndex;
-	private boolean parsed;
+    private final Input input;
+    private final List<Chunk> chunks;
+    private final AtomicInteger currentChunkIndex;
+    private boolean parsed;
 
-	public ParseContext(Input input)
-	{
-		super();
-		this.input = input;
-		this.chunks = new ArrayList<Chunk>();
-		this.chunks.add(new Chunk(ChunkType.ORIGINAL_INPUT, this.input.getValue()));
-		this.currentChunkIndex = new AtomicInteger(0);
-	}
-	
-	public String currentChunkText()
-	{
-		return getCurrent().getText();
-	}
-	
-	public boolean isParsed()
-	{
-		return parsed;
-	}
+    public ParseContext(Input input)
+    {
+        super();
+        this.input = input;
+        this.chunks = new ArrayList<Chunk>();
+        this.chunks.add(new Chunk(ChunkType.ORIGINAL_INPUT, this.input.getValue()));
+        this.currentChunkIndex = new AtomicInteger(0);
+    }
+    
+    public String currentChunkText()
+    {
+        return getCurrent().getText();
+    }
+    
+    public boolean isParsed()
+    {
+        return parsed;
+    }
 
-	public void setParsed(boolean parsed)
-	{
-		this.parsed = parsed;
-	}
+    public void setParsed(boolean parsed)
+    {
+        this.parsed = parsed;
+    }
 
-	public void setCurrent(Chunk chunk)
-	{
-		this.chunks.add(chunk);
-		this.currentChunkIndex.incrementAndGet();
-	}
+    public void setCurrent(Chunk chunk)
+    {
+        this.chunks.add(chunk);
+        this.currentChunkIndex.incrementAndGet();
+    }
 
-	public Chunk getCurrent()
-	{
-		return this.chunks.get(this.currentChunkIndex.intValue());
-	}
+    public Chunk getCurrent()
+    {
+        return this.chunks.get(this.currentChunkIndex.intValue());
+    }
 
-	public void add(Chunk chunk)
-	{
-		this.chunks.add(chunk);
-	}
+    public void add(Chunk chunk)
+    {
+        this.chunks.add(chunk);
+    }
 
-	public List<Chunk> getChunks()
-	{
-		return chunks;
-	}	
-	
-	public List<Token> getTokens()
-	{
-		List<Token> tokens = new ArrayList<>();
-		for (Chunk chunk : this.chunks)
-		{
-			tokens.addAll(chunk.getTokens());
-		}
-		return tokens;
-	}
+    public List<Chunk> getChunks()
+    {
+        return chunks;
+    }   
+    
+    public List<Token> getTokens()
+    {
+        List<Token> tokens = new ArrayList<>();
+        for (Chunk chunk : this.chunks)
+        {
+            tokens.addAll(chunk.getTokens());
+        }
+        return tokens;
+    }
 }

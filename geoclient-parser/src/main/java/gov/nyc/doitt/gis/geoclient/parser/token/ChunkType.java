@@ -16,15 +16,15 @@
 package gov.nyc.doitt.gis.geoclient.parser.token;
 
 public enum ChunkType {
-	ADDRESS,
-	BBL,
-	BIN,
-	BLOCKFACE,
-	COUNTY,
-	INTERSECTION,
-	HOUSE_NUMBER,
-	STREET_NAME,
-	ORIGINAL_INPUT,
-	SUBSTRING,
-	UNRECOGNIZED
+    ADDRESS,
+    BBL,
+    BIN,
+    BLOCKFACE,
+    COUNTY,
+    INTERSECTION,
+    HOUSE_NUMBER,
+    STREET_NAME,
+    ORIGINAL_INPUT,
+    SUBSTRING,
+    UNRECOGNIZED
 }

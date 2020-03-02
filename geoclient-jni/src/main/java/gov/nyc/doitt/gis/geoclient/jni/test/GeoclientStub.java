@@ -30,58 +30,58 @@ import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 
 public class GeoclientStub implements Geoclient
 {
-	final Logger logger = LoggerFactory.getLogger(GeoclientStub.class);
-	private static final Charset CHARSET = Charset.forName("UTF-8");
-	private static final CharsetDecoder DECODER = CHARSET.newDecoder();
+    final Logger logger = LoggerFactory.getLogger(GeoclientStub.class);
+    private static final Charset CHARSET = Charset.forName("UTF-8");
+    private static final CharsetDecoder DECODER = CHARSET.newDecoder();
 
-	private final ConcurrentMap<String, TestConfig> db = new ConcurrentHashMap<>();
-	
-	public GeoclientStub() {
-		super();
-	}
+    private final ConcurrentMap<String, TestConfig> db = new ConcurrentHashMap<>();
+    
+    public GeoclientStub() {
+        super();
+    }
 
-	@Override
-	public void callgeo(ByteBuffer work_area1, ByteBuffer work_area2)
-	{
-		try
-		{
-			String functionId = extractFunctionId(work_area1);
-			logger.debug(String.format("Calling function %s",functionId));
-			display(work_area1);
-			display(work_area2);
-		} catch (Exception e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
+    @Override
+    public void callgeo(ByteBuffer work_area1, ByteBuffer work_area2)
+    {
+        try
+        {
+            String functionId = extractFunctionId(work_area1);
+            logger.debug(String.format("Calling function %s",functionId));
+            display(work_area1);
+            display(work_area2);
+        } catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
 
-	@Override
-	public void callgeo(byte[] work_area1, int work_area1_offset, byte[] work_area2, int work_area2_offset)
-	{
-	}
+    @Override
+    public void callgeo(byte[] work_area1, int work_area1_offset, byte[] work_area2, int work_area2_offset)
+    {
+    }
 
-	public TestConfig add(TestConfig config) {
-		return db.put(config.getFunctionName(), config);
-	}
-	private void display(ByteBuffer buffer) throws Exception
-	{
-		int position = buffer.position();
-		CharBuffer charBuffer = DECODER.decode(buffer);
-		logger.debug(String.format("-->%s<--", charBuffer.toString()));
-		buffer.position(position);
-	}
+    public TestConfig add(TestConfig config) {
+        return db.put(config.getFunctionName(), config);
+    }
+    private void display(ByteBuffer buffer) throws Exception
+    {
+        int position = buffer.position();
+        CharBuffer charBuffer = DECODER.decode(buffer);
+        logger.debug(String.format("-->%s<--", charBuffer.toString()));
+        buffer.position(position);
+    }
 
-	private String extractFunctionId(ByteBuffer byteBuffer) throws CharacterCodingException {
-		// Duplicate ByteBuffer argument which will create a bi-directional "reference" that will reflect buffer
-		// changes, but use independent position, limit and mark values
-		ByteBuffer buffer = byteBuffer.duplicate();
-		int position = buffer.position();		
-		CharBuffer charBuffer = DECODER.decode(buffer);
-		char [] chars = new char[2];
-		charBuffer.get(chars, 0, 2);
-		buffer.position(position);
-		String result = String.copyValueOf(chars);
-		logger.debug(String.format("Function[%s]", result));
-		return result;
-	}
+    private String extractFunctionId(ByteBuffer byteBuffer) throws CharacterCodingException {
+        // Duplicate ByteBuffer argument which will create a bi-directional "reference" that will reflect buffer
+        // changes, but use independent position, limit and mark values
+        ByteBuffer buffer = byteBuffer.duplicate();
+        int position = buffer.position();       
+        CharBuffer charBuffer = DECODER.decode(buffer);
+        char [] chars = new char[2];
+        charBuffer.get(chars, 0, 2);
+        buffer.position(position);
+        String result = String.copyValueOf(chars);
+        logger.debug(String.format("Function[%s]", result));
+        return result;
+    }
 }

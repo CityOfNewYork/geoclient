@@ -19,51 +19,51 @@ import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 
 public class BinRequest extends Request
 {
-	private InputValue binInputValue;
+    private InputValue binInputValue;
 
-	public BinRequest()
-	{
-		super();
-	}
+    public BinRequest()
+    {
+        super();
+    }
 
-	public BinRequest(BinRequest anotherRequest)
-	{
-		super(anotherRequest.getLevel());
-		this.binInputValue = anotherRequest.getBinInputValue();
-	}
+    public BinRequest(BinRequest anotherRequest)
+    {
+        super(anotherRequest.getLevel());
+        this.binInputValue = anotherRequest.getBinInputValue();
+    }
 
-	public String getBin()
-	{
-		return stringValueOrNull(binInputValue);
-	}
-	
-	public InputValue getBinInputValue()
-	{
-		return binInputValue;
-	}
+    public String getBin()
+    {
+        return stringValueOrNull(binInputValue);
+    }
+    
+    public InputValue getBinInputValue()
+    {
+        return binInputValue;
+    }
 
-	public void setBinInputValue(InputValue binInputValue)
-	{
-		this.binInputValue = binInputValue;
-	}
+    public void setBinInputValue(InputValue binInputValue)
+    {
+        this.binInputValue = binInputValue;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "BinRequest [level= " + getLevel() + ", bin=" + getBin() + "]";
-	}
-	
-	@Override
-	public boolean containsAssignedValue()
-	{
-		return isAssigned(binInputValue);
-	}
-	
-	// TODO TESTME
-	@Override
-	public String summarize()
-	{
-		return String.format("bin [%s]", getBin());
-	}
+    @Override
+    public String toString()
+    {
+        return "BinRequest [level= " + getLevel() + ", bin=" + getBin() + "]";
+    }
+    
+    @Override
+    public boolean containsAssignedValue()
+    {
+        return isAssigned(binInputValue);
+    }
+    
+    // TODO TESTME
+    @Override
+    public String summarize()
+    {
+        return String.format("bin [%s]", getBin());
+    }
 
 }

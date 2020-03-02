@@ -17,6 +17,6 @@ package gov.nyc.doitt.gis.geoclient.parser.regex;
 
 public enum ParseStatus
 {
-	END_OF_INPUT,
-	PARSING
+    END_OF_INPUT,
+    PARSING
 }

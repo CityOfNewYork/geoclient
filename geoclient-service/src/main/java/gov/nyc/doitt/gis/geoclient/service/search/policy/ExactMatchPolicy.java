@@ -20,5 +20,5 @@ import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 
 public interface ExactMatchPolicy extends Policy
 {
-	Search findExactMatch(SearchResult searchResult);
+    Search findExactMatch(SearchResult searchResult);
 }

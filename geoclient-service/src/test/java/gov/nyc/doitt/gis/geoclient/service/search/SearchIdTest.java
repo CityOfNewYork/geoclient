@@ -21,12 +21,12 @@ import org.junit.jupiter.api.Test;
 
 public class SearchIdTest {
 
-	@Test
-	public void testNext() {
-		String prefix = "xyz";
-		SearchId id = new SearchId(prefix);
-		assertThat(id.next().contains(prefix));
-		assertThat(id.next()).isNotEqualTo(id.next());
-	}
+    @Test
+    public void testNext() {
+        String prefix = "xyz";
+        SearchId id = new SearchId(prefix);
+        assertThat(id.next().contains(prefix));
+        assertThat(id.next()).isNotEqualTo(id.next());
+    }
 
 }

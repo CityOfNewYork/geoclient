@@ -30,46 +30,46 @@ import org.slf4j.LoggerFactory;
 
 public class DocumentationConfig
 {
-	private static final Logger log = LoggerFactory.getLogger(DocumentationConfig.class);
-	private DataDictionary dataDictionary;
-	
-	public DocumentationConfig(DataDictionary dataDictionary)
-	{
-		super();
-		this.dataDictionary = dataDictionary;
-	}
+    private static final Logger log = LoggerFactory.getLogger(DocumentationConfig.class);
+    private DataDictionary dataDictionary;
+    
+    public DocumentationConfig(DataDictionary dataDictionary)
+    {
+        super();
+        this.dataDictionary = dataDictionary;
+    }
 
-	public FunctionDocumentation document(FunctionDocumentation functionDocumentation, Function function)
-	{
-		addItemDocumentation(functionDocumentation, getFieldIds(function.getWorkAreaOne()));
-		if(function.isTwoWorkAreas())
-		{
-			addItemDocumentation(functionDocumentation, getFieldIds(function.getWorkAreaTwo()));
-		}
-		return functionDocumentation;
-	}
-	
-	private void addItemDocumentation(FunctionDocumentation functionDocumentation, List<String> fieldIds)
-	{
-		for (String fieldId : fieldIds)
-		{
-			ItemDocumentation itemDocumentation = dataDictionary.findItem(fieldId);
-			if(itemDocumentation !=null)
-			{
-				functionDocumentation.add(itemDocumentation.copyWithDisplayName(fieldId));
-			}else
-			{
-				MissingDocumentation md = new MissingDocumentation(fieldId);
-				if(!functionDocumentation.isGroupMember(md)){
-					log.debug(md.toString());
-					functionDocumentation.add(md);
-				}
-			}
-		}
-	}
-	
-	private List<String> getFieldIds(WorkArea workArea)
-	{
-		return workArea.getFieldIds(Field.NAME_SORT, false, false);
-	}
+    public FunctionDocumentation document(FunctionDocumentation functionDocumentation, Function function)
+    {
+        addItemDocumentation(functionDocumentation, getFieldIds(function.getWorkAreaOne()));
+        if(function.isTwoWorkAreas())
+        {
+            addItemDocumentation(functionDocumentation, getFieldIds(function.getWorkAreaTwo()));
+        }
+        return functionDocumentation;
+    }
+    
+    private void addItemDocumentation(FunctionDocumentation functionDocumentation, List<String> fieldIds)
+    {
+        for (String fieldId : fieldIds)
+        {
+            ItemDocumentation itemDocumentation = dataDictionary.findItem(fieldId);
+            if(itemDocumentation !=null)
+            {
+                functionDocumentation.add(itemDocumentation.copyWithDisplayName(fieldId));
+            }else
+            {
+                MissingDocumentation md = new MissingDocumentation(fieldId);
+                if(!functionDocumentation.isGroupMember(md)){
+                    log.debug(md.toString());
+                    functionDocumentation.add(md);
+                }
+            }
+        }
+    }
+    
+    private List<String> getFieldIds(WorkArea workArea)
+    {
+        return workArea.getFieldIds(Field.NAME_SORT, false, false);
+    }
 }

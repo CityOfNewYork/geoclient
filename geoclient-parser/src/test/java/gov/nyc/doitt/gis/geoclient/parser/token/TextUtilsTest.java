@@ -21,24 +21,24 @@ import org.junit.jupiter.api.Test;
 
 public class TextUtilsTest {
 
-	@Test
-	public void testSanitize() {
-		assertThat(TextUtils.sanitize(null)).isNull();
-		assertThat(TextUtils.sanitize("")).isEqualTo("");
-		assertThat(TextUtils.sanitize("abc")).isEqualTo("abc");
-		assertThat(TextUtils.sanitize("abc def")).isEqualTo("abc def");
-		assertThat(TextUtils.sanitize("  abc")).isEqualTo("abc");
-		assertThat(TextUtils.sanitize("abc ")).isEqualTo("abc");
-		assertThat(TextUtils.sanitize("  abc def  ")).isEqualTo("abc def");
-		assertThat(TextUtils.sanitize("  abc   def  ")).isEqualTo("abc def");
-		assertThat(TextUtils.sanitize(",  abc,   def  ,")).isEqualTo("abc, def");
-		assertThat(TextUtils.sanitize(" ,  abc,   def  ,")).isEqualTo("abc, def");
-		assertThat(TextUtils.sanitize(" ,.?!&^#$%@ abc-d &  def  ,?:+-")).isEqualTo("abc-d & def");
-		assertThat(TextUtils.sanitize("abc&def")).isEqualTo("abc & def");
-		assertThat(TextUtils.sanitize("abc && def")).isEqualTo("abc && def");
-		assertThat(TextUtils.sanitize("abc&&def")).isEqualTo("abc && def");
-		assertThat(TextUtils.sanitize("N.Y.")).isEqualTo("N.Y.");
-		assertThat(TextUtils.sanitize("abc\tde\tf")).isEqualTo("abc de f");
-	}
+    @Test
+    public void testSanitize() {
+        assertThat(TextUtils.sanitize(null)).isNull();
+        assertThat(TextUtils.sanitize("")).isEqualTo("");
+        assertThat(TextUtils.sanitize("abc")).isEqualTo("abc");
+        assertThat(TextUtils.sanitize("abc def")).isEqualTo("abc def");
+        assertThat(TextUtils.sanitize("  abc")).isEqualTo("abc");
+        assertThat(TextUtils.sanitize("abc ")).isEqualTo("abc");
+        assertThat(TextUtils.sanitize("  abc def  ")).isEqualTo("abc def");
+        assertThat(TextUtils.sanitize("  abc   def  ")).isEqualTo("abc def");
+        assertThat(TextUtils.sanitize(",  abc,   def  ,")).isEqualTo("abc, def");
+        assertThat(TextUtils.sanitize(" ,  abc,   def  ,")).isEqualTo("abc, def");
+        assertThat(TextUtils.sanitize(" ,.?!&^#$%@ abc-d &  def  ,?:+-")).isEqualTo("abc-d & def");
+        assertThat(TextUtils.sanitize("abc&def")).isEqualTo("abc & def");
+        assertThat(TextUtils.sanitize("abc && def")).isEqualTo("abc && def");
+        assertThat(TextUtils.sanitize("abc&&def")).isEqualTo("abc && def");
+        assertThat(TextUtils.sanitize("N.Y.")).isEqualTo("N.Y.");
+        assertThat(TextUtils.sanitize("abc\tde\tf")).isEqualTo("abc de f");
+    }
 
 }

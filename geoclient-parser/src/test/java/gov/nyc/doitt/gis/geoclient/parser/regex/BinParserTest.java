@@ -23,13 +23,13 @@ import org.slf4j.LoggerFactory;
 
 public class BinParserTest extends AbstractSpecTest
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BinParserTest.class);
-	
-	@Test
-	public void testBblParser()
-	{
-		testParser(new BinParser(), LOGGER);
-	}
-	
-	
+    private static final Logger LOGGER = LoggerFactory.getLogger(BinParserTest.class);
+    
+    @Test
+    public void testBblParser()
+    {
+        testParser(new BinParser(), LOGGER);
+    }
+    
+    
 }

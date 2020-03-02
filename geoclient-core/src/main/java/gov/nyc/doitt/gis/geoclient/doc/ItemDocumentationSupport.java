@@ -17,36 +17,36 @@ package gov.nyc.doitt.gis.geoclient.doc;
 
 public class ItemDocumentationSupport extends BaseDocumentation
 {
-	private ItemDocumentation itemDocumentation;
-	
-	public ItemDocumentationSupport()
-	{
-		super();
-	}
+    private ItemDocumentation itemDocumentation;
+    
+    public ItemDocumentationSupport()
+    {
+        super();
+    }
 
-	public ItemDocumentationSupport(String id, Description description)
-	{
-		super(id, description);
-	}
+    public ItemDocumentationSupport(String id, Description description)
+    {
+        super(id, description);
+    }
 
-	public boolean hasItemDocumentation()
-	{
-		return getItemDocumentationId() != null;
-	}
-	
-	public String getItemDocumentationId()
-	{
-		return this.itemDocumentation != null ? this.itemDocumentation.getId() : null;
-	}
+    public boolean hasItemDocumentation()
+    {
+        return getItemDocumentationId() != null;
+    }
+    
+    public String getItemDocumentationId()
+    {
+        return this.itemDocumentation != null ? this.itemDocumentation.getId() : null;
+    }
 
-	public ItemDocumentation getItemDocumentation()
-	{
-		return itemDocumentation;
-	}
+    public ItemDocumentation getItemDocumentation()
+    {
+        return itemDocumentation;
+    }
 
-	public void setItemDocumentation(ItemDocumentation itemDocumentation)
-	{
-		this.itemDocumentation = itemDocumentation;
-	}
+    public void setItemDocumentation(ItemDocumentation itemDocumentation)
+    {
+        this.itemDocumentation = itemDocumentation;
+    }
 
 }

@@ -33,42 +33,42 @@ import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
 
 public class SearchTaskFactoryTest {
-	@InjectMocks
-	private SearchTaskFactory searchTaskFactory;
+    @InjectMocks
+    private SearchTaskFactory searchTaskFactory;
 
-	@Mock
-	private InitialSearchTaskBuilder initialSearchTaskBuilder;
+    @Mock
+    private InitialSearchTaskBuilder initialSearchTaskBuilder;
 
-	@Mock
-	private SpawnedSearchTaskBuilder spawnedSearchTaskBuilder;
+    @Mock
+    private SpawnedSearchTaskBuilder spawnedSearchTaskBuilder;
 
-	private SearchPolicy searchPolicy;
+    private SearchPolicy searchPolicy;
 
-	private LocationTokens locationTokens;
+    private LocationTokens locationTokens;
 
-	private List<SearchTask> expectedTasks;
+    private List<SearchTask> expectedTasks;
 
-	@BeforeEach
-	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
-		locationTokens = new Fixtures().locationTokens;
-		searchPolicy = new SearchPolicy();
-		expectedTasks = new ArrayList<>();
-	}
+    @BeforeEach
+    public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
+        locationTokens = new Fixtures().locationTokens;
+        searchPolicy = new SearchPolicy();
+        expectedTasks = new ArrayList<>();
+    }
 
-	@Test
-	public void testBuildInitialSearchTasks() {
-		Mockito.when(initialSearchTaskBuilder.getSearchTasks(searchPolicy, locationTokens)).thenReturn(expectedTasks);
-		List<SearchTask> result = searchTaskFactory.buildInitialSearchTasks(searchPolicy, locationTokens);
-		assertThat(result).isSameAs(expectedTasks);
-	}
+    @Test
+    public void testBuildInitialSearchTasks() {
+        Mockito.when(initialSearchTaskBuilder.getSearchTasks(searchPolicy, locationTokens)).thenReturn(expectedTasks);
+        List<SearchTask> result = searchTaskFactory.buildInitialSearchTasks(searchPolicy, locationTokens);
+        assertThat(result).isSameAs(expectedTasks);
+    }
 
-	@Test
-	public void testBuildSubsearchTasks() {
-		SearchResult searchResult = new SearchResult(searchPolicy, locationTokens);
-		Mockito.when(spawnedSearchTaskBuilder.getSearchTasks(searchResult)).thenReturn(expectedTasks);
-		List<SearchTask> result = searchTaskFactory.buildSubsearchTasks(searchResult);
-		assertThat(result).isSameAs(expectedTasks);
-	}
+    @Test
+    public void testBuildSubsearchTasks() {
+        SearchResult searchResult = new SearchResult(searchPolicy, locationTokens);
+        Mockito.when(spawnedSearchTaskBuilder.getSearchTasks(searchResult)).thenReturn(expectedTasks);
+        List<SearchTask> result = searchTaskFactory.buildSubsearchTasks(searchResult);
+        assertThat(result).isSameAs(expectedTasks);
+    }
 
 }

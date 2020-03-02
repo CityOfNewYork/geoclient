@@ -25,33 +25,33 @@ import java.util.regex.Pattern;
 
 public class AddressParser extends AbstractRegexParser
 {
-	// See UPG section V. for details on naming and parsing rules
-	private static final String HN_BASIC = "(\\d+(?:-\\d+)?)";
-	private static final String HN_SUFFIX = "([A-Z]|(?:\\s1/[2-5]|\\sFRONT(?!\\s+ST|AV)|\\sREAR|\\sGARAGE))?";
-	private static final String STREET = "\\s*(.*)";
-	private static final String ADDRESS = "^" + HN_BASIC +  HN_SUFFIX + STREET + "$";
-	private static final Pattern REGEX = Pattern.compile(ADDRESS,Pattern.CASE_INSENSITIVE);
+    // See UPG section V. for details on naming and parsing rules
+    private static final String HN_BASIC = "(\\d+(?:-\\d+)?)";
+    private static final String HN_SUFFIX = "([A-Z]|(?:\\s1/[2-5]|\\sFRONT(?!\\s+ST|AV)|\\sREAR|\\sGARAGE))?";
+    private static final String STREET = "\\s*(.*)";
+    private static final String ADDRESS = "^" + HN_BASIC +  HN_SUFFIX + STREET + "$";
+    private static final Pattern REGEX = Pattern.compile(ADDRESS,Pattern.CASE_INSENSITIVE);
 
-	@Override
-	public void parse(ParseContext parseContext)
-	{
-		Chunk currentChunk = parseContext.getCurrent();
-		Matcher matcher = REGEX.matcher(currentChunk.getText());
-		if(!matcher.matches())
-		{
-			patternNotMatched(parseContext, REGEX);
-			return;
-		}
-		MatchBuilder builder = new MatchBuilder()
-			.add(matcher)
-			.add(MatchType.COMPLETE)
-			.add(parseContext)
-			.add(REGEX, 1, TokenType.HOUSE_NUMBER)
-			.add(REGEX, 2, TokenType.HOUSE_NUMBER_SUFFIX)
-			.add(REGEX, 3, TokenType.STREET_NAME);
+    @Override
+    public void parse(ParseContext parseContext)
+    {
+        Chunk currentChunk = parseContext.getCurrent();
+        Matcher matcher = REGEX.matcher(currentChunk.getText());
+        if(!matcher.matches())
+        {
+            patternNotMatched(parseContext, REGEX);
+            return;
+        }
+        MatchBuilder builder = new MatchBuilder()
+            .add(matcher)
+            .add(MatchType.COMPLETE)
+            .add(parseContext)
+            .add(REGEX, 1, TokenType.HOUSE_NUMBER)
+            .add(REGEX, 2, TokenType.HOUSE_NUMBER_SUFFIX)
+            .add(REGEX, 3, TokenType.STREET_NAME);
 
-		handleMatch(builder.build(), ChunkType.ADDRESS);
-	}
-	
+        handleMatch(builder.build(), ChunkType.ADDRESS);
+    }
+    
 
 }

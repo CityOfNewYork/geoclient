@@ -21,19 +21,19 @@ import org.junit.jupiter.api.Test;
 
 public class MissingDocumentationTest
 {
-	@Test
-	public void testIsDocumented()
-	{
-		assertFalse(new MissingDocumentation("xx").isDocumented());
-	}
-	
-	@Test
-	public void testMissingDocumentation()
-	{
-		String id = "xyz";
-		MissingDocumentation md = new MissingDocumentation(id);
-		assertEquals(id, md.getId());
-		assertEquals(MissingDocumentation.MESSAGE, md.getDescription().joinText(""));
-	}
+    @Test
+    public void testIsDocumented()
+    {
+        assertFalse(new MissingDocumentation("xx").isDocumented());
+    }
+    
+    @Test
+    public void testMissingDocumentation()
+    {
+        String id = "xyz";
+        MissingDocumentation md = new MissingDocumentation(id);
+        assertEquals(id, md.getId());
+        assertEquals(MissingDocumentation.MESSAGE, md.getDescription().joinText(""));
+    }
 
 }

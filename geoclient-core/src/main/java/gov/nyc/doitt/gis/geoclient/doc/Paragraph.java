@@ -17,44 +17,44 @@ package gov.nyc.doitt.gis.geoclient.doc;
 
 public class Paragraph
 {
-	private String text;
+    private String text;
 
-	public Paragraph()
-	{
-		super();
-	}
+    public Paragraph()
+    {
+        super();
+    }
 
-	public Paragraph(String text)
-	{
-		super();
-		this.text = text;
-	}
+    public Paragraph(String text)
+    {
+        super();
+        this.text = text;
+    }
 
-	public boolean hasText()
-	{
-		return this.text != null && !this.text.isEmpty();
-	}
-	
-	public String getText()
-	{
-		return text;
-	}
+    public boolean hasText()
+    {
+        return this.text != null && !this.text.isEmpty();
+    }
+    
+    public String getText()
+    {
+        return text;
+    }
 
-	public void setText(String text)
-	{
-		this.text = text;
-	}
+    public void setText(String text)
+    {
+        this.text = text;
+    }
 
-	@Override
-	public String toString()
-	{
-		return toHtml();
-	}
-	
-	public String toHtml()
-	{
-		return String.format("<p>%s</p>", this.text != null ? this.text : "");
-	}
+    @Override
+    public String toString()
+    {
+        return toHtml();
+    }
+    
+    public String toHtml()
+    {
+        return String.format("<p>%s</p>", this.text != null ? this.text : "");
+    }
 
 
 }

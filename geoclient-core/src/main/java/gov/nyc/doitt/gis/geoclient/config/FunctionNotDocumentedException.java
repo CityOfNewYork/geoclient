@@ -17,11 +17,11 @@ package gov.nyc.doitt.gis.geoclient.config;
 
 public class FunctionNotDocumentedException extends ConfigurationException
 {
-	private static final long serialVersionUID = -3593546514039711123L;
+    private static final long serialVersionUID = -3593546514039711123L;
 
-	public FunctionNotDocumentedException(String functionId)
-	{
-		super(String.format("Function '%s' does not have documentation", functionId));
-	}
+    public FunctionNotDocumentedException(String functionId)
+    {
+        super(String.format("Function '%s' does not have documentation", functionId));
+    }
 
 }

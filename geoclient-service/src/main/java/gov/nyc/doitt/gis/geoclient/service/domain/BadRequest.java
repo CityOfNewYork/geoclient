@@ -17,33 +17,33 @@ package gov.nyc.doitt.gis.geoclient.service.domain;
 
 public class BadRequest
 {
-	private String httpStatus;
-	private String message;
-	private String requestUri;
-	
-	public String getRequestUri()
-	{
-		return requestUri;
-	}
-	public void setRequestUri(String requestUri)
-	{
-		this.requestUri = requestUri;
-	}
-	public String getHttpStatus()
-	{
-		return httpStatus;
-	}
-	public void setHttpStatus(String httpStatus)
-	{
-		this.httpStatus = httpStatus;
-	}
-	public String getMessage()
-	{
-		return message;
-	}
-	public void setMessage(String message)
-	{
-		this.message = message;
-	}
+    private String httpStatus;
+    private String message;
+    private String requestUri;
+    
+    public String getRequestUri()
+    {
+        return requestUri;
+    }
+    public void setRequestUri(String requestUri)
+    {
+        this.requestUri = requestUri;
+    }
+    public String getHttpStatus()
+    {
+        return httpStatus;
+    }
+    public void setHttpStatus(String httpStatus)
+    {
+        this.httpStatus = httpStatus;
+    }
+    public String getMessage()
+    {
+        return message;
+    }
+    public void setMessage(String message)
+    {
+        this.message = message;
+    }
 
 }

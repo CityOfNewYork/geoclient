@@ -18,5 +18,5 @@ package gov.nyc.doitt.gis.geoclient.parser;
 
 public interface LocationTokenizer
 {
-	LocationTokens parse(Input input);
+    LocationTokens parse(Input input);
 }

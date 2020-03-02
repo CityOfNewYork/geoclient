@@ -17,6 +17,6 @@ package gov.nyc.doitt.gis.geoclient.service.search.policy;
 
 public interface Policy
 {
-	String getName();
-	String getDescription();
+    String getName();
+    String getDescription();
 }

@@ -17,54 +17,54 @@ package gov.nyc.doitt.gis.geoclient.doc;
 
 public class Footnote
 {
-	private String symbol;
-	private int position;
+    private String symbol;
+    private int position;
 
-	public Footnote()
-	{
-		super();
-	}
+    public Footnote()
+    {
+        super();
+    }
 
-	public Footnote(String symbol, int position)
-	{
-		super();
-		this.symbol = symbol;
-		this.position = position;
-	}
+    public Footnote(String symbol, int position)
+    {
+        super();
+        this.symbol = symbol;
+        this.position = position;
+    }
 
-	public String getSymbol()
-	{
-		return symbol;
-	}
+    public String getSymbol()
+    {
+        return symbol;
+    }
 
-	public void setSymbol(String symbol)
-	{
-		this.symbol = symbol;
-	}
+    public void setSymbol(String symbol)
+    {
+        this.symbol = symbol;
+    }
 
-	public int getPosition()
-	{
-		return position;
-	}
+    public int getPosition()
+    {
+        return position;
+    }
 
-	public void setPosition(int position)
-	{
-		this.position = position;
-	}
+    public void setPosition(int position)
+    {
+        this.position = position;
+    }
 
-	public boolean linksTo(Footnote otherFootnote)
-	{
-		return this.symbol.equals(otherFootnote.symbol);
-	}
-	
-	@Override
-	public String toString()
-	{
-		return toHtml();
-	}
+    public boolean linksTo(Footnote otherFootnote)
+    {
+        return this.symbol.equals(otherFootnote.symbol);
+    }
+    
+    @Override
+    public String toString()
+    {
+        return toHtml();
+    }
 
-	public String toHtml()
-	{
-		return String.format("<sup>%s</sup>", this.symbol);
-	}
+    public String toHtml()
+    {
+        return String.format("<sup>%s</sup>", this.symbol);
+    }
 }

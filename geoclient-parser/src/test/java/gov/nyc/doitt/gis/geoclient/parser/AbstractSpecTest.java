@@ -34,81 +34,81 @@ import gov.nyc.doitt.gis.geoclient.parser.token.Token;
 
 public abstract class AbstractSpecTest
 {
-	protected static SpecBuilder specBuilder;
+    protected static SpecBuilder specBuilder;
 
-	@BeforeAll
-	public static void setUpOnce()
-	{
-		specBuilder = new SpecBuilder();
-	}
-	
-	protected void testParser(Parser parser, Logger logger)
-	{
-		List<ChunkSpec> specs =  specBuilder.getSpecs(parser.getName());
-		assertFalse(specs.isEmpty());
-		
-		for (ChunkSpec spec : specs)
-		{
-			logSpecStart(logger, spec);
-			Input input = new Input(spec.getId(), spec.plainText());
-			ParseContext context = new ParseContext(input);
-			parser.parse(context);
-			assertChunksEquals(spec.getId(), spec.getChunks(), context.getChunks(), logger);
-		}
-	}
-	
-	protected void logSpecStart(Logger logger, ChunkSpec spec)
-	{
-		logger.debug("-----------------------------------------------------------------------");
-		logger.debug(String.format("TEST-%s is expecting Tokens: '%s', Chunks: '%s'", spec.getId(), spec.delimitedText(),spec.chunkTypeNames()));
-	}
-	
-	protected void assertChunksEquals(String specId, List<Chunk> expected, List<Chunk> actual, Logger logger)
-	{
-		if(!expected.equals(actual))
-		{
-			String messageStart = String.format("Test %s ",specId); 
-			int expectedSize = expected.size();
-			int actualSize = actual.size();
-			assertThat(actualSize).isEqualTo(expectedSize).as(messageStart + "expected " + expectedSize + " tokens but got " +actualSize);
-			for (int i = 0; i < expectedSize; i++)
-			{
-				Chunk expectedChunk = expected.get(i);
-				Chunk actualChunk = actual.get(i);
-				if(!expectedChunk.equals(actualChunk))
-				{
-					assertThat(actualChunk.getText()).isEqualTo(expectedChunk.getText()).as(String.format("Test %s Chunk texts are not equal.",specId));
-					assertThat(actualChunk.getType()).isEqualTo(expectedChunk.getType());
-					assertTokensEqual(specId,expectedChunk.getTokens(), actualChunk.getTokens(),logger);
-				}
-			}
-		}
-	}
+    @BeforeAll
+    public static void setUpOnce()
+    {
+        specBuilder = new SpecBuilder();
+    }
+    
+    protected void testParser(Parser parser, Logger logger)
+    {
+        List<ChunkSpec> specs =  specBuilder.getSpecs(parser.getName());
+        assertFalse(specs.isEmpty());
+        
+        for (ChunkSpec spec : specs)
+        {
+            logSpecStart(logger, spec);
+            Input input = new Input(spec.getId(), spec.plainText());
+            ParseContext context = new ParseContext(input);
+            parser.parse(context);
+            assertChunksEquals(spec.getId(), spec.getChunks(), context.getChunks(), logger);
+        }
+    }
+    
+    protected void logSpecStart(Logger logger, ChunkSpec spec)
+    {
+        logger.debug("-----------------------------------------------------------------------");
+        logger.debug(String.format("TEST-%s is expecting Tokens: '%s', Chunks: '%s'", spec.getId(), spec.delimitedText(),spec.chunkTypeNames()));
+    }
+    
+    protected void assertChunksEquals(String specId, List<Chunk> expected, List<Chunk> actual, Logger logger)
+    {
+        if(!expected.equals(actual))
+        {
+            String messageStart = String.format("Test %s ",specId); 
+            int expectedSize = expected.size();
+            int actualSize = actual.size();
+            assertThat(actualSize).isEqualTo(expectedSize).as(messageStart + "expected " + expectedSize + " tokens but got " +actualSize);
+            for (int i = 0; i < expectedSize; i++)
+            {
+                Chunk expectedChunk = expected.get(i);
+                Chunk actualChunk = actual.get(i);
+                if(!expectedChunk.equals(actualChunk))
+                {
+                    assertThat(actualChunk.getText()).isEqualTo(expectedChunk.getText()).as(String.format("Test %s Chunk texts are not equal.",specId));
+                    assertThat(actualChunk.getType()).isEqualTo(expectedChunk.getType());
+                    assertTokensEqual(specId,expectedChunk.getTokens(), actualChunk.getTokens(),logger);
+                }
+            }
+        }
+    }
 
-	protected void assertTokensEqual(String specId, List<Token> expected, List<Token> actual, Logger logger)
-	{
-		if(!expected.equals(actual))
-		{
-			String messageStart = String.format("Test %s ",specId); 
-			int expectedSize = expected.size();
-			int actualSize = actual.size();
-			assertThat(actualSize).isEqualTo(expectedSize).as(messageStart + "expected " + expectedSize + " tokens but got " +actualSize);
-			for (int i = 0; i < expectedSize; i++)
-			{
-				Token expectedToken = expected.get(i);
-				Token actualToken = actual.get(i);
-				assertEquals(expectedToken.getType(),actualToken.getType(), messageStart + "expected Token of type " + expectedToken.getType() + " but found " + actualToken.getType());
-				String expectedValue = expectedToken.getValue();
-				String actualValue = actualToken.getValue();
-				List<String> expectedForDiff = Arrays.asList(expectedValue);
-				List<String> actualForDiff = Arrays.asList(actualValue);
-				Patch<String> patch = DiffUtils.diff(expectedForDiff, actualForDiff);
-				logger.debug("Patch:{}",patch.toString());
-				logger.debug("Deltas:{}",patch.getDeltas());
-				assertEquals(String.format("%s found incorrect token value:",messageStart), expectedValue, actualValue);
-				
-			}
-		}
-	}
+    protected void assertTokensEqual(String specId, List<Token> expected, List<Token> actual, Logger logger)
+    {
+        if(!expected.equals(actual))
+        {
+            String messageStart = String.format("Test %s ",specId); 
+            int expectedSize = expected.size();
+            int actualSize = actual.size();
+            assertThat(actualSize).isEqualTo(expectedSize).as(messageStart + "expected " + expectedSize + " tokens but got " +actualSize);
+            for (int i = 0; i < expectedSize; i++)
+            {
+                Token expectedToken = expected.get(i);
+                Token actualToken = actual.get(i);
+                assertEquals(expectedToken.getType(),actualToken.getType(), messageStart + "expected Token of type " + expectedToken.getType() + " but found " + actualToken.getType());
+                String expectedValue = expectedToken.getValue();
+                String actualValue = actualToken.getValue();
+                List<String> expectedForDiff = Arrays.asList(expectedValue);
+                List<String> actualForDiff = Arrays.asList(actualValue);
+                Patch<String> patch = DiffUtils.diff(expectedForDiff, actualForDiff);
+                logger.debug("Patch:{}",patch.toString());
+                logger.debug("Deltas:{}",patch.getDeltas());
+                assertEquals(String.format("%s found incorrect token value:",messageStart), expectedValue, actualValue);
+                
+            }
+        }
+    }
 
 }

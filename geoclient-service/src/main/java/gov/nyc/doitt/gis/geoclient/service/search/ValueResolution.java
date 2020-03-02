@@ -20,47 +20,47 @@ import java.util.List;
 
 public class ValueResolution
 {
-	private final List<InputValue> resolved = new ArrayList<>();
-	private final List<InputValue> unresolved = new ArrayList<>();
+    private final List<InputValue> resolved = new ArrayList<>();
+    private final List<InputValue> unresolved = new ArrayList<>();
 
-	public void add(InputValue inputValue)
-	{
-		if (inputValue.isResolved())
-		{
-			resolved.add(inputValue);
-		} else
-		{
-			unresolved.add(inputValue);
-		}
-	}
+    public void add(InputValue inputValue)
+    {
+        if (inputValue.isResolved())
+        {
+            resolved.add(inputValue);
+        } else
+        {
+            unresolved.add(inputValue);
+        }
+    }
 
-	public List<InputValue> resolved()
-	{
-		return this.resolved;
-	}
-	
-	public InputValue resolvedValue(int index)
-	{
-		return this.resolved.get(index);
-	}
+    public List<InputValue> resolved()
+    {
+        return this.resolved;
+    }
+    
+    public InputValue resolvedValue(int index)
+    {
+        return this.resolved.get(index);
+    }
 
-	public InputValue unresolvedValue(int index)
-	{
-		return this.unresolved.get(index);
-	}
+    public InputValue unresolvedValue(int index)
+    {
+        return this.unresolved.get(index);
+    }
 
-	public int resolvedCount()
-	{
-		return this.resolved.size();
-	}
+    public int resolvedCount()
+    {
+        return this.resolved.size();
+    }
 
-	public int unresolvedCount()
-	{
-		return this.unresolved.size();
-	}
-	
-	public int totalCount()
-	{
-		return this.resolvedCount() + this.unresolvedCount();
-	}
+    public int unresolvedCount()
+    {
+        return this.unresolved.size();
+    }
+    
+    public int totalCount()
+    {
+        return this.resolvedCount() + this.unresolvedCount();
+    }
 }

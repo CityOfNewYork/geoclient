@@ -20,16 +20,16 @@ import org.springframework.web.bind.ServletRequestBindingException;
 
 public class MissingAnyOfOptionalServletRequestParametersException extends ServletRequestBindingException
 {
-	private static final long serialVersionUID = -3313087188951029600L;
-	private final String[] parameters;
-	public MissingAnyOfOptionalServletRequestParametersException(String... parameters)
-	{
-		super("");
-		this.parameters = parameters;
-	}
-	@Override
-	public String getMessage()
-	{		
-		return String.format("This operation requires one of the following parameters: %s", StringUtils.join(parameters));
-	}
+    private static final long serialVersionUID = -3313087188951029600L;
+    private final String[] parameters;
+    public MissingAnyOfOptionalServletRequestParametersException(String... parameters)
+    {
+        super("");
+        this.parameters = parameters;
+    }
+    @Override
+    public String getMessage()
+    {       
+        return String.format("This operation requires one of the following parameters: %s", StringUtils.join(parameters));
+    }
 }

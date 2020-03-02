@@ -25,67 +25,67 @@ import java.util.regex.Matcher;
 
 public class Match
 {
-	
-	private final ParseContext parseContext;
-	private final MatchType matchType;
-	private final Matcher matcher;
-	private final List<RegexTokenGroup> matchGroups;
-	
-	public Match(ParseContext parseContext, MatchType matchType, Matcher matcher, List<RegexTokenGroup> matchGroups)
-	{
-		super();
-		Assert.notNull(parseContext, "ParseContext argument cannot be null.");
-		this.parseContext = parseContext;
-		Assert.notNull(matchType, "MatchType argument cannot be null.");
-		this.matchType = matchType;
-		Assert.notNull(matcher, "MatchResult argument cannot be null.");
-		this.matcher = matcher;
-		Assert.notEmpty(matchGroups, "List<RegexTokenGroup> argument cannot be empty or null.");
-		this.matchGroups = matchGroups;
-	}
-	
-	public boolean matches()
-	{
-		return this.matcher.matches();
-	}
-	
-	public MatchType getMatchType()
-	{
-		return matchType;
-	}
+    
+    private final ParseContext parseContext;
+    private final MatchType matchType;
+    private final Matcher matcher;
+    private final List<RegexTokenGroup> matchGroups;
+    
+    public Match(ParseContext parseContext, MatchType matchType, Matcher matcher, List<RegexTokenGroup> matchGroups)
+    {
+        super();
+        Assert.notNull(parseContext, "ParseContext argument cannot be null.");
+        this.parseContext = parseContext;
+        Assert.notNull(matchType, "MatchType argument cannot be null.");
+        this.matchType = matchType;
+        Assert.notNull(matcher, "MatchResult argument cannot be null.");
+        this.matcher = matcher;
+        Assert.notEmpty(matchGroups, "List<RegexTokenGroup> argument cannot be empty or null.");
+        this.matchGroups = matchGroups;
+    }
+    
+    public boolean matches()
+    {
+        return this.matcher.matches();
+    }
+    
+    public MatchType getMatchType()
+    {
+        return matchType;
+    }
 
-	public Chunk currentChunk()
-	{
-		return this.parseContext.getCurrent();
-	}
-	
-	public MatchResult matchResult()
-	{
-		return this.matcher;
-	}
-	
-	public List<RegexTokenGroup> matchGroups()
-	{
-		return this.matchGroups;
-	}
-	
-	public ParseContext parseContext()
-	{
-		return this.parseContext;
-	}
-	
-	public int firstMatchingGroupStart()
-	{
-		int leftMostGroupStart = matcher.group().length();
-		for (RegexTokenGroup matchGroup : matchGroups)
-		{
-			int start = matcher.start(matchGroup.getGroup());
-			if(start != -1)
-			{
-				leftMostGroupStart = start < leftMostGroupStart ? start : leftMostGroupStart;
-			}
-		}
-		return leftMostGroupStart;
-	}
+    public Chunk currentChunk()
+    {
+        return this.parseContext.getCurrent();
+    }
+    
+    public MatchResult matchResult()
+    {
+        return this.matcher;
+    }
+    
+    public List<RegexTokenGroup> matchGroups()
+    {
+        return this.matchGroups;
+    }
+    
+    public ParseContext parseContext()
+    {
+        return this.parseContext;
+    }
+    
+    public int firstMatchingGroupStart()
+    {
+        int leftMostGroupStart = matcher.group().length();
+        for (RegexTokenGroup matchGroup : matchGroups)
+        {
+            int start = matcher.start(matchGroup.getGroup());
+            if(start != -1)
+            {
+                leftMostGroupStart = start < leftMostGroupStart ? start : leftMostGroupStart;
+            }
+        }
+        return leftMostGroupStart;
+    }
 
 }

@@ -26,40 +26,40 @@ import java.util.Collection;
  */
 public abstract class Assert
 {
-	/**
-	 * Assert that an object is not <code>null</code> .
-	 * <pre class="code">Assert.notNull(clazz, "The class must not be null");</pre>
-	 * @param object the object to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the object is <code>null</code>
-	 */
-	public static void notNull(Object object, String message) {
-		if (object == null) {
-			throw new IllegalArgumentException(message);
-		}
-	}
+    /**
+     * Assert that an object is not <code>null</code> .
+     * <pre class="code">Assert.notNull(clazz, "The class must not be null");</pre>
+     * @param object the object to check
+     * @param message the exception message to use if the assertion fails
+     * @throws IllegalArgumentException if the object is <code>null</code>
+     */
+    public static void notNull(Object object, String message) {
+        if (object == null) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 
-	/**
-	 * Assert that an object is not <code>null</code> .
-	 * <pre class="code">Assert.notNull(clazz);</pre>
-	 * @param object the object to check
-	 * @throws IllegalArgumentException if the object is <code>null</code>
-	 */
-	public static void notNull(Object object) {
-		notNull(object, "[Assertion failed] - this argument is required; it must not be null");
-	}
-	
-	/**
-	 * Assert that a collection has elements; that is, it must not be
-	 * <code>null</code> and must have at least one element.
-	 * <pre class="code">Assert.notEmpty(collection, "Collection must have elements");</pre>
-	 * @param collection the collection to check
-	 * @param message the exception message to use if the assertion fails
-	 * @throws IllegalArgumentException if the collection is <code>null</code> or has no elements
-	 */
-	public static void notEmpty(@SuppressWarnings("rawtypes") Collection collection, String message) {
-		if (collection == null || collection.isEmpty()) {
-			throw new IllegalArgumentException(message);
-		}
-	}	
+    /**
+     * Assert that an object is not <code>null</code> .
+     * <pre class="code">Assert.notNull(clazz);</pre>
+     * @param object the object to check
+     * @throws IllegalArgumentException if the object is <code>null</code>
+     */
+    public static void notNull(Object object) {
+        notNull(object, "[Assertion failed] - this argument is required; it must not be null");
+    }
+    
+    /**
+     * Assert that a collection has elements; that is, it must not be
+     * <code>null</code> and must have at least one element.
+     * <pre class="code">Assert.notEmpty(collection, "Collection must have elements");</pre>
+     * @param collection the collection to check
+     * @param message the exception message to use if the assertion fails
+     * @throws IllegalArgumentException if the collection is <code>null</code> or has no elements
+     */
+    public static void notEmpty(@SuppressWarnings("rawtypes") Collection collection, String message) {
+        if (collection == null || collection.isEmpty()) {
+            throw new IllegalArgumentException(message);
+        }
+    }   
 }

@@ -27,99 +27,99 @@ import org.slf4j.LoggerFactory;
 
 public class Registry
 {
-	private static final Logger log = LoggerFactory.getLogger(Registry.class);
+    private static final Logger log = LoggerFactory.getLogger(Registry.class);
 
-	private static final ConcurrentMap<String, FunctionDocumentation> functionDocumentationRegistry = new ConcurrentHashMap<String, FunctionDocumentation>();
-	private static final ConcurrentMap<String, Function> functionRegistry = new ConcurrentHashMap<String, Function>();
-	private static final ConcurrentMap<String, WorkArea> workAreaRegistry = new ConcurrentHashMap<String, WorkArea>();
+    private static final ConcurrentMap<String, FunctionDocumentation> functionDocumentationRegistry = new ConcurrentHashMap<String, FunctionDocumentation>();
+    private static final ConcurrentMap<String, Function> functionRegistry = new ConcurrentHashMap<String, Function>();
+    private static final ConcurrentMap<String, WorkArea> workAreaRegistry = new ConcurrentHashMap<String, WorkArea>();
 
-	private Registry()
-	{
-	}
+    private Registry()
+    {
+    }
 
-	public static void addFunction(Function function)
-	{
-		log.debug("add({})", function);
-		functionRegistry.putIfAbsent(function.getId(), function);
-	}
+    public static void addFunction(Function function)
+    {
+        log.debug("add({})", function);
+        functionRegistry.putIfAbsent(function.getId(), function);
+    }
 
-	public static void addFunctionDocumentation(FunctionDocumentation functionDocumentation)
-	{
-		log.debug("add({})", functionDocumentation);
-		functionDocumentationRegistry.putIfAbsent(functionDocumentation.getId(), functionDocumentation);
-	}
+    public static void addFunctionDocumentation(FunctionDocumentation functionDocumentation)
+    {
+        log.debug("add({})", functionDocumentation);
+        functionDocumentationRegistry.putIfAbsent(functionDocumentation.getId(), functionDocumentation);
+    }
 
-	public static void addWorkArea(WorkArea workArea)
-	{
-		log.debug("add({})", workArea);
-		workAreaRegistry.putIfAbsent(workArea.getId(), workArea);
-	}
+    public static void addWorkArea(WorkArea workArea)
+    {
+        log.debug("add({})", workArea);
+        workAreaRegistry.putIfAbsent(workArea.getId(), workArea);
+    }
 
-	public static void clearAll()
-	{
-		clearFunctionDocumentation();
-		clearFunctions();
-		clearWorkAreas();
-	}
+    public static void clearAll()
+    {
+        clearFunctionDocumentation();
+        clearFunctions();
+        clearWorkAreas();
+    }
 
-	public static void clearFunctionDocumentation()
-	{
-		functionDocumentationRegistry.clear();
-		log.debug("functionDocumentationRegistry.clear()");
-	}
+    public static void clearFunctionDocumentation()
+    {
+        functionDocumentationRegistry.clear();
+        log.debug("functionDocumentationRegistry.clear()");
+    }
 
-	public static void clearFunctions()
-	{
-		functionRegistry.clear();
-		log.debug("functionRegistry.clear()");
-	}
+    public static void clearFunctions()
+    {
+        functionRegistry.clear();
+        log.debug("functionRegistry.clear()");
+    }
 
-	public static void clearWorkAreas()
-	{
-		workAreaRegistry.clear();
-		log.debug("workAreaRegistry.clear()");
-	}
+    public static void clearWorkAreas()
+    {
+        workAreaRegistry.clear();
+        log.debug("workAreaRegistry.clear()");
+    }
 
-	public static boolean containsFunction(String id)
-	{
-		boolean contains = functionRegistry.containsKey(id);
-		log.debug("functionRegistry.containsKey({})=={}", id, contains);
-		return contains;
-	}
+    public static boolean containsFunction(String id)
+    {
+        boolean contains = functionRegistry.containsKey(id);
+        log.debug("functionRegistry.containsKey({})=={}", id, contains);
+        return contains;
+    }
 
-	public static boolean containsFunctionDocumentation(String id)
-	{
-		boolean contains = functionDocumentationRegistry.containsKey(id);
-		log.debug("functionDocumentationRegistry.containsKey({})=={}", id, contains);
-		return contains;
-	}
+    public static boolean containsFunctionDocumentation(String id)
+    {
+        boolean contains = functionDocumentationRegistry.containsKey(id);
+        log.debug("functionDocumentationRegistry.containsKey({})=={}", id, contains);
+        return contains;
+    }
 
-	public static boolean containsWorkArea(String name)
-	{
-		boolean contains = workAreaRegistry.containsKey(name);
-		log.debug("workAreaRegistry.containsKey({})=={}", name, contains);
-		return contains;
-	}
+    public static boolean containsWorkArea(String name)
+    {
+        boolean contains = workAreaRegistry.containsKey(name);
+        log.debug("workAreaRegistry.containsKey({})=={}", name, contains);
+        return contains;
+    }
 
-	public static Function getFunction(String id)
-	{
-		Function function = functionRegistry.get(id);
-		log.debug("functionRegistry.get({})=={}", id, function);
-		return function;
-	}
+    public static Function getFunction(String id)
+    {
+        Function function = functionRegistry.get(id);
+        log.debug("functionRegistry.get({})=={}", id, function);
+        return function;
+    }
 
-	public static FunctionDocumentation getFunctionDocumentation(String id)
-	{
-		FunctionDocumentation functionDocumentation = functionDocumentationRegistry.get(id);
-		log.debug("functionDocumentationRegistry.get({})=={}", id, functionDocumentation);
-		return functionDocumentation;
-	}
+    public static FunctionDocumentation getFunctionDocumentation(String id)
+    {
+        FunctionDocumentation functionDocumentation = functionDocumentationRegistry.get(id);
+        log.debug("functionDocumentationRegistry.get({})=={}", id, functionDocumentation);
+        return functionDocumentation;
+    }
 
-	public static WorkArea getWorkArea(String name)
-	{
-		WorkArea workArea = workAreaRegistry.get(name);
-		log.debug("workAreaRegistry.get({})=={}", name, workArea);
-		return workArea;
-	}
+    public static WorkArea getWorkArea(String name)
+    {
+        WorkArea workArea = workAreaRegistry.get(name);
+        log.debug("workAreaRegistry.get({})=={}", name, workArea);
+        return workArea;
+    }
 
 }

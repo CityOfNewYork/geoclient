@@ -19,45 +19,45 @@ import java.util.List;
 
 public class GroupDocumentation extends ItemDocumentationSupport
 {
-	private List<GroupMember> groupMembers;
-	private Integer max;
+    private List<GroupMember> groupMembers;
+    private Integer max;
 
-	public boolean isMember(ItemDocumentation itemDocumentation)
-	{
-		for (GroupMember groupMember : this.groupMembers)
-		{
-			if(groupMember.matches(itemDocumentation.getId()))
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	public List<GroupMember> getGroupMembers()
-	{
-		return groupMembers;
-	}
+    public boolean isMember(ItemDocumentation itemDocumentation)
+    {
+        for (GroupMember groupMember : this.groupMembers)
+        {
+            if(groupMember.matches(itemDocumentation.getId()))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    public List<GroupMember> getGroupMembers()
+    {
+        return groupMembers;
+    }
 
-	public void setGroupMembers(List<GroupMember> groupMembers)
-	{
-		this.groupMembers = groupMembers;
-	}
+    public void setGroupMembers(List<GroupMember> groupMembers)
+    {
+        this.groupMembers = groupMembers;
+    }
 
-	public Integer getMax()
-	{
-		return max;
-	}
+    public Integer getMax()
+    {
+        return max;
+    }
 
-	public void setMax(Integer max)
-	{
-		this.max = max;
-	}
+    public void setMax(Integer max)
+    {
+        this.max = max;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "GroupDocumentation [id=" + getId() + "]";
-	}
+    @Override
+    public String toString()
+    {
+        return "GroupDocumentation [id=" + getId() + "]";
+    }
 
 }

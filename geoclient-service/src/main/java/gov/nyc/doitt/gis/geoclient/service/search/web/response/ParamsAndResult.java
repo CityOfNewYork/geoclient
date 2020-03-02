@@ -19,22 +19,22 @@ import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 
 public class ParamsAndResult
 {
-	private final SearchParameters searchParameters;
-	private final SearchResult searchResult;
-	
-	public ParamsAndResult(SearchParameters searchParameters, SearchResult searchResult)
-	{
-		super();
-		this.searchParameters = searchParameters;
-		this.searchResult = searchResult;
-	}
-	public SearchParameters getSearchParameters()
-	{
-		return searchParameters;
-	}
-	public SearchResult getSearchResult()
-	{
-		return searchResult;
-	}
+    private final SearchParameters searchParameters;
+    private final SearchResult searchResult;
+    
+    public ParamsAndResult(SearchParameters searchParameters, SearchResult searchResult)
+    {
+        super();
+        this.searchParameters = searchParameters;
+        this.searchResult = searchResult;
+    }
+    public SearchParameters getSearchParameters()
+    {
+        return searchParameters;
+    }
+    public SearchResult getSearchResult()
+    {
+        return searchResult;
+    }
 
 }

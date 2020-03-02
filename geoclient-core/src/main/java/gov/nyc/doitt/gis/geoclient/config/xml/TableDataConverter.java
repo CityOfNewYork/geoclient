@@ -28,41 +28,41 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class TableDataConverter implements Converter
 {
-	private static final Logger log = LoggerFactory.getLogger(TableDataConverter.class);
+    private static final Logger log = LoggerFactory.getLogger(TableDataConverter.class);
 
-	@Override
-	public boolean canConvert(@SuppressWarnings("rawtypes") Class type)
-	{
-		return TableData.class.isAssignableFrom(type);
-	}
+    @Override
+    public boolean canConvert(@SuppressWarnings("rawtypes") Class type)
+    {
+        return TableData.class.isAssignableFrom(type);
+    }
 
-	@Override
-	public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context)
-	{
-		throw new UnsupportedOperationException("Marshalling back to XML is not implemented");
-	}
+    @Override
+    public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context)
+    {
+        throw new UnsupportedOperationException("Marshalling back to XML is not implemented");
+    }
 
-	@Override
-	public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context)
-	{
-		String colspanText = reader.getAttribute(DocumentationXmlReader.XML_TD_ATTRIBUTE_COLSPAN);
-		int colspan = colspanText != null ? Integer.valueOf(colspanText) : 1;
-		// Text
-		//StringBuffer value = new StringBuffer(reader.getValue());
-		Footnote footnote = null;
-		if(reader.hasMoreChildren())
-		{
-			reader.moveDown();		
-			String positionString = reader.getAttribute(DocumentationXmlReader.XML_FOOTNOTE_ATTRIBUTE_POSITION);
-			footnote = new Footnote(reader.getValue(),Integer.valueOf(positionString));
-			reader.moveUp();
-		}
-		StringBuffer value = new StringBuffer(reader.getValue());
-		boolean isHeader = DocumentationXmlReader.XML_TH_ELEMENT.equalsIgnoreCase(reader.getNodeName());
-		TableData td = new TableData(value.toString(), colspan,isHeader,footnote);
-		log.trace("Created TableData {}", td);
-		return td;
-	}
+    @Override
+    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context)
+    {
+        String colspanText = reader.getAttribute(DocumentationXmlReader.XML_TD_ATTRIBUTE_COLSPAN);
+        int colspan = colspanText != null ? Integer.valueOf(colspanText) : 1;
+        // Text
+        //StringBuffer value = new StringBuffer(reader.getValue());
+        Footnote footnote = null;
+        if(reader.hasMoreChildren())
+        {
+            reader.moveDown();      
+            String positionString = reader.getAttribute(DocumentationXmlReader.XML_FOOTNOTE_ATTRIBUTE_POSITION);
+            footnote = new Footnote(reader.getValue(),Integer.valueOf(positionString));
+            reader.moveUp();
+        }
+        StringBuffer value = new StringBuffer(reader.getValue());
+        boolean isHeader = DocumentationXmlReader.XML_TH_ELEMENT.equalsIgnoreCase(reader.getNodeName());
+        TableData td = new TableData(value.toString(), colspan,isHeader,footnote);
+        log.trace("Created TableData {}", td);
+        return td;
+    }
 
 
 }

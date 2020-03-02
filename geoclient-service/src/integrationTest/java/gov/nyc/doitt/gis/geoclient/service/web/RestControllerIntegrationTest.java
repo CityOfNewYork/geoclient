@@ -32,9 +32,9 @@ public class RestControllerIntegrationTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testStreetcode_FDG() {
-    	String streetCodeUriTemplate = String.format("%s.%s?%s={%s}", STREETCODE_URI, "json", STREET_CODE, STREET_CODE);
-    	LOGGER.info("URI=" + streetCodeUriTemplate);
-		Map<String, Object> body = (Map<String, Object>) this.restTemplate.getForObject(streetCodeUriTemplate, Map.class, "110610");
+        String streetCodeUriTemplate = String.format("%s.%s?%s={%s}", STREETCODE_URI, "json", STREET_CODE, STREET_CODE);
+        LOGGER.info("URI=" + streetCodeUriTemplate);
+        Map<String, Object> body = (Map<String, Object>) this.restTemplate.getForObject(streetCodeUriTemplate, Map.class, "110610");
         LOGGER.info("/streetcode response body: {}",body);
         Map<String, Object> result = (Map<String, Object>) body.get(STREET_CODE.toLowerCase());
         assertThat(result.containsKey(GEOSUPPORT_RETURN_CODE));

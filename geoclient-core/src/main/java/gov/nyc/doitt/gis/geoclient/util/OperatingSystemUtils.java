@@ -18,15 +18,15 @@ package gov.nyc.doitt.gis.geoclient.util;
 public class OperatingSystemUtils
 {
 
-	private static final String osName = System.getProperty("os.name");
+    private static final String osName = System.getProperty("os.name");
 
-	public static boolean isWindows()
-	{
-		return osName.contains("Windows");
-	}
+    public static boolean isWindows()
+    {
+        return osName.contains("Windows");
+    }
 
-	public static String uname()
-	{
-		return osName;
-	}
+    public static String uname()
+    {
+        return osName;
+    }
 }

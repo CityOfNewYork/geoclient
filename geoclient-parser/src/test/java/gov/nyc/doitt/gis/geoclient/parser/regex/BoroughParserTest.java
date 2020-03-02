@@ -30,16 +30,16 @@ import gov.nyc.doitt.gis.geoclient.parser.configuration.ParserConfig;
 @ContextConfiguration(classes = {ParserConfig.class})
 public class BoroughParserTest extends AbstractSpecTest
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BoroughParserTest.class);
-	
-	@Autowired
-	private BoroughParser parser;
-	
+    private static final Logger LOGGER = LoggerFactory.getLogger(BoroughParserTest.class);
+    
+    @Autowired
+    private BoroughParser parser;
+    
 
-	@Test
-	public void testParse()
-	{
-		testParser(parser, LOGGER);
-	}
+    @Test
+    public void testParse()
+    {
+        testParser(parser, LOGGER);
+    }
 
 }

@@ -30,24 +30,24 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(classes = {ParserConfig.class})
 public class PatternDataTest{
 
-	@Autowired
-	private ParserConfig patternData;
-	@Autowired
-	private ApplicationContext applicationContext;
-	
-	@Test
-	public void testBoroughNames()
-	{
-		assertTrue(applicationContext.containsBean("boroughNamesToBoroughMap"));
-		assertNotNull(patternData);
-		assertFalse(patternData.boroughNamesToBoroughMap().isEmpty());
-	}
+    @Autowired
+    private ParserConfig patternData;
+    @Autowired
+    private ApplicationContext applicationContext;
+    
+    @Test
+    public void testBoroughNames()
+    {
+        assertTrue(applicationContext.containsBean("boroughNamesToBoroughMap"));
+        assertNotNull(patternData);
+        assertFalse(patternData.boroughNamesToBoroughMap().isEmpty());
+    }
 
-	@Test
-	public void testCityNames()
-	{
-		assertTrue(applicationContext.containsBean("cityNamesToBoroughMap"));
-		assertNotNull(patternData);
-		assertFalse(patternData.cityNamesToBoroughMap().isEmpty());
-	}
+    @Test
+    public void testCityNames()
+    {
+        assertTrue(applicationContext.containsBean("cityNamesToBoroughMap"));
+        assertNotNull(patternData);
+        assertFalse(patternData.cityNamesToBoroughMap().isEmpty());
+    }
 }

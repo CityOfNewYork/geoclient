@@ -20,56 +20,56 @@ import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 
 public abstract class CountyRequest extends Request
 {
-	private InputValue boroughInputValue;
-	private InputValue zipInputValue;
-	
-	public CountyRequest()
-	{
-		super();
-	}
-	
-	public CountyRequest(int level, InputValue borough, InputValue zip)
-	{
-		super(level);
-		this.boroughInputValue = borough;
-		this.zipInputValue = zip;
-	}
+    private InputValue boroughInputValue;
+    private InputValue zipInputValue;
+    
+    public CountyRequest()
+    {
+        super();
+    }
+    
+    public CountyRequest(int level, InputValue borough, InputValue zip)
+    {
+        super(level);
+        this.boroughInputValue = borough;
+        this.zipInputValue = zip;
+    }
 
-	public String getBorough()
-	{
-		return stringValueOrNull(boroughInputValue);
-	}
+    public String getBorough()
+    {
+        return stringValueOrNull(boroughInputValue);
+    }
 
-	public String getZip()
-	{
-		return stringValueOrNull(zipInputValue);
-	}
+    public String getZip()
+    {
+        return stringValueOrNull(zipInputValue);
+    }
 
-	public InputValue getBoroughInputValue()
-	{
-		return boroughInputValue;
-	}
+    public InputValue getBoroughInputValue()
+    {
+        return boroughInputValue;
+    }
 
-	public void setBoroughInputValue(InputValue boroughInputValue)
-	{
-		this.boroughInputValue = boroughInputValue;
-	}
+    public void setBoroughInputValue(InputValue boroughInputValue)
+    {
+        this.boroughInputValue = boroughInputValue;
+    }
 
-	public InputValue getZipInputValue()
-	{
-		return zipInputValue;
-	}
+    public InputValue getZipInputValue()
+    {
+        return zipInputValue;
+    }
 
-	public void setZipInputValue(InputValue zipInputValue)
-	{
-		this.zipInputValue = zipInputValue;
-	}
+    public void setZipInputValue(InputValue zipInputValue)
+    {
+        this.zipInputValue = zipInputValue;
+    }
 
-	@Override
-	public boolean containsAssignedValue()
-	{
-		return isAssigned(boroughInputValue) || isAssigned(zipInputValue);
-	}
-	
+    @Override
+    public boolean containsAssignedValue()
+    {
+        return isAssigned(boroughInputValue) || isAssigned(zipInputValue);
+    }
+    
 }
 

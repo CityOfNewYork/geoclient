@@ -21,94 +21,94 @@ import java.util.List;
 
 public class Description
 {
-	private List<Paragraph> paragraphs;
+    private List<Paragraph> paragraphs;
 
-	public Description()
-	{
-		super();
-		this.paragraphs = new ArrayList<Paragraph>();
-	}
+    public Description()
+    {
+        super();
+        this.paragraphs = new ArrayList<Paragraph>();
+    }
 
-	public Description(String text)
-	{
-		this();
-		this.paragraphs.add(new Paragraph(text));
-	}
+    public Description(String text)
+    {
+        this();
+        this.paragraphs.add(new Paragraph(text));
+    }
 
-	public boolean hasText()
-	{
-		if (this.paragraphs != null)
-		{
-			for (Paragraph p : this.paragraphs)
-			{
-				if (p.hasText())
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	
-	public String summarize(int length)
-	{
-		String everything = joinText(" ");
-		if(everything.length() <= length)
-		{
-			return everything;
-		}
-		return everything.substring(0, length);
-	}
+    public boolean hasText()
+    {
+        if (this.paragraphs != null)
+        {
+            for (Paragraph p : this.paragraphs)
+            {
+                if (p.hasText())
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+    
+    public String summarize(int length)
+    {
+        String everything = joinText(" ");
+        if(everything.length() <= length)
+        {
+            return everything;
+        }
+        return everything.substring(0, length);
+    }
 
-	public String joinText(String between)
-	{
-		StringBuffer sb = new StringBuffer();
-		if (this.paragraphs != null)
-		{
-			for (Iterator<Paragraph> iterator = this.paragraphs.iterator(); iterator.hasNext();)
-			{
-				sb.append(iterator.next().getText());
-				if (iterator.hasNext())
-				{
-					sb.append(between);
-				}
-			}
-		}
-		return sb.toString();
-	}
+    public String joinText(String between)
+    {
+        StringBuffer sb = new StringBuffer();
+        if (this.paragraphs != null)
+        {
+            for (Iterator<Paragraph> iterator = this.paragraphs.iterator(); iterator.hasNext();)
+            {
+                sb.append(iterator.next().getText());
+                if (iterator.hasNext())
+                {
+                    sb.append(between);
+                }
+            }
+        }
+        return sb.toString();
+    }
 
-	public Description(List<Paragraph> paragraphs)
-	{
-		super();
-		this.paragraphs = paragraphs;
-	}
+    public Description(List<Paragraph> paragraphs)
+    {
+        super();
+        this.paragraphs = paragraphs;
+    }
 
-	public List<Paragraph> getParagraphs()
-	{
-		return paragraphs;
-	}
+    public List<Paragraph> getParagraphs()
+    {
+        return paragraphs;
+    }
 
-	public void setParagraphs(List<Paragraph> paragraphs)
-	{
-		this.paragraphs = paragraphs;
-	}
+    public void setParagraphs(List<Paragraph> paragraphs)
+    {
+        this.paragraphs = paragraphs;
+    }
 
-	@Override
-	public String toString()
-	{
-		return toHtml();
-	}
+    @Override
+    public String toString()
+    {
+        return toHtml();
+    }
 
-	public String toHtml()
-	{
-		StringBuffer sb = new StringBuffer();
-		if (this.paragraphs != null)
-		{
-			for (Paragraph paragraph : this.paragraphs)
-			{
-				sb.append(paragraph.toHtml());
-			}
-		}
-		return sb.toString();
-	}
+    public String toHtml()
+    {
+        StringBuffer sb = new StringBuffer();
+        if (this.paragraphs != null)
+        {
+            for (Paragraph paragraph : this.paragraphs)
+            {
+                sb.append(paragraph.toHtml());
+            }
+        }
+        return sb.toString();
+    }
 }

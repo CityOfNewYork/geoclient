@@ -23,15 +23,15 @@ import java.nio.charset.CharsetDecoder;
 
 public class ByteBufferUtils
 {
-	private static final Charset CHARSET = Charset.forName("UTF-8");
-	private static final CharsetDecoder DECODER = CHARSET.newDecoder();
+    private static final Charset CHARSET = Charset.forName("UTF-8");
+    private static final CharsetDecoder DECODER = CHARSET.newDecoder();
 
-	public static String readString(ByteBuffer buffer)throws CharacterCodingException
-	{
-		int position = buffer.position();
-		CharBuffer charBuffer = DECODER.decode(buffer);
-		buffer.position(position);
-		return charBuffer.toString();
-	}
+    public static String readString(ByteBuffer buffer)throws CharacterCodingException
+    {
+        int position = buffer.position();
+        CharBuffer charBuffer = DECODER.decode(buffer);
+        buffer.position(position);
+        return charBuffer.toString();
+    }
 
 }

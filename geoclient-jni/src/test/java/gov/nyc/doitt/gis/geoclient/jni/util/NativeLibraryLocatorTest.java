@@ -16,9 +16,9 @@ import org.slf4j.LoggerFactory;
 
 class NativeLibraryLocatorTest {
 
-	final Logger logger = LoggerFactory.getLogger(NativeLibraryLocatorTest.class);
+    final Logger logger = LoggerFactory.getLogger(NativeLibraryLocatorTest.class);
 
-	private final static String tmpDirProperty = "java.io.tmpdir";
+    private final static String tmpDirProperty = "java.io.tmpdir";
     private String backup;
     private File testTmpDir;
 
@@ -31,8 +31,8 @@ class NativeLibraryLocatorTest {
 
         // Create java.io.tmpdir for these tests
         testTmpDir = getTempDir();
-		System.setProperty(tmpDirProperty, testTmpDir.getCanonicalPath());
-		logger.debug("testTmpDir={}", testTmpDir.getCanonicalPath());
+        System.setProperty(tmpDirProperty, testTmpDir.getCanonicalPath());
+        logger.debug("testTmpDir={}", testTmpDir.getCanonicalPath());
     }
 
     @AfterEach
@@ -41,21 +41,21 @@ class NativeLibraryLocatorTest {
         System.setProperty(tmpDirProperty,backup);
     }
 
-	@Test
-	void testFind() throws IOException {
-		NativeLibraryLocator locator = new NativeLibraryLocator(testTmpDir.getCanonicalPath());
-		File result = locator.find(getJniLibrary());
-		assertNotNull(result);
-		assertTrue(result.exists());
-	}
+    @Test
+    void testFind() throws IOException {
+        NativeLibraryLocator locator = new NativeLibraryLocator(testTmpDir.getCanonicalPath());
+        File result = locator.find(getJniLibrary());
+        assertNotNull(result);
+        assertTrue(result.exists());
+    }
 
-	private JniLibrary getJniLibrary() throws IOException {
-		return JniLibrary.builder().name("geoclientjni").platform(new Platform()).version("X1200").build();
-	}
+    private JniLibrary getJniLibrary() throws IOException {
+        return JniLibrary.builder().name("geoclientjni").platform(new Platform()).version("X1200").build();
+    }
 
-	private File getTempDir() throws IOException {
-		URL url = getClass().getClassLoader().getResource(".");
-		File root = new File(String.format("%s/../tmplib",url.getPath()));
-		return root;
-	}
+    private File getTempDir() throws IOException {
+        URL url = getClass().getClassLoader().getResource(".");
+        File root = new File(String.format("%s/../tmplib",url.getPath()));
+        return root;
+    }
 }

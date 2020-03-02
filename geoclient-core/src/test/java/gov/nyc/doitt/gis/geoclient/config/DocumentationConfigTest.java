@@ -41,92 +41,92 @@ import org.mockito.Mockito;
 
 public class DocumentationConfigTest
 {
-	private DataDictionary dataDictionary;
-	private Function functionMock;
-	private FunctionDocumentation functionDocumentation;
-	private DocumentationConfig documentationConfig;
-	private WorkArea workAreaOne;
-	private WorkArea workAreaTwo;
-	private Field fieldOne;
-	private Field fieldTwo;
-	private Field fieldThree;
-	private Field fieldFour;
-	private Field groupedField;
-	private ItemDocumentation iDocOne;
-	private ItemDocumentation iDocTwo;
-	private ItemDocumentation iDocFour;
+    private DataDictionary dataDictionary;
+    private Function functionMock;
+    private FunctionDocumentation functionDocumentation;
+    private DocumentationConfig documentationConfig;
+    private WorkArea workAreaOne;
+    private WorkArea workAreaTwo;
+    private Field fieldOne;
+    private Field fieldTwo;
+    private Field fieldThree;
+    private Field fieldFour;
+    private Field groupedField;
+    private ItemDocumentation iDocOne;
+    private ItemDocumentation iDocTwo;
+    private ItemDocumentation iDocFour;
 
-	@BeforeEach
-	public void setUp() throws Exception
-	{
-		this.functionMock = Mockito.mock(Function.class);
-		this.fieldOne = new Field("fieldOne",0,12);
-		this.fieldTwo = new Field("fieldTwo",12,10);
-		this.fieldThree = new Field("fieldThree",22,2);
-		this.fieldFour = new Field("fieldFour",24,6);
-		this.groupedField = new Field("grouper1",30,2);
-		GroupMember member = new GroupMember();
-		member.setId("grouper");
-		GroupDocumentation groupDoc = new GroupDocumentation();
-		groupDoc.setGroupMembers(Arrays.asList(member));
-		this.functionDocumentation = new FunctionDocumentation();
-		this.functionDocumentation.setGroups(Arrays.asList(groupDoc));		
-		assertTrue(this.functionDocumentation.isGroupMember(new MissingDocumentation(groupedField.getId())));
-		SortedSet<Field> workAreaOneFields = new TreeSet<Field>();
-		workAreaOneFields.add(fieldOne);
-		workAreaOneFields.add(fieldTwo);
-		this.workAreaOne = new WorkArea("WA1", workAreaOneFields);
-		SortedSet<Field> workAreaTwoFields = new TreeSet<Field>();
-		workAreaTwoFields.add(fieldThree);
-		workAreaTwoFields.add(fieldFour);
-		workAreaTwoFields.add(groupedField);
-		this.workAreaTwo = new WorkArea("WA2", workAreaTwoFields);
-		List<ItemDocumentation> items = new ArrayList<ItemDocumentation>();
-		iDocOne = makeItemDocumentation(fieldOne);
-		items.add(iDocOne);
-		iDocTwo = makeItemDocumentation(fieldTwo);
-		items.add(iDocTwo);
-		iDocFour = makeItemDocumentation(fieldFour);
-		items.add(iDocFour);
-		this.dataDictionary = new DataDictionary(items);
-		this.documentationConfig = new DocumentationConfig(dataDictionary);
-	}
-	
-	@Test
-	public void testDocumentTwoWorkAreaFunction()
-	{
-		Mockito.when(this.functionMock.getWorkAreaOne()).thenReturn(workAreaOne);
-		Mockito.when(this.functionMock.isTwoWorkAreas()).thenReturn(true);
-		Mockito.when(this.functionMock.getWorkAreaTwo()).thenReturn(workAreaTwo);
-		FunctionDocumentation result = this.documentationConfig.document(functionDocumentation, functionMock);
-		assertSame(functionDocumentation, result);
-		assertEquals(4, result.getFields().size());
-		// grouped field should have been skipped
-		assertFalse(result.getFields().contains(new MissingDocumentation(this.groupedField.getId())));
-		assertTrue(result.getFields().remove(iDocOne));
-		assertTrue(result.getFields().remove(iDocTwo));
-		assertTrue(result.getFields().remove(iDocFour));
-		assertEquals(1, result.getFields().size());
-		assertTrue(result.getFields().first() instanceof MissingDocumentation);		
-	}
-	
-	@Test
-	public void testDocumentOneWorkAreaFunction()
-	{
-		Mockito.when(this.functionMock.getWorkAreaOne()).thenReturn(workAreaOne);
-		Mockito.when(this.functionMock.isTwoWorkAreas()).thenReturn(false);
-		FunctionDocumentation result = this.documentationConfig.document(functionDocumentation, functionMock);
-		assertSame(functionDocumentation, result);
-		assertEquals(2, result.getFields().size());
-		assertTrue(result.getFields().contains(iDocOne));
-		assertTrue(result.getFields().contains(iDocTwo));
-		Mockito.verify(this.functionMock, Mockito.never()).getWorkAreaTwo();
-	}
-	
-	private ItemDocumentation makeItemDocumentation(Field field)
-	{
-		ItemDocumentation iDoc = new ItemDocumentation();
-		iDoc.setId(field.getId());
-		return iDoc;
-	}
+    @BeforeEach
+    public void setUp() throws Exception
+    {
+        this.functionMock = Mockito.mock(Function.class);
+        this.fieldOne = new Field("fieldOne",0,12);
+        this.fieldTwo = new Field("fieldTwo",12,10);
+        this.fieldThree = new Field("fieldThree",22,2);
+        this.fieldFour = new Field("fieldFour",24,6);
+        this.groupedField = new Field("grouper1",30,2);
+        GroupMember member = new GroupMember();
+        member.setId("grouper");
+        GroupDocumentation groupDoc = new GroupDocumentation();
+        groupDoc.setGroupMembers(Arrays.asList(member));
+        this.functionDocumentation = new FunctionDocumentation();
+        this.functionDocumentation.setGroups(Arrays.asList(groupDoc));      
+        assertTrue(this.functionDocumentation.isGroupMember(new MissingDocumentation(groupedField.getId())));
+        SortedSet<Field> workAreaOneFields = new TreeSet<Field>();
+        workAreaOneFields.add(fieldOne);
+        workAreaOneFields.add(fieldTwo);
+        this.workAreaOne = new WorkArea("WA1", workAreaOneFields);
+        SortedSet<Field> workAreaTwoFields = new TreeSet<Field>();
+        workAreaTwoFields.add(fieldThree);
+        workAreaTwoFields.add(fieldFour);
+        workAreaTwoFields.add(groupedField);
+        this.workAreaTwo = new WorkArea("WA2", workAreaTwoFields);
+        List<ItemDocumentation> items = new ArrayList<ItemDocumentation>();
+        iDocOne = makeItemDocumentation(fieldOne);
+        items.add(iDocOne);
+        iDocTwo = makeItemDocumentation(fieldTwo);
+        items.add(iDocTwo);
+        iDocFour = makeItemDocumentation(fieldFour);
+        items.add(iDocFour);
+        this.dataDictionary = new DataDictionary(items);
+        this.documentationConfig = new DocumentationConfig(dataDictionary);
+    }
+    
+    @Test
+    public void testDocumentTwoWorkAreaFunction()
+    {
+        Mockito.when(this.functionMock.getWorkAreaOne()).thenReturn(workAreaOne);
+        Mockito.when(this.functionMock.isTwoWorkAreas()).thenReturn(true);
+        Mockito.when(this.functionMock.getWorkAreaTwo()).thenReturn(workAreaTwo);
+        FunctionDocumentation result = this.documentationConfig.document(functionDocumentation, functionMock);
+        assertSame(functionDocumentation, result);
+        assertEquals(4, result.getFields().size());
+        // grouped field should have been skipped
+        assertFalse(result.getFields().contains(new MissingDocumentation(this.groupedField.getId())));
+        assertTrue(result.getFields().remove(iDocOne));
+        assertTrue(result.getFields().remove(iDocTwo));
+        assertTrue(result.getFields().remove(iDocFour));
+        assertEquals(1, result.getFields().size());
+        assertTrue(result.getFields().first() instanceof MissingDocumentation);     
+    }
+    
+    @Test
+    public void testDocumentOneWorkAreaFunction()
+    {
+        Mockito.when(this.functionMock.getWorkAreaOne()).thenReturn(workAreaOne);
+        Mockito.when(this.functionMock.isTwoWorkAreas()).thenReturn(false);
+        FunctionDocumentation result = this.documentationConfig.document(functionDocumentation, functionMock);
+        assertSame(functionDocumentation, result);
+        assertEquals(2, result.getFields().size());
+        assertTrue(result.getFields().contains(iDocOne));
+        assertTrue(result.getFields().contains(iDocTwo));
+        Mockito.verify(this.functionMock, Mockito.never()).getWorkAreaTwo();
+    }
+    
+    private ItemDocumentation makeItemDocumentation(Field field)
+    {
+        ItemDocumentation iDoc = new ItemDocumentation();
+        iDoc.setId(field.getId());
+        return iDoc;
+    }
 }

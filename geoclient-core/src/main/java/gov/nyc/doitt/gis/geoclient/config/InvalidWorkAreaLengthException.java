@@ -19,11 +19,11 @@ import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 
 public class InvalidWorkAreaLengthException extends ConfigurationException
 {
-	private static final long serialVersionUID = 2151574091751991095L;
+    private static final long serialVersionUID = 2151574091751991095L;
 
-	public InvalidWorkAreaLengthException(WorkArea workArea, int expectedLength)
-	{
-		super(String.format("Length of WorkArea [id=%s] is invalid: expected=%d, actual=%d", workArea.getId(), expectedLength, workArea.length()));
-	}
+    public InvalidWorkAreaLengthException(WorkArea workArea, int expectedLength)
+    {
+        super(String.format("Length of WorkArea [id=%s] is invalid: expected=%d, actual=%d", workArea.getId(), expectedLength, workArea.length()));
+    }
 
 }

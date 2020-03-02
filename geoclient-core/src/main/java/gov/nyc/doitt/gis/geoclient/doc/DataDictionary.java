@@ -20,33 +20,33 @@ import java.util.List;
 
 public class DataDictionary
 {
-	private List<ItemDocumentation> items;
+    private List<ItemDocumentation> items;
 
-	public DataDictionary(List<ItemDocumentation> items)
-	{
-		this.items = items;
-	}
-	
-	public ItemDocumentation findItem(String id)
-	{
-		for (ItemDocumentation doc : this.items)
-		{
-			if(doc.documents(id))
-			{
-				return doc;
-			}
-		}
-		return null;
-	}
+    public DataDictionary(List<ItemDocumentation> items)
+    {
+        this.items = items;
+    }
+    
+    public ItemDocumentation findItem(String id)
+    {
+        for (ItemDocumentation doc : this.items)
+        {
+            if(doc.documents(id))
+            {
+                return doc;
+            }
+        }
+        return null;
+    }
 
-	public List<ItemDocumentation> getItems()
-	{
-		return items;
-	}
+    public List<ItemDocumentation> getItems()
+    {
+        return items;
+    }
 
-	public void setItems(List<ItemDocumentation> items)
-	{
-		this.items = items;
-	}
+    public void setItems(List<ItemDocumentation> items)
+    {
+        this.items = items;
+    }
 
 }

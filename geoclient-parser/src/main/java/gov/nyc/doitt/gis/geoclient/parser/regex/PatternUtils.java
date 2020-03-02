@@ -23,19 +23,19 @@ import gov.nyc.doitt.gis.geoclient.parser.util.Assert;
 
 public class PatternUtils
 {
-	public static String literalMatchGroup(Collection<String> strings)
-	{
-		Assert.notEmpty(strings, "Collection of strings argument cannot be empty or null");
-		StringBuffer buff = new StringBuffer("(");
-		for (String s : strings)
-		{
-			buff.append(s);
-			buff.append("|");
-		}
-		buff.deleteCharAt(buff.lastIndexOf("|"));
-		buff.append(")");
-		return buff.toString();
-	}
+    public static String literalMatchGroup(Collection<String> strings)
+    {
+        Assert.notEmpty(strings, "Collection of strings argument cannot be empty or null");
+        StringBuffer buff = new StringBuffer("(");
+        for (String s : strings)
+        {
+            buff.append(s);
+            buff.append("|");
+        }
+        buff.deleteCharAt(buff.lastIndexOf("|"));
+        buff.append(")");
+        return buff.toString();
+    }
 
 
 }

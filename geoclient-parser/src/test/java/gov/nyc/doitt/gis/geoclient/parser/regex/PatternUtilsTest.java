@@ -25,29 +25,29 @@ import org.junit.jupiter.api.Test;
 
 public class PatternUtilsTest {
 
-	@Test
-	public void testLiteralMatchGroup_null() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			PatternUtils.literalMatchGroup(null);
-		});
-	}
+    @Test
+    public void testLiteralMatchGroup_null() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            PatternUtils.literalMatchGroup(null);
+        });
+    }
 
-	@Test
-	public void testLiteralMatchGroup_empty() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			PatternUtils.literalMatchGroup(new ArrayList<String>());
-		});
-	}
+    @Test
+    public void testLiteralMatchGroup_empty() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            PatternUtils.literalMatchGroup(new ArrayList<String>());
+        });
+    }
 
-	@Test
-	public void testLiteralMatchGroup() {
-		List<String> list = new ArrayList<String>();
-		list.add("cat");
-		assertEquals("(cat)", PatternUtils.literalMatchGroup(list));
-		list.add("dog");
-		assertEquals("(cat|dog)", PatternUtils.literalMatchGroup(list));
-		list.add("rat");
-		assertEquals("(cat|dog|rat)", PatternUtils.literalMatchGroup(list));
-	}
+    @Test
+    public void testLiteralMatchGroup() {
+        List<String> list = new ArrayList<String>();
+        list.add("cat");
+        assertEquals("(cat)", PatternUtils.literalMatchGroup(list));
+        list.add("dog");
+        assertEquals("(cat|dog)", PatternUtils.literalMatchGroup(list));
+        list.add("rat");
+        assertEquals("(cat|dog|rat)", PatternUtils.literalMatchGroup(list));
+    }
 
 }

@@ -24,52 +24,52 @@ import gov.nyc.doitt.gis.geoclient.service.search.Fixtures;
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
 
 public class DefaultExactMatchPolicyTest {
-	private Fixtures fix;
-	private DefaultExactMatchPolicy policy;
+    private Fixtures fix;
+    private DefaultExactMatchPolicy policy;
 
-	@BeforeEach
-	public void setUp() throws Exception {
-		this.fix = new Fixtures();
-		this.policy = new DefaultExactMatchPolicy();
-	}
+    @BeforeEach
+    public void setUp() throws Exception {
+        this.fix = new Fixtures();
+        this.policy = new DefaultExactMatchPolicy();
+    }
 
-	@Test
-	public void testDefaultPolicySettings() {
-		assertThat(policy.isExactMatchForSingleSuccess())
-				.isEqualTo(DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_FOR_SINGLE_SUCCESS);
-		assertThat(policy.getExactMatchMaxLevel()).isEqualTo(DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_MAX_LEVEL);
-	}
+    @Test
+    public void testDefaultPolicySettings() {
+        assertThat(policy.isExactMatchForSingleSuccess())
+                .isEqualTo(DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_FOR_SINGLE_SUCCESS);
+        assertThat(policy.getExactMatchMaxLevel()).isEqualTo(DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_MAX_LEVEL);
+    }
 
-	@Test
-	public void testFindExactMatch_choosesFirstSuccessResultOfTheRightLevel() {
-		Search searchOne = new Search(fix.requestLevelOne, fix.responseSuccess);
-		fix.searchResult.add(searchOne);
-		assertThat(policy.findExactMatch(fix.searchResult)).isNull();
-		Search searchZero = new Search(fix.requestLevelZero, fix.responseSuccess);
-		fix.searchResult.add(searchZero);
-		assertThat(policy.findExactMatch(fix.searchResult)).isEqualTo(searchZero);
-	}
+    @Test
+    public void testFindExactMatch_choosesFirstSuccessResultOfTheRightLevel() {
+        Search searchOne = new Search(fix.requestLevelOne, fix.responseSuccess);
+        fix.searchResult.add(searchOne);
+        assertThat(policy.findExactMatch(fix.searchResult)).isNull();
+        Search searchZero = new Search(fix.requestLevelZero, fix.responseSuccess);
+        fix.searchResult.add(searchZero);
+        assertThat(policy.findExactMatch(fix.searchResult)).isEqualTo(searchZero);
+    }
 
-	@Test
-	public void testMarkExactMatch_singleSuccessDisabled() {
+    @Test
+    public void testMarkExactMatch_singleSuccessDisabled() {
 
-		Search searchZero = new Search(fix.requestLevelZero, fix.responseReject);
-		fix.searchResult.add(searchZero);
-		assertThat(policy.findExactMatch(fix.searchResult)).isNull();
-		Search searchOne = new Search(fix.requestLevelOne, fix.responseSuccess);
-		fix.searchResult.add(searchOne);
-		assertThat(policy.findExactMatch(fix.searchResult)).isNull();
-	}
+        Search searchZero = new Search(fix.requestLevelZero, fix.responseReject);
+        fix.searchResult.add(searchZero);
+        assertThat(policy.findExactMatch(fix.searchResult)).isNull();
+        Search searchOne = new Search(fix.requestLevelOne, fix.responseSuccess);
+        fix.searchResult.add(searchOne);
+        assertThat(policy.findExactMatch(fix.searchResult)).isNull();
+    }
 
-	@Test
-	public void testMarkExactMatch_singleSuccessEnabled() {
-		policy.setExactMatchForSingleSuccess(true);
-		Search searchZero = new Search(fix.requestLevelZero, fix.responseReject);
-		fix.searchResult.add(searchZero);
-		assertThat(policy.findExactMatch(fix.searchResult)).isNull();
-		Search searchOne = new Search(fix.requestLevelOne, fix.responseSuccess);
-		fix.searchResult.add(searchOne);
-		assertThat(policy.findExactMatch(fix.searchResult)).isEqualTo(searchOne);
-	}
+    @Test
+    public void testMarkExactMatch_singleSuccessEnabled() {
+        policy.setExactMatchForSingleSuccess(true);
+        Search searchZero = new Search(fix.requestLevelZero, fix.responseReject);
+        fix.searchResult.add(searchZero);
+        assertThat(policy.findExactMatch(fix.searchResult)).isNull();
+        Search searchOne = new Search(fix.requestLevelOne, fix.responseSuccess);
+        fix.searchResult.add(searchOne);
+        assertThat(policy.findExactMatch(fix.searchResult)).isEqualTo(searchOne);
+    }
 
 }

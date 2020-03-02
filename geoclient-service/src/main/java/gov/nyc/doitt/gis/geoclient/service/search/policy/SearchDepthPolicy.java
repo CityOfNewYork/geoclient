@@ -22,5 +22,5 @@ import java.util.List;
 
 public interface SearchDepthPolicy extends Policy
 {
-	List<Search> inputForSubSearches(SearchResult searchResult);
+    List<Search> inputForSubSearches(SearchResult searchResult);
 }

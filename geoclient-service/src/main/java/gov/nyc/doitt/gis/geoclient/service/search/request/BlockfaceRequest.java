@@ -19,89 +19,89 @@ import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 
 public class BlockfaceRequest extends CountyRequest
 {
-	private InputValue onStreetInputValue;
-	private InputValue crossStreetOneInputValue;
-	private InputValue crossStreetTwoInputValue;
+    private InputValue onStreetInputValue;
+    private InputValue crossStreetOneInputValue;
+    private InputValue crossStreetTwoInputValue;
 
-	public BlockfaceRequest()
-	{
-		super();
-	}
+    public BlockfaceRequest()
+    {
+        super();
+    }
 
-	public BlockfaceRequest(BlockfaceRequest anotherRequest)
-	{
-		super(anotherRequest.getLevel(), anotherRequest.getBoroughInputValue(), anotherRequest.getZipInputValue());
-		this.onStreetInputValue = anotherRequest.getOnStreetInputValue();
-		this.crossStreetOneInputValue = anotherRequest.getCrossStreetOneInputValue();
-		this.crossStreetTwoInputValue = anotherRequest.getCrossStreetTwoInputValue();
-	}
+    public BlockfaceRequest(BlockfaceRequest anotherRequest)
+    {
+        super(anotherRequest.getLevel(), anotherRequest.getBoroughInputValue(), anotherRequest.getZipInputValue());
+        this.onStreetInputValue = anotherRequest.getOnStreetInputValue();
+        this.crossStreetOneInputValue = anotherRequest.getCrossStreetOneInputValue();
+        this.crossStreetTwoInputValue = anotherRequest.getCrossStreetTwoInputValue();
+    }
 
-	public String getOnStreet()
-	{
-		return stringValueOrNull(onStreetInputValue);
-	}
-	
-	public String getCrossStreetOne()
-	{
-		return stringValueOrNull(crossStreetOneInputValue);
-	}
-	
-	public String getCrossStreetTwo()
-	{
-		return stringValueOrNull(crossStreetTwoInputValue);
-	}
-	
-	public InputValue getOnStreetInputValue()
-	{
-		return onStreetInputValue;
-	}
+    public String getOnStreet()
+    {
+        return stringValueOrNull(onStreetInputValue);
+    }
+    
+    public String getCrossStreetOne()
+    {
+        return stringValueOrNull(crossStreetOneInputValue);
+    }
+    
+    public String getCrossStreetTwo()
+    {
+        return stringValueOrNull(crossStreetTwoInputValue);
+    }
+    
+    public InputValue getOnStreetInputValue()
+    {
+        return onStreetInputValue;
+    }
 
-	public void setOnStreetInputValue(InputValue onStreetInputValue)
-	{
-		this.onStreetInputValue = onStreetInputValue;
-	}
+    public void setOnStreetInputValue(InputValue onStreetInputValue)
+    {
+        this.onStreetInputValue = onStreetInputValue;
+    }
 
-	public InputValue getCrossStreetOneInputValue()
-	{
-		return crossStreetOneInputValue;
-	}
+    public InputValue getCrossStreetOneInputValue()
+    {
+        return crossStreetOneInputValue;
+    }
 
-	public void setCrossStreetOneInputValue(InputValue crossStreetOneInputValue)
-	{
-		this.crossStreetOneInputValue = crossStreetOneInputValue;
-	}
+    public void setCrossStreetOneInputValue(InputValue crossStreetOneInputValue)
+    {
+        this.crossStreetOneInputValue = crossStreetOneInputValue;
+    }
 
-	public InputValue getCrossStreetTwoInputValue()
-	{
-		return crossStreetTwoInputValue;
-	}
+    public InputValue getCrossStreetTwoInputValue()
+    {
+        return crossStreetTwoInputValue;
+    }
 
-	public void setCrossStreetTwoInputValue(InputValue crossStreetTwoInputValue)
-	{
-		this.crossStreetTwoInputValue = crossStreetTwoInputValue;
-	}
+    public void setCrossStreetTwoInputValue(InputValue crossStreetTwoInputValue)
+    {
+        this.crossStreetTwoInputValue = crossStreetTwoInputValue;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "BlockfaceRequest [level= " + getLevel() + ", onStreet=" + getOnStreet() + ", crossStreetOne=" + getCrossStreetOne()
-				+ ", crossStreetTwo=" + getCrossStreetTwo() + ", borough=" + getBorough() + ", zip="
-				+ getZip() + "]";
-	}
-	
-	@Override
-	public boolean containsAssignedValue()
-	{
-		return super.containsAssignedValue() || 
-				isAssigned(onStreetInputValue) || 
-				isAssigned(crossStreetOneInputValue) || 
-				isAssigned(crossStreetTwoInputValue);
-	}
-	// TODO TESTME
-	@Override
-	public String summarize()
-	{
-		return String.format("blockface [onStreet=%s, crossStreetOne=%s, crossStreetTwo=%s, borough=%s]", getOnStreet(), getCrossStreetOne(), getCrossStreetTwo(), getBorough());
-	}
-	
+    @Override
+    public String toString()
+    {
+        return "BlockfaceRequest [level= " + getLevel() + ", onStreet=" + getOnStreet() + ", crossStreetOne=" + getCrossStreetOne()
+                + ", crossStreetTwo=" + getCrossStreetTwo() + ", borough=" + getBorough() + ", zip="
+                + getZip() + "]";
+    }
+    
+    @Override
+    public boolean containsAssignedValue()
+    {
+        return super.containsAssignedValue() || 
+                isAssigned(onStreetInputValue) || 
+                isAssigned(crossStreetOneInputValue) || 
+                isAssigned(crossStreetTwoInputValue);
+    }
+    // TODO TESTME
+    @Override
+    public String summarize()
+    {
+        return String.format("blockface [onStreet=%s, crossStreetOne=%s, crossStreetTwo=%s, borough=%s]", getOnStreet(), getCrossStreetOne(), getCrossStreetTwo(), getBorough());
+    }
+    
 }

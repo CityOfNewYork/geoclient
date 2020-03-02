@@ -24,25 +24,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BinParser extends AbstractRegexParser {
-	private static final Pattern BIN_SEVEN_DIGIT = Pattern.compile("^\\s*([1-5]\\d{6})\\s*$");
+    private static final Pattern BIN_SEVEN_DIGIT = Pattern.compile("^\\s*([1-5]\\d{6})\\s*$");
 
-	@Override
-	public void parse(ParseContext parseContext)
-	{
-		Chunk currentChunk = parseContext.getCurrent();
-		Matcher matcher = BIN_SEVEN_DIGIT.matcher(currentChunk.getText());
-		
-		if(!matcher.matches())
-		{
-			patternNotMatched(parseContext,BIN_SEVEN_DIGIT);
-			return;
-		}
-		MatchBuilder builder = new MatchBuilder()
-			.add(matcher)
-			.add(MatchType.COMPLETE)
-			.add(parseContext)
-			.add(BIN_SEVEN_DIGIT, 1, TokenType.BIN);
-		handleMatch(builder.build(), ChunkType.BIN);
-	}
+    @Override
+    public void parse(ParseContext parseContext)
+    {
+        Chunk currentChunk = parseContext.getCurrent();
+        Matcher matcher = BIN_SEVEN_DIGIT.matcher(currentChunk.getText());
+        
+        if(!matcher.matches())
+        {
+            patternNotMatched(parseContext,BIN_SEVEN_DIGIT);
+            return;
+        }
+        MatchBuilder builder = new MatchBuilder()
+            .add(matcher)
+            .add(MatchType.COMPLETE)
+            .add(parseContext)
+            .add(BIN_SEVEN_DIGIT, 1, TokenType.BIN);
+        handleMatch(builder.build(), ChunkType.BIN);
+    }
 
 }

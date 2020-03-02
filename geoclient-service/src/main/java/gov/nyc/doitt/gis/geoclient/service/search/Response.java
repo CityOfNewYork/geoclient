@@ -24,63 +24,63 @@ import org.joda.time.ReadableInstant;
 
 public class Response
 {
-	private final ResponseStatus responseStatus;
-	private final Map<String, Object> geocodes;
-	private final ReadableInstant timestamp;
-	
-	public Response(ResponseStatus responseStatus, Map<String, Object> geocodes)
-	{
-		super();
-		this.responseStatus = responseStatus;
-		this.geocodes = geocodes;
-		this.timestamp = Instant.now();
-	}
-	
-	public boolean messageAppliesTo(String streetName)
-	{
-		GeosupportReturnCode grc = this.responseStatus.getGeosupportReturnCode();
-		return StringUtils.containsIgnoreCase(grc.getMessage(), streetName);
-	}
-	
-	public boolean isCompassDirectionRequired()
-	{
-		return responseStatus.isCompassDirectionRequired();
-	}
+    private final ResponseStatus responseStatus;
+    private final Map<String, Object> geocodes;
+    private final ReadableInstant timestamp;
+    
+    public Response(ResponseStatus responseStatus, Map<String, Object> geocodes)
+    {
+        super();
+        this.responseStatus = responseStatus;
+        this.geocodes = geocodes;
+        this.timestamp = Instant.now();
+    }
+    
+    public boolean messageAppliesTo(String streetName)
+    {
+        GeosupportReturnCode grc = this.responseStatus.getGeosupportReturnCode();
+        return StringUtils.containsIgnoreCase(grc.getMessage(), streetName);
+    }
+    
+    public boolean isCompassDirectionRequired()
+    {
+        return responseStatus.isCompassDirectionRequired();
+    }
 
-	public boolean isRejected()
-	{
-		return this.responseStatus.isRejected();
-	}
-	
-	public int similarNamesCount()
-	{
-		return responseStatus.similarNamesCount();
-	}
+    public boolean isRejected()
+    {
+        return this.responseStatus.isRejected();
+    }
+    
+    public int similarNamesCount()
+    {
+        return responseStatus.similarNamesCount();
+    }
 
-	public List<String> getSimilarNames()
-	{
-		return responseStatus.getSimilarNames();
-	}
+    public List<String> getSimilarNames()
+    {
+        return responseStatus.getSimilarNames();
+    }
 
-	public ResponseStatus getResponseStatus()
-	{
-		return responseStatus;
-	}
-	
-	public Map<String, Object> getGeocodes()
-	{
-		return geocodes;
-	}
+    public ResponseStatus getResponseStatus()
+    {
+        return responseStatus;
+    }
+    
+    public Map<String, Object> getGeocodes()
+    {
+        return geocodes;
+    }
 
-	public ReadableInstant getTimestamp()
-	{
-		return timestamp;
-	}
+    public ReadableInstant getTimestamp()
+    {
+        return timestamp;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "Response [responseStatus=" + responseStatus + "]";
-	}
+    @Override
+    public String toString()
+    {
+        return "Response [responseStatus=" + responseStatus + "]";
+    }
 
 }

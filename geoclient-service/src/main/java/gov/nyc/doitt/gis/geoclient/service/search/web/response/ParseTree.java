@@ -21,17 +21,17 @@ import java.util.List;
 
 public class ParseTree
 {
-	
-	private List<Chunk> chunks;
+    
+    private List<Chunk> chunks;
 
-	public List<Chunk> getChunks()
-	{
-		return chunks;
-	}
+    public List<Chunk> getChunks()
+    {
+        return chunks;
+    }
 
-	public void setChunks(List<Chunk> chunks)
-	{
-		this.chunks = chunks;
-	}
+    public void setChunks(List<Chunk> chunks)
+    {
+        this.chunks = chunks;
+    }
 
 }

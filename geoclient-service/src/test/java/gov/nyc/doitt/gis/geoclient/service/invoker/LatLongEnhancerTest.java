@@ -28,77 +28,77 @@ import org.junit.jupiter.api.Test;
 
 public class LatLongEnhancerTest
 {
-	private LatLongEnhancer latLongEnhancer;
-	private Map<String, Object> geocodingResult;
-	private String xCoord;
-	private String yCoord;
-	private double expectedLat;
-	private double expectedLong;
+    private LatLongEnhancer latLongEnhancer;
+    private Map<String, Object> geocodingResult;
+    private String xCoord;
+    private String yCoord;
+    private double expectedLat;
+    private double expectedLong;
 
-	@BeforeEach
-	public void setUp() throws Exception
-	{
-		this.latLongEnhancer = new LatLongEnhancer();
-		this.geocodingResult = new HashMap<String, Object>();
-		this.xCoord = "0994386";
-		this.yCoord = "0232063";
-		this.expectedLat = 40.80362939651128;
-		this.expectedLong = -73.9633880907633;
-	}
+    @BeforeEach
+    public void setUp() throws Exception
+    {
+        this.latLongEnhancer = new LatLongEnhancer();
+        this.geocodingResult = new HashMap<String, Object>();
+        this.xCoord = "0994386";
+        this.yCoord = "0232063";
+        this.expectedLat = 40.80362939651128;
+        this.expectedLong = -73.9633880907633;
+    }
 
-	@Test
-	public void testAddLatLong_validPointAvailable()
-	{
-		this.geocodingResult.put(OutputParam.XCOORD, this.xCoord);
-		this.geocodingResult.put(OutputParam.YCOORD, this.yCoord);
-		this.latLongEnhancer.addLatLong(geocodingResult);
-		assertEquals(this.expectedLat, (double)geocodingResult.get(LatLongEnhancer.DEFAULT_LATLONG_CONFIG.getLatName()));
-		assertEquals(this.expectedLong, (double)geocodingResult.get(LatLongEnhancer.DEFAULT_LATLONG_CONFIG.getLongName()));
-	}
+    @Test
+    public void testAddLatLong_validPointAvailable()
+    {
+        this.geocodingResult.put(OutputParam.XCOORD, this.xCoord);
+        this.geocodingResult.put(OutputParam.YCOORD, this.yCoord);
+        this.latLongEnhancer.addLatLong(geocodingResult);
+        assertEquals(this.expectedLat, (double)geocodingResult.get(LatLongEnhancer.DEFAULT_LATLONG_CONFIG.getLatName()));
+        assertEquals(this.expectedLong, (double)geocodingResult.get(LatLongEnhancer.DEFAULT_LATLONG_CONFIG.getLongName()));
+    }
 
-	@Test
-	public void testAddLatLong_invalidPointAvailable()
-	{
-		this.geocodingResult.put(OutputParam.XCOORD, this.xCoord);
-		this.latLongEnhancer.addLatLong(geocodingResult);
-		assertFalse(geocodingResult.containsKey(LatLongEnhancer.DEFAULT_LATLONG_CONFIG.getLatName()));
-		assertFalse(geocodingResult.containsKey(LatLongEnhancer.DEFAULT_LATLONG_CONFIG.getLongName()));
-	}
+    @Test
+    public void testAddLatLong_invalidPointAvailable()
+    {
+        this.geocodingResult.put(OutputParam.XCOORD, this.xCoord);
+        this.latLongEnhancer.addLatLong(geocodingResult);
+        assertFalse(geocodingResult.containsKey(LatLongEnhancer.DEFAULT_LATLONG_CONFIG.getLatName()));
+        assertFalse(geocodingResult.containsKey(LatLongEnhancer.DEFAULT_LATLONG_CONFIG.getLongName()));
+    }
 
-	@Test
-	public void testGetNyspPoint()
-	{
-		// Empty
-		MapPoint result = this.latLongEnhancer.getNyspPoint(geocodingResult, LatLongEnhancer.DEFAULT_LATLONG_CONFIG);
-		assertZeroXY(result);
-		// Only x available
-		this.geocodingResult.put(OutputParam.XCOORD, this.xCoord);
-		result = this.latLongEnhancer.getNyspPoint(geocodingResult, LatLongEnhancer.DEFAULT_LATLONG_CONFIG);
-		assertZeroXY(result);
-		// Only y available
-		this.geocodingResult.remove(OutputParam.XCOORD);
-		this.geocodingResult.put(OutputParam.YCOORD, this.yCoord);
-		result = this.latLongEnhancer.getNyspPoint(geocodingResult, LatLongEnhancer.DEFAULT_LATLONG_CONFIG);
-		assertZeroXY(result);
-		// Both available
-		this.geocodingResult.put(OutputParam.XCOORD, this.xCoord);
-		this.geocodingResult.put(OutputParam.YCOORD, this.yCoord);
-		result = this.latLongEnhancer.getNyspPoint(geocodingResult, LatLongEnhancer.DEFAULT_LATLONG_CONFIG);
-		assertEquals(Double.parseDouble(this.xCoord), result.getX());
-		assertEquals(Double.parseDouble(this.yCoord), result.getY());
-	}
+    @Test
+    public void testGetNyspPoint()
+    {
+        // Empty
+        MapPoint result = this.latLongEnhancer.getNyspPoint(geocodingResult, LatLongEnhancer.DEFAULT_LATLONG_CONFIG);
+        assertZeroXY(result);
+        // Only x available
+        this.geocodingResult.put(OutputParam.XCOORD, this.xCoord);
+        result = this.latLongEnhancer.getNyspPoint(geocodingResult, LatLongEnhancer.DEFAULT_LATLONG_CONFIG);
+        assertZeroXY(result);
+        // Only y available
+        this.geocodingResult.remove(OutputParam.XCOORD);
+        this.geocodingResult.put(OutputParam.YCOORD, this.yCoord);
+        result = this.latLongEnhancer.getNyspPoint(geocodingResult, LatLongEnhancer.DEFAULT_LATLONG_CONFIG);
+        assertZeroXY(result);
+        // Both available
+        this.geocodingResult.put(OutputParam.XCOORD, this.xCoord);
+        this.geocodingResult.put(OutputParam.YCOORD, this.yCoord);
+        result = this.latLongEnhancer.getNyspPoint(geocodingResult, LatLongEnhancer.DEFAULT_LATLONG_CONFIG);
+        assertEquals(Double.parseDouble(this.xCoord), result.getX());
+        assertEquals(Double.parseDouble(this.yCoord), result.getY());
+    }
 
-	@Test
-	public void testDefaultPropertyValues()
-	{
-		assertSame(LatLongEnhancer.DEFAULT_TRANSFORMER, this.latLongEnhancer.getTransformer());
-		assertSame(LatLongEnhancer.DEFAULT_LATLONG_CONFIG, this.latLongEnhancer.getLatLongConfigs().get(0));
-		assertSame(LatLongEnhancer.DEFAULT_LATLONG_INTERNAL_LABEL_CONFIG, this.latLongEnhancer.getLatLongConfigs().get(1));
-	}
+    @Test
+    public void testDefaultPropertyValues()
+    {
+        assertSame(LatLongEnhancer.DEFAULT_TRANSFORMER, this.latLongEnhancer.getTransformer());
+        assertSame(LatLongEnhancer.DEFAULT_LATLONG_CONFIG, this.latLongEnhancer.getLatLongConfigs().get(0));
+        assertSame(LatLongEnhancer.DEFAULT_LATLONG_INTERNAL_LABEL_CONFIG, this.latLongEnhancer.getLatLongConfigs().get(1));
+    }
 
-	private void assertZeroXY(MapPoint mapPoint)
-	{
-		assertEquals(0.0, mapPoint.getX());
-		assertEquals(0.0, mapPoint.getY());
-	}
+    private void assertZeroXY(MapPoint mapPoint)
+    {
+        assertEquals(0.0, mapPoint.getX());
+        assertEquals(0.0, mapPoint.getY());
+    }
 }

@@ -25,46 +25,46 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 public class SearchSummary
 {
-	@XStreamAsAttribute
-	private String level;
-	@XStreamAsAttribute
-	private MatchStatus status;
-	@XStreamAsAttribute
-	private String request;	
-	@XStreamAlias("geosupportResponse")
-	@XStreamConverter(MapConverter.class)
-	private Map<String, Object> response;
-	
-	public MatchStatus getStatus()
-	{
-		return status;
-	}
-	public void setStatus(MatchStatus status)
-	{
-		this.status = status;
-	}
-	public String getRequest()
-	{
-		return request;
-	}
-	public void setRequest(String request)
-	{
-		this.request = request;
-	}
-	public Map<String, Object> getResponse()
-	{
-		return response;
-	}
-	public void setResponse(Map<String, Object> response)
-	{
-		this.response = response;
-	}
-	public String getLevel()
-	{
-		return level;
-	}
-	public void setLevel(String level)
-	{
-		this.level = level;
-	}
+    @XStreamAsAttribute
+    private String level;
+    @XStreamAsAttribute
+    private MatchStatus status;
+    @XStreamAsAttribute
+    private String request; 
+    @XStreamAlias("geosupportResponse")
+    @XStreamConverter(MapConverter.class)
+    private Map<String, Object> response;
+    
+    public MatchStatus getStatus()
+    {
+        return status;
+    }
+    public void setStatus(MatchStatus status)
+    {
+        this.status = status;
+    }
+    public String getRequest()
+    {
+        return request;
+    }
+    public void setRequest(String request)
+    {
+        this.request = request;
+    }
+    public Map<String, Object> getResponse()
+    {
+        return response;
+    }
+    public void setResponse(Map<String, Object> response)
+    {
+        this.response = response;
+    }
+    public String getLevel()
+    {
+        return level;
+    }
+    public void setLevel(String level)
+    {
+        this.level = level;
+    }
 }

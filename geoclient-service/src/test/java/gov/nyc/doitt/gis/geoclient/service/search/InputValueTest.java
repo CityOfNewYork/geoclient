@@ -26,90 +26,90 @@ import org.junit.jupiter.api.Test;
 public class InputValueTest
 {
 
-	@Test
-	public void testInputValue_tokenAndMappedValueArg()
-	{
-		InputValue res = new InputValue(new Token(TokenType.CITY_NAME, "LIC",0,3),"QUEENS");
-		assertThat(res.getOriginalValue()).isEqualTo("LIC");
-		assertThat(res.getTokenType()).isEqualTo(TokenType.CITY_NAME);
-		assertThat(res.getValue()).isEqualTo("QUEENS");
-		assertThat(res.isMapped()).isTrue();
-		assertThat(res.isAssigned()).isFalse();
-		assertThat(res.isParsed()).isFalse();
-		assertThat(res.isResolved()).isTrue();
-	}
+    @Test
+    public void testInputValue_tokenAndMappedValueArg()
+    {
+        InputValue res = new InputValue(new Token(TokenType.CITY_NAME, "LIC",0,3),"QUEENS");
+        assertThat(res.getOriginalValue()).isEqualTo("LIC");
+        assertThat(res.getTokenType()).isEqualTo(TokenType.CITY_NAME);
+        assertThat(res.getValue()).isEqualTo("QUEENS");
+        assertThat(res.isMapped()).isTrue();
+        assertThat(res.isAssigned()).isFalse();
+        assertThat(res.isParsed()).isFalse();
+        assertThat(res.isResolved()).isTrue();
+    }
 
-	@Test
-	public void testTokenMapping_tokenAndNullMappedValue()
-	{
-		InputValue res = new InputValue(new Token(TokenType.CITY_NAME, "LIC",0,3),null);
-		assertThat(res.getOriginalValue()).isEqualTo("LIC");
-		assertThat(res.getTokenType()).isEqualTo(TokenType.CITY_NAME);
-		assertThat(res.getValue()).isEqualTo("LIC");
-		assertThat(res.isMapped()).isTrue();
-		assertThat(res.isAssigned()).isFalse();
-		assertThat(res.isParsed()).isFalse();
-		assertThat(res.isResolved()).isFalse();
-	}
-	
-	@Test
-	public void testTokenMapping_nullTokenAndMappedValueArg()
-	{
-		Token nullToken = null;
-		assertThrows(IllegalArgumentException.class, () -> {
-			new InputValue(nullToken,"duh");
-		});
-	}
+    @Test
+    public void testTokenMapping_tokenAndNullMappedValue()
+    {
+        InputValue res = new InputValue(new Token(TokenType.CITY_NAME, "LIC",0,3),null);
+        assertThat(res.getOriginalValue()).isEqualTo("LIC");
+        assertThat(res.getTokenType()).isEqualTo(TokenType.CITY_NAME);
+        assertThat(res.getValue()).isEqualTo("LIC");
+        assertThat(res.isMapped()).isTrue();
+        assertThat(res.isAssigned()).isFalse();
+        assertThat(res.isParsed()).isFalse();
+        assertThat(res.isResolved()).isFalse();
+    }
+    
+    @Test
+    public void testTokenMapping_nullTokenAndMappedValueArg()
+    {
+        Token nullToken = null;
+        assertThrows(IllegalArgumentException.class, () -> {
+            new InputValue(nullToken,"duh");
+        });
+    }
 
-	@Test
-	public void testInputValue_tokenArg()
-	{
-		InputValue res = new InputValue(new Token(TokenType.CITY_NAME, "LIC",0,3));
-		assertThat(res.getOriginalValue()).isEqualTo("LIC");
-		assertThat(res.getTokenType()).isEqualTo(TokenType.CITY_NAME);
-		assertThat(res.getValue()).isEqualTo("LIC");
-		assertThat(res.isMapped()).isFalse();
-		assertThat(res.isAssigned()).isFalse();
-		assertThat(res.isParsed()).isTrue();
-		assertThat(res.isResolved()).isTrue();
-	}
+    @Test
+    public void testInputValue_tokenArg()
+    {
+        InputValue res = new InputValue(new Token(TokenType.CITY_NAME, "LIC",0,3));
+        assertThat(res.getOriginalValue()).isEqualTo("LIC");
+        assertThat(res.getTokenType()).isEqualTo(TokenType.CITY_NAME);
+        assertThat(res.getValue()).isEqualTo("LIC");
+        assertThat(res.isMapped()).isFalse();
+        assertThat(res.isAssigned()).isFalse();
+        assertThat(res.isParsed()).isTrue();
+        assertThat(res.isResolved()).isTrue();
+    }
 
-	@Test
-	public void testTokenMapping_nullTokenArg()
-	{
-		Token nullToken = null;
-		assertThrows(IllegalArgumentException.class, () -> {
-			new InputValue(nullToken);
-		});		
-	}
-	
-	@Test
-	public void testInputValue_tokenTypeAndAssignedValueArg()
-	{
-		InputValue res = new InputValue(TokenType.CITY_NAME,"QUEENS");
-		assertThat(res.getOriginalValue()).isEqualTo("QUEENS");
-		assertThat(res.getTokenType()).isEqualTo(TokenType.CITY_NAME);
-		assertThat(res.getValue()).isEqualTo("QUEENS");
-		assertThat(res.isMapped()).isFalse();
-		assertThat(res.isAssigned()).isTrue();
-		assertThat(res.isParsed()).isFalse();
-		assertThat(res.isResolved()).isTrue();
-	}
+    @Test
+    public void testTokenMapping_nullTokenArg()
+    {
+        Token nullToken = null;
+        assertThrows(IllegalArgumentException.class, () -> {
+            new InputValue(nullToken);
+        });     
+    }
+    
+    @Test
+    public void testInputValue_tokenTypeAndAssignedValueArg()
+    {
+        InputValue res = new InputValue(TokenType.CITY_NAME,"QUEENS");
+        assertThat(res.getOriginalValue()).isEqualTo("QUEENS");
+        assertThat(res.getTokenType()).isEqualTo(TokenType.CITY_NAME);
+        assertThat(res.getValue()).isEqualTo("QUEENS");
+        assertThat(res.isMapped()).isFalse();
+        assertThat(res.isAssigned()).isTrue();
+        assertThat(res.isParsed()).isFalse();
+        assertThat(res.isResolved()).isTrue();
+    }
 
-	@Test
-	public void testTokenMapping_nullTokenTypeAndAssignedValueArg()
-	{
-		TokenType nullTokenType = null;
-		assertThrows(IllegalArgumentException.class, () -> {
-			new InputValue(nullTokenType,"duh");
-		});		
-	}
+    @Test
+    public void testTokenMapping_nullTokenTypeAndAssignedValueArg()
+    {
+        TokenType nullTokenType = null;
+        assertThrows(IllegalArgumentException.class, () -> {
+            new InputValue(nullTokenType,"duh");
+        });     
+    }
 
-	@Test
-	public void testTokenMapping_tokenTypeAndNullAssignedValueArg()
-	{
-		assertThrows(IllegalArgumentException.class, () -> {
-			new InputValue(TokenType.BIN,null);
-		});		
-	}
+    @Test
+    public void testTokenMapping_tokenTypeAndNullAssignedValueArg()
+    {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new InputValue(TokenType.BIN,null);
+        });     
+    }
 }

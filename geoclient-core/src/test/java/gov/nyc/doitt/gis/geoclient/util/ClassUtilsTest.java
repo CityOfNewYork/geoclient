@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 public class ClassUtilsTest
 {
 
-	@Test
-	public void testGetDefaultClassLoader()
-	{
-		assertNotNull(ClassUtils.getDefaultClassLoader());
-	}
+    @Test
+    public void testGetDefaultClassLoader()
+    {
+        assertNotNull(ClassUtils.getDefaultClassLoader());
+    }
 
 }

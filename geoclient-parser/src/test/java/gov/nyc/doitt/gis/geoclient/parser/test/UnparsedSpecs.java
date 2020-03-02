@@ -24,16 +24,16 @@ import com.thoughtworks.xstream.annotations.XStreamImplicit;
 @XStreamAlias("specs")
 public class UnparsedSpecs
 {
-	@XStreamImplicit(itemFieldName="spec")
-	private List<UnparsedSpec> specs = new ArrayList<>();
+    @XStreamImplicit(itemFieldName="spec")
+    private List<UnparsedSpec> specs = new ArrayList<>();
 
-	public List<UnparsedSpec> getSpecs()
-	{
-		return specs;
-	}
+    public List<UnparsedSpec> getSpecs()
+    {
+        return specs;
+    }
 
-	public void setSpecs(List<UnparsedSpec> specs)
-	{
-		this.specs = specs;
-	}
+    public void setSpecs(List<UnparsedSpec> specs)
+    {
+        this.specs = specs;
+    }
 }

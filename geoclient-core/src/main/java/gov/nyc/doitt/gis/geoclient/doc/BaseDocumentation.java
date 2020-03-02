@@ -19,115 +19,115 @@ package gov.nyc.doitt.gis.geoclient.doc;
 
 public class BaseDocumentation implements Comparable<BaseDocumentation>
 {
-	private String id;
-	private Description description;
-	
-	public BaseDocumentation()
-	{
-		super();
-	}
-	
-	public BaseDocumentation(String id, Description description)
-	{
-		super();
-		this.id = id;
-		this.description = description;
-	}
+    private String id;
+    private Description description;
+    
+    public BaseDocumentation()
+    {
+        super();
+    }
+    
+    public BaseDocumentation(String id, Description description)
+    {
+        super();
+        this.id = id;
+        this.description = description;
+    }
 
-	public boolean isDocumented() 
-	{
-		return this.id != null;
-	}
-	
-	public boolean hasText()
-	{
-		return this.description != null && this.description.hasText();
-	}
-	
-	public String getId()
-	{
-		return id;
-	}
+    public boolean isDocumented() 
+    {
+        return this.id != null;
+    }
+    
+    public boolean hasText()
+    {
+        return this.description != null && this.description.hasText();
+    }
+    
+    public String getId()
+    {
+        return id;
+    }
 
-	public Description getDescription()
-	{
-		return description;
-	}
-	
-	public void setId(String id)
-	{
-		this.id = id;
-	}
-	
-	public void setDescription(Description description)
-	{
-		this.description = description;
-	}
+    public Description getDescription()
+    {
+        return description;
+    }
+    
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+    
+    public void setDescription(Description description)
+    {
+        this.description = description;
+    }
 
-	public String summarize(int length)
-	{
-		if(this.description != null)
-		{
-			return this.description.summarize(length);
-		}
-		return "";
-	}
+    public String summarize(int length)
+    {
+        if(this.description != null)
+        {
+            return this.description.summarize(length);
+        }
+        return "";
+    }
 
-	public String joinDescriptionText(String between)
-	{
-		if(this.description != null)
-		{
-			return this.description.joinText(between);
-		}
-		return "";
-	}
+    public String joinDescriptionText(String between)
+    {
+        if(this.description != null)
+        {
+            return this.description.joinText(between);
+        }
+        return "";
+    }
 
-	@Override
-	public int hashCode()
-	{
-		final int prime = 31;
-		int result = 1;
-		String myId = getId();
-		result = prime * result + ((myId == null) ? 0 : myId.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode()
+    {
+        final int prime = 31;
+        int result = 1;
+        String myId = getId();
+        result = prime * result + ((myId == null) ? 0 : myId.hashCode());
+        return result;
+    }
 
-	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj)
-		{
-			return true;
-		}
-		if (obj == null)
-		{
-			return false;
-		}
-		if (getClass() != obj.getClass())
-		{
-			return false;
-		}
-		BaseDocumentation other = (BaseDocumentation) obj;
-		// Self-encapsulate since some subclasses implement this differently
-		String myId = getId();
-		String otherId = other.getId();
-		if (myId == null)
-		{
-			if (otherId != null)
-			{
-				return false;
-			}
-		} else if (!myId.equals(otherId))
-		{
-			return false;
-		}
-		return true;
-	}
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        BaseDocumentation other = (BaseDocumentation) obj;
+        // Self-encapsulate since some subclasses implement this differently
+        String myId = getId();
+        String otherId = other.getId();
+        if (myId == null)
+        {
+            if (otherId != null)
+            {
+                return false;
+            }
+        } else if (!myId.equals(otherId))
+        {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public int compareTo(BaseDocumentation o)
-	{
-		return this.id.compareTo(o.id);
-	}
-	
+    @Override
+    public int compareTo(BaseDocumentation o)
+    {
+        return this.id.compareTo(o.id);
+    }
+    
 }

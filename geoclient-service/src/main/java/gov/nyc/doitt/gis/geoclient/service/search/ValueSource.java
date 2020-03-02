@@ -17,7 +17,7 @@ package gov.nyc.doitt.gis.geoclient.service.search;
 
 public enum ValueSource 
 {
-	ASSIGNED,
-	MAPPED,
-	PARSED
+    ASSIGNED,
+    MAPPED,
+    PARSED
 }

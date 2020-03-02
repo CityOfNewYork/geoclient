@@ -24,31 +24,31 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class GroupDocumentationTest {
-	private ItemDocumentation itemDocumentation;
+    private ItemDocumentation itemDocumentation;
 
-	@BeforeEach
-	public void setUp() {
-		this.itemDocumentation = new ItemDocumentation();
-		this.itemDocumentation.setId("abc123");
-	}
+    @BeforeEach
+    public void setUp() {
+        this.itemDocumentation = new ItemDocumentation();
+        this.itemDocumentation.setId("abc123");
+    }
 
-	@Test
-	public void testIsMember_groupMembersNull() {
-		assertThrows(NullPointerException.class, () -> {
-			new GroupDocumentation().isMember(itemDocumentation);
-		});
-	}
+    @Test
+    public void testIsMember_groupMembersNull() {
+        assertThrows(NullPointerException.class, () -> {
+            new GroupDocumentation().isMember(itemDocumentation);
+        });
+    }
 
-	@Test
-	public void testIsMember() {
-		GroupDocumentation groupDocumentation = new GroupDocumentation();
-		List<GroupMember> members = new ArrayList<GroupMember>();
-		groupDocumentation.setGroupMembers(members);
-		assertFalse(groupDocumentation.isMember(itemDocumentation));
-		GroupMember member = new GroupMember();
-		member.setId(this.itemDocumentation.getId().substring(0, 3));
-		members.add(member);
-		assertTrue(groupDocumentation.isMember(itemDocumentation));
-	}
+    @Test
+    public void testIsMember() {
+        GroupDocumentation groupDocumentation = new GroupDocumentation();
+        List<GroupMember> members = new ArrayList<GroupMember>();
+        groupDocumentation.setGroupMembers(members);
+        assertFalse(groupDocumentation.isMember(itemDocumentation));
+        GroupMember member = new GroupMember();
+        member.setId(this.itemDocumentation.getId().substring(0, 3));
+        members.add(member);
+        assertTrue(groupDocumentation.isMember(itemDocumentation));
+    }
 
 }

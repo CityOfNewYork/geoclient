@@ -25,10 +25,10 @@ public class DefaultConfiguration implements Configuration
     @Override
     public Map<String, Object> requiredArguments()
     {
-    	if(requiredArguments == null)
-    	{ 
-    		return null;
-    	}
+        if(requiredArguments == null)
+        { 
+            return null;
+        }
         return Collections.unmodifiableMap(this.requiredArguments);
     }
     

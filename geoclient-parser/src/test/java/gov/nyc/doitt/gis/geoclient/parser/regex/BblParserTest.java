@@ -23,13 +23,13 @@ import org.slf4j.LoggerFactory;
 
 public class BblParserTest extends AbstractSpecTest
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BblParserTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BblParserTest.class);
 
-	@Test
-	public void testBblParser()
-	{
-		testParser(new BblParser(), LOGGER);
-	}
+    @Test
+    public void testBblParser()
+    {
+        testParser(new BblParser(), LOGGER);
+    }
 
 
 }

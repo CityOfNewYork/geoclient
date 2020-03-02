@@ -17,18 +17,18 @@ package gov.nyc.doitt.gis.geoclient.service.configuration;
 
 public enum Profiles {
 
-	API_KEY("apikey");
+    API_KEY("apikey");
 
-	private final String value;
+    private final String value;
 
-	private Profiles(String value)
-	{
-		this.value = value;
-	}
+    private Profiles(String value)
+    {
+        this.value = value;
+    }
 
-	public String value()
-	{
-		return this.value;
-	}
-	
+    public String value()
+    {
+        return this.value;
+    }
+    
 }

@@ -31,34 +31,34 @@ import gov.nyc.doitt.gis.geoclient.parser.token.Token;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
 public class CountryParserTest extends AbstractSpecTest {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CountryParserTest.class);
-	private CountryParser parser;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CountryParserTest.class);
+    private CountryParser parser;
 
-	@BeforeEach
-	public void setUp() throws Exception {
-		parser = new CountryParser();
-	}
+    @BeforeEach
+    public void setUp() throws Exception {
+        parser = new CountryParser();
+    }
 
-	@Test
-	public void testTokens() {
-		testParser(parser, LOGGER);
-	}
+    @Test
+    public void testTokens() {
+        testParser(parser, LOGGER);
+    }
 
-	@Test
-	public void testParseSuccessChangesCurrentChunk() {
-		String originalText = "280 Riverside Dr NY NY 10025 U.S.A.";
-		ParseContext context = new ParseContext(new Input("junit-test", originalText));
-		Chunk initialChunk = context.getCurrent();
-		assertThat(initialChunk.getType()).isEqualTo(ChunkType.ORIGINAL_INPUT);
-		parser.parse(context);
-		assertThat(context.isParsed()).isFalse().as("ParseContext.isParsed should be");
-		assertThat(initialChunk.getType()).isEqualTo(ChunkType.COUNTY).as("Chunk.Type of initial Chunk:");
-		assertThat(initialChunk.contains(new Token(TokenType.COUNTRY, "U.S.A.", 29, 35))).isTrue()
-				.as("Initial Chunk contains:");
-		assertThat(initialChunk.tokenCount()).isEqualTo(1).as("Initial Chunk token count:");
-		Chunk actualChunk = context.getCurrent();
-		assertThat(actualChunk.getType()).isEqualTo(ChunkType.SUBSTRING);
-		assertThat(actualChunk.getText()).isEqualTo("280 Riverside Dr NY NY 10025");
-	}
+    @Test
+    public void testParseSuccessChangesCurrentChunk() {
+        String originalText = "280 Riverside Dr NY NY 10025 U.S.A.";
+        ParseContext context = new ParseContext(new Input("junit-test", originalText));
+        Chunk initialChunk = context.getCurrent();
+        assertThat(initialChunk.getType()).isEqualTo(ChunkType.ORIGINAL_INPUT);
+        parser.parse(context);
+        assertThat(context.isParsed()).isFalse().as("ParseContext.isParsed should be");
+        assertThat(initialChunk.getType()).isEqualTo(ChunkType.COUNTY).as("Chunk.Type of initial Chunk:");
+        assertThat(initialChunk.contains(new Token(TokenType.COUNTRY, "U.S.A.", 29, 35))).isTrue()
+                .as("Initial Chunk contains:");
+        assertThat(initialChunk.tokenCount()).isEqualTo(1).as("Initial Chunk token count:");
+        Chunk actualChunk = context.getCurrent();
+        assertThat(actualChunk.getType()).isEqualTo(ChunkType.SUBSTRING);
+        assertThat(actualChunk.getText()).isEqualTo("280 Riverside Dr NY NY 10025");
+    }
 
 }

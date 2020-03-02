@@ -22,10 +22,10 @@ import org.junit.jupiter.api.Test;
 public class ProfilesTest
 {
 
-	@Test
-	public void testValue()
-	{
-		assertEquals("apikey", Profiles.API_KEY.value());
-	}
+    @Test
+    public void testValue()
+    {
+        assertEquals("apikey", Profiles.API_KEY.value());
+    }
 
 }

@@ -8,12 +8,12 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 @SpringBootApplication
 public class GeoclientBootApplication extends SpringBootServletInitializer {
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(GeoclientBootApplication.class);
-	}
+    @Override
+    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+        return application.sources(GeoclientBootApplication.class);
+    }
 
-	public static void main(String[] args) {
-		SpringApplication.run(GeoclientBootApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GeoclientBootApplication.class, args);
+    }
 }

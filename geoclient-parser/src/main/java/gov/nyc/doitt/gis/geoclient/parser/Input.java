@@ -25,40 +25,40 @@ import gov.nyc.doitt.gis.geoclient.parser.util.Assert;
  */
 public class Input
 {
-	private final String id;
-	private final String value;
-	private final String unsanitizedValue;
+    private final String id;
+    private final String value;
+    private final String unsanitizedValue;
 
-	public Input(String id, String inputString)
-	{
-		super();
-		Assert.hasText(id, "id argument cannot be empty or null.");
-		this.id = id;
-		Assert.hasText(inputString, "inputString argument cannot be empty or null.");
-		this.unsanitizedValue = inputString;
-		this.value = TextUtils.sanitize(this.unsanitizedValue);
-		Assert.hasText(this.value, "inputString cannot be empty or null after sanitization.");
-	}
+    public Input(String id, String inputString)
+    {
+        super();
+        Assert.hasText(id, "id argument cannot be empty or null.");
+        this.id = id;
+        Assert.hasText(inputString, "inputString argument cannot be empty or null.");
+        this.unsanitizedValue = inputString;
+        this.value = TextUtils.sanitize(this.unsanitizedValue);
+        Assert.hasText(this.value, "inputString cannot be empty or null after sanitization.");
+    }
 
-	public String getId()
-	{
-		return id;
-	}
+    public String getId()
+    {
+        return id;
+    }
 
-	public String getValue()
-	{
-		return value;
-	}
-	
-	public String getUnsanitizedValue()
-	{
-		return unsanitizedValue;
-	}
+    public String getValue()
+    {
+        return value;
+    }
+    
+    public String getUnsanitizedValue()
+    {
+        return unsanitizedValue;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "Input [id=" + id + ", value=" + value + "]";
-	}
-	
+    @Override
+    public String toString()
+    {
+        return "Input [id=" + id + ", value=" + value + "]";
+    }
+    
 }

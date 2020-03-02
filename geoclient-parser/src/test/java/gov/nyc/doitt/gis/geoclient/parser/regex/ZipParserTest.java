@@ -31,36 +31,36 @@ import org.slf4j.LoggerFactory;
 
 public class ZipParserTest extends AbstractSpecTest
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ZipParserTest.class);
-	private ZipParser parser;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ZipParserTest.class);
+    private ZipParser parser;
 
-	@BeforeEach
-	public void setUp() throws Exception
-	{
-		parser = new ZipParser();
-	}
+    @BeforeEach
+    public void setUp() throws Exception
+    {
+        parser = new ZipParser();
+    }
 
-	@Test
-	public void testTokens()
-	{
-		testParser(parser, LOGGER);
-	}
+    @Test
+    public void testTokens()
+    {
+        testParser(parser, LOGGER);
+    }
 
-	@Test
-	public void testParseSuccessChangesCurrentChunk()
-	{
-		String originalText = "280 Riverside Dr NY NY 10025 ";
-		ParseContext context = new ParseContext(new Input("zip-chunk-state-change1", originalText));
-		Chunk initialChunk = context.getCurrent();
-		assertThat(initialChunk.getType()).isEqualTo(ChunkType.ORIGINAL_INPUT);
-		parser.parse(context);
-		assertThat(context.isParsed()).isFalse().as("ParseContext.isParsed should be");
-		assertThat(initialChunk.getType()).isEqualTo(ChunkType.COUNTY).as("Chunk.Type of initial Chunk:");
-		assertThat(initialChunk.contains(new Token(TokenType.ZIP, "10025", 23, 28))).isTrue().as("Initial Chunk contains:");
-		assertThat(initialChunk.tokenCount()).isEqualTo(1).as("Initial Chunk token count:");
-		Chunk actualChunk = context.getCurrent();
-		assertThat(actualChunk.getType()).isEqualTo(ChunkType.SUBSTRING);
-		assertThat(actualChunk.getText()).isEqualTo("280 Riverside Dr NY NY");
-	}
+    @Test
+    public void testParseSuccessChangesCurrentChunk()
+    {
+        String originalText = "280 Riverside Dr NY NY 10025 ";
+        ParseContext context = new ParseContext(new Input("zip-chunk-state-change1", originalText));
+        Chunk initialChunk = context.getCurrent();
+        assertThat(initialChunk.getType()).isEqualTo(ChunkType.ORIGINAL_INPUT);
+        parser.parse(context);
+        assertThat(context.isParsed()).isFalse().as("ParseContext.isParsed should be");
+        assertThat(initialChunk.getType()).isEqualTo(ChunkType.COUNTY).as("Chunk.Type of initial Chunk:");
+        assertThat(initialChunk.contains(new Token(TokenType.ZIP, "10025", 23, 28))).isTrue().as("Initial Chunk contains:");
+        assertThat(initialChunk.tokenCount()).isEqualTo(1).as("Initial Chunk token count:");
+        Chunk actualChunk = context.getCurrent();
+        assertThat(actualChunk.getType()).isEqualTo(ChunkType.SUBSTRING);
+        assertThat(actualChunk.getText()).isEqualTo("280 Riverside Dr NY NY");
+    }
 
 }

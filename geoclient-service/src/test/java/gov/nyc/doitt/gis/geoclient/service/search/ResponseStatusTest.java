@@ -25,55 +25,55 @@ import gov.nyc.doitt.gis.geoclient.api.ReturnCodeValue;
 
 public class ResponseStatusTest
 {
-	private ResponseStatus responseStatus;
+    private ResponseStatus responseStatus;
 
-	@BeforeEach
-	public void setUp() throws Exception
-	{
-		this.responseStatus = new ResponseStatus();
-	}
-	
-	@Test
-	public void testIsCompassDirectionRequired()
-	{
-		assertFalse(this.responseStatus.isCompassDirectionRequired());
-		this.responseStatus.getGeosupportReturnCode().setReturnCode(ReturnCodeValue.COMPASS_DIRECTION_REQUIRED.value());
-		assertTrue(this.responseStatus.isCompassDirectionRequired());
-	}
-	
-	@Test
-	public void testIsRejected()
-	{
-		assertThat(this.responseStatus.isRejected()).isTrue();
-		GeosupportReturnCode grc1 = this.responseStatus.getGeosupportReturnCode();
-		grc1.setReturnCode("00");
-		assertThat(grc1.isRejected()).isFalse();
-		GeosupportReturnCode grc2 = this.responseStatus.getGeosupportReturnCode2();
-		assertThat(grc2.isRejected()).isTrue();
-		assertThat(this.responseStatus.isRejected()).isFalse();
-		grc2.setReturnCode("01");
-		assertThat(grc2.isRejected()).isFalse();
-		assertThat(this.responseStatus.isRejected()).isFalse();
-		grc1.setReturnCode("EE");
-		assertThat(grc1.isRejected()).isTrue();
-		assertThat(this.responseStatus.isRejected()).isFalse();
-		grc2.setReturnCode("11");
-		assertThat(grc2.isRejected()).isTrue();
-		assertThat(this.responseStatus.isRejected()).isTrue();
-		this.responseStatus.setGeosupportReturnCode(null);
-		assertThat(this.responseStatus.isRejected()).isTrue();
-		this.responseStatus.setGeosupportReturnCode2(null);
-		assertThat(this.responseStatus.isRejected()).isTrue();
-	}
+    @BeforeEach
+    public void setUp() throws Exception
+    {
+        this.responseStatus = new ResponseStatus();
+    }
+    
+    @Test
+    public void testIsCompassDirectionRequired()
+    {
+        assertFalse(this.responseStatus.isCompassDirectionRequired());
+        this.responseStatus.getGeosupportReturnCode().setReturnCode(ReturnCodeValue.COMPASS_DIRECTION_REQUIRED.value());
+        assertTrue(this.responseStatus.isCompassDirectionRequired());
+    }
+    
+    @Test
+    public void testIsRejected()
+    {
+        assertThat(this.responseStatus.isRejected()).isTrue();
+        GeosupportReturnCode grc1 = this.responseStatus.getGeosupportReturnCode();
+        grc1.setReturnCode("00");
+        assertThat(grc1.isRejected()).isFalse();
+        GeosupportReturnCode grc2 = this.responseStatus.getGeosupportReturnCode2();
+        assertThat(grc2.isRejected()).isTrue();
+        assertThat(this.responseStatus.isRejected()).isFalse();
+        grc2.setReturnCode("01");
+        assertThat(grc2.isRejected()).isFalse();
+        assertThat(this.responseStatus.isRejected()).isFalse();
+        grc1.setReturnCode("EE");
+        assertThat(grc1.isRejected()).isTrue();
+        assertThat(this.responseStatus.isRejected()).isFalse();
+        grc2.setReturnCode("11");
+        assertThat(grc2.isRejected()).isTrue();
+        assertThat(this.responseStatus.isRejected()).isTrue();
+        this.responseStatus.setGeosupportReturnCode(null);
+        assertThat(this.responseStatus.isRejected()).isTrue();
+        this.responseStatus.setGeosupportReturnCode2(null);
+        assertThat(this.responseStatus.isRejected()).isTrue();
+    }
 
-	@Test
-	public void testSimilarNamesCount()
-	{
-		assertThat(this.responseStatus.similarNamesCount()).isEqualTo(0);
-		this.responseStatus.getSimilarNames().add("abc");
-		assertThat(this.responseStatus.similarNamesCount()).isEqualTo(1);
-		this.responseStatus.setSimilarNames(null);
-		assertThat(this.responseStatus.similarNamesCount()).isEqualTo(0);
-	}
+    @Test
+    public void testSimilarNamesCount()
+    {
+        assertThat(this.responseStatus.similarNamesCount()).isEqualTo(0);
+        this.responseStatus.getSimilarNames().add("abc");
+        assertThat(this.responseStatus.similarNamesCount()).isEqualTo(1);
+        this.responseStatus.setSimilarNames(null);
+        assertThat(this.responseStatus.similarNamesCount()).isEqualTo(0);
+    }
 
 }

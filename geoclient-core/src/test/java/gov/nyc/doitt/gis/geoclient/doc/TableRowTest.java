@@ -26,35 +26,35 @@ import org.junit.jupiter.api.Test;
 
 public class TableRowTest
 {
-	private List<TableData> columns;
+    private List<TableData> columns;
 
-	@BeforeEach
-	public void setUp() throws Exception
-	{
-		columns = new ArrayList<TableData>();
-	}
+    @BeforeEach
+    public void setUp() throws Exception
+    {
+        columns = new ArrayList<TableData>();
+    }
 
-	@Test
-	public void testDefaultConstructor()
-	{
-		assertEquals(0,new TableRow().getColumns().size());
-	}
+    @Test
+    public void testDefaultConstructor()
+    {
+        assertEquals(0,new TableRow().getColumns().size());
+    }
 
-	@Test
-	public void testListOfTableDataConstructor()
-	{
-		assertSame(columns,new TableRow(columns).getColumns());
-	}
+    @Test
+    public void testListOfTableDataConstructor()
+    {
+        assertSame(columns,new TableRow(columns).getColumns());
+    }
 
-	@Test
-	public void testToHtml()
-	{
-		TableRow tr = new TableRow();
-		assertEquals("<tr></tr>",tr.toHtml());
-		tr.setColumns(columns);
-		assertEquals("<tr></tr>",tr.toHtml());
-		tr.getColumns().add(new TableData("foo"));
-		assertEquals("<tr><td>foo</td></tr>",tr.toHtml());
-	}
+    @Test
+    public void testToHtml()
+    {
+        TableRow tr = new TableRow();
+        assertEquals("<tr></tr>",tr.toHtml());
+        tr.setColumns(columns);
+        assertEquals("<tr></tr>",tr.toHtml());
+        tr.getColumns().add(new TableData("foo"));
+        assertEquals("<tr><td>foo</td></tr>",tr.toHtml());
+    }
 
 }

@@ -17,7 +17,7 @@ package gov.nyc.doitt.gis.geoclient.parser;
 
 public interface Parser
 {
-	void parse(ParseContext parseContext);
+    void parse(ParseContext parseContext);
 
-	String getName();
+    String getName();
 }

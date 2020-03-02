@@ -19,86 +19,86 @@ import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 
 public class IntersectionRequest extends CountyRequest
 {
-	private InputValue crossStreetOneInputValue;
-	private InputValue crossStreetTwoInputValue;
-	private InputValue compassDirectionInputValue;
+    private InputValue crossStreetOneInputValue;
+    private InputValue crossStreetTwoInputValue;
+    private InputValue compassDirectionInputValue;
 
-	public IntersectionRequest()
-	{
-		super();
-	}
+    public IntersectionRequest()
+    {
+        super();
+    }
 
-	public IntersectionRequest(IntersectionRequest anotherRequest)
-	{
-		super(anotherRequest.getLevel(), anotherRequest.getBoroughInputValue(), anotherRequest.getZipInputValue());
-		this.crossStreetOneInputValue = anotherRequest.getCrossStreetOneInputValue();
-		this.crossStreetTwoInputValue = anotherRequest.getCrossStreetTwoInputValue();
-		this.compassDirectionInputValue = anotherRequest.getCompassDirectionInputValue();
-	}
+    public IntersectionRequest(IntersectionRequest anotherRequest)
+    {
+        super(anotherRequest.getLevel(), anotherRequest.getBoroughInputValue(), anotherRequest.getZipInputValue());
+        this.crossStreetOneInputValue = anotherRequest.getCrossStreetOneInputValue();
+        this.crossStreetTwoInputValue = anotherRequest.getCrossStreetTwoInputValue();
+        this.compassDirectionInputValue = anotherRequest.getCompassDirectionInputValue();
+    }
 
-	public String getCrossStreetOne()
-	{
-		return stringValueOrNull(crossStreetOneInputValue);
-	}
+    public String getCrossStreetOne()
+    {
+        return stringValueOrNull(crossStreetOneInputValue);
+    }
 
-	public String getCrossStreetTwo()
-	{
-		return stringValueOrNull(crossStreetTwoInputValue);
-	}
+    public String getCrossStreetTwo()
+    {
+        return stringValueOrNull(crossStreetTwoInputValue);
+    }
 
-	public String getCompassDirection()
-	{
-		return stringValueOrNull(compassDirectionInputValue);
-	}
+    public String getCompassDirection()
+    {
+        return stringValueOrNull(compassDirectionInputValue);
+    }
 
-	public InputValue getCrossStreetOneInputValue()
-	{
-		return crossStreetOneInputValue;
-	}
+    public InputValue getCrossStreetOneInputValue()
+    {
+        return crossStreetOneInputValue;
+    }
 
-	public void setCrossStreetOneInputValue(InputValue crossStreetOneInputValue)
-	{
-		this.crossStreetOneInputValue = crossStreetOneInputValue;
-	}
+    public void setCrossStreetOneInputValue(InputValue crossStreetOneInputValue)
+    {
+        this.crossStreetOneInputValue = crossStreetOneInputValue;
+    }
 
-	public InputValue getCrossStreetTwoInputValue()
-	{
-		return crossStreetTwoInputValue;
-	}
+    public InputValue getCrossStreetTwoInputValue()
+    {
+        return crossStreetTwoInputValue;
+    }
 
-	public void setCrossStreetTwoInputValue(InputValue crossStreetTwoInputValue)
-	{
-		this.crossStreetTwoInputValue = crossStreetTwoInputValue;
-	}
+    public void setCrossStreetTwoInputValue(InputValue crossStreetTwoInputValue)
+    {
+        this.crossStreetTwoInputValue = crossStreetTwoInputValue;
+    }
 
-	public InputValue getCompassDirectionInputValue()
-	{
-		return compassDirectionInputValue;
-	}
+    public InputValue getCompassDirectionInputValue()
+    {
+        return compassDirectionInputValue;
+    }
 
-	public void setCompassDirectionInputValue(InputValue compassDirectionInputValue)
-	{
-		this.compassDirectionInputValue = compassDirectionInputValue;
-	}
+    public void setCompassDirectionInputValue(InputValue compassDirectionInputValue)
+    {
+        this.compassDirectionInputValue = compassDirectionInputValue;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "IntersectionRequest [level= " + getLevel() + ", crossStreetOne=" + getCrossStreetOne() + ", crossStreetTwo=" + getCrossStreetTwo() + ", compassDirection=" + getCompassDirection() + ", borough=" + getBorough() + ", zip=" + getZip() + "]";
-	}
+    @Override
+    public String toString()
+    {
+        return "IntersectionRequest [level= " + getLevel() + ", crossStreetOne=" + getCrossStreetOne() + ", crossStreetTwo=" + getCrossStreetTwo() + ", compassDirection=" + getCompassDirection() + ", borough=" + getBorough() + ", zip=" + getZip() + "]";
+    }
 
-	@Override
-	public boolean containsAssignedValue()
-	{
-		return super.containsAssignedValue() || 
-				isAssigned(crossStreetOneInputValue) || 
-				isAssigned(crossStreetTwoInputValue) ||
-				isAssigned(compassDirectionInputValue);
-	}
-	// TODO TESTME
-	@Override
-	public String summarize()
-	{
-		return String.format("intersection [crossStreetOne=%s, crossStreetTwo=%s, borough=%s, compassDirection=%s]", getCrossStreetOne(), getCrossStreetTwo(), getBorough(), getCompassDirection());
-	}
+    @Override
+    public boolean containsAssignedValue()
+    {
+        return super.containsAssignedValue() || 
+                isAssigned(crossStreetOneInputValue) || 
+                isAssigned(crossStreetTwoInputValue) ||
+                isAssigned(compassDirectionInputValue);
+    }
+    // TODO TESTME
+    @Override
+    public String summarize()
+    {
+        return String.format("intersection [crossStreetOne=%s, crossStreetTwo=%s, borough=%s, compassDirection=%s]", getCrossStreetOne(), getCrossStreetTwo(), getBorough(), getCompassDirection());
+    }
 }

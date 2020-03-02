@@ -18,5 +18,5 @@ package gov.nyc.doitt.gis.geoclient.service.search.policy;
 
 public interface SimilarNamesPolicy extends Policy
 {
-	boolean isSimilarName(String original, String proposed);
+    boolean isSimilarName(String original, String proposed);
 }

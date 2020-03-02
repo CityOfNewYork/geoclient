@@ -17,32 +17,32 @@ package gov.nyc.doitt.gis.geoclient.doc;
 
 public class GroupMember extends ItemDocumentationSupport
 {
-	private boolean sizeIndicator;
+    private boolean sizeIndicator;
 
-	public boolean matches(String fieldId)
-	{
-		String myId = getId();
-		if(myId != null)
-		{
-			return fieldId.startsWith(myId);
-		}
-		return false;
-	}
-	
-	public boolean isSizeIndicator()
-	{
-		return sizeIndicator;
-	}
+    public boolean matches(String fieldId)
+    {
+        String myId = getId();
+        if(myId != null)
+        {
+            return fieldId.startsWith(myId);
+        }
+        return false;
+    }
+    
+    public boolean isSizeIndicator()
+    {
+        return sizeIndicator;
+    }
 
-	public void setSizeIndicator(boolean sizeIndicator)
-	{
-		this.sizeIndicator = sizeIndicator;
-	}
+    public void setSizeIndicator(boolean sizeIndicator)
+    {
+        this.sizeIndicator = sizeIndicator;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "GroupMember [id=" + getId() + "]";
-	}
+    @Override
+    public String toString()
+    {
+        return "GroupMember [id=" + getId() + "]";
+    }
 
 }

@@ -17,23 +17,23 @@ package gov.nyc.doitt.gis.geoclient.doc;
 
 public class MissingDocumentation extends ItemDocumentation
 {
-	public static final String MESSAGE = "Needs documentation.";
+    public static final String MESSAGE = "Needs documentation.";
 
-	public MissingDocumentation(String id)
-	{
-		super(id);
-		setDescription(new Description(MESSAGE));
-	}
+    public MissingDocumentation(String id)
+    {
+        super(id);
+        setDescription(new Description(MESSAGE));
+    }
 
-	public boolean isDocumented() 
-	{
-		return false;
-	}
+    public boolean isDocumented() 
+    {
+        return false;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "MissingDocumentation [id=" + getId() + "]";
-	}
+    @Override
+    public String toString()
+    {
+        return "MissingDocumentation [id=" + getId() + "]";
+    }
 
 }

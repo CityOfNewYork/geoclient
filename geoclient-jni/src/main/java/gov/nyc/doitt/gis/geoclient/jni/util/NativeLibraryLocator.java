@@ -2,7 +2,7 @@
  *
  * Based on the class net.rubygrapefruit.platform.internal.NativeLibraryLocator from the native-platform project:
  *
- * 		https://github.com/adammurdoch/native-platform.git
+ *      https://github.com/adammurdoch/native-platform.git
  *
  * Original copyright:
  *

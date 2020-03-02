@@ -20,12 +20,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.Test;
 
 public class SearchPolicyTest {
-	@Test
-	public void testDefaultSettings() {
-		SearchPolicy searchPolicy = new SearchPolicy();
-		assertThat(searchPolicy.getExactMatchPolicy()).isInstanceOf(DefaultExactMatchPolicy.class);
-		assertThat(searchPolicy.getSearchDepthPolicy()).isInstanceOf(DefaultSearchDepthPolicy.class);
-		assertThat(searchPolicy.getSimilarNamesPolicy()).isInstanceOf(DefaultSimilarNamesPolicy.class);
-	}
+    @Test
+    public void testDefaultSettings() {
+        SearchPolicy searchPolicy = new SearchPolicy();
+        assertThat(searchPolicy.getExactMatchPolicy()).isInstanceOf(DefaultExactMatchPolicy.class);
+        assertThat(searchPolicy.getSearchDepthPolicy()).isInstanceOf(DefaultSearchDepthPolicy.class);
+        assertThat(searchPolicy.getSimilarNamesPolicy()).isInstanceOf(DefaultSimilarNamesPolicy.class);
+    }
 
 }

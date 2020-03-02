@@ -20,18 +20,18 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class SearchId
 {
-	private final String prefix;
-	private final AtomicLong sequence;
+    private final String prefix;
+    private final AtomicLong sequence;
 
-	public SearchId(String prefix)
-	{
-		super();
-		this.prefix = prefix;
-		this.sequence = new AtomicLong(0);
-	}
+    public SearchId(String prefix)
+    {
+        super();
+        this.prefix = prefix;
+        this.sequence = new AtomicLong(0);
+    }
 
-	public String next()
-	{
-		return String.format("%s-%d-%d", prefix, sequence.incrementAndGet(), new Date().getTime());
-	}
+    public String next()
+    {
+        return String.format("%s-%d-%d", prefix, sequence.incrementAndGet(), new Date().getTime());
+    }
 }

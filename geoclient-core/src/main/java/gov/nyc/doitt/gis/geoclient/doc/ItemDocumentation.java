@@ -25,133 +25,133 @@ import java.util.List;
  */
 public class ItemDocumentation extends BaseDocumentation
 {
-	private List<String> aliases;
-	private String format;
-	private List<String> functionNames;
-	private List<String> seeAlso;
-	private List<Table> tables;
-	private String displayName;
+    private List<String> aliases;
+    private String format;
+    private List<String> functionNames;
+    private List<String> seeAlso;
+    private List<Table> tables;
+    private String displayName;
 
-	public ItemDocumentation()
-	{
-		super();
-	}
+    public ItemDocumentation()
+    {
+        super();
+    }
 
-	public ItemDocumentation(String id)
-	{
-		super(id, new Description());
-	}
-	
-	public ItemDocumentation copyWithDisplayName(String nameToUse)
-	{
-		if(nameToUse.equals(getId()))
-		{
-			return this;
-		}
-		ItemDocumentation copy = new ItemDocumentation(getId());
-		copy.setDescription(getDescription());
-		copy.displayName = nameToUse;
-		copy.aliases = this.aliases;
-		copy.tables = this.tables;
-		copy.format = this.format;
-		copy.seeAlso = this.seeAlso;
-		copy.functionNames = this.functionNames;
-		return copy;
-	}
-	
-	public boolean documents(String id)
-	{
-		String myId = getId();
-		if (myId != null && myId.equals(id))
-		{
-			return true;
-		}
-		if (isAliased())
-		{
-			for (String alias : this.aliases)
-			{
-				if (alias.equals(id))
-				{
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+    public ItemDocumentation(String id)
+    {
+        super(id, new Description());
+    }
+    
+    public ItemDocumentation copyWithDisplayName(String nameToUse)
+    {
+        if(nameToUse.equals(getId()))
+        {
+            return this;
+        }
+        ItemDocumentation copy = new ItemDocumentation(getId());
+        copy.setDescription(getDescription());
+        copy.displayName = nameToUse;
+        copy.aliases = this.aliases;
+        copy.tables = this.tables;
+        copy.format = this.format;
+        copy.seeAlso = this.seeAlso;
+        copy.functionNames = this.functionNames;
+        return copy;
+    }
+    
+    public boolean documents(String id)
+    {
+        String myId = getId();
+        if (myId != null && myId.equals(id))
+        {
+            return true;
+        }
+        if (isAliased())
+        {
+            for (String alias : this.aliases)
+            {
+                if (alias.equals(id))
+                {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
-	public List<String> getAliases()
-	{
-		return this.aliases;
-	}
+    public List<String> getAliases()
+    {
+        return this.aliases;
+    }
 
-	public String getDisplayName()
-	{
-		if(this.displayName == null)
-		{
-			return getId();
-		}
-		return this.displayName;
-	}
-	
-	public void setDisplayName(String displayName)
-	{
-		this.displayName = displayName;
-	}
+    public String getDisplayName()
+    {
+        if(this.displayName == null)
+        {
+            return getId();
+        }
+        return this.displayName;
+    }
+    
+    public void setDisplayName(String displayName)
+    {
+        this.displayName = displayName;
+    }
 
-	public String getFormat()
-	{
-		return this.format;
-	}
+    public String getFormat()
+    {
+        return this.format;
+    }
 
-	public List<String> getFunctionNames()
-	{
-		return this.functionNames;
-	}
+    public List<String> getFunctionNames()
+    {
+        return this.functionNames;
+    }
 
-	public List<String> getSeeAlso()
-	{
-		return this.seeAlso;
-	}
+    public List<String> getSeeAlso()
+    {
+        return this.seeAlso;
+    }
 
-	public List<Table> getTables()
-	{
-		return this.tables;
-	}
+    public List<Table> getTables()
+    {
+        return this.tables;
+    }
 
-	public void setAliases(List<String> aliases)
-	{
-		this.aliases = aliases;
-	}
+    public void setAliases(List<String> aliases)
+    {
+        this.aliases = aliases;
+    }
 
-	public void setFormat(String format)
-	{
-		this.format = format;
-	}
+    public void setFormat(String format)
+    {
+        this.format = format;
+    }
 
-	public void setFunctionNames(List<String> functionNames)
-	{
-		this.functionNames = functionNames;
-	}
+    public void setFunctionNames(List<String> functionNames)
+    {
+        this.functionNames = functionNames;
+    }
 
-	public void setSeeAlso(List<String> itemDocumentationIds)
-	{
-		this.seeAlso = itemDocumentationIds;
-	}
+    public void setSeeAlso(List<String> itemDocumentationIds)
+    {
+        this.seeAlso = itemDocumentationIds;
+    }
 
-	public void setTables(List<Table> tables)
-	{
-		this.tables = tables;
-	}
+    public void setTables(List<Table> tables)
+    {
+        this.tables = tables;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "ItemDocumentation [id=" + getId() + "]";
-	}
+    @Override
+    public String toString()
+    {
+        return "ItemDocumentation [id=" + getId() + "]";
+    }
 
-	private boolean isAliased()
-	{
-		return this.aliases != null && !this.aliases.isEmpty();
-	}
+    private boolean isAliased()
+    {
+        return this.aliases != null && !this.aliases.isEmpty();
+    }
 
 }

@@ -22,25 +22,25 @@ import javax.servlet.http.HttpServletResponse;
 
 public class ApiOriginFilter implements javax.servlet.Filter
 {
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-			ServletException
-	{
-		HttpServletResponse res = (HttpServletResponse) response;
-		res.addHeader("Access-Control-Allow-Origin", "*");
-		res.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
-		res.addHeader("Access-Control-Allow-Headers", "Origin, X-Atmosphere-tracking-id, X-Atmosphere-Framework, X-Cache-Date, Content-Type, X-Atmosphere-Transport, X-Remote, api_key, *");
-		res.addHeader("Access-Control-CallBuilder-Headers", "Origin, X-Atmosphere-tracking-id, X-Atmosphere-Framework, X-Cache-Date, Content-Type, X-Atmosphere-Transport,  X-Remote, api_key, *");
-		chain.doFilter(request, response);
-	}
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
+            ServletException
+    {
+        HttpServletResponse res = (HttpServletResponse) response;
+        res.addHeader("Access-Control-Allow-Origin", "*");
+        res.addHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
+        res.addHeader("Access-Control-Allow-Headers", "Origin, X-Atmosphere-tracking-id, X-Atmosphere-Framework, X-Cache-Date, Content-Type, X-Atmosphere-Transport, X-Remote, api_key, *");
+        res.addHeader("Access-Control-CallBuilder-Headers", "Origin, X-Atmosphere-tracking-id, X-Atmosphere-Framework, X-Cache-Date, Content-Type, X-Atmosphere-Transport,  X-Remote, api_key, *");
+        chain.doFilter(request, response);
+    }
 
-	@Override
-	public void destroy()
-	{
-	}
+    @Override
+    public void destroy()
+    {
+    }
 
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException
-	{
-	}
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException
+    {
+    }
 }

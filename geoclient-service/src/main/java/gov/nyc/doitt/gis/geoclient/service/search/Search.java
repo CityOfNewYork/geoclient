@@ -21,54 +21,54 @@ import java.util.List;
 
 public class Search
 {
-	private final Request request;
-	private final Response response;
-	public Search(Request request, Response response)
-	{
-		super();
-		this.request = request;
-		this.response = response;
-	}
-	public Request getRequest()
-	{
-		return request;
-	}
-	public Response getResponse()
-	{
-		return response;
-	}	
-	
-	public boolean isRejected()
-	{
-		return response.isRejected();
-	}
-	
-	public List<String> getSimilarNames()
-	{
-		return response.getSimilarNames();
-	}
-	
-	public boolean responseMessageAppliesTo(String streetName)
-	{
-		return this.response.messageAppliesTo(streetName);
-	}
-	
-	public ResponseStatus getResponseStatus()
-	{
-		return response.getResponseStatus();
-	}
-	public int getLevel()
-	{
-		return request.getLevel();
-	}
-	public boolean lessThanOrEqualTo(int level)
-	{
-		return getLevel() <= level;
-	}	
+    private final Request request;
+    private final Response response;
+    public Search(Request request, Response response)
+    {
+        super();
+        this.request = request;
+        this.response = response;
+    }
+    public Request getRequest()
+    {
+        return request;
+    }
+    public Response getResponse()
+    {
+        return response;
+    }   
+    
+    public boolean isRejected()
+    {
+        return response.isRejected();
+    }
+    
+    public List<String> getSimilarNames()
+    {
+        return response.getSimilarNames();
+    }
+    
+    public boolean responseMessageAppliesTo(String streetName)
+    {
+        return this.response.messageAppliesTo(streetName);
+    }
+    
+    public ResponseStatus getResponseStatus()
+    {
+        return response.getResponseStatus();
+    }
+    public int getLevel()
+    {
+        return request.getLevel();
+    }
+    public boolean lessThanOrEqualTo(int level)
+    {
+        return getLevel() <= level;
+    }   
 
-	@Override
-	public String toString()
-	{
-		return "Search [request=" + request + ", responseIsRejected? " + response.isRejected() + "]";
-	}	
+    @Override
+    public String toString()
+    {
+        return "Search [request=" + request + ", responseIsRejected? " + response.isRejected() + "]";
+    }   
 }

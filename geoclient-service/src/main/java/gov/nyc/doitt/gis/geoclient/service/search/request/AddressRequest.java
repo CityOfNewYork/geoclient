@@ -20,70 +20,70 @@ import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 
 public class AddressRequest extends PlaceRequest
 {
-	private InputValue basicHouseNumberInputValue;
-	private InputValue houseNumberSuffixInputValue;
-	
-	public AddressRequest()
-	{
-		super();
-	}
+    private InputValue basicHouseNumberInputValue;
+    private InputValue houseNumberSuffixInputValue;
+    
+    public AddressRequest()
+    {
+        super();
+    }
 
-	// Copy constructor
-	public AddressRequest(AddressRequest anotherRequest)
-	{
-		super(anotherRequest);
-		this.basicHouseNumberInputValue = anotherRequest.getBasicHouseNumberInputValue();
-		this.houseNumberSuffixInputValue = anotherRequest.getHouseNumberSuffixInputValue();
-	}
+    // Copy constructor
+    public AddressRequest(AddressRequest anotherRequest)
+    {
+        super(anotherRequest);
+        this.basicHouseNumberInputValue = anotherRequest.getBasicHouseNumberInputValue();
+        this.houseNumberSuffixInputValue = anotherRequest.getHouseNumberSuffixInputValue();
+    }
 
-	public String getHouseNumber()
-	{
-		String basic = stringValueOrNull(basicHouseNumberInputValue);
-		String suffix = stringValueOrNull(houseNumberSuffixInputValue);
-		if(basic == null && suffix == null)
-		{
-			return null;
-		}
-		return (basic != null ? basic : "") + (suffix != null ? suffix : "");
-	}
-	
-	public InputValue getBasicHouseNumberInputValue()
-	{
-		return basicHouseNumberInputValue;
-	}
+    public String getHouseNumber()
+    {
+        String basic = stringValueOrNull(basicHouseNumberInputValue);
+        String suffix = stringValueOrNull(houseNumberSuffixInputValue);
+        if(basic == null && suffix == null)
+        {
+            return null;
+        }
+        return (basic != null ? basic : "") + (suffix != null ? suffix : "");
+    }
+    
+    public InputValue getBasicHouseNumberInputValue()
+    {
+        return basicHouseNumberInputValue;
+    }
 
-	public void setBasicHouseNumberInputValue(InputValue basicHouseNumberInputValue)
-	{
-		this.basicHouseNumberInputValue = basicHouseNumberInputValue;
-	}
+    public void setBasicHouseNumberInputValue(InputValue basicHouseNumberInputValue)
+    {
+        this.basicHouseNumberInputValue = basicHouseNumberInputValue;
+    }
 
-	public InputValue getHouseNumberSuffixInputValue()
-	{
-		return houseNumberSuffixInputValue;
-	}
+    public InputValue getHouseNumberSuffixInputValue()
+    {
+        return houseNumberSuffixInputValue;
+    }
 
-	public void setHouseNumberSuffixInputValue(InputValue houseNumberSuffixInputValue)
-	{
-		this.houseNumberSuffixInputValue = houseNumberSuffixInputValue;
-	}
+    public void setHouseNumberSuffixInputValue(InputValue houseNumberSuffixInputValue)
+    {
+        this.houseNumberSuffixInputValue = houseNumberSuffixInputValue;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "AddressRequest [level=" + getLevel() + ", houseNumber=" + getHouseNumber() + ", street=" + getStreet() + ", borough=" + getBorough() + ", zip=" + getZip() + "]";
-	}
+    @Override
+    public String toString()
+    {
+        return "AddressRequest [level=" + getLevel() + ", houseNumber=" + getHouseNumber() + ", street=" + getStreet() + ", borough=" + getBorough() + ", zip=" + getZip() + "]";
+    }
 
-	@Override
-	public boolean containsAssignedValue()
-	{
-		return super.containsAssignedValue() || 
-				isAssigned(basicHouseNumberInputValue) || isAssigned(houseNumberSuffixInputValue);
-	}
-	
-	// TODO TESTME
-	@Override
-	public String summarize()
-	{
-		return String.format("address [houseNumber=%s, street=%s, borough=%s, zip=%s]", getHouseNumber(), getStreet(), getBorough(), getZip());
-	}
+    @Override
+    public boolean containsAssignedValue()
+    {
+        return super.containsAssignedValue() || 
+                isAssigned(basicHouseNumberInputValue) || isAssigned(houseNumberSuffixInputValue);
+    }
+    
+    // TODO TESTME
+    @Override
+    public String summarize()
+    {
+        return String.format("address [houseNumber=%s, street=%s, borough=%s, zip=%s]", getHouseNumber(), getStreet(), getBorough(), getZip());
+    }
 }

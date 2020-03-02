@@ -19,48 +19,48 @@ import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 
 public abstract class Request
 {
-	private int level = 0;
+    private int level = 0;
 
-	public Request()
-	{
-		super();
-	}
+    public Request()
+    {
+        super();
+    }
 
-	public Request(int level)
-	{
-		super();
-		this.level = level;
-	}
+    public Request(int level)
+    {
+        super();
+        this.level = level;
+    }
 
-	public abstract boolean containsAssignedValue();
-	public abstract String summarize();
-	
-	public void incrementLevel()
-	{
-		level++;
-	}
+    public abstract boolean containsAssignedValue();
+    public abstract String summarize();
+    
+    public void incrementLevel()
+    {
+        level++;
+    }
 
-	public int getLevel()
-	{
-		return level;
-	}
+    public int getLevel()
+    {
+        return level;
+    }
 
-	public void setLevel(int level)
-	{
-		this.level = level;
-	}
+    public void setLevel(int level)
+    {
+        this.level = level;
+    }
 
-	protected boolean isAssigned(InputValue inputValue)
-	{
-		if(inputValue == null)
-		{
-			return false;
-		}
-		return inputValue.isAssigned();
-	}
-	
-	protected String stringValueOrNull(InputValue inputValue)
-	{
-		return inputValue != null ? inputValue.getValue() : null;
-	}
+    protected boolean isAssigned(InputValue inputValue)
+    {
+        if(inputValue == null)
+        {
+            return false;
+        }
+        return inputValue.isAssigned();
+    }
+    
+    protected String stringValueOrNull(InputValue inputValue)
+    {
+        return inputValue != null ? inputValue.getValue() : null;
+    }
 }

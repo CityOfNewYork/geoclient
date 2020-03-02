@@ -19,24 +19,24 @@ import gov.nyc.doitt.gis.geoclient.util.Assert;
 
 public class Filter
 {
-	private final String pattern;
+    private final String pattern;
 
-	public Filter(String pattern)
-	{
-		super();
-		Assert.notNull(pattern, "Pattern argument cannot be null");
-		this.pattern = pattern;
-	}
+    public Filter(String pattern)
+    {
+        super();
+        Assert.notNull(pattern, "Pattern argument cannot be null");
+        this.pattern = pattern;
+    }
 
-	public boolean matches(Field field)
-	{
-		return field.getId().matches(pattern);
-	}
+    public boolean matches(Field field)
+    {
+        return field.getId().matches(pattern);
+    }
 
-	@Override
-	public String toString()
-	{
-		return "Filter [pattern=" + pattern + "]";
-	}
+    @Override
+    public String toString()
+    {
+        return "Filter [pattern=" + pattern + "]";
+    }
 
 }

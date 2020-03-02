@@ -22,28 +22,28 @@ import java.util.regex.Pattern;
 
 public class RegexTokenGroup
 {
-	private final Pattern pattern;
-	private final int group;
-	private final TokenType tokenType;
-	
-	public RegexTokenGroup(Pattern pattern, int group, TokenType tokenType)
-	{
-		super();
-		this.pattern = pattern;
-		this.group = group;
-		this.tokenType = tokenType;
-	}
-	
-	public Pattern getPattern()
-	{
-		return pattern;
-	}
-	public TokenType getTokenType()
-	{
-		return tokenType;
-	}
-	public int getGroup()
-	{
-		return group;
-	}
+    private final Pattern pattern;
+    private final int group;
+    private final TokenType tokenType;
+    
+    public RegexTokenGroup(Pattern pattern, int group, TokenType tokenType)
+    {
+        super();
+        this.pattern = pattern;
+        this.group = group;
+        this.tokenType = tokenType;
+    }
+    
+    public Pattern getPattern()
+    {
+        return pattern;
+    }
+    public TokenType getTokenType()
+    {
+        return tokenType;
+    }
+    public int getGroup()
+    {
+        return group;
+    }
 }

@@ -24,19 +24,19 @@ import org.slf4j.LoggerFactory;
 
 public class BlockfaceParserTest extends AbstractSpecTest
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BlockfaceParserTest.class);
-	private BlockfaceParser parser;
+    private static final Logger LOGGER = LoggerFactory.getLogger(BlockfaceParserTest.class);
+    private BlockfaceParser parser;
 
-	@BeforeEach
-	public void setUp() throws Exception
-	{
-		this.parser = new BlockfaceParser();
-	}
+    @BeforeEach
+    public void setUp() throws Exception
+    {
+        this.parser = new BlockfaceParser();
+    }
 
-	@Test
-	public void testParse()
-	{
-		testParser(parser, LOGGER);
-	}
+    @Test
+    public void testParse()
+    {
+        testParser(parser, LOGGER);
+    }
 
 }

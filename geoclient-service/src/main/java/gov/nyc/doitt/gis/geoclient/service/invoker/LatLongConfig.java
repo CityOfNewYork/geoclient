@@ -19,82 +19,82 @@ import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
 
 public class LatLongConfig
 {
-	private String latName;
-	private String longName;
-	private String xCoordInputName;
-	private String yCoordInputName;
-	private ItemDocumentation latDocumentation;
-	private ItemDocumentation longDocumentation;
+    private String latName;
+    private String longName;
+    private String xCoordInputName;
+    private String yCoordInputName;
+    private ItemDocumentation latDocumentation;
+    private ItemDocumentation longDocumentation;
 
-	public LatLongConfig(String latName, String longName, String xCoordInputName, String yCoordInputName,
-			ItemDocumentation latDocumentation, ItemDocumentation longDocumentation)
-	{
-		super();
-		this.latName = latName;
-		this.longName = longName;
-		this.xCoordInputName = xCoordInputName;
-		this.yCoordInputName = yCoordInputName;
-		this.latDocumentation = latDocumentation;
-		this.longDocumentation = longDocumentation;
-	}
+    public LatLongConfig(String latName, String longName, String xCoordInputName, String yCoordInputName,
+            ItemDocumentation latDocumentation, ItemDocumentation longDocumentation)
+    {
+        super();
+        this.latName = latName;
+        this.longName = longName;
+        this.xCoordInputName = xCoordInputName;
+        this.yCoordInputName = yCoordInputName;
+        this.latDocumentation = latDocumentation;
+        this.longDocumentation = longDocumentation;
+    }
 
-	public String getLatName()
-	{
-		return latName;
-	}
+    public String getLatName()
+    {
+        return latName;
+    }
 
-	public void setLatName(String latName)
-	{
-		this.latName = latName;
-	}
+    public void setLatName(String latName)
+    {
+        this.latName = latName;
+    }
 
-	public String getLongName()
-	{
-		return longName;
-	}
+    public String getLongName()
+    {
+        return longName;
+    }
 
-	public void setLongName(String longName)
-	{
-		this.longName = longName;
-	}
+    public void setLongName(String longName)
+    {
+        this.longName = longName;
+    }
 
-	public String getXCoordInputName()
-	{
-		return xCoordInputName;
-	}
+    public String getXCoordInputName()
+    {
+        return xCoordInputName;
+    }
 
-	public void setXCoordInputName(String xCoordInputName)
-	{
-		this.xCoordInputName = xCoordInputName;
-	}
+    public void setXCoordInputName(String xCoordInputName)
+    {
+        this.xCoordInputName = xCoordInputName;
+    }
 
-	public String getYCoordInputName()
-	{
-		return yCoordInputName;
-	}
+    public String getYCoordInputName()
+    {
+        return yCoordInputName;
+    }
 
-	public void setYCoordInputName(String yCoordInputName)
-	{
-		this.yCoordInputName = yCoordInputName;
-	}
+    public void setYCoordInputName(String yCoordInputName)
+    {
+        this.yCoordInputName = yCoordInputName;
+    }
 
-	public ItemDocumentation getLatDocumentation()
-	{
-		return latDocumentation;
-	}
+    public ItemDocumentation getLatDocumentation()
+    {
+        return latDocumentation;
+    }
 
-	public void setLatDocumentation(ItemDocumentation latDocumentation)
-	{
-		this.latDocumentation = latDocumentation;
-	}
+    public void setLatDocumentation(ItemDocumentation latDocumentation)
+    {
+        this.latDocumentation = latDocumentation;
+    }
 
-	public ItemDocumentation getLongDocumentation()
-	{
-		return longDocumentation;
-	}
+    public ItemDocumentation getLongDocumentation()
+    {
+        return longDocumentation;
+    }
 
-	public void setLongDocumentation(ItemDocumentation longDocumentation)
-	{
-		this.longDocumentation = longDocumentation;
-	}
+    public void setLongDocumentation(ItemDocumentation longDocumentation)
+    {
+        this.longDocumentation = longDocumentation;
+    }
 }

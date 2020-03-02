@@ -20,43 +20,43 @@ import java.util.List;
 
 public class TableRow
 {
-	private List<TableData> columns;
+    private List<TableData> columns;
 
-	public TableRow()
-	{
-		this(new ArrayList<TableData>());
-	}
-	
-	public TableRow(List<TableData> tableData)
-	{
-		super();
-		this.columns = tableData;
-	}
+    public TableRow()
+    {
+        this(new ArrayList<TableData>());
+    }
+    
+    public TableRow(List<TableData> tableData)
+    {
+        super();
+        this.columns = tableData;
+    }
 
-	public List<TableData> getColumns()
-	{
-		return columns;
-	}
+    public List<TableData> getColumns()
+    {
+        return columns;
+    }
 
-	public void setColumns(List<TableData> columns)
-	{
-		this.columns = columns;
-	}
+    public void setColumns(List<TableData> columns)
+    {
+        this.columns = columns;
+    }
 
-	@Override
-	public String toString()
-	{
-		return toHtml();
-	}
+    @Override
+    public String toString()
+    {
+        return toHtml();
+    }
 
-	public String toHtml()
-	{
-		StringBuffer sb = new StringBuffer("<tr>");
-		for (TableData td : columns)
-		{
-			sb.append(td.toHtml());
-		}
-		sb.append("</tr>");
-		return sb.toString();
-	}
+    public String toHtml()
+    {
+        StringBuffer sb = new StringBuffer("<tr>");
+        for (TableData td : columns)
+        {
+            sb.append(td.toHtml());
+        }
+        sb.append("</tr>");
+        return sb.toString();
+    }
 }

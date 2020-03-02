@@ -33,19 +33,19 @@ import gov.nyc.doitt.gis.geoclient.parser.configuration.ParserConfig;
 @ContextConfiguration(classes = {ParserConfig.class})
 public class CityParserTest extends AbstractSpecTest
 {
-	private static final Logger LOGGER = LoggerFactory.getLogger(CityParserTest.class);
-	@Autowired
-	private CityParser parser;
+    private static final Logger LOGGER = LoggerFactory.getLogger(CityParserTest.class);
+    @Autowired
+    private CityParser parser;
 
-	@BeforeEach
-	public void setUp() throws Exception
-	{
-		assertNotNull(parser);
-	}
+    @BeforeEach
+    public void setUp() throws Exception
+    {
+        assertNotNull(parser);
+    }
 
-	@Test
-	public void testParse()
-	{
-		testParser(parser, LOGGER);
-	}
+    @Test
+    public void testParse()
+    {
+        testParser(parser, LOGGER);
+    }
 }

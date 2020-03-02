@@ -22,42 +22,42 @@ import org.junit.jupiter.api.Test;
 
 public class InputTest {
 
-	@Test
-	public void testConstructor_idNull() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			new Input(null, "value");
-		});
-	}
+    @Test
+    public void testConstructor_idNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Input(null, "value");
+        });
+    }
 
-	@Test
-	public void testConstructor_idEmpty() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			new Input("", "value");
-		});
-	}
+    @Test
+    public void testConstructor_idEmpty() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Input("", "value");
+        });
+    }
 
-	@Test
-	public void testConstructor_valueNull() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			new Input("id", null);
-		});
-	}
+    @Test
+    public void testConstructor_valueNull() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Input("id", null);
+        });
+    }
 
-	@Test
-	public void testConstructor_valueEmpty() {
-		assertThrows(IllegalArgumentException.class, () -> {
-			new Input("id", "");
-		});
-	}
+    @Test
+    public void testConstructor_valueEmpty() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            new Input("id", "");
+        });
+    }
 
-	@Test
-	public void testConstructor() {
-		String id = "123";
-		String value = " $abc";
-		Input input = new Input(id, value);
-		assertThat(input.getId()).isSameAs(id);
-		assertThat(input.getValue()).isEqualTo("abc");
-		assertThat(input.getUnsanitizedValue()).isSameAs(value);
-	}
+    @Test
+    public void testConstructor() {
+        String id = "123";
+        String value = " $abc";
+        Input input = new Input(id, value);
+        assertThat(input.getId()).isSameAs(id);
+        assertThat(input.getValue()).isEqualTo("abc");
+        assertThat(input.getUnsanitizedValue()).isSameAs(value);
+    }
 
 }

@@ -23,24 +23,24 @@ import org.junit.jupiter.api.Test;
 
 public class OperatingSystemUtilsTest
 {
-	private static final String osName = System.getProperty("os.name");
+    private static final String osName = System.getProperty("os.name");
 
-	@Test
-	public void testIsWindows()
-	{
-		if(osName.contains("Windows"))
-		{
-			assertTrue(OperatingSystemUtils.isWindows());
-		}else
-		{
-			assertFalse(OperatingSystemUtils.isWindows());
-		}
-	}
+    @Test
+    public void testIsWindows()
+    {
+        if(osName.contains("Windows"))
+        {
+            assertTrue(OperatingSystemUtils.isWindows());
+        }else
+        {
+            assertFalse(OperatingSystemUtils.isWindows());
+        }
+    }
 
-	@Test
-	public void testUName()
-	{
-		assertEquals(osName, OperatingSystemUtils.uname());
-	}
+    @Test
+    public void testUName()
+    {
+        assertEquals(osName, OperatingSystemUtils.uname());
+    }
 
 }

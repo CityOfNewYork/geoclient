@@ -20,77 +20,77 @@ import java.util.List;
 
 public class Table
 {
-	private String caption;
-	private String id;
-	private List<TableRow> rows;
+    private String caption;
+    private String id;
+    private List<TableRow> rows;
 
-	public Table()
-	{
-		this(null, new ArrayList<TableRow>(), null);
-	}
+    public Table()
+    {
+        this(null, new ArrayList<TableRow>(), null);
+    }
 
-	public Table(String id, List<TableRow> rows, String caption)
-	{
-		super();
-		this.id = id;
-		this.rows = rows;
-		this.caption = caption;
-	}
+    public Table(String id, List<TableRow> rows, String caption)
+    {
+        super();
+        this.id = id;
+        this.rows = rows;
+        this.caption = caption;
+    }
 
-	public String getCaption()
-	{
-		return caption;
-	}
+    public String getCaption()
+    {
+        return caption;
+    }
 
-	public String getId()
-	{
-		return id;
-	}
+    public String getId()
+    {
+        return id;
+    }
 
-	public List<TableRow> getRows()
-	{
-		return rows;
-	}
+    public List<TableRow> getRows()
+    {
+        return rows;
+    }
 
-	public void setCaption(String caption)
-	{
-		this.caption = caption;
-	}
+    public void setCaption(String caption)
+    {
+        this.caption = caption;
+    }
 
-	public void setId(String id)
-	{
-		this.id = id;
-	}
+    public void setId(String id)
+    {
+        this.id = id;
+    }
 
-	public void setRows(List<TableRow> rows)
-	{
-		this.rows = rows;
-	}
+    public void setRows(List<TableRow> rows)
+    {
+        this.rows = rows;
+    }
 
-	public String toHtml()
-	{
-		StringBuffer sb = new StringBuffer("<table");
-		if (id != null)
-		{
-			sb.append(" id=\"" + id + "\"");
-		}
-		sb.append(">\n");
-		if (caption != null)
-		{
-			sb.append(String.format("<caption>%s</caption>\n", caption));
-		}
-		for (TableRow tr : this.rows)
-		{
-			sb.append(tr.toHtml());
-			sb.append("\n");
-		}
-		sb.append("</table>");
-		return sb.toString();
-	}
+    public String toHtml()
+    {
+        StringBuffer sb = new StringBuffer("<table");
+        if (id != null)
+        {
+            sb.append(" id=\"" + id + "\"");
+        }
+        sb.append(">\n");
+        if (caption != null)
+        {
+            sb.append(String.format("<caption>%s</caption>\n", caption));
+        }
+        for (TableRow tr : this.rows)
+        {
+            sb.append(tr.toHtml());
+            sb.append("\n");
+        }
+        sb.append("</table>");
+        return sb.toString();
+    }
 
-	@Override
-	public String toString()
-	{
-		return toHtml();
-	}
+    @Override
+    public String toString()
+    {
+        return toHtml();
+    }
 }

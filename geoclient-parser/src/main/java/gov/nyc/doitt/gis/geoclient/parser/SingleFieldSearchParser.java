@@ -20,27 +20,27 @@ import java.util.List;
 
 public class SingleFieldSearchParser implements LocationTokenizer
 {
-	private List<Parser> parsers;
+    private List<Parser> parsers;
 
-	public SingleFieldSearchParser(List<Parser> parsers)
-	{
-		super();
-		this.parsers = parsers;
-	}
+    public SingleFieldSearchParser(List<Parser> parsers)
+    {
+        super();
+        this.parsers = parsers;
+    }
 
-	@Override
-	public LocationTokens parse(Input input)
-	{
-		ParseContext parseContext = new ParseContext(input);
-		for (Parser parser : this.parsers)
-		{
-			parser.parse(parseContext);
-			if(parseContext.isParsed())
-			{
-				break;
-			}
-		}
-		
-		return new LocationTokens(input, parseContext.getChunks());
-	}
+    @Override
+    public LocationTokens parse(Input input)
+    {
+        ParseContext parseContext = new ParseContext(input);
+        for (Parser parser : this.parsers)
+        {
+            parser.parse(parseContext);
+            if(parseContext.isParsed())
+            {
+                break;
+            }
+        }
+        
+        return new LocationTokens(input, parseContext.getChunks());
+    }
 }

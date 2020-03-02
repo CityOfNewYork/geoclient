@@ -31,111 +31,111 @@ import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import gov.nyc.doitt.gis.geoclient.doc.TableData;
 
 public class TableDataConverterTest {
-	private TableDataConverter converter;
-	private HierarchicalStreamReader readerMock;
-	private String text;
+    private TableDataConverter converter;
+    private HierarchicalStreamReader readerMock;
+    private String text;
 
-	@BeforeEach
-	public void setUp() {
-		converter = new TableDataConverter();
-		readerMock = mock(HierarchicalStreamReader.class);
-		text = "I'm too texty for my shirt!";
-	}
+    @BeforeEach
+    public void setUp() {
+        converter = new TableDataConverter();
+        readerMock = mock(HierarchicalStreamReader.class);
+        text = "I'm too texty for my shirt!";
+    }
 
-	@Test
-	public void testCanConvert() {
-		assertTrue(this.converter.canConvert(TableData.class));
-		assertFalse(this.converter.canConvert(String.class));
-	}
+    @Test
+    public void testCanConvert() {
+        assertTrue(this.converter.canConvert(TableData.class));
+        assertFalse(this.converter.canConvert(String.class));
+    }
 
-	@Test
-	public void testMarshal() {
-		assertThrows(UnsupportedOperationException.class, () -> {
-			this.converter.marshal(null, null, null);
-		});
-	}
+    @Test
+    public void testMarshal() {
+        assertThrows(UnsupportedOperationException.class, () -> {
+            this.converter.marshal(null, null, null);
+        });
+    }
 
-	@Test
-	public void testUnmarshal_withColspan() {
-		setUpReaderMock("2", text, null, null, DocumentationXmlReader.XML_TD_ELEMENT);
-		TableData td = (TableData) this.converter.unmarshal(readerMock, null);
-		assertEquals(2, td.getColspan());
-		assertEquals(text, td.getText());
-		assertNull(td.getFootnote());
-		assertFalse(td.isHeader());
-	}
+    @Test
+    public void testUnmarshal_withColspan() {
+        setUpReaderMock("2", text, null, null, DocumentationXmlReader.XML_TD_ELEMENT);
+        TableData td = (TableData) this.converter.unmarshal(readerMock, null);
+        assertEquals(2, td.getColspan());
+        assertEquals(text, td.getText());
+        assertNull(td.getFootnote());
+        assertFalse(td.isHeader());
+    }
 
-	@Test
-	public void testUnmarshal_isHeader() {
-		setUpReaderMock(null, text, null, null, DocumentationXmlReader.XML_TH_ELEMENT);
-		TableData td = (TableData) this.converter.unmarshal(readerMock, null);
-		assertEquals(1, td.getColspan());
-		assertEquals(text, td.getText());
-		assertNull(td.getFootnote());
-		assertTrue(td.isHeader());
-	}
+    @Test
+    public void testUnmarshal_isHeader() {
+        setUpReaderMock(null, text, null, null, DocumentationXmlReader.XML_TH_ELEMENT);
+        TableData td = (TableData) this.converter.unmarshal(readerMock, null);
+        assertEquals(1, td.getColspan());
+        assertEquals(text, td.getText());
+        assertNull(td.getFootnote());
+        assertTrue(td.isHeader());
+    }
 
-	@Test
-	public void testUnmarshal_textWithFootnote() {
-		setUpReaderMock(null, text, "*", "8", DocumentationXmlReader.XML_TD_ELEMENT);
-		TableData td = (TableData) this.converter.unmarshal(readerMock, null);
-		assertEquals(1, td.getColspan());
-		assertEquals(text, td.getText());
-		assertEquals("*", td.getFootnote().getSymbol());
-		assertEquals(8, td.getFootnote().getPosition());
-		assertFalse(td.isHeader());
-	}
+    @Test
+    public void testUnmarshal_textWithFootnote() {
+        setUpReaderMock(null, text, "*", "8", DocumentationXmlReader.XML_TD_ELEMENT);
+        TableData td = (TableData) this.converter.unmarshal(readerMock, null);
+        assertEquals(1, td.getColspan());
+        assertEquals(text, td.getText());
+        assertEquals("*", td.getFootnote().getSymbol());
+        assertEquals(8, td.getFootnote().getPosition());
+        assertFalse(td.isHeader());
+    }
 
-	@Test
-	public void testUnmarshal_footnoteOnly() {
-		setUpReaderMock(null, null, "*", "0", DocumentationXmlReader.XML_TD_ELEMENT);
-		TableData td = (TableData) this.converter.unmarshal(readerMock, null);
-		assertEquals(1, td.getColspan());
-		assertEquals("", td.getText());
-		assertEquals("*", td.getFootnote().getSymbol());
-		assertEquals(0, td.getFootnote().getPosition());
-		assertFalse(td.isHeader());
-	}
+    @Test
+    public void testUnmarshal_footnoteOnly() {
+        setUpReaderMock(null, null, "*", "0", DocumentationXmlReader.XML_TD_ELEMENT);
+        TableData td = (TableData) this.converter.unmarshal(readerMock, null);
+        assertEquals(1, td.getColspan());
+        assertEquals("", td.getText());
+        assertEquals("*", td.getFootnote().getSymbol());
+        assertEquals(0, td.getFootnote().getPosition());
+        assertFalse(td.isHeader());
+    }
 
-	@Test
-	public void testUnmarshal_emptyElement() {
-		setUpReaderMock(null, null, null, null, DocumentationXmlReader.XML_TD_ELEMENT);
-		TableData td = (TableData) this.converter.unmarshal(readerMock, null);
-		assertEquals(1, td.getColspan());
-		assertEquals("", td.getText());
-		assertNull(td.getFootnote());
-		assertFalse(td.isHeader());
-	}
+    @Test
+    public void testUnmarshal_emptyElement() {
+        setUpReaderMock(null, null, null, null, DocumentationXmlReader.XML_TD_ELEMENT);
+        TableData td = (TableData) this.converter.unmarshal(readerMock, null);
+        assertEquals(1, td.getColspan());
+        assertEquals("", td.getText());
+        assertNull(td.getFootnote());
+        assertFalse(td.isHeader());
+    }
 
-	private void setUpReaderMock(String colspan, String text, String footnote, String footnotePosition,
-			String nodeName) {
-		when(this.readerMock.getAttribute(DocumentationXmlReader.XML_TD_ATTRIBUTE_COLSPAN)).thenReturn(colspan);
+    private void setUpReaderMock(String colspan, String text, String footnote, String footnotePosition,
+            String nodeName) {
+        when(this.readerMock.getAttribute(DocumentationXmlReader.XML_TD_ATTRIBUTE_COLSPAN)).thenReturn(colspan);
 
-		if (text != null && footnote != null) {
-			// With Footnote
-			// <td><sup position="2">*</sup>some text</td>
-			when(this.readerMock.getValue()).thenReturn(footnote).thenReturn(text);
-			when(this.readerMock.hasMoreChildren()).thenReturn(true);
-			when(this.readerMock.getAttribute(DocumentationXmlReader.XML_FOOTNOTE_ATTRIBUTE_POSITION))
-					.thenReturn(footnotePosition);
+        if (text != null && footnote != null) {
+            // With Footnote
+            // <td><sup position="2">*</sup>some text</td>
+            when(this.readerMock.getValue()).thenReturn(footnote).thenReturn(text);
+            when(this.readerMock.hasMoreChildren()).thenReturn(true);
+            when(this.readerMock.getAttribute(DocumentationXmlReader.XML_FOOTNOTE_ATTRIBUTE_POSITION))
+                    .thenReturn(footnotePosition);
 
-		} else if (text != null) {
-			// <td>some text</td>
-			when(this.readerMock.getValue()).thenReturn(text);
-			when(this.readerMock.hasMoreChildren()).thenReturn(false);
-		} else if (footnote != null) {
-			// With Footnote - no text
-			// <td><sup position="2">*</sup></td>
-			when(this.readerMock.getValue()).thenReturn(footnote).thenReturn("");
-			when(this.readerMock.hasMoreChildren()).thenReturn(true);
-			when(this.readerMock.getAttribute(DocumentationXmlReader.XML_FOOTNOTE_ATTRIBUTE_POSITION))
-					.thenReturn(footnotePosition);
-		} else {
-			// <td></td>
-			when(this.readerMock.getValue()).thenReturn("");
-			when(this.readerMock.hasMoreChildren()).thenReturn(false);
-		}
+        } else if (text != null) {
+            // <td>some text</td>
+            when(this.readerMock.getValue()).thenReturn(text);
+            when(this.readerMock.hasMoreChildren()).thenReturn(false);
+        } else if (footnote != null) {
+            // With Footnote - no text
+            // <td><sup position="2">*</sup></td>
+            when(this.readerMock.getValue()).thenReturn(footnote).thenReturn("");
+            when(this.readerMock.hasMoreChildren()).thenReturn(true);
+            when(this.readerMock.getAttribute(DocumentationXmlReader.XML_FOOTNOTE_ATTRIBUTE_POSITION))
+                    .thenReturn(footnotePosition);
+        } else {
+            // <td></td>
+            when(this.readerMock.getValue()).thenReturn("");
+            when(this.readerMock.hasMoreChildren()).thenReturn(false);
+        }
 
-		when(this.readerMock.getNodeName()).thenReturn(nodeName);
-	}
+        when(this.readerMock.getNodeName()).thenReturn(nodeName);
+    }
 }

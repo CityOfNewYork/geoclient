@@ -22,15 +22,15 @@ import org.junit.jupiter.api.Test;
 public class GroupMemberTest
 {
 
-	@Test
-	public void testMatches()
-	{
-		String id = "abc";
-		GroupMember gm = new GroupMember();
-		assertFalse(gm.matches(id));
-		gm.setId(id);
-		assertTrue(gm.matches(id  + "10"));
-		assertFalse(gm.matches("10" + id));
-	}
+    @Test
+    public void testMatches()
+    {
+        String id = "abc";
+        GroupMember gm = new GroupMember();
+        assertFalse(gm.matches(id));
+        gm.setId(id);
+        assertTrue(gm.matches(id  + "10"));
+        assertFalse(gm.matches("10" + id));
+    }
 
 }

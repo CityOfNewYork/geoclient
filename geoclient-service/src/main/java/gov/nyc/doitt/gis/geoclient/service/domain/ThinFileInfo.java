@@ -19,42 +19,42 @@ import java.util.List;
 
 public class ThinFileInfo extends FileInfo
 {
-	private List<String> recordTypes;
-	private List<String> fillerFields;
+    private List<String> recordTypes;
+    private List<String> fillerFields;
 
-	public ThinFileInfo(){}
-	public ThinFileInfo(List<String> recordTypes, String tag, String date, String release, String recordCount, List<String> fillerFields)
-	{
-		super(null, tag, date, release, recordCount);
-		this.recordTypes = recordTypes;
-		this.fillerFields = fillerFields;
-	}
+    public ThinFileInfo(){}
+    public ThinFileInfo(List<String> recordTypes, String tag, String date, String release, String recordCount, List<String> fillerFields)
+    {
+        super(null, tag, date, release, recordCount);
+        this.recordTypes = recordTypes;
+        this.fillerFields = fillerFields;
+    }
 
-	public List<String> getRecordTypes()
-	{
-		return recordTypes;
-	}
+    public List<String> getRecordTypes()
+    {
+        return recordTypes;
+    }
 
-	public void setRecordTypes(List<String> recordTypes)
-	{
-		this.recordTypes = recordTypes;
-	}
+    public void setRecordTypes(List<String> recordTypes)
+    {
+        this.recordTypes = recordTypes;
+    }
 
-	public List<String> getFillerFields()
-	{
-		return fillerFields;
-	}
+    public List<String> getFillerFields()
+    {
+        return fillerFields;
+    }
 
-	public void setFillerFields(List<String> fillerFields)
-	{
-		this.fillerFields = fillerFields;
-	}
+    public void setFillerFields(List<String> fillerFields)
+    {
+        this.fillerFields = fillerFields;
+    }
 
-	@Override
-	public String toString()
-	{
-		return "ThinFileInfo [recordTypes=" + recordTypes + ", fillerFields=" + fillerFields + "]";
-	}
-	
-	
+    @Override
+    public String toString()
+    {
+        return "ThinFileInfo [recordTypes=" + recordTypes + ", fillerFields=" + fillerFields + "]";
+    }
+    
+    
 }

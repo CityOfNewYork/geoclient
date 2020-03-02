@@ -17,12 +17,12 @@ package gov.nyc.doitt.gis.geoclient.config;
 
 public class UnknownGroupDocumentationException extends ConfigurationException
 {
-	
-	private static final long serialVersionUID = -4249540764396037602L;
+    
+    private static final long serialVersionUID = -4249540764396037602L;
 
-	public UnknownGroupDocumentationException(String groupId)
-	{
-		super(String.format("Unknown GroupDocumentation[id=%s]", groupId));
-	}
+    public UnknownGroupDocumentationException(String groupId)
+    {
+        super(String.format("Unknown GroupDocumentation[id=%s]", groupId));
+    }
 
 }
