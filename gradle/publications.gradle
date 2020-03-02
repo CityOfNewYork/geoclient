@@ -1,5 +1,5 @@
 // Shared artifact signing policy
-ext.isReleaseVersion = !version.endsWith("SNAPSHOT")
+ext.isReleaseVersion = !version ==~ /-rc.\d$/ && !version.endsWith("SNAPSHOT")
 
 signing {
     required {
@@ -70,4 +70,3 @@ publishing {
         }
     }
 }
-

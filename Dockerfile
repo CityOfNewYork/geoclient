@@ -1,67 +1,55 @@
-#
-# 1. Before running this image create a volume with Geosupport installed:
-#
-#   $ docker pull mlipper/geosupport-docker
-#   ...
-#   $ docker run -it --rm --mount source=vol-geosupport,target=/opt/geosupport mlipper/geosupport-docker
-#
-# 2. Build this image
-#
-#   # Assuming you've successfully built this project from source 
-#   # (e.g., using Dockerfile.build) and the following relative file path to
-#   # to the default geoclient-service build artifact is valid:
-#   # ./geoclient-service/build/libs/geoclient-service-<VERSION>-boot.jar
-#
-#   $ docker build -t geoclient -f Dockerfile .
-#
-#   OR
-#
-#   # Specify a non-default path to the geoclient-service Spring Boot jar file
-#
-#   $ docker build --build-arg JARFILE=./build/libs/gc.jar -t geoclient -f Dockerfile .
-#
-# 3. Run this image
-#
-#   $ docker run -d --name gcrun -p 8080:8080 --mount source=vol-geosupport,target=/opt/geosupport geoclient
-#
-# 4. Default service endpoint is http://localhost:8080/geoclient/v2
-#
-#   $ curl -XGET 'http://localhost:8080/geoclient/v2/search.json?input=Broadway%20and%20W%2042%20st%20Manhattan'
-#
-FROM openjdk:8-jdk-slim
-LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
-
-ARG JARFILE
-ENV JARFILE ${JARFILE:-"./geoclient-service/build/libs/geoclient-service-*-boot.jar"}
-
+# Builder
+FROM openjdk:8-jdk-slim AS builder
 ARG GEOSUPPORT_HOME
-ENV GEOSUPPORT_HOME ${GEOSUPPORT_HOME:-/opt/geosupport}
-
-ARG GC_JNI_VERSION
-ENV GC_JNI_VERSION ${GC_JNI_VERSION:-geoclient-jni-2.0.0}
-
-RUN set -o errexit -o nounset \
+ENV GEOSUPPORT_HOME "${GEOSUPPORT_HOME:-/opt/geosupport}"
+COPY --from=mlipper/geosupport-docker:1.0.8 $GEOSUPPORT_HOME $GEOSUPPORT_HOME
+RUN set -ex \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
-      bash \
-      vim \
+      gcc \
+      g++ \
+      libc6-dev \
   && rm -rf /var/lib/apt/lists/*
 
-ADD $JARFILE /app/geoclient.jar
+COPY . /app
+WORKDIR /app
+
+ENV GC_VERSION 2.0.0-rc.4
+
+RUN set -eux; \
+    echo '#!/bin/bash' > /app/build.sh; \
+    echo >> /app/build.sh; \
+    cat $GEOSUPPORT_HOME/bin/initenv >> /app/build.sh; \
+    echo "export GC_JNI_VERSION=geoclient-jni-${GC_VERSION}" >> /app/build.sh; \
+    echo '/app/gradlew "$@"' >> /app/build.sh; \
+    chmod 755 /app/build.sh
+
+RUN /app/build.sh clean build bootJar
+
+# Run
+FROM openjdk:8-jdk-slim
+
+ENV GEOSUPPORT_HOME "${GEOSUPPORT_HOME:-/opt/geosupport}"
+ENV GC_VERSION 2.0.0-rc.5
+
+COPY --from=mlipper/geosupport-docker:1.0.8 $GEOSUPPORT_HOME $GEOSUPPORT_HOME
 
 WORKDIR /app
 
-RUN set -o errexit -o nounset; \
+COPY --from=builder /app/geoclient-service/build/libs/geoclient-service-${GC_VERSION}-boot.jar /app/geoclient.jar
+RUN set -eux; \
   [ -f /app/geoclient.jar ] || exit 1; \
   { \
     echo '#!/bin/bash'; \
     echo; \
-    echo '. $GEOSUPPORT_HOME/bin/initenv'; \
-    echo '$JAVA_HOME/bin/java -Dspring.profiles.active=bootjar -Dgc.jni.version=$GC_JNI_VERSION -jar /app/geoclient.jar'; \
+    echo 'export GEOSUPPORT_LDCONFIG=true;'; \
+    cat $GEOSUPPORT_HOME/bin/initenv; \
+    echo; \
+    echo "$JAVA_HOME/bin/java -Dspring.profiles.active=bootjar -Dgc.jni.version=$GC_JNI_VERSION -jar /app/geoclient.jar"; \
   } > /app/run.sh \
   && chmod 755 /app/run.sh \
   && cat /app/run.sh
 
 EXPOSE 8080:8080
 
-CMD ["/bin/bash", "-c", "/app/run.sh"]
+CMD ["/bin/bash","-c","/app/run.sh"]
