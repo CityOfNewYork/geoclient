@@ -17,8 +17,6 @@ package gov.nyc.doitt.gis.geoclient.service.xstream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
@@ -30,27 +28,24 @@ import org.mockito.Mockito;
 
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
-public class MapConverterTest
-{
+public class MapConverterTest {
     private HierarchicalStreamWriter writerMock;
     private MapConverter mapConverter;
     private Map<String, Object> data;
 
     @BeforeEach
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         this.writerMock = Mockito.mock(HierarchicalStreamWriter.class);
         this.mapConverter = new MapConverter();
         this.data = new HashMap<String, Object>();
         this.data.put("ONE", 1.0);
         this.data.put("TWO", "2");
         this.data.put("THREE", null);
-        
+
     }
 
     @Test
-    public void testCanConvert()
-    {
+    public void testCanConvert() {
         assertTrue(this.mapConverter.canConvert(Map.class));
         assertTrue(this.mapConverter.canConvert(SortedMap.class));
         assertTrue(this.mapConverter.canConvert(HashMap.class));
@@ -59,8 +54,7 @@ public class MapConverterTest
     }
 
     @Test
-    public void testMarshal()
-    {
+    public void testMarshal() {
         this.mapConverter.marshal(this.data, this.writerMock, null);
         Mockito.verify(this.writerMock).startNode("ONE");
         Mockito.verify(this.writerMock).setValue("1.0");
@@ -72,8 +66,7 @@ public class MapConverterTest
     }
 
     @Test
-    public void testMarshalNestedMap()
-    {
+    public void testMarshalNestedMap() {
         Map<String, Object> outerMap = new HashMap<String, Object>();
         outerMap.put("Foo", this.data);
         this.mapConverter.marshal(outerMap, this.writerMock, null);
@@ -88,8 +81,7 @@ public class MapConverterTest
     }
 
     @Test
-    public void testUnmarshal()
-    {
+    public void testUnmarshal() {
         assertThrows(UnsupportedOperationException.class, () -> {
             this.mapConverter.unmarshal(null, null);
         });
