@@ -12,7 +12,7 @@ import gov.nyc.doitt.gis.geoclient.service.search.GeosupportReturnCode;
 import gov.nyc.doitt.gis.geoclient.service.search.ResponseStatus;
 
 public class ResponseStatusMapper extends AbstractParameterMapper<ResponseStatus>
-        implements Mapper<ResponseStatus>, CustomConverter {
+        implements CustomConverter {
 
     public ResponseStatusMapper() {
         super();
