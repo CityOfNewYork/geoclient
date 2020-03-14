@@ -1,1 +1,1 @@
-# Java application
+# geoclient helm template
