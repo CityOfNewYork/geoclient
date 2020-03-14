@@ -59,7 +59,7 @@ RUN set -eux; \
     echo; \
     cat "${GEOSUPPORT_HOME}/bin/initenv"; \
     echo; \
-    echo "${JAVA_HOME}/bin/java -Dspring.profiles.active=bootjar -Dgc.jni.version=geoclient-jni-${GC_VERSION} -jar /app/geoclient.jar"; \
+    echo "${JAVA_HOME}/bin/java -Dspring.profiles.active=bootRun -Dgc.jni.version=geoclient-jni-${GC_VERSION} -jar /app/geoclient.jar"; \
   } > /app/run.sh \
   && chmod 755 /app/run.sh
 
