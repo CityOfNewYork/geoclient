@@ -1,0 +1,75 @@
+replicaCount: 1
+
+image:
+  repository: mlipper/geoclient
+  tag: 2.0.0-rc.6
+  pullPolicy: IfNotPresent
+
+podAnnotations:
+  #  prometheus.io/scrape: "true"
+  #  prometheus.io/port: "8080"
+
+env:
+  # context path under which geoclient is deployed
+  CONTEXT_PATH: /geoclient/v2
+  # version of geoclient which defaults to the same value as the image.tag
+  GC_VERSION: 2.0.0-rc.6
+  # file system location of Geosupport data files which defaults to
+  # `$GEOSUPPORT_HOME/fls/`. Trailing slash is required.
+  GEOFILES: /opt/geosupport/fls/
+  # base file system location where Geosupport is installed on each "host"
+  # running Geoclient.
+  GEOSUPPORT_HOME: /opt/geosupport
+  # file system location of Geosupport shared library files which defaults
+  # to `$GEOSUPPORT_HOME/lib`.
+  GS_LIBRARY_PATH: /opt/geosupport/lib
+
+#logLevel: info
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 256Mi
+
+probes:
+  liveness:
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+  readiness:
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    timeoutSeconds: 1
+    successThreshold: 1
+    failureThreshold: 3
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+rbac:
+  # rbac.create: `true` if rbac resources should be created
+  create: false
+  # rbac.scope: `cluster` to create cluster-scope rbac resources (ClusterRole/ClusterRoleBinding)
+  # otherwise, namespace-scope rbac resources will be created (Role/RoleBinding)
+  scope:
+  # rbac.rules: array of rules to apply to the role. example:
+  # rules:
+  # - apiGroups: [""]
+  #   resources: ["pods"]
+  #   verbs: ["list", "get"]
+  rules: []
+
+# name of an existing service account to use - if not creating rbac resources
+serviceAccountName: ""

@@ -5,7 +5,7 @@ ARG GEOSUPPORT_HOME
 ARG GC_VERSION
 
 ENV GEOSUPPORT_HOME "${GEOSUPPORT_HOME:-/opt/geosupport}"
-ENV GC_VERSION "${GC_VERSION:-2.0.0-rc.5}"
+ENV GC_VERSION "${GC_VERSION:-2.0.0-rc.6}"
 
 # Set version of mlipper/geosupport-docker image to copy from Docker Hub
 COPY --from=mlipper/geosupport-docker:1.0.9 "${GEOSUPPORT_HOME}" "${GEOSUPPORT_HOME}/"
@@ -30,7 +30,6 @@ RUN set -eux; \
     echo '/app/gradlew "$@"' >> /app/build.sh; \
     chmod 755 /app/build.sh
 
-#RUN ["/bin/bash", "-c", "/app/build.sh clean build bootJar"]
 RUN set -ex; \
     /app/build.sh clean build bootJar; \
     ls -l /app/geoclient-service/build/libs; \
@@ -44,7 +43,7 @@ ARG GEOSUPPORT_HOME
 ARG GC_VERSION
 
 ENV GEOSUPPORT_HOME "${GEOSUPPORT_HOME:-/opt/geosupport}"
-ENV GC_VERSION "${GC_VERSION:-2.0.0-rc.5}"
+ENV GC_VERSION "${GC_VERSION:-2.0.0-rc.6}"
 
 RUN set -ex; \
     env | sort; \
@@ -59,7 +58,7 @@ RUN set -eux; \
     echo; \
     cat "${GEOSUPPORT_HOME}/bin/initenv"; \
     echo; \
-    echo "${JAVA_HOME}/bin/java -Dspring.profiles.active=bootjar -Dgc.jni.version=geoclient-jni-${GC_VERSION} -jar /app/geoclient.jar"; \
+    echo "${JAVA_HOME}/bin/java -Dspring.profiles.active=bootRun -Dgc.jni.version=geoclient-jni-${GC_VERSION} -jar /app/geoclient.jar"; \
   } > /app/run.sh \
   && chmod 755 /app/run.sh
 
