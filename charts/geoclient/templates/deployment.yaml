@@ -1,106 +1,70 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "geoclient.fullname" . }}
-  annotations:
-{{ toYaml .Values.deployment.annotations | indent 4 }}
+  name: {{ include "geoclient.fullname" . }}
   labels:
-{{ include "geoclient.labels.standard" . | indent 4 }}
-{{- if .Values.deployment.labels }}
-{{ toYaml .Values.deployment.labels | indent 4 }}
-{{- end }}
+    helm.sh/chart: {{ template "geoclient.chart" . }}
+    app.kubernetes.io/name: {{ template "geoclient.name" . }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
-  selector:
-    matchLabels:
-      app: {{ template "geoclient.fullname" . }}
-      release: {{ .Release.Name | quote }}
-{{- if .Values.deployment.labels }}
-{{ toYaml .Values.deployment.labels | indent 6 }}
-{{- end }}
   replicas: {{ .Values.replicaCount }}
-  strategy:
-{{ toYaml .Values.strategy | indent 4 }}
-  revisionHistoryLimit: 10
-{{- if .Values.deployment.matchlabes }}
   selector:
     matchLabels:
-{{ toYaml .Values.deployment.matchlabes | indent 6 }}
-{{- end }}
+      app.kubernetes.io/name: {{ template "geoclient.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
-      name: {{ include "geoclient.fullname" . }}
-      annotations:
-{{ toYaml .Values.replica.annotations | indent 8 }}
       labels:
-        app: {{ template "geoclient.name" . }}
-        release: {{ .Release.Name | quote }}
-{{- if .Values.deployment.labels }}
-{{ toYaml .Values.deployment.labels | indent 8 }}
-{{- end }}
+        app.kubernetes.io/name: {{ template "geoclient.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+      annotations:
+        {{- if .Values.podAnnotations }}
+{{ toYaml .Values.podAnnotations | indent 8 }}
+        {{- end }}
     spec:
-      containers:
-      - name: {{ .Chart.Name }}
-        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
-        imagePullPolicy: {{ .Values.image.pullPolicy }}
-        env:
-{{- range $name, $value := .Values.env.open }}
-{{- if not (empty $value) }}
-        - name: {{ $name | quote }}
-          value: {{ $value | quote }}
-{{- end }}
-{{- end }}
-{{- range $name, $value := .Values.env.field }}
-{{- if not ( empty $value) }}
-        - name: {{ $name | quote }}
-          valueFrom:
-            fieldRef:
-              fieldPath: {{ $value | quote }}
-{{- end }}
-{{- end }}
-        args:
-        - --port=8080
-{{- if eq .Values.env.open.STORAGE "local" }}
-        - --storage-local-rootdir={{ .Values.persistence.path }}
-{{- end }}
-        ports:
-        - name: http
-          containerPort: 8080
-        livenessProbe:
-          httpGet:
-            path: {{ .Values.env.open.CONTEXT_PATH }}/health
-            port: http
-{{ toYaml .Values.probes.liveness | indent 10 }}
-        readinessProbe:
-          httpGet:
-            path: {{ .Values.env.open.CONTEXT_PATH }}/health
-            port: http
-{{ toYaml .Values.probes.readiness | indent 10 }}
-        volumeMounts:
-{{- if eq .Values.env.open.STORAGE "local" }}
-        - mountPath: {{ .Values.persistence.path }}
-          name: storage-volume
-{{- end }}
-      {{- with .Values.resources }}
-        resources:
-{{ toYaml . | indent 10 }}
+      {{- if .Values.serviceAccountName }}
+      serviceAccountName: {{ .Values.serviceAccountName }}
+      {{- else if .Values.rbac.create }}
+      serviceAccountName: {{ include "geoclient.fullname" . }}
       {{- end }}
-    {{- with .Values.nodeSelector }}
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          {{- range $name, $value := .Values.env }}
+          {{- if not (empty $value) }}
+          env:
+          - name: {{ $name | quote }}
+            value: {{ $value | quote }}
+          {{- end }}
+          {{- end }}
+          ports:
+            - name: http
+              containerPort: 8080
+          command:
+            - /app/run.sh
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.env.CONTEXT_PATH }}/actuator/health
+              port: http
+{{ toYaml .Values.probes.liveness | indent 12 }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.env.CONTEXT_PATH }}/actuator/health
+              port: http
+{{ toYaml .Values.probes.readiness | indent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     {{- with .Values.affinity }}
       affinity:
-{{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- with .Values.tolerations }}
       tolerations:
-{{ toYaml . | indent 8 }}
+        {{- toYaml . | nindent 8 }}
     {{- end }}
-      volumes:
-      - name: storage-volume
-      {{- if .Values.persistence.enabled }}
-        persistentVolumeClaim:
-          claimName: {{ .Values.persistence.existingClaim | default (include "geoclient.fullname" .) }}
-      {{- else }}
-        emptyDir: {}
-      {{- end -}}
