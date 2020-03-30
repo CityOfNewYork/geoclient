@@ -2,7 +2,7 @@ apiVersion: skaffold/v1beta2
 kind: Config
 build:
   artifacts:
-  - image: mlipper/geoclient
+  - image: 812969027137.dkr.ecr.us-east-1.amazonaws.com/geoclient
     context: .
     docker: {}
   tagPolicy:

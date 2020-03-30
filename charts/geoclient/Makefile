@@ -36,7 +36,7 @@ ifeq ($(OS),Darwin)
 	sed -i "" -e "s/tag:.*/tag: $(RELEASE_VERSION)/" values.yaml
 else ifeq ($(OS),Linux)
 	sed -i -e "s/version:.*/version: $(RELEASE_VERSION)/" Chart.yaml
-	sed -i -e "s|repository:.*|repository: $(DOCKER_REGISTRY)\/mlipper\/geoclient|" values.yaml
+	sed -i -e "s|repository:.*|repository: $(DOCKER_REGISTRY)\/812969027137.dkr.ecr.us-east-1.amazonaws.com\/geoclient|" values.yaml
 	sed -i -e "s/tag:.*/tag: $(RELEASE_VERSION)/" values.yaml
 else
 	echo "platfrom $(OS) not supported to release from"

@@ -1,7 +1,7 @@
 replicaCount: 1
 
 image:
-  repository: mlipper/geoclient
+  repository: 812969027137.dkr.ecr.us-east-1.amazonaws.com/geoclient
   tag: 2.0.0-rc.6
   pullPolicy: IfNotPresent
 
