@@ -31,14 +31,13 @@
 FROM openjdk:8-jdk-slim
 LABEL maintainer "Matthew Lipper <mlipper@gmail.com>"
 
-ARG JARFILE
-ENV JARFILE ${JARFILE:-"./geoclient-service/build/libs/geoclient-service-*-boot.jar"}
-
 ARG GEOSUPPORT_HOME
-ENV GEOSUPPORT_HOME ${GEOSUPPORT_HOME:-/opt/geosupport}
+ARG GC_VERSION
+ARG JARFILE
 
-ARG GC_JNI_VERSION
-ENV GC_JNI_VERSION ${GC_JNI_VERSION:-geoclient-jni-2.0.0}
+ENV GEOSUPPORT_HOME ${GEOSUPPORT_HOME:-/opt/geosupport}
+ENV GC_VERSION ${GC_VERSION:-2.0.0-rc.7}
+ENV JARFILE ${JARFILE:-"./geoclient-service/build/libs/geoclient-service-*-boot.jar"}
 
 RUN set -o errexit -o nounset \
   && apt-get update \
@@ -56,8 +55,8 @@ RUN set -o errexit -o nounset; \
   { \
     echo '#!/bin/bash'; \
     echo; \
-    echo '. $GEOSUPPORT_HOME/bin/initenv'; \
-    echo '$JAVA_HOME/bin/java -Dspring.profiles.active=bootjar -Dgc.jni.version=$GC_JNI_VERSION -jar /app/geoclient.jar'; \
+    echo '. ${GEOSUPPORT_HOME}/bin/initenv'; \
+    echo '${JAVA_HOME}/bin/java -Dspring.profiles.active=bootjar -Dgc.jni.version=geoclient-jni-${GC_VERSION} -jar /app/geoclient.jar'; \
   } > /app/run.sh \
   && chmod 755 /app/run.sh \
   && cat /app/run.sh

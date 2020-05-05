@@ -5,7 +5,7 @@ ARG GEOSUPPORT_HOME
 ARG GC_VERSION
 
 ENV GEOSUPPORT_HOME "${GEOSUPPORT_HOME:-/opt/geosupport}"
-ENV GC_VERSION "${GC_VERSION:-2.0.0-rc.6}"
+ENV GC_VERSION "${GC_VERSION:-2.0.0-rc.7}"
 
 # Set version of mlipper/geosupport-docker image to copy from Docker Hub
 COPY --from=mlipper/geosupport-docker:1.0.9 "${GEOSUPPORT_HOME}" "${GEOSUPPORT_HOME}/"
@@ -43,7 +43,7 @@ ARG GEOSUPPORT_HOME
 ARG GC_VERSION
 
 ENV GEOSUPPORT_HOME "${GEOSUPPORT_HOME:-/opt/geosupport}"
-ENV GC_VERSION "${GC_VERSION:-2.0.0-rc.6}"
+ENV GC_VERSION "${GC_VERSION:-2.0.0-rc.7}"
 
 RUN set -ex; \
     env | sort; \
