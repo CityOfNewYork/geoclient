@@ -36,4 +36,6 @@
 **/maven-repo
 
 # User-specific stuff
+**/.env
 **/.local
+geosupport/
