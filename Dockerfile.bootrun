@@ -7,7 +7,7 @@
 #
 # 2. Build this image
 #
-#   # Assuming you've successfully built this project from source 
+#   # Assuming you've successfully built this project from source
 #   # (e.g., using Dockerfile.build) and the following relative file path to
 #   # to the default geoclient-service build artifact is valid:
 #   # ./geoclient-service/build/libs/geoclient-service-<VERSION>-boot.jar
@@ -42,8 +42,8 @@ ENV JARFILE ${JARFILE:-"./geoclient-service/build/libs/geoclient-service-*-boot.
 RUN set -o errexit -o nounset \
   && apt-get update \
   && apt-get install -y --no-install-recommends \
-      bash \
-      vim \
+    bash \
+    vim \
   && rm -rf /var/lib/apt/lists/*
 
 ADD $JARFILE /app/geoclient.jar
