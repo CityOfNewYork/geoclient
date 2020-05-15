@@ -15,7 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.web.response;
 
-import gov.nyc.doitt.gis.geoclient.parser.token.Chunk; 
+import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 
 import java.util.List;
 
@@ -24,14 +24,14 @@ import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
 
-// NOTE: JSON root wrapping also needs to be enabled on the Jackson2 
-//       ObjectMapper. When using Spring MappingJackson2HttpMessageConverter do 
-//       this: 
+// NOTE: JSON root wrapping also needs to be enabled on the Jackson2
+//       ObjectMapper. When using Spring MappingJackson2HttpMessageConverter do
+//       this:
 //
 //         converter.getObjectMapper()
-//                  .configure(SerializationFeature.WRAP_ROOT_VALUE, true); 
+//                  .configure(SerializationFeature.WRAP_ROOT_VALUE, true);
 //
-//@JsonRootName("searchResponse") // json root name 
+//@JsonRootName("searchResponse") // json root name
 @XStreamAlias("searchResponse") // xml root element
 public class SearchResponse
 {

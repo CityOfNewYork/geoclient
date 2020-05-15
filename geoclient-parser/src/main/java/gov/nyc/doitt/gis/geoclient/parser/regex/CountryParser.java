@@ -37,13 +37,13 @@ public class CountryParser extends AbstractRegexParser
             patternNotMatched(parseContext, COUNTRY);
             return;
         }
-        
+
         MatchBuilder builder = new MatchBuilder()
             .add(matcher)
             .add(MatchType.END_OF_INPUT)
             .add(parseContext)
             .add(COUNTRY, 1, TokenType.COUNTRY);
-        
+
         handleMatch(builder.build(), ChunkType.COUNTY);
     }
 

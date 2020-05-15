@@ -15,7 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.token;
 
-public enum TokenType 
+public enum TokenType
 {
     AND,
     BETWEEN,

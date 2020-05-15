@@ -12,14 +12,14 @@ class JniLibraryTest {
     private String name;
     private Platform platform;
     private String version;
-    
+
     @BeforeEach
     void setUp() {
 
         name = "snafubar";
         platform = new Platform("linux", "x64");
         version = "2.0.0-RELEASE";
-        
+
         builder = JniLibrary.builder();
         jniLibrary = builder.platform(platform)
                             .name(name)
@@ -40,17 +40,17 @@ class JniLibraryTest {
         Throwable exception = assertThrows(IllegalStateException.class, () -> {
             builder.platform(null).build();
         });
-        assertEquals("Platform cannot be null", exception.getMessage());        
+        assertEquals("Platform cannot be null", exception.getMessage());
     }
-    
+
     @Test
     void testBuildRequiresNameSet() {
         Throwable exception = assertThrows(IllegalStateException.class, () -> {
             builder.name(null).build();
         });
-        assertEquals("Name cannot be null", exception.getMessage());        
+        assertEquals("Name cannot be null", exception.getMessage());
     }
-    
+
     @Test
     void testBuildDefaultsVersion() {
         jniLibrary = builder.version(null).build();
@@ -59,7 +59,7 @@ class JniLibraryTest {
                 ()-> assertEquals(name, jniLibrary.getName()),
                 ()-> assertEquals("UNKNOWN", jniLibrary.getVersion()));
     }
-    
+
     @Test
     void testGetPlatformDirName() {
         assertEquals(platform.getName().replace("_", "-"), jniLibrary.getPlatformDirName());

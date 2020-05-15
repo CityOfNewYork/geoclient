@@ -24,9 +24,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ZipParser extends AbstractRegexParser {
-    
+
     private static final Pattern ZIP = Pattern.compile("(?:.*)\\b(\\d{5})(-\\d{4})?\\s*$");
-    
+
     @Override
     public void parse(ParseContext parseContext)
     {
@@ -37,7 +37,7 @@ public class ZipParser extends AbstractRegexParser {
             patternNotMatched(parseContext, ZIP);
             return;
         }
-        
+
         MatchBuilder builder = new MatchBuilder();
         builder.add(matcher)
         .add(parseContext)
@@ -46,5 +46,5 @@ public class ZipParser extends AbstractRegexParser {
         .add(ZIP,2,TokenType.PLUS4);
         handleMatch(builder.build(), ChunkType.COUNTY);
     }
-    
+
 }

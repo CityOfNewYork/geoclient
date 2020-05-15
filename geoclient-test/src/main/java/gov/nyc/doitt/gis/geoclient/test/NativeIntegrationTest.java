@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package gov.nyc.doitt.gis.geoclient.test;
 
@@ -20,10 +20,10 @@ import org.junit.jupiter.api.Tag;
 /**
  * {@code Annotation} indicating that the type or method will require a working
  * JNI configuration to Geosupport.
- * 
+ *
  * Composed with the {@code JUnit 5} annotation {@link Tag} class and configured
  * with: <code>@Tag("jni")</code>
- * 
+ *
  * @author mlipper
  *
  */

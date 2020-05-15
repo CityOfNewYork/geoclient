@@ -38,7 +38,7 @@ public class DocumentationConfigurerTest
         GeosupportConfig geosupportConfigMock = Mockito.mock(GeosupportConfig.class);
         DataDictionary dataDictionary = new DataDictionary(new ArrayList<ItemDocumentation>());
         Mockito.when(geosupportConfigMock.getDataDictionary()).thenReturn(dataDictionary);
-        
+
         //FunctionDocumentation addressDocumentation = new FunctionDocumentation(Function.F1B,new Description("Textxt"),new ArrayList<ItemDocumentation>());
         FunctionDocumentation addressDocumentation = new FunctionDocumentation();
         addressDocumentation.setId(Function.F1B);
@@ -65,7 +65,7 @@ public class DocumentationConfigurerTest
         Mockito.when(geosupportConfigMock.getFunctionDocumentation(Function.F2)).thenReturn(intersectionDocumentation);
 
         LatLongEnhancer latLongEnhancerMock = Mockito.mock(LatLongEnhancer.class);
-        
+
         LatLongConfig latLongConfig = LatLongEnhancer.DEFAULT_CONFIGS.get(0);
         LatLongConfig latLongInternalConfig = LatLongEnhancer.DEFAULT_CONFIGS.get(1);
         List<ItemDocumentation> expectedLatLongDocs = new ArrayList<ItemDocumentation>();
@@ -74,9 +74,9 @@ public class DocumentationConfigurerTest
         expectedLatLongDocs.add(latLongInternalConfig.getLatDocumentation());
         expectedLatLongDocs.add(latLongInternalConfig.getLongDocumentation());
         Mockito.when(latLongEnhancerMock.getItemDocumentation()).thenReturn(expectedLatLongDocs);
-        
+
         Documentation result = new DocumentationConfigurer(geosupportConfigMock, latLongEnhancerMock).configureDocumentation();
-        
+
         assertSame(dataDictionary, result.getDataDictionary());
         assertSame(addressDocumentation, result.getAddressDocumentation());
         assertSame(bblDocumentation, result.getBblDocumentation());
@@ -87,32 +87,32 @@ public class DocumentationConfigurerTest
         assertSame(addressDocumentation.getId(), result.getPlaceDocumentation().getId());
         assertSame(addressDocumentation.getDescription(), result.getPlaceDocumentation().getDescription());
         assertEquals(addressDocumentation.getFields(), result.getPlaceDocumentation().getFields());
-        
+
         assertTrue(addressDocumentation.getFields().contains(latLongConfig.getLatDocumentation()));
         assertTrue(addressDocumentation.getFields().contains(latLongConfig.getLongDocumentation()));
         assertTrue(addressDocumentation.getFields().contains(latLongInternalConfig.getLatDocumentation()));
         assertTrue(addressDocumentation.getFields().contains(latLongInternalConfig.getLongDocumentation()));
-            
+
         assertTrue(result.getPlaceDocumentation().getFields().contains(latLongConfig.getLatDocumentation()));
         assertTrue(result.getPlaceDocumentation().getFields().contains(latLongConfig.getLongDocumentation()));
         assertTrue(result.getPlaceDocumentation().getFields().contains(latLongInternalConfig.getLatDocumentation()));
         assertTrue(result.getPlaceDocumentation().getFields().contains(latLongInternalConfig.getLongDocumentation()));
-        
+
         assertTrue(result.getIntersectionDocumentation().getFields().contains(latLongConfig.getLatDocumentation()));
         assertTrue(result.getIntersectionDocumentation().getFields().contains(latLongConfig.getLongDocumentation()));
         assertFalse(result.getIntersectionDocumentation().getFields().contains(latLongInternalConfig.getLatDocumentation()));
         assertFalse(result.getIntersectionDocumentation().getFields().contains(latLongInternalConfig.getLongDocumentation()));
-        
+
         assertFalse(result.getBblDocumentation().getFields().contains(latLongConfig.getLatDocumentation()));
         assertFalse(result.getBblDocumentation().getFields().contains(latLongConfig.getLongDocumentation()));
         assertTrue(result.getBblDocumentation().getFields().contains(latLongInternalConfig.getLatDocumentation()));
         assertTrue(result.getBblDocumentation().getFields().contains(latLongInternalConfig.getLongDocumentation()));
-        
+
         assertFalse(result.getBinDocumentation().getFields().contains(latLongConfig.getLatDocumentation()));
         assertFalse(result.getBinDocumentation().getFields().contains(latLongConfig.getLongDocumentation()));
         assertTrue(result.getBinDocumentation().getFields().contains(latLongInternalConfig.getLatDocumentation()));
         assertTrue(result.getBinDocumentation().getFields().contains(latLongInternalConfig.getLongDocumentation()));
-        
+
         assertTrue(result.getDataDictionary().getItems().contains(latLongConfig.getLatDocumentation()));
         assertTrue(result.getDataDictionary().getItems().contains(latLongConfig.getLongDocumentation()));
         assertTrue(result.getDataDictionary().getItems().contains(latLongInternalConfig.getLatDocumentation()));

@@ -30,7 +30,7 @@ public class BoroughParser extends AbstractRegexParser
     private final Pattern boroughPattern;
     private final Pattern boroughAndNycPattern;
     private final Pattern boroughAndStatePattern;
-    
+
     public BoroughParser(Set<String> boroughNames)
     {
         super();
@@ -38,7 +38,7 @@ public class BoroughParser extends AbstractRegexParser
         boroughAndStatePattern = buildEndsWithBoroughAndStatePattern(boroughNames);
         boroughPattern = buildEndsWithBoroughPattern(boroughNames);
     }
-    
+
     @Override
     public void parse(ParseContext parseContext)
     {
@@ -57,20 +57,20 @@ public class BoroughParser extends AbstractRegexParser
         String literals = PatternUtils.literalMatchGroup(boroughNames);
         return Pattern.compile(String.format("(?:.*)%s(?:\\s|,)+%s(?:\\s|,)*$",literals, ParserConfig.NY_CITY), Pattern.CASE_INSENSITIVE);
     }
-    
+
     protected Pattern buildEndsWithBoroughAndStatePattern(Set<String> boroughNames)
     {
         String literals = PatternUtils.literalMatchGroup(boroughNames);
         return Pattern.compile(String.format("(?:.*)%s(?:\\s|,)+%s(?:\\s|,)*$",literals, ParserConfig.STATES), Pattern.CASE_INSENSITIVE);
     }
-    
+
     protected Pattern buildEndsWithBoroughPattern(Set<String> boroughNames)
     {
         String literals = PatternUtils.literalMatchGroup(boroughNames);
         return Pattern.compile(String.format("(?:.*)%s(?:\\s|,)*$",literals), Pattern.CASE_INSENSITIVE);
     }
-    
-    
+
+
     private boolean parseBoroughAndNyc(ParseContext parseContext)
     {
         Chunk currentChunk = parseContext.getCurrent();
@@ -79,7 +79,7 @@ public class BoroughParser extends AbstractRegexParser
         {
             patternNotMatched(parseContext, boroughAndNycPattern);
             return false;
-        } 
+        }
         MatchBuilder builder = new MatchBuilder()
             .add(parseContext)
             .add(MatchType.END_OF_INPUT)
@@ -98,7 +98,7 @@ public class BoroughParser extends AbstractRegexParser
         {
             patternNotMatched(parseContext, boroughAndStatePattern);
             return false;
-        } 
+        }
         MatchBuilder builder = new MatchBuilder()
             .add(parseContext)
             .add(MatchType.END_OF_INPUT)
@@ -117,7 +117,7 @@ public class BoroughParser extends AbstractRegexParser
         {
             patternNotMatched(parseContext, boroughPattern);
             return false;
-        } 
+        }
         MatchBuilder builder = new MatchBuilder()
             .add(parseContext)
             .add(MatchType.END_OF_INPUT)

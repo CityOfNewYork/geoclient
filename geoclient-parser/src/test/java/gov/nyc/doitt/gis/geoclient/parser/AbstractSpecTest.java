@@ -41,12 +41,12 @@ public abstract class AbstractSpecTest
     {
         specBuilder = new SpecBuilder();
     }
-    
+
     protected void testParser(Parser parser, Logger logger)
     {
         List<ChunkSpec> specs =  specBuilder.getSpecs(parser.getName());
         assertFalse(specs.isEmpty());
-        
+
         for (ChunkSpec spec : specs)
         {
             logSpecStart(logger, spec);
@@ -56,18 +56,18 @@ public abstract class AbstractSpecTest
             assertChunksEquals(spec.getId(), spec.getChunks(), context.getChunks(), logger);
         }
     }
-    
+
     protected void logSpecStart(Logger logger, ChunkSpec spec)
     {
         logger.debug("-----------------------------------------------------------------------");
         logger.debug(String.format("TEST-%s is expecting Tokens: '%s', Chunks: '%s'", spec.getId(), spec.delimitedText(),spec.chunkTypeNames()));
     }
-    
+
     protected void assertChunksEquals(String specId, List<Chunk> expected, List<Chunk> actual, Logger logger)
     {
         if(!expected.equals(actual))
         {
-            String messageStart = String.format("Test %s ",specId); 
+            String messageStart = String.format("Test %s ",specId);
             int expectedSize = expected.size();
             int actualSize = actual.size();
             assertThat(actualSize).isEqualTo(expectedSize).as(messageStart + "expected " + expectedSize + " tokens but got " +actualSize);
@@ -89,7 +89,7 @@ public abstract class AbstractSpecTest
     {
         if(!expected.equals(actual))
         {
-            String messageStart = String.format("Test %s ",specId); 
+            String messageStart = String.format("Test %s ",specId);
             int expectedSize = expected.size();
             int actualSize = actual.size();
             assertThat(actualSize).isEqualTo(expectedSize).as(messageStart + "expected " + expectedSize + " tokens but got " +actualSize);
@@ -106,7 +106,7 @@ public abstract class AbstractSpecTest
                 logger.debug("Patch:{}",patch.toString());
                 logger.debug("Deltas:{}",patch.getDeltas());
                 assertEquals(String.format("%s found incorrect token value:",messageStart), expectedValue, actualValue);
-                
+
             }
         }
     }

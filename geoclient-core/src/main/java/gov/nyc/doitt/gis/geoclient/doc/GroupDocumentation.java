@@ -33,7 +33,7 @@ public class GroupDocumentation extends ItemDocumentationSupport
         }
         return false;
     }
-    
+
     public List<GroupMember> getGroupMembers()
     {
         return groupMembers;

@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 
 /**
  * Constants representing Geosupport street codes.
- * 
+ *
  * @author mlipper
  *
  */
@@ -48,7 +48,7 @@ public enum StreetCodeType {
         case 11:
             this.pattern = Pattern.compile("[1-5][0-9]{" + (this.length - 1) + "}");
             break;
-        default:            
+        default:
             throw new IllegalArgumentException("Invalid street code length: " + this.length);
         }
     }
@@ -56,7 +56,7 @@ public enum StreetCodeType {
     public int length() {
         return this.length;
     }
-    
+
     public boolean hasBorough() {
         return this.equals(B5SC) || this.equals(B7SC) || this.equals(B10SC);
     }
@@ -76,7 +76,7 @@ public enum StreetCodeType {
         if (streetCode == null) {
             return false;
         }
-        
+
         return B5SC.isValid(streetCode) || B7SC.isValid(streetCode)
                 || B10SC.isValid(streetCode);
     }

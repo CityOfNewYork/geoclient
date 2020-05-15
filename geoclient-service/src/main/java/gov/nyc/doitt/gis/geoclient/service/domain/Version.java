@@ -64,7 +64,7 @@ public class Version
     public void setGeoclientServiceVersion(String geoclientServiceVersion)
     {
         this.geoclientServiceVersion = geoclientServiceVersion;
-    }   
+    }
     public String getGeoclientParserVersion()
     {
         return geoclientParserVersion;

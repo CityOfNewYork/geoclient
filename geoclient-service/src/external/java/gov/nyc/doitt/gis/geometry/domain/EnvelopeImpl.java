@@ -31,7 +31,7 @@ public abstract class EnvelopeImpl extends GeometryImpl implements DoittEnvelope
 
     /**
      * Constructs an envelope with the specified coordinates.
-     * 
+     *
      * @param minX The minimum x coordinate of the envelope.
      * @param minY The minimum y coordinate of the envelope.
      * @param maxX The maximum x coordinate of the envelope.

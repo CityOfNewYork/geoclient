@@ -31,10 +31,10 @@ import gov.nyc.doitt.gis.geoclient.parser.configuration.ParserConfig;
 public class BoroughParserTest extends AbstractSpecTest
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(BoroughParserTest.class);
-    
+
     @Autowired
     private BoroughParser parser;
-    
+
 
     @Test
     public void testParse()

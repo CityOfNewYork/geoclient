@@ -17,7 +17,7 @@ package gov.nyc.doitt.gis.geometry.domain;
 
 /**
  * The DoittPoint represents a location in a planar coordinate system.
- * 
+ *
  * @author DOITT City-wide GIS
  * @version 1.0
  */

@@ -31,7 +31,7 @@ public class BinParser extends AbstractRegexParser {
     {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = BIN_SEVEN_DIGIT.matcher(currentChunk.getText());
-        
+
         if(!matcher.matches())
         {
             patternNotMatched(parseContext,BIN_SEVEN_DIGIT);

@@ -26,7 +26,7 @@ public class DataDictionary
     {
         this.items = items;
     }
-    
+
     public ItemDocumentation findItem(String id)
     {
         for (ItemDocumentation doc : this.items)

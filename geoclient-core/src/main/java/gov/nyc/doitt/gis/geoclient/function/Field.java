@@ -142,7 +142,7 @@ public class Field implements Comparable<Field>
 
     /**
      * Default ordering uses start, length.
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override

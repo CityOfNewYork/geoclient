@@ -49,7 +49,7 @@ public class ConfigurationConverter implements Converter
     }
 
     private final Metadata metadata;
-    
+
     public ConfigurationConverter(Metadata metadata)
     {
         super();

@@ -22,7 +22,7 @@ import gov.nyc.doitt.gis.geoclient.api.StreetCode;
 /**
  * Converts between string representations of street codes in request parameters
  * to {@link StreetCode} arguments.
- * 
+ *
  * @author mlipper
  * @since 2.0
  */

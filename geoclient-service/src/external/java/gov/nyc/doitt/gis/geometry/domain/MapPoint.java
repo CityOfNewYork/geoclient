@@ -18,7 +18,7 @@ package gov.nyc.doitt.gis.geometry.domain;
 /**
  * The MapPoint is an extension of PointImpl for a point specifed in map
  * coordinates (also known as database coordinates).
- * 
+ *
  * @author DOITT City-wide GIS
  * @version 1.0
  */

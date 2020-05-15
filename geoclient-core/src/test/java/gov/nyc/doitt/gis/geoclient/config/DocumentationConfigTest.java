@@ -70,7 +70,7 @@ public class DocumentationConfigTest
         GroupDocumentation groupDoc = new GroupDocumentation();
         groupDoc.setGroupMembers(Arrays.asList(member));
         this.functionDocumentation = new FunctionDocumentation();
-        this.functionDocumentation.setGroups(Arrays.asList(groupDoc));      
+        this.functionDocumentation.setGroups(Arrays.asList(groupDoc));
         assertTrue(this.functionDocumentation.isGroupMember(new MissingDocumentation(groupedField.getId())));
         SortedSet<Field> workAreaOneFields = new TreeSet<Field>();
         workAreaOneFields.add(fieldOne);
@@ -91,7 +91,7 @@ public class DocumentationConfigTest
         this.dataDictionary = new DataDictionary(items);
         this.documentationConfig = new DocumentationConfig(dataDictionary);
     }
-    
+
     @Test
     public void testDocumentTwoWorkAreaFunction()
     {
@@ -107,9 +107,9 @@ public class DocumentationConfigTest
         assertTrue(result.getFields().remove(iDocTwo));
         assertTrue(result.getFields().remove(iDocFour));
         assertEquals(1, result.getFields().size());
-        assertTrue(result.getFields().first() instanceof MissingDocumentation);     
+        assertTrue(result.getFields().first() instanceof MissingDocumentation);
     }
-    
+
     @Test
     public void testDocumentOneWorkAreaFunction()
     {
@@ -122,7 +122,7 @@ public class DocumentationConfigTest
         assertTrue(result.getFields().contains(iDocTwo));
         Mockito.verify(this.functionMock, Mockito.never()).getWorkAreaTwo();
     }
-    
+
     private ItemDocumentation makeItemDocumentation(Field field)
     {
         ItemDocumentation iDoc = new ItemDocumentation();

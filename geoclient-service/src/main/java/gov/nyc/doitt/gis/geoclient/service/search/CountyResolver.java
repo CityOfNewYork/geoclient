@@ -30,7 +30,7 @@ public class CountyResolver
     public static final InputValue BROOKLYN = new InputValue(TokenType.BOROUGH_NAME, "BROOKLYN");
     public static final InputValue QUEENS = new InputValue(TokenType.BOROUGH_NAME, "QUEENS");
     public static final InputValue STATEN_ISLAND = new InputValue(TokenType.BOROUGH_NAME, "STATEN ISLAND");
-    
+
     private final Map<String, String> mappings = new HashMap<String, String>();
 
     @SafeVarargs
@@ -66,7 +66,7 @@ public class CountyResolver
             valueResolution.add(new InputValue(token));
         }
     }
-    
+
     protected void addMappedTokens(LocationTokens locationTokens, ValueResolution valueResolution)
     {
         List<Token> boroughishTokens = locationTokens.tokensOfType(TokenType.BOROUGH_NAME, TokenType.BOROUGH_CODE, TokenType.CITY_NAME);
@@ -76,7 +76,7 @@ public class CountyResolver
             valueResolution.add(new InputValue(token, mappings.get(upperCaseValue)));
         }
     }
-    
+
     protected void add(Map<String, String> map)
     {
         for(Map.Entry<String, String> entry: map.entrySet())

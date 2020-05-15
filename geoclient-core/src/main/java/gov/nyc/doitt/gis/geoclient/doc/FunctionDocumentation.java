@@ -107,7 +107,7 @@ public class FunctionDocumentation extends BaseDocumentation
         }
 
     }
-    
+
     private static class DisplayNameComparator implements Comparator<ItemDocumentation>
     {
 
@@ -116,7 +116,7 @@ public class FunctionDocumentation extends BaseDocumentation
         {
             return o1.getDisplayName().compareTo(o2.getDisplayName());
         }
-        
+
     }
 
     @Override
@@ -124,5 +124,5 @@ public class FunctionDocumentation extends BaseDocumentation
     {
         return "FunctionDocumentation [id=" + getId() + "]";
     }
-    
+
 }

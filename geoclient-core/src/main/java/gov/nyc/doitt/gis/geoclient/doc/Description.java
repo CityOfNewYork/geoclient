@@ -49,7 +49,7 @@ public class Description
         }
         return false;
     }
-    
+
     public String summarize(int length)
     {
         String everything = joinText(" ");

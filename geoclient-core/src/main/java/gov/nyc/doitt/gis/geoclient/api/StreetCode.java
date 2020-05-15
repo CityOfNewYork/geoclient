@@ -19,12 +19,12 @@ package gov.nyc.doitt.gis.geoclient.api;
  * Similar to a {@link Street} except adds additional semantics around code
  * length and the expectation of the first character representing a
  * {@link Borough} code.
- * 
+ *
  * Internally, this class uses {@link StreetCodeType} to determine potential
  * validity of a given code represented as a string.
- * 
+ *
  * @see StreetCodeType
- * 
+ *
  * @author mlipper
  *
  */
@@ -35,11 +35,11 @@ public class StreetCode extends CodeNamedValue {
     /**
      * Creates a new instance by calling parent {@link CodeNamedValue} constructor
      * with the given code, a null street name.
-     * 
+     *
      * @param code street code
-     * 
+     *
      * @throws NullPointerException       if the given code is null
-     * 
+     *
      * @see CodeNamedValue
      * @see StreetCodeType
      */
@@ -50,15 +50,15 @@ public class StreetCode extends CodeNamedValue {
 
     /**
      * Creates a new instance by calling parent {@link CodeNamedValue} constructor.
-     * 
+     *
      * @param code street code
      * @param name street name (may be null)
-     * 
+     *
      * @throws NullPointerException       if the given code is null
-     * 
+     *
      * @see CodeNamedValue
      * @see StreetCodeType
-     * 
+     *
      */
     public StreetCode(String code, String name) {
         super(code, name);
@@ -67,13 +67,13 @@ public class StreetCode extends CodeNamedValue {
 
     /**
      * Creates a new instance by calling parent {@link CodeNamedValue} constructor.
-     * 
+     *
      * @param code          street code
      * @param name          street name (may be null)
      * @param caseSensitive whether the street name is considered case sensitive
-     * 
+     *
      * @throws NullPointerException       if the given code is null
-     * 
+     *
      * @see CodeNamedValue
      * @see StreetCodeType
      */

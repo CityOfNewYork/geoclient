@@ -30,9 +30,9 @@ import org.springframework.web.bind.annotation.RestController;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 
 /**
- * 
+ *
  * REST controller for handling Geosupport function D* calls.
- * 
+ *
  * @author mlipper
  * @since 2.0
  */

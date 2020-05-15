@@ -78,7 +78,7 @@ public class RegistryTest
         assertFalse(Registry.containsFunction(functionId));
         assertNull(Registry.getFunction(functionId));
     }
-    
+
     @Test
     public void testFunctionDocumentationRegistry()
     {
@@ -92,6 +92,6 @@ public class RegistryTest
         assertSame(expected, Registry.getFunctionDocumentation(functionId));
         Registry.clearFunctionDocumentation();
         assertFalse(Registry.containsFunctionDocumentation(functionId));
-        assertNull(Registry.getFunctionDocumentation(functionId));      
-    }   
+        assertNull(Registry.getFunctionDocumentation(functionId));
+    }
 }

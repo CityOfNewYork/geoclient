@@ -54,7 +54,7 @@ public class LocationTokensTest
         chunks.add(addressChunk);
         locationTokens = new LocationTokens(input, chunks);
     }
-    
+
     @Test
     public void testTokensOfType()
     {
@@ -63,7 +63,7 @@ public class LocationTokensTest
         tokenList = locationTokens.tokensOfType(TokenType.HOUSE_NUMBER);
         assertThat(tokenList.size()).isEqualTo(1);
         assertThat(tokenList).contains(houseNumberToken);
-        tokenList = locationTokens.tokensOfType(TokenType.STREET_NAME); 
+        tokenList = locationTokens.tokensOfType(TokenType.STREET_NAME);
         assertThat(tokenList.size()).isEqualTo(1);
         assertThat(tokenList).contains(streetNameToken);
         tokenList = locationTokens.tokensOfType(TokenType.BOROUGH_NAME);
@@ -74,20 +74,20 @@ public class LocationTokensTest
         assertThat(tokenList).contains(houseNumberToken);
         assertThat(tokenList).contains(streetNameToken);
     }
-    
+
     @Test
     public void testFirstTokenOfType()
     {
         assertThat(locationTokens.firstTokenOfType(TokenType.AND)).isNull();
         assertThat(locationTokens.firstTokenOfType(TokenType.STREET_NAME)).isEqualTo(streetNameToken);
     }
-    
+
     @Test
     public void testParseSummary()
     {
         assertThat(locationTokens.parseSummary()).isEqualTo("ADDRESS{ HOUSE_NUMBER[22], STREET_NAME[Broadway] }, COUNTY{ BOROUGH_NAME[Manhattan] }");
     }
-    
+
     @Test
     public void testConstructor()
     {

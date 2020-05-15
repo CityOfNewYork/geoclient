@@ -25,12 +25,12 @@ import java.util.regex.Matcher;
 
 public class Match
 {
-    
+
     private final ParseContext parseContext;
     private final MatchType matchType;
     private final Matcher matcher;
     private final List<RegexTokenGroup> matchGroups;
-    
+
     public Match(ParseContext parseContext, MatchType matchType, Matcher matcher, List<RegexTokenGroup> matchGroups)
     {
         super();
@@ -43,12 +43,12 @@ public class Match
         Assert.notEmpty(matchGroups, "List<RegexTokenGroup> argument cannot be empty or null.");
         this.matchGroups = matchGroups;
     }
-    
+
     public boolean matches()
     {
         return this.matcher.matches();
     }
-    
+
     public MatchType getMatchType()
     {
         return matchType;
@@ -58,22 +58,22 @@ public class Match
     {
         return this.parseContext.getCurrent();
     }
-    
+
     public MatchResult matchResult()
     {
         return this.matcher;
     }
-    
+
     public List<RegexTokenGroup> matchGroups()
     {
         return this.matchGroups;
     }
-    
+
     public ParseContext parseContext()
     {
         return this.parseContext;
     }
-    
+
     public int firstMatchingGroupStart()
     {
         int leftMostGroupStart = matcher.group().length();

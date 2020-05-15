@@ -121,7 +121,7 @@ public class SearchParameters
     {
         this.returnPolicy = returnPolicy;
     }
-    
+
     public SearchPolicy buildSearchPolicy()
     {
         SearchPolicy policy = new SearchPolicy();
@@ -130,13 +130,13 @@ public class SearchParameters
         configure((DefaultSimilarNamesPolicy) policy.getSimilarNamesPolicy());
         return policy;
     }
-    
+
     private void configure(DefaultExactMatchPolicy policy)
     {
         policy.setExactMatchForSingleSuccess(isExactMatchForSingleSuccess());
         policy.setExactMatchMaxLevel(getExactMatchMaxLevel());
     }
-    
+
     private void configure(DefaultSearchDepthPolicy policy)
     {
         policy.setMaximumDepth(getMaxDepth());

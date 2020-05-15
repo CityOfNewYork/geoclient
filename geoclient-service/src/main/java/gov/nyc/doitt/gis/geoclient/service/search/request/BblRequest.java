@@ -23,12 +23,12 @@ public class BblRequest extends CountyRequest
 {
     private InputValue blockInputValue;
     private InputValue lotInputValue;
-    
+
     public BblRequest()
     {
         super();
     }
-    
+
     // Copy constructor
     public BblRequest(BblRequest anotherRequest)
     {
@@ -41,12 +41,12 @@ public class BblRequest extends CountyRequest
     {
         return stringValueOrNull(blockInputValue);
     }
-    
+
     public String getLot()
     {
         return stringValueOrNull(lotInputValue);
     }
-    
+
     public InputValue getBlockInputValue()
     {
         return blockInputValue;
@@ -78,11 +78,11 @@ public class BblRequest extends CountyRequest
     {
         return "BblRequest [level= " + getLevel() + ", borough=" + getBorough() + ", block=" + getBlock() + ", lot=" + getLot() + "]";
     }
-    
+
     @Override
     public boolean containsAssignedValue()
     {
-        return super.containsAssignedValue() || 
+        return super.containsAssignedValue() ||
                 isAssigned(blockInputValue) || isAssigned(lotInputValue);
     }
 
@@ -92,5 +92,5 @@ public class BblRequest extends CountyRequest
     {
         return String.format("bbl [borough=%s, block=%s, lot=%s]", getBorough(), getBlock(), getLot());
     }
-    
+
 }

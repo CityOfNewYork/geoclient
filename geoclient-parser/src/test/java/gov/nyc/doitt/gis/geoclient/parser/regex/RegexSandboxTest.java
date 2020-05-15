@@ -31,20 +31,20 @@ public class RegexSandboxTest
             Pattern.CASE_INSENSITIVE);
     private static final Pattern ENDS_WITH_ZIP = Pattern.compile("((?:\\d{5})(?:-\\d{4})?)(?:(\\s|[,])+USA)?\\s*$",
             Pattern.CASE_INSENSITIVE);
-    
+
     private static final String REGEX =
             "(?:F/O|IFO|I/F/O|FO)?\\b\\s*" +
             "(\\d+(?:[A-Z]{1}\\b)?)" +
             "(\\s?[A-Z]-[A-Z]\\b)?" +
             "(\\s?-{1,2}\\s?\\w+(?:/\\d+)?)?" +
-            "((?:\\s?\\d+/\\d+(?:-[A-Z])?){0,2})" + 
-            "(\\s?\\d+/\\d+)?" + 
+            "((?:\\s?\\d+/\\d+(?:-[A-Z])?){0,2})" +
+            "(\\s?\\d+/\\d+)?" +
             "(\\s?\\d*\\s?(?:REAR|INTER|GARAGE|GAR|GARAG|FLOOR|FL|AIRRGTS|FRTA|BB|AB|BA|AA|ABCD|RSTU)\\b(?:-[A-Z])?)?" +
             "(\\s?\\d*\\s?[A-Z&&[^NSEW]]{1}\\b(?!'))?" +
             "(\\s?\\d+[A-Z]{1}\\b)?" +
             "(\\s?[A-Z&&[^NSEW]]{1}\\d+\\b(?:/\\d)?)?" +
-            "(\\s?&?\\d+\\s+(?=\\d+))?" + 
-            "(#\\d)?" + 
+            "(\\s?&?\\d+\\s+(?=\\d+))?" +
+            "(#\\d)?" +
             "(.*)";
     private static final Pattern STARTS_WITH_HOUSE_NUMBER = Pattern.compile(REGEX,Pattern.CASE_INSENSITIVE);
 
@@ -57,7 +57,7 @@ public class RegexSandboxTest
             "280 RSD",
             "519 Front East 12th Street, Manhattan",
             "625 Rear Smith Street, Brooklyn",
-            "120 1/2 First Avenue, Manhattan", 
+            "120 1/2 First Avenue, Manhattan",
             "240-55 1/3 Depew Avenue, Queens",
             "469 1/4 Father Capodanno Blvd.",
             "470 A West 43rd Street, Manhattan",
@@ -74,7 +74,7 @@ public class RegexSandboxTest
             showMatch(string, matcher);
         }
     }
-    
+
     //@Test
     public void testEndsWithUsa()
     {
@@ -85,7 +85,7 @@ public class RegexSandboxTest
             showMatch(string, matcher);
         }
     }
-    
+
     //@Test
     public void testEndsWithZip()
     {

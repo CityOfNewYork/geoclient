@@ -40,7 +40,7 @@ public class SearchResultConverter implements Converter<ParamsAndResult, SearchR
         setParseTree(source, target);
         return target;
     }
-    
+
     private void setStatus(ParamsAndResult source, SearchResponse target)
     {
         if(source.getSearchResult().successCount() > 0)
@@ -50,14 +50,14 @@ public class SearchResultConverter implements Converter<ParamsAndResult, SearchR
         {
             target.setStatus(Status.REJECTED);
         }
-    }   
-    
+    }
+
     protected void setSearches(ParamsAndResult source, SearchResponse target)
     {
         SearchParameters searchParameters = source.getSearchParameters();
         SearchResult searchResult = source.getSearchResult();
         List<SearchSummary> results = new ArrayList<>();
-        
+
         if(!searchParameters.isReturnPossiblesWithExactMatch() && searchResult.isExactMatch())
         {
             // Return exact match only
@@ -68,16 +68,16 @@ public class SearchResultConverter implements Converter<ParamsAndResult, SearchR
             // There is an exact match and return of all successes is requested
             results.addAll(summarize(searchResult, true));
         }
-        
+
         if(searchParameters.isReturnRejections())
         {
             results.addAll(summarize(searchResult, false));
         }
-        
+
         target.setResults(results);
-        
+
     }
-    
+
     protected void setPolicy(ParamsAndResult source, SearchResponse target)
     {
         if(source.getSearchParameters().isReturnPolicy())
@@ -99,7 +99,7 @@ public class SearchResultConverter implements Converter<ParamsAndResult, SearchR
             target.setParseTree(searchResult.getLocationTokens().getChunks());
         }
     }
-    
+
     protected List<SearchSummary> summarize(SearchResult searchResult, boolean success)
     {
         List<Search> searches = success ? searchResult.getSuccessfulSearches() : searchResult.getRejectedSearches();
@@ -115,8 +115,8 @@ public class SearchResultConverter implements Converter<ParamsAndResult, SearchR
             summaries.add(summarize(search, matchStatus));
         }
         return summaries;
-    }   
-    
+    }
+
     protected SearchSummary summarize(Search search, MatchStatus matchStatus)
     {
         SearchSummary summary = new SearchSummary();
@@ -126,7 +126,7 @@ public class SearchResultConverter implements Converter<ParamsAndResult, SearchR
         summary.setStatus(matchStatus);
         return summary;
     }
-    
+
     protected PolicySummary summarize(Policy policy)
     {
         PolicySummary policySummary = new PolicySummary();

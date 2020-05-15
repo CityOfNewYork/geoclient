@@ -48,8 +48,8 @@ public class ParserConfig
 {
     //public static final String BOROUGH_NAMES = "(MANHATTAN|MN|BRONX|BX|BRX|BROOKLYN|BK|BKLYN|QUEENS|QNS|QN|QS|STATEN\\s?IS(?:\\.|LAND)?|SI)";
     public static final String NY_CITY = "(New York City|N\\.?Y\\.?C\\.?)";
-    public static final String STATES = "(Alabama|Alaska|Arizona|Arkansas|California|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New Hampshire|New Jersey|New Mexico|New York|North Carolina|North Dakota|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode Island|South Carolina|South Dakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West Virginia|Wisconsin|Wyoming|Washington DC|Puerto Rico|U\\.?S\\.? Virgin Islands|American Samoa|Guam|Northern Mariana Islands|A\\.?L\\.?|A\\.?K\\.?|A\\.?Z\\.?|A\\.?R\\.?|C\\.?A\\.?|C\\.?O\\.?|C\\.?T\\.?|D\\.?E\\.?|F\\.?L\\.?|G\\.?A\\.?|H\\.?I\\.?|I\\.?D\\.?|I\\.?L\\.?|I\\.?N\\.?|I\\.?A\\.?|K\\.?S\\.?|K\\.?Y\\.?|L\\.?A\\.?|M\\.?E\\.?|M\\.?D\\.?|M\\.?A\\.?|M\\.?I\\.?|M\\.?N\\.?|M\\.?S\\.?|M\\.?O\\.?|M\\.?T\\.?|N\\.?E\\.?|N\\.?V\\.?|N\\.?H\\.?|N\\.?J\\.?|N\\.?M\\.?|N\\.?Y\\.?|N\\.?C\\.?|N\\.?D\\.?|O\\.?H\\.?|O\\.?K\\.?|O\\.?R\\.?|P\\.?A\\.?|R\\.?I\\.?|S\\.?C\\.?|S\\.?D\\.?|T\\.?N\\.?|T\\.?X\\.?|U\\.?T\\.?|V\\.?T\\.?|V\\.?A\\.?|W\\.?A\\.?|W\\.?V\\.?|W\\.?I\\.?|W\\.?Y\\.?|D\\.?C\\.?|P\\.?R\\.?|V\\.?I\\.?|A\\.?S\\.?|G\\.?U\\.?|M\\.?P\\.?)";   
-    
+    public static final String STATES = "(Alabama|Alaska|Arizona|Arkansas|California|Colorado|Connecticut|Delaware|Florida|Georgia|Hawaii|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Louisiana|Maine|Maryland|Massachusetts|Michigan|Minnesota|Mississippi|Missouri|Montana|Nebraska|Nevada|New Hampshire|New Jersey|New Mexico|New York|North Carolina|North Dakota|Ohio|Oklahoma|Oregon|Pennsylvania|Rhode Island|South Carolina|South Dakota|Tennessee|Texas|Utah|Vermont|Virginia|Washington|West Virginia|Wisconsin|Wyoming|Washington DC|Puerto Rico|U\\.?S\\.? Virgin Islands|American Samoa|Guam|Northern Mariana Islands|A\\.?L\\.?|A\\.?K\\.?|A\\.?Z\\.?|A\\.?R\\.?|C\\.?A\\.?|C\\.?O\\.?|C\\.?T\\.?|D\\.?E\\.?|F\\.?L\\.?|G\\.?A\\.?|H\\.?I\\.?|I\\.?D\\.?|I\\.?L\\.?|I\\.?N\\.?|I\\.?A\\.?|K\\.?S\\.?|K\\.?Y\\.?|L\\.?A\\.?|M\\.?E\\.?|M\\.?D\\.?|M\\.?A\\.?|M\\.?I\\.?|M\\.?N\\.?|M\\.?S\\.?|M\\.?O\\.?|M\\.?T\\.?|N\\.?E\\.?|N\\.?V\\.?|N\\.?H\\.?|N\\.?J\\.?|N\\.?M\\.?|N\\.?Y\\.?|N\\.?C\\.?|N\\.?D\\.?|O\\.?H\\.?|O\\.?K\\.?|O\\.?R\\.?|P\\.?A\\.?|R\\.?I\\.?|S\\.?C\\.?|S\\.?D\\.?|T\\.?N\\.?|T\\.?X\\.?|U\\.?T\\.?|V\\.?T\\.?|V\\.?A\\.?|W\\.?A\\.?|W\\.?V\\.?|W\\.?I\\.?|W\\.?Y\\.?|D\\.?C\\.?|P\\.?R\\.?|V\\.?I\\.?|A\\.?S\\.?|G\\.?U\\.?|M\\.?P\\.?)";
+
     @Autowired
     @Qualifier("cityNameProperties") // must match bean id in imported xml resource
     private Properties cityNameProperties;
@@ -62,31 +62,31 @@ public class ParserConfig
     @Bean(name="boroughNamesToBoroughMap")
     public Map<String,String> boroughNamesToBoroughMap()
     {
-        Map<String, String> map = new TreeMap<>(); 
+        Map<String, String> map = new TreeMap<>();
         CollectionUtils.mergePropertiesIntoMap(boroughNameProperties, map);
         return map;
     }
-    
+
     @Bean(name="cityNamesToBoroughMap")
     public Map<String, String> cityNamesToBoroughMap()
     {
-        Map<String, String> map = new TreeMap<>(); 
+        Map<String, String> map = new TreeMap<>();
         CollectionUtils.mergePropertiesIntoMap(cityNameProperties, map);
         return map;
     }
-    
+
     @Bean
     public Set<String> cityNames()
     {
         return cityNamesToBoroughMap().keySet();
     }
-    
+
     @Bean
     public Set<String> boroughNames()
     {
         return boroughNamesToBoroughMap().keySet();
     }
-    
+
     @Bean
     public AddressParser addressParser()
     {
@@ -116,7 +116,7 @@ public class ParserConfig
     {
         return new BoroughParser(boroughNames());
     }
-    
+
     @Bean
     public CityParser cityParser()
     {
@@ -128,25 +128,25 @@ public class ParserConfig
     {
         return new CountryParser();
     }
-    
+
     @Bean
     public IntersectionParser intersectionParser()
     {
         return new IntersectionParser();
     }
-    
+
     @Bean
     public ZipParser zipParser()
     {
         return new ZipParser();
     }
-    
+
     //@Bean
     public UnrecognizedTextParser unrecognizedTextParser()
     {
         return new UnrecognizedTextParser();
     }
-    
+
     @Bean
     public SingleFieldSearchParser singleFieldSearchParser()
     {
@@ -163,6 +163,6 @@ public class ParserConfig
         parsers.add(unrecognizedTextParser());
         return new SingleFieldSearchParser(parsers);
     }
-    
+
 
 }

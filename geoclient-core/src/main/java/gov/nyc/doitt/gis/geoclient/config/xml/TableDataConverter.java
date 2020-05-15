@@ -52,7 +52,7 @@ public class TableDataConverter implements Converter
         Footnote footnote = null;
         if(reader.hasMoreChildren())
         {
-            reader.moveDown();      
+            reader.moveDown();
             String positionString = reader.getAttribute(DocumentationXmlReader.XML_FOOTNOTE_ATTRIBUTE_POSITION);
             footnote = new Footnote(reader.getValue(),Integer.valueOf(positionString));
             reader.moveUp();

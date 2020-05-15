@@ -34,7 +34,7 @@ public class PatternDataTest{
     private ParserConfig patternData;
     @Autowired
     private ApplicationContext applicationContext;
-    
+
     @Test
     public void testBoroughNames()
     {

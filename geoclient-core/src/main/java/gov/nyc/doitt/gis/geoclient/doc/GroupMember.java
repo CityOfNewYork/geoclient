@@ -28,7 +28,7 @@ public class GroupMember extends ItemDocumentationSupport
         }
         return false;
     }
-    
+
     public boolean isSizeIndicator()
     {
         return sizeIndicator;

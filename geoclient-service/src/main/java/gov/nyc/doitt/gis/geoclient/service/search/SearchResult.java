@@ -41,7 +41,7 @@ public class SearchResult
     {
         return this.locationTokens.getInput().getId();
     }
-    
+
     public String getInputString()
     {
         return this.locationTokens.getInput().getUnsanitizedValue();
@@ -129,7 +129,7 @@ public class SearchResult
         }
         return i;
     }
-    
+
     public List<Search> inputForSubSearches()
     {
         return this.searchPolicy.inputForSubSearches(this);

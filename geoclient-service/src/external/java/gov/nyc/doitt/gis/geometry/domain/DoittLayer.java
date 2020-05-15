@@ -18,7 +18,7 @@ package gov.nyc.doitt.gis.geometry.domain;
 /**
  * The DoittLayer is a spatial data layer that can be drawn on a map by the map
  * service.
- * 
+ *
  * @author DOITT City-wide GIS
  * @version 1.0
  */

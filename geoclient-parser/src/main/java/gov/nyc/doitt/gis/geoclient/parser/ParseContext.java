@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This class is not thread-safe.
- * 
+ *
  * @author mlipper
  */
 public class ParseContext
@@ -43,12 +43,12 @@ public class ParseContext
         this.chunks.add(new Chunk(ChunkType.ORIGINAL_INPUT, this.input.getValue()));
         this.currentChunkIndex = new AtomicInteger(0);
     }
-    
+
     public String currentChunkText()
     {
         return getCurrent().getText();
     }
-    
+
     public boolean isParsed()
     {
         return parsed;
@@ -78,8 +78,8 @@ public class ParseContext
     public List<Chunk> getChunks()
     {
         return chunks;
-    }   
-    
+    }
+
     public List<Token> getTokens()
     {
         List<Token> tokens = new ArrayList<>();

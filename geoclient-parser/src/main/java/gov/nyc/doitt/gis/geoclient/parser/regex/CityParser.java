@@ -57,19 +57,19 @@ public class CityParser extends AbstractRegexParser
         String literals = PatternUtils.literalMatchGroup(cityNames);
         return Pattern.compile(String.format("(?:.*)%s(?:\\s|,)+%s(?:\\s|,)*$",literals, ParserConfig.NY_CITY), Pattern.CASE_INSENSITIVE);
     }
-    
+
     protected Pattern buildEndsWithCityAndStatePattern(Set<String> cityNames)
     {
         String literals = PatternUtils.literalMatchGroup(cityNames);
         return Pattern.compile(String.format("(?:.*)%s(?:\\s|,)+%s(?:\\s|,)*$",literals, ParserConfig.STATES), Pattern.CASE_INSENSITIVE);
     }
-    
+
     protected Pattern buildEndsWithCityPattern(Set<String> cityNames)
     {
         String literals = PatternUtils.literalMatchGroup(cityNames);
         return Pattern.compile(String.format("(?:.*)%s(?:\\s|,)*$",literals), Pattern.CASE_INSENSITIVE);
     }
-    
+
     private boolean parseCityAndNyc(ParseContext parseContext)
     {
         Chunk currentChunk = parseContext.getCurrent();
@@ -78,7 +78,7 @@ public class CityParser extends AbstractRegexParser
         {
             patternNotMatched(parseContext, cityAndNycPattern);
             return false;
-        } 
+        }
         MatchBuilder builder = new MatchBuilder()
             .add(parseContext)
             .add(MatchType.END_OF_INPUT)
@@ -88,7 +88,7 @@ public class CityParser extends AbstractRegexParser
         handleMatch(builder.build(), ChunkType.COUNTY);
         return true;
     }
-    
+
     private boolean parseCityAndState(ParseContext parseContext)
     {
         Chunk currentChunk = parseContext.getCurrent();
@@ -97,7 +97,7 @@ public class CityParser extends AbstractRegexParser
         {
             patternNotMatched(parseContext, cityAndStatePattern);
             return false;
-        } 
+        }
         MatchBuilder builder = new MatchBuilder()
             .add(parseContext)
             .add(MatchType.END_OF_INPUT)
@@ -116,7 +116,7 @@ public class CityParser extends AbstractRegexParser
         {
             patternNotMatched(parseContext, cityPattern);
             return false;
-        } 
+        }
         MatchBuilder builder = new MatchBuilder()
             .add(parseContext)
             .add(MatchType.END_OF_INPUT)
@@ -125,5 +125,5 @@ public class CityParser extends AbstractRegexParser
         handleMatch(builder.build(), ChunkType.COUNTY);
         return true;
     }
-    
+
 }

@@ -52,6 +52,6 @@ public class AddressParser extends AbstractRegexParser
 
         handleMatch(builder.build(), ChunkType.ADDRESS);
     }
-    
+
 
 }

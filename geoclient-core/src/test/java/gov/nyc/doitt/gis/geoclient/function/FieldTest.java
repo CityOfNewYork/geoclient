@@ -42,7 +42,7 @@ public class FieldTest
     {
         buffer.clear();
     }
-    
+
     @Test
     public void testRead_withSignificantWhitespaceButEmptyWithSpaces()
     {
@@ -163,7 +163,7 @@ public class FieldTest
     }
 
 
-    
+
     @Test
     public void testWrite_withParams() throws Exception
     {
@@ -241,7 +241,7 @@ public class FieldTest
         assertTrue(field.compareTo(fieldIsEqual)==0);
         assertTrue(fieldIsEqual.compareTo(field)==0);
         assertTrue(field.compareTo(field)==0);
-        
+
         Field startIsLess = new Field(baseName, baseStart - 1, baseLength);
         assertTrue(field.compareTo(startIsLess)>0);
         assertTrue(startIsLess.compareTo(field)<0);
@@ -253,7 +253,7 @@ public class FieldTest
         Field lengthIsLess = new Field(baseName, baseStart, baseLength - 1);
         assertTrue(field.compareTo(lengthIsLess)>0);
         assertTrue(lengthIsLess.compareTo(field)<0);
-        
+
         Field lengthIsMore = new Field(baseName, baseStart, baseLength + 1);
         assertTrue(field.compareTo(lengthIsMore)<0);
         assertTrue(lengthIsMore.compareTo(field)>0);

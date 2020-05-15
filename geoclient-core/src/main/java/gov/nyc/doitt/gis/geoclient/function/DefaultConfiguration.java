@@ -26,12 +26,12 @@ public class DefaultConfiguration implements Configuration
     public Map<String, Object> requiredArguments()
     {
         if(requiredArguments == null)
-        { 
+        {
             return null;
         }
         return Collections.unmodifiableMap(this.requiredArguments);
     }
-    
+
     public void setRequiredArguments(Map<String, Object> requiredArguments)
     {
         this.requiredArguments = requiredArguments;

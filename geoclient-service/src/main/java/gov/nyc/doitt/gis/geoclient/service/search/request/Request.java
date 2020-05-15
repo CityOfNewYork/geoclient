@@ -34,7 +34,7 @@ public abstract class Request
 
     public abstract boolean containsAssignedValue();
     public abstract String summarize();
-    
+
     public void incrementLevel()
     {
         level++;
@@ -58,7 +58,7 @@ public abstract class Request
         }
         return inputValue.isAssigned();
     }
-    
+
     protected String stringValueOrNull(InputValue inputValue)
     {
         return inputValue != null ? inputValue.getValue() : null;

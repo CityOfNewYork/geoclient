@@ -12,7 +12,7 @@ public class GeoclientJni implements Geoclient {
     final static Logger logger = LoggerFactory.getLogger(GeoclientJni.class);
 
     private enum BufferType {
-        Direct, 
+        Direct,
         Indirect;
     }
 

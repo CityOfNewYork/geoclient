@@ -40,7 +40,7 @@ public class SingleFieldSearchParser implements LocationTokenizer
                 break;
             }
         }
-        
+
         return new LocationTokens(input, parseContext.getChunks());
     }
 }

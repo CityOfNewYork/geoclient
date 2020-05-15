@@ -27,36 +27,36 @@ public class RequestUtils
         if(type.equals(AddressRequest.class))
         {
             return type.cast(zeroLevelAddressRequest(locationTokens, countyInputValue));
-        } 
-        
+        }
+
         if(type.equals(BblRequest.class))
         {
             return type.cast(zeroLevelBblRequest(locationTokens, countyInputValue));
-        } 
-        
+        }
+
         if(type.equals(BinRequest.class))
         {
             return type.cast(zeroLevelBinRequest(locationTokens));
-        } 
-        
+        }
+
         if(type.equals(BlockfaceRequest.class))
         {
             return type.cast(zeroLevelBlockfaceRequest(locationTokens, countyInputValue));
-        } 
-        
+        }
+
         if(type.equals(IntersectionRequest.class))
         {
             return type.cast(zeroLevelIntersectionRequest(locationTokens, countyInputValue));
-        } 
-        
+        }
+
         if (type.equals(PlaceRequest.class))
         {
             return type.cast(zeroLevelPlaceRequest(locationTokens, countyInputValue));
         }
-        
+
         throw new IllegalArgumentException("Unknown CallBuilder type " + type);
     }
-    
+
     private static AddressRequest zeroLevelAddressRequest(LocationTokens locationTokens, InputValue countyInputValue)
     {
         AddressRequest request = new AddressRequest();
@@ -66,7 +66,7 @@ public class RequestUtils
         setLevelAndBoroughOrZip(request, 0, countyInputValue);
         return request;
     }
-    
+
     private static BblRequest zeroLevelBblRequest(LocationTokens locationTokens, InputValue countyInputValue)
     {
         BblRequest request = new BblRequest();
@@ -75,14 +75,14 @@ public class RequestUtils
         setLevelAndBoroughOrZip(request, 0, countyInputValue);
         return request;
     }
-    
+
     private static BinRequest zeroLevelBinRequest(LocationTokens locationTokens)
     {
         BinRequest request = new BinRequest();
         request.setBinInputValue(inputValueOrNull(TokenType.BIN, locationTokens));
         return request;
     }
-    
+
     private static BlockfaceRequest zeroLevelBlockfaceRequest(LocationTokens locationTokens, InputValue countyInputValue)
     {
         BlockfaceRequest request = new BlockfaceRequest();
@@ -92,7 +92,7 @@ public class RequestUtils
         setLevelAndBoroughOrZip(request, 0, countyInputValue);
         return request;
     }
-    
+
     private static IntersectionRequest zeroLevelIntersectionRequest(LocationTokens locationTokens, InputValue countyInputValue)
     {
         IntersectionRequest request = new IntersectionRequest();
@@ -101,7 +101,7 @@ public class RequestUtils
         setLevelAndBoroughOrZip(request, 0, countyInputValue);
         return request;
     }
-    
+
     private static PlaceRequest zeroLevelPlaceRequest(LocationTokens locationTokens, InputValue countyInputValue)
     {
         PlaceRequest request = new PlaceRequest();
@@ -128,7 +128,7 @@ public class RequestUtils
         }
         request.setLevel(level);
     }
-    
+
     private static InputValue inputValueOrNull(TokenType tokenType, LocationTokens locationTokens)
     {
         Token token = locationTokens.firstTokenOfType(tokenType);
@@ -138,5 +138,5 @@ public class RequestUtils
         }
         return new InputValue(token);
     }
-    
+
 }

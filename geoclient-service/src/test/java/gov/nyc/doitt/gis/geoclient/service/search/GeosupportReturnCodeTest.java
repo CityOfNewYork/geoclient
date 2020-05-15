@@ -25,7 +25,7 @@ import gov.nyc.doitt.gis.geoclient.api.ReturnCodeValue;
 public class GeosupportReturnCodeTest
 {
     private GeosupportReturnCode grc;
-    
+
     @BeforeEach
     public void setUp()
     {
@@ -38,7 +38,7 @@ public class GeosupportReturnCodeTest
         this.grc.setReturnCode(ReturnCodeValue.COMPASS_DIRECTION_REQUIRED.value());
         assertTrue(this.grc.isCompassDirectionRequired());
     }
-    
+
     @Test
     public void testHasSimilarNames()
     {
@@ -47,8 +47,8 @@ public class GeosupportReturnCodeTest
         assertTrue(this.grc.hasSimilarNames());
         this.grc.setReturnCode(ReturnCodeValue.NOT_RECOGNIZED_NO_SIMILAR_NAMES.value());
         assertFalse(this.grc.hasSimilarNames());
-    }   
-    
+    }
+
     @Test
     public void testIsRejected()
     {

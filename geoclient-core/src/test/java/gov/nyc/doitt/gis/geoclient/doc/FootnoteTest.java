@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 public class FootnoteTest
 {
-    
+
     @Test
     public void testDefaultConstructor()
     {
