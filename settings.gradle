@@ -11,3 +11,16 @@ include 'geoclient-jni'
 include 'geoclient-core'
 include 'geoclient-parser'
 include 'geoclient-service'
+
+// Only works when the '--scan' parameter is passed
+//gradleEnterprise {
+//    buildScan {
+//        termsOfServiceUrl = 'https://gradle.com/terms-of-service'
+//        termsOfServiceAgree = 'yes'
+//        obfuscation {
+//            username { "github" }
+//            hostname { "localhost" }
+//            ipAddresses { addresses -> addresses.collect { address -> "0.0.0.0"} }
+//        }
+//    }
+//}
