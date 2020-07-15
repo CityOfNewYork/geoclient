@@ -20,7 +20,7 @@ public class BadRequest
     private String httpStatus;
     private String message;
     private String requestUri;
-    
+
     public String getRequestUri()
     {
         return requestUri;

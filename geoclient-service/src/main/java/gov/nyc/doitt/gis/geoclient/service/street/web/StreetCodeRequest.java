@@ -19,7 +19,7 @@ import gov.nyc.doitt.gis.geoclient.api.StreetCode;
 
 /**
  * POJO for encapsulating street code requests
- * 
+ *
  * @author mlipper
  * @since 2.0
  */

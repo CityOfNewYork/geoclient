@@ -90,8 +90,8 @@ public class IntersectionRequest extends CountyRequest
     @Override
     public boolean containsAssignedValue()
     {
-        return super.containsAssignedValue() || 
-                isAssigned(crossStreetOneInputValue) || 
+        return super.containsAssignedValue() ||
+                isAssigned(crossStreetOneInputValue) ||
                 isAssigned(crossStreetTwoInputValue) ||
                 isAssigned(compassDirectionInputValue);
     }

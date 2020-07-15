@@ -50,14 +50,14 @@ public class GeosupportFunctionTest
         this.function_oneWorkArea = new GeosupportFunction("Zesty", workAreaOneMock, geoclientMock);
         this.function_twoWorkAreas = new GeosupportFunction("Testy", workAreaOneMock, workAreaTwoMock, geoclientMock);
     }
-    
+
     @Test
     public void testIsTwoWorkAreas()
     {
         assertTrue(function_twoWorkAreas.isTwoWorkAreas());
         assertFalse(function_oneWorkArea.isTwoWorkAreas());
     }
-    
+
     @Test
     public void testConstructor_twoWorkAreas()
     {
@@ -76,7 +76,7 @@ public class GeosupportFunctionTest
         assertSame(workAreaTwoMock, function_twoWorkAreas.getWorkAreaTwo());
         assertSame(config, function.getConfiguration());
     }
-    
+
     @Test
     public void testConstructor_oneWorkArea()
     {

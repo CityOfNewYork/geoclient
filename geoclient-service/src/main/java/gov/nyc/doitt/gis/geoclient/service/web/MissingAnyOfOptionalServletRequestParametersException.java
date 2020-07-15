@@ -29,7 +29,7 @@ public class MissingAnyOfOptionalServletRequestParametersException extends Servl
     }
     @Override
     public String getMessage()
-    {       
+    {
         return String.format("This operation requires one of the following parameters: %s", StringUtils.join(parameters));
     }
 }

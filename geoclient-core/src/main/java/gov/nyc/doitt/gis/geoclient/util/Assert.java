@@ -18,9 +18,9 @@ package gov.nyc.doitt.gis.geoclient.util;
 import java.util.Collection;
 
 /**
- * Copy of methods in org.springframework.util.Assert class to allow this 
+ * Copy of methods in org.springframework.util.Assert class to allow this
  * framework to not depend on Spring.
- * 
+ *
  * @author mlipper
  *
  */
@@ -48,7 +48,7 @@ public abstract class Assert
     public static void notNull(Object object) {
         notNull(object, "[Assertion failed] - this argument is required; it must not be null");
     }
-    
+
     /**
      * Assert that a collection has elements; that is, it must not be
      * <code>null</code> and must have at least one element.
@@ -61,5 +61,5 @@ public abstract class Assert
         if (collection == null || collection.isEmpty()) {
             throw new IllegalArgumentException(message);
         }
-    }   
+    }
 }

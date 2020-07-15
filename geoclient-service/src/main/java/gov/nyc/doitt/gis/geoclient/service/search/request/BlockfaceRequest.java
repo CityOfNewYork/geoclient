@@ -40,17 +40,17 @@ public class BlockfaceRequest extends CountyRequest
     {
         return stringValueOrNull(onStreetInputValue);
     }
-    
+
     public String getCrossStreetOne()
     {
         return stringValueOrNull(crossStreetOneInputValue);
     }
-    
+
     public String getCrossStreetTwo()
     {
         return stringValueOrNull(crossStreetTwoInputValue);
     }
-    
+
     public InputValue getOnStreetInputValue()
     {
         return onStreetInputValue;
@@ -88,13 +88,13 @@ public class BlockfaceRequest extends CountyRequest
                 + ", crossStreetTwo=" + getCrossStreetTwo() + ", borough=" + getBorough() + ", zip="
                 + getZip() + "]";
     }
-    
+
     @Override
     public boolean containsAssignedValue()
     {
-        return super.containsAssignedValue() || 
-                isAssigned(onStreetInputValue) || 
-                isAssigned(crossStreetOneInputValue) || 
+        return super.containsAssignedValue() ||
+                isAssigned(onStreetInputValue) ||
+                isAssigned(crossStreetOneInputValue) ||
                 isAssigned(crossStreetTwoInputValue);
     }
     // TODO TESTME
@@ -103,5 +103,5 @@ public class BlockfaceRequest extends CountyRequest
     {
         return String.format("blockface [onStreet=%s, crossStreetOne=%s, crossStreetTwo=%s, borough=%s]", getOnStreet(), getCrossStreetOne(), getCrossStreetTwo(), getBorough());
     }
-    
+
 }

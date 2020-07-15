@@ -21,13 +21,13 @@ import org.opengis.referencing.FactoryException;
 import org.opengis.referencing.crs.CoordinateReferenceSystem;
 
 /**
- * 
+ *
  * Factory class for creating specific Transformer instances with the
  * GeoToolsTransformer class.
- * 
+ *
  * A note on lat/long from:
  * http://docs.openlayers.org/library/spherical_mercator.html
- * 
+ *
  * Projections in GIS are commonly referred to by their EPSG codes, identifiers
  * managed by the European Petroleum Survey Group. One common identifier is
  * EPSG:4326, which describes maps where latitude and longitude are treated as
@@ -37,7 +37,7 @@ import org.opengis.referencing.crs.CoordinateReferenceSystem;
  * used code in OpenLayers. Any time you see the string EPSG:4326, you can
  * assume it describes latitude/longitude coordinates. Any time you see the
  * string EPSG:900913, it will be describing coordinates in meters in x/y.
- * 
+ *
  * @author mlipper
  */
 public class TransformerFactory {

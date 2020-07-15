@@ -37,7 +37,7 @@ public class CountyResolverTest
     @SuppressWarnings("serial")
     private Map<String, String> boroughNames = new HashMap<String, String>()
     {{
-        put("Bk","BROOKLYN");   
+        put("Bk","BROOKLYN");
     }};
 
     private CountyResolver boroughResolver;

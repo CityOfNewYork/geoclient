@@ -26,7 +26,7 @@ public class MissingDocumentationTest
     {
         assertFalse(new MissingDocumentation("xx").isDocumented());
     }
-    
+
     @Test
     public void testMissingDocumentation()
     {

@@ -38,7 +38,7 @@ public class ValueResolution
     {
         return this.resolved;
     }
-    
+
     public InputValue resolvedValue(int index)
     {
         return this.resolved.get(index);
@@ -58,7 +58,7 @@ public class ValueResolution
     {
         return this.unresolved.size();
     }
-    
+
     public int totalCount()
     {
         return this.resolvedCount() + this.unresolvedCount();

@@ -22,12 +22,12 @@ public abstract class CountyRequest extends Request
 {
     private InputValue boroughInputValue;
     private InputValue zipInputValue;
-    
+
     public CountyRequest()
     {
         super();
     }
-    
+
     public CountyRequest(int level, InputValue borough, InputValue zip)
     {
         super(level);
@@ -70,6 +70,6 @@ public abstract class CountyRequest extends Request
     {
         return isAssigned(boroughInputValue) || isAssigned(zipInputValue);
     }
-    
+
 }
 

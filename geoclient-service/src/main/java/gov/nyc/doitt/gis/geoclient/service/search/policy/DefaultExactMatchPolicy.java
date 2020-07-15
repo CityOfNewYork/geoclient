@@ -24,7 +24,7 @@ public class DefaultExactMatchPolicy extends AbstractPolicy implements ExactMatc
 {
     public static final int DEFAULT_EXACT_MATCH_MAX_LEVEL = 0;
     public static final boolean DEFAULT_EXACT_MATCH_FOR_SINGLE_SUCCESS = false;
-    
+
     /**
      * The maximum level at which a successful search can be considered an exact
      * match. Default is 0 (i.e., the first unaltered search). Note that if
@@ -89,15 +89,15 @@ public class DefaultExactMatchPolicy extends AbstractPolicy implements ExactMatc
     public String getDescription()
     {
         StringBuffer buff = new StringBuffer(String.format("The first successful search at level %d is considered an exact match", this.exactMatchMaxLevel));
-        
+
         if(this.exactMatchForSingleSuccess)
         {
-            buff.append(" If there is only one successful search, it is considered an exact match regardless of its level.");           
+            buff.append(" If there is only one successful search, it is considered an exact match regardless of its level.");
         }
-        
+
         return buff.toString();
     }
-    
+
     @Override
     public int hashCode()
     {

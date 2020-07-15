@@ -1,6 +1,7 @@
 plugins {
     id "gov.nyc.doitt.gis.geoclient.gradle.integration-test" apply false
     id "com.github.ben-manes.versions" version "0.27.0"
+    id "com.diffplug.gradle.spotless" version "3.30.0"
 }
 
 ext {
@@ -15,15 +16,40 @@ configure(moduleProjects){ project ->
     apply plugin: "checkstyle"
     apply plugin: "maven-publish"
     apply plugin: "signing"
+    apply plugin: "com.diffplug.gradle.spotless"
     apply from: "$rootDir/gradle/checkstyle.gradle"
     apply from: "$rootDir/gradle/publications.gradle"
 
+    spotless {
+        java {
+            // based on JUnit5 project's spotless config (commit 3a2f7a342747dd504d70daf89a0db53145e94608)
+            // eclipse().configFile rootProject.file('src/spotless/geoclient-eclipse-formatter-settings.xml')
+            // endWithNewline()
+
+            // importOrderFile(rootProject.file('src/spotless/geoclient-eclipse.importorder'))
+
+            indentWithSpaces()
+
+            // licenseHeaderFile(rootProject.file('src/spotless/apache-license-2.0.java'))
+
+            trimTrailingWhitespace()
+        }
+
+        //
+        // groovy {
+        //     target '**/*.groovy'
+        //     targetExclude '**/build/**'
+        //     licenseHeaderFile rootProject.file('src/spotless/apache-license-2.0.java')
+        // }
+        // groovyGradle {}
+        //
+    }
+
+
     // Java dependency configuration
     repositories {
-        //maven { url "https://nexus.geomatys.com/repository/geotoolkit/" }
         mavenCentral()
         maven { url "https://repo.osgeo.org/repository/geotools-releases/" }
-        //maven { url "https://repo.boundlessgeo.com/main/" }
     }
 
     ext{
@@ -144,8 +170,8 @@ configure(moduleProjects){ project ->
 }
 
 //
-// Jar packaging & publishing of modules except for :geoclient-service:bootJar 
-// 
+// Jar packaging & publishing of modules except for :geoclient-service:bootJar
+//
 configure(jarPublishProjects) { project ->
 
     jar {

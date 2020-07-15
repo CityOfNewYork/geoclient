@@ -51,7 +51,7 @@ public class InputValueTest
         assertThat(res.isParsed()).isFalse();
         assertThat(res.isResolved()).isFalse();
     }
-    
+
     @Test
     public void testTokenMapping_nullTokenAndMappedValueArg()
     {
@@ -80,9 +80,9 @@ public class InputValueTest
         Token nullToken = null;
         assertThrows(IllegalArgumentException.class, () -> {
             new InputValue(nullToken);
-        });     
+        });
     }
-    
+
     @Test
     public void testInputValue_tokenTypeAndAssignedValueArg()
     {
@@ -102,7 +102,7 @@ public class InputValueTest
         TokenType nullTokenType = null;
         assertThrows(IllegalArgumentException.class, () -> {
             new InputValue(nullTokenType,"duh");
-        });     
+        });
     }
 
     @Test
@@ -110,6 +110,6 @@ public class InputValueTest
     {
         assertThrows(IllegalArgumentException.class, () -> {
             new InputValue(TokenType.BIN,null);
-        });     
+        });
     }
 }

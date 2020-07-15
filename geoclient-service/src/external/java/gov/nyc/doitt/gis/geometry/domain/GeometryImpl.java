@@ -20,14 +20,14 @@ import java.util.Collection;
 public abstract class GeometryImpl extends SerializationPrecision implements Geometry {
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see gov.nyc.doitt.gis.geometry.domain.Geometry#getAllPoints()
      */
     public abstract Collection<DoittPoint> getAllPoints();
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see gov.nyc.doitt.gis.geometry.domain.Geometry#getCenter()
      */
     public DoittPoint getCenter() {
@@ -53,7 +53,7 @@ public abstract class GeometryImpl extends SerializationPrecision implements Geo
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see gov.nyc.doitt.gis.geometry.domain.Geometry#isMapCoordinates()
      */
     public boolean isMapCoordinates() {
@@ -62,7 +62,7 @@ public abstract class GeometryImpl extends SerializationPrecision implements Geo
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see gov.nyc.doitt.gis.geometry.domain.Geometry#isImageCoordinates()
      */
     public boolean isImageCoordinates() {

@@ -24,16 +24,16 @@ import java.util.List;
  * Instances of this class are used to determine what constitutes an exact match
  * and how many levels of sub-searching may be performed when the initial search
  * criteria are rejected.
- * 
+ *
  * @author mlipper
- * 
+ *
  */
 public class SearchPolicy
 {
     public static final int INITIAL_SEARCH_LEVEL = 0;
 
     /**
-     * Exact match policy handler - a {@link DefaultExactMatchPolicy} by default. 
+     * Exact match policy handler - a {@link DefaultExactMatchPolicy} by default.
      */
     private ExactMatchPolicy exactMatchPolicy = new DefaultExactMatchPolicy();
 
@@ -41,7 +41,7 @@ public class SearchPolicy
      * Search depth policy handler - a {@link DefaultSearchDepthPolicy} by default.
      */
     private SearchDepthPolicy searchDepthPolicy = new DefaultSearchDepthPolicy();
-    
+
     /**
      * Similar names policy handler - a {@link DefaultSimilarNamesPolicy} by default.
      */
@@ -81,12 +81,12 @@ public class SearchPolicy
     {
         this.exactMatchPolicy = exactMatchPolicy;
     }
-    
+
     public void setSearchDepthPolicy(SearchDepthPolicy searchDepthPolicy)
     {
         this.searchDepthPolicy = searchDepthPolicy;
     }
-    
+
     public void setSimilarNamesPolicy(SimilarNamesPolicy similarNamesPolicy)
     {
         this.similarNamesPolicy = similarNamesPolicy;

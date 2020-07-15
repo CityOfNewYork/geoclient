@@ -22,7 +22,7 @@ public class AddressRequest extends PlaceRequest
 {
     private InputValue basicHouseNumberInputValue;
     private InputValue houseNumberSuffixInputValue;
-    
+
     public AddressRequest()
     {
         super();
@@ -46,7 +46,7 @@ public class AddressRequest extends PlaceRequest
         }
         return (basic != null ? basic : "") + (suffix != null ? suffix : "");
     }
-    
+
     public InputValue getBasicHouseNumberInputValue()
     {
         return basicHouseNumberInputValue;
@@ -76,10 +76,10 @@ public class AddressRequest extends PlaceRequest
     @Override
     public boolean containsAssignedValue()
     {
-        return super.containsAssignedValue() || 
+        return super.containsAssignedValue() ||
                 isAssigned(basicHouseNumberInputValue) || isAssigned(houseNumberSuffixInputValue);
     }
-    
+
     // TODO TESTME
     @Override
     public String summarize()

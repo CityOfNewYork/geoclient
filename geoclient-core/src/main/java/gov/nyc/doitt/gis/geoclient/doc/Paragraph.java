@@ -34,7 +34,7 @@ public class Paragraph
     {
         return this.text != null && !this.text.isEmpty();
     }
-    
+
     public String getText()
     {
         return text;
@@ -50,7 +50,7 @@ public class Paragraph
     {
         return toHtml();
     }
-    
+
     public String toHtml()
     {
         return String.format("<p>%s</p>", this.text != null ? this.text : "");

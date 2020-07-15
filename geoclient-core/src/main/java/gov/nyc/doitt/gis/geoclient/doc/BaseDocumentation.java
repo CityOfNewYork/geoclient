@@ -21,12 +21,12 @@ public class BaseDocumentation implements Comparable<BaseDocumentation>
 {
     private String id;
     private Description description;
-    
+
     public BaseDocumentation()
     {
         super();
     }
-    
+
     public BaseDocumentation(String id, Description description)
     {
         super();
@@ -34,16 +34,16 @@ public class BaseDocumentation implements Comparable<BaseDocumentation>
         this.description = description;
     }
 
-    public boolean isDocumented() 
+    public boolean isDocumented()
     {
         return this.id != null;
     }
-    
+
     public boolean hasText()
     {
         return this.description != null && this.description.hasText();
     }
-    
+
     public String getId()
     {
         return id;
@@ -53,12 +53,12 @@ public class BaseDocumentation implements Comparable<BaseDocumentation>
     {
         return description;
     }
-    
+
     public void setId(String id)
     {
         this.id = id;
     }
-    
+
     public void setDescription(Description description)
     {
         this.description = description;
@@ -129,5 +129,5 @@ public class BaseDocumentation implements Comparable<BaseDocumentation>
     {
         return this.id.compareTo(o.id);
     }
-    
+
 }

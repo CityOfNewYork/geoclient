@@ -30,9 +30,9 @@ import gov.nyc.doitt.gis.geometry.domain.MapPoint;
 
 /**
  * Uses the GeoTools APIs to to coordinate transformations.
- * 
+ *
  * @author mlipper
- * 
+ *
  */
 public class GeoToolsTransformer implements Transformer {
 
@@ -43,7 +43,7 @@ public class GeoToolsTransformer implements Transformer {
     /**
      * Creates a new instance which will perform transformations from points given
      * in the source CRS to the target CRS.
-     * 
+     *
      * @param source source coordinate reference system
      * @param target target coordinate reference system
      * @throws CrsConfigurationException if the underlying {@link CRS} class cannot
@@ -64,7 +64,7 @@ public class GeoToolsTransformer implements Transformer {
 
     /**
      * Creates a point in the transformed target CRS.
-     * 
+     *
      * @see gov.nyc.doitt.gis.geometry.transform.Transformer#transform(double,
      *      double)
      */
@@ -94,7 +94,7 @@ public class GeoToolsTransformer implements Transformer {
 
     /**
      * For testing!
-     * 
+     *
      * @return the source CRS
      */
     CoordinateReferenceSystem getSource() {
@@ -103,7 +103,7 @@ public class GeoToolsTransformer implements Transformer {
 
     /**
      * For testing!
-     * 
+     *
      * @return the target CRS
      */
     CoordinateReferenceSystem getTarget() {

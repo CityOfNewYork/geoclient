@@ -56,7 +56,7 @@ public class WorkArea
     }
 
     /**
-     * Initializes a ByteBuffer and sets value of matching fields for use as 
+     * Initializes a ByteBuffer and sets value of matching fields for use as
      * input to a function call (Work Area One).
      * @param parameters Work Area One function arguments
      * @return Initialized ByteBuffer with values in the specified field positions.
@@ -103,12 +103,12 @@ public class WorkArea
         }
         return results;
     }
-    
+
     public List<String> getFieldIds()
     {
         return this.getFieldIds(null, false, true);
     }
-    
+
     public List<String> getFieldIds(Comparator<Field> comparator, boolean includeFiltered, boolean includeInputFields)
     {
         List<String> result = new ArrayList<String>(this.fields.size());
@@ -118,23 +118,23 @@ public class WorkArea
             sorted = new TreeSet<Field>(comparator);
             sorted.addAll(fields);
         }
-        
+
         for (Field field : sorted)
         {
             if(!includeInputFields && field.isInput())
             {
-                // Don't include inputs has been specified 
+                // Don't include inputs has been specified
                 // and this field is an input field
                 continue;
             }
-            
+
             if(!includeFiltered && isFiltered(field))
             {
-                // Don't include filtered fields has been specified 
+                // Don't include filtered fields has been specified
                 // and this field matches a filter
                 continue;
             }
-            
+
             result.add(field.getId());
         }
         return result;
@@ -161,7 +161,7 @@ public class WorkArea
     {
         return id;
     }
-    
+
     public boolean isFiltered(Field field)
     {
         for (Filter filter : this.outputFilters)
@@ -182,9 +182,9 @@ public class WorkArea
         {
             return null;
         }
-        
+
         Object value = null;
-        
+
         if(field.isAliased() && parameters.containsKey(field.getAlias()))
         {
             // Check for alias first
@@ -195,10 +195,10 @@ public class WorkArea
             value = parameters.get(field.getId());
             log.debug("{} resolved input parameter value {} with id", field, value);
         }
-        
+
         return value;
     }
-    
+
     private int computeLength()
     {
         int totalLength = 0;
@@ -228,5 +228,5 @@ public class WorkArea
         return "WorkArea [id=" + id + ", fields=" + fields.size() + ", length=" + length + "]";
     }
 
-    
+
 }

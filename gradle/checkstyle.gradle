@@ -3,6 +3,9 @@ project.ext {
     checkstyleXslTemplate = file("${rootDir}/config/checkstyle/xsl/checkstyle-frames.xsl")
 }
 
+checkstyle {
+    showViolations = true
+}
 task prepareCheckstyleXsl(type: Copy) {
     from(project.checkstyleXslTemplate)
     into(project.checkstyleReportsDir)

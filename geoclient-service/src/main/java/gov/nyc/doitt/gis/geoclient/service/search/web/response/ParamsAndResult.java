@@ -21,7 +21,7 @@ public class ParamsAndResult
 {
     private final SearchParameters searchParameters;
     private final SearchResult searchResult;
-    
+
     public ParamsAndResult(SearchParameters searchParameters, SearchResult searchResult)
     {
         super();

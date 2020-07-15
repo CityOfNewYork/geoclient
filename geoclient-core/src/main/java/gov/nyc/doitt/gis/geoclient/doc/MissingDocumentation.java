@@ -25,7 +25,7 @@ public class MissingDocumentation extends ItemDocumentation
         setDescription(new Description(MESSAGE));
     }
 
-    public boolean isDocumented() 
+    public boolean isDocumented()
     {
         return false;
     }

@@ -36,23 +36,23 @@ public class Search
     public Response getResponse()
     {
         return response;
-    }   
-    
+    }
+
     public boolean isRejected()
     {
         return response.isRejected();
     }
-    
+
     public List<String> getSimilarNames()
     {
         return response.getSimilarNames();
     }
-    
+
     public boolean responseMessageAppliesTo(String streetName)
     {
         return this.response.messageAppliesTo(streetName);
     }
-    
+
     public ResponseStatus getResponseStatus()
     {
         return response.getResponseStatus();
@@ -64,11 +64,11 @@ public class Search
     public boolean lessThanOrEqualTo(int level)
     {
         return getLevel() <= level;
-    }   
+    }
 
     @Override
     public String toString()
     {
         return "Search [request=" + request + ", responseIsRejected? " + response.isRejected() + "]";
-    }   
+    }
 }

@@ -31,12 +31,12 @@ public class Chunk
         this.text = text;
         this.tokens = new ArrayList<>();
     }
-    
+
     public boolean containsText()
     {
         return this.text != null && this.text.length() > 0;
     }
-    
+
     public int tokenCount()
     {
         return tokens.size();
@@ -51,7 +51,7 @@ public class Chunk
     {
         return new Chunk(ChunkType.SUBSTRING, TextUtils.sanitize(this.text.substring(start, end)));
     }
-    
+
     public String highlight(int start, int end)
     {
         StringBuffer buff = new StringBuffer(this.text);
@@ -89,7 +89,7 @@ public class Chunk
     {
         this.tokens = tokens;
     }
-    
+
     public String pictogram()
     {
         StringBuffer buff = new StringBuffer(text);
@@ -146,5 +146,5 @@ public class Chunk
             return false;
         return true;
     }
-    
+
 }

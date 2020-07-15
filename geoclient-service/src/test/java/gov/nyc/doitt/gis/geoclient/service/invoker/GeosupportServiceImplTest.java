@@ -176,7 +176,7 @@ public class GeosupportServiceImplTest extends AbstractMockInvokerTests {
         arguments.put(NORMALIZATION_FORMAT, NORMALIZATION_FORMAT_SORT_VALUE);
         arguments.put(NORMALIZATION_LENGTH, 20);
         mockFunctionCall(FDG, arguments);
-        Map<String, Object> actualResult = geosupportServiceImpl.callFunctionDG("11234567","21234567","312        arguments.put(GEOSUPPORT_FUNCTION_CODE, FHR);\n" + 
+        Map<String, Object> actualResult = geosupportServiceImpl.callFunctionDG("11234567","21234567","312        arguments.put(GEOSUPPORT_FUNCTION_CODE, FHR);\n" +
                 "34567", 20, NORMALIZATION_FORMAT_SORT_VALUE);
         verifyMocks(actualResult);
     }

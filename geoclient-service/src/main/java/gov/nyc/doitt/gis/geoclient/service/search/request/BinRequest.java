@@ -36,7 +36,7 @@ public class BinRequest extends Request
     {
         return stringValueOrNull(binInputValue);
     }
-    
+
     public InputValue getBinInputValue()
     {
         return binInputValue;
@@ -52,13 +52,13 @@ public class BinRequest extends Request
     {
         return "BinRequest [level= " + getLevel() + ", bin=" + getBin() + "]";
     }
-    
+
     @Override
     public boolean containsAssignedValue()
     {
         return isAssigned(binInputValue);
     }
-    
+
     // TODO TESTME
     @Override
     public String summarize()

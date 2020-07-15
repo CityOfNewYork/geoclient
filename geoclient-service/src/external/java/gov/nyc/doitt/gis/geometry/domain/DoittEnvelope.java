@@ -17,7 +17,7 @@ package gov.nyc.doitt.gis.geometry.domain;
 
 /**
  * The DoittEnvelope is a rectangle that represents a bounding-box or an extent.
- * 
+ *
  * @author DOITT City-wide GIS
  * @version 1.0
  */

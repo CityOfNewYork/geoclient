@@ -16,7 +16,7 @@
 package gov.nyc.doitt.gis.geoclient.api;
 
 
-public class InputParam 
+public class InputParam
 {
     public static final String BBL_BOROUGH_CODE = "bblBoroughCode";
     public static final String BBL_TAX_BLOCK = "bblTaxBlock";

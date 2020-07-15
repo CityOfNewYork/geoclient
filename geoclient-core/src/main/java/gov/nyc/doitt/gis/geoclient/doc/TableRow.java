@@ -26,7 +26,7 @@ public class TableRow
     {
         this(new ArrayList<TableData>());
     }
-    
+
     public TableRow(List<TableData> tableData)
     {
         super();

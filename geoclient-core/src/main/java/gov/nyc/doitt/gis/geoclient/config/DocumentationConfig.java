@@ -32,7 +32,7 @@ public class DocumentationConfig
 {
     private static final Logger log = LoggerFactory.getLogger(DocumentationConfig.class);
     private DataDictionary dataDictionary;
-    
+
     public DocumentationConfig(DataDictionary dataDictionary)
     {
         super();
@@ -48,7 +48,7 @@ public class DocumentationConfig
         }
         return functionDocumentation;
     }
-    
+
     private void addItemDocumentation(FunctionDocumentation functionDocumentation, List<String> fieldIds)
     {
         for (String fieldId : fieldIds)
@@ -67,7 +67,7 @@ public class DocumentationConfig
             }
         }
     }
-    
+
     private List<String> getFieldIds(WorkArea workArea)
     {
         return workArea.getFieldIds(Field.NAME_SORT, false, false);

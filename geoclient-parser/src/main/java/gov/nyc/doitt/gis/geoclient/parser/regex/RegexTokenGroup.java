@@ -25,7 +25,7 @@ public class RegexTokenGroup
     private final Pattern pattern;
     private final int group;
     private final TokenType tokenType;
-    
+
     public RegexTokenGroup(Pattern pattern, int group, TokenType tokenType)
     {
         super();
@@ -33,7 +33,7 @@ public class RegexTokenGroup
         this.group = group;
         this.tokenType = tokenType;
     }
-    
+
     public Pattern getPattern()
     {
         return pattern;

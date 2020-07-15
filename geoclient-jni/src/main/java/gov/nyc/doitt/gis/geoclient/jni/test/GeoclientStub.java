@@ -35,7 +35,7 @@ public class GeoclientStub implements Geoclient
     private static final CharsetDecoder DECODER = CHARSET.newDecoder();
 
     private final ConcurrentMap<String, TestConfig> db = new ConcurrentHashMap<>();
-    
+
     public GeoclientStub() {
         super();
     }
@@ -75,7 +75,7 @@ public class GeoclientStub implements Geoclient
         // Duplicate ByteBuffer argument which will create a bi-directional "reference" that will reflect buffer
         // changes, but use independent position, limit and mark values
         ByteBuffer buffer = byteBuffer.duplicate();
-        int position = buffer.position();       
+        int position = buffer.position();
         CharBuffer charBuffer = DECODER.decode(buffer);
         char [] chars = new char[2];
         charBuffer.get(chars, 0, 2);

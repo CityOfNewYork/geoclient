@@ -35,7 +35,7 @@ import gov.nyc.doitt.gis.geoclient.parser.test.ChunkSpec;
 public class SingleFieldSearchParserTest extends AbstractSpecTest
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleFieldSearchParserTest.class);
-    
+
     @Autowired
     private SingleFieldSearchParser parser;
 
@@ -52,6 +52,6 @@ public class SingleFieldSearchParserTest extends AbstractSpecTest
             assertChunksEquals(spec.getId(), spec.getChunks(), locationTokens.getChunks(), LOGGER);
         }
     }
-    
+
 
 }

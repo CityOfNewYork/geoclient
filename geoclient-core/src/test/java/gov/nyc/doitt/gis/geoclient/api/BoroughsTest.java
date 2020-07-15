@@ -32,11 +32,11 @@ class BoroughsTest {
         assertSame(Boroughs.BROOKLYN, Boroughs.fromCode("3"));
         assertSame(Boroughs.QUEENS, Boroughs.fromCode("4"));
         assertSame(Boroughs.STATEN_ISLAND, Boroughs.fromCode("5"));
-        
+
         assertNull(Boroughs.fromCode(" 1"));
         assertNull(Boroughs.fromCode("8"));
         assertNull(Boroughs.fromCode("woof"));
-        
+
     }
 
     @Test

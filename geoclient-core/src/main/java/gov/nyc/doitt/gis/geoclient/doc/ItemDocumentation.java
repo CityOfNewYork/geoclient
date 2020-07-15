@@ -19,9 +19,9 @@ import java.util.List;
 
 /**
  * Documentation entry for {@link DataDictionary} item.
- * 
+ *
  * @author mlipper
- * 
+ *
  */
 public class ItemDocumentation extends BaseDocumentation
 {
@@ -41,7 +41,7 @@ public class ItemDocumentation extends BaseDocumentation
     {
         super(id, new Description());
     }
-    
+
     public ItemDocumentation copyWithDisplayName(String nameToUse)
     {
         if(nameToUse.equals(getId()))
@@ -58,7 +58,7 @@ public class ItemDocumentation extends BaseDocumentation
         copy.functionNames = this.functionNames;
         return copy;
     }
-    
+
     public boolean documents(String id)
     {
         String myId = getId();
@@ -92,7 +92,7 @@ public class ItemDocumentation extends BaseDocumentation
         }
         return this.displayName;
     }
-    
+
     public void setDisplayName(String displayName)
     {
         this.displayName = displayName;

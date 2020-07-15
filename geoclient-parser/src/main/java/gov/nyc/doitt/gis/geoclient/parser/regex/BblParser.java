@@ -31,7 +31,7 @@ public class BblParser extends AbstractRegexParser {
     {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = BblParser.BBL_TEN_DIGIT.matcher(currentChunk.getText());
-        
+
         if(!matcher.matches())
         {
             patternNotMatched(parseContext,BBL_TEN_DIGIT);

@@ -30,15 +30,15 @@ import org.junit.jupiter.api.condition.OS;
  * <li>{@code @EnabledIfSystemProperty(named = "os.arch", matches = ".*64.*")}</li>
  * <li>{@code @EnabledOnOs({ OS.LINUX, OS.WINDOWS })}</li>
  * </ul>
- * 
+ *
  * @author mlipper
- * 
+ *
  * @since 2.0
- * 
+ *
  * @see org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable
  * @see org.junit.jupiter.api.condition.EnabledIfSystemProperty
  * @see org.junit.jupiter.api.condition.EnabledOnOs
- * 
+ *
  */
 @Retention(RUNTIME)
 @Target({ TYPE, METHOD })

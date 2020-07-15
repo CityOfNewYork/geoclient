@@ -40,7 +40,7 @@ import gov.nyc.doitt.gis.geoclient.service.configuration.AppConfig;
 public abstract class AbstractMockInvokerTests {
 
     protected static final Logger logger = LoggerFactory.getLogger(GeosupportServiceImpl.class);
-    
+
     private AppConfig serviceConfigurationMock;
     private Configuration functionConfigurationMock;
     private Function functionMock;
@@ -60,31 +60,31 @@ public abstract class AbstractMockInvokerTests {
     }
 
     protected Map<String, Object> mockFunctionCall(String functionName, Map<String, Object> arguments) {
-        
+
         Map<String, Object> requiredArguments = new HashMap<String, Object>();
         requiredArguments.put(MODE_SWITCH, "X");
-        
+
         Map<String, Object> allArguments = new HashMap<String, Object>();
         allArguments.putAll(requiredArguments);
         allArguments.putAll(arguments);
-        
+
         Map<String, Object> expectedFunctionResult = new HashMap<String, Object>();
         expectedFunctionResult.put("called", functionName);
-        
+
         mockConfiguration(requiredArguments);
         mockFunction(functionName, allArguments, expectedFunctionResult);
         mockLatLongEnhancer();
         mockAppConfig(functionName);
-        
+
         constructClassUnderTest();
-        
+
         return expectedFunctionResult;
     }
 
     protected void constructClassUnderTest() {
         this.geosupportServiceImpl = new GeosupportServiceImpl(serviceConfigurationMock);
     }
-    
+
     protected void mockAppConfig(String functionName) {
         this.serviceConfigurationMock = mock(AppConfig.class, mockSettings);
         if (Function.F1AX.equals(functionName)) {
@@ -114,15 +114,15 @@ public abstract class AbstractMockInvokerTests {
         }
         when(serviceConfigurationMock.latLongEnhancer()).thenReturn(latLongEnhancerMock);
     }
-    
+
     protected void mockConfiguration(Map<String, Object> requiredArguments) {
         functionConfigurationMock = mock(Configuration.class, mockSettings);
         requiredArguments.put(MODE_SWITCH, "X");
         when(functionConfigurationMock.requiredArguments()).thenReturn(requiredArguments);
     }
-    
+
     protected void mockFunction(String functionName, Map<String, Object> allArguments, Map<String, Object> expectedFunctionResult) {
-        functionMock = mock(Function.class, mockSettings);    
+        functionMock = mock(Function.class, mockSettings);
         when(functionMock.getId()).thenReturn(functionName);
         when(functionMock.getConfiguration()).thenReturn(functionConfigurationMock);
         when(functionMock.call(allArguments)).thenReturn(expectedFunctionResult);

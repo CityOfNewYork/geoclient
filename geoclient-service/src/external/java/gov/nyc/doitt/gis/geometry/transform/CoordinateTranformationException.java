@@ -17,7 +17,7 @@ package gov.nyc.doitt.gis.geometry.transform;
 
 /**
  * Thrown when an exception occurs during a coordinate tranformation.
- * 
+ *
  * @author mlipper
  *
  */

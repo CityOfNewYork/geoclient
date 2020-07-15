@@ -33,12 +33,12 @@ public class ChunkSpec
         this.delimitedTokenValues = delimitedTokenValues;
         this.chunks = chunks;
     }
-    
+
     public Input input()
     {
         return new Input(this.id, plainText());
     }
-    
+
     public String plainText()
     {
         return this.delimitedTokenValues.replaceAll("[\\[\\]]", "");
@@ -55,12 +55,12 @@ public class ChunkSpec
     {
         return chunks;
     }
-    
+
     public int chunkCount()
     {
         return this.chunks == null ? 0 : this.chunks.size();
     }
-    
+
     public Chunk firstChunk()
     {
         if(this.chunkCount() == 0)
@@ -69,7 +69,7 @@ public class ChunkSpec
         }
         return this.chunks.get(0);
     }
-    
+
     public Chunk secondChunk()
     {
         if(this.chunkCount() < 2)
@@ -78,12 +78,12 @@ public class ChunkSpec
         }
         return this.chunks.get(1);
     }
-    
+
     public boolean matchesStateOf(ParseContext parseContext)
     {
         return this.chunks.equals(parseContext.getChunks());
     }
-    
+
     public String chunkTypeNames()
     {
         StringBuffer buff = new StringBuffer();

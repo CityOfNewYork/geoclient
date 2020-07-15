@@ -30,11 +30,11 @@ public class SearchSummary
     @XStreamAsAttribute
     private MatchStatus status;
     @XStreamAsAttribute
-    private String request; 
+    private String request;
     @XStreamAlias("geosupportResponse")
     @XStreamConverter(MapConverter.class)
     private Map<String, Object> response;
-    
+
     public MatchStatus getStatus()
     {
         return status;

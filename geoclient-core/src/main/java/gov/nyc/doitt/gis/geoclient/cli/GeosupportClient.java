@@ -213,7 +213,7 @@ public class GeosupportClient
                     client.doConfigure();
                     continue;
                 }
-                
+
                 if (!FUNCTIONS.containsKey(action))
                 {
                     client.showUnknownFunctionErrorMessage(action);
@@ -265,7 +265,7 @@ public class GeosupportClient
             }
         }
     }
-    
+
     private void doConfigure()
     {
         showConfiguration();
@@ -273,8 +273,8 @@ public class GeosupportClient
         doConfigureSort();
         doConfigureCombineWorkAreas();
     }
-    
-    
+
+
     private void doConfigureDisplayEmptyFieldValues()
     {
         boolean beforeConfig = this.displayEmptyFieldValues;
@@ -285,7 +285,7 @@ public class GeosupportClient
             showDisplayEmptyConfiguration();
         }
     }
-    
+
     private void doConfigureSort()
     {
         String currentSort = null;
@@ -326,8 +326,8 @@ public class GeosupportClient
             this.combineWorkAreaResults = !this.combineWorkAreaResults;
             showCombineWorkAreasConfiguration();
         }
-    }   
-    
+    }
+
     private void switchSort()
     {
         if(isDefaultSort())
@@ -342,7 +342,7 @@ public class GeosupportClient
     {
         return Field.DEFAULT_SORT == this.fieldComparator;
     }
-    
+
     private void doCall(String functionName, Map<String, Object> parameters, boolean doExtended, boolean displayEmptyFields)
     {
         Function function = getFunction(functionName);
@@ -384,7 +384,7 @@ public class GeosupportClient
     {
         return string.matches("\\d{7}");
     }
-    
+
     private void showConfiguration()
     {
         System.out.println("Current Config");
@@ -396,23 +396,23 @@ public class GeosupportClient
         showCombineWorkAreasConfiguration();
         System.out.println();
     }
-    
+
     private void showDisplayEmptyConfiguration()
     {
         System.out.println(String.format("'Display empty?'='%s'", String.valueOf(this.displayEmptyFieldValues)));
-    }   
-    
+    }
+
     private void showSortConfiguration()
     {
         String currentSort = isDefaultSort() ? SORT_BY_START : SORT_BY_NAME;
         System.out.println(String.format("'Field Sort Order'='%s'", currentSort));
-    }   
-    
+    }
+
     private void showCombineWorkAreasConfiguration()
     {
         System.out.println(String.format("'Combine work areas in results?'='%s'", String.valueOf(this.combineWorkAreaResults)));
-    }   
-    
+    }
+
     private void showFunctionHeader(String functionName)
     {
         System.out.println(String.format("Function %s", functionName));
@@ -450,7 +450,7 @@ public class GeosupportClient
         }
         return choice.toLowerCase().startsWith("y");
     }
-    
+
     private void showResults(Function function, Map<String, Object> results)
     {
         WorkArea wa1 = function.getWorkAreaOne();
@@ -474,7 +474,7 @@ public class GeosupportClient
             showResults(wa2.getFieldIds(fieldComparator,true, true), results);
         }
     }
-    
+
     private void showResults(List<String> fieldIds, Map<String, Object> results)
     {
         for (String field: fieldIds)
@@ -487,7 +487,7 @@ public class GeosupportClient
             }
             System.out.println(String.format("%s='%s'", field, value));
         }
-    }   
+    }
 
     private Function getFunction(String functionName)
     {

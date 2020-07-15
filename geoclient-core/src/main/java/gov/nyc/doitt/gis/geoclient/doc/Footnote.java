@@ -56,7 +56,7 @@ public class Footnote
     {
         return this.symbol.equals(otherFootnote.symbol);
     }
-    
+
     @Override
     public String toString()
     {

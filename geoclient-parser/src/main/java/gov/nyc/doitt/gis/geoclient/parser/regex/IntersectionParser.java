@@ -32,13 +32,13 @@ public class IntersectionParser extends AbstractRegexParser
     {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = INTERSECTION.matcher(currentChunk.getText());
-        
+
         if(!matcher.matches())
         {
             patternNotMatched(parseContext,INTERSECTION);
             return;
         }
-        
+
         MatchBuilder builder = new MatchBuilder()
         .add(matcher)
         .add(MatchType.COMPLETE)
@@ -47,7 +47,7 @@ public class IntersectionParser extends AbstractRegexParser
         .add(INTERSECTION, 2, TokenType.AND)
         .add(INTERSECTION, 3, TokenType.CROSS_STREET_TWO);
 
-        handleMatch(builder.build(), ChunkType.INTERSECTION);       
+        handleMatch(builder.build(), ChunkType.INTERSECTION);
     }
 
 }

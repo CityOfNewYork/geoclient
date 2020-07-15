@@ -22,17 +22,17 @@ public class TableData
     private Footnote footnote;
     private boolean header;
     private String text;
-    
+
     public TableData()
     {
         this(null);
     }
-    
+
     public TableData(String text)
     {
         this(text, 1, false, null);
     }
-    
+
     public TableData(String text, int colspan)
     {
         this(text, colspan, false, null);
@@ -91,32 +91,32 @@ public class TableData
     {
         String element = "td";
         String spanTxt = "";
-        
+
         if(header)
         {
             element = "th";
         }
-        
+
         if(colspan > 1)
         {
             spanTxt = " colspan=\"" + colspan + "\"";
         }
-        
+
         StringBuffer sb = new StringBuffer(text != null ? text : "");
-        
+
         if(footnote != null)
         {
             sb.insert(footnote.getPosition(), footnote.toHtml());
         }
-        
+
         return String.format("<%s%s>%s</%s>", element, spanTxt, sb.toString(), element);
     }
-    
+
     @Override
     public String toString()
     {
         return toHtml();
     }
 
-    
+
 }

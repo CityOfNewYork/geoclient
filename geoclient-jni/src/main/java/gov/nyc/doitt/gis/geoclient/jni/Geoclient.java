@@ -13,7 +13,6 @@ public interface Geoclient {
     public void callgeo(ByteBuffer work_area1, ByteBuffer work_area2);
 
     /**
-     *
      * Interface to C language function <code>void callgeo(char *  work_area1, char *  work_area2)</code>.
      *
      * @param work_area1 an array of bytes

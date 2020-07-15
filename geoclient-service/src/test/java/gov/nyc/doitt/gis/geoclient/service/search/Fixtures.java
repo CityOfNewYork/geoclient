@@ -44,7 +44,7 @@ public class Fixtures
     public final ResponseStatus successStatus;
     public final ResponseStatus rejectStatus;
     public final Map<String, Object> geocodes;
-    
+
     public Fixtures()
     {
         super();
@@ -63,13 +63,13 @@ public class Fixtures
         this.requestLevelThree.setLevel(SearchPolicy.INITIAL_SEARCH_LEVEL + 3);
         this.requestLevelFour = new AddressRequest();
         this.requestLevelFour.setLevel(SearchPolicy.INITIAL_SEARCH_LEVEL + 3);
-        
+
         GeosupportReturnCode grc00 = new GeosupportReturnCode();
         grc00.setReturnCode(ReturnCodeValue.SUCCESS.value());
         successStatus = new ResponseStatus();
         successStatus.setGeosupportReturnCode(grc00);
         this.responseSuccess = new Response(successStatus, null);
-        
+
         GeosupportReturnCode grcEE = new GeosupportReturnCode();
         grcEE.setReturnCode("EE");
         rejectStatus = new ResponseStatus();

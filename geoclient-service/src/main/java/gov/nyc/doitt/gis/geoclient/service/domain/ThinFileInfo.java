@@ -55,6 +55,6 @@ public class ThinFileInfo extends FileInfo
     {
         return "ThinFileInfo [recordTypes=" + recordTypes + ", fillerFields=" + fillerFields + "]";
     }
-    
-    
+
+
 }

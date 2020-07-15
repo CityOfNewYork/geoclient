@@ -27,7 +27,7 @@ public class Response
     private final ResponseStatus responseStatus;
     private final Map<String, Object> geocodes;
     private final ReadableInstant timestamp;
-    
+
     public Response(ResponseStatus responseStatus, Map<String, Object> geocodes)
     {
         super();
@@ -35,13 +35,13 @@ public class Response
         this.geocodes = geocodes;
         this.timestamp = Instant.now();
     }
-    
+
     public boolean messageAppliesTo(String streetName)
     {
         GeosupportReturnCode grc = this.responseStatus.getGeosupportReturnCode();
         return StringUtils.containsIgnoreCase(grc.getMessage(), streetName);
     }
-    
+
     public boolean isCompassDirectionRequired()
     {
         return responseStatus.isCompassDirectionRequired();
@@ -51,7 +51,7 @@ public class Response
     {
         return this.responseStatus.isRejected();
     }
-    
+
     public int similarNamesCount()
     {
         return responseStatus.similarNamesCount();
@@ -66,7 +66,7 @@ public class Response
     {
         return responseStatus;
     }
-    
+
     public Map<String, Object> getGeocodes()
     {
         return geocodes;

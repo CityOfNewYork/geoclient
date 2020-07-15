@@ -19,7 +19,7 @@ import java.util.Map;
 
 /**
  * Configuration information of {@link Function} defaults and settings.
- * 
+ *
  * @author mlipper
  *
  */

@@ -30,13 +30,13 @@ import org.junit.jupiter.api.Test;
 public class DescriptionTest
 {
     private List<Paragraph> paragraphs = new ArrayList<Paragraph>();
-    
+
     @AfterEach
     public void teaDown()
     {
         this.paragraphs.clear();
     }
-    
+
     @Test
     public void testHasText()
     {
@@ -44,14 +44,14 @@ public class DescriptionTest
         desc.setParagraphs(null);
         assertFalse(desc.hasText());
         desc.setParagraphs(paragraphs);
-        assertFalse(desc.hasText());    
+        assertFalse(desc.hasText());
         Paragraph p = new Paragraph();
         assertFalse(p.hasText());
         paragraphs.add(p);
-        assertFalse(desc.hasText());    
+        assertFalse(desc.hasText());
         p.setText("x");
         assertTrue(p.hasText());
-        assertTrue(desc.hasText()); 
+        assertTrue(desc.hasText());
     }
 
     @Test
@@ -63,8 +63,8 @@ public class DescriptionTest
         assertEquals("12",desc.summarize(4));
         desc.getParagraphs().add(new Paragraph("3456"));
         assertEquals("12 3",desc.summarize(4));
-    }   
-    
+    }
+
     @Test
     public void testJoinText()
     {
@@ -75,7 +75,7 @@ public class DescriptionTest
         desc.getParagraphs().add(new Paragraph("two"));
         assertEquals("one, two", desc.joinText(", "));
     }
-    
+
     @Test
     public void testJoinTextWithNullParagraphsList()
     {
@@ -83,7 +83,7 @@ public class DescriptionTest
         desc.setParagraphs(null);
         assertTrue(desc.joinText(", ").isEmpty());
     }
-    
+
     @Test
     public void testNoArgConstructor()
     {

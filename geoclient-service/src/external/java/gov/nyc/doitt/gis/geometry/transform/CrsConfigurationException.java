@@ -18,9 +18,9 @@ package gov.nyc.doitt.gis.geometry.transform;
 /**
  * This indicates a programmer error in configuring the metadata necessary to
  * create CRS classes.
- * 
+ *
  * @author mlipper
- * 
+ *
  */
 public class CrsConfigurationException extends RuntimeException {
 

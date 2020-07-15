@@ -16,8 +16,8 @@
 package gov.nyc.doitt.gis.geoclient.api;
 
 public enum ReturnCodeValue {
-    
-    SUCCESS("00"), 
+
+    SUCCESS("00"),
     WARN("01"),
     COMPASS_DIRECTION_REQUIRED("02"),
     NOT_RECOGNIZED_NO_SIMILAR_NAMES("11"),
@@ -34,7 +34,7 @@ public enum ReturnCodeValue {
     {
         return this.value;
     }
-    
+
     public boolean is(String string)
     {
         return this.value.equals(string);

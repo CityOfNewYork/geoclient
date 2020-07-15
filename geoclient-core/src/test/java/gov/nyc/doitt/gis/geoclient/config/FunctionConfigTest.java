@@ -49,17 +49,17 @@ public class FunctionConfigTest
         this.wa1Config = new WorkAreaConfig("WW1", 12, true, TestData.newFieldList(TestData.fieldOne, TestData.fieldTwo), Collections.<Filter>emptyList());
         this.wa2Config = new WorkAreaConfig("WW2_F1B", 4, false, TestData.newFieldList(TestData.makeField("pqr", 1, 4)), Collections.<Filter>emptyList());
         this.configuration = new DefaultConfiguration();
-        // Don't use the names of real functions. Previously, using function "1B" 
-        // was causing the real 1B in GeosupportConfigIntegration test to fail 
-        // when all tests were run from Maven;  basically, the 1B that was 
-        // returned by the integration test was the mock one created in 
-        // FunctionConfigTest. Issue did not occur within Eclipse or when 
+        // Don't use the names of real functions. Previously, using function "1B"
+        // was causing the real 1B in GeosupportConfigIntegration test to fail
+        // when all tests were run from Maven;  basically, the 1B that was
+        // returned by the integration test was the mock one created in
+        // FunctionConfigTest. Issue did not occur within Eclipse or when
         // test was run individually.
         this.oneWorkAreaFunction = new FunctionConfig("EG", this.wa1Config, null);
         this.twoWorkAreaFunction = new FunctionConfig("9B", this.wa1Config, this.wa2Config);
         this.twoWorkAreaDefaultArgsFunction = new FunctionConfig("12", this.wa1Config, this.wa2Config, this.configuration);
     }
-    
+
     @AfterEach
     public void tearDown()
     {
@@ -121,7 +121,7 @@ public class FunctionConfigTest
         assertTrue(this.twoWorkAreaFunction.isTwoWorkAreaFunction());
         assertFalse(this.twoWorkAreaFunction.hasDefaultArguments());
     }
-    
+
     @Test
     public void testTwoWorkAreaArgumentsConstructor()
     {
@@ -131,7 +131,7 @@ public class FunctionConfigTest
         assertTrue(this.twoWorkAreaDefaultArgsFunction.isTwoWorkAreaFunction());
         assertTrue(this.twoWorkAreaDefaultArgsFunction.hasDefaultArguments());
     }
-    
+
     @Test//(expected=DuplicateFieldNameException.class)
     public void testCreateTwoWorkAreaFunction_duplicateFields()
     {
@@ -140,5 +140,5 @@ public class FunctionConfigTest
         badFun.createFunction(new GeoclientStub());
     }
 
-    
+
 }

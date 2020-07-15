@@ -32,7 +32,7 @@ public class ResponseStatusTest
     {
         this.responseStatus = new ResponseStatus();
     }
-    
+
     @Test
     public void testIsCompassDirectionRequired()
     {
@@ -40,7 +40,7 @@ public class ResponseStatusTest
         this.responseStatus.getGeosupportReturnCode().setReturnCode(ReturnCodeValue.COMPASS_DIRECTION_REQUIRED.value());
         assertTrue(this.responseStatus.isCompassDirectionRequired());
     }
-    
+
     @Test
     public void testIsRejected()
     {

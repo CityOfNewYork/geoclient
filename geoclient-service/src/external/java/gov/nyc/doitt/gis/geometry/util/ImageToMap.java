@@ -26,7 +26,7 @@ import gov.nyc.doitt.gis.geometry.domain.PointGeometry;
 /**
  * This class provides static methods used by the map service to convert image
  * coordinates to map coordinates.
- * 
+ *
  * @author DOITT City-wide GIS
  * @version 1.0
  */
@@ -63,7 +63,7 @@ public final class ImageToMap {
      * converts it under the assumption that the mapEnv parameter field is properly
      * set in map coordinates and that the imgHeight and imgWidth are the dimensions
      * of the map image in pixels.
-     * 
+     *
      * @param imagePoint The DoittPoint to convert from image coordinates to map
      *                   coordinates.
      * @param mapEnv     A DoittEnvelope that is the map extent in map coordinates.

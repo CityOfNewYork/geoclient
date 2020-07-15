@@ -21,7 +21,7 @@ public class FileInfo
 {
     private static final SimpleDateFormat STRING_TO_DATE = new SimpleDateFormat("yyMMdd");
     private static final SimpleDateFormat DATE_TO_STRING = new SimpleDateFormat("yyyy-MM-dd");
-    
+
     private String recordType;
     private String tag;
     private String date;
@@ -37,12 +37,12 @@ public class FileInfo
         this.release = release;
         this.recordCount = recordCount;
     }
-    
+
     public String getFormattedDate()
     {
         return applyFormat(this.date);
     }
-    
+
     String applyFormat(String dateString)
     {
         try {
@@ -51,7 +51,7 @@ public class FileInfo
             return dateString;
         }
     }
-    
+
     public String getDate()
     {
         return date;
@@ -98,5 +98,5 @@ public class FileInfo
         return "FileInfo [recordType=" + recordType + ", tag=" + tag + ", date=" + date + ", release=" + release
                 + ", recordCount=" + recordCount + "]";
     }
-    
+
 }

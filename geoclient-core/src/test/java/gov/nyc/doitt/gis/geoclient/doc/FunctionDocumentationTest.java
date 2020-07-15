@@ -66,7 +66,7 @@ public class FunctionDocumentationTest
         assertTrue(fd.isGroupMember(iDoc2));
         assertFalse(fd.isGroupMember(iDoc1));
     }
-    
+
     @Test
     public void testAdd()
     {
@@ -79,7 +79,7 @@ public class FunctionDocumentationTest
         assertEquals(1, fd.getFields().size());
         assertTrue(fd.getFields().contains(iDoc1));
     }
-    
+
     @Test
     public void testSetFields()
     {
@@ -91,7 +91,7 @@ public class FunctionDocumentationTest
         assertEquals(1, fd.getFields().size());
         assertTrue(fd.getFields().contains(iDoc1));
     }
-    
+
     @Test
     public void testGetFieldsIsSortedByDisplayName()
     {
@@ -106,12 +106,12 @@ public class FunctionDocumentationTest
         assertEquals(iDoc2, this.sortedSetOfItemDocs.last());
         fd.setFields(sortedSetOfItemDocs);
         assertEquals(2, fd.getFields().size());
-        // FunctionDocumentation uses inner class DisplayNameComparator to sort 
+        // FunctionDocumentation uses inner class DisplayNameComparator to sort
         // based on ItemDocumentation.displayName
         assertEquals(iDoc2, fd.getFields().first());
         assertEquals(iDoc1, fd.getFields().last());
     }
-    
+
     @Test
     public void testDefaultConstructor()
     {
@@ -129,5 +129,5 @@ public class FunctionDocumentationTest
         assertFalse(fd.hasDisplayName());
         fd.setDisplayName("xxx");
         assertTrue(fd.hasDisplayName());
-    }   
+    }
 }

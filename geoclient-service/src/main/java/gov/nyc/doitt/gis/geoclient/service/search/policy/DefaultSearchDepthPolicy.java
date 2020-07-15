@@ -93,7 +93,7 @@ public class DefaultSearchDepthPolicy extends AbstractPolicy implements SearchDe
         }
         return levelEnabled(request.getLevel() + 1);
     }
-    
+
     public void setMaximumDepth(int maximumDepth)
     {
         this.maximumDepth = maximumDepth;

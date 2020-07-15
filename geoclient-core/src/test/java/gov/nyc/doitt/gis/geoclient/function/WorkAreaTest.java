@@ -50,7 +50,7 @@ public class WorkAreaTest
     @BeforeEach
     public void setUp() throws Exception
     {
-        //     non-composite work area bytes: 122333445555  
+        //     non-composite work area bytes: 122333445555
         //         composite work area bytes: _CCCCC______  (fieldComposite)
         //             input work area bytes: 1CCCCC44____
         //            output work area bytes: ________5555  (fieldFive)
@@ -78,7 +78,7 @@ public class WorkAreaTest
         this.outputFilters.add(new Filter(fieldThree.getId()));
         workAreaWithFilters = new WorkArea("waWithFilters", this.fields, this.outputFilters);
     }
-    
+
     @Test
     public void testIsFiltered() throws Exception
     {
@@ -89,7 +89,7 @@ public class WorkAreaTest
         assertFalse(workAreaWithFilters.isFiltered(fieldTwo));
         assertTrue(workAreaWithFilters.isFiltered(fieldThree));
     }
-    
+
     @Test
     public void testResolveInputValue() throws Exception
     {
@@ -147,12 +147,12 @@ public class WorkAreaTest
         // fieldComposite will be written after fieldTwo and will overwrite it
         assertCreateBuffer(buffer, "1CC33344    ");
     }
-    
+
     @Test
     public void testCreateBuffer_withParamsAliasesInInput()
     {
         Map<String, Object> params = new HashMap<String, Object>();
-        // Put paramters for both fieldOne's id and alias; alias should 
+        // Put paramters for both fieldOne's id and alias; alias should
         // take precedence
         params.put(fieldOne.getId(), generateValue(fieldOne, "1", 0));
         params.put(fieldOne.getAlias(), generateValue(fieldOne, "A", 0));
@@ -166,7 +166,7 @@ public class WorkAreaTest
         // fieldComposite will be written after fieldTwo and will overwrite it
         assertCreateBuffer(buffer, "ACC33344    ");
     }
-    
+
     @Test
     public void testCreateBuffer_withoutParams()
     {
@@ -208,8 +208,8 @@ public class WorkAreaTest
     {
         // Excludes fieldComposite and fieldFourDuplicate
         assertEquals(
-                (fieldOne.getLength() + 
-                 fieldTwo.getLength() + 
+                (fieldOne.getLength() +
+                 fieldTwo.getLength() +
                  fieldThree.getLength() +
                  fieldFour.getLength() +
                  fieldFive.getLength()), workArea.length());
@@ -227,9 +227,9 @@ public class WorkAreaTest
         byte[] actualBytes = new byte[bufferLength];
         buffer.get(actualBytes);
         assertEquals(expectedValue, new String(actualBytes));
-        
+
     }
-    
+
     private String generateValue(Field field, String value, int extra)
     {
         StringBuffer buffer = new StringBuffer();
@@ -240,5 +240,5 @@ public class WorkAreaTest
         }
         return buffer.toString();
     }
-    
+
 }

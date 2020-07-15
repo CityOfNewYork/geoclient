@@ -24,6 +24,6 @@ public interface Mapper<T> {
     T fromParameters(Map<String, Object> source, T destination) throws MappingException;
 
     Map<String, Object> toParameters(T source, Map<String, Object> destination) throws MappingException;
-    
+
     Map<String, Object> toParameters(T source) throws MappingException;
 }

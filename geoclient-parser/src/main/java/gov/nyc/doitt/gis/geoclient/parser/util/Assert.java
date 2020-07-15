@@ -23,8 +23,8 @@ import org.apache.commons.lang3.StringUtils;
  * Assertion class which abstracts use of existing assertion APIs from external
  * libraries. Copied from and/or inspired by
  * {@linkplain org.springframework.util.Assert}.
- * 
- * 
+ *
+ *
  * @see org.springframework.util.Assert
  * @see org.apache.commons.lang3.StringUtils
  * @author mlipper
@@ -39,7 +39,7 @@ public class Assert {
      * Validates that the provided {@link Collection} is not null and not empty. If
      * validation fails, the provided message is used to construct and throw an
      * {@link IllegalArgumentException}.
-     * 
+     *
      * @param collection the collection to verify is not null or empty
      * @param message    the message to use if the collection is null or empty
      * @throws IllegalArgumentException if {@code collection} is null or empty using
@@ -54,11 +54,11 @@ public class Assert {
     /**
      * Assert a boolean expression, throwing an {@code IllegalArgumentException} if
      * the expression evaluates to {@code false}.
-     * 
+     *
      * <pre class="code">
      * Assert.isTrue(i &gt; 0, "The value must be greater than zero");
      * </pre>
-     * 
+     *
      * @param expression a boolean expression
      * @param message    the exception message to use if the assertion fails
      * @throws IllegalArgumentException if {@code expression} is {@code false}
@@ -72,11 +72,11 @@ public class Assert {
     /**
      * Assert that the given String contains valid text content; that is, it must
      * not be {@code null} and must contain at least one non-whitespace character.
-     * 
+     *
      * <pre class="code">
      * Assert.hasText(name, "'name' must not be empty");
      * </pre>
-     * 
+     *
      * @param text    the String to check
      * @param message the exception message to use if the assertion fails
      * @throws IllegalArgumentException if the text does not contain valid text
@@ -91,11 +91,11 @@ public class Assert {
 
     /**
      * Assert that an object is not {@code null}.
-     * 
+     *
      * <pre class="code">
      * Assert.notNull(clazz, "The class must not be null");
      * </pre>
-     * 
+     *
      * @param object  the object to check
      * @param message the exception message to use if the assertion fails
      * @throws IllegalArgumentException if the object is {@code null}

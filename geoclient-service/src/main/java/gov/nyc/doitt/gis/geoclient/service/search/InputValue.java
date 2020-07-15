@@ -27,7 +27,7 @@ import gov.nyc.doitt.gis.geoclient.util.Assert;
  * assigned by the search because it was missing ({@link ValueSource#ASSIGNED}).
  * Classification of {@link ValueSource} is based on which constructor was used
  * to create this instance.
- * 
+ *
  * This class also tracks whether the value is considered to be resolved (e.g.
  * usable as a search argument) based on the following criteria:
  * <ul>
@@ -38,9 +38,9 @@ import gov.nyc.doitt.gis.geoclient.util.Assert;
  * <li>If this object is {@link ValueSource#MAPPED} and the {@link #mappedValue}
  * is null, it is considered unresolved.</li>
  * </ul>
- * 
+ *
  * @author mlipper
- * 
+ *
  */
 public class InputValue
 {
@@ -52,7 +52,7 @@ public class InputValue
     /**
      * Create an InputValue classified as {@link ValueSource#ASSIGNED}. This
      * instance will be considered resolved.
-     * 
+     *
      * @param tokenType
      *            TokenType
      * @param assignedValue
@@ -72,7 +72,7 @@ public class InputValue
     /**
      * Create an InputValue classified as {@link ValueSource#PARSED}. This
      * instance will be considered resolved.
-     * 
+     *
      * @param token
      *            unmodified Token from the parser
      */
@@ -89,7 +89,7 @@ public class InputValue
      * Create an InputValue classified as {@link ValueSource#MAPPED}. If the
      * mappedValue argument is not null, this instance will be considered
      * resolved, otherwise it is unresolved.
-     * 
+     *
      * @param token
      *            unmodified parser Token
      * @param mappedValue

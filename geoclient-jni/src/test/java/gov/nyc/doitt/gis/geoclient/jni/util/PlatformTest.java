@@ -23,7 +23,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 class PlatformTest {
-    
+
     static Stream<Arguments> expectedPlatformAndVaildConstructorArgsProvider() {
         return Stream.of(
                 Arguments.of(SUPPORTED_LINUX_PLATFORM, "LINUX dammit", "X64"),
@@ -50,21 +50,21 @@ class PlatformTest {
         assertNotEquals(SUPPORTED_WINDOWS_PLATFORM.getOperatingSystem(), p.getOperatingSystem());
         assertNotEquals(SUPPORTED_WINDOWS_PLATFORM.getArchitecture(), p.getOperatingSystem());
     }
-    
+
     @Test
     @DisplayName("Constructor throws UnsupportedPlatformException for invalid arguments")
     void testConstructorThrowsExceptionOnInvalidArguments() {
-        
+
         Throwable exception = assertThrows(UnsupportedPlatformException.class, () -> { new Platform("Windows 7","amd32"); });
         assertEquals("Unsupported JNI platform: OS='Windows 7' ARCH='amd32'", exception.getMessage());
-        
+
         exception = assertThrows(IllegalArgumentException.class, () -> { new Platform(null,"amd32"); });
         assertEquals("Argument 'operatingSystem' cannot be null", exception.getMessage());
-        
+
         exception = assertThrows(IllegalArgumentException.class, () -> { new Platform("Windows 10",null); });
         assertEquals("Argument 'architecture' cannot be null", exception.getMessage());
     }
-    
+
     @Test
     @DisplayName("Constructor called with valid args creates Platform in expected state")
     void testConstructorWithValidArgsCreatesPlatformInExpectedState() {
@@ -73,7 +73,7 @@ class PlatformTest {
         assertTrue(SUPPORTED_WINDOWS_PLATFORM.isWindows());
         assertFalse(SUPPORTED_WINDOWS_PLATFORM.isLinux());
     }
-    
+
     @Test
     @DisplayName("Default constructor creates Platform in expected state")
     @EnabledOnOs({LINUX, WINDOWS})
@@ -86,7 +86,7 @@ class PlatformTest {
             assertFalse(p.isWindows());
         } else {
             assertTrue(p.isWindows());
-            assertFalse(p.isLinux());           
+            assertFalse(p.isLinux());
         }
     }
 
@@ -99,7 +99,7 @@ class PlatformTest {
         String currentArch = System.getProperty("os.arch");
         // Default constructor derives OS and arch from Java system properties
         Platform actualCurrentPlatform = new Platform();
-        
+
         Platform p = new Platform(currentOs,currentArch);
         assertEquals(currentOs, p.getOperatingSystem());
         assertEquals(currentArch, p.getArchitecture());

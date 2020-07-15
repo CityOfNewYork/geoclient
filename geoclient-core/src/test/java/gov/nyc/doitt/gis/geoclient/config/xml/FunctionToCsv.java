@@ -68,7 +68,7 @@ public class FunctionToCsv
             log.info("{},{},{}",fieldId,functionId,workArea.getId());
         }
     }
-    
+
     private static void logDataDictionaryItem(ItemDocumentation itemDocumentation)
     {
         String id = itemDocumentation.getId();

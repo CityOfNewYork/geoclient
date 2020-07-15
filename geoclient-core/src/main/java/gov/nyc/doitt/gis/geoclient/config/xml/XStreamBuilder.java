@@ -39,10 +39,10 @@ import com.thoughtworks.xstream.security.TypePermission;
  * into Geoclient configuration objects.
  * <p>
  * <b>NOTE:</b> This class is <b>not</b> thread-safe.
- * 
+ *
  * @author mlipper
  * @since 2.0
- * 
+ *
  * @see XStream's
  *      <a href="http://x-stream.github.io/security.html#example">example</a>
  *      page
@@ -60,7 +60,7 @@ public class XStreamBuilder
     /**
      * Creates a new builder using a {@code DomDriver} and configures default
      * permissions.
-     * 
+     *
      * @see DomDriver
      */
     public XStreamBuilder()
@@ -72,7 +72,7 @@ public class XStreamBuilder
      * Creates a new builder using a {@link HierarchicalStreamDriver} and
      * configures default permissions by calling
      * {@link #addDefaultPermissions()}.
-     * 
+     *
      * @param driver {@code HierarchicalStreamDriver} instance to use
      */
     public XStreamBuilder(HierarchicalStreamDriver driver)
@@ -88,7 +88,7 @@ public class XStreamBuilder
     /**
      * Uses the configured package names, sets XStream permissions allowing
      * deserialization of all associated classes.
-     * 
+     *
      * @return {@code XStream} instance
      */
     public XStream build()
@@ -105,7 +105,7 @@ public class XStreamBuilder
      * expression matching all contained classes. This expression will be added
      * to the list of those evaluated when the {@link #build()} method is called
      * to white list XStream targets.
-     * 
+     *
      * @param p Java {@code java.lang.Package}
      * @return {@code XStreamBuilder} instance
      */
@@ -118,7 +118,7 @@ public class XStreamBuilder
     /**
      * Uses the {@link Package} of the given  argument to call
      * {@link #addPackage(Package)}.
-     * 
+     *
      * @param type {@code Class} whose {@code java.lang.Package} will be used to call {@link #addPackage(Package)}
      * @return {@code XStreamBuilder} instance
      * @see #addPackage(Package)
@@ -127,10 +127,10 @@ public class XStreamBuilder
     {
         return this.addPackage(type.getPackage());
     }
-    
+
     /**
      * Wraps call to {@link XStream#alias(String, Class)}.
-     * 
+     *
      * @param name of alias to use
      * @param type {@code java.lang.Class} to be aliased
      * @return {@code XStreamBuilder} instance
@@ -142,7 +142,7 @@ public class XStreamBuilder
 
     /**
      * Wraps call to {@link XStream#aliasAttribute(Class, String, String)}.
-     * 
+     *
      * @param definedIn {@code java.lang.Class} containing the attribute
      * @param attributeName name {@code java.lang.String}
      * @param alias alias name {@code java.lang.String}
@@ -162,7 +162,7 @@ public class XStreamBuilder
         xstream.setMode(XStream.ID_REFERENCES);
         return this;
     }
-    
+
     /**
      * Wraps call to {@link XStream#registerConverter(Converter)}.
      * @param converter to register
@@ -172,7 +172,7 @@ public class XStreamBuilder
         xstream.registerConverter(converter);
         return this;
     }
-    
+
     /**
      * Wraps call to {@link XStream#registerConverter(SingleValueConverter)}.
      * @param converter XStream converter instance
@@ -182,10 +182,10 @@ public class XStreamBuilder
         xstream.registerConverter(converter);
         return this;
     }
-    
+
     /**
      * Registers the given {@link Class} argument as a {@link ToStringConverter} with {@link XStream}.
-     * 
+     *
      * @param type {@code java.lang.Class} to register
      * @return {@code XStreamBuilder}
      */
@@ -200,7 +200,7 @@ public class XStreamBuilder
         }
         return this;
     }
-    
+
     /**
      * Wraps call to {@link XStream#aliasField(String, Class, String)}.
      * @param alias name of alias
@@ -212,22 +212,22 @@ public class XStreamBuilder
         xstream.aliasField(alias, definedIn, fieldName);
         return this;
     }
-    
+
     /**
      * Wraps call to {@link XStream#addImplicitCollection(Class, String, Class)}.
      * @param ownerType {@code Class} containing the {@code Collection}
      * @param fieldName name of the field
-     * @param itemType {@code Class} of the field's contents 
+     * @param itemType {@code Class} of the field's contents
      * @return {@code XStreamBuilder}
      */
     public XStreamBuilder addImplicitCollection(Class<?> ownerType, String fieldName, Class<?> itemType) {
         xstream.addImplicitCollection(ownerType, fieldName, itemType);
         return this;
     }
-    
+
     /**
      * Adds the following XStream {@link TypePermission}s as sensible defaults:
-     * 
+     *
      * <ul>
      * <li>{@code NoTypePermission.NONE}</li>
      * <li>{@code NullPermission.NULL}</li>
@@ -235,14 +235,14 @@ public class XStreamBuilder
      * <li>Creates a {@code TypeHierarchyPermission} for all implementations of
      * the Collection.class</li>
      * </ul>
-     * 
+     *
      * Note that {@code NoTypePermission.NONE} is added first which will clear
      * out all existing permissions.
-     * 
+     *
      * Logic is inspired by on this
      * <a href="http://x-stream.github.io/security.html#example">example</a> on
      * the XStream site.
-     * 
+     *
      * @return {@link XStreamBuilder}
      */
     protected XStreamBuilder addDefaultPermissions()

@@ -18,7 +18,7 @@ package gov.nyc.doitt.gis.geoclient.doc;
 public class ItemDocumentationSupport extends BaseDocumentation
 {
     private ItemDocumentation itemDocumentation;
-    
+
     public ItemDocumentationSupport()
     {
         super();
@@ -33,7 +33,7 @@ public class ItemDocumentationSupport extends BaseDocumentation
     {
         return getItemDocumentationId() != null;
     }
-    
+
     public String getItemDocumentationId()
     {
         return this.itemDocumentation != null ? this.itemDocumentation.getId() : null;

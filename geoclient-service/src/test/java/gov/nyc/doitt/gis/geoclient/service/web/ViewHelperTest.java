@@ -49,7 +49,7 @@ public class ViewHelperTest
         group.setMax(12);
         assertEquals("gMember1 to 12", vh.memberText(group, member));
     }
-    
+
     @Test
     public void testSectionHeaderText()
     {
@@ -89,7 +89,7 @@ public class ViewHelperTest
     assertEquals("https://xyz",vh.href("https://xyz"));
     assertEquals("HTTPS://xyz",vh.href("HTTPS://xyz"));
     }
-    
+
     @Test
     public void testHrefItemDocumentationArgument()
     {

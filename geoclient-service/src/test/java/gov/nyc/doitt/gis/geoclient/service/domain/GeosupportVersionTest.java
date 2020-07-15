@@ -28,14 +28,14 @@ public class GeosupportVersionTest
 
     private GeosupportVersion geosupportVersion;
     private List<FileInfo> fileInfoList;
-    
+
     @BeforeEach
     public void setUp() throws Exception
     {
         this.geosupportVersion = new GeosupportVersion();
         this.fileInfoList = new ArrayList<>();
     }
-    
+
     private void addTag(String tag, String release)
     {
         FileInfo f = new FileInfo();

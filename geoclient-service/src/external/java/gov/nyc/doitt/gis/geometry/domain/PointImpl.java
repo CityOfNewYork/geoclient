@@ -17,7 +17,7 @@ package gov.nyc.doitt.gis.geometry.domain;
 
 /**
  * The PointImpl is an abstract class that implements DoittPoint.
- * 
+ *
  * @author DOITT City-wide GIS
  * @version 1.0
  */
@@ -31,7 +31,7 @@ public abstract class PointImpl extends SerializationPrecision implements DoittP
 
     /**
      * Constructs a new point with the specified coordinates.
-     * 
+     *
      * @param x The x coordinate of the point.
      * @param y The y coordinate of the point.
      */

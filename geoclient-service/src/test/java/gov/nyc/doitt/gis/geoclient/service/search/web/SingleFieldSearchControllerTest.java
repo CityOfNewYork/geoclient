@@ -56,16 +56,16 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 public class SingleFieldSearchControllerTest
 {
     private MockMvc mockMvc;
-    
+
     @InjectMocks
     private SingleFieldSearchController controller;
-    
+
     @Mock
     private SingleFieldSearchHandler searchHandlerMock;
-    
+
     @Mock
     private ConversionService conversionServiceMock;
-    
+
     private Fixtures fix;
 
     @BeforeEach
@@ -91,9 +91,9 @@ public class SingleFieldSearchControllerTest
         expectedJsonResponse.setStatus(Status.OK);
         expectedJsonResponse.setInput(input);
         expectedJsonResponse.setResults(new ArrayList<SearchSummary>());
-        // This relies on SearchPolicy#equals being implemented so that the 
+        // This relies on SearchPolicy#equals being implemented so that the
         // search policy built by expectedParams.buildSearchPolicy() above will
-        // be qual to the actual instance created at runtime which calls the 
+        // be qual to the actual instance created at runtime which calls the
         // same method (but returns a different instance of SearchPolicy)
         when(this.searchHandlerMock.findLocation(expectedSearchPolicy, input)).thenReturn(expectedSearchResult);
         when(this.conversionServiceMock.convert(any(ParamsAndResult.class), any(Class.class))).thenAnswer(new Answer<SearchResponse>()
@@ -113,7 +113,7 @@ public class SingleFieldSearchControllerTest
                 assertNotNull(clazz);
                 return expectedJsonResponse;
             }
-            
+
         });
         this.mockMvc.perform(
                 get("/search.json")

@@ -59,8 +59,8 @@ public class ItemDocumentationTest
         assertSame(description,iDoc2.getDescription());
         assertSame(listOfTables,iDoc2.getTables());
         assertSame(format,iDoc2.getFormat());
-    }   
-    
+    }
+
     @Test
     public void testDocuments()
     {

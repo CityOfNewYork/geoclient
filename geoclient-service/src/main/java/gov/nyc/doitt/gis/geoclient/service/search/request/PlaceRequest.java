@@ -22,19 +22,19 @@ import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 public class PlaceRequest extends CountyRequest
 {
     private InputValue streetInputValue;
-    
+
     public PlaceRequest()
     {
         super();
     }
-    
+
     // Copy constructor
     public PlaceRequest(PlaceRequest anotherRequest)
     {
-        super(anotherRequest.getLevel(), anotherRequest.getBoroughInputValue(), anotherRequest.getZipInputValue());     
+        super(anotherRequest.getLevel(), anotherRequest.getBoroughInputValue(), anotherRequest.getZipInputValue());
         this.streetInputValue = anotherRequest.getStreetInputValue();
     }
-    
+
     public String getStreet()
     {
         return stringValueOrNull(streetInputValue);
@@ -61,7 +61,7 @@ public class PlaceRequest extends CountyRequest
     {
         return super.containsAssignedValue() || isAssigned(streetInputValue);
     }
-    
+
     // TODO TESTME
     @Override
     public String summarize()

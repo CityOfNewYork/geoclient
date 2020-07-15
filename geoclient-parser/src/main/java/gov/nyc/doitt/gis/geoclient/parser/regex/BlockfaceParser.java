@@ -35,13 +35,13 @@ public class BlockfaceParser extends AbstractRegexParser
      */
     private static final Pattern BLOCKFACE = Pattern.compile("^(?:(ON)\\s+)?(.+)\\s+(BETWEEN|BET|BW|B/W|BTWN|BTWN\\.)\\s+(.+)\\s+(AND|\\&|\\&\\&)\\s+(.+)\\s*$",Pattern.CASE_INSENSITIVE);
 
-        
+
     @Override
     public void parse(ParseContext parseContext)
     {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = BLOCKFACE.matcher(currentChunk.getText());
-        
+
         if(!matcher.matches())
         {
             patternNotMatched(parseContext,BLOCKFACE);
@@ -57,7 +57,7 @@ public class BlockfaceParser extends AbstractRegexParser
         .add(BLOCKFACE, 4, TokenType.CROSS_STREET_ONE)
         .add(BLOCKFACE, 5, TokenType.AND)
         .add(BLOCKFACE, 6, TokenType.CROSS_STREET_TWO);
-        handleMatch(builder.build(), ChunkType.BLOCKFACE);      
+        handleMatch(builder.build(), ChunkType.BLOCKFACE);
     }
 
 }

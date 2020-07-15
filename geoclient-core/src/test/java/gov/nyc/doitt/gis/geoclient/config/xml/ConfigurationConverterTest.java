@@ -82,7 +82,7 @@ public class ConfigurationConverterTest
     {
 assertThrows(UnsupportedOperationException.class, () -> {
         this.converter.marshal(new DefaultConfiguration(), null, null);
-});     
+});
     }
 
 }

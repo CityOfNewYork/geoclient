@@ -49,7 +49,7 @@ public class Input
     {
         return value;
     }
-    
+
     public String getUnsanitizedValue()
     {
         return unsanitizedValue;
@@ -60,5 +60,5 @@ public class Input
     {
         return "Input [id=" + id + ", value=" + value + "]";
     }
-    
+
 }
