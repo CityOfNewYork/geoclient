@@ -2,7 +2,7 @@
   "basePath": "https://api.cityofnewyork.us",
   "apiVersion": "v1",
   "apis": [
-    { 
+    {
       "path": "/geoclient/v1/address.{content_type}",
       "operations": [
         {
@@ -75,8 +75,8 @@
           ]
         }
       ]
-    }, 
-    { 
+    },
+    {
         "path": "/geoclient/v1/bbl.{content_type}",
         "operations": [
           {
@@ -149,8 +149,8 @@
             ]
           }
         ]
-      }, 
-      { 
+      },
+      {
         "path": "/geoclient/v1/bin.{content_type}",
         "operations": [
           {
@@ -199,8 +199,8 @@
             ]
           }
         ]
-      }, 
-    { 
+      },
+    {
       "path": "/geoclient/v1/blockface.{content_type}",
       "operations": [
         {
@@ -317,12 +317,12 @@
               "dataType": "string",
               "required": false,
               "paramType": "query"
-            }            
+            }
           ]
         }
       ]
-    },       
-    { 
+    },
+    {
         "path": "/geoclient/v1/intersection.{content_type}",
         "operations": [
           {
@@ -415,12 +415,12 @@
                 "dataType": "string",
                 "required": false,
                 "paramType": "query"
-              }            
+              }
             ]
           }
         ]
-      },  
-      { 
+      },
+      {
           "path": "/geoclient/v1/place.{content_type}",
           "operations": [
             {
@@ -486,6 +486,6 @@
               ]
             }
           ]
-        } 
+        }
   ]
 }
