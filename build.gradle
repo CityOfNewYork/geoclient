@@ -94,6 +94,12 @@ configure(moduleProjects){ project ->
         withSourcesJar()
     }
 
+    // TODO Remove this hack which fixes :geoclient-service:sourcesJar failure.
+    // See https://github.com/gradle/gradle/issues/12451
+    tasks.named("sourcesJar") {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
     tasks.withType(JavaCompile) {
         options.encoding = "UTF-8"
     }

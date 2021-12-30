@@ -54,6 +54,7 @@ ext {
 }
 
 processResources {
+    duplicatesStrategy DuplicatesStrategy.WARN
     from(sourceSets.main.resources) {
         include 'version.properties'
         include 'application.yml'
