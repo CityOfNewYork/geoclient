@@ -1,47 +1,40 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/java
 {
 	"name": "geoclient",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
-			// Use the VARIANT arg to pick a Debian OS version: buster, bullseye
-			// Use bullseye when running on local arm64/Apple Silicon.
-			"VARIANT": "bullseye",
+			// Update the VARIANT arg to pick a Java version: 11, 17
+			// Append -bullseye or -buster to pin to an OS version.
+			// Use the -bullseye variants on local arm64/Apple Silicon.
+			"VARIANT": "11-bullseye",
 			// Options
 			"INSTALL_MAVEN": "true",
 			"INSTALL_GRADLE": "true",
-			"NODE_VERSION": "none"
+      "GRADLE_VERSION": "6.9.2",
+			"NODE_VERSION": "lts/*"
 		}
 	},
 	"remoteEnv": {
-		"GEOSUPPORT_HOME": "/opt/geosupport",
-		"GEOFILES": "/opt/geosupport/fls/",
-		"GS_INCLUDE_PATH": "/opt/geosupport/include",
-		"GS_LIBRARY_PATH": "/opt/geosupport/lib",
-		"JAVA_HOME": "/docker-java-home",
-		"PATH": "${GEOSUPPORT_HOME}/bin:${containerEnv:PATH}"
+		"PATH": "${containerEnv:PATH}:/opt/geosupport/current/bin"
 	},
+	"runArgs": [
+		"--env-file=${localWorkspaceFolder}/.devcontainer/geosupport.env"
+	],
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
-		"java.import.gradle.java.home": "/usr/local/sdkman/candidates/java/current",
-		"java.configuration.runtimes": [{
-			"default": true,
-			"name": "JavaSE-1.8",
-			"path": "/usr/local/sdkman/candidates/java/current"
-		}]
+		"java.home": "/docker-java-home"
 	},
-	
-	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [
 		"vscjava.vscode-java-pack"
 	],
+	"forwardPorts": ["8080:8080", "8000:8000","5005:5005"],
 	"mounts": [
-		"type=bind,source=/Users/mlipper/Workspace/repo/geosupport/version-21d_21.4,target=/opt/geosupport"
+		"source=${localEnv:HOME}/Workspace/repo/geosupport,target=/opt/geosupport,type=bind,consistency=cached"
 	],
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
-	// "forwardPorts": [],
-
 	// Use 'postCreateCommand' to run commands after the container is created.
-	//"postCreateCommand": "echo ${GEOSUPPORT_HOME}/lib > /etc/ld.so.config.d/geosupport.conf && ldconfig",
+	"postCreateCommand": "echo /opt/geosupport/current/lib > /etc/ld.so.conf.d/geosupport.conf && ldconfig"
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	//"remoteUser": "vscode"
