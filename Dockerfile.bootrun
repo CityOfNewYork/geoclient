@@ -36,7 +36,7 @@ ARG GC_VERSION
 ARG JARFILE
 
 ENV GEOSUPPORT_HOME ${GEOSUPPORT_HOME:-/opt/geosupport}
-ENV GC_VERSION ${GC_VERSION:-2.0.0-rc.7}
+ENV GC_VERSION ${GC_VERSION:-2.0.0-rc.8}
 ENV JARFILE ${JARFILE:-"./geoclient-service/build/libs/geoclient-service-*-boot.jar"}
 
 RUN set -o errexit -o nounset \

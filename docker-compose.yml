@@ -1,26 +1,17 @@
 version: '3'
 services:
-  gcbuild:
+  geoclient:
     build:
       context: .
-      dockerfile: Dockerfile.build
+      dockerfile: Dockerfile.dev
     volumes:
       - .:/app
-      - vol-geosupport:/opt/geosupport
+      - geosupport:/opt/geosupport
     ports:
       - "5005:5005"
       - "8080:8080"
-  geoclient-boot:
-    depends_on:
-      - gcbuild
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - vol-geosupport:/opt/geosupport
-    ports:
       - "8000:8000"
-      - "8080:8080"
 volumes:
-  vol-geosupport:
-    external: true
+  geosupport:
+    external:
+      name: geosupport
