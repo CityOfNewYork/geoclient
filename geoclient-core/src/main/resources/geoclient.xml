@@ -1114,7 +1114,7 @@
       <outputFilters reference="allFilters" />
       <fields>
         <!-- F1EX fields -->
-<!-- begin:pac.h C_WA2_F1 -->
+        <!-- begin:pac.h C_WA2_F1 -->
         <field id="internalUse1" start="1" length="21"><!-- filtered --></field>
         <field id="continuousParityIndicator1e" start="22" length="1"><!-- item doc by id --></field><!-- AKA duplicateAddressIndicator -->
         <field id="lowHouseNumberOfBlockfaceSortFormat" start="23" length="11"><!-- filtered --></field><!-- AKA lowHouseNumberOfBlockface -->
@@ -1197,8 +1197,8 @@
         <field id="underlyingStreetCode" start="285" length="8"><!-- needs doc --></field><!-- AKA "underlyingB7sc" -->
         <field id="segmentIdentifier" start="293" length="7"><!-- needs doc --></field>
         <field id="curveFlag" start="300" length="1"><!-- item doc by id --></field>
-<!-- end:pac.h C_WA2_F1 -->
-<!-- begin:pac.h C_WA2_F1V -->
+        <!-- end:pac.h C_WA2_F1 -->
+        <!-- begin:pac.h C_WA2_F1V -->
         <field id="listOf4Lgcs" start="301" length="8"><!-- "int_use" in pac.h --></field>
         <field id="boardOfElectionsPreferredLgc" start="309" length="1"><!-- item doc by id --></field>
         <field id="segmentAzimuth" start="310" length="3"><!-- item doc by id --></field>
@@ -1242,8 +1242,8 @@
         <field id="federalClassificationCode" start="488" length="2"><!-- not implemented --></field>
         <field id="rowType" start="490" length="1"><!-- needs doc --></field><!-- TODO change to "right of way type" -->
         <field id="listOfSecondSetOf5Lgcs" start="491" length="10"><!-- needs doc --></field>
-<!-- end:pac.h C_WA2_F1V -->
-<!-- begin:pac.h C_WA2_F1EX -->
+        <!-- end:pac.h C_WA2_F1V -->
+        <!-- begin:pac.h C_WA2_F1EX -->
         <field id="legacySegmentId" start="501" length="7"><!-- needs doc --></field>
         <field id="fromPreferredLgcsFirstSetOf5" start="508" length="10"><!-- needs doc --></field>
         <field id="toPreferredLgcsFirstSetOf5" start="518" length="10"><!-- needs doc --></field>
@@ -1272,15 +1272,15 @@
         <field id="pumaCode" start="751" length="5"></field>
         <field id="policeSector" start="756" length="4"></field>
         <field id="policeServiceArea" start="760" length="1"></field>`
-<!-- begin:WA2_F1B 2.0.0-rc.8 -->
+        <!-- begin:WA2_F1B 2.0.0-rc.8 -->
         <field id="truckRouteType" start="761" length="1"></field>
         <field id="censusTrack2020" start="762" length="6" whitespace="true"></field>
         <field id="censusBlock2020" start="768" length="4"></field>
         <field id="censusBlockSuffix2020" start="772" length="1"></field>
         <field id="nta2020" start="773" length="6"></field>
-        <field id="cdata2020" start="779" length="4"></field>
+        <field id="cdta2020" start="779" length="4"></field>
         <field id="filler8" start="783" length="218"><!-- filtered --></field>
-<!-- end:WA2_F1B 2.0.0-rc.8 -->
+        <!-- end:WA2_F1B 2.0.0-rc.8 -->
         <field id="reasonCode1e" start="1001" length="1"><!-- item doc by id --></field>
         <field id="reasonCode1eQualifier" start="1002" length="1"><!-- filtered --></field>
         <field id="warningCode1e" start="1003" length="2"><!-- filtered --></field>
@@ -1310,7 +1310,7 @@
         <field id="boePreferredstreetCode" start="1409" length="8"><!-- needs doc --></field>
         <field id="boePreferredStreetName" start="1417" length="32"><!-- needs doc --></field>
         <field id="filler9" start="1449" length="52"><!-- filtered --></field>
-<!-- end:pac.h C_WA2_F1EX -->
+        <!-- end:pac.h C_WA2_F1EX -->
         <!-- F1AX fields -->
         <field id="internalUse2" start="1501" length="21"><!-- filtered --></field>
         <field id="continuousParityIndicator1a" start="1522" length="1"><!-- item doc by id --></field>
@@ -1696,7 +1696,8 @@
         <field id="sanitationSection" start="182" length="3" type="COMP"></field>
         <field id="sanitationCollectionSchedulingSectionAndSubsection" start="187" length="2"></field>
         <field id="policeSector" start="189" length="4"></field>
-        <field id="filler6" start="193" length="8"></field>
+        <field id="censusTract2020" start="193" length="6" whitespace="true"></field>
+        <field id="filler6" start="199" length="2"></field>
       </fields>
     </workArea>
     <workArea id="WA2_F2W">
@@ -1762,7 +1763,8 @@
         <field id="sanitationSection" start="182" length="3" type="COMP"></field>
         <field id="sanitationCollectionSchedulingSectionAndSubsection" start="187" length="2"></field>
         <field id="policeSector" start="189" length="4"></field>
-        <field id="filler6" start="193" length="8"></field>
+        <field id="censusTract2020" start="193" length="6" whitespace="true"></field>
+        <field id="filler6" start="199" length="2"></field>
         <!-- WA2_F2W fields -->
         <field id="filler7" start="201" length="22"></field>
         <field id="lgcListForStreet1" start="223" length="8"></field>
@@ -1790,18 +1792,18 @@
         <field id="node18" start="380" length="7"></field>
         <field id="node19" start="387" length="7"></field>
         <field id="node20" start="394" length="7"></field>
-    <!-- Not implemented 401 through 3600 -->
-    <!-- See Geosupport workarea layouts for COWS 2W -->
-    <!--
-    <field id="node1Street1" start="401" length="8"></field>
-    <field id="node1Street1Lgc1" start="409" length="8"></field>
-    <field id="node1Street1Lgc2" start="417" length="8"></field>
-    <field id="node1Street1Lgc3" start="425" length="8"></field>
-    <field id="node1Street1Lgc4" start="433" length="8"></field>
-    <field id="node1Street2" start="441" length="8"></field>
-    <field id="node1Street2Lgc1" start="449" length="8"></field>
-    ...
-    -->
+        <!-- Not implemented 401 through 3600 -->
+        <!-- See Geosupport workarea layouts for COWS 2W -->
+        <!--
+        <field id="node1Street1" start="401" length="8"></field>
+        <field id="node1Street1Lgc1" start="409" length="8"></field>
+        <field id="node1Street1Lgc2" start="417" length="8"></field>
+        <field id="node1Street1Lgc3" start="425" length="8"></field>
+        <field id="node1Street1Lgc4" start="433" length="8"></field>
+        <field id="node1Street2" start="441" length="8"></field>
+        <field id="node1Street2Lgc1" start="449" length="8"></field>
+        ...
+        -->
         <field id="nodesStreetsAndLgcs" start="401" length="3200"></field>
         <field id="reasonCode2w" start="3601" length="1"></field>
         <field id="reasonCodeQualifier2w" start="3602" length="1"></field>
@@ -1809,7 +1811,12 @@
         <field id="returnCode2w" start="3605" length="2"></field>
         <field id="latitude" start="3607" length="9"></field>
         <field id="longitude" start="3616" length="11"></field>
-        <field id="filler8" start="3627" length="374"></field>
+        <field id="filler8" start="3627" length="6"></field>
+        <field id="censusBlock2020" start="3633" length="4"></field>
+        <field id="censusBlockSuffix2020" start="3637" length="1"></field>
+        <field id="nta2020" start="3638" length="6"></field>
+        <field id="cdta2020" start="3644" length="4"></field>
+        <field id="filler9" start="3648" length="353"></field>
       </fields>
     </workArea>
     <workArea id="WA2_F3">

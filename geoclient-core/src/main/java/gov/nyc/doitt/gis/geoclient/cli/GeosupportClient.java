@@ -55,9 +55,10 @@ public class GeosupportClient
         FUNCTIONS.put(Function.FBL, 6);
         FUNCTIONS.put(Function.FBN, 7);
         FUNCTIONS.put(Function.F2, 8);
-        FUNCTIONS.put(Function.F3, 9);
-        FUNCTIONS.put(Function.FDG, 10);
-        FUNCTIONS.put(Function.FHR, 11);
+        FUNCTIONS.put(Function.F2W, 9);
+        FUNCTIONS.put(Function.F3, 10);
+        FUNCTIONS.put(Function.FDG, 11);
+        FUNCTIONS.put(Function.FHR, 12);
         // TODO: Add functions N*, D, DN
         SortedSet<String> functionNames = new TreeSet<String>();
         functionNames.addAll(FUNCTIONS.keySet());
@@ -140,6 +141,18 @@ public class GeosupportClient
         String boroCode = promptAndReadValue("borough code");
         doCall(Function.F2,
                 buildParams("geosupportFunctionCode", Function.F2, "streetName1In", crossStreet1, "streetName2In",
+                        crossStreet2, "compassDirection", compassDirection, "boroughCode1In", boroCode), false, this.displayEmptyFieldValues);
+    }
+
+    public void callFunction2W()
+    {
+        showFunctionHeader(Function.F2W);
+        String crossStreet1 = promptAndReadValue("cross street 1");
+        String crossStreet2 = promptAndReadValue("cross street 2");
+        String compassDirection = promptAndReadValue("compass direction (if necessary)");
+        String boroCode = promptAndReadValue("borough code");
+        doCall(Function.F2W,
+                buildParams("geosupportFunctionCode", Function.F2W, "streetName1In", crossStreet1, "streetName2In",
                         crossStreet2, "compassDirection", compassDirection, "boroughCode1In", boroCode), false, this.displayEmptyFieldValues);
     }
 
@@ -247,12 +260,15 @@ public class GeosupportClient
                     client.callFunction2();
                     break;
                 case 9:
-                    client.callFunction3();
+                    client.callFunction2W();
                     break;
                 case 10:
-                    client.callFunctionDG();
+                    client.callFunction3();
                     break;
                 case 11:
+                    client.callFunctionDG();
+                    break;
+                case 12:
                     client.callFunctionHR();
                     break;
                 }
