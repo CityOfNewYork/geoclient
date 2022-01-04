@@ -44,7 +44,7 @@ logging:
         thymeleaf-trace: "INFO"
         tomcat: "INFO"
         geoclient: "INFO"
-        geoclient-jni: "INFO"
+        geoclient-jni: "DEBUG"
         geoclient-service: "INFO"
         ## Log Dozer bean mapping framework
         #com.github.dozermapper: "DEBUG"
@@ -64,8 +64,7 @@ management:
 #
 # Command line for using this profile with the gradle bootRun task:
 #
-#     ./gradlew -Dgc.jni.version=geoclient-jni-2 \
-#         bootRun --args='--spring.profiles.active=bootRun'
+# ./gradlew -Dgc.jni.version=geoclient-jni-2 bootRun --args='--spring.profiles.active=bootRun'
 #
 spring:
     profiles: bootRun
@@ -81,10 +80,14 @@ logging:
     level:
         spring: "INFO"
         spring-boot: "INFO"
-        spring-web: "DEBUG"
-        thymeleaf: "DEBUG"
+        spring-web: "INFO"
+        thymeleaf: "INFO"
         #thymeleaf-trace: "TRACE"
-        gov.nyc.doitt.gis.geoclient.service.web: "DEBUG"
+        #gov.nyc.doitt.gis.geoclient: "INFO"
+        ## Log native C runtime and JNI configuration at startup
+        gov.nyc.doitt.gis.geoclient.jni: "DEBUG"
+        ## Log character buffer values from geosupport requests/repsonses
+        gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
     file:
         name: "@bootRunDir@/logs/geoclient.log"
 
