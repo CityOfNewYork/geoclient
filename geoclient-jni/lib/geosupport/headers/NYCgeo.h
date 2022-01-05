@@ -1,19 +1,16 @@
+//---------------------------------------------------------------------------
 #ifndef NYCgeoH
 #define NYCgeoH
 
 #ifdef __cplusplus
-extern "C"
+extern "C" 
 {
-#endif
-
-#ifdef __cplusplus
-	__declspec(dllimport) void __stdcall NYCgeo(char *ptr_wa1, char *ptr_wa2=null);
+	__declspec(dllimport) void __stdcall NYCgeo(char *ptr_wa1, char *ptr_wa2=NULL);
+}
 #else
+{
 	__declspec(dllimport) void __stdcall NYCgeo(char *ptr_wa1, char *ptr_wa2);
-#endif
-
-#ifdef __cplusplus
 }
 #endif
-
 #endif
+//---------------------------------------------------------------------------
