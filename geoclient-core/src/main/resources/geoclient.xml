@@ -1823,6 +1823,7 @@
       <length>1000</length>
       <outputFilters reference="allFilters" />
       <fields>
+        <!-- begin:pac.h C_WA2_F3 -->
         <field id="internalUse" start="1" length="21"></field>
         <field id="duplicateKeyFlagOrContinuousParity" start="22" length="1"></field>
         <field id="locationalStatusOfSegment" start="23" length="1"></field>
@@ -1830,6 +1831,7 @@
         <field id="dcpPreferredLgcForStreet1" start="25" length="2"></field>
         <field id="dcpPreferredLgcForStreet2" start="27" length="2"></field>
         <field id="dcpPreferredLgcForStreet3" start="29" length="2"></field>
+        <!-- St_list[2]: dim.1=low, dim.2=high -->
         <field id="numberOfCrossStreetB5SCsLowAddressEnd" start="31" length="1"></field>
         <field id="lowCrossStreetB5SC1" start="32" length="6"></field>
         <field id="lowCrossStreetB5SC2" start="38" length="6"></field>
@@ -1851,10 +1853,11 @@
         <field id="lengthOfSegmentInFeet" start="105" length="5"></field>
         <field id="segmentAzimuth" start="110" length="3"><!-- item doc by id --></field>
         <field id="segmentOrientation" start="113" length="1"><!-- item doc by id --></field>
+        <!-- Marble Hill/Rikers Island alternative boro flag -->
         <field id="alternativeBoroughFlag" start="114" length="1"><!-- item doc by id --></field>
         <field id="fromNode" start="115" length="7"><!-- needs doc --></field>
         <field id="toNode" start="122" length="7"><!-- needs doc --></field>
-        <!-- AKA DSNY Snow Priority Code -->
+        <!-- AKA DSNY Snow Priority Code (P,S,T,V) -->
         <field id="sanitationSnowPriorityCode" start="129" length="1"><!-- needs doc --></field>
         <field id="filler5" start="130" length="4"><!-- filtered --></field>
         <field id="segmentIdentifier" start="134" length="7"><!-- needs doc --></field>
@@ -1865,6 +1868,7 @@
         <field id="segmentTypeCode" start="145" length="1"></field>
         <field id="coincidentSegmentCount" start="146" length="1"></field>
         <field id="filler6" start="147" length="4"></field>
+        <!-- SEGSIDE[2]: dim.1=left segment, dim.2=right segment -->
         <field id="leftSegmentCommunityDistrict" start="151" length="3" type="COMP"></field>
         <field id="leftSegmentCommunityDistrictBoroughCode" start="151" length="1"></field>
         <field id="leftSegmentCommunityDistrictNumber" start="152" length="2"></field>
@@ -1990,6 +1994,8 @@
         <field id="rightSegmentPumaCode" start="795" length="5"></field><!-- Error in DCP Git 3X docs: size="2" -->
         <field id="leftSegmentPoliceSector" start="800" length="4"></field>
         <field id="rightSegmentPoliceSector" start="804" length="4"></field>
+        <!-- begin:v19.3 -->
+        <!-- end:v19.3 -->
         <field id="filler8" start="808" length="193"></field>
       </fields>
     </workArea>
