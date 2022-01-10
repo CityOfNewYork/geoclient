@@ -2115,106 +2115,106 @@
         <field id="apFileRelease" start="431" length="4"></field>
         <field id="apFileRecordCount" start="435" length="8"></field>
         <!-- upadFileInfo -->
-        <field id="upadFileRecordType" start="" length="4"></field>
-        <field id="upadFileTag" start="" length="4"></field>
-        <field id="upadFileDate" start="" length="6"></field>
-        <field id="upadFileRelease" start="" length="4"></field>
-        <field id="upadFileRecordCount" start="" length="8"></field>
+        <field id="upadFileRecordType" start="443" length="4"></field>
+        <field id="upadFileTag" start="447" length="4"></field>
+        <field id="upadFileDate" start="451" length="6"></field>
+        <field id="upadFileRelease" start="457" length="4"></field>
+        <field id="upadFileRecordCount" start="461" length="8"></field>
         <!-- statFileInfo -->
-        <field id="statFileRecordType" start="" length="4"></field>
-        <field id="statFileTag" start="" length="4"></field>
-        <field id="statFileDate" start="" length="6"></field>
-        <field id="statFileRelease" start="" length="4"></field>
-        <field id="statFileRecordCount" start="" length="8"></field>
+        <field id="statFileRecordType" start="469" length="4"></field>
+        <field id="statFileTag" start="473" length="4"></field>
+        <field id="statFileDate" start="477" length="6"></field>
+        <field id="statFileRelease" start="483" length="4"></field>
+        <field id="statFileRecordCount" start="487" length="8"></field>
         <!-- stat1FileInfo -->
-        <field id="stat1FileRecordType" start="" length="4"></field>
-        <field id="stat1FileTag" start="" length="4"></field>
-        <field id="stat1FileDate" start="" length="6"></field>
-        <field id="stat1FileRelease" start="" length="4"></field>
-        <field id="stat1FileRecordCount" start="" length="8"></field>
+        <field id="stat1FileRecordType" start="495" length="4"></field>
+        <field id="stat1FileTag" start="499" length="4"></field>
+        <field id="stat1FileDate" start="503" length="6"></field>
+        <field id="stat1FileRelease" start="509" length="4"></field>
+        <field id="stat1FileRecordCount" start="513" length="8"></field>
         <!-- stat1AFileInfo -->
-        <field id="stat1AFileRecordType" start="" length="4"></field>
-        <field id="stat1AFileTag" start="" length="4"></field>
-        <field id="stat1AFileDate" start="" length="6"></field>
-        <field id="stat1AFileRelease" start="" length="4"></field>
-        <field id="stat1AFileRecordCount" start="" length="8"></field>
+        <field id="stat1AFileRecordType" start="521" length="4"></field>
+        <field id="stat1AFileTag" start="525" length="4"></field>
+        <field id="stat1AFileDate" start="529" length="6"></field>
+        <field id="stat1AFileRelease" start="535" length="4"></field>
+        <field id="stat1AFileRecordCount" start="539" length="8"></field>
         <!-- stat2FileInfo -->
-        <field id="stat2FileRecordType" start="" length="4"></field>
-        <field id="stat2FileTag" start="" length="4"></field>
-        <field id="stat2FileDate" start="" length="6"></field>
-        <field id="stat2FileRelease" start="" length="4"></field>
-        <field id="stat2FileRecordCount" start="" length="8"></field>
+        <field id="stat2FileRecordType" start="547" length="4"></field>
+        <field id="stat2FileTag" start="551" length="4"></field>
+        <field id="stat2FileDate" start="555" length="6"></field>
+        <field id="stat2FileRelease" start="561" length="4"></field>
+        <field id="stat2FileRecordCount" start="565" length="8"></field>
         <!-- stat3FileInfo -->
-        <field id="stat3FileRecordType" start="" length="4"></field>
-        <field id="stat3FileTag" start="" length="4"></field>
-        <field id="stat3FileDate" start="" length="6"></field>
-        <field id="stat3FileRelease" start="" length="4"></field>
-        <field id="stat3FileRecordCount" start="" length="8"></field>
+        <field id="stat3FileRecordType" start="573" length="4"></field>
+        <field id="stat3FileTag" start="577" length="4"></field>
+        <field id="stat3FileDate" start="581" length="6"></field>
+        <field id="stat3FileRelease" start="587" length="4"></field>
+        <field id="stat3FileRecordCount" start="591" length="8"></field>
         <!-- stat3SFileInfo -->
-        <field id="stat3SFileRecordType" start="" length="4"></field>
-        <field id="stat3SFileTag" start="" length="4"></field>
-        <field id="stat3SFileDate" start="" length="6"></field>
-        <field id="stat3SFileRelease" start="" length="4"></field>
-        <field id="stat3SFileRecordCount" start="" length="8"></field>
+        <field id="stat3SFileRecordType" start="599" length="4"></field>
+        <field id="stat3SFileTag" start="603" length="4"></field>
+        <field id="stat3SFileDate" start="607" length="6"></field>
+        <field id="stat3SFileRelease" start="613" length="4"></field>
+        <field id="stat3SFileRecordCount" start="617" length="8"></field>
         <!-- statAPFileInfo -->
-        <field id="statAPFileRecordType" start="" length="4"></field>
-        <field id="statAPFileTag" start="" length="4"></field>
-        <field id="statAPFileDate" start="" length="6"></field>
-        <field id="statAPFileRelease" start="" length="4"></field>
-        <field id="statAPFileRecordCount" start="" length="8"></field>
+        <field id="statAPFileRecordType" start="625" length="4"></field>
+        <field id="statAPFileTag" start="629" length="4"></field>
+        <field id="statAPFileDate" start="633" length="6"></field>
+        <field id="statAPFileRelease" start="639" length="4"></field>
+        <field id="statAPFileRecordCount" start="643" length="8"></field>
         <!-- statBLFileInfo -->
-        <field id="statBLFileRecordType" start="" length="4"></field>
-        <field id="statBLFileTag" start="" length="4"></field>
-        <field id="statBLFileDate" start="" length="6"></field>
-        <field id="statBLFileRelease" start="" length="4"></field>
-        <field id="statBLFileRecordCount" start="" length="8"></field>
+        <field id="statBLFileRecordType" start="651" length="4"></field>
+        <field id="statBLFileTag" start="655" length="4"></field>
+        <field id="statBLFileDate" start="659" length="6"></field>
+        <field id="statBLFileRelease" start="665" length="4"></field>
+        <field id="statBLFileRecordCount" start="669" length="8"></field>
         <!-- bnFileInfo -->
-        <field id="bnFileRecordType" start="" length="4"></field>
-        <field id="bnFileTag" start="" length="4"></field>
-        <field id="bnFileDate" start="" length="6"></field>
-        <field id="bnFileRelease" start="" length="4"></field>
-        <field id="bnFileRecordCount" start="" length="8"></field>
+        <field id="bnFileRecordType" start="677" length="4"></field>
+        <field id="bnFileTag" start="681" length="4"></field>
+        <field id="bnFileDate" start="685" length="6"></field>
+        <field id="bnFileRelease" start="691" length="4"></field>
+        <field id="bnFileRecordCount" start="695" length="8"></field>
         <!-- statDFileInfo -->
-        <field id="statDFileRecordType" start="" length="4"></field>
-        <field id="statDFileTag" start="" length="4"></field>
-        <field id="statDFileDate" start="" length="6"></field>
-        <field id="statDFileRelease" start="" length="4"></field>
-        <field id="statDFileRecordCount" start="" length="8"></field>
+        <field id="statDFileRecordType" start="703" length="4"></field>
+        <field id="statDFileTag" start="707" length="4"></field>
+        <field id="statDFileDate" start="711" length="6"></field>
+        <field id="statDFileRelease" start="717" length="4"></field>
+        <field id="statDFileRecordCount" start="721" length="8"></field>
         <!-- sneqFileInfo -->
-        <field id="sneqFileRecordType" start="" length="4"></field>
-        <field id="sneqFileTag" start="" length="4"></field>
-        <field id="sneqFileDate" start="" length="6"></field>
-        <field id="sneqFileRelease" start="" length="4"></field>
-        <field id="sneqFileRecordCount" start="" length="8"></field>
-        <!-- dsNames 1 through 15 -->
-        <field id="dsName1" start="" length="60"></field>
-        <field id="dsName2" start="" length="60"></field>
-        <field id="dsName3" start="" length="60"></field>
-        <field id="dsName4" start="" length="60"></field>
-        <field id="dsName5" start="" length="60"></field>
-        <field id="dsName6" start="" length="60"></field>
-        <field id="dsName7" start="" length="60"></field>
-        <field id="dsName8" start="" length="60"></field>
-        <field id="dsName9" start="" length="60"></field>
-        <field id="dsName10" start="" length="60"></field>
-        <field id="dsName11" start="" length="60"></field>
-        <field id="dsName12" start="" length="60"></field>
-        <field id="dsName13" start="" length="60"></field>
-        <field id="dsName14" start="" length="60"></field>
-        <field id="dsName15" start="" length="60"></field>
-        <field id="dsName16" start="" length="60"></field>
-        <field id="dsName17" start="" length="60"></field>
-        <field id="dsName18" start="" length="60"></field>
-        <field id="dsName19" start="" length="60"></field>
-        <field id="dsName20" start="" length="60"></field>
-        <field id="dsName21" start="" length="60"></field>
-        <field id="dsName22" start="" length="60"></field>
-        <field id="dsName23" start="" length="60"></field>
-        <field id="dsName24" start="" length="60"></field>
-        <field id="dsName25" start="" length="60"></field>
-        <field id="dsName26" start="" length="60"></field>
-        <field id="geofilesDirectory" start="" length="60"></field>
-        <field id="filler4" start="" length="2750"></field> <!-- reduce by 360 -->
+        <field id="sneqFileRecordType" start="729" length="4"></field>
+        <field id="sneqFileTag" start="733" length="4"></field>
+        <field id="sneqFileDate" start="737" length="6"></field>
+        <field id="sneqFileRelease" start="743" length="4"></field>
+        <field id="sneqFileRecordCount" start="747" length="8"></field>
+        <!-- dsNames 1 through 26 -->
+        <field id="dsName1" start="755" length="60"></field>
+        <field id="dsName2" start="815" length="60"></field>
+        <field id="dsName3" start="875" length="60"></field>
+        <field id="dsName4" start="935" length="60"></field>
+        <field id="dsName5" start="995" length="60"></field>
+        <field id="dsName6" start="1055" length="60"></field>
+        <field id="dsName7" start="1115" length="60"></field>
+        <field id="dsName8" start="1175" length="60"></field>
+        <field id="dsName9" start="1235" length="60"></field>
+        <field id="dsName10" start="1295" length="60"></field>
+        <field id="dsName11" start="1355" length="60"></field>
+        <field id="dsName12" start="1415" length="60"></field>
+        <field id="dsName13" start="1475" length="60"></field>
+        <field id="dsName14" start="1535" length="60"></field>
+        <field id="dsName15" start="1595" length="60"></field>
+        <field id="dsName16" start="1655" length="60"></field>
+        <field id="dsName17" start="1715" length="60"></field>
+        <field id="dsName18" start="1775" length="60"></field>
+        <field id="dsName19" start="1835" length="60"></field>
+        <field id="dsName20" start="1895" length="60"></field>
+        <field id="dsName21" start="1955" length="60"></field>
+        <field id="dsName22" start="2015" length="60"></field>
+        <field id="dsName23" start="2075" length="60"></field>
+        <field id="dsName24" start="2135" length="60"></field>
+        <field id="dsName25" start="2195" length="60"></field>
+        <field id="dsName26" start="2255" length="60"></field>
+        <field id="geofilesDirectory" start="2315" length="60"></field>
+        <field id="filler4" start="2375" length="2652"></field>
       </fields>
     </workArea>
   </workAreas>
