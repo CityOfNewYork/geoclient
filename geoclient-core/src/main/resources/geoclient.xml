@@ -2168,12 +2168,12 @@
         <field id="statBLFileDate" start="659" length="6"></field>
         <field id="statBLFileRelease" start="665" length="4"></field>
         <field id="statBLFileRecordCount" start="669" length="8"></field>
-        <!-- bnFileInfo -->
-        <field id="bnFileRecordType" start="677" length="4"></field>
-        <field id="bnFileTag" start="681" length="4"></field>
-        <field id="bnFileDate" start="685" length="6"></field>
-        <field id="bnFileRelease" start="691" length="4"></field>
-        <field id="bnFileRecordCount" start="695" length="8"></field>
+        <!-- statBNFileInfo -->
+        <field id="statBNFileRecordType" start="677" length="4"></field>
+        <field id="statBNFileTag" start="681" length="4"></field>
+        <field id="statBNFileDate" start="685" length="6"></field>
+        <field id="statBNFileRelease" start="691" length="4"></field>
+        <field id="statBNFileRecordCount" start="695" length="8"></field>
         <!-- statDFileInfo -->
         <field id="statDFileRecordType" start="703" length="4"></field>
         <field id="statDFileTag" start="707" length="4"></field>

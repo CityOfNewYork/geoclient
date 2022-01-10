@@ -30,6 +30,20 @@ public class GeosupportVersion
     private FileInfo auxsegFileInfo;
     private FileInfo tpadFileInfo;
     private FileInfo apequivFileInfo;
+    private FileInfo apFileInfo;
+    private FileInfo upadFileInfo;
+    private FileInfo statFileInfo;
+    private FileInfo stat1FileInfo;
+    private FileInfo stat1AFileInfo;
+    private FileInfo stat2FileInfo;
+    private FileInfo stat3FileInfo;
+    private FileInfo stat3SFileInfo;
+    private FileInfo statAPFileInfo;
+    private FileInfo statBLFileInfo;
+    private FileInfo statBNFileInfo;
+    private FileInfo statDFileInfo;
+    private FileInfo sneqFileInfo;
+
     private List<String> dsNames;
 
     public GeosupportVersion()
@@ -165,6 +179,110 @@ public class GeosupportVersion
     public void setApequivFileInfo(FileInfo apequivFileInfo)
     {
         this.apequivFileInfo = apequivFileInfo;
+    }
+
+    public FileInfo getApFileInfo() {
+        return apFileInfo;
+    }
+
+    public void setApFileInfo(FileInfo apFileInfo) {
+        this.apFileInfo = apFileInfo;
+    }
+
+    public FileInfo getUpadFileInfo() {
+        return upadFileInfo;
+    }
+
+    public void setUpadFileInfo(FileInfo upadFileInfo) {
+        this.upadFileInfo = upadFileInfo;
+    }
+
+    public FileInfo getStatFileInfo() {
+        return statFileInfo;
+    }
+
+    public void setStatFileInfo(FileInfo statFileInfo) {
+        this.statFileInfo = statFileInfo;
+    }
+
+    public FileInfo getStat1FileInfo() {
+        return stat1FileInfo;
+    }
+
+    public void setStat1FileInfo(FileInfo stat1FileInfo) {
+        this.stat1FileInfo = stat1FileInfo;
+    }
+
+    public FileInfo getStat1AFileInfo() {
+        return stat1AFileInfo;
+    }
+
+    public void setStat1AFileInfo(FileInfo stat1aFileInfo) {
+        stat1AFileInfo = stat1aFileInfo;
+    }
+
+    public FileInfo getStat2FileInfo() {
+        return stat2FileInfo;
+    }
+
+    public void setStat2FileInfo(FileInfo stat2FileInfo) {
+        this.stat2FileInfo = stat2FileInfo;
+    }
+
+    public FileInfo getStat3FileInfo() {
+        return stat3FileInfo;
+    }
+
+    public void setStat3FileInfo(FileInfo stat3FileInfo) {
+        this.stat3FileInfo = stat3FileInfo;
+    }
+
+    public FileInfo getStat3SFileInfo() {
+        return stat3SFileInfo;
+    }
+
+    public void setStat3SFileInfo(FileInfo stat3sFileInfo) {
+        stat3SFileInfo = stat3sFileInfo;
+    }
+
+    public FileInfo getStatAPFileInfo() {
+        return statAPFileInfo;
+    }
+
+    public void setStatAPFileInfo(FileInfo statAPFileInfo) {
+        this.statAPFileInfo = statAPFileInfo;
+    }
+
+    public FileInfo getStatBLFileInfo() {
+        return statBLFileInfo;
+    }
+
+    public void setStatBLFileInfo(FileInfo statBLFileInfo) {
+        this.statBLFileInfo = statBLFileInfo;
+    }
+
+    public FileInfo getStatBNFileInfo() {
+        return statBNFileInfo;
+    }
+
+    public void setStatBNFileInfo(FileInfo statBNFileInfo) {
+        this.statBNFileInfo = statBNFileInfo;
+    }
+
+    public FileInfo getStatDFileInfo() {
+        return statDFileInfo;
+    }
+
+    public void setStatDFileInfo(FileInfo statDFileInfo) {
+        this.statDFileInfo = statDFileInfo;
+    }
+
+    public FileInfo getSneqFileInfo() {
+        return sneqFileInfo;
+    }
+
+    public void setSneqFileInfo(FileInfo sneqFileInfo) {
+        this.sneqFileInfo = sneqFileInfo;
     }
 
     public List<String> getDsNames()
