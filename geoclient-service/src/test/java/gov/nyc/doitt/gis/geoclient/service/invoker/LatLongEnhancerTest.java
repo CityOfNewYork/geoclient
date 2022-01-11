@@ -39,9 +39,11 @@ public class LatLongEnhancerTest
     public void setUp() throws Exception
     {
         this.latLongEnhancer = new LatLongEnhancer();
+        // Intersection: Amsterdam Avenue and West 111 Street, Manhattan
         this.geocodingResult = new HashMap<String, Object>();
         this.xCoord = "0994386";
         this.yCoord = "0232063";
+        // GOAT: 40.803630 , -73.963388
         this.expectedLat = 40.80362939651128;
         this.expectedLong = -73.9633880907633;
     }
