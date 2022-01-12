@@ -25,7 +25,6 @@ import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 import gov.nyc.doitt.gis.geoclient.jni.test.GeoclientStub;
-import gov.nyc.doitt.gis.geoclient.util.OperatingSystemUtils;
 
 public class FunctionToCsv
 {
@@ -33,27 +32,28 @@ public class FunctionToCsv
 
     public static void main(String[] args) throws Exception
     {
-        GeosupportConfig geosupportConfig = null;
-
-        if (OperatingSystemUtils.isWindows())
-        {
-            geosupportConfig = new GeosupportConfig(new GeoclientStub());
-        } else
-        {
-            geosupportConfig = new GeosupportConfig(new GeoclientStub());
-        }
+        GeosupportConfig geosupportConfig = new GeosupportConfig(new GeoclientStub());
         log.debug("Name,Function,WorkArea");
+        // NOTE: Single work area functions (BB, BF, D, DG, DN, N) are NOT
+        // referenced below because they only contain WorkAreaOne and it has already
+        // been logged.
         Function f1 = geosupportConfig.getFunction(Function.F1);
+        // WorkAreaOne definition
         logFields("All",f1.getWorkAreaOne());
+        // WorkAreaTwo definitions
         logFields(Function.F1,f1.getWorkAreaTwo());
         logFields(Function.F1A,geosupportConfig.getFunction(Function.F1A).getWorkAreaTwo());
         logFields(Function.F1AX,geosupportConfig.getFunction(Function.F1AX).getWorkAreaTwo());
         logFields(Function.F1B,geosupportConfig.getFunction(Function.F1B).getWorkAreaTwo());
         logFields(Function.F1E,geosupportConfig.getFunction(Function.F1E).getWorkAreaTwo());
+        logFields(Function.FAP,geosupportConfig.getFunction(Function.FAP).getWorkAreaTwo());
         logFields(Function.F2,geosupportConfig.getFunction(Function.F2).getWorkAreaTwo());
+        logFields(Function.F2W,geosupportConfig.getFunction(Function.F2W).getWorkAreaTwo());
         logFields(Function.F3,geosupportConfig.getFunction(Function.F3).getWorkAreaTwo());
         logFields(Function.FBL,geosupportConfig.getFunction(Function.FBL).getWorkAreaTwo());
         logFields(Function.FBN,geosupportConfig.getFunction(Function.FBN).getWorkAreaTwo());
+        logFields(Function.FHR,geosupportConfig.getFunction(Function.FHR).getWorkAreaTwo());
+        // DataDictionary ItemDocumentation elements
         DataDictionary dataDictionary = geosupportConfig.getDataDictionary();
         for (ItemDocumentation itemDocumentation : dataDictionary.getItems())
         {
@@ -71,10 +71,10 @@ public class FunctionToCsv
 
     private static void logDataDictionaryItem(ItemDocumentation itemDocumentation)
     {
-        String id = itemDocumentation.getId();
-        for (String functionId : itemDocumentation.getFunctionNames())
-        {
-            log.info("{},{},{}",id,functionId,"DataDictionary");
-        }
+        //String id = itemDocumentation.getId();
+        //for (String functionId : itemDocumentation.getFunctionNames())
+        //{
+        //    log.info("{},{},{}",id,functionId,"DataDictionary");
+        //}
     }
 }
