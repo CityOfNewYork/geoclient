@@ -96,6 +96,13 @@ bootWar {
     with(project.licenseFilesSpec)
 }
 
+// Temporary fix for Java SystemProperties specified on the command line
+// not being used by Gradle or Spring Boot with the JVM used to execute
+// the bootRun task. This only seems to occur from within VS Code remote
+// container running on debian:bullseye, using Eclipse Temurin Java 8
+// installed with sdkman.
+tasks.named('bootRun').get().systemProperties = [ 'gc.jni.version': 'geoclient-jni-2' ]
+
 publishing {
     publications {
         bootJava(MavenPublication) {
