@@ -49,7 +49,6 @@ import gov.nyc.doitt.gis.geoclient.service.invoker.DoubleFieldSetConverter;
 import gov.nyc.doitt.gis.geoclient.service.invoker.FieldSetConverter;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl;
-import gov.nyc.doitt.gis.geoclient.service.invoker.LatLongEnhancer;
 import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
 import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
 import gov.nyc.doitt.gis.geoclient.service.mapper.ResponseStatusMapper;
@@ -91,10 +90,13 @@ public class AppConfig {
     @Bean
     public List<FieldSet> latLongConversions() {
         List<FieldSet> conversions = new ArrayList<>();
-        conversions.add(new FieldSet(Function.F1B, new String[]{"latitude", "longitude", "latitudeInternalLabel", "longitudeInternalLabel"}));
-        conversions.add(new FieldSet(Function.FBL, new String[]{"latitudeInternalLabel", "longitudeInternalLabel"}));
-        conversions.add(new FieldSet(Function.FBN, new String[]{"latitudeInternalLabel", "longitudeInternalLabel"}));
-        conversions.add(new FieldSet(Function.F2, new String[]{"latitude", "longitude"}));
+        // Self-encapsulate by using instance methods instead of Function
+        // constants directly to prevent having two places where function
+        // id needs to stay consistent.
+        conversions.add(new FieldSet("F" + function1B().getId(), new String[]{"latitude", "longitude", "latitudeInternalLabel", "longitudeInternalLabel"}));
+        conversions.add(new FieldSet("F" + functionBL().getId(), new String[]{"latitudeInternalLabel", "longitudeInternalLabel"}));
+        conversions.add(new FieldSet("F" + functionBN().getId(), new String[]{"latitudeInternalLabel", "longitudeInternalLabel"}));
+        conversions.add(new FieldSet("F" + function2W().getId(), new String[]{"latitude", "longitude"}));
         return conversions;
     }
 
@@ -153,11 +155,6 @@ public class AppConfig {
     }
 
     @Bean
-    public LatLongEnhancer latLongEnhancer() {
-        return new LatLongEnhancer();
-    }
-
-    @Bean
     public Mapper<ResponseStatus> beanMapper() {
         return new ResponseStatusMapper();
     }
@@ -186,8 +183,8 @@ public class AppConfig {
         return geosupportFunction(Function.F3);
     }
 
-    public Function function2() {
-        return geosupportFunction(Function.F2);
+    public Function function2W() {
+        return geosupportFunction(Function.F2W);
     }
 
     public Function functionHR() {

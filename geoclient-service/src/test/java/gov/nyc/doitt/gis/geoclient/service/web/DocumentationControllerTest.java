@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.ui.ModelMap;
 
-import gov.nyc.doitt.gis.geoclient.service.domain.Documentation;
 import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 
@@ -40,13 +39,13 @@ public class DocumentationControllerTest {
 
     @Test
     public void testDoc() {
-        Documentation doc = new Documentation();
+        //Documentation doc = new Documentation();
         ModelMap modelMap = new ModelMap();
-        Mockito.when(this.geosupportServiceMock.getDocumentation()).thenReturn(doc);
+        //Mockito.when(this.geosupportServiceMock.getDocumentation()).thenReturn(doc);
         Version version = new Version();
         Mockito.when(this.geosupportServiceMock.version()).thenReturn(version);
         assertEquals(DocumentationController.DOC_VIEW_NAME, this.documentationController.doc(modelMap));
         assertSame(version, modelMap.getAttribute("version"));
-        assertSame(doc, modelMap.get("doc"));
+        //assertSame(doc, modelMap.get("doc"));
     }
 }

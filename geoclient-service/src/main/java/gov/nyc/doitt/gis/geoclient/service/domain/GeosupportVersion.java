@@ -17,6 +17,9 @@ package gov.nyc.doitt.gis.geoclient.service.domain;
 
 import java.util.List;
 
+/**
+ * Bean class for data returned by Geosupport function HR.
+ */
 public class GeosupportVersion
 {
     public static final String GEO_FILE_TAG = "GEO";
@@ -296,11 +299,15 @@ public class GeosupportVersion
     }
 
     @Override
-    public String toString()
-    {
-        return "GeosupportVersion [geoFileInfo=" + geoFileInfo + ", thinFileInfo=" + thinFileInfo + ", grid1RFileInfo="
-                + grid1RFileInfo + ", auxsegFileInfo=" + auxsegFileInfo + ", tpadFileInfo=" + tpadFileInfo
-                + ", apequivFileInfo=" + apequivFileInfo + ", dsNames=" + dsNames + "]";
+    public String toString() {
+        return "GeosupportVersion [apFileInfo=" + apFileInfo + ", apequivFileInfo=" + apequivFileInfo
+                + ", auxsegFileInfo=" + auxsegFileInfo + ", dsNames=" + dsNames + ", geoFileInfo=" + geoFileInfo
+                + ", grid1RFileInfo=" + grid1RFileInfo + ", sneqFileInfo=" + sneqFileInfo + ", stat1AFileInfo="
+                + stat1AFileInfo + ", stat1FileInfo=" + stat1FileInfo + ", stat2FileInfo=" + stat2FileInfo
+                + ", stat3FileInfo=" + stat3FileInfo + ", stat3SFileInfo=" + stat3SFileInfo + ", statAPFileInfo="
+                + statAPFileInfo + ", statBLFileInfo=" + statBLFileInfo + ", statBNFileInfo=" + statBNFileInfo
+                + ", statDFileInfo=" + statDFileInfo + ", statFileInfo=" + statFileInfo + ", thinFileInfo="
+                + thinFileInfo + ", tpadFileInfo=" + tpadFileInfo + ", upadFileInfo=" + upadFileInfo + "]";
     }
 
 }

@@ -50,7 +50,6 @@ import gov.nyc.doitt.gis.geoclient.api.InvalidStreetCodeException;
 import gov.nyc.doitt.gis.geoclient.api.StreetCode;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.service.configuration.AppConfig;
-import gov.nyc.doitt.gis.geoclient.service.domain.Documentation;
 import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 import gov.nyc.doitt.gis.geoclient.util.Assert;
 
@@ -71,12 +70,12 @@ public class GeosupportServiceImpl implements GeosupportService {
      */
     private abstract class Call {
         private final Function function;
-        private final LatLongEnhancer latLongEnhancer;
+        private final FieldSetConverter latLongConverter;
 
-        public Call(Function function, LatLongEnhancer latLongEnhancer) {
+        public Call(Function function, FieldSetConverter latLongFieldSetConverter) {
             super();
             this.function = function;
-            this.latLongEnhancer = latLongEnhancer;
+            this.latLongConverter = latLongFieldSetConverter;
         }
 
         public Map<String, Object> execute() {
@@ -99,7 +98,7 @@ public class GeosupportServiceImpl implements GeosupportService {
             LOGGER.debug("{} result {}", id(), result);
 
             // Add lat/long info
-            latLongEnhancer.addLatLong(result);
+            latLongConverter.convert(id(), result);
             LOGGER.debug("{} result post lat/lon enhancement {}", id(), result);
 
             return result;
@@ -135,7 +134,7 @@ public class GeosupportServiceImpl implements GeosupportService {
     @Override
     public Map<String, Object> callFunctionAP(String houseNumber, String street, String borough, String zip) {
 
-        return new Call(serviceConfiguration.functionAP(), serviceConfiguration.latLongEnhancer()) {
+        return new Call(serviceConfiguration.functionAP(), serviceConfiguration.latLongFieldSetConverter()) {
             @Override
             public Map<String, Object> userArguments() {
             Map<String, Object> params = newMap();
@@ -160,7 +159,7 @@ public class GeosupportServiceImpl implements GeosupportService {
     @Override
     public Map<String, Object> callFunction1B(final String houseNumber, final String street, final String borough,
             final String zip) {
-        return new Call(serviceConfiguration.function1B(), serviceConfiguration.latLongEnhancer()) {
+        return new Call(serviceConfiguration.function1B(), serviceConfiguration.latLongFieldSetConverter()) {
             @Override
             public Map<String, Object> userArguments() {
                 Map<String, Object> params = newMap();
@@ -185,7 +184,7 @@ public class GeosupportServiceImpl implements GeosupportService {
     @Override
     public Map<String, Object> callFunction2(final String crossStreetOne, final String boroughCrossStreetOne,
             final String crossStreetTwo, final String boroughCrossStreetTwo, final String compassDirection) {
-        return new Call(serviceConfiguration.function2(), serviceConfiguration.latLongEnhancer()) {
+        return new Call(serviceConfiguration.function2W(), serviceConfiguration.latLongFieldSetConverter()) {
             @Override
             public Map<String, Object> userArguments() {
                 Map<String, Object> params = newMap();
@@ -207,7 +206,7 @@ public class GeosupportServiceImpl implements GeosupportService {
     public Map<String, Object> callFunction3(final String onStreet, final String boroughOnStreet,
             final String crossStreetOne, final String boroughCrossStreetOne, final String crossStreetTwo,
             final String boroughCrossStreetTwo, final String compassDirection) {
-        return new Call(serviceConfiguration.function3(), serviceConfiguration.latLongEnhancer()) {
+        return new Call(serviceConfiguration.function3(), serviceConfiguration.latLongFieldSetConverter()) {
             @Override
             public Map<String, Object> userArguments() {
                 Map<String, Object> params = new HashMap<String, Object>();
@@ -231,7 +230,7 @@ public class GeosupportServiceImpl implements GeosupportService {
 
     @Override
     public Map<String, Object> callFunctionBL(final String borough, final String block, final String lot) {
-        return new Call(serviceConfiguration.functionBL(), serviceConfiguration.latLongEnhancer()) {
+        return new Call(serviceConfiguration.functionBL(), serviceConfiguration.latLongFieldSetConverter()) {
             @Override
             public Map<String, Object> userArguments() {
                 Map<String, Object> params = newMap();
@@ -245,7 +244,7 @@ public class GeosupportServiceImpl implements GeosupportService {
 
     @Override
     public Map<String, Object> callFunctionBN(final String bin) {
-        return new Call(serviceConfiguration.functionBN(), serviceConfiguration.latLongEnhancer()) {
+        return new Call(serviceConfiguration.functionBN(), serviceConfiguration.latLongFieldSetConverter()) {
             @Override
             public Map<String, Object> userArguments() {
                 Map<String, Object> params = newMap();
@@ -257,7 +256,7 @@ public class GeosupportServiceImpl implements GeosupportService {
 
     @Override
     public Map<String, Object> callFunctionHR() {
-        return new Call(serviceConfiguration.functionHR(), serviceConfiguration.latLongEnhancer()) {
+        return new Call(serviceConfiguration.functionHR(), serviceConfiguration.latLongFieldSetConverter()) {
             @Override
             public Map<String, Object> userArguments() {
                 return Collections.emptyMap();
@@ -269,7 +268,7 @@ public class GeosupportServiceImpl implements GeosupportService {
     public Map<String, Object> callGeosupport(final Map<String, Object> clientParams) {
         final Function function = serviceConfiguration
                 .geosupportFunction(clientParams.get(GEOSUPPORT_FUNCTION_CODE).toString());
-        return new Call(function, serviceConfiguration.latLongEnhancer()) {
+        return new Call(function, serviceConfiguration.latLongFieldSetConverter()) {
             @Override
             public Map<String, Object> userArguments() {
                 return clientParams;
@@ -279,7 +278,7 @@ public class GeosupportServiceImpl implements GeosupportService {
 
     @Override
     public Map<String, Object> callFunctionN(String streetName, Integer length, String format) {
-        return new Call(serviceConfiguration.functionN(), serviceConfiguration.latLongEnhancer()) {
+        return new Call(serviceConfiguration.functionN(), serviceConfiguration.latLongFieldSetConverter()) {
             @Override
             public Map<String, Object> userArguments() {
                 Map<String, Object> params = newMap();
@@ -349,7 +348,7 @@ public class GeosupportServiceImpl implements GeosupportService {
 
     private Call populateStreetNameCall(Function function, StreetCode streetCodeOne, StreetCode streetCodeTwo,
             StreetCode streetCodeThree, Integer length, String format) {
-        return new Call(function, serviceConfiguration.latLongEnhancer()) {
+        return new Call(function, serviceConfiguration.latLongFieldSetConverter()) {
             @Override
             public Map<String, Object> userArguments() {
                 Map<String, Object> params = newMap();
@@ -382,11 +381,6 @@ public class GeosupportServiceImpl implements GeosupportService {
 
     private boolean isValidNormalizationFormat(String format) {
         return format != null && (NORMALIZATION_FORMAT_SORT_VALUE.equals(format) || NORMALIZATION_FORMAT_COMPACT_VALUE.equals(format));
-    }
-
-    public Documentation getDocumentation() {
-        return new DocumentationConfigurer(serviceConfiguration.geosupportConfiguration(),
-                serviceConfiguration.latLongEnhancer()).configureDocumentation();
     }
 
     @Override

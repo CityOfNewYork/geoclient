@@ -15,7 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.invoker;
 
-import gov.nyc.doitt.gis.geoclient.service.domain.Documentation;
 import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 
 import java.util.Map;
@@ -35,6 +34,5 @@ public interface GeosupportService
     Map<String, Object> callGeosupport(Map<String, Object> params);
     Map<String, Object> callFunctionN(String name, Integer length, String format);
     Map<String, Object> callStreetNameFunction(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format);
-    Documentation getDocumentation();
     Version version();
 }
