@@ -17,13 +17,16 @@ package gov.nyc.doitt.gis.geoclient.service.configuration;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.Environment;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
@@ -39,8 +42,11 @@ import gov.nyc.doitt.gis.geoclient.parser.configuration.ParserConfig;
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.parser.token.Token;
 import gov.nyc.doitt.gis.geoclient.service.domain.BadRequest;
+import gov.nyc.doitt.gis.geoclient.service.domain.FieldSet;
 import gov.nyc.doitt.gis.geoclient.service.domain.FileInfo;
 import gov.nyc.doitt.gis.geoclient.service.domain.Version;
+import gov.nyc.doitt.gis.geoclient.service.invoker.DoubleFieldSetConverter;
+import gov.nyc.doitt.gis.geoclient.service.invoker.FieldSetConverter;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl;
 import gov.nyc.doitt.gis.geoclient.service.invoker.LatLongEnhancer;
@@ -67,11 +73,30 @@ import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
 @Configuration
 @PropertySource(value = "classpath:version.properties")
 public class AppConfig {
+
+    @Autowired
+    private ConversionService conversionService;
+
     @Autowired
     private Environment env;
 
     @Autowired
     private ParserConfig parserConfig;
+
+    @Bean
+    public FieldSetConverter latLongFieldSetConverter() {
+        return new DoubleFieldSetConverter(conversionService, latLongConversions());
+    }
+
+    @Bean
+    public List<FieldSet> latLongConversions() {
+        List<FieldSet> conversions = new ArrayList<>();
+        conversions.add(new FieldSet(Function.F1B, new String[]{"latitude", "longitude", "latitudeInternalLabel", "longitudeInternalLabel"}));
+        conversions.add(new FieldSet(Function.FBL, new String[]{"latitudeInternalLabel", "longitudeInternalLabel"}));
+        conversions.add(new FieldSet(Function.FBN, new String[]{"latitudeInternalLabel", "longitudeInternalLabel"}));
+        conversions.add(new FieldSet(Function.F2, new String[]{"latitude", "longitude"}));
+        return conversions;
+    }
 
     @Bean
     public Geoclient geoclient() {
@@ -188,6 +213,7 @@ public class AppConfig {
     public LegacyMapper versionMapper() {
         return new LegacyMapper(DozerBeanMapperBuilder.buildDefault());
     }
+
     // Do not declare as @Bean, but as a regular method
     // since we don't want proxies generated for incoming args
     public Version version(Map<String, Object> functionHrData) {
