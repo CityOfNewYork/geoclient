@@ -2047,7 +2047,7 @@
         <field id="geoFileRelease5" start="119" length="4"></field>
         <field id="geoFileRecordCount5" start="123" length="8"></field>
         <!-- geoFileInfo 6 -->
-        <field id="geoFile6RecordType" start="131" length="4"></field>
+        <field id="geoFileRecordType6" start="131" length="4"></field>
         <field id="geoFileTag6" start="135" length="4"></field>
         <field id="geoFileDate6" start="139" length="6"></field>
         <field id="geoFileRelease6" start="145" length="4"></field>
