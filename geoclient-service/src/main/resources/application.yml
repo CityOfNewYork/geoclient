@@ -44,7 +44,7 @@ logging:
         thymeleaf-trace: "INFO"
         tomcat: "INFO"
         geoclient: "INFO"
-        geoclient-jni: "DEBUG"
+        geoclient-jni: "INFO"
         geoclient-service: "DEBUG"
         ## Log Dozer bean mapping framework
         #com.github.dozermapper: "DEBUG"
@@ -55,7 +55,7 @@ logging:
         ## Log character buffer values from geosupport requests/repsonses
         #gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
         ## Log request/response HashMaps before/after geosupport call
-        #gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl: "DEBUG"
+        gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl: "DEBUG"
 
 management:
     endpoints:
