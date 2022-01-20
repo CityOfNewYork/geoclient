@@ -15,13 +15,24 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.mapper;
 
+import static gov.nyc.doitt.gis.geoclient.service.mapper.GeosupportVersionMapper.DSNAMES_NBR;
+import static gov.nyc.doitt.gis.geoclient.service.mapper.GeosupportVersionMapper.FILE_INFO_OBJ_PROPERTY_NAMES;
+import static gov.nyc.doitt.gis.geoclient.service.mapper.GeosupportVersionMapper.SCALAR_FILE_FIELD_PREFIXES;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.service.domain.GeosupportVersion;
 
@@ -34,9 +45,53 @@ import gov.nyc.doitt.gis.geoclient.service.domain.GeosupportVersion;
  */
 public class GeosupportVersionMapperTest {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(GeosupportVersionMapperTest.class);
+
+    private GeosupportVersionMapper mapper;
+
+    @BeforeEach
+    void setUp() {
+        this.mapper = new GeosupportVersionMapper();
+    }
+
+    @Test
+    void testJava() {
+        LOGGER.info("Hello, world.");
+        List<String> list = Arrays.asList("abc1", "abc2", "abc3");
+        Optional<String> stream = list.stream().filter(element -> {
+            LOGGER.info("filter() was called");
+            return element.contains("2");
+        }).map(element -> {
+            LOGGER.info("map() was called");
+            return element.toUpperCase();
+        }).findFirst();
+        assertNotNull(stream);
+    }
+
+    @Test
+    void testDsNameFieldNames() {
+        List<String> results = mapper.dsNameFieldNames();
+        assertEquals(DSNAMES_NBR, results.size());
+        for (int i = 1; i <= DSNAMES_NBR; i++) {
+            assertTrue(results.contains(String.format("dsName%d", i)));
+        }
+    }
+
+    @Test
+    void testSimpleFileFieldNames() {
+        List<String> results = mapper.simpleFileFieldNames();
+        assertEquals(SCALAR_FILE_FIELD_PREFIXES.length, results.size());
+        for (int i = 0; i < SCALAR_FILE_FIELD_PREFIXES.length; i++) {
+            String prefix = SCALAR_FILE_FIELD_PREFIXES[i];
+            for (int j = 0; j < FILE_INFO_OBJ_PROPERTY_NAMES.length; j++) {
+                String prop = FILE_INFO_OBJ_PROPERTY_NAMES[j];
+                assertTrue(results.contains(String.format("%sFile%s", prefix, prop)));
+            }
+        }
+    }
+
     @Test
     void testFromParameters() {
-        GeosupportVersionMapper mapper = new GeosupportVersionMapper();
         GeosupportVersion dest = new GeosupportVersion();
         Map<String, Object> src = functionHRResponse();
         GeosupportVersion result = mapper.fromParameters(src, dest);
@@ -91,7 +146,6 @@ public class GeosupportVersionMapperTest {
         results.put("dsName7", "snd");
         results.put("dsName8", "STRETCH");
         results.put("dsName9", "thined");
-        results.put("geoFile6RecordType", "0000");
         results.put("geoFileDate1", "210930");
         results.put("geoFileDate2", "200221");
         results.put("geoFileDate3", "211021");
@@ -115,6 +169,7 @@ public class GeosupportVersionMapperTest {
         results.put("geoFileRecordType3", "0000");
         results.put("geoFileRecordType4", "0000");
         results.put("geoFileRecordType5", "0000");
+        results.put("geoFileRecordType6", "0000");
         results.put("geoFileRecordType7", "0000");
         results.put("geoFileRecordType8", "0000");
         results.put("geoFileRecordType9", "0000");
