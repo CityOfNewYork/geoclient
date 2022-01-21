@@ -80,7 +80,8 @@ public class GeosupportVersionMapperTest {
     @Test
     void testSimpleFileFieldNames() {
         List<String> results = mapper.simpleFileFieldNames();
-        assertEquals(SCALAR_FILE_FIELD_PREFIXES.length, results.size());
+        int expectedNumber = SCALAR_FILE_FIELD_PREFIXES.length * FILE_INFO_OBJ_PROPERTY_NAMES.length;
+        assertEquals(expectedNumber, results.size());
         for (int i = 0; i < SCALAR_FILE_FIELD_PREFIXES.length; i++) {
             String prefix = SCALAR_FILE_FIELD_PREFIXES[i];
             for (int j = 0; j < FILE_INFO_OBJ_PROPERTY_NAMES.length; j++) {

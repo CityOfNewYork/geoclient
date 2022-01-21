@@ -31,7 +31,7 @@ public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportV
 
     static final String[] FILE_INFO_OBJ_PROPERTY_NAMES = new String[]{ "Tag", "Date", "RecordType", "RecordCount" };
     static final String[] SIMPLE_FIELD_NAMES = new String[] { "geofilesDirectory" };
-    static final String[] SCALAR_FILE_FIELD_PREFIXES = new String[] { 
+    static final String[] SCALAR_FILE_FIELD_PREFIXES = new String[] {
         "ap",
         "apequiv",
         "auxseg",
@@ -154,10 +154,11 @@ public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportV
     }
 
     List<String> simpleFileFieldNames(){
-        //Stream<String> props = Stream.of(FILE_INFO_OBJ_PROPERTY_NAMES); 
-        //List<String> fields = Arrays.asList(SCALAR_FILE_FIELD_PREFIXES);
-        //return props.map(p -> (fields:forEach, String.format("%sFile%s", s, name))).collect(Collectors.toList());
-        return null;
+        List<String> props = Arrays.asList(FILE_INFO_OBJ_PROPERTY_NAMES); 
+        List<String> fields = Arrays.asList(SCALAR_FILE_FIELD_PREFIXES);
+        List<String> results = new ArrayList<>();
+        fields.forEach(f -> props.forEach(p -> results.add(String.format("%sFile%s", f, p))));
+        return results;
     }
 
     List<String> geoFileFieldNames() {
