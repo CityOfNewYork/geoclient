@@ -34,8 +34,12 @@
 	],
 	"forwardPorts": ["8080:8080", "8000:8000","5005:5005"],
 	"mounts": [
-		"source=${localEnv:HOME}/Workspace/repo/geosupport,target=/opt/geosupport,type=bind,consistency=cached"
+		"source=${localEnv:HOME}/Workspace/repo/geosupport,target=/opt/geosupport,type=bind,consistency=cached",
+		"source=geoclient-bashhistory,target=/commandhistory,type=volume",
+		"source=geoclient-vscode-extensions,target=/root/.vscode-server/extensions,type=volume",
+		"source=geoclient-vscode-insiders-extensions,target=/root/.vscode-server-insiders/extensions,type=volume"
 	],
+	"updateContentCommand": "cp /root/.bashrc \"/root/gen.bashrc-$(date +%F-%s)\" && cp .devcontainer/.bashrc /root/.bashrc",
 	"postCreateCommand": "echo /opt/geosupport/current/lib > /etc/ld.so.conf.d/geosupport.conf && ldconfig",
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
