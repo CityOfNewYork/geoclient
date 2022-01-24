@@ -51,7 +51,6 @@ configure(moduleProjects){ project ->
     // Java dependency configuration
     repositories {
         mavenCentral()
-        maven { url "https://repo.osgeo.org/repository/geotools-releases/" }
     }
 
     ext{
