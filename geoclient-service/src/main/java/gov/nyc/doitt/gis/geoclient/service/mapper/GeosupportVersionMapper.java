@@ -144,7 +144,7 @@ public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportV
            if(value != null){
                return value.toString();
            }
-       } 
+       }
        return null;
     }
 
@@ -154,7 +154,7 @@ public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportV
     }
 
     List<String> simpleFileFieldNames(){
-        List<String> props = Arrays.asList(FILE_INFO_OBJ_PROPERTY_NAMES); 
+        List<String> props = Arrays.asList(FILE_INFO_OBJ_PROPERTY_NAMES);
         List<String> fields = Arrays.asList(SCALAR_FILE_FIELD_PREFIXES);
         List<String> results = new ArrayList<>();
         fields.forEach(f -> props.forEach(p -> results.add(String.format("%sFile%s", f, p))));
@@ -162,7 +162,7 @@ public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportV
     }
 
     List<String> geoFileFieldNames() {
-        Stream<String> props = Stream.of(FILE_INFO_OBJ_PROPERTY_NAMES); 
+        Stream<String> props = Stream.of(FILE_INFO_OBJ_PROPERTY_NAMES);
         IntStream nbr = IntStream.rangeClosed(1, GEO_FILES_NBR);
         return props.flatMap(name -> nbr.mapToObj(i -> String.format("geoFile%s%d", name, i))).collect(Collectors.toList());
     }

@@ -38,7 +38,7 @@ import gov.nyc.doitt.gis.geoclient.service.domain.GeosupportVersion;
 
 /**
  * Tests for GeosupportVersionMapper.
- * 
+ *
  * @author Matthew Lipper
  * @since 2.0
  * @see Mapper

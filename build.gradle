@@ -1,7 +1,7 @@
 plugins {
     id "gov.nyc.doitt.gis.geoclient.gradle.integration-test" apply false
     id "com.github.ben-manes.versions" version "0.41.0"
-    id "com.diffplug.gradle.spotless" version "3.30.0"
+    id "com.diffplug.spotless" version "6.2.0"
 }
 
 ext {
@@ -16,7 +16,7 @@ configure(moduleProjects){ project ->
     apply plugin: "checkstyle"
     apply plugin: "maven-publish"
     apply plugin: "signing"
-    apply plugin: "com.diffplug.gradle.spotless"
+    apply plugin: "com.diffplug.spotless"
     apply from: "$rootDir/gradle/checkstyle.gradle"
     apply from: "$rootDir/gradle/publications.gradle"
 
@@ -30,9 +30,11 @@ configure(moduleProjects){ project ->
 
             indentWithSpaces()
 
-            // licenseHeaderFile(rootProject.file('src/spotless/apache-license-2.0.java'))
+            licenseHeaderFile(rootProject.file('src/spotless/apache-license-2.0.java'))
 
             trimTrailingWhitespace()
+
+            toggleOffOn()
         }
 
         //
