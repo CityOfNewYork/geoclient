@@ -15,88 +15,93 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.domain;
 
-import java.text.SimpleDateFormat;
-
-public class FileInfo
-{
-    private static final SimpleDateFormat STRING_TO_DATE = new SimpleDateFormat("yyMMdd");
-    private static final SimpleDateFormat DATE_TO_STRING = new SimpleDateFormat("yyyy-MM-dd");
+public class FileInfo extends BaseFileInfo {
 
     private String recordType;
-    private String tag;
-    private String date;
-    private String release;
-    private String recordCount;
-    public FileInfo(){}
-    public FileInfo(String recordType, String tag, String date, String release, String recordCount)
-    {
+
+    public FileInfo() {
         super();
+    }
+
+    public FileInfo(String recordType, String tag, String date, String release, String recordCount) {
+        super(tag, date, release, recordCount);
         this.recordType = recordType;
-        this.tag = tag;
-        this.date = date;
-        this.release = release;
-        this.recordCount = recordCount;
     }
 
-    public String getFormattedDate()
-    {
-        return applyFormat(this.date);
-    }
-
-    String applyFormat(String dateString)
-    {
-        try {
-            return DATE_TO_STRING.format(STRING_TO_DATE.parse(dateString));
-        }catch(Exception ignored){
-            return dateString;
-        }
-    }
-
-    public String getDate()
-    {
-        return date;
-    }
-    public void setDate(String date)
-    {
-        this.date = date;
-    }
-    public String getTag()
-    {
-        return tag;
-    }
-    public void setTag(String tag)
-    {
-        this.tag = tag;
-    }
-    public String getRelease()
-    {
-        return release;
-    }
-    public void setRelease(String release)
-    {
-        this.release = release;
-    }
-    public String getRecordCount()
-    {
-        return recordCount;
-    }
-    public void setRecordCount(String recordCount)
-    {
-        this.recordCount = recordCount;
-    }
-    public String getRecordType()
-    {
+    public String getRecordType() {
         return recordType;
     }
-    public void setRecordType(String recordType)
-    {
+
+    public void setRecordType(String recordType) {
         this.recordType = recordType;
     }
+
     @Override
-    public String toString()
-    {
-        return "FileInfo [recordType=" + recordType + ", tag=" + tag + ", date=" + date + ", release=" + release
-                + ", recordCount=" + recordCount + "]";
+    public String toString() {
+        return "FileInfo [recordType=" + recordType + ", tag=" + tag + ", date=" + date + ", release="
+                + release + ", recordCount=" + recordCount + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((recordType == null) ? 0 : recordType.hashCode());
+        result = prime * result + ((date == null) ? 0 : date.hashCode());
+        result = prime * result + ((recordCount == null) ? 0 : recordCount.hashCode());
+        result = prime * result + ((release == null) ? 0 : release.hashCode());
+        result = prime * result + ((tag == null) ? 0 : tag.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        FileInfo other = (FileInfo) obj;
+        if (recordType == null) {
+            if (other.recordType != null) {
+                return false;
+            }
+        } else if (!recordType.equals(other.recordType)) {
+            return false;
+        }
+        if (date == null) {
+            if (other.date != null) {
+                return false;
+            }
+        } else if (!date.equals(other.date)) {
+            return false;
+        }
+        if (recordCount == null) {
+            if (other.recordCount != null) {
+                return false;
+            }
+        } else if (!recordCount.equals(other.recordCount)) {
+            return false;
+        }
+        if (release == null) {
+            if (other.release != null){
+                return false;
+            }
+        } else if (!release.equals(other.release)) {
+            return false;
+        }
+        if (tag == null) {
+            if (other.tag != null){
+                return false;
+            }
+        } else if (!tag.equals(other.tag)) {
+            return false;
+        }
+        return true;
     }
 
 }

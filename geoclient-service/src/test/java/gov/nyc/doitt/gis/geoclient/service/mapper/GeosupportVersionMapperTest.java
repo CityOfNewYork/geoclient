@@ -21,8 +21,10 @@ import static gov.nyc.doitt.gis.geoclient.service.mapper.GeosupportVersionMapper
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -34,7 +36,9 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gov.nyc.doitt.gis.geoclient.service.domain.FileInfo;
 import gov.nyc.doitt.gis.geoclient.service.domain.GeosupportVersion;
+import gov.nyc.doitt.gis.geoclient.service.domain.ThinFileInfo;
 
 /**
  * Tests for GeosupportVersionMapper.
@@ -98,10 +102,151 @@ public class GeosupportVersionMapperTest {
         GeosupportVersion result = mapper.fromParameters(src, dest);
         assertNotNull(result);
         assertSame(dest, result);
+        assertEquals(geoFileInfoFixture(), result.getGeoFileInfo());
+        assertEquals(dsNamesFixture(), result.getDsNames());
+        assertEquals(thinFileInfoFixture(), result.getThinFileInfo());
+        assertEquals(apFileInfoFixture(), result.getApFileInfo());
+        assertEquals(apequivFileInfoFixture(), result.getApequivFileInfo());
+        assertEquals(auxsegFileInfoFixture(), result.getAuxsegFileInfo());
+        assertEquals(grid1RFileInfoFixture(), result.getGrid1RFileInfo());
+        assertEquals(sneqFileInfoFixture(), result.getSneqFileInfo());
+        assertEquals(stat1AFileInfoFixture(), result.getStat1AFileInfo());
+        assertEquals(stat1FileInfoFixture(), result.getStat1FileInfo());
+        assertEquals(stat2FileInfoFixture(), result.getStat2FileInfo());
+        assertEquals(stat3FileInfoFixture(), result.getStat3FileInfo());
+        assertEquals(stat3SFileInfoFixture(), result.getStat3SFileInfo());
+        assertEquals(statAPFileInfoFixture(), result.getStatAPFileInfo());
+        assertEquals(statBLFileInfoFixture(), result.getStatBLFileInfo());
+        assertEquals(statBNFileInfoFixture(), result.getStatBNFileInfo());
+        assertEquals(statDFileInfoFixture(), result.getStatDFileInfo());
+        assertEquals(statFileInfoFixture(), result.getStatFileInfo());
+        assertEquals(tpadFileInfoFixture(), result.getTpadFileInfo());
+        assertEquals(upadFileInfoFixture(), result.getUpadFileInfo());
+        assertEquals("/opt/geosupport/current/fls/", result.getGeofilesDirectory());
     }
 
     @Test
     void testToParameters() {
+        assertThrows(MappingException.class, () -> mapper.toParameters(
+                new GeosupportVersion(), new HashMap<>()));
+    }
+
+    private List<FileInfo> geoFileInfoFixture() {
+        List<FileInfo> results = new ArrayList<>();
+        results.add(new FileInfo("0000", "GEO", "210930", "2140", "00000001"));
+        results.add(new FileInfo("0000", "EDEQ", "200221", "20A", "00000001"));
+        results.add(new FileInfo("0000", "GRD1", "211021", "21D", "00230813"));
+        results.add(new FileInfo("0000", "GRD2", "211020", "21D", "00077382"));
+        results.add(new FileInfo("0000", "GRD3", "211020", "21D", "00213709"));
+        results.add(new FileInfo("0000", "PAD", "211021", "21D", "01282926"));
+        results.add(new FileInfo("0000", "SAN", "211021", "21D", "00000750"));
+        results.add(new FileInfo("0000", "SND", "211018", "21D", "00108872"));
+        results.add(new FileInfo("0000", "STCH", "211020", "21D", "00028029"));
+        return results;
+    }
+
+    private FileInfo apFileInfoFixture() {
+        return new FileInfo("0000", "AP", "211014", "21D", "00965728");
+    }
+
+    private FileInfo apequivFileInfoFixture() {
+        return new FileInfo("0000", "APEQ", "170717", "17C", "00000001");
+    }
+
+    private FileInfo auxsegFileInfoFixture() {
+        return new FileInfo("0000", "SAUX", "211020", "21D", "00039478");
+    }
+
+    private FileInfo grid1RFileInfoFixture() {
+        return new FileInfo("0000", "GR1R", "211021", "21D", "00230765");
+    }
+
+    private FileInfo sneqFileInfoFixture() {
+        return new FileInfo("0000", "SNEQ", "211022", "21D", "00000840");
+    }
+
+    private FileInfo stat1AFileInfoFixture() {
+        return new FileInfo("STT1", "A***", "******", "****", "********");
+    }
+
+    private FileInfo stat1FileInfoFixture() {
+        return new FileInfo("STT1", "****", "******", "****", "********");
+    }
+
+    private FileInfo stat2FileInfoFixture() {
+        return new FileInfo("STT2", "****", "******", "****", "********");
+    }
+
+    private FileInfo stat3FileInfoFixture() {
+        return new FileInfo("STT3", "****", "******", "****", "********");
+    }
+
+    private FileInfo stat3SFileInfoFixture() {
+        return new FileInfo("STT3", "S***", "******", "****", "********");
+    }
+
+    private FileInfo statAPFileInfoFixture() {
+        return new FileInfo("STTA", "P***", "******", "****", "********");
+    }
+
+    private FileInfo statBLFileInfoFixture() {
+        return new FileInfo("STTB", "L***", "******", "****", "********");
+    }
+
+    private FileInfo statBNFileInfoFixture() {
+        return new FileInfo("STTB", "N***", "******", "****", "********");
+    }
+
+    private FileInfo statDFileInfoFixture() {
+        return new FileInfo("STTD", "****", "******", "****", "********");
+    }
+
+    private FileInfo statFileInfoFixture() {
+        return new FileInfo("STAT", "****", "******", "****", "********");
+    }
+
+    private FileInfo tpadFileInfoFixture() {
+        return new FileInfo("0000", "TPAD", "211021", "21C", "00000000");
+    }
+
+    private FileInfo upadFileInfoFixture() {
+        return new FileInfo("0000", "UPAD", "211021", "21D", "00000001");
+    }
+
+    private ThinFileInfo thinFileInfoFixture() {
+        List<String> recordTypes = Arrays.asList("0000", "0001", "0002");
+        return new ThinFileInfo(recordTypes, "THIN", "170515", "17B", "00005904", null);
+    }
+
+    private List<String> dsNamesFixture() {
+        List<String> results = new ArrayList<>();
+        results.add("edequiv");
+        results.add("GRID1");
+        results.add("GRID2");
+        results.add("GRID3");
+        results.add("PAD");
+        results.add("san");
+        results.add("snd");
+        results.add("STRETCH");
+        results.add("thined");
+        results.add("GRID1R");
+        results.add("AUXSEG");
+        results.add("TPAD");
+        results.add("apequiv");
+        results.add("AP");
+        results.add("UPAD");
+        results.add("STAT");
+        results.add("STT1");
+        results.add("STT1A");
+        results.add("STT2");
+        results.add("STT3");
+        results.add("STT3S");
+        results.add("STTAP");
+        results.add("STTBL");
+        results.add("STTBN");
+        results.add("STTD");
+        results.add("snequiv");
+        return results;
     }
 
     private Map<String, Object> functionHRResponse() {
@@ -116,12 +261,20 @@ public class GeosupportVersionMapperTest {
         results.put("apequivFileRecordType", "0000");
         results.put("apequivFileRelease", "17C");
         results.put("apequivFileTag", "APEQ");
-        results.put("auxSegFileDate", "211020");
-        results.put("auxSegFileRecordCount", "00039478");
-        results.put("auxSegFileRecordType", "0000");
-        results.put("auxSegFileRelease", "21D");
-        results.put("auxSegFileTag", "SAUX");
+        results.put("auxsegFileDate", "211020");
+        results.put("auxsegFileRecordCount", "00039478");
+        results.put("auxsegFileRecordType", "0000");
+        results.put("auxsegFileRelease", "21D");
+        results.put("auxsegFileTag", "SAUX");
         results.put("dsName1", "edequiv");
+        results.put("dsName2", "GRID1");
+        results.put("dsName3", "GRID2");
+        results.put("dsName4", "GRID3");
+        results.put("dsName5", "PAD");
+        results.put("dsName6", "san");
+        results.put("dsName7", "snd");
+        results.put("dsName8", "STRETCH");
+        results.put("dsName9", "thined");
         results.put("dsName10", "GRID1R");
         results.put("dsName11", "AUXSEG");
         results.put("dsName12", "TPAD");
@@ -132,7 +285,6 @@ public class GeosupportVersionMapperTest {
         results.put("dsName17", "STT1");
         results.put("dsName18", "STT1A");
         results.put("dsName19", "STT2");
-        results.put("dsName2", "GRID1");
         results.put("dsName20", "STT3");
         results.put("dsName21", "STT3S");
         results.put("dsName22", "STTAP");
@@ -140,13 +292,6 @@ public class GeosupportVersionMapperTest {
         results.put("dsName24", "STTBN");
         results.put("dsName25", "STTD");
         results.put("dsName26", "snequiv");
-        results.put("dsName3", "GRID2");
-        results.put("dsName4", "GRID3");
-        results.put("dsName5", "PAD");
-        results.put("dsName6", "san");
-        results.put("dsName7", "snd");
-        results.put("dsName8", "STRETCH");
-        results.put("dsName9", "thined");
         results.put("geoFileDate1", "210930");
         results.put("geoFileDate2", "200221");
         results.put("geoFileDate3", "211021");

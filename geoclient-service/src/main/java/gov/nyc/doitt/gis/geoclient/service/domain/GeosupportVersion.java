@@ -26,17 +26,16 @@ public class GeosupportVersion {
     public static final String RELEASE_NOT_AVAILABLE = "RELEASE_NOT_AVAILABLE";
     public static final String VERSION_NOT_AVAILABLE = "VERSION_NOT_AVAILABLE";
 
+    private List<String> dsNames;
     private List<FileInfo> geoFileInfo;
     private ThinFileInfo thinFileInfo;
-    private FileInfo grid1RFileInfo;
-    private FileInfo auxsegFileInfo;
-    private FileInfo tpadFileInfo;
-    private FileInfo apequivFileInfo;
     private FileInfo apFileInfo;
-    private FileInfo upadFileInfo;
-    private FileInfo statFileInfo;
-    private FileInfo stat1FileInfo;
+    private FileInfo apequivFileInfo;
+    private FileInfo auxsegFileInfo;
+    private FileInfo grid1RFileInfo;
+    private FileInfo sneqFileInfo;
     private FileInfo stat1AFileInfo;
+    private FileInfo stat1FileInfo;
     private FileInfo stat2FileInfo;
     private FileInfo stat3FileInfo;
     private FileInfo stat3SFileInfo;
@@ -44,8 +43,9 @@ public class GeosupportVersion {
     private FileInfo statBLFileInfo;
     private FileInfo statBNFileInfo;
     private FileInfo statDFileInfo;
-    private FileInfo sneqFileInfo;
-    private List<String> dsNames;
+    private FileInfo statFileInfo;
+    private FileInfo tpadFileInfo;
+    private FileInfo upadFileInfo;
     private String geofilesDirectory;
 
     public String getGeofilesDirectory() {

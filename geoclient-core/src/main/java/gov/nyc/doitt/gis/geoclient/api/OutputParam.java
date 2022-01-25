@@ -19,7 +19,7 @@ public class OutputParam {
     public static final String HR_DSNAME = "dsname";
     public static final int HR_DSNAME_COUNT = 20;
     public static final String HR_FILE_APEQUIV = "apequiv";
-    public static final String HR_FILE_AUXSEG = "auxSeg";
+    public static final String HR_FILE_AUXSEG = "auxseg";
     public static final String HR_FILE_GEO = "geo";
     public static final int HR_FILE_GEO_COUNT = 9;
     public static final String HR_FILE_GRID1R = "grid1R";

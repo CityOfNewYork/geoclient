@@ -29,8 +29,15 @@ import gov.nyc.doitt.gis.geoclient.service.domain.ThinFileInfo;
 
 public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportVersion> {
 
-    static final String[] FILE_INFO_OBJ_PROPERTY_NAMES = new String[]{ "Tag", "Date", "RecordType", "RecordCount" };
-    static final String[] SIMPLE_FIELD_NAMES = new String[] { "geofilesDirectory" };
+    static final String[] FILE_INFO_OBJ_PROPERTY_NAMES = new String[]{
+        "Tag",
+        "Date",
+        "RecordType",
+        "RecordCount"
+    };
+    static final String[] SIMPLE_FIELD_NAMES = new String[] {
+        "geofilesDirectory"
+    };
     static final String[] SCALAR_FILE_FIELD_PREFIXES = new String[] {
         "ap",
         "apequiv",
@@ -53,7 +60,7 @@ public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportV
     static final int DSNAMES_NBR = 26;
     static final int GEO_FILES_NBR = 9;
     static final int THIN_FILE_RECORD_TYPES_NBR = 3;
-
+ 
     @Override
     public GeosupportVersion fromParameters(Map<String, Object> source, GeosupportVersion destination)
             throws MappingException {
@@ -62,23 +69,23 @@ public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportV
         destination.setThinFileInfo(toThinFileInfo(source));
         destination.setDsNames(toDsNames(source));
         // Simple (scalar) FileInfo fields
-        destination.setGrid1RFileInfo(toFileInfo(source, "grid1R", ""));
-        destination.setAuxsegFileInfo(toFileInfo(source, "auxseg", ""));
-        destination.setTpadFileInfo(toFileInfo(source, "tpad", ""));
-        destination.setApequivFileInfo(toFileInfo(source, "apequiv", ""));
         destination.setApFileInfo(toFileInfo(source, "ap", ""));
-        destination.setUpadFileInfo(toFileInfo(source, "upad", ""));
-        destination.setStatFileInfo(toFileInfo(source, "stat", ""));
-        destination.setStat1FileInfo(toFileInfo(source, "stat1", ""));
+        destination.setApequivFileInfo(toFileInfo(source, "apequiv", ""));
+        destination.setAuxsegFileInfo(toFileInfo(source, "auxseg", ""));
+        destination.setGrid1RFileInfo(toFileInfo(source, "grid1R", ""));
+        destination.setSneqFileInfo(toFileInfo(source, "sneq", ""));
         destination.setStat1AFileInfo(toFileInfo(source, "stat1A", ""));
+        destination.setStat1FileInfo(toFileInfo(source, "stat1", ""));
         destination.setStat2FileInfo(toFileInfo(source, "stat2", ""));
         destination.setStat3FileInfo(toFileInfo(source, "stat3", ""));
         destination.setStat3SFileInfo(toFileInfo(source, "stat3S", ""));
-        destination.setApFileInfo(toFileInfo(source, "statAP", ""));
+        destination.setStatAPFileInfo(toFileInfo(source, "statAP", ""));
         destination.setStatBLFileInfo(toFileInfo(source, "statBL", ""));
         destination.setStatBNFileInfo(toFileInfo(source, "statBN", ""));
         destination.setStatDFileInfo(toFileInfo(source, "statD", ""));
-        destination.setSneqFileInfo(toFileInfo(source, "sneq", ""));
+        destination.setStatFileInfo(toFileInfo(source, "stat", ""));
+        destination.setTpadFileInfo(toFileInfo(source, "tpad", ""));
+        destination.setUpadFileInfo(toFileInfo(source, "upad", ""));
         // Simple (scalar) fields
         destination.setGeofilesDirectory(get("geofilesDirectory", source));
         return destination;
@@ -87,8 +94,7 @@ public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportV
     @Override
     public Map<String, Object> toParameters(GeosupportVersion source, Map<String, Object> destination)
             throws MappingException {
-        // TODO Implement me
-        return destination;
+        throw new MappingException("Method toParameters not supported by this Mapper.");
     }
 
     protected List<String> toDsNames(Map<String, Object> source) {
