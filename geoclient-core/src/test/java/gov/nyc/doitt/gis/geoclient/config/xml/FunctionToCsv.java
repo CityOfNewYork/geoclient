@@ -19,8 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
-import gov.nyc.doitt.gis.geoclient.doc.DataDictionary;
-import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
 import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.function.WorkArea;
@@ -53,12 +51,6 @@ public class FunctionToCsv
         logFields(Function.FBL,geosupportConfig.getFunction(Function.FBL).getWorkAreaTwo());
         logFields(Function.FBN,geosupportConfig.getFunction(Function.FBN).getWorkAreaTwo());
         logFields(Function.FHR,geosupportConfig.getFunction(Function.FHR).getWorkAreaTwo());
-        // DataDictionary ItemDocumentation elements
-        DataDictionary dataDictionary = geosupportConfig.getDataDictionary();
-        for (ItemDocumentation itemDocumentation : dataDictionary.getItems())
-        {
-            logDataDictionaryItem(itemDocumentation);
-        }
     }
 
     private static void logFields(String functionId, WorkArea workArea)
@@ -67,14 +59,5 @@ public class FunctionToCsv
         {
             log.info("{},{},{}",fieldId,functionId,workArea.getId());
         }
-    }
-
-    private static void logDataDictionaryItem(ItemDocumentation itemDocumentation)
-    {
-        //String id = itemDocumentation.getId();
-        //for (String functionId : itemDocumentation.getFunctionNames())
-        //{
-        //    log.info("{},{},{}",id,functionId,"DataDictionary");
-        //}
     }
 }

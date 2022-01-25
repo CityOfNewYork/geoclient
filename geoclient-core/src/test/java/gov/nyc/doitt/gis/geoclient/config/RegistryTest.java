@@ -25,7 +25,6 @@ import java.util.TreeSet;
 
 import org.junit.jupiter.api.Test;
 
-import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
 import gov.nyc.doitt.gis.geoclient.function.Configuration;
 import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.function.Function;
@@ -80,19 +79,4 @@ public class RegistryTest
         assertNull(Registry.getFunction(functionId));
     }
 
-    @Test
-    public void testFunctionDocumentationRegistry()
-    {
-        Registry.clearFunctionDocumentation();
-        FunctionDocumentation expected = new FunctionDocumentation();
-        expected.setId(functionId);
-        assertFalse(Registry.containsFunctionDocumentation(functionId));
-        assertNull(Registry.getFunctionDocumentation(functionId));
-        Registry.addFunctionDocumentation(expected);
-        assertTrue(Registry.containsFunctionDocumentation(functionId));
-        assertSame(expected, Registry.getFunctionDocumentation(functionId));
-        Registry.clearFunctionDocumentation();
-        assertFalse(Registry.containsFunctionDocumentation(functionId));
-        assertNull(Registry.getFunctionDocumentation(functionId));
-    }
 }
