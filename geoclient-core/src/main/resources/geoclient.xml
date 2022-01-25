@@ -2090,12 +2090,12 @@
         <field id="grid1RFileDate" start="321" length="6"></field>
         <field id="grid1RFileRelease" start="327" length="4"></field>
         <field id="grid1RFileRecordCount" start="331" length="8"></field>
-        <!-- auxSegFileInfo -->
-        <field id="auxSegFileRecordType" start="339" length="4"></field>
-        <field id="auxSegFileTag" start="343" length="4"></field>
-        <field id="auxSegFileDate" start="347" length="6"></field>
-        <field id="auxSegFileRelease" start="353" length="4"></field>
-        <field id="auxSegFileRecordCount" start="357" length="8"></field>
+        <!-- auxsegFileInfo -->
+        <field id="auxsegFileRecordType" start="339" length="4"></field>
+        <field id="auxsegFileTag" start="343" length="4"></field>
+        <field id="auxsegFileDate" start="347" length="6"></field>
+        <field id="auxsegFileRelease" start="353" length="4"></field>
+        <field id="auxsegFileRecordCount" start="357" length="8"></field>
         <!-- tpadFileInfo -->
         <field id="tpadFileRecordType" start="365" length="4"></field>
         <field id="tpadFileTag" start="369" length="4"></field>
