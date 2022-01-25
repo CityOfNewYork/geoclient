@@ -26,7 +26,7 @@ configure(moduleProjects){ project ->
             // eclipse().configFile rootProject.file('src/spotless/geoclient-eclipse-formatter-settings.xml')
             // endWithNewline()
 
-            // importOrderFile(rootProject.file('src/spotless/geoclient-eclipse.importorder'))
+            importOrderFile(rootProject.file('src/spotless/geoclient-eclipse.importorder'))
 
             indentWithSpaces()
 
