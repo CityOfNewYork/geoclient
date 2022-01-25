@@ -60,7 +60,7 @@ public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportV
     static final int DSNAMES_NBR = 26;
     static final int GEO_FILES_NBR = 9;
     static final int THIN_FILE_RECORD_TYPES_NBR = 3;
- 
+
     @Override
     public GeosupportVersion fromParameters(Map<String, Object> source, GeosupportVersion destination)
             throws MappingException {

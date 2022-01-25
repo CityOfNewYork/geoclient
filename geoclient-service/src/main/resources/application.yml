@@ -46,8 +46,6 @@ logging:
         geoclient: "INFO"
         geoclient-jni: "INFO"
         geoclient-service: "DEBUG"
-        ## Log Dozer bean mapping framework
-        #com.github.dozermapper: "DEBUG"
         ## Log XML deserialization into workarea fields at startup
         #gov.nyc.doitt.gis.geoclient.config.xml: "DEBUG"
         ## Log native C runtime and JNI configuration at startup

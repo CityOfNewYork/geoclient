@@ -20,14 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.github.dozermapper.core.CustomConverter;
-
 import gov.nyc.doitt.gis.geoclient.api.OutputParam;
 import gov.nyc.doitt.gis.geoclient.service.search.GeosupportReturnCode;
 import gov.nyc.doitt.gis.geoclient.service.search.ResponseStatus;
 
-public class ResponseStatusMapper extends AbstractParameterMapper<ResponseStatus>
-        implements CustomConverter {
+public class ResponseStatusMapper extends AbstractParameterMapper<ResponseStatus> {
 
     public ResponseStatusMapper() {
         super();
@@ -84,7 +81,6 @@ public class ResponseStatusMapper extends AbstractParameterMapper<ResponseStatus
     }
 
     @SuppressWarnings("unchecked")
-    @Override
     public Object convert(Object destination, Object source, Class<?> destinationClass, Class<?> sourceClass) {
         if (source == null) {
             return null;

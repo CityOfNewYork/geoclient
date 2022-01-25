@@ -30,7 +30,6 @@ import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.Environment;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 
-import com.github.dozermapper.core.DozerBeanMapperBuilder;
 import com.thoughtworks.xstream.converters.ConverterMatcher;
 
 import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
@@ -44,12 +43,13 @@ import gov.nyc.doitt.gis.geoclient.parser.token.Token;
 import gov.nyc.doitt.gis.geoclient.service.domain.BadRequest;
 import gov.nyc.doitt.gis.geoclient.service.domain.FieldSet;
 import gov.nyc.doitt.gis.geoclient.service.domain.FileInfo;
+import gov.nyc.doitt.gis.geoclient.service.domain.GeosupportVersion;
 import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 import gov.nyc.doitt.gis.geoclient.service.invoker.DoubleFieldSetConverter;
 import gov.nyc.doitt.gis.geoclient.service.invoker.FieldSetConverter;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl;
-import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.GeosupportVersionMapper;
 import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
 import gov.nyc.doitt.gis.geoclient.service.mapper.ResponseStatusMapper;
 import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;
@@ -117,12 +117,12 @@ public class AppConfig {
 
     @Bean
     public InitialSearchTaskBuilder initialSearchTaskBuilder() {
-        return new DefaultInitialSearchTaskBuilder(countyResolver(), geosupportService(), beanMapper());
+        return new DefaultInitialSearchTaskBuilder(countyResolver(), geosupportService(), responseStatusMapper());
     }
 
     @Bean
     public SpawnedSearchTaskBuilder spawnedSearchTaskBuilder() {
-        return new DefaultSpawnedTaskBuilder(countyResolver(), geosupportService(), beanMapper());
+        return new DefaultSpawnedTaskBuilder(countyResolver(), geosupportService(), responseStatusMapper());
     }
 
     @Bean
@@ -155,7 +155,7 @@ public class AppConfig {
     }
 
     @Bean
-    public Mapper<ResponseStatus> beanMapper() {
+    public Mapper<ResponseStatus> responseStatusMapper() {
         return new ResponseStatusMapper();
     }
 
@@ -207,8 +207,8 @@ public class AppConfig {
         return geosupportFunction(Function.FN);
     }
 
-    public LegacyMapper versionMapper() {
-        return new LegacyMapper(DozerBeanMapperBuilder.buildDefault());
+    public Mapper<GeosupportVersion> geosupportVersionMapper() {
+        return new GeosupportVersionMapper();
     }
 
     // Do not declare as @Bean, but as a regular method
@@ -216,7 +216,7 @@ public class AppConfig {
     public Version version(Map<String, Object> functionHrData) {
 
         Version version = new Version();
-        versionMapper().map(functionHrData, version);
+        version.setGeosupportVersion( geosupportVersionMapper().fromParameters(functionHrData, new GeosupportVersion()));
         version.setGeoclientJniVersion(getImplementationVersion(Geoclient.class));
         version.setGeoclientVersion(getImplementationVersion(GeosupportConfig.class));
         version.setGeoclientParserVersion(getImplementationVersion(LocationTokenizer.class));
