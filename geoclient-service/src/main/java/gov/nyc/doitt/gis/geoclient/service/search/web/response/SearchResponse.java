@@ -15,14 +15,13 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.web.response;
 
-import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
-
 import java.util.List;
 
-//import com.fasterxml.jackson.annotation.JsonRootName;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamImplicit;
+
+import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 
 // NOTE: JSON root wrapping also needs to be enabled on the Jackson2
 //       ObjectMapper. When using Spring MappingJackson2HttpMessageConverter do

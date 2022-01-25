@@ -16,15 +16,16 @@
 package gov.nyc.doitt.gis.geoclient.service.web;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import gov.nyc.doitt.gis.geoclient.doc.Description;
 import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
 import gov.nyc.doitt.gis.geoclient.doc.GroupDocumentation;
 import gov.nyc.doitt.gis.geoclient.doc.GroupMember;
 import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
 import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentationSupport;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 public class ViewHelperTest
 {

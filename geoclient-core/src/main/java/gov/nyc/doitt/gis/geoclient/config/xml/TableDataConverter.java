@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 package gov.nyc.doitt.gis.geoclient.config.xml;
-import gov.nyc.doitt.gis.geoclient.doc.Footnote;
-import gov.nyc.doitt.gis.geoclient.doc.TableData;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import gov.nyc.doitt.gis.geoclient.doc.Footnote;
+import gov.nyc.doitt.gis.geoclient.doc.TableData;
 
 public class TableDataConverter implements Converter
 {

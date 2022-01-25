@@ -15,10 +15,10 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.task;
 
+import java.util.List;
+
 import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
-
-import java.util.List;
 
 public interface InitialSearchTaskBuilder
 {

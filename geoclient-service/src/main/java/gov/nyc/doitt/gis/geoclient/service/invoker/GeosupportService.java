@@ -15,9 +15,9 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.invoker;
 
-import gov.nyc.doitt.gis.geoclient.service.domain.Version;
-
 import java.util.Map;
+
+import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 
 public interface GeosupportService
 {

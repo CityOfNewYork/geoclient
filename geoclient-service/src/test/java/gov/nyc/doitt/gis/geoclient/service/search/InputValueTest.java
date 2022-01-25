@@ -15,13 +15,13 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 import gov.nyc.doitt.gis.geoclient.parser.token.Token;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
-
-import org.junit.jupiter.api.Test;
 
 public class InputValueTest
 {

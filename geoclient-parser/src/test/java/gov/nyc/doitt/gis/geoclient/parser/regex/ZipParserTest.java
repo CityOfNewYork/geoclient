@@ -16,6 +16,12 @@
 package gov.nyc.doitt.gis.geoclient.parser.regex;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import gov.nyc.doitt.gis.geoclient.parser.AbstractSpecTest;
 import gov.nyc.doitt.gis.geoclient.parser.Input;
 import gov.nyc.doitt.gis.geoclient.parser.ParseContext;
@@ -23,11 +29,6 @@ import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
 import gov.nyc.doitt.gis.geoclient.parser.token.Token;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class ZipParserTest extends AbstractSpecTest
 {

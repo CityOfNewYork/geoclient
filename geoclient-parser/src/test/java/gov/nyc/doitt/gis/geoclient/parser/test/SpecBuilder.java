@@ -18,10 +18,10 @@ package gov.nyc.doitt.gis.geoclient.parser.test;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.util.ClassUtils;
-
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+
+import org.springframework.util.ClassUtils;
 
 public class SpecBuilder
 {

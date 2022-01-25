@@ -22,9 +22,9 @@ import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType.UNRECOGNIZED;
 import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType._10SC;
 import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType._5SC;
 import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType._7SC;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Random;
 

@@ -15,20 +15,21 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.assertj.core.api.Assertions.*;
-import gov.nyc.doitt.gis.geoclient.parser.test.ChunkSpecParser.MutableToken;
-import gov.nyc.doitt.gis.geoclient.parser.test.ChunkSpecParser.TokenTypeOccurrence;
-import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
-import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
-import gov.nyc.doitt.gis.geoclient.parser.token.Token;
-import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import gov.nyc.doitt.gis.geoclient.parser.test.ChunkSpecParser.MutableToken;
+import gov.nyc.doitt.gis.geoclient.parser.test.ChunkSpecParser.TokenTypeOccurrence;
+import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
+import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
+import gov.nyc.doitt.gis.geoclient.parser.token.Token;
+import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
 public class ChunkSpecParserTest {
     private ChunkSpecParser specParser;

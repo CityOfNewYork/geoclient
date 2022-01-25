@@ -15,13 +15,13 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.web.response;
 
-import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
-
 import java.util.Map;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamConverter;
+
+import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
 
 public class SearchSummary
 {

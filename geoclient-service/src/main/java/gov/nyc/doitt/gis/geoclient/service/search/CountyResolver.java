@@ -15,13 +15,13 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search;
 
-import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
-import gov.nyc.doitt.gis.geoclient.parser.token.Token;
-import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
+import gov.nyc.doitt.gis.geoclient.parser.token.Token;
+import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
 public class CountyResolver
 {

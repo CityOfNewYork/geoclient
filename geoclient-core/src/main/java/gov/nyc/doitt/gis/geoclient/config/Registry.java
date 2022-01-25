@@ -15,15 +15,15 @@
  */
 package gov.nyc.doitt.gis.geoclient.config;
 
-import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
-import gov.nyc.doitt.gis.geoclient.function.Function;
-import gov.nyc.doitt.gis.geoclient.function.WorkArea;
-
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
+import gov.nyc.doitt.gis.geoclient.function.Function;
+import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 
 public class Registry
 {

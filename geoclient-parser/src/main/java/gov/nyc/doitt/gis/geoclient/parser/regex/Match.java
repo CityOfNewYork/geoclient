@@ -15,13 +15,13 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.regex;
 
-import gov.nyc.doitt.gis.geoclient.parser.ParseContext;
-import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
-import gov.nyc.doitt.gis.geoclient.parser.util.Assert;
-
 import java.util.List;
 import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
+
+import gov.nyc.doitt.gis.geoclient.parser.ParseContext;
+import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
+import gov.nyc.doitt.gis.geoclient.parser.util.Assert;
 
 public class Match
 {

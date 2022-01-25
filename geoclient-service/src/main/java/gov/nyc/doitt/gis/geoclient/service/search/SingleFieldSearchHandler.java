@@ -15,13 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search;
 
-import gov.nyc.doitt.gis.geoclient.parser.Input;
-import gov.nyc.doitt.gis.geoclient.parser.LocationTokenizer;
-import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
-import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
-import gov.nyc.doitt.gis.geoclient.service.search.task.SearchTask;
-import gov.nyc.doitt.gis.geoclient.service.search.task.SearchTaskFactory;
-
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -31,6 +24,13 @@ import java.util.concurrent.Future;
 import javax.annotation.PreDestroy;
 
 import org.slf4j.Logger;
+
+import gov.nyc.doitt.gis.geoclient.parser.Input;
+import gov.nyc.doitt.gis.geoclient.parser.LocationTokenizer;
+import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
+import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
+import gov.nyc.doitt.gis.geoclient.service.search.task.SearchTask;
+import gov.nyc.doitt.gis.geoclient.service.search.task.SearchTaskFactory;
 
 public class SingleFieldSearchHandler
 {

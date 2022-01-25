@@ -15,9 +15,9 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.web.response;
 
-import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
-
 import java.util.List;
+
+import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 
 public class ParseTree
 {

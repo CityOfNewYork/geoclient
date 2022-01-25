@@ -15,10 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.config;
 
-import gov.nyc.doitt.gis.geoclient.function.Field;
-import gov.nyc.doitt.gis.geoclient.function.Filter;
-import gov.nyc.doitt.gis.geoclient.function.WorkArea;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,6 +23,10 @@ import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gov.nyc.doitt.gis.geoclient.function.Field;
+import gov.nyc.doitt.gis.geoclient.function.Filter;
+import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 
 public class WorkAreaConfig
 {

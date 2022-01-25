@@ -15,13 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.cli;
 
-import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
-import gov.nyc.doitt.gis.geoclient.function.Field;
-import gov.nyc.doitt.gis.geoclient.function.Function;
-import gov.nyc.doitt.gis.geoclient.function.WorkArea;
-import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
-import gov.nyc.doitt.gis.geoclient.util.OperatingSystemUtils;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,6 +28,13 @@ import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
+import gov.nyc.doitt.gis.geoclient.function.Field;
+import gov.nyc.doitt.gis.geoclient.function.Function;
+import gov.nyc.doitt.gis.geoclient.function.WorkArea;
+import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
+import gov.nyc.doitt.gis.geoclient.util.OperatingSystemUtils;
 
 public class GeosupportClient
 {

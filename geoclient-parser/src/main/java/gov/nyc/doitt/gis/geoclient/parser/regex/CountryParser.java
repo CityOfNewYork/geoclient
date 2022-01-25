@@ -15,13 +15,13 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.regex;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import gov.nyc.doitt.gis.geoclient.parser.ParseContext;
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class CountryParser extends AbstractRegexParser
 {

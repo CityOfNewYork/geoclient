@@ -15,9 +15,9 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search;
 
-import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
-
 import java.util.List;
+
+import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
 public class Search
 {

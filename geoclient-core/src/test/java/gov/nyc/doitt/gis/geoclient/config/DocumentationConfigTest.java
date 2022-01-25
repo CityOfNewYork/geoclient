@@ -19,15 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import gov.nyc.doitt.gis.geoclient.doc.DataDictionary;
-import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
-import gov.nyc.doitt.gis.geoclient.doc.GroupDocumentation;
-import gov.nyc.doitt.gis.geoclient.doc.GroupMember;
-import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
-import gov.nyc.doitt.gis.geoclient.doc.MissingDocumentation;
-import gov.nyc.doitt.gis.geoclient.function.Field;
-import gov.nyc.doitt.gis.geoclient.function.Function;
-import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -38,6 +29,16 @@ import java.util.TreeSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import gov.nyc.doitt.gis.geoclient.doc.DataDictionary;
+import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
+import gov.nyc.doitt.gis.geoclient.doc.GroupDocumentation;
+import gov.nyc.doitt.gis.geoclient.doc.GroupMember;
+import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
+import gov.nyc.doitt.gis.geoclient.doc.MissingDocumentation;
+import gov.nyc.doitt.gis.geoclient.function.Field;
+import gov.nyc.doitt.gis.geoclient.function.Function;
+import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 
 public class DocumentationConfigTest
 {

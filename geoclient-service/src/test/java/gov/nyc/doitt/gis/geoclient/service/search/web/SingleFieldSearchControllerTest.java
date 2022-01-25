@@ -17,9 +17,8 @@ package gov.nyc.doitt.gis.geoclient.service.search.web;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
-
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -28,15 +27,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standal
 
 import java.util.ArrayList;
 
-import gov.nyc.doitt.gis.geoclient.service.search.Fixtures;
-import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
-import gov.nyc.doitt.gis.geoclient.service.search.SingleFieldSearchHandler;
-import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.ParamsAndResult;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchParameters;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResponse;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchSummary;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.Status;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,7 +42,15 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
+import gov.nyc.doitt.gis.geoclient.service.search.Fixtures;
+import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
+import gov.nyc.doitt.gis.geoclient.service.search.SingleFieldSearchHandler;
+import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.ParamsAndResult;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchParameters;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResponse;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchSummary;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.Status;
 
 public class SingleFieldSearchControllerTest
 {

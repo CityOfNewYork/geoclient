@@ -15,14 +15,14 @@
  */
 package gov.nyc.doitt.gis.geoclient.config.xml;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.function.Field;
 

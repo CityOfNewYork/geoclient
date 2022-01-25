@@ -72,4 +72,3 @@ public abstract class CountyRequest extends Request
     }
 
 }
-

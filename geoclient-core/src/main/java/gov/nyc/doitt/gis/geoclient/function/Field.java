@@ -15,14 +15,14 @@
  */
 package gov.nyc.doitt.gis.geoclient.function;
 
-import gov.nyc.doitt.gis.geoclient.util.Assert;
-
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.Comparator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gov.nyc.doitt.gis.geoclient.util.Assert;
 
 public class Field implements Comparable<Field>
 {

@@ -15,10 +15,10 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.policy;
 
+import java.util.List;
+
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
-
-import java.util.List;
 
 /**
  * Instances of this class are used to determine what constitutes an exact match

@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 
 import java.nio.ByteBuffer;
 import java.util.Arrays;
@@ -30,6 +29,8 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
+import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 
 public class GeosupportFunctionTest
 {

@@ -15,11 +15,11 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search;
 
-import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
-import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
+import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
 
 public class SearchResult
 {

@@ -15,13 +15,13 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.policy;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DefaultSearchDepthPolicy extends AbstractPolicy implements SearchDepthPolicy
 {

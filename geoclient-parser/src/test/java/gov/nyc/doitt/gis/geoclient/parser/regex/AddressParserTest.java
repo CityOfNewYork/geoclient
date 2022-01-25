@@ -15,11 +15,11 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.regex;
 
-import gov.nyc.doitt.gis.geoclient.parser.AbstractSpecTest;
-
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gov.nyc.doitt.gis.geoclient.parser.AbstractSpecTest;
 
 public class AddressParserTest extends AbstractSpecTest
 {

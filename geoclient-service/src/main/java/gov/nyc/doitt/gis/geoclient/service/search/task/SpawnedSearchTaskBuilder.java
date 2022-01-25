@@ -15,9 +15,9 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.task;
 
-import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
-
 import java.util.List;
+
+import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 
 public interface SpawnedSearchTaskBuilder
 {

@@ -22,11 +22,11 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 
 public class MapConverterTest {
     private HierarchicalStreamWriter writerMock;

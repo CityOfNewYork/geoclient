@@ -15,13 +15,13 @@
  */
 package gov.nyc.doitt.gis.geoclient.config;
 
-import gov.nyc.doitt.gis.geoclient.function.Field;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import gov.nyc.doitt.gis.geoclient.function.Field;
 
 public class TestData
 {
