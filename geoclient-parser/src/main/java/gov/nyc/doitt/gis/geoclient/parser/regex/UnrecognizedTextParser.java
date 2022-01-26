@@ -28,11 +28,11 @@ import gov.nyc.doitt.gis.geoclient.parser.util.Assert;
  * Always matches zero or more characters in the current {@link Chunk} and marks
  * the {@link TokenType} and {@link ChunkType} as unrecogized.
  *
- * @see TokenType#UNRECOGNIZED
- * @see ChunkType#UNRECOGNIZED
- *
  * @author mlipper
  * @since 2.0
+ *
+ * @see TokenType#UNRECOGNIZED
+ * @see ChunkType#UNRECOGNIZED
  */
 public class UnrecognizedTextParser extends AbstractRegexParser {
     private final Pattern ANYTHING = Pattern.compile("(.*)");

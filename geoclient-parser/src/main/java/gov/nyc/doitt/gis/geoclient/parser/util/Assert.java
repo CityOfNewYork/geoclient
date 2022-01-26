@@ -24,11 +24,10 @@ import org.apache.commons.lang3.StringUtils;
  * libraries. Copied from and/or inspired by
  * {@linkplain org.springframework.util.Assert}.
  *
- *
- * @see org.springframework.util.Assert
- * @see org.apache.commons.lang3.StringUtils
  * @author mlipper
  * @since 2.0
+ * @see org.springframework.util.Assert
+ * @see org.apache.commons.lang3.StringUtils
  */
 public class Assert {
 
