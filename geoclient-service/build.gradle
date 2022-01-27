@@ -11,6 +11,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     implementation("org.springframework.boot:spring-boot-starter-validation")
+    //runtime("org.springframework.boot:spring-boot-properties-migrator")
     //implementation("org.springframework.boot:spring-boot-devtools")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework:spring-oxm") { exclude(module: "commons-lang") }
@@ -69,7 +70,11 @@ bootWar {
 // the bootRun task. This only seems to occur from within VS Code remote
 // container running on debian:bullseye, using Eclipse Temurin Java 8
 // installed with sdkman.
-tasks.named('bootRun').get().systemProperties = [ 'gc.jni.version': 'geoclient-jni-2' ]
+//tasks.named('bootRun').get().systemProperties = [ 'gc.jni.version': 'geoclient-jni-2' ]
+bootRun {
+    args '--spring.profiles.active=bootRun'
+    systemProperties = [ 'gc.jni.version': 'geoclient-jni-2' ]
+}
 
 publishing {
     publications {
