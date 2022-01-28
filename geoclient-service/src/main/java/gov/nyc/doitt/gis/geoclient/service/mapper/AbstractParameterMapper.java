@@ -51,7 +51,8 @@ public abstract class AbstractParameterMapper<T> implements Mapper<T> {
             Constructor<?>[] ctors = clazz.getDeclaredConstructors();
             Constructor<?> constructor = null;
             for (Constructor<?> ctor : ctors) {
-                if(ctor.trySetAccessible() && ctor.getGenericExceptionTypes().length == 0) {
+                if(ctor.getGenericExceptionTypes().length == 0) {
+                    ctor.setAccessible(true);
                     constructor = ctor;
                     break;
                 }
