@@ -15,7 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.util;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.Collection;
