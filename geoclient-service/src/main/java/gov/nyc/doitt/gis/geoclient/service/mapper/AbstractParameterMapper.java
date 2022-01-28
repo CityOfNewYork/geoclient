@@ -15,6 +15,8 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.mapper;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,10 +44,21 @@ public abstract class AbstractParameterMapper<T> implements Mapper<T> {
     public abstract Map<String, Object> toParameters(T source, Map<String, Object> destination)
             throws MappingException;
 
+    @SuppressWarnings("unchecked")
     protected T newInstance(Class<T> clazz) throws MappingException {
         try {
-            return clazz.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+
+            Constructor<?>[] ctors = clazz.getDeclaredConstructors();
+            Constructor<?> constructor = null;
+            for (Constructor<?> ctor : ctors) {
+                if(ctor.trySetAccessible() && ctor.getGenericExceptionTypes().length == 0) {
+                    constructor = ctor;
+                    break;
+                }
+            }
+            return (T)constructor.newInstance();
+
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             String className = clazz.getCanonicalName();
             String msg = String.format("Error creating instance of class %s using Class<%s>#newInstance()", className,
                     clazz.getSimpleName());
