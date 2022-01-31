@@ -59,7 +59,7 @@ configure(moduleProjects){ project ->
         diffutilsVersion          = "1.3.0"
         httpclient                = "4.5.10"
         thymeleafVersion          = "3.0.11.RELEASE"
-        xstreamVersion            = "1.4.11.1"
+        xstreamVersion            = "1.4.19"
 
         licenseFilesSpec = copySpec {
             from("${rootDir}/src/dist") {

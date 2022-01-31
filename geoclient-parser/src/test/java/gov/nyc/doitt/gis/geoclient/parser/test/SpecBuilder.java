@@ -32,6 +32,7 @@ public class SpecBuilder
     public SpecBuilder()
     {
         xStream = new XStream(new DomDriver());
+        xStream.allowTypes(new Class[] {UnparsedSpecs.class});
         xStream.setMode(XStream.ID_REFERENCES);
         xStream.processAnnotations(UnparsedSpecs.class);
         this.unparsedTokenSpecs = (UnparsedSpecs) xStream.fromXML(ClassUtils.getDefaultClassLoader().getResourceAsStream(

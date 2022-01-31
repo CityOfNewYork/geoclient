@@ -230,7 +230,8 @@ public class AppConfig {
         XStreamMarshaller marshaller = new XStreamMarshaller();
         marshaller.setConverters(new ConverterMatcher[] { new MapConverter() });
         Map<String, Class<?>> aliases = new HashMap<String, Class<?>>();
-        aliases.put("geosupportResponse", Map.class);
+        aliases.put("geosupportResponse", Map.class);       // -> <geosupportResult class="tree-map">
+        //aliases.put("geosupportResponse", TreeMap.class); // -> <geosupportResult class="geosupportResult">
         aliases.put("version", Version.class);
         aliases.put("fileInfo", FileInfo.class);
         aliases.put("error", BadRequest.class);

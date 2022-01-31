@@ -45,7 +45,7 @@ logging:
         tomcat: "INFO"
         geoclient: "INFO"
         geoclient-jni: "INFO"
-        geoclient-service: "DEBUG"
+        geoclient-service: "INFO"
         ## Log XML deserialization into workarea fields at startup
         #gov.nyc.doitt.gis.geoclient.config.xml: "DEBUG"
         ## Log native C runtime and JNI configuration at startup
@@ -53,7 +53,7 @@ logging:
         ## Log character buffer values from geosupport requests/repsonses
         #gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
         ## Log request/response HashMaps before/after geosupport call
-        gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl: "DEBUG"
+        #gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl: "DEBUG"
 
 management:
     endpoints:
@@ -76,14 +76,14 @@ server:
           prefix: access_
 logging:
     level:
-        spring: "INFO"
-        spring-boot: "INFO"
-        spring-web: "INFO"
-        thymeleaf: "INFO"
+        #spring: "INFO"
+        #spring-boot: "INFO"
+        #spring-web: "INFO"
+        #thymeleaf: "INFO"
         #thymeleaf-trace: "TRACE"
-        #gov.nyc.doitt.gis.geoclient: "INFO"
+        geoclient: "INFO"
         ## Log native C runtime and JNI configuration at startup
-        gov.nyc.doitt.gis.geoclient.jni: "DEBUG"
+        #gov.nyc.doitt.gis.geoclient.jni: "DEBUG"
         ## Log character buffer values from geosupport requests/repsonses
         #gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
     file:
