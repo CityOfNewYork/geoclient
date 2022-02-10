@@ -1,0 +1,24 @@
+plugins {
+    id 'geoclient.java-conventions'
+    id 'gov.nyc.doitt.gis.geoclient.gradle.integration-test'
+}
+
+integrationTest {
+    useJUnitPlatform()
+    testLogging {
+        displayGranularity = 2
+        events "failed", "skipped", "passed"
+        exceptionFormat "full"
+        showStandardStreams = false
+    }
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        displayGranularity = 2
+        events "failed", "skipped", "passed"
+        exceptionFormat "full"
+        showStandardStreams = false
+    }
+}

@@ -1,6 +1,7 @@
-// Java plugin is applied in the parent build
 plugins {
     id 'c'
+    id 'geoclient.library-conventions'
+    id 'geoclient.test-conventions'
 }
 
 def basePackagePath = "gov/nyc/doitt/gis/geoclient/jni"
@@ -17,6 +18,7 @@ spotless.java {
     // Exclude from spotless (gradle plugin) license header check because of custom header.
     targetExclude 'src/main/java/gov/nyc/doitt/gis/geoclient/jni/util/NativeLibraryLocator.java'
 }
+
 // Must be configured lazily because 'from' and 'destinationDir' properties are
 // created dynamically by SharedLibraryBinarySpec
 task syncJniLib(type: Sync)

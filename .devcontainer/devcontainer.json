@@ -9,7 +9,7 @@
 			// Options
 			"INSTALL_MAVEN": "true",
 			"INSTALL_GRADLE": "true",
-			"GRADLE_VERSION": "6.9.2",
+			"GRADLE_VERSION": "7.4",
 			"NODE_VERSION": "lts/*"
 		}
 	},

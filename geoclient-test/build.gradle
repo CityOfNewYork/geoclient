@@ -1,5 +1,7 @@
 plugins {
     id 'groovy'
+    id 'geoclient.library-conventions'
+    id 'geoclient.test-conventions'
 }
 
 dependencies {

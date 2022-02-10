@@ -1,0 +1,47 @@
+plugins {
+    id 'java-library'
+    id 'maven-publish'
+    id 'geoclient.java-conventions'
+}
+
+//group = 'com.example'
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            name "localRepo"
+            url layout.buildDirectory.dir("repo")
+        }
+    }
+}
+
+jar {
+    manifest {
+        from project.sharedManifest
+    }
+    with(project.licenseFilesSpec)
+}
+
+//    signing {
+//        sign publishing.publications.mavenJava
+//    }
+//}
+
+tasks.register('publications') {
+    group = 'Help'
+    description 'Lists publications from all java-library projects.'
+    doLast {
+        publishing.publications.each {
+            logger.quiet("[{}] {}:{}", it.name, it.artifactId, it.version)
+            it.artifacts.each { a ->
+                String padding = " ".multiply(it.name.length() - a.extension.length())
+                logger.quiet("{}[{}] {}", padding, a.extension, a.file.absolutePath)
+            }
+        }
+    }
+}
