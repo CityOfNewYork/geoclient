@@ -23,24 +23,18 @@ dependencies {
     providedRuntime('org.springframework.boot:spring-boot-starter-tomcat:2.2.2.RELEASE')
 }
 
-import org.apache.tools.ant.filters.ReplaceTokens
-ext {
-    String rundir = "${buildDir}/boot-run"
-    bootRunDir = rundir
+tasks.register('writeVersionProperties', WriteProperties) {
+    properties(['jni.version': project.version, 'core.version': project.version, 'parser.version': project.version, 'service.version': project.version])
+    outputFile new File(sourceSets.main.output.resourcesDir, 'version.properties')
 }
+
 processResources {
-    duplicatesStrategy DuplicatesStrategy.WARN
-    from(sourceSets.main.resources) {
-        include 'version.properties'
-        include 'application.yml'
-        filter(ReplaceTokens, tokens: [version: project.version, bootRunDir: bootRunDir])
-    }
-    filteringCharset = 'UTF-8'
+    dependsOn 'writeVersionProperties'
 }
 
 springBoot {
     buildInfo()
-    mainClassName = "gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"
+    mainClassName = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
 }
 
 // Uncomment to allow building "non-executable", traditional jar/war file
@@ -53,6 +47,7 @@ tasks.named('bootJar') {
     requiresUnpack "**/geoclient-jni-*.jar"
     manifest {
         from project.sharedManifest
+        attributes 'Start-Class': 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
     }
     with(project.licenseFilesSpec)
 }
@@ -64,6 +59,7 @@ tasks.named('bootWar') {
     requiresUnpack "**/geoclient-jni-*.jar"
     manifest {
         from project.sharedManifest
+        attributes 'Start-Class': 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
     }
     with(project.licenseFilesSpec)
 }

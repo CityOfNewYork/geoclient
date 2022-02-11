@@ -217,10 +217,11 @@ public class AppConfig {
 
         Version version = new Version();
         version.setGeosupportVersion( geosupportVersionMapper().fromParameters(functionHrData, new GeosupportVersion()));
-        version.setGeoclientJniVersion(getImplementationVersion(Geoclient.class));
-        version.setGeoclientVersion(getImplementationVersion(GeosupportConfig.class));
-        version.setGeoclientParserVersion(getImplementationVersion(LocationTokenizer.class));
-        version.setGeoclientServiceVersion(env.getProperty("service.version", "error"));
+        // Uses version.properties file created by geoclient-service gradle build
+        version.setGeoclientJniVersion(env.getProperty("jni.version", "UNKNOWN"));
+        version.setGeoclientVersion(env.getProperty("core.version", "UNKNOWN"));
+        version.setGeoclientParserVersion(env.getProperty("parser.version", "UNKNOWN"));
+        version.setGeoclientServiceVersion(env.getProperty("service.version", "UNKNOWN"));
         version.setAccessMethod("Local/JNI");
         return version;
     }

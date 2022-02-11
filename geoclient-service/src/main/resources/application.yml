@@ -68,7 +68,7 @@ spring:
     profiles: bootRun
 server:
     tomcat:
-      basedir: "@bootRunDir@"
+      basedir: "build/bootrun"
       accesslog:
           directory: logs
           enabled: true
@@ -87,7 +87,7 @@ logging:
         ## Log character buffer values from geosupport requests/repsonses
         #gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
     file:
-        name: "@bootRunDir@/logs/geoclient.log"
+        name: "build/bootrun/logs/geoclient.log"
 
 management:
     endpoints:
