@@ -36,7 +36,6 @@ import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
-import gov.nyc.doitt.gis.geoclient.parser.LocationTokenizer;
 import gov.nyc.doitt.gis.geoclient.parser.configuration.ParserConfig;
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.parser.token.Token;
