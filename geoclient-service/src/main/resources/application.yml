@@ -1,25 +1,37 @@
 spring:
-    mvc:
-        contentnegotiation:
-            favor-path-extension: true
-            favor-parameter: false
+    #mvc:
+    #    contentnegotiation:
+    #        favor-path-extension: true
+    #        favor-parameter: false
+    #    pathmatch:
+    #        use-suffix-pattern: true
+    #        use-registered-suffix-pattern: false
     thymeleaf:
         enable-spring-el-compiler: true
 
 server:
     servlet:
         context-path: "/geoclient/v2"
+        # As of spring-boot v2.4, DefaultServlet not registered by default. See:
+        # https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.4-Release-Notes#default-servlet-registration
+        # TODO: Investigate why this is required for geoclient-service
+        #register-default-servlet: true
 
 logging:
-
     group:
-        geoclient:
+        geoclient-all:
             - "gov.nyc.doitt.gis.geoclient"
         geoclient-jni:
             - "gov.nyc.doitt.gis.geoclient.jni"
+        geoclient-core:
+            - "gov.nyc.doitt.gis.geoclient.api"
+            - "gov.nyc.doitt.gis.geoclient.cli"
+            - "gov.nyc.doitt.gis.geoclient.config"
+            - "gov.nyc.doitt.gis.geoclient.function"
+            - "gov.nyc.doitt.gis.geoclient.util"
         geoclient-service:
             - "gov.nyc.doitt.gis.geoclient.service"
-        spring:
+        spring-all:
             - "org.springframework"
         spring-boot:
             - "org.springframework.boot"
@@ -37,19 +49,17 @@ logging:
 
     level:
         root: "WARN"
-        spring: "INFO"
-        spring-boot: "INFO"
-        spring-web: "INFO"
-        thymeleaf: "INFO"
-        thymeleaf-trace: "INFO"
-        tomcat: "INFO"
-        geoclient: "INFO"
-        geoclient-jni: "INFO"
-        geoclient-service: "INFO"
+        #spring-all: "INFO"
+        #spring-boot: "INFO"
+        #spring-web: "INFO"
+        #thymeleaf: "INFO"
+        #thymeleaf-trace: "TRACE"
+        #tomcat: "INFO"
+        geoclient-all: "INFO"
+        ## Log native C runtime and JNI configuration at startup
+        #geoclient-jni: "DEBUG"
         ## Log XML deserialization into workarea fields at startup
         #gov.nyc.doitt.gis.geoclient.config.xml: "DEBUG"
-        ## Log native C runtime and JNI configuration at startup
-        #gov.nyc.doitt.gis.geoclient.jni: "DEBUG"
         ## Log character buffer values from geosupport requests/repsonses
         #gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
         ## Log request/response HashMaps before/after geosupport call
@@ -65,7 +75,11 @@ management:
 # ./gradlew -Dgc.jni.version=geoclient-jni-2 bootRun --args='--spring.profiles.active=bootRun'
 #
 spring:
-    profiles: bootRun
+    profiles:
+        active: bootRun
+    mvc:
+        log-request-details: true
+
 server:
     tomcat:
       basedir: "build/bootrun"
@@ -74,18 +88,12 @@ server:
           enabled: true
           pattern: "%t %a \"%r\" %s (%D ms)"
           prefix: access_
+
 logging:
     level:
-        #spring: "INFO"
-        #spring-boot: "INFO"
-        #spring-web: "INFO"
-        #thymeleaf: "INFO"
-        #thymeleaf-trace: "TRACE"
-        geoclient: "INFO"
-        ## Log native C runtime and JNI configuration at startup
-        #gov.nyc.doitt.gis.geoclient.jni: "DEBUG"
-        ## Log character buffer values from geosupport requests/repsonses
-        #gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
+        spring-all: "INFO"
+        spring-web: "DEBUG"
+        geoclient-service: "DEBUG"
     file:
         name: "build/bootrun/logs/geoclient.log"
 

@@ -22,8 +22,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.core.convert.ConversionService;
 
 import gov.nyc.doitt.gis.geoclient.service.domain.FieldSet;
 
@@ -38,13 +36,9 @@ public class DoubleFieldSetConverterTest {
         String lonString = "-73.972709";
         FieldSet fooFieldSet = new FieldSet("foo", "lat", "lon");
         FieldSet barFieldSet = new FieldSet("bar", "amount", "lon");
-        ConversionService mockConversionService = Mockito.mock(ConversionService.class);
         Double latDouble = Double.valueOf(latString);
         Double lonDouble = Double.valueOf(lonString);
-        Mockito.when(mockConversionService.convert(latString, Double.class)).thenReturn(latDouble);
-        Mockito.when(mockConversionService.convert(lonString, Double.class)).thenReturn(lonDouble, lonDouble);
-        FieldSetConverter converter = new DoubleFieldSetConverter(mockConversionService,
-                Arrays.asList(fooFieldSet, barFieldSet));
+        FieldSetConverter converter = new DoubleFieldSetConverter(Arrays.asList(fooFieldSet, barFieldSet));
         Map<String, Object> args = new HashMap<>();
         // Test foo FieldSet
         args.put("lat", latString);

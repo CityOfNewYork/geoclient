@@ -14,26 +14,26 @@ ext {
     // Java manifest configuration
     sharedManifest = manifest {
            attributes(
-               "Implementation-Title": project.name,
-               "Implementation-Version": project.version,
-               "Automatic-Module-Name": project.name.replace("-", "."),  // for Jigsaw
+               'Implementation-Title': project.name,
+               'Implementation-Version': project.version,
+               'Automatic-Module-Name': project.name.replace('-', '.'),  // for Jigsaw
                "Built-By": "${System.getProperty("user.name")}",
                "Created-By": "${System.getProperty("java.version")} (${System.getProperty("java.specification.vendor")})",
-               "Built-Gradle": gradle.gradleVersion)
+               'Built-Gradle': gradle.gradleVersion)
     }
     // License
     licenseFilesSpec = copySpec {
         from("${project.rootDir}/src/dist") {
-            include "license.txt"
-            include "notice.txt"
-            into "META-INF"
-            expand(copyright: new Date().format("yyyy"), version: project.version)
+            include 'license.txt'
+            include 'notice.txt'
+            into 'META-INF'
+            expand(copyright: new Date().format('yyyy'), version: project.version)
         }
     }
 
     // Dependency version used by multiple subprojects. Should move to
     // a Gradle platform definition eventually.
-    xstreamVersion = "1.4.19"
+    xstreamVersion = '1.4.19'
 }
 
 repositories {
@@ -42,24 +42,19 @@ repositories {
 
 dependencies {
     // TODO switch back to new Gradle BOM support when spring-boot gradle-plugin can work correctly
-    implementation platform("org.springframework.boot:spring-boot-dependencies:2.2.2.RELEASE") // Must be in sync with rootProject plugin block above
-                                                                                                       // and geoclient-service/build.gradle
-    implementation "org.springframework.boot:spring-boot-starter-logging"
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude group: "org.junit", module: "junit"
-        // Uncomment after upgrading spring-boot platform
-        //exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
-    testImplementation "org.junit.jupiter:junit-jupiter-api"
-    testImplementation "org.junit.jupiter:junit-jupiter-params"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine"
+    implementation platform('org.springframework.boot:spring-boot-dependencies:2.6.3') // Must be in sync with geoclient-service/build.gradle
+    implementation 'org.springframework.boot:spring-boot-starter-logging'
+    testImplementation ('org.springframework.boot:spring-boot-starter-test')
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
 // Java build configuration
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
-    withJavadocJar()
+//    withJavadocJar()
     withSourcesJar()
 }
 
@@ -71,28 +66,29 @@ tasks.named('sourcesJar') {
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
+    //options.compilerArgs = ["-Werror", "-Xlint:unchecked", "-Xlint:deprecation", "-Xlint:rawtypes", "-Xlint:varargs"]
 }
 
 normalization {
     runtimeClasspath {
-        ignore "META-INF/MANIFEST.MF"
+        ignore 'META-INF/MANIFEST.MF'
     }
 }
 
 javadoc {
-    description = "Generates project-level javadoc for use in -javadoc jar"
+    description = 'Generates project-level javadoc for use in -javadoc jar'
 
-    options.addStringOption("Xdoclint:none", "-quiet")
+    options.addStringOption('Xdoclint:none', '-quiet')
     options.author = true
-    options.encoding = "UTF-8"
+    options.encoding = 'UTF-8'
     options.header = project.name
     // TODO debug slowness when uncommented: network, parse, etc...
     //options.links = [
-    //    "https://docs.oracle.com/javase/8/docs/api/",
-    //    "https://fasterxml.github.io/jackson-core/javadoc/2.10/",
-    //    "https://fasterxml.github.io/jackson-databind/javadoc/2.10/",
-    //    "https://fasterxml.github.io/jackson-dataformat-xml/javadoc/2.10/",
-    //    "https://junit.org/junit5/docs/5.5.2/api/"
+    //    'https://docs.oracle.com/javase/8/docs/api/',
+    //    'https://fasterxml.github.io/jackson-core/javadoc/2.10/',
+    //    'https://fasterxml.github.io/jackson-databind/javadoc/2.10/',
+    //    'https://fasterxml.github.io/jackson-dataformat-xml/javadoc/2.10/',
+    //    'https://junit.org/junit5/docs/5.5.2/api/'
     //] as String[]
     options.memberLevel = JavadocMemberLevel.PROTECTED
     options.noTimestamp = true

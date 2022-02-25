@@ -50,7 +50,7 @@ public class SearchTaskFactoryTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         locationTokens = new Fixtures().locationTokens;
         searchPolicy = new SearchPolicy();
         expectedTasks = new ArrayList<>();

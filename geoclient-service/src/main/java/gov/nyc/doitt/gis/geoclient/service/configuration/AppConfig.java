@@ -18,30 +18,22 @@ package gov.nyc.doitt.gis.geoclient.service.configuration;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.thoughtworks.xstream.converters.ConverterMatcher;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.core.env.Environment;
-import org.springframework.oxm.xstream.XStreamMarshaller;
 
 import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
 import gov.nyc.doitt.gis.geoclient.parser.configuration.ParserConfig;
-import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
-import gov.nyc.doitt.gis.geoclient.parser.token.Token;
-import gov.nyc.doitt.gis.geoclient.service.domain.BadRequest;
 import gov.nyc.doitt.gis.geoclient.service.domain.FieldSet;
-import gov.nyc.doitt.gis.geoclient.service.domain.FileInfo;
 import gov.nyc.doitt.gis.geoclient.service.domain.GeosupportVersion;
 import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 import gov.nyc.doitt.gis.geoclient.service.invoker.DoubleFieldSetConverter;
@@ -60,7 +52,6 @@ import gov.nyc.doitt.gis.geoclient.service.search.task.DefaultSpawnedTaskBuilder
 import gov.nyc.doitt.gis.geoclient.service.search.task.InitialSearchTaskBuilder;
 import gov.nyc.doitt.gis.geoclient.service.search.task.SearchTaskFactory;
 import gov.nyc.doitt.gis.geoclient.service.search.task.SpawnedSearchTaskBuilder;
-import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
 
 /**
  * Java-based configuration for the <code>geoclient-service</code> application.
@@ -70,10 +61,8 @@ import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
  */
 @Configuration
 @PropertySource(value = "classpath:version.properties")
+@ComponentScan(basePackages = { "gov.nyc.doitt.gis.geoclient.service", "gov.nyc.doitt.gis.geoclient.parser.configuration" })
 public class AppConfig {
-
-    @Autowired
-    private ConversionService conversionService;
 
     @Autowired
     private Environment env;
@@ -81,9 +70,10 @@ public class AppConfig {
     @Autowired
     private ParserConfig parserConfig;
 
+    // Spring bean methods
     @Bean
     public FieldSetConverter latLongFieldSetConverter() {
-        return new DoubleFieldSetConverter(conversionService, latLongConversions());
+        return new DoubleFieldSetConverter(latLongConversions());
     }
 
     @Bean
@@ -158,6 +148,7 @@ public class AppConfig {
         return new ResponseStatusMapper();
     }
 
+    // Regular methods
     public Function geosupportFunction(String id) {
         return geosupportConfiguration().getFunction(id);
     }
@@ -223,32 +214,6 @@ public class AppConfig {
         version.setGeoclientServiceVersion(env.getProperty("service.version", "UNKNOWN"));
         version.setAccessMethod("Local/JNI");
         return version;
-    }
-
-    @Bean
-    public XStreamMarshaller marshaller() {
-        XStreamMarshaller marshaller = new XStreamMarshaller();
-        marshaller.setConverters(new ConverterMatcher[] { new MapConverter() });
-        Map<String, Class<?>> aliases = new HashMap<String, Class<?>>();
-        aliases.put("geosupportResponse", Map.class);       // -> <geosupportResult class="tree-map">
-        //aliases.put("geosupportResponse", TreeMap.class); // -> <geosupportResult class="geosupportResult">
-        aliases.put("version", Version.class);
-        aliases.put("fileInfo", FileInfo.class);
-        aliases.put("error", BadRequest.class);
-        aliases.put("chunk", Chunk.class);
-        aliases.put("token", Token.class);
-        marshaller.setAliases(aliases);
-        marshaller.setAutodetectAnnotations(true);
-        return marshaller;
-    }
-
-    public String getImplementationVersion(Class<?> clazz) {
-        Package pkg = clazz.getPackage();
-
-        if (pkg == null) {
-            return "UNKNOWN";
-        }
-        return pkg.getImplementationVersion();
     }
 
 }

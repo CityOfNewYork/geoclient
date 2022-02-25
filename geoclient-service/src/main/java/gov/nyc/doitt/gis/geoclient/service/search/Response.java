@@ -15,18 +15,17 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.Instant;
-import org.joda.time.ReadableInstant;
 
 public class Response
 {
     private final ResponseStatus responseStatus;
     private final Map<String, Object> geocodes;
-    private final ReadableInstant timestamp;
+    private final Instant timestamp;
 
     public Response(ResponseStatus responseStatus, Map<String, Object> geocodes)
     {
@@ -72,7 +71,7 @@ public class Response
         return geocodes;
     }
 
-    public ReadableInstant getTimestamp()
+    public Instant getTimestamp()
     {
         return timestamp;
     }

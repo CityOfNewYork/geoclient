@@ -30,6 +30,7 @@ import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +46,7 @@ import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
  * Handles RESTful requests for Geosupport data.
  */
 @CrossOrigin
-@Controller
+@org.springframework.web.bind.annotation.RestController
 public class RestController
 {
 
@@ -208,6 +209,12 @@ public class RestController
     {
         logger.debug("geosupport[{}]", params);
         return this.geosupportService.callGeosupport(params);
+    }
+
+    @RequestMapping(value = "/meta/{action}", produces = { "application/json", "application/xml" }, method = RequestMethod.GET)
+    public @ResponseBody Version meta(@PathVariable String action)
+    {
+        return this.geosupportService.version();
     }
 
     @RequestMapping(value = VERSION_URI, method = RequestMethod.GET)

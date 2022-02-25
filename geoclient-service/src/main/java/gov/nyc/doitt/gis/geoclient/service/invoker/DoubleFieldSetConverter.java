@@ -22,7 +22,6 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.convert.ConversionService;
 
 import gov.nyc.doitt.gis.geoclient.service.domain.FieldSet;
 
@@ -32,11 +31,8 @@ import gov.nyc.doitt.gis.geoclient.service.domain.FieldSet;
  * functions contain results targeted for conversion using
  * {@link FieldSet}s.
  *
- * Currently implemented using a Spring {@link ConversionService}.
- *
  * @author Matthew Lipper
  * @since 2.0
- * @see ConversionService
  * @see FieldSet
  * @see FieldSetConverter
  */
@@ -44,12 +40,9 @@ public class DoubleFieldSetConverter implements FieldSetConverter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DoubleFieldSetConverter.class);
 
-    // @Autowired
-    private ConversionService conversionService;
     private Map<String, FieldSet> fieldSets;
 
-    public DoubleFieldSetConverter(ConversionService conversionService, List<FieldSet> fieldSets) {
-        this.conversionService = conversionService;
+    public DoubleFieldSetConverter(List<FieldSet> fieldSets) {
         this.fieldSets = new HashMap<>();
         for (FieldSet fieldSet : fieldSets) {
             this.fieldSets.put(fieldSet.getFunctionId(), fieldSet);
@@ -91,6 +84,10 @@ public class DoubleFieldSetConverter implements FieldSetConverter {
     }
 
     private Double convert(String coordinateString) {
-        return this.conversionService.convert(coordinateString, Double.class);
+        if(coordinateString == null) {
+            throw new IllegalArgumentException("Coordinate string must not be null");
+        }
+        String trimmed = coordinateString.trim();
+        return Double.valueOf(trimmed);
     }
 }

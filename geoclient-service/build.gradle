@@ -1,6 +1,6 @@
 plugins {
     id 'war' // Required when building an executable war file
-    id 'org.springframework.boot' version '2.2.2.RELEASE'
+    id 'org.springframework.boot' version '2.6.3'
     id 'geoclient.java-conventions'
     id 'geoclient.test-conventions'
 }
@@ -18,9 +18,9 @@ dependencies {
     implementation('org.springframework.boot:spring-boot-starter-actuator')
     implementation('org.springframework:spring-oxm') { exclude(module: 'commons-lang') }
     implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}")
-    implementation('joda-time:joda-time')
-    testImplementation('org.apache.httpcomponents:httpclient:4.5.10')
-    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat:2.2.2.RELEASE')
+    //implementation('joda-time:joda-time')
+    testImplementation('org.apache.httpcomponents:httpclient') // formerly 4.5.10
+    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat:2.6.3')
 }
 
 tasks.register('writeVersionProperties', WriteProperties) {
@@ -34,7 +34,7 @@ processResources {
 
 springBoot {
     buildInfo()
-    mainClassName = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
+    mainClass = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
 }
 
 // Uncomment to allow building "non-executable", traditional jar/war file

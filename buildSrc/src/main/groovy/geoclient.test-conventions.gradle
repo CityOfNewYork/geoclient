@@ -19,6 +19,6 @@ test {
         displayGranularity = 2
         events "failed", "skipped", "passed"
         exceptionFormat "full"
-        showStandardStreams = false
+        showStandardStreams = true
     }
 }
