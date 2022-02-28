@@ -1998,14 +1998,18 @@
         <!-- begin:v19.3 -->
         <field id="truckRouteType" start="808" length="1"></field>
         <!-- end:v19.3 -->
-        <field id="leftSegmentCensusTrack2020" start="809" length="6" whitespace="true"></field>
-        <field id="leftSegmentCensusBlock2020" start="815" length="4"></field>
-        <field id="leftSegmentCensusBlockSuffix2020" start="819" length="1"></field>
+        <!-- leftSegment 2020 census tract/block use backwards-compatible naming conventions. -->
+        <field id="leftSegment2020CensusTrack" start="809" length="6" whitespace="true"></field>
+        <field id="leftSegment2020CensusBlock" start="815" length="4"></field>
+        <field id="leftSegment2020CensusBlockSuffix" start="819" length="1"></field>
+        <!-- rightSegment 2020 nta/cdta use better naming conventions. -->
         <field id="leftSegmentNta2020" start="820" length="6"></field>
         <field id="leftSegmentCdta2020" start="826" length="4"></field>
-        <field id="rightSegmentCensusTrack2020" start="830" length="6" whitespace="true"></field>
-        <field id="rightSegmentCensusBlock2020" start="836" length="4"></field>
-        <field id="rightSegmentCensusBlockSuffix2020" start="840" length="1"></field>
+        <!-- rightSegment 2020 census tract/block use backwards-compatible naming conventions. -->
+        <field id="rightSegment2020CensusTrack" start="830" length="6" whitespace="true"></field>
+        <field id="rightSegment2020CensusBlock" start="836" length="4"></field>
+        <field id="rightSegment2020CensusBlockSuffix" start="840" length="1"></field>
+        <!-- rightSegment 2020 nta/cdta use better naming conventions. -->
         <field id="rightSegmentNta2020" start="841" length="6"></field>
         <field id="rightSegmentCdta2020" start="847" length="4"></field>
         <field id="filler8" start="851" length="150"></field>
