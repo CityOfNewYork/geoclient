@@ -19,12 +19,11 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 import gov.nyc.doitt.gis.geoclient.service.search.SingleFieldSearchHandler;
@@ -33,7 +32,7 @@ import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchParameters;
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResponse;
 
 @CrossOrigin
-@Controller
+@RestController
 public class SingleFieldSearchController {
 
     @Autowired
@@ -42,7 +41,7 @@ public class SingleFieldSearchController {
     @Autowired
     private ConversionService conversionService;
 
-    @GetMapping(value = "/search")
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
     public @ResponseBody SearchResponse search(@Valid SearchParameters params) {
         ParamsAndResult paramsAndResult = new ParamsAndResult(params,
                 this.singleFieldSearchHandler.findLocation(params.buildSearchPolicy(), params.getInput()));
