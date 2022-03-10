@@ -20,9 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ch.qos.logback.core.pattern.Converter;
-
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.thoughtworks.xstream.converters.ConverterMatcher;
 
 import org.springframework.context.annotation.Bean;
