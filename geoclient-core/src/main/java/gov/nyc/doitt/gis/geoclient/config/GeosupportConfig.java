@@ -20,11 +20,16 @@ import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.config.xml.GeoclientXmlReader;
 import gov.nyc.doitt.gis.geoclient.function.Function;
+import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 
 public class GeosupportConfig {
-    private static final Logger log = LoggerFactory.getLogger(GeosupportConfig.class);
+
     public static final String DEFAULT_CONFIG_FILE = "geoclient.xml";
+
+    private static final Logger log = LoggerFactory.getLogger(GeosupportConfig.class);
+    private static final String WORKAREA_ONE_ID = "WA1"; // Hack alert
+
     private final Geoclient geoclient;
     private final GeoclientXmlReader geoclientXmlReader;
 
@@ -45,6 +50,10 @@ public class GeosupportConfig {
             throw new UnknownFunctionException(id);
         }
         return Registry.getFunction(id);
+    }
+
+    WorkArea getWorkAreaOne() {
+        return Registry.getWorkArea(WORKAREA_ONE_ID);
     }
 
     private void init() {

@@ -7,17 +7,17 @@
         </encoder>
     </appender>
     <!-- Uncomment to have the FunctionToCsv class log to a file -->
-    <!--
+    <!--    -->
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>function-report.csv</file>
         <encoder>
             <pattern>%msg%n</pattern>
         </encoder>
     </appender>
-    <logger name="gov.nyc.doitt.gis.geoclient.config.xml.FunctionToCsv" level="INFO">
+    <logger name="gov.nyc.doitt.gis.geoclient.config.FunctionToCsv" level="INFO">
         <appender-ref ref="FILE" />
     </logger>
-    -->
+
     <logger name="gov.nyc.doitt.gis.geoclient" level="INFO" />
     <root level="WARN">
         <appender-ref ref="STDOUT" />

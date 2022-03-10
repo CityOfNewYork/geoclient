@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,33 +112,8 @@ public class WorkArea
 
     public List<String> getFieldIds(Comparator<Field> comparator, boolean includeFiltered, boolean includeInputFields)
     {
-        List<String> result = new ArrayList<String>(this.fields.size());
-        SortedSet<Field> sorted = this.fields;
-        if(comparator!=null)
-        {
-            sorted = new TreeSet<Field>(comparator);
-            sorted.addAll(fields);
-        }
 
-        for (Field field : sorted)
-        {
-            if(!includeInputFields && field.isInput())
-            {
-                // Don't include inputs has been specified
-                // and this field is an input field
-                continue;
-            }
-
-            if(!includeFiltered && isFiltered(field))
-            {
-                // Don't include filtered fields has been specified
-                // and this field matches a filter
-                continue;
-            }
-
-            result.add(field.getId());
-        }
-        return result;
+        return this.getFields(comparator, includeFiltered, includeInputFields).stream().map(Field::getId).collect(Collectors.toList());
     }
 
     public int length()
@@ -174,6 +150,37 @@ public class WorkArea
             }
         }
         return false;
+    }
+
+    public List<Field> getFields(Comparator<Field> comparator, boolean includeFiltered, boolean includeInputFields)
+    {
+        List<Field> result = new ArrayList<Field>(this.fields.size());
+        SortedSet<Field> sorted = this.fields;
+        if(comparator!=null)
+        {
+            sorted = new TreeSet<Field>(comparator);
+            sorted.addAll(fields);
+        }
+
+        for (Field field : sorted)
+        {
+            if(!includeInputFields && field.isInput())
+            {
+                // Don't include inputs has been specified
+                // and this field is an input field
+                continue;
+            }
+
+            if(!includeFiltered && isFiltered(field))
+            {
+                // Don't include filtered fields has been specified
+                // and this field matches a filter
+                continue;
+            }
+
+            result.add(field);
+        }
+        return result;
     }
 
     protected Object resolveInputValue(Map<String, Object> parameters, Field field)
