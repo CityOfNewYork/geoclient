@@ -9,8 +9,8 @@
 			// Options
 			"INSTALL_MAVEN": "true",
 			"INSTALL_GRADLE": "true",
-			"GRADLE_VERSION": "7.4",
-			"NODE_VERSION": "lts/*"
+			"GRADLE_VERSION": "7.4.1",
+			"NODE_VERSION": "none"
 		}
 	},
 	"remoteEnv": {
@@ -21,7 +21,7 @@
 	],
 	// Set *default* container specific settings.json values on container create.
 	"settings": {
-		"java.home": "/docker-java-home",
+		"java.jdt.ls.java.home": "/docker-java-home",
 		"java.import.gradle.java.home": "/usr/local/sdkman/candidates/java/current",
 		"java.configuration.runtimes": [{
 			"default": true,
