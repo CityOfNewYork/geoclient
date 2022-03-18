@@ -28,8 +28,15 @@ tasks.register('writeVersionProperties', WriteProperties) {
     outputFile new File(sourceSets.main.output.resourcesDir, 'version.properties')
 }
 
+tasks.register('copyRuntimeDiagram', Copy) {
+    from("${project.rootDir}/src/doc") {
+        include 'geoclient-runtime.png'
+    }
+    into "${sourceSets.main.output.resourcesDir}/static/images"
+}
+
 processResources {
-    dependsOn 'writeVersionProperties'
+    dependsOn('writeVersionProperties', 'copyRuntimeDiagram')
 }
 
 springBoot {
