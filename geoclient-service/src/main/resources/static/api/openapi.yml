@@ -1,0 +1,170 @@
+openapi: 3.0.3
+info:
+  title: Geoclient API
+  version: "2.0"
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://maps.nyc.gov/geoclient/v2
+    description: Production server
+  - url: "{scheme}://{host}:{port}/geoclient/{version}"
+    description: Development server
+    variables:
+      scheme:
+        enum:
+          - http
+          - https
+        default: http
+      host: 
+        default: localhost
+      port:
+        enum:
+          - "8081"
+          - "443"
+          - "80"
+          - "84"
+        default: "8081"
+      version:
+        enum:
+          - v2
+          - v1
+        default: v2
+components:
+  parameters:
+    appIdParam:
+      name: app_id
+      in: query
+      description: Assigned application id
+      required: false
+      schema:
+        type: string
+    appKeyParam:
+      name: app_key
+      in: query
+      description: Assigned application key
+      required: false
+      schema:
+        type: string
+    boroughParam:
+      name: borough
+      in: query
+      required: true
+      examples:
+        manhattan:
+          value: manhattan
+        bronx:
+          value: bronx
+        brooklyn:
+          value: brooklyn
+        queens:
+          value: queens
+        staten_island:
+          value: staten island
+      schema:
+        type: string
+    mediaTypeParam:
+      name: mediaType
+      in: path
+      description: Requested media type of the response, either json or xml. Defaults to json 
+      required: true
+      examples:
+        json:
+          value: json
+        xml:
+          value: xml
+      schema:
+        type: string
+paths:
+  /address.{mediaType}:
+    get:
+      description: Returns street centerline-based and/or property-level data about an address
+      responses:
+        "200":
+          description: OK
+      parameters:
+        - name: houseNumber
+          in: query
+          description: House number of the address
+          required: true
+          schema:
+            type: string
+        - name: street
+          in: query
+          description: Name of the street
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/boroughParam"
+        - $ref: "#/components/parameters/mediaTypeParam"
+        - $ref: "#/components/parameters/appKeyParam"
+        - $ref: "#/components/parameters/appIdParam"
+  /bbl.{mediaType}:
+    get:
+      description: Returns property-level data associated with a BBL
+      responses:
+        "200":
+          description: OK
+      parameters:
+        - name: block
+          in: query
+          description: Tax block
+          required: true
+          schema:
+            type: string
+        - name: lot
+          in: query
+          description: Tax lot
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/boroughParam"
+        - $ref: "#/components/parameters/mediaTypeParam"
+        - $ref: "#/components/parameters/appKeyParam"
+        - $ref: "#/components/parameters/appIdParam"
+  /bin.{mediaType}:
+    get:
+      description: Returns property-level data associated with a BIN
+      responses:
+        "200":
+          description: OK
+      parameters:
+        - name: bin
+          in: query
+          description: Seven-digit Building Identification Number (BIN)
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/mediaTypeParam"
+        - $ref: "#/components/parameters/appKeyParam"
+        - $ref: "#/components/parameters/appIdParam"
+  /doc:
+    get:
+      description: Geoclient HTML documentation
+      responses:
+        "200":
+          description: OK
+  /search.{mediaType}:
+    get:
+      description: Single-field search for address, bbl, bin, blockface, intersection or place locations
+      responses:
+        "200":
+          description: OK
+      parameters:
+        - name: input
+          in: query
+          description: Location to geocode
+          required: true
+          schema:
+            type: string
+        - $ref: "#/components/parameters/mediaTypeParam"
+        - $ref: "#/components/parameters/appKeyParam"
+        - $ref: "#/components/parameters/appIdParam"
+  /version.{mediaType}:
+    get:
+      description: Geoclient and Geosupport version information
+      responses:
+        "200":
+          description: Version information for this service
+      parameters:
+        - $ref: "#/components/parameters/mediaTypeParam"
