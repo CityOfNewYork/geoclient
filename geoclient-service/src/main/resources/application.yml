@@ -96,8 +96,8 @@ server:
 logging:
     level:
         spring-all: "INFO"
-        spring-web: "DEBUG"
-        geoclient-service: "DEBUG"
+        spring-web: "INFO"
+        geoclient-service: "INFO"
     file:
         name: "build/bootrun/logs/geoclient.log"
 
