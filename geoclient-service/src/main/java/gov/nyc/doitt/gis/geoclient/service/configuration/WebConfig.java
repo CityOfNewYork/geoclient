@@ -22,6 +22,8 @@ import java.util.Map;
 
 import com.thoughtworks.xstream.converters.ConverterMatcher;
 
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -165,4 +167,9 @@ public class WebConfig implements WebMvcConfigurer {
         return new MarshallingHttpMessageConverter(marshaller());
     }
 
+    @Bean
+    public static BeanFactoryPostProcessor removeTomcatWebServerCustomizer() {
+        return (beanFactory) ->
+            ((DefaultListableBeanFactory)beanFactory).removeBeanDefinition("tomcatWebServerFactoryCustomizer");
+    }
 }
