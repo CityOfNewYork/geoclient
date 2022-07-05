@@ -1,1 +1,0 @@
-The Geoclient API is available at http://{{ include "geoclient.fullname" . }}.{{ .Release.Namespace }}/

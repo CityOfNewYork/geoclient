@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,9 +15,9 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.regex;
 
-import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
-
 import java.util.regex.Pattern;
+
+import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
 
 public class RegexTokenGroup

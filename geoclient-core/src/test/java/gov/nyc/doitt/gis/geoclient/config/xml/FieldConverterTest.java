@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,12 +20,12 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import com.thoughtworks.xstream.converters.UnmarshallingContext;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-
-import com.thoughtworks.xstream.converters.UnmarshallingContext;
-import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 
 import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.test.Fixtures;
@@ -51,11 +51,11 @@ public class FieldConverterTest {
         this.id = "returnCodeId";
         this.start = "12";
         this.length = "6";
-        this.type = metadata.xmlFieldValueCompositeType;
+        this.type = this.metadata.xmlFieldValueCompositeType;
         this.isInput = "trUe";
         this.alias = "returnCodeAlias";
         this.whitespace = "TRUE";
-        contextMock = Mockito.mock(UnmarshallingContext.class);
+        this.contextMock = Mockito.mock(UnmarshallingContext.class);
     }
 
     @Test
@@ -75,38 +75,38 @@ public class FieldConverterTest {
     @Test
     public void testUnmarshal_compositeType() {
         prepareReaderMock(this.type);
-        Field result = (Field) this.converter.unmarshal(readerMock, contextMock);
+        Field result = (Field) this.converter.unmarshal(this.readerMock, this.contextMock);
         assertFieldResult(true, result);
     }
 
     @Test
     public void testUnmarshal_regularType() {
         prepareReaderMock("REG");
-        Field result = (Field) this.converter.unmarshal(readerMock, contextMock);
+        Field result = (Field) this.converter.unmarshal(this.readerMock, this.contextMock);
         assertFieldResult(false, result);
     }
 
     @Test
     public void testUnmarshal_nullType() {
         prepareReaderMock(null);
-        Field result = (Field) this.converter.unmarshal(readerMock, contextMock);
+        Field result = (Field) this.converter.unmarshal(this.readerMock, this.contextMock);
         assertFieldResult(false, result);
     }
 
     private void prepareReaderMock(String typeToUse) {
-        Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeId)).thenReturn(id);
-        Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeStart)).thenReturn(start);
-        Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeLength)).thenReturn(this.length);
-        Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeType)).thenReturn(typeToUse);
-        Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeInput)).thenReturn(this.isInput);
-        Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeAlias)).thenReturn(this.alias);
-        Mockito.when(this.readerMock.getAttribute(metadata.xmlFieldAttributeWhitespace)).thenReturn(this.whitespace);
+        Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeId)).thenReturn(this.id);
+        Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeStart)).thenReturn(this.start);
+        Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeLength)).thenReturn(this.length);
+        Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeType)).thenReturn(typeToUse);
+        Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeInput)).thenReturn(this.isInput);
+        Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeAlias)).thenReturn(this.alias);
+        Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeWhitespace)).thenReturn(this.whitespace);
     }
 
     private void assertFieldResult(boolean isComposite, Field field) {
         assertEquals(this.id, field.getId());
-        Integer startInt = Integer.valueOf(start);
-        assertEquals(new Integer(startInt - 1), field.getStart());
+        Integer startInt = Integer.valueOf(this.start);
+        assertEquals(Integer.valueOf(startInt - 1), field.getStart());
         Integer lengthInt = Integer.valueOf(this.length);
         assertEquals(lengthInt, field.getLength());
         assertEquals(isComposite, field.isComposite());

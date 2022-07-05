@@ -3,4 +3,6 @@
     <!--
     <suppress  checks="JavadocPackage" files="geoclient-jni[\\/]src[\\/]main[\\/]java[\\/]gov[\\/]nyc[\\/]doitt[\\/]gis[\\/]geoclient[\\/]jni[\\/]*"/>
     -->
+    <suppress files="[\\/]src[\\/]integrationTest[\\/]java[\\/]" checks="Javadoc*" />
+    <suppress files="[\\/]src[\\/]test[\\/]java[\\/]" checks="Javadoc*" />
 </suppressions>

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,34 +17,30 @@ package gov.nyc.doitt.gis.geoclient.service.configuration;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.oxm.xstream.XStreamMarshaller;
-
-import com.github.dozermapper.core.DozerBeanMapperBuilder;
-import com.thoughtworks.xstream.converters.ConverterMatcher;
 
 import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
-import gov.nyc.doitt.gis.geoclient.parser.LocationTokenizer;
 import gov.nyc.doitt.gis.geoclient.parser.configuration.ParserConfig;
-import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
-import gov.nyc.doitt.gis.geoclient.parser.token.Token;
-import gov.nyc.doitt.gis.geoclient.service.domain.BadRequest;
-import gov.nyc.doitt.gis.geoclient.service.domain.FileInfo;
+import gov.nyc.doitt.gis.geoclient.service.domain.FieldSet;
+import gov.nyc.doitt.gis.geoclient.service.domain.GeosupportVersion;
 import gov.nyc.doitt.gis.geoclient.service.domain.Version;
+import gov.nyc.doitt.gis.geoclient.service.invoker.DoubleFieldSetConverter;
+import gov.nyc.doitt.gis.geoclient.service.invoker.FieldSetConverter;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl;
-import gov.nyc.doitt.gis.geoclient.service.invoker.LatLongEnhancer;
-import gov.nyc.doitt.gis.geoclient.service.mapper.LegacyMapper;
+import gov.nyc.doitt.gis.geoclient.service.mapper.GeosupportVersionMapper;
 import gov.nyc.doitt.gis.geoclient.service.mapper.Mapper;
 import gov.nyc.doitt.gis.geoclient.service.mapper.ResponseStatusMapper;
 import gov.nyc.doitt.gis.geoclient.service.search.CountyResolver;
@@ -56,7 +52,6 @@ import gov.nyc.doitt.gis.geoclient.service.search.task.DefaultSpawnedTaskBuilder
 import gov.nyc.doitt.gis.geoclient.service.search.task.InitialSearchTaskBuilder;
 import gov.nyc.doitt.gis.geoclient.service.search.task.SearchTaskFactory;
 import gov.nyc.doitt.gis.geoclient.service.search.task.SpawnedSearchTaskBuilder;
-import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
 
 /**
  * Java-based configuration for the <code>geoclient-service</code> application.
@@ -66,12 +61,33 @@ import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
  */
 @Configuration
 @PropertySource(value = "classpath:version.properties")
+@ComponentScan(basePackages = { "gov.nyc.doitt.gis.geoclient.service", "gov.nyc.doitt.gis.geoclient.parser.configuration" })
 public class AppConfig {
+
     @Autowired
     private Environment env;
 
     @Autowired
     private ParserConfig parserConfig;
+
+    // Spring bean methods
+    @Bean
+    public FieldSetConverter latLongFieldSetConverter() {
+        return new DoubleFieldSetConverter(latLongConversions());
+    }
+
+    @Bean
+    public List<FieldSet> latLongConversions() {
+        List<FieldSet> conversions = new ArrayList<>();
+        // Self-encapsulate by using instance methods instead of Function
+        // constants directly to prevent having two places where function
+        // id needs to stay consistent.
+        conversions.add(new FieldSet("F" + function1B().getId(), new String[]{"latitude", "longitude", "latitudeInternalLabel", "longitudeInternalLabel"}));
+        conversions.add(new FieldSet("F" + functionBL().getId(), new String[]{"latitudeInternalLabel", "longitudeInternalLabel"}));
+        conversions.add(new FieldSet("F" + functionBN().getId(), new String[]{"latitudeInternalLabel", "longitudeInternalLabel"}));
+        conversions.add(new FieldSet("F" + function2W().getId(), new String[]{"latitude", "longitude"}));
+        return conversions;
+    }
 
     @Bean
     public Geoclient geoclient() {
@@ -90,12 +106,12 @@ public class AppConfig {
 
     @Bean
     public InitialSearchTaskBuilder initialSearchTaskBuilder() {
-        return new DefaultInitialSearchTaskBuilder(countyResolver(), geosupportService(), beanMapper());
+        return new DefaultInitialSearchTaskBuilder(countyResolver(), geosupportService(), responseStatusMapper());
     }
 
     @Bean
     public SpawnedSearchTaskBuilder spawnedSearchTaskBuilder() {
-        return new DefaultSpawnedTaskBuilder(countyResolver(), geosupportService(), beanMapper());
+        return new DefaultSpawnedTaskBuilder(countyResolver(), geosupportService(), responseStatusMapper());
     }
 
     @Bean
@@ -128,15 +144,11 @@ public class AppConfig {
     }
 
     @Bean
-    public LatLongEnhancer latLongEnhancer() {
-        return new LatLongEnhancer();
-    }
-
-    @Bean
-    public Mapper<ResponseStatus> beanMapper() {
+    public Mapper<ResponseStatus> responseStatusMapper() {
         return new ResponseStatusMapper();
     }
 
+    // Regular methods
     public Function geosupportFunction(String id) {
         return geosupportConfiguration().getFunction(id);
     }
@@ -161,8 +173,8 @@ public class AppConfig {
         return geosupportFunction(Function.F3);
     }
 
-    public Function function2() {
-        return geosupportFunction(Function.F2);
+    public Function function2W() {
+        return geosupportFunction(Function.F2W);
     }
 
     public Function functionHR() {
@@ -185,46 +197,23 @@ public class AppConfig {
         return geosupportFunction(Function.FN);
     }
 
-    public LegacyMapper versionMapper() {
-        return new LegacyMapper(DozerBeanMapperBuilder.buildDefault());
+    public Mapper<GeosupportVersion> geosupportVersionMapper() {
+        return new GeosupportVersionMapper();
     }
+
     // Do not declare as @Bean, but as a regular method
     // since we don't want proxies generated for incoming args
     public Version version(Map<String, Object> functionHrData) {
 
         Version version = new Version();
-        versionMapper().map(functionHrData, version);
-        version.setGeoclientJniVersion(getImplementationVersion(Geoclient.class));
-        version.setGeoclientVersion(getImplementationVersion(GeosupportConfig.class));
-        version.setGeoclientParserVersion(getImplementationVersion(LocationTokenizer.class));
-        version.setGeoclientServiceVersion(env.getProperty("service.version", "error"));
+        version.setGeosupportVersion( geosupportVersionMapper().fromParameters(functionHrData, new GeosupportVersion()));
+        // Uses version.properties file created by geoclient-service gradle build
+        version.setGeoclientJniVersion(env.getProperty("jni.version", "UNKNOWN"));
+        version.setGeoclientVersion(env.getProperty("core.version", "UNKNOWN"));
+        version.setGeoclientParserVersion(env.getProperty("parser.version", "UNKNOWN"));
+        version.setGeoclientServiceVersion(env.getProperty("service.version", "UNKNOWN"));
         version.setAccessMethod("Local/JNI");
         return version;
-    }
-
-    @Bean
-    public XStreamMarshaller marshaller() {
-        XStreamMarshaller marshaller = new XStreamMarshaller();
-        marshaller.setConverters(new ConverterMatcher[] { new MapConverter() });
-        Map<String, Class<?>> aliases = new HashMap<String, Class<?>>();
-        aliases.put("geosupportResponse", Map.class);
-        aliases.put("version", Version.class);
-        aliases.put("fileInfo", FileInfo.class);
-        aliases.put("error", BadRequest.class);
-        aliases.put("chunk", Chunk.class);
-        aliases.put("token", Token.class);
-        marshaller.setAliases(aliases);
-        marshaller.setAutodetectAnnotations(true);
-        return marshaller;
-    }
-
-    public String getImplementationVersion(Class<?> clazz) {
-        Package pkg = clazz.getPackage();
-
-        if (pkg == null) {
-            return "UNKNOWN";
-        }
-        return pkg.getImplementationVersion();
     }
 
 }

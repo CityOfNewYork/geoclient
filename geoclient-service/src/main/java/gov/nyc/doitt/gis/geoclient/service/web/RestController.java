@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,11 +25,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +45,7 @@ import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
  * Handles RESTful requests for Geosupport data.
  */
 @CrossOrigin
-@Controller
+@org.springframework.web.bind.annotation.RestController
 public class RestController
 {
 
@@ -208,6 +208,12 @@ public class RestController
     {
         logger.debug("geosupport[{}]", params);
         return this.geosupportService.callGeosupport(params);
+    }
+
+    @RequestMapping(value = "/meta/{action}", produces = { "application/json", "application/xml" }, method = RequestMethod.GET)
+    public @ResponseBody Version meta(@PathVariable String action)
+    {
+        return this.geosupportService.version();
     }
 
     @RequestMapping(value = VERSION_URI, method = RequestMethod.GET)

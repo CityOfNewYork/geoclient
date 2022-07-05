@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,44 +17,111 @@ package gov.nyc.doitt.gis.geoclient.service.domain;
 
 import java.util.List;
 
-public class ThinFileInfo extends FileInfo
-{
+public class ThinFileInfo extends BaseFileInfo {
     private List<String> recordTypes;
     private List<String> fillerFields;
 
-    public ThinFileInfo(){}
-    public ThinFileInfo(List<String> recordTypes, String tag, String date, String release, String recordCount, List<String> fillerFields)
-    {
-        super(null, tag, date, release, recordCount);
+    public ThinFileInfo() {
+        super();
+    }
+
+    public ThinFileInfo(List<String> recordTypes, String tag, String date, String release, String recordCount,
+            List<String> fillerFields) {
+        super(tag, date, release, recordCount);
         this.recordTypes = recordTypes;
         this.fillerFields = fillerFields;
     }
 
-    public List<String> getRecordTypes()
-    {
+    public List<String> getRecordTypes() {
         return recordTypes;
     }
 
-    public void setRecordTypes(List<String> recordTypes)
-    {
+    public void setRecordTypes(List<String> recordTypes) {
         this.recordTypes = recordTypes;
     }
 
-    public List<String> getFillerFields()
-    {
+    public List<String> getFillerFields() {
         return fillerFields;
     }
 
-    public void setFillerFields(List<String> fillerFields)
-    {
+    public void setFillerFields(List<String> fillerFields) {
         this.fillerFields = fillerFields;
     }
 
     @Override
-    public String toString()
-    {
-        return "ThinFileInfo [recordTypes=" + recordTypes + ", fillerFields=" + fillerFields + "]";
+    public String toString() {
+        return "ThinFileInfo [recordTypes=" + recordTypes + ", fillerFields=" + fillerFields + ", tag=" + tag
+                + ", date=" + date + ", release=" + release + ", recordCount=" + recordCount + "]";
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((recordTypes == null) ? 0 : recordTypes.hashCode());
+        result = prime * result + ((fillerFields == null) ? 0 : fillerFields.hashCode());
+        result = prime * result + ((date == null) ? 0 : date.hashCode());
+        result = prime * result + ((recordCount == null) ? 0 : recordCount.hashCode());
+        result = prime * result + ((release == null) ? 0 : release.hashCode());
+        result = prime * result + ((tag == null) ? 0 : tag.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        ThinFileInfo other = (ThinFileInfo) obj;
+        if (recordTypes == null) {
+            if (other.recordTypes != null) {
+                return false;
+            }
+        } else if (!recordTypes.equals(other.recordTypes)) {
+            return false;
+        }
+        if (fillerFields == null) {
+            if (other.fillerFields != null) {
+                return false;
+            }
+        } else if (!fillerFields.equals(other.fillerFields)) {
+            return false;
+        }
+        if (date == null) {
+            if (other.date != null) {
+                return false;
+            }
+        } else if (!date.equals(other.date)) {
+            return false;
+        }
+        if (recordCount == null) {
+            if (other.recordCount != null) {
+                return false;
+            }
+        } else if (!recordCount.equals(other.recordCount)) {
+            return false;
+        }
+        if (release == null) {
+            if (other.release != null) {
+                return false;
+            }
+        } else if (!release.equals(other.release)) {
+            return false;
+        }
+        if (tag == null) {
+            if (other.tag != null) {
+                return false;
+            }
+        } else if (!tag.equals(other.tag)) {
+            return false;
+        }
+        return true;
+    }
 
 }

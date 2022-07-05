@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,16 +19,16 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
-import gov.nyc.doitt.gis.geoclient.function.Configuration;
-import gov.nyc.doitt.gis.geoclient.function.Field;
-import gov.nyc.doitt.gis.geoclient.function.Function;
-import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 
 import java.util.Map;
 import java.util.TreeSet;
 
 import org.junit.jupiter.api.Test;
+
+import gov.nyc.doitt.gis.geoclient.function.Configuration;
+import gov.nyc.doitt.gis.geoclient.function.Field;
+import gov.nyc.doitt.gis.geoclient.function.Function;
+import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 
 public class RegistryTest
 {
@@ -79,19 +79,4 @@ public class RegistryTest
         assertNull(Registry.getFunction(functionId));
     }
 
-    @Test
-    public void testFunctionDocumentationRegistry()
-    {
-        Registry.clearFunctionDocumentation();
-        FunctionDocumentation expected = new FunctionDocumentation();
-        expected.setId(functionId);
-        assertFalse(Registry.containsFunctionDocumentation(functionId));
-        assertNull(Registry.getFunctionDocumentation(functionId));
-        Registry.addFunctionDocumentation(expected);
-        assertTrue(Registry.containsFunctionDocumentation(functionId));
-        assertSame(expected, Registry.getFunctionDocumentation(functionId));
-        Registry.clearFunctionDocumentation();
-        assertFalse(Registry.containsFunctionDocumentation(functionId));
-        assertNull(Registry.getFunctionDocumentation(functionId));
-    }
 }

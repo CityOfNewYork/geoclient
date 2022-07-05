@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,10 +15,9 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.invoker;
 
-import gov.nyc.doitt.gis.geoclient.service.domain.Documentation;
-import gov.nyc.doitt.gis.geoclient.service.domain.Version;
-
 import java.util.Map;
+
+import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 
 public interface GeosupportService
 {
@@ -35,6 +34,5 @@ public interface GeosupportService
     Map<String, Object> callGeosupport(Map<String, Object> params);
     Map<String, Object> callFunctionN(String name, Integer length, String format);
     Map<String, Object> callStreetNameFunction(String streetCodeOne, String streetCodeTwo, String streetCodeThree, Integer length, String format);
-    Documentation getDocumentation();
     Version version();
 }

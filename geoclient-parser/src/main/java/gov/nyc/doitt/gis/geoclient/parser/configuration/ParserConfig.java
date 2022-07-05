@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.configuration;
 
-import gov.nyc.doitt.gis.geoclient.parser.Parser;
-import gov.nyc.doitt.gis.geoclient.parser.SingleFieldSearchParser;
-import gov.nyc.doitt.gis.geoclient.parser.regex.AddressParser;
-import gov.nyc.doitt.gis.geoclient.parser.regex.BblParser;
-import gov.nyc.doitt.gis.geoclient.parser.regex.BinParser;
-import gov.nyc.doitt.gis.geoclient.parser.regex.BlockfaceParser;
-import gov.nyc.doitt.gis.geoclient.parser.regex.BoroughParser;
-import gov.nyc.doitt.gis.geoclient.parser.regex.CityParser;
-import gov.nyc.doitt.gis.geoclient.parser.regex.CountryParser;
-import gov.nyc.doitt.gis.geoclient.parser.regex.IntersectionParser;
-import gov.nyc.doitt.gis.geoclient.parser.regex.UnrecognizedTextParser;
-import gov.nyc.doitt.gis.geoclient.parser.regex.ZipParser;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +28,19 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.util.CollectionUtils;
+
+import gov.nyc.doitt.gis.geoclient.parser.Parser;
+import gov.nyc.doitt.gis.geoclient.parser.SingleFieldSearchParser;
+import gov.nyc.doitt.gis.geoclient.parser.regex.AddressParser;
+import gov.nyc.doitt.gis.geoclient.parser.regex.BblParser;
+import gov.nyc.doitt.gis.geoclient.parser.regex.BinParser;
+import gov.nyc.doitt.gis.geoclient.parser.regex.BlockfaceParser;
+import gov.nyc.doitt.gis.geoclient.parser.regex.BoroughParser;
+import gov.nyc.doitt.gis.geoclient.parser.regex.CityParser;
+import gov.nyc.doitt.gis.geoclient.parser.regex.CountryParser;
+import gov.nyc.doitt.gis.geoclient.parser.regex.IntersectionParser;
+import gov.nyc.doitt.gis.geoclient.parser.regex.UnrecognizedTextParser;
+import gov.nyc.doitt.gis.geoclient.parser.regex.ZipParser;
 
 @Configuration
 @ImportResource("classpath:regexDataContext.xml")

@@ -1,8 +1,16 @@
 plugins {
     id 'groovy'
+    id 'geoclient.library-conventions'
+    id 'geoclient.test-conventions'
 }
 
 dependencies {
     implementation 'org.junit.jupiter:junit-jupiter-api'
-    testImplementation 'org.spockframework:spock-core:1.2-groovy-2.5'
+    // See https://github.com/spockframework/spock-example/blob/master/build.gradle
+    implementation 'org.codehaus.groovy:groovy:3.0.8'
+    testImplementation platform('org.spockframework:spock-bom:2.0-groovy-3.0')
+    testImplementation 'org.spockframework:spock-core'
+    // To use Spock's Spring/Spring Boot support see this example project:
+    // https://github.com/spockframework/spock/blob/master/spock-spring/boot2-test/boot2-test.gradle
+    // NOTE: It looks like only spring-boot <= 2.5.3 is supported at this time
 }

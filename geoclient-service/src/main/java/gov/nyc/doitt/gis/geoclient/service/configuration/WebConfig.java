@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,71 +15,98 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.configuration;
 
+//import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import javax.annotation.PostConstruct;
+import com.thoughtworks.xstream.converters.ConverterMatcher;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
 import org.springframework.oxm.xstream.XStreamMarshaller;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
+import gov.nyc.doitt.gis.geoclient.parser.token.Token;
+import gov.nyc.doitt.gis.geoclient.service.domain.BadRequest;
+import gov.nyc.doitt.gis.geoclient.service.domain.FileInfo;
+import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResultConverter;
 import gov.nyc.doitt.gis.geoclient.service.web.ViewHelper;
+import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
 
+// See https://www.baeldung.com/spring-mvc-content-negotiation-json-xml
+
+// Spring Boot configures common Spring MVC defaults described in the
+// reference docs section "Spring MVC Auto-configuration". This happens
+// when a class has the @Configuration annotation and implements
+// WebMvcConfigurer.
+// To prevent Boot from configuring any defaults, add @EnableWebMvc.
+// NOTE: A Spring MVC application can only have one class with this annotation.
+// @EnableWebMvc
+//
+// Configuration of the ResourceHandlerRegistry and
 @Configuration
-@ComponentScan(basePackages = { "gov.nyc.doitt.gis.geoclient.service",
-        "gov.nyc.doitt.gis.geoclient.parser.configuration" })
 public class WebConfig implements WebMvcConfigurer {
-    private static final Logger log = LoggerFactory.getLogger(WebConfig.class);
 
-    @Autowired
-    private Environment environment;
-
-    // Autowired by Spring using the AppConfig#marshaller() method
-    @Autowired
-    private XStreamMarshaller marshaller;
-
-    @PostConstruct
-    public void logEnvironment() {
-        log.info("Spring Environment: {}", environment);
+    /*
+     * TODO Fixme! I am insecure.
+     */
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET");
     }
 
-    /**
-     * Set JSON as the default content type that gets returned
-     *
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(searchResultConverter());
+    }
+
+    //@Override
+    //public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    //    // Default strategy configured by Spring Boot is SimpleUrlHandlerMapping?:
+    //    //   ResourceHttpRequestHandler
+    //    //    [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
+    //    registry.addResourceHandler("/resources/**")
+    //            .addResourceLocations("classpath:/static/")
+    //            .setCacheControl(CacheControl.maxAge(Duration.ofDays(365)));
+    //}
+
+    /*
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureContentNegotiation(org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer)
      */
     @Override
+    @SuppressWarnings("deprecation")
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
-        log.debug("[configureContentNegotiation]");
-        configurer.defaultContentType(MediaType.APPLICATION_JSON).mediaType("json", MediaType.APPLICATION_JSON)
-                .mediaType("xml", MediaType.APPLICATION_XML).favorPathExtension(true);
+        configurer.favorPathExtension(true).
+        favorParameter(false).
+        //parameterName("format").
+        ignoreAcceptHeader(true).
+        useJaf(false).
+        defaultContentType(MediaType.APPLICATION_JSON).
+        mediaType("xml", MediaType.APPLICATION_XML).
+        mediaType("json", MediaType.APPLICATION_JSON);
     }
 
-    /**
-     * Enable default MVC dispatcher set-up
-     *
+    /*
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureDefaultServletHandling(org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer)
      */
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
-        log.debug("[configureDefaultServletHandling]");
-        configurer.enable();
+        configurer.enable("geoclientDispatcherServlet");
     }
 
     /**
@@ -87,40 +114,47 @@ public class WebConfig implements WebMvcConfigurer {
      */
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        log.debug("[configureMessageConverters]");
         converters.add(jsonMessageConverter());
         converters.add(xmlMessageConverter());
     }
 
-    @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
-        log.debug("[configurePathMatch]");
-        configurer.setUseSuffixPatternMatch(true).setUseTrailingSlashMatch(false)
-                .setUseRegisteredSuffixPatternMatch(true);
-    }
-
-    @Override
-    public void addFormatters(FormatterRegistry registry) {
-        log.debug("[addFormatters]");
-        registry.addConverter(searchResultConverter());
-    }
-
-    @Bean
-    public SearchResultConverter searchResultConverter() {
-        log.debug("[searchResultConverter]");
-        return new SearchResultConverter();
-    }
+    // Beans //
 
     @Bean
     public HttpMessageConverter<?> jsonMessageConverter() {
-        log.debug("[jsonMessageConverter]");
+        //MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
+        //converter.getObjectMapper()
+        //    .configure(SerializationFeature.WRAP_ROOT_VALUE, true);
         return new MappingJackson2HttpMessageConverter();
     }
 
     @Bean
-    public HttpMessageConverter<?> xmlMessageConverter() {
-        log.debug("[xmlMessageConverter]");
-        return new MarshallingHttpMessageConverter(this.marshaller);
+    public XStreamMarshaller marshaller() {
+        XStreamMarshaller marshaller = new XStreamMarshaller();
+        marshaller.setConverters(new ConverterMatcher[] { new MapConverter() });
+        Map<String, Class<?>> aliases = new HashMap<String, Class<?>>();
+        aliases.put("geosupportResponse", Map.class);       // -> <geosupportResult class="tree-map">
+        //aliases.put("geosupportResponse", TreeMap.class); // -> <geosupportResult class="geosupportResult">
+        aliases.put("version", Version.class);
+        aliases.put("fileInfo", FileInfo.class);
+        aliases.put("error", BadRequest.class);
+        aliases.put("chunk", Chunk.class);
+        aliases.put("token", Token.class);
+        marshaller.setAliases(aliases);
+        marshaller.setAutodetectAnnotations(true);
+        return marshaller;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        configurer.setUseSuffixPatternMatch(true);
+        configurer.setPathMatcher(new AntPathMatcher());
+    }
+
+    @Bean
+    public SearchResultConverter searchResultConverter() {
+        return new SearchResultConverter();
     }
 
     @Bean(name = "viewHelper")
@@ -128,14 +162,14 @@ public class WebConfig implements WebMvcConfigurer {
         return new ViewHelper();
     }
 
-    /*
-     * TODO Fixme! I am insecure.
-     */
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-
-        log.debug("[addCorsMappings]");
-        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET");
+    @Bean
+    public HttpMessageConverter<?> xmlMessageConverter() {
+        return new MarshallingHttpMessageConverter(marshaller());
     }
 
+    @Bean
+    public static BeanFactoryPostProcessor removeTomcatWebServerCustomizer() {
+        return (beanFactory) ->
+            ((DefaultListableBeanFactory)beanFactory).removeBeanDefinition("tomcatWebServerFactoryCustomizer");
+    }
 }

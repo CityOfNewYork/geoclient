@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,46 +15,44 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.web;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.any;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.xpath;
 
 import java.util.ArrayList;
-
-import gov.nyc.doitt.gis.geoclient.service.search.Fixtures;
-import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
-import gov.nyc.doitt.gis.geoclient.service.search.SingleFieldSearchHandler;
-import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.ParamsAndResult;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchParameters;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResponse;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchSummary;
-import gov.nyc.doitt.gis.geoclient.service.search.web.response.Status;
+import java.util.HashMap;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
-import org.springframework.core.convert.ConversionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
+import gov.nyc.doitt.gis.geoclient.service.search.Fixtures;
+import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
+import gov.nyc.doitt.gis.geoclient.service.search.SingleFieldSearchHandler;
+import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.MatchStatus;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchParameters;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResponse;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchSummary;
+import gov.nyc.doitt.gis.geoclient.service.search.web.response.Status;
 
+@SpringBootTest
+@AutoConfigureMockMvc
 public class SingleFieldSearchControllerTest
 {
+    @Autowired
     private MockMvc mockMvc;
 
     @InjectMocks
@@ -63,22 +61,15 @@ public class SingleFieldSearchControllerTest
     @Mock
     private SingleFieldSearchHandler searchHandlerMock;
 
-    @Mock
-    private ConversionService conversionServiceMock;
-
     private Fixtures fix;
 
     @BeforeEach
     public void setUp() throws Exception
     {
-        MockitoAnnotations.initMocks(this);
-        MappingJackson2HttpMessageConverter jacksonConverter = new MappingJackson2HttpMessageConverter();
-        jacksonConverter.getObjectMapper().configure(SerializationFeature.WRAP_ROOT_VALUE, true);
-        this.mockMvc = standaloneSetup(controller).setMessageConverters(jacksonConverter).build();
+        MockitoAnnotations.openMocks(this);
         this.fix = new Fixtures();
     }
 
-    @SuppressWarnings({"unchecked"})
     @Test
     public void testSearch_acceptsJsonWithValidRequestAndDefaultPolicy()throws Exception
     {
@@ -96,35 +87,47 @@ public class SingleFieldSearchControllerTest
         // be qual to the actual instance created at runtime which calls the
         // same method (but returns a different instance of SearchPolicy)
         when(this.searchHandlerMock.findLocation(expectedSearchPolicy, input)).thenReturn(expectedSearchResult);
-        when(this.conversionServiceMock.convert(any(ParamsAndResult.class), any(Class.class))).thenAnswer(new Answer<SearchResponse>()
-        {
-
-            @Override
-            public SearchResponse answer(InvocationOnMock invocation) throws Throwable
-            {
-                Object[] args = invocation.getArguments();
-                ParamsAndResult wsrArg = (ParamsAndResult) args[0];
-                // Should be different instance but have the same default settings
-                assertThat(wsrArg.getSearchParameters()).isEqualTo(expectedParams);
-                // Should be same instance returned by searchHandlerMock.findLocation()
-                assertThat(wsrArg.getSearchResult()).isSameAs(expectedSearchResult);
-                // Class should be Map
-                Class<?> clazz = (Class<?>) args[1];
-                assertNotNull(clazz);
-                return expectedJsonResponse;
-            }
-
-        });
         this.mockMvc.perform(
                 get("/search.json")
                 .param("input", input)
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.*.id").exists())
-                .andExpect(jsonPath("$.*.status").exists())
-                .andExpect(jsonPath("$.*.input").exists())
-                .andExpect(jsonPath("$.*.results").exists())
+                .andExpect(jsonPath("$.id").exists())
+                .andExpect(jsonPath("$.status").value("OK"))
+                .andExpect(jsonPath("$.input").value(input))
+                .andExpect(jsonPath("$.results").exists())
                 .andExpect(status().is(HttpStatus.OK.value()))
                 .andDo(print());
+    }
+
+    @Test
+    public void testSearch_acceptsXmlWithValidRequestAndDefaultPolicy()throws Exception
+    {
+        final String input = "59 Maiden Ln";
+        final SearchParameters expectedParams = new SearchParameters(input);
+        final SearchPolicy expectedSearchPolicy = expectedParams.buildSearchPolicy();
+        final SearchResult expectedSearchResult = new SearchResult(expectedSearchPolicy, fix.locationTokens);
+        final SearchSummary searchSummary = new SearchSummary();
+        searchSummary.setLevel("1");
+        searchSummary.setStatus(MatchStatus.POSSIBLE_MATCH);
+        searchSummary.setRequest("address [houseNumber=59, street=Maiden ln, borough=MANHATTAN, zip=null]");
+        searchSummary.setResponse(new HashMap<>());
+        final List<SearchSummary> results = new ArrayList<>();
+        results.add(searchSummary);
+        final SearchResponse expectedXmlResponse = new SearchResponse();
+        expectedXmlResponse.setId(expectedSearchResult.getId());
+        expectedXmlResponse.setStatus(Status.OK);
+        expectedXmlResponse.setInput(input);
+        expectedXmlResponse.setResults(results);
+        this.mockMvc.perform(
+                get("/search.xml")
+                .param("input", input)
+                .accept(MediaType.APPLICATION_XML))
+                .andDo(print())
+                .andExpect(xpath("/searchResponse[@id]").exists())
+                .andExpect(xpath("/searchResponse/status").string("OK"))
+                .andExpect(xpath("/searchResponse/input").string(input))
+                .andExpect(xpath("/searchResponse/result").exists())
+                .andExpect(status().is(HttpStatus.OK.value()));
     }
 
     @Test

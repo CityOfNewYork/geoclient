@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.cli;
 
-import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
-import gov.nyc.doitt.gis.geoclient.function.Field;
-import gov.nyc.doitt.gis.geoclient.function.Function;
-import gov.nyc.doitt.gis.geoclient.function.WorkArea;
-import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
-import gov.nyc.doitt.gis.geoclient.util.OperatingSystemUtils;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Comparator;
@@ -35,6 +28,13 @@ import java.util.TreeSet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gov.nyc.doitt.gis.geoclient.config.GeosupportConfig;
+import gov.nyc.doitt.gis.geoclient.function.Field;
+import gov.nyc.doitt.gis.geoclient.function.Function;
+import gov.nyc.doitt.gis.geoclient.function.WorkArea;
+import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
+import gov.nyc.doitt.gis.geoclient.util.OperatingSystemUtils;
 
 public class GeosupportClient
 {
@@ -55,9 +55,10 @@ public class GeosupportClient
         FUNCTIONS.put(Function.FBL, 6);
         FUNCTIONS.put(Function.FBN, 7);
         FUNCTIONS.put(Function.F2, 8);
-        FUNCTIONS.put(Function.F3, 9);
-        FUNCTIONS.put(Function.FDG, 10);
-        FUNCTIONS.put(Function.FHR, 11);
+        FUNCTIONS.put(Function.F2W, 9);
+        FUNCTIONS.put(Function.F3, 10);
+        FUNCTIONS.put(Function.FDG, 11);
+        FUNCTIONS.put(Function.FHR, 12);
         // TODO: Add functions N*, D, DN
         SortedSet<String> functionNames = new TreeSet<String>();
         functionNames.addAll(FUNCTIONS.keySet());
@@ -140,6 +141,18 @@ public class GeosupportClient
         String boroCode = promptAndReadValue("borough code");
         doCall(Function.F2,
                 buildParams("geosupportFunctionCode", Function.F2, "streetName1In", crossStreet1, "streetName2In",
+                        crossStreet2, "compassDirection", compassDirection, "boroughCode1In", boroCode), false, this.displayEmptyFieldValues);
+    }
+
+    public void callFunction2W()
+    {
+        showFunctionHeader(Function.F2W);
+        String crossStreet1 = promptAndReadValue("cross street 1");
+        String crossStreet2 = promptAndReadValue("cross street 2");
+        String compassDirection = promptAndReadValue("compass direction (if necessary)");
+        String boroCode = promptAndReadValue("borough code");
+        doCall(Function.F2W,
+                buildParams("geosupportFunctionCode", Function.F2W, "streetName1In", crossStreet1, "streetName2In",
                         crossStreet2, "compassDirection", compassDirection, "boroughCode1In", boroCode), false, this.displayEmptyFieldValues);
     }
 
@@ -247,12 +260,15 @@ public class GeosupportClient
                     client.callFunction2();
                     break;
                 case 9:
-                    client.callFunction3();
+                    client.callFunction2W();
                     break;
                 case 10:
-                    client.callFunctionDG();
+                    client.callFunction3();
                     break;
                 case 11:
+                    client.callFunctionDG();
+                    break;
+                case 12:
                     client.callFunctionHR();
                     break;
                 }

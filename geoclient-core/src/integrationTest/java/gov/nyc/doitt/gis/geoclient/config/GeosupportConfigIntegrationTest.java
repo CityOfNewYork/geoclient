@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,19 +18,12 @@ package gov.nyc.doitt.gis.geoclient.config;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.SortedSet;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
-import gov.nyc.doitt.gis.geoclient.doc.ItemDocumentation;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
 
@@ -89,30 +82,6 @@ public class GeosupportConfigIntegrationTest {
         assertNotNull(geosupportConfig.getFunction(Function.FDN).getConfiguration());
         assertNotNull(geosupportConfig.getFunction(Function.FHR).getConfiguration());
         assertNotNull(geosupportConfig.getFunction(Function.FN).getConfiguration());
-    }
-
-    @Test
-    public void testItemDocumentationDisplayNameSetProperly() {
-        assertItemDocumentationDisplayNames(geosupportConfig.getFunctionDocumentation(Function.F1B),
-                Arrays.asList("listOfSecondSetOf5Lgcs"));
-        assertItemDocumentationDisplayNames(geosupportConfig.getFunctionDocumentation(Function.F2),
-                Arrays.asList("dcpPreferredLgcForStreet1"));
-    }
-
-    private void assertItemDocumentationDisplayNames(FunctionDocumentation functionDocumentation, List<String> names) {
-        for (String name : names) {
-            assertTrue(containsItemDocumentationWithDisplayName(name, functionDocumentation.getFields()), String.format(
-                    "%s is missing expected ItemDocumentation with displayName='%s'", functionDocumentation, name));
-        }
-    }
-
-    private boolean containsItemDocumentationWithDisplayName(String displayName, SortedSet<ItemDocumentation> items) {
-        for (ItemDocumentation itemDocumentation : items) {
-            if (displayName.equals(itemDocumentation.getDisplayName())) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }

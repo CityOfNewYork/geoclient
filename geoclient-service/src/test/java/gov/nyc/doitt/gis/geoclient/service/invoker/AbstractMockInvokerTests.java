@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ public abstract class AbstractMockInvokerTests {
     private AppConfig serviceConfigurationMock;
     private Configuration functionConfigurationMock;
     private Function functionMock;
-    private LatLongEnhancer latLongEnhancerMock;
+    private FieldSetConverter latLongConverterMock;
     protected GeosupportServiceImpl geosupportServiceImpl;
     protected MockSettings mockSettings;
 
@@ -55,7 +55,7 @@ public abstract class AbstractMockInvokerTests {
 
     @AfterEach
     public void tearDown() throws Exception {
-        Mockito.reset(this.functionMock, this.latLongEnhancerMock, this.serviceConfigurationMock);
+        Mockito.reset(this.functionMock, this.latLongConverterMock, this.serviceConfigurationMock);
         this.geosupportServiceImpl = null;
     }
 
@@ -73,7 +73,7 @@ public abstract class AbstractMockInvokerTests {
 
         mockConfiguration(requiredArguments);
         mockFunction(functionName, allArguments, expectedFunctionResult);
-        mockLatLongEnhancer();
+        mockLatLongConverter();
         mockAppConfig(functionName);
 
         constructClassUnderTest();
@@ -92,8 +92,8 @@ public abstract class AbstractMockInvokerTests {
             when(serviceConfigurationMock.geosupportFunction(functionName)).thenReturn(functionMock);
         } else if(Function.F1B.equals(functionName)) {
             when(serviceConfigurationMock.function1B()).thenReturn(functionMock);
-        } else if(Function.F2.equals(functionName)) {
-            when(serviceConfigurationMock.function2()).thenReturn(functionMock);
+        } else if(Function.F2W.equals(functionName)) {
+            when(serviceConfigurationMock.function2W()).thenReturn(functionMock);
         } else if(Function.F3.equals(functionName)) {
             when(serviceConfigurationMock.function3()).thenReturn(functionMock);
         } else if(Function.FBL.equals(functionName)) {
@@ -112,7 +112,7 @@ public abstract class AbstractMockInvokerTests {
             // Unrecognized function name
             throw new IllegalArgumentException("Unrecognized function name: " + functionName);
         }
-        when(serviceConfigurationMock.latLongEnhancer()).thenReturn(latLongEnhancerMock);
+        when(serviceConfigurationMock.latLongFieldSetConverter()).thenReturn(latLongConverterMock);
     }
 
     protected void mockConfiguration(Map<String, Object> requiredArguments) {
@@ -128,11 +128,11 @@ public abstract class AbstractMockInvokerTests {
         when(functionMock.call(allArguments)).thenReturn(expectedFunctionResult);
     }
 
-    protected void mockLatLongEnhancer() {
-        latLongEnhancerMock = mock(LatLongEnhancer.class, mockSettings);
+    protected void mockLatLongConverter() {
+        latLongConverterMock = mock(FieldSetConverter.class, mockSettings);
     }
 
-    protected void verifyMocks(Map<String, Object> actualResult) {
-        verify(latLongEnhancerMock).addLatLong(actualResult);
+    protected void verifyMocks(String functionId, Map<String, Object> actualResult) {
+        verify(latLongConverterMock).convert(functionId, actualResult);
     }
 }

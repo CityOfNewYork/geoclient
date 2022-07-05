@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,13 +15,13 @@
  */
 package gov.nyc.doitt.gis.geoclient.function;
 
-import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
-
 import java.nio.ByteBuffer;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 
 public class GeosupportFunction implements Function
 {

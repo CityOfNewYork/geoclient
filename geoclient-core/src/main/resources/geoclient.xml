@@ -1114,6 +1114,7 @@
       <outputFilters reference="allFilters" />
       <fields>
         <!-- F1EX fields -->
+        <!-- begin:pac.h C_WA2_F1 -->
         <field id="internalUse1" start="1" length="21"><!-- filtered --></field>
         <field id="continuousParityIndicator1e" start="22" length="1"><!-- item doc by id --></field><!-- AKA duplicateAddressIndicator -->
         <field id="lowHouseNumberOfBlockfaceSortFormat" start="23" length="11"><!-- filtered --></field><!-- AKA lowHouseNumberOfBlockface -->
@@ -1196,7 +1197,9 @@
         <field id="underlyingStreetCode" start="285" length="8"><!-- needs doc --></field><!-- AKA "underlyingB7sc" -->
         <field id="segmentIdentifier" start="293" length="7"><!-- needs doc --></field>
         <field id="curveFlag" start="300" length="1"><!-- item doc by id --></field>
-        <field id="listOf4Lgcs" start="301" length="8"><!-- needs doc --></field>
+        <!-- end:pac.h C_WA2_F1 -->
+        <!-- begin:pac.h C_WA2_F1V -->
+        <field id="listOf4Lgcs" start="301" length="8"><!-- "int_use" in pac.h --></field>
         <field id="boardOfElectionsPreferredLgc" start="309" length="1"><!-- item doc by id --></field>
         <field id="segmentAzimuth" start="310" length="3"><!-- item doc by id --></field>
         <field id="segmentOrientation" start="313" length="1"><!-- item doc by id --></field>
@@ -1239,6 +1242,8 @@
         <field id="federalClassificationCode" start="488" length="2"><!-- not implemented --></field>
         <field id="rowType" start="490" length="1"><!-- needs doc --></field><!-- TODO change to "right of way type" -->
         <field id="listOfSecondSetOf5Lgcs" start="491" length="10"><!-- needs doc --></field>
+        <!-- end:pac.h C_WA2_F1V -->
+        <!-- begin:pac.h C_WA2_F1EX -->
         <field id="legacySegmentId" start="501" length="7"><!-- needs doc --></field>
         <field id="fromPreferredLgcsFirstSetOf5" start="508" length="10"><!-- needs doc --></field>
         <field id="toPreferredLgcsFirstSetOf5" start="518" length="10"><!-- needs doc --></field>
@@ -1267,7 +1272,15 @@
         <field id="pumaCode" start="751" length="5"></field>
         <field id="policeSector" start="756" length="4"></field>
         <field id="policeServiceArea" start="760" length="1"></field>`
-        <field id="filler8" start="761" length="240"><!-- filtered --></field>
+        <!-- begin:WA2_F1B 2.0.0-rc.8 -->
+        <field id="truckRouteType" start="761" length="1"></field>
+        <field id="censusTrack2020" start="762" length="6" whitespace="true"></field>
+        <field id="censusBlock2020" start="768" length="4"></field>
+        <field id="censusBlockSuffix2020" start="772" length="1"></field>
+        <field id="nta2020" start="773" length="6"></field>
+        <field id="cdta2020" start="779" length="4"></field>
+        <field id="filler8" start="783" length="218"><!-- filtered --></field>
+        <!-- end:WA2_F1B 2.0.0-rc.8 -->
         <field id="reasonCode1e" start="1001" length="1"><!-- item doc by id --></field>
         <field id="reasonCode1eQualifier" start="1002" length="1"><!-- filtered --></field>
         <field id="warningCode1e" start="1003" length="2"><!-- filtered --></field>
@@ -1297,6 +1310,7 @@
         <field id="boePreferredstreetCode" start="1409" length="8"><!-- needs doc --></field>
         <field id="boePreferredStreetName" start="1417" length="32"><!-- needs doc --></field>
         <field id="filler9" start="1449" length="52"><!-- filtered --></field>
+        <!-- end:pac.h C_WA2_F1EX -->
         <!-- F1AX fields -->
         <field id="internalUse2" start="1501" length="21"><!-- filtered --></field>
         <field id="continuousParityIndicator1a" start="1522" length="1"><!-- item doc by id --></field>
@@ -1682,7 +1696,8 @@
         <field id="sanitationSection" start="182" length="3" type="COMP"></field>
         <field id="sanitationCollectionSchedulingSectionAndSubsection" start="187" length="2"></field>
         <field id="policeSector" start="189" length="4"></field>
-        <field id="filler6" start="193" length="8"></field>
+        <field id="censusTract2020" start="193" length="6" whitespace="true"></field>
+        <field id="filler6" start="199" length="2"></field>
       </fields>
     </workArea>
     <workArea id="WA2_F2W">
@@ -1748,7 +1763,8 @@
         <field id="sanitationSection" start="182" length="3" type="COMP"></field>
         <field id="sanitationCollectionSchedulingSectionAndSubsection" start="187" length="2"></field>
         <field id="policeSector" start="189" length="4"></field>
-        <field id="filler6" start="193" length="8"></field>
+        <field id="censusTract2020" start="193" length="6" whitespace="true"></field>
+        <field id="filler6" start="199" length="2"></field>
         <!-- WA2_F2W fields -->
         <field id="filler7" start="201" length="22"></field>
         <field id="lgcListForStreet1" start="223" length="8"></field>
@@ -1776,18 +1792,18 @@
         <field id="node18" start="380" length="7"></field>
         <field id="node19" start="387" length="7"></field>
         <field id="node20" start="394" length="7"></field>
-    <!-- Not implemented 401 through 3600 -->
-    <!-- See Geosupport workarea layouts for COWS 2W -->
-    <!--
-    <field id="node1Street1" start="401" length="8"></field>
-    <field id="node1Street1Lgc1" start="409" length="8"></field>
-    <field id="node1Street1Lgc2" start="417" length="8"></field>
-    <field id="node1Street1Lgc3" start="425" length="8"></field>
-    <field id="node1Street1Lgc4" start="433" length="8"></field>
-    <field id="node1Street2" start="441" length="8"></field>
-    <field id="node1Street2Lgc1" start="449" length="8"></field>
-    ...
-    -->
+        <!-- Not implemented 401 through 3600 -->
+        <!-- See Geosupport workarea layouts for COWS 2W -->
+        <!--
+        <field id="node1Street1" start="401" length="8"></field>
+        <field id="node1Street1Lgc1" start="409" length="8"></field>
+        <field id="node1Street1Lgc2" start="417" length="8"></field>
+        <field id="node1Street1Lgc3" start="425" length="8"></field>
+        <field id="node1Street1Lgc4" start="433" length="8"></field>
+        <field id="node1Street2" start="441" length="8"></field>
+        <field id="node1Street2Lgc1" start="449" length="8"></field>
+        ...
+        -->
         <field id="nodesStreetsAndLgcs" start="401" length="3200"></field>
         <field id="reasonCode2w" start="3601" length="1"></field>
         <field id="reasonCodeQualifier2w" start="3602" length="1"></field>
@@ -1795,13 +1811,19 @@
         <field id="returnCode2w" start="3605" length="2"></field>
         <field id="latitude" start="3607" length="9"></field>
         <field id="longitude" start="3616" length="11"></field>
-        <field id="filler8" start="3627" length="374"></field>
+        <field id="filler8" start="3627" length="6"></field>
+        <field id="censusBlock2020" start="3633" length="4"></field>
+        <field id="censusBlockSuffix2020" start="3637" length="1"></field>
+        <field id="nta2020" start="3638" length="6"></field>
+        <field id="cdta2020" start="3644" length="4"></field>
+        <field id="filler9" start="3648" length="353"></field>
       </fields>
     </workArea>
-    <workArea id="WA2_F3">
+    <workArea id="WA2_F3"><!-- TODO rename to WA2_F3X -->
       <length>1000</length>
       <outputFilters reference="allFilters" />
       <fields>
+        <!-- begin:pac.h C_WA2_F3 -->
         <field id="internalUse" start="1" length="21"></field>
         <field id="duplicateKeyFlagOrContinuousParity" start="22" length="1"></field>
         <field id="locationalStatusOfSegment" start="23" length="1"></field>
@@ -1809,6 +1831,7 @@
         <field id="dcpPreferredLgcForStreet1" start="25" length="2"></field>
         <field id="dcpPreferredLgcForStreet2" start="27" length="2"></field>
         <field id="dcpPreferredLgcForStreet3" start="29" length="2"></field>
+        <!-- St_list[2]: dim.1=low, dim.2=high -->
         <field id="numberOfCrossStreetB5SCsLowAddressEnd" start="31" length="1"></field>
         <field id="lowCrossStreetB5SC1" start="32" length="6"></field>
         <field id="lowCrossStreetB5SC2" start="38" length="6"></field>
@@ -1830,10 +1853,11 @@
         <field id="lengthOfSegmentInFeet" start="105" length="5"></field>
         <field id="segmentAzimuth" start="110" length="3"><!-- item doc by id --></field>
         <field id="segmentOrientation" start="113" length="1"><!-- item doc by id --></field>
+        <!-- Marble Hill/Rikers Island alternative boro flag -->
         <field id="alternativeBoroughFlag" start="114" length="1"><!-- item doc by id --></field>
         <field id="fromNode" start="115" length="7"><!-- needs doc --></field>
         <field id="toNode" start="122" length="7"><!-- needs doc --></field>
-        <!-- AKA DSNY Snow Priority Code -->
+        <!-- AKA DSNY Snow Priority Code (P,S,T,V) -->
         <field id="sanitationSnowPriorityCode" start="129" length="1"><!-- needs doc --></field>
         <field id="filler5" start="130" length="4"><!-- filtered --></field>
         <field id="segmentIdentifier" start="134" length="7"><!-- needs doc --></field>
@@ -1844,6 +1868,7 @@
         <field id="segmentTypeCode" start="145" length="1"></field>
         <field id="coincidentSegmentCount" start="146" length="1"></field>
         <field id="filler6" start="147" length="4"></field>
+        <!-- SEGSIDE[2]: dim.1=left segment, dim.2=right segment -->
         <field id="leftSegmentCommunityDistrict" start="151" length="3" type="COMP"></field>
         <field id="leftSegmentCommunityDistrictBoroughCode" start="151" length="1"></field>
         <field id="leftSegmentCommunityDistrictNumber" start="152" length="2"></field>
@@ -1912,7 +1937,8 @@
         <field id="rightSegmentFiller2" start="432" length="7"></field><!-- formerly rightSegmentBlockfaceId, moved WA2_F2W -->
         <field id="rightSegmentNta" start="439" length="4"></field>
         <field id="rightSegmentFiller3" start="443" length="8"></field>
-        <!-- WA2_F3X fields -->
+        <!-- end:pac.h C_WA2_F3 -->
+        <!-- begin:pac.h C_WA2_F3X -->
         <field id="lgc1" start="451" length="2"></field><!-- lgc1 onstreet -->
         <field id="lgc2" start="453" length="2"></field><!-- lgc2 onstreet -->
         <field id="lgc3" start="455" length="2"></field><!-- lgc3 onstreet -->
@@ -1969,7 +1995,25 @@
         <field id="rightSegmentPumaCode" start="795" length="5"></field><!-- Error in DCP Git 3X docs: size="2" -->
         <field id="leftSegmentPoliceSector" start="800" length="4"></field>
         <field id="rightSegmentPoliceSector" start="804" length="4"></field>
-        <field id="filler8" start="808" length="193"></field>
+        <!-- begin:v19.3 -->
+        <field id="truckRouteType" start="808" length="1"></field>
+        <!-- end:v19.3 -->
+        <!-- leftSegment 2020 census tract/block use backwards-compatible naming conventions. -->
+        <field id="leftSegment2020CensusTrack" start="809" length="6" whitespace="true"></field>
+        <field id="leftSegment2020CensusBlock" start="815" length="4"></field>
+        <field id="leftSegment2020CensusBlockSuffix" start="819" length="1"></field>
+        <!-- rightSegment 2020 nta/cdta use better naming conventions. -->
+        <field id="leftSegmentNta2020" start="820" length="6"></field>
+        <field id="leftSegmentCdta2020" start="826" length="4"></field>
+        <!-- rightSegment 2020 census tract/block use backwards-compatible naming conventions. -->
+        <field id="rightSegment2020CensusTrack" start="830" length="6" whitespace="true"></field>
+        <field id="rightSegment2020CensusBlock" start="836" length="4"></field>
+        <field id="rightSegment2020CensusBlockSuffix" start="840" length="1"></field>
+        <!-- rightSegment 2020 nta/cdta use better naming conventions. -->
+        <field id="rightSegmentNta2020" start="841" length="6"></field>
+        <field id="rightSegmentCdta2020" start="847" length="4"></field>
+        <field id="filler8" start="851" length="150"></field>
+        <!-- end:pac.h C_WA2_F3X -->
       </fields>
     </workArea>
     <workArea id="WA2_HR">
@@ -2007,7 +2051,7 @@
         <field id="geoFileRelease5" start="119" length="4"></field>
         <field id="geoFileRecordCount5" start="123" length="8"></field>
         <!-- geoFileInfo 6 -->
-        <field id="geoFile6RecordType" start="131" length="4"></field>
+        <field id="geoFileRecordType6" start="131" length="4"></field>
         <field id="geoFileTag6" start="135" length="4"></field>
         <field id="geoFileDate6" start="139" length="6"></field>
         <field id="geoFileRelease6" start="145" length="4"></field>
@@ -2050,12 +2094,12 @@
         <field id="grid1RFileDate" start="321" length="6"></field>
         <field id="grid1RFileRelease" start="327" length="4"></field>
         <field id="grid1RFileRecordCount" start="331" length="8"></field>
-        <!-- auxSegFileInfo -->
-        <field id="auxSegFileRecordType" start="339" length="4"></field>
-        <field id="auxSegFileTag" start="343" length="4"></field>
-        <field id="auxSegFileDate" start="347" length="6"></field>
-        <field id="auxSegFileRelease" start="353" length="4"></field>
-        <field id="auxSegFileRecordCount" start="357" length="8"></field>
+        <!-- auxsegFileInfo -->
+        <field id="auxsegFileRecordType" start="339" length="4"></field>
+        <field id="auxsegFileTag" start="343" length="4"></field>
+        <field id="auxsegFileDate" start="347" length="6"></field>
+        <field id="auxsegFileRelease" start="353" length="4"></field>
+        <field id="auxsegFileRecordCount" start="357" length="8"></field>
         <!-- tpadFileInfo -->
         <field id="tpadFileRecordType" start="365" length="4"></field>
         <field id="tpadFileTag" start="369" length="4"></field>
@@ -2068,52 +2112,113 @@
         <field id="apequivFileDate" start="399" length="6"></field>
         <field id="apequivFileRelease" start="405" length="4"></field>
         <field id="apequivFileRecordCount" start="409" length="8"></field>
-        <!-- ap    (26) start="417" -->
-        <!-- upad  (26) -->
-        <!-- STAT   (5) -->
-        <!-- STT1  (26) -->
-        <!-- STT1A (26) -->
-        <!-- STT2  (26) -->
-        <!-- STT3  (26) -->
-        <!-- STT3S (26) -->
-        <!-- STTAP (26) -->
-        <!-- STTBL (26) -->
-        <!-- STTBN (26) -->
-        <!-- STTD  (26) -->
-        <!-- sneq  (26) -->
-        <!-- edquiv (8) -->
-        <!-- dsNames 1 through 15 -->
-        <field id="dsName1" start="417" length="60"></field>
-        <field id="dsName2" start="477" length="60"></field>
-        <field id="dsName3" start="537" length="60"></field>
-        <field id="dsName4" start="597" length="60"></field>
-        <field id="dsName5" start="657" length="60"></field>
-        <field id="dsName6" start="717" length="60"></field>
-        <field id="dsName7" start="777" length="60"></field>
-        <field id="dsName8" start="837" length="60"></field>
-        <field id="dsName9" start="897" length="60"></field>
-        <field id="dsName10" start="957" length="60"></field>
-        <field id="dsName11" start="1017" length="60"></field>
-        <field id="dsName12" start="1077" length="60"></field>
-        <field id="dsName13" start="1137" length="60"></field>
-        <field id="dsName14" start="1197" length="60"></field>
-        <!-- ds15  (5) -->
-        <field id="dsName15" start="1257" length="60"></field>
-        <!-- ds16 (60) through 26 -->
-        <field id="dsName16" start="1317" length="60"></field>
-        <!-- In the W2_FHR header file, there are only 16 dsNames, -->
-        <!-- but the data seems to include at least ten more. -->
-        <field id="dsName17" start="1377" length="60"></field>
-        <field id="dsName18" start="1437" length="60"></field>
-        <field id="dsName19" start="1497" length="60"></field>
-        <field id="dsName20" start="1557" length="60"></field>
-        <!-- <field id="dsName21" start="" length="60"></field> -->
-        <!-- <field id="dsName22" start="" length="60"></field> -->
-        <!-- <field id="dsName23" start="" length="60"></field> -->
-        <!-- <field id="dsName24" start="" length="60"></field> -->
-        <!-- <field id="dsName25" start="" length="60"></field> -->
-        <!-- <field id="dsName26" start="" length="60"></field> -->
-        <field id="filler4" start="1617" length="3410"></field> <!-- reduce by 360 -->
+        <!-- apFileInfo -->
+        <field id="apFileRecordType" start="417" length="4"></field>
+        <field id="apFileTag" start="421" length="4"></field>
+        <field id="apFileDate" start="425" length="6"></field>
+        <field id="apFileRelease" start="431" length="4"></field>
+        <field id="apFileRecordCount" start="435" length="8"></field>
+        <!-- upadFileInfo -->
+        <field id="upadFileRecordType" start="443" length="4"></field>
+        <field id="upadFileTag" start="447" length="4"></field>
+        <field id="upadFileDate" start="451" length="6"></field>
+        <field id="upadFileRelease" start="457" length="4"></field>
+        <field id="upadFileRecordCount" start="461" length="8"></field>
+        <!-- statFileInfo -->
+        <field id="statFileRecordType" start="469" length="4"></field>
+        <field id="statFileTag" start="473" length="4"></field>
+        <field id="statFileDate" start="477" length="6"></field>
+        <field id="statFileRelease" start="483" length="4"></field>
+        <field id="statFileRecordCount" start="487" length="8"></field>
+        <!-- stat1FileInfo -->
+        <field id="stat1FileRecordType" start="495" length="4"></field>
+        <field id="stat1FileTag" start="499" length="4"></field>
+        <field id="stat1FileDate" start="503" length="6"></field>
+        <field id="stat1FileRelease" start="509" length="4"></field>
+        <field id="stat1FileRecordCount" start="513" length="8"></field>
+        <!-- stat1AFileInfo -->
+        <field id="stat1AFileRecordType" start="521" length="4"></field>
+        <field id="stat1AFileTag" start="525" length="4"></field>
+        <field id="stat1AFileDate" start="529" length="6"></field>
+        <field id="stat1AFileRelease" start="535" length="4"></field>
+        <field id="stat1AFileRecordCount" start="539" length="8"></field>
+        <!-- stat2FileInfo -->
+        <field id="stat2FileRecordType" start="547" length="4"></field>
+        <field id="stat2FileTag" start="551" length="4"></field>
+        <field id="stat2FileDate" start="555" length="6"></field>
+        <field id="stat2FileRelease" start="561" length="4"></field>
+        <field id="stat2FileRecordCount" start="565" length="8"></field>
+        <!-- stat3FileInfo -->
+        <field id="stat3FileRecordType" start="573" length="4"></field>
+        <field id="stat3FileTag" start="577" length="4"></field>
+        <field id="stat3FileDate" start="581" length="6"></field>
+        <field id="stat3FileRelease" start="587" length="4"></field>
+        <field id="stat3FileRecordCount" start="591" length="8"></field>
+        <!-- stat3SFileInfo -->
+        <field id="stat3SFileRecordType" start="599" length="4"></field>
+        <field id="stat3SFileTag" start="603" length="4"></field>
+        <field id="stat3SFileDate" start="607" length="6"></field>
+        <field id="stat3SFileRelease" start="613" length="4"></field>
+        <field id="stat3SFileRecordCount" start="617" length="8"></field>
+        <!-- statAPFileInfo -->
+        <field id="statAPFileRecordType" start="625" length="4"></field>
+        <field id="statAPFileTag" start="629" length="4"></field>
+        <field id="statAPFileDate" start="633" length="6"></field>
+        <field id="statAPFileRelease" start="639" length="4"></field>
+        <field id="statAPFileRecordCount" start="643" length="8"></field>
+        <!-- statBLFileInfo -->
+        <field id="statBLFileRecordType" start="651" length="4"></field>
+        <field id="statBLFileTag" start="655" length="4"></field>
+        <field id="statBLFileDate" start="659" length="6"></field>
+        <field id="statBLFileRelease" start="665" length="4"></field>
+        <field id="statBLFileRecordCount" start="669" length="8"></field>
+        <!-- statBNFileInfo -->
+        <field id="statBNFileRecordType" start="677" length="4"></field>
+        <field id="statBNFileTag" start="681" length="4"></field>
+        <field id="statBNFileDate" start="685" length="6"></field>
+        <field id="statBNFileRelease" start="691" length="4"></field>
+        <field id="statBNFileRecordCount" start="695" length="8"></field>
+        <!-- statDFileInfo -->
+        <field id="statDFileRecordType" start="703" length="4"></field>
+        <field id="statDFileTag" start="707" length="4"></field>
+        <field id="statDFileDate" start="711" length="6"></field>
+        <field id="statDFileRelease" start="717" length="4"></field>
+        <field id="statDFileRecordCount" start="721" length="8"></field>
+        <!-- sneqFileInfo -->
+        <field id="sneqFileRecordType" start="729" length="4"></field>
+        <field id="sneqFileTag" start="733" length="4"></field>
+        <field id="sneqFileDate" start="737" length="6"></field>
+        <field id="sneqFileRelease" start="743" length="4"></field>
+        <field id="sneqFileRecordCount" start="747" length="8"></field>
+        <!-- dsNames 1 through 26 -->
+        <field id="dsName1" start="755" length="60"></field>
+        <field id="dsName2" start="815" length="60"></field>
+        <field id="dsName3" start="875" length="60"></field>
+        <field id="dsName4" start="935" length="60"></field>
+        <field id="dsName5" start="995" length="60"></field>
+        <field id="dsName6" start="1055" length="60"></field>
+        <field id="dsName7" start="1115" length="60"></field>
+        <field id="dsName8" start="1175" length="60"></field>
+        <field id="dsName9" start="1235" length="60"></field>
+        <field id="dsName10" start="1295" length="60"></field>
+        <field id="dsName11" start="1355" length="60"></field>
+        <field id="dsName12" start="1415" length="60"></field>
+        <field id="dsName13" start="1475" length="60"></field>
+        <field id="dsName14" start="1535" length="60"></field>
+        <field id="dsName15" start="1595" length="60"></field>
+        <field id="dsName16" start="1655" length="60"></field>
+        <field id="dsName17" start="1715" length="60"></field>
+        <field id="dsName18" start="1775" length="60"></field>
+        <field id="dsName19" start="1835" length="60"></field>
+        <field id="dsName20" start="1895" length="60"></field>
+        <field id="dsName21" start="1955" length="60"></field>
+        <field id="dsName22" start="2015" length="60"></field>
+        <field id="dsName23" start="2075" length="60"></field>
+        <field id="dsName24" start="2135" length="60"></field>
+        <field id="dsName25" start="2195" length="60"></field>
+        <field id="dsName26" start="2255" length="60"></field>
+        <field id="geofilesDirectory" start="2315" length="60"></field>
+        <field id="filler4" start="2375" length="2652"></field>
       </fields>
     </workArea>
   </workAreas>

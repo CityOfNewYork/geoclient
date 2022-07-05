@@ -45,7 +45,7 @@ The geoclient-service subproject provides the code to run Geoclient in a Java Se
 
 The big picture:
 
-![Geoclient components](https://github.com/CityOfNewYork/geoclient/blob/master/geoclient-service/doc/deployment-landscape.png)
+![Geoclient components](src/doc/geoclient-runtime.png)
 
 Geoclient is written in Java and Geosupport is written in C. Java applications use the Java Native Interface (JNI) to call C applications.
 

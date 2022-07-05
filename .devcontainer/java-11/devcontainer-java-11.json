@@ -1,0 +1,41 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.209.6/containers/java
+{
+	"name": "geoclient",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			// Update the VARIANT arg to pick a Java version: 11, 17
+			// Append -bullseye or -buster to pin to an OS version.
+			// Use the -bullseye variants on local arm64/Apple Silicon.
+			"VARIANT": "11-bullseye",
+			// Options
+			"INSTALL_MAVEN": "true",
+			"INSTALL_GRADLE": "true",
+      "GRADLE_VERSION": "6.9.2",
+			"NODE_VERSION": "lts/*"
+		}
+	},
+	"remoteEnv": {
+		"PATH": "${containerEnv:PATH}:/opt/geosupport/current/bin"
+	},
+	"runArgs": [
+		"--env-file=${localWorkspaceFolder}/.devcontainer/geosupport.env"
+	],
+	// Set *default* container specific settings.json values on container create.
+	"settings": {
+		"java.home": "/docker-java-home"
+	},
+	"extensions": [
+		"vscjava.vscode-java-pack"
+	],
+	"forwardPorts": ["8080:8080", "8000:8000","5005:5005"],
+	"mounts": [
+		"source=${localEnv:HOME}/Workspace/repo/geosupport,target=/opt/geosupport,type=bind,consistency=cached"
+	],
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "echo /opt/geosupport/current/lib > /etc/ld.so.conf.d/geosupport.conf && ldconfig"
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	//"remoteUser": "vscode"
+}

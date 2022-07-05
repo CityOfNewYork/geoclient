@@ -1,6 +1,11 @@
 plugins {
     id 'groovy'
+    id 'groovy-gradle-plugin'
     id 'java-gradle-plugin'
+}
+
+repositories {
+    gradlePluginPortal()
 }
 
 gradlePlugin {
@@ -14,4 +19,6 @@ gradlePlugin {
 
 dependencies {
     compileOnly gradleApi()
+    implementation 'com.diffplug.spotless:spotless-plugin-gradle:6.2.1'
+    implementation 'com.github.ben-manes:gradle-versions-plugin:0.42.0'
 }

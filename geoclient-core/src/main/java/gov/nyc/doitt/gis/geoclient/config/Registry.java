@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +15,19 @@
  */
 package gov.nyc.doitt.gis.geoclient.config;
 
-import gov.nyc.doitt.gis.geoclient.doc.FunctionDocumentation;
-import gov.nyc.doitt.gis.geoclient.function.Function;
-import gov.nyc.doitt.gis.geoclient.function.WorkArea;
-
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import gov.nyc.doitt.gis.geoclient.function.Function;
+import gov.nyc.doitt.gis.geoclient.function.WorkArea;
+
 public class Registry
 {
     private static final Logger log = LoggerFactory.getLogger(Registry.class);
 
-    private static final ConcurrentMap<String, FunctionDocumentation> functionDocumentationRegistry = new ConcurrentHashMap<String, FunctionDocumentation>();
     private static final ConcurrentMap<String, Function> functionRegistry = new ConcurrentHashMap<String, Function>();
     private static final ConcurrentMap<String, WorkArea> workAreaRegistry = new ConcurrentHashMap<String, WorkArea>();
 
@@ -43,12 +41,6 @@ public class Registry
         functionRegistry.putIfAbsent(function.getId(), function);
     }
 
-    public static void addFunctionDocumentation(FunctionDocumentation functionDocumentation)
-    {
-        log.debug("add({})", functionDocumentation);
-        functionDocumentationRegistry.putIfAbsent(functionDocumentation.getId(), functionDocumentation);
-    }
-
     public static void addWorkArea(WorkArea workArea)
     {
         log.debug("add({})", workArea);
@@ -57,15 +49,8 @@ public class Registry
 
     public static void clearAll()
     {
-        clearFunctionDocumentation();
         clearFunctions();
         clearWorkAreas();
-    }
-
-    public static void clearFunctionDocumentation()
-    {
-        functionDocumentationRegistry.clear();
-        log.debug("functionDocumentationRegistry.clear()");
     }
 
     public static void clearFunctions()
@@ -87,13 +72,6 @@ public class Registry
         return contains;
     }
 
-    public static boolean containsFunctionDocumentation(String id)
-    {
-        boolean contains = functionDocumentationRegistry.containsKey(id);
-        log.debug("functionDocumentationRegistry.containsKey({})=={}", id, contains);
-        return contains;
-    }
-
     public static boolean containsWorkArea(String name)
     {
         boolean contains = workAreaRegistry.containsKey(name);
@@ -106,13 +84,6 @@ public class Registry
         Function function = functionRegistry.get(id);
         log.debug("functionRegistry.get({})=={}", id, function);
         return function;
-    }
-
-    public static FunctionDocumentation getFunctionDocumentation(String id)
-    {
-        FunctionDocumentation functionDocumentation = functionDocumentationRegistry.get(id);
-        log.debug("functionDocumentationRegistry.get({})=={}", id, functionDocumentation);
-        return functionDocumentation;
     }
 
     public static WorkArea getWorkArea(String name)

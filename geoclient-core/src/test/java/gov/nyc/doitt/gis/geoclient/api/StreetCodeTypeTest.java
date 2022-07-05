@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,9 @@ import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType.UNRECOGNIZED;
 import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType._10SC;
 import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType._5SC;
 import static gov.nyc.doitt.gis.geoclient.api.StreetCodeType._7SC;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Random;
 

@@ -38,4 +38,5 @@
 # User-specific stuff
 **/.env
 **/.local
-geosupport/
+**/notes
+**/.DS_Store

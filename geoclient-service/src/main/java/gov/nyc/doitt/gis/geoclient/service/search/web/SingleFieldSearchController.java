@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,11 +19,11 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 import gov.nyc.doitt.gis.geoclient.service.search.SingleFieldSearchHandler;
@@ -32,7 +32,7 @@ import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchParameters;
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResponse;
 
 @CrossOrigin
-@Controller
+@RestController
 public class SingleFieldSearchController {
 
     @Autowired

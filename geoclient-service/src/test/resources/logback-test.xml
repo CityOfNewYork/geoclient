@@ -11,7 +11,15 @@
         </encoder>
  -->
     </appender>
-    <logger name="gov.nyc.doitt.gis.geoclient" level="debug" />
+    <logger name="gov.nyc.doitt.gis.geoclient.service" level="debug" />
+    <logger name="org.springframework" level="debug" />
+<!--
+    <logger name="org.springframework.test.util" level="debug" />
+    <logger name="org.springframework.test.web" level="debug" />
+    <logger name="org.springframework.web" level="debug" />
+    <logger name="org.springframework.web.servlet.config" level="debug" />
+-->
+
 <!--
     <logger name="org.mockito.Mockito.*" level="debug" />
 -->

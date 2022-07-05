@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,16 +18,16 @@ package gov.nyc.doitt.gis.geoclient.config.xml;
 import java.util.HashMap;
 import java.util.Map;
 
-import gov.nyc.doitt.gis.geoclient.function.DefaultConfiguration;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.MarshallingContext;
 import com.thoughtworks.xstream.converters.UnmarshallingContext;
 import com.thoughtworks.xstream.io.HierarchicalStreamReader;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import gov.nyc.doitt.gis.geoclient.function.DefaultConfiguration;
 
 
 public class ConfigurationConverter implements Converter

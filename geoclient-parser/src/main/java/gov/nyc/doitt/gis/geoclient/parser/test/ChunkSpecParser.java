@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2019 the original author or authors.
+ * Copyright 2013-2022 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.test;
 
-import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
-import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
-import gov.nyc.doitt.gis.geoclient.parser.token.Token;
-import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -29,6 +24,11 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
+import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
+import gov.nyc.doitt.gis.geoclient.parser.token.Token;
+import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
 /**
  * The Class ChunkSpecParser parses textual metadata (typically from a
