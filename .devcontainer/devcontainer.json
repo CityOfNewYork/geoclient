@@ -9,7 +9,7 @@
 			// Options
 			"INSTALL_MAVEN": "true",
 			"INSTALL_GRADLE": "true",
-			"GRADLE_VERSION": "7.4.1",
+			"GRADLE_VERSION": "7.5.1",
 			"NODE_VERSION": "none"
 		}
 	},
@@ -34,13 +34,15 @@
 	],
 	"forwardPorts": ["8080:8080", "8000:8000","5005:5005"],
 	"mounts": [
-		"source=${localEnv:HOME}/Workspace/repo/geosupport,target=/opt/geosupport,type=bind,consistency=cached",
+		// "source=${localEnv:HOME}/Workspace/repo/geosupport,target=/opt/geosupport,type=bind,consistency=cached",
+		"source=geosupport-22c_22.3,target=/opt/geosupport/version-22c_22.3,type=volume",
 		"source=geoclient-bashhistory,target=/commandhistory,type=volume",
 		"source=geoclient-vscode-extensions,target=/root/.vscode-server/extensions,type=volume",
 		"source=geoclient-vscode-insiders-extensions,target=/root/.vscode-server-insiders/extensions,type=volume"
 	],
 	"updateContentCommand": "cp /root/.bashrc \"/root/gen.bashrc-$(date +%F-%s)\" && cp .devcontainer/.bashrc /root/.bashrc",
-	"postCreateCommand": "echo /opt/geosupport/current/lib > /etc/ld.so.conf.d/geosupport.conf && ldconfig",
+	// "postCreateCommand": "echo /opt/geosupport/current/lib > /etc/ld.so.conf.d/geosupport.conf && ldconfig",
+	"postCreateCommand": "/opt/geosupport/version-22c_22.3/bin/geosupport install",
 
 	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
 	//"remoteUser": "vscode"
