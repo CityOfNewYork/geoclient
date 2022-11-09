@@ -1,6 +1,6 @@
 plugins {
     id 'war' // Required when building an executable war file
-    id 'org.springframework.boot' version '2.6.3'
+    id 'org.springframework.boot' version '2.7.5'
     id 'geoclient.java-conventions'
     id 'geoclient.test-conventions'
 }
@@ -9,7 +9,7 @@ dependencies {
     implementation project(':geoclient-jni')
     implementation project(':geoclient-core')
     implementation project(':geoclient-parser')
-    implementation('org.apache.commons:commons-text:1.8')
+    implementation('org.apache.commons:commons-text:1.10.0')
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
     implementation('org.springframework.boot:spring-boot-starter-validation')
@@ -20,7 +20,7 @@ dependencies {
     implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}")
     //implementation('joda-time:joda-time')
     testImplementation('org.apache.httpcomponents:httpclient') // formerly 4.5.10
-    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat:2.6.3')
+    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat:2.7.5')
 }
 
 tasks.register('writeVersionProperties', WriteProperties) {
