@@ -516,7 +516,8 @@
         <field id="sanitationOrganicsCollectionSchedule" start="251" length="5"><!--  needs doc --></field>
         <field id="sanitationBulkPickupSchedule" start="256" length="5"></field>
         <field id="hurricaneEvacuationZone" start="261" length="2"><!-- filtered --></field>
-        <field id="filler7" start="263" length="11"><!-- filtered --></field>
+        <field id="sanitationCommercialWasteZone" start="263" length="4"></field>
+        <field id="filler7" start="267" length="7"><!-- filtered --></field>
         <field id="underlyingHnsOnTrueStreet" start="274" length="11"><!-- needs doc --></field>
         <field id="underlyingStreetCode" start="285" length="8"><!-- needs doc --></field>
         <field id="segmentIdentifier" start="293" length="7"><!-- needs doc --></field>
@@ -1192,7 +1193,8 @@
         <field id="sanitationOrganicsCollectionSchedule" start="251" length="5"><!--  needs doc --></field><!-- AKA "dsnyOrganicsRecyclingSchedule" -->
         <field id="sanitationBulkPickupSchedule" start="256" length="5"></field><!-- AKA "dsnyBulkPickupSchedule" -->
         <field id="hurricaneEvacuationZone" start="261" length="2"><!-- filtered --></field>
-        <field id="filler7" start="263" length="11"><!-- filtered --></field>
+        <field id="sanitationCommercialWasteZone" start="263" length="4"></field>
+        <field id="filler7" start="267" length="7"><!-- filtered --></field>
         <field id="underlyingHnsOnTrueStreet" start="274" length="11"><!-- needs doc --></field><!-- AKA "underlyingAddressNumberForNaps" -->
         <field id="underlyingStreetCode" start="285" length="8"><!-- needs doc --></field><!-- AKA "underlyingB7sc" -->
         <field id="segmentIdentifier" start="293" length="7"><!-- needs doc --></field>
