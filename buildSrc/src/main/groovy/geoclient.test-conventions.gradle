@@ -6,10 +6,21 @@ plugins {
 integrationTest {
     useJUnitPlatform()
     testLogging {
-        displayGranularity = 2
-        events "failed", "skipped", "passed"
-        exceptionFormat "full"
-        showStandardStreams = true
+        // options for log level LIFECYCLE
+        events "failed"
+        exceptionFormat "short"
+
+        // options for log level DEBUG
+        debug {
+        // displayGranularity = 2
+            events "failed", "skipped", "passed"
+            exceptionFormat "full"
+            showStandardStreams = true
+        }
+
+        // remove standard output/error logging from --info builds
+        // by assigning only 'failed' and 'skipped' events
+        info.events = ["failed", "skipped"]
     }
 }
 
@@ -20,5 +31,6 @@ test {
         events "failed", "skipped", "passed"
         exceptionFormat "full"
         showStandardStreams = true
+        // TODO filter warning from org.apiguardian.api.API.Status.STABLE
     }
 }
