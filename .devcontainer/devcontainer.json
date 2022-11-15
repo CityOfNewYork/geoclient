@@ -42,8 +42,13 @@
 
 	"forwardPorts": ["8080:8080", "8000:8000","5005:5005"],
 	"mounts": [
-		"source=geosupport-22c_22.3,target=/opt/geosupport/version-22c_22.3,type=volume"
+		"source=geosupport-22c_22.3,target=/opt/geosupport/version-22c_22.3,type=volume",
 		//"source=${localEnv:HOME}/Workspace/repo/geosupport,target=/opt/geosupport,type=bind,consistency=cached",
+		//
+		// 2022-11-15: see https://code.visualstudio.com/docs/devcontainers/tips-and-tricks#_persisting-user-profile
+		"source=profile,target=/root,type=volume",
+        "target=/root/.vscode-server,type=volume"
+		// Older config for the above:
 		//"source=geoclient-bashhistory,target=/commandhistory,type=volume",
 		//"source=geoclient-vscode-extensions,target=/root/.vscode-server/extensions,type=volume",
 		//"source=geoclient-vscode-insiders-extensions,target=/root/.vscode-server-insiders/extensions,type=volume"
@@ -53,7 +58,7 @@
 	// For now, this command requires root since it is not part of the Dockerfile
 	// TODO figure out how to use sudo in this context or change Dockerfile to use geosupport-docker
 	"postCreateCommand": "/opt/geosupport/version-22c_22.3/bin/geosupport install",
-
+	"updateContentCommand": "cp /root/.bashrc \"/root/gen.bashrc-$(date +%F-%s)\" && cp .devcontainer/.bashrc /root/.bashrc",
 	"remoteEnv": {
 		"PATH": "${containerEnv:PATH}:/opt/geosupport/current/bin"
 	},

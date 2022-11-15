@@ -53,4 +53,4 @@ export PROMPT_DIRTRIM=4
 
 # MSL: Also added to the generated .bashrc by .devcontainer/Dockerfile which defines
 #      a volume mount named geoclient-bashhistory at /commandhistory.
-export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history
+#export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhistory/.bash_history
