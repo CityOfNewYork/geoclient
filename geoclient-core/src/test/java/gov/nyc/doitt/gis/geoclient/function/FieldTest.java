@@ -119,6 +119,7 @@ public class FieldTest
         assertFalse(this.field.isInput());
         assertFalse(this.field.isAliased());
         assertFalse(this.field.isWhitespaceSignificant());
+        assertFalse(this.field.isOutputAliased());
     }
 
     @Test
@@ -132,6 +133,7 @@ public class FieldTest
         assertFalse(compositeField.isInput());
         assertFalse(compositeField.isAliased());
         assertFalse(compositeField.isWhitespaceSignificant());
+        assertFalse(compositeField.isOutputAliased());
     }
 
     @Test
@@ -146,6 +148,7 @@ public class FieldTest
         assertTrue(aField.isAliased());
         assertEquals("Doug", aField.getAlias());
         assertFalse(aField.isWhitespaceSignificant());
+        assertFalse(this.field.isOutputAliased());
     }
 
     @Test
@@ -160,6 +163,23 @@ public class FieldTest
         assertTrue(aField.isAliased());
         assertEquals("Doug", aField.getAlias());
         assertTrue(aField.isWhitespaceSignificant());
+        assertFalse(this.field.isOutputAliased());
+    }
+
+    @Test
+    public void testConstructor_idStartLengthCompositeInputAliasWhitespaceOutputAlias()
+    {
+        Field aField = new Field("Frank", 2, 4, false,true,"Doug",true, "Fraunk");
+        assertEquals("Frank", aField.getId());
+        assertEquals(2, aField.getStart());
+        assertEquals(4, aField.getLength());
+        assertFalse(aField.isComposite());
+        assertTrue(aField.isInput());
+        assertTrue(aField.isAliased());
+        assertEquals("Doug", aField.getAlias());
+        assertTrue(aField.isWhitespaceSignificant());
+        assertTrue(aField.isOutputAliased());
+        assertEquals("Fraunk", aField.getOutputAlias());
     }
 
 

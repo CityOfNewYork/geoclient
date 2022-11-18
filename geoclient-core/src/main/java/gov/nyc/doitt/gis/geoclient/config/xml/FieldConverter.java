@@ -38,10 +38,11 @@ public class FieldConverter implements Converter {
         public final String xmlFieldAttributeInput;
         public final String xmlFieldAttributeAlias;
         public final String xmlFieldAttributeWhitespace;
+        public final String xmlFieldAttributeOutputAlias;
 
         public Metadata(String xmlFieldAttributeId, String xmlFieldAttributeStrart, String xmlFieldAttributeLength,
                 String xmlFieldValueCompositeType, String xmlFieldAttributeType, String xmlFieldAttributeInput,
-                String xmlFieldAttributeAlias, String xmlFieldAttributeWhitespace) {
+                String xmlFieldAttributeAlias, String xmlFieldAttributeWhitespace, String xmlFieldAttributeOutputAlias) {
             super();
             this.xmlFieldAttributeId = xmlFieldAttributeId;
             this.xmlFieldAttributeStart = xmlFieldAttributeStrart;
@@ -51,6 +52,7 @@ public class FieldConverter implements Converter {
             this.xmlFieldAttributeInput = xmlFieldAttributeInput;
             this.xmlFieldAttributeAlias = xmlFieldAttributeAlias;
             this.xmlFieldAttributeWhitespace = xmlFieldAttributeWhitespace;
+            this.xmlFieldAttributeOutputAlias = xmlFieldAttributeOutputAlias;
         }
 
     }
@@ -83,7 +85,8 @@ public class FieldConverter implements Converter {
         boolean isInput = "true".equalsIgnoreCase(reader.getAttribute(metadata.xmlFieldAttributeInput));
         String alias = reader.getAttribute(metadata.xmlFieldAttributeAlias);
         boolean whitespace = "true".equalsIgnoreCase(reader.getAttribute(metadata.xmlFieldAttributeWhitespace));
-        Field field = new Field(id, start, length, isComposite, isInput, alias, whitespace);
+        String outputAlias = reader.getAttribute(metadata.xmlFieldAttributeOutputAlias);
+        Field field = new Field(id, start, length, isComposite, isInput, alias, whitespace, outputAlias);
         log.debug("Created {}", field);
         return field;
     }

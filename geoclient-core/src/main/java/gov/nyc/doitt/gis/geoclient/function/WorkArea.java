@@ -100,6 +100,10 @@ public class WorkArea
             if (!fieldValue.isEmpty() && !isFiltered(field))
             {
                 results.put(field.getId(), fieldValue);
+                if(field.isOutputAliased())
+                {
+                    results.put(field.getOutputAlias(), fieldValue);
+                }
             }
         }
         return results;
