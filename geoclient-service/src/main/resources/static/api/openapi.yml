@@ -16,7 +16,7 @@ servers:
           - http
           - https
         default: http
-      host: 
+      host:
         default: localhost
       port:
         enum:
@@ -36,76 +36,107 @@ components:
       name: app_id
       in: query
       description: Assigned application id
-      required: false
       schema:
         type: string
     appKeyParam:
       name: app_key
       in: query
       description: Assigned application key
-      required: false
       schema:
         type: string
-    boroughParam:
-      name: borough
+  securitySchemes:
+    apiIdAuth:
+      name: app_id
+      type: apiKey
       in: query
-      required: true
-      examples:
-        manhattan:
-          value: manhattan
-        bronx:
-          value: bronx
-        brooklyn:
-          value: brooklyn
-        queens:
-          value: queens
-        staten_island:
-          value: staten island
-      schema:
-        type: string
-    mediaTypeParam:
-      name: mediaType
-      in: path
-      description: Requested media type of the response, either json or xml. Defaults to json 
-      required: true
-      examples:
-        json:
-          value: json
-        xml:
-          value: xml
-      schema:
-        type: string
+    apiKeyAuth:
+      name: app_key
+      type: apiKey
+      in: query
+security:
+  - apiIdAuth:  []
+    apiKeyAuth: []   # <-- no leading dash (-)
 paths:
-  /address.{mediaType}:
+  /address:
     get:
       description: Returns street centerline-based and/or property-level data about an address
+      responses:
+        "200":
+          description: OK
+      security:
+        - apiIdAuth: []
+          apiKeyAuth:  []
+      parameters:
+        - name: houseNumber
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: street
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: borough
+          description: Borough of NYC (either this or 'zip' parameter is required)
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ['Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island']
+        - name: zip
+          description: USPS zip code (either this or 'borough' parameter is required)
+          in: query
+          required: false
+          schema:
+            type: string
+  /addresspoint:
+    get:
+      description: Returns address point data
       responses:
         "200":
           description: OK
       parameters:
         - name: houseNumber
           in: query
-          description: House number of the address
           required: true
           schema:
             type: string
         - name: street
           in: query
-          description: Name of the street
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/boroughParam"
-        - $ref: "#/components/parameters/mediaTypeParam"
-        - $ref: "#/components/parameters/appKeyParam"
-        - $ref: "#/components/parameters/appIdParam"
-  /bbl.{mediaType}:
+        - name: borough
+          description: Borough of NYC (either this or 'zip' parameter is required)
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ['Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island']
+        - name: zip
+          description: USPS zip code (either this or 'borough' parameter is required)
+          in: query
+          required: false
+          schema:
+            type: string
+  /bbl:
     get:
       description: Returns property-level data associated with a BBL
       responses:
         "200":
           description: OK
+      security:
+        - apiIdAuth: []
+          apiKeyAuth:  []
       parameters:
+        - name: borough
+          description: Borough of NYC
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: ['Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island']
         - name: block
           in: query
           description: Tax block
@@ -118,16 +149,15 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/boroughParam"
-        - $ref: "#/components/parameters/mediaTypeParam"
-        - $ref: "#/components/parameters/appKeyParam"
-        - $ref: "#/components/parameters/appIdParam"
-  /bin.{mediaType}:
+  /bin:
     get:
       description: Returns property-level data associated with a BIN
       responses:
         "200":
           description: OK
+      security:
+        - apiIdAuth: []
+          apiKeyAuth:  []
       parameters:
         - name: bin
           in: query
@@ -135,21 +165,165 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/mediaTypeParam"
-        - $ref: "#/components/parameters/appKeyParam"
-        - $ref: "#/components/parameters/appIdParam"
+  /blockface:
+    get:
+      description: Returns information about a street segment
+      responses:
+        "200":
+          description: OK
+      security:
+        - apiIdAuth: []
+          apiKeyAuth:  []
+      parameters:
+        - name: onStreet
+          in: query
+          description: Name of on street
+          required: true
+          schema:
+            type: string
+        - name: crossStreetOne
+          in: query
+          description: First cross street
+          required: true
+          schema:
+            type: string
+        - name: crossStreetTwo
+          in: query
+          description: Second cross street
+          required: true
+          schema:
+            type: string
+        - name: borough
+          description: Borough of NYC (applies to onStreet or all street parameters if they are in the same borough)
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: ['Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island']
+        - name: boroughCrossStreetOne
+          description: Borough of cross street one (if different borough than 'onStreet' or if parameter 'boroughCrossStreetTwo' is used)
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ['Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island']
+        - name: boroughCrossStreetTwo
+          description: Borough of cross street two (if different borough than 'onStreet' or if parameter 'boroughCrossStreetOne' is used)
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ['Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island']
+        - name: compassDirection
+          description: Compass direction (only required when the three street parameters describe more than one segment)
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ['N', 'S', 'E', 'W']
   /doc:
     get:
       description: Geoclient HTML documentation
       responses:
         "200":
           description: OK
-  /search.{mediaType}:
+  /intersection:
+    get:
+      description: Returns information about an intersection
+      responses:
+        "200":
+          description: OK
+      security:
+        - apiIdAuth: []
+          apiKeyAuth:  []
+      parameters:
+        - name: crossStreetOne
+          in: query
+          description: First cross street
+          required: true
+          schema:
+            type: string
+        - name: crossStreetTwo
+          in: query
+          description: Second cross street
+          required: true
+          schema:
+            type: string
+        - name: borough
+          description: Borough of NYC
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: ['Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island']
+        - name: boroughCrossStreetTwo
+          description: Borough of cross street two (only required if different than borough for 'crossStreetOne')
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ['Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island']
+        - name: compassDirection
+          description: Compass direction (only required when street parameters more than once)
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ['N', 'S', 'E', 'W']
+  /normalize:
+    get:
+      description: Normalizes a street name
+      responses:
+        "200":
+          description: OK
+      security:
+        - apiIdAuth: []
+          apiKeyAuth:  []
+      parameters:
+        - name: name
+          description: Name of a (possibly non-existant) street
+          in: query
+          required: true
+          schema:
+            type: string
+  /place:
+    get:
+      description: Returns street centerline-based and/or property-level data about a well-known place name
+      responses:
+        "200":
+          description: OK
+      security:
+        - apiIdAuth: []
+          apiKeyAuth:  []
+      parameters:
+        - name: name
+          description: Well-known NYC place name (e.g., "Empire State Building" in Manhattan)
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: borough
+          description: Borough of NYC (either this or 'zip' parameter is required)
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: ['Manhattan', 'Bronx', 'Brooklyn', 'Queens', 'Staten Island']
+        - name: zip
+          description: USPS zip code (either this or 'borough' parameter is required)
+          in: query
+          required: false
+          schema:
+            type: string
+  /search:
     get:
       description: Single-field search for address, bbl, bin, blockface, intersection or place locations
       responses:
         "200":
           description: OK
+      security:
+        - apiIdAuth: []
+          apiKeyAuth:  []
       parameters:
         - name: input
           in: query
@@ -157,14 +331,46 @@ paths:
           required: true
           schema:
             type: string
-        - $ref: "#/components/parameters/mediaTypeParam"
-        - $ref: "#/components/parameters/appKeyParam"
-        - $ref: "#/components/parameters/appIdParam"
-  /version.{mediaType}:
+  /streetcode:
+    get:
+      description: Find the the street name for a B5SC, B7SC, or B10SC street code
+      responses:
+        "200":
+          description: OK
+      security:
+        - apiIdAuth: []
+          apiKeyAuth:  []
+      parameters:
+        - name: streetCode
+          in: query
+          description: B5SC, B7SC, or B10SC street code
+          required: true
+          schema:
+            type: string
+        - name: streetCodeTwo
+          in: query
+          description: B5SC, B7SC, or B10SC second street code
+          required: false
+          schema:
+            type: string
+        - name: streetCodeThree
+          in: query
+          description: B5SC, B7SC, or B10SC third street code
+          required: false
+          schema:
+            type: string
+        - name: length
+          in: query
+          description: target output length
+          required: false
+          schema:
+            type: string
+  /version:
     get:
       description: Geoclient and Geosupport version information
       responses:
         "200":
           description: Version information for this service
-      parameters:
-        - $ref: "#/components/parameters/mediaTypeParam"
+      security:
+        - apiIdAuth: []
+          apiKeyAuth:  []

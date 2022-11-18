@@ -43,6 +43,7 @@ public class GeoclientXmlReader
     static final String XML_FIELD_ATTRIBUTE_START = "start";
     static final String XML_FIELD_ATTRIBUTE_TYPE = "type";
     static final String XML_FIELD_ATTRIBUTE_WHITESPACE = "whitespace";
+    static final String XML_FIELD_ATTRIBUTE_OUTPUT_ALIAS = "outputAlias";
     static final String XML_FIELD_ELEMENT = "field";
     static final String XML_FIELD_VALUE_COMPOSITE_TYPE = "COMP";
     static final String XML_FIELD_VALUE_REGULAR_TYPE = "REG";
@@ -79,7 +80,8 @@ public class GeoclientXmlReader
                     XML_FIELD_ATTRIBUTE_TYPE,
                     XML_FIELD_ATTRIBUTE_INPUT,
                     XML_FIELD_ATTRIBUTE_ALIAS,
-                    XML_FIELD_ATTRIBUTE_WHITESPACE);
+                    XML_FIELD_ATTRIBUTE_WHITESPACE,
+                    XML_FIELD_ATTRIBUTE_OUTPUT_ALIAS);
 
     /**
      * Creates Geoclient configuration from the given XML file path. Currently

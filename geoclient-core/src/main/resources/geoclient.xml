@@ -516,7 +516,8 @@
         <field id="sanitationOrganicsCollectionSchedule" start="251" length="5"><!--  needs doc --></field>
         <field id="sanitationBulkPickupSchedule" start="256" length="5"></field>
         <field id="hurricaneEvacuationZone" start="261" length="2"><!-- filtered --></field>
-        <field id="filler7" start="263" length="11"><!-- filtered --></field>
+        <field id="sanitationCommercialWasteZone" start="263" length="4"></field>
+        <field id="filler7" start="267" length="7"><!-- filtered --></field>
         <field id="underlyingHnsOnTrueStreet" start="274" length="11"><!-- needs doc --></field>
         <field id="underlyingStreetCode" start="285" length="8"><!-- needs doc --></field>
         <field id="segmentIdentifier" start="293" length="7"><!-- needs doc --></field>
@@ -1192,7 +1193,8 @@
         <field id="sanitationOrganicsCollectionSchedule" start="251" length="5"><!--  needs doc --></field><!-- AKA "dsnyOrganicsRecyclingSchedule" -->
         <field id="sanitationBulkPickupSchedule" start="256" length="5"></field><!-- AKA "dsnyBulkPickupSchedule" -->
         <field id="hurricaneEvacuationZone" start="261" length="2"><!-- filtered --></field>
-        <field id="filler7" start="263" length="11"><!-- filtered --></field>
+        <field id="sanitationCommercialWasteZone" start="263" length="4"></field>
+        <field id="filler7" start="267" length="7"><!-- filtered --></field>
         <field id="underlyingHnsOnTrueStreet" start="274" length="11"><!-- needs doc --></field><!-- AKA "underlyingAddressNumberForNaps" -->
         <field id="underlyingStreetCode" start="285" length="8"><!-- needs doc --></field><!-- AKA "underlyingB7sc" -->
         <field id="segmentIdentifier" start="293" length="7"><!-- needs doc --></field>
@@ -1274,7 +1276,7 @@
         <field id="policeServiceArea" start="760" length="1"></field>`
         <!-- begin:WA2_F1B 2.0.0-rc.8 -->
         <field id="truckRouteType" start="761" length="1"></field>
-        <field id="censusTrack2020" start="762" length="6" whitespace="true"></field>
+        <field id="censusTract2020" start="762" length="6" whitespace="true" outputAlias="censusTrack2020"></field>
         <field id="censusBlock2020" start="768" length="4"></field>
         <field id="censusBlockSuffix2020" start="772" length="1"></field>
         <field id="nta2020" start="773" length="6"></field>
@@ -1999,14 +2001,14 @@
         <field id="truckRouteType" start="808" length="1"></field>
         <!-- end:v19.3 -->
         <!-- leftSegment 2020 census tract/block use backwards-compatible naming conventions. -->
-        <field id="leftSegment2020CensusTrack" start="809" length="6" whitespace="true"></field>
+        <field id="leftSegment2020CensusTract" start="809" length="6" whitespace="true" outputAlias="leftSegment2020CensusTrack"></field>
         <field id="leftSegment2020CensusBlock" start="815" length="4"></field>
         <field id="leftSegment2020CensusBlockSuffix" start="819" length="1"></field>
         <!-- rightSegment 2020 nta/cdta use better naming conventions. -->
         <field id="leftSegmentNta2020" start="820" length="6"></field>
         <field id="leftSegmentCdta2020" start="826" length="4"></field>
         <!-- rightSegment 2020 census tract/block use backwards-compatible naming conventions. -->
-        <field id="rightSegment2020CensusTrack" start="830" length="6" whitespace="true"></field>
+        <field id="rightSegment2020CensusTract" start="830" length="6" whitespace="true" outputAlias="rightSegment2020CensusTrack"></field>
         <field id="rightSegment2020CensusBlock" start="836" length="4"></field>
         <field id="rightSegment2020CensusBlockSuffix" start="840" length="1"></field>
         <!-- rightSegment 2020 nta/cdta use better naming conventions. -->

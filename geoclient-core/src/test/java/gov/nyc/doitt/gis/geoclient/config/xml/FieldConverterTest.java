@@ -42,6 +42,7 @@ public class FieldConverterTest {
     private String isInput;
     private String alias;
     private String whitespace;
+    private String outputAlias;
 
     @BeforeEach
     public void setUp() throws Exception {
@@ -55,6 +56,7 @@ public class FieldConverterTest {
         this.isInput = "trUe";
         this.alias = "returnCodeAlias";
         this.whitespace = "TRUE";
+        this.outputAlias = "rcId";
         this.contextMock = Mockito.mock(UnmarshallingContext.class);
     }
 
@@ -101,6 +103,7 @@ public class FieldConverterTest {
         Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeInput)).thenReturn(this.isInput);
         Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeAlias)).thenReturn(this.alias);
         Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeWhitespace)).thenReturn(this.whitespace);
+        Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeOutputAlias)).thenReturn(this.outputAlias);
     }
 
     private void assertFieldResult(boolean isComposite, Field field) {
@@ -115,6 +118,7 @@ public class FieldConverterTest {
         assertEquals(this.alias, field.getAlias());
         boolean whitespaceBool = Boolean.parseBoolean(this.whitespace);
         assertEquals(whitespaceBool, field.isWhitespaceSignificant());
+        assertEquals(this.outputAlias, field.getOutputAlias());
     }
 
 }

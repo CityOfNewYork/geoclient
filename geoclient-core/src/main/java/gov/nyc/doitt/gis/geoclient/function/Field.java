@@ -36,6 +36,7 @@ public class Field implements Comparable<Field>
     private final boolean input;
     private final String alias;
     private final boolean whitespaceSignificant;
+    private final String outputAlias;
 
     public Field(String id, Integer start, Integer length)
     {
@@ -55,6 +56,12 @@ public class Field implements Comparable<Field>
     public Field(String id, Integer start, Integer length, boolean composite, boolean input, String alias,
             boolean whitespace)
     {
+        this(id, start, length, composite, input, alias, whitespace, null);
+    }
+
+    public Field(String id, Integer start, Integer length, boolean composite, boolean input, String alias,
+            boolean whitespace, String outputAlias)
+    {
         Assert.notNull(id, "Parameter 'id' cannot be null");
         this.id = id;
         Assert.notNull(start, "Parameter 'start' cannot be null");
@@ -65,6 +72,7 @@ public class Field implements Comparable<Field>
         this.input = input;
         this.alias = alias;
         this.whitespaceSignificant = whitespace;
+        this.outputAlias = outputAlias;
     }
 
     public void write(ByteBuffer buffer)
@@ -117,6 +125,16 @@ public class Field implements Comparable<Field>
     public boolean isWhitespaceSignificant()
     {
         return whitespaceSignificant;
+    }
+
+    public String getOutputAlias()
+    {
+        return outputAlias;
+    }
+
+    public boolean isOutputAliased()
+    {
+        return this.outputAlias != null;
     }
 
     protected byte[] getBytes(Object value)
@@ -219,7 +237,7 @@ public class Field implements Comparable<Field>
     public String toString()
     {
         return "Field [id=" + id + ", start=" + start + ", length=" + length + ", composite=" + composite + ", input="
-                + input + ", alias=" + alias + ", whitespaceSignificant=" + whitespaceSignificant + "]";
+                + input + ", alias=" + alias + ", whitespaceSignificant=" + whitespaceSignificant + ", outputAlias=" + outputAlias + "]";
     }
 
     public static class StartLengthComparator implements Comparator<Field>

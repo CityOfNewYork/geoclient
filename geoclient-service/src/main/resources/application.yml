@@ -79,8 +79,9 @@ management:
 # ./gradlew -Dgc.jni.version=geoclient-jni-2 bootRun --args='--spring.profiles.active=bootRun'
 #
 spring:
-    profiles:
-        active: bootRun
+    config:
+        activate:
+            on-profile: "bootRun"
     mvc:
         log-request-details: true
 
