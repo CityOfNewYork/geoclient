@@ -1,56 +1,67 @@
-# Builder
-FROM debian:bullseye-slim AS builder
+# syntax=docker/dockerfile:1
 
-ENV GEOSUPPORT_BASEDIR "${GEOSUPPORT_BASEDIR:-/opt/geosupport}"
-ENV GEOSUPPORT_FULLVERSION "${GEOSUPPORT_FULLVERSION:-22a2_22.12}"
+FROM gradle:jdk17 AS builder
 
-WORKDIR "${GEOSUPPORT_BASEDIR}"
+ARG GC_VERSION
+ENV GC_VERSION="${GC_VERSION:-2.0.0-rc.9}"
 
-COPY --from=geosupport-docker:latest-dist "/dist/geosupport-${GEOSUPPORT_FULLVERSION}.tgz" "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
+ARG GEOSUPPORT_FULLVERSION
+ENV GEOSUPPORT_FULLVERSION="${GEOSUPPORT_FULLVERSION:-22c_22.3}"
 
-RUN set -eux \
-  && tar xzvf "${GEOSUPPORT_BASEDIR}/geosupport.tgz" \
-  && "${GEOSUPPORT_BASEDIR}/version-${GEOSUPPORT_FULLVERSION}/bin/geosupport" install \
-  && rm "${GEOSUPPORT_BASEDIR}/geosupport.tgz" \
-  && . "${GEOSUPPORT_BASEDIR}/current/bin/geosupport.env"
+ENV GEOSUPPORT_BASEDIR=/opt/geosupport
 
 RUN set -ex \
   && apt-get update \
-  && apt-get install -y --no-install-recommends \
+  && apt-get install --yes --no-install-recommends \
      gcc \
      g++ \
      libc6-dev \
   && rm -rf /var/lib/apt/lists/*
 
+WORKDIR "${GEOSUPPORT_BASEDIR}"
+
+COPY --from=mlipper/geosupport-docker:2.0.5-dist "/dist/geosupport-${GEOSUPPORT_FULLVERSION}.tgz" "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
+
+RUN set -eux \
+  && tar xzvf "${GEOSUPPORT_BASEDIR}/geosupport.tgz" \
+  && "${GEOSUPPORT_BASEDIR}/version-${GEOSUPPORT_FULLVERSION}/bin/geosupport" install \
+  && rm "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
+
+ENV GEOSUPPORT_HOME="${GEOSUPPORT_BASEDIR}/current"
+ENV GEOFILES="${GEOSUPPORT_BASEDIR}/current/fls/"
+ENV GS_BIN_PATH="${GEOSUPPORT_BASEDIR}/current/bin"
+ENV GS_LIBRARY_PATH="${GEOSUPPORT_BASEDIR}/current/lib"
+ENV GS_INCLUDE_PATH="${GEOSUPPORT_BASEDIR}/current/include"
+
 COPY . /app
 
 WORKDIR /app
 
-ENV GC_VERSION "${GC_VERSION:-2.0.0-rc.9}"
-ENV GC_JNI_VERSION "geoclient-jni-${GC_VERSION}"
-
 RUN set -ex \
-    && /app/gradlew clean build bootJar \
+    && gradle clean build bootJar \
     && cp -v "/app/geoclient-service/build/libs/geoclient-service-${GC_VERSION}.jar" /app/geoclient.jar
 
-# Run
-FROM openjdk:11-jdk-slim-bullseye
+### Run
+FROM eclipse-temurin:17-jdk-jammy AS runner
 
-ENV GEOSUPPORT_BASEDIR "${GEOSUPPORT_BASEDIR:-/opt/geosupport}"
-ENV GEOSUPPORT_FULLVERSION "${GEOSUPPORT_FULLVERSION:-22a2_22.12}"
+ARG GC_VERSION
+ENV GC_VERSION="${GC_VERSION:-2.0.0-rc.9}"
 
-COPY --from=builder /opt/geosupport /opt/geosupport
+ARG GEOSUPPORT_FULLVERSION
+ENV GEOSUPPORT_FULLVERSION="${GEOSUPPORT_FULLVERSION:-22c_22.3}"
 
-RUN set -ex \
-  && "${GEOSUPPORT_BASEDIR}/version-${GEOSUPPORT_FULLVERSION}/bin/geosupport" install \
-  && . "${GEOSUPPORT_BASEDIR}/current/bin/geosupport.env"
+ENV GEOSUPPORT_BASEDIR=/opt/geosupport
+ENV GEOSUPPORT_HOME="${GEOSUPPORT_BASEDIR}/current"
+ENV GEOFILES="${GEOSUPPORT_BASEDIR}/current/fls/"
+
+COPY --from=builder "${GEOSUPPORT_BASEDIR}" "${GEOSUPPORT_BASEDIR}"
+
+RUN "${GEOSUPPORT_HOME}/bin/geosupport" install
 
 WORKDIR /app
 
-COPY --from=builder  /app/geoclient.jar /app/geoclient.jar
+COPY --from=builder /app/geoclient.jar /app/geoclient.jar
 
 EXPOSE 8080:8080
 
-ENV GC_VERSION "${GC_VERSION:-2.0.0-rc.9}"
-
-CMD ["java", "-Dspring.profiles.active=bootRun", "-Dgc.jni.version=geoclient-jni-${GC_VERSION}", "-jar", "/app/geoclient.jar"]
+CMD ["java", "-Dgc.jni.version=geoclient-jni-${GC_VERSION}", "-jar", "/app/geoclient.jar"]
