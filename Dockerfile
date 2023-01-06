@@ -5,10 +5,8 @@ FROM gradle:jdk17 AS builder
 ARG GC_VERSION
 ENV GC_VERSION="${GC_VERSION:-2.0.0-rc.9}"
 
-ARG GEOSUPPORT_FULLVERSION
-ENV GEOSUPPORT_FULLVERSION="${GEOSUPPORT_FULLVERSION:-22c_22.3}"
-
-ENV GEOSUPPORT_BASEDIR=/opt/geosupport
+ARG GEOSUPPORT_BASEDIR
+ENV GEOSUPPORT_BASEDIR="${GEOSUPPORT_BASEDIR:-/opt/geosupport}"
 
 RUN set -ex \
   && apt-get update \
@@ -18,14 +16,18 @@ RUN set -ex \
      libc6-dev \
   && rm -rf /var/lib/apt/lists/*
 
-WORKDIR "${GEOSUPPORT_BASEDIR}"
+#WORKDIR "${GEOSUPPORT_BASEDIR}"
 
-COPY --from=mlipper/geosupport-docker:2.0.5-dist "/dist/geosupport-${GEOSUPPORT_FULLVERSION}.tgz" "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
+COPY --from=mlipper/geosupport-docker:2.0.6-dist "/dist/geosupport.tgz" "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
 
 RUN set -eux \
-  && tar xzvf "${GEOSUPPORT_BASEDIR}/geosupport.tgz" \
-  && "${GEOSUPPORT_BASEDIR}/version-${GEOSUPPORT_FULLVERSION}/bin/geosupport" install \
+  && tar xzvf "${GEOSUPPORT_BASEDIR}/geosupport.tgz" -C "${GEOSUPPORT_BASEDIR}" \
   && rm "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
+
+RUN set -eux \
+  && SCRIPT=$(find ${GEOSUPPORT_BASEDIR}/version-*/bin/geosupport) \
+  && [ -f "${SCRIPT}" ] || exit 1 \
+  && /bin/bash -c set -eux && "${SCRIPT}" install
 
 ENV GEOSUPPORT_HOME="${GEOSUPPORT_BASEDIR}/current"
 ENV GEOFILES="${GEOSUPPORT_BASEDIR}/current/fls/"
@@ -47,21 +49,24 @@ FROM eclipse-temurin:17-jdk-jammy AS runner
 ARG GC_VERSION
 ENV GC_VERSION="${GC_VERSION:-2.0.0-rc.9}"
 
-ARG GEOSUPPORT_FULLVERSION
-ENV GEOSUPPORT_FULLVERSION="${GEOSUPPORT_FULLVERSION:-22c_22.3}"
-
-ENV GEOSUPPORT_BASEDIR=/opt/geosupport
-ENV GEOSUPPORT_HOME="${GEOSUPPORT_BASEDIR}/current"
-ENV GEOFILES="${GEOSUPPORT_BASEDIR}/current/fls/"
+ARG GEOSUPPORT_BASEDIR
+ENV GEOSUPPORT_BASEDIR="${GEOSUPPORT_BASEDIR:-/opt/geosupport}"
 
 COPY --from=builder "${GEOSUPPORT_BASEDIR}" "${GEOSUPPORT_BASEDIR}"
 
-RUN "${GEOSUPPORT_HOME}/bin/geosupport" install
+ENV GEOSUPPORT_HOME="${GEOSUPPORT_BASEDIR}/current"
+ENV GEOFILES="${GEOSUPPORT_BASEDIR}/current/fls/"
+
+RUN set -eux \
+  && "${GEOSUPPORT_HOME}/bin/geosupport" install
 
 WORKDIR /app
 
 COPY --from=builder /app/geoclient.jar /app/geoclient.jar
 
+# TODO implement an optimization strategy from https://spring.io/guides/topicals/spring-boot-docker
+# TODO use only '8080' and document use of '-p 8080' with docker run
 EXPOSE 8080:8080
 
+# TODO fix GC_VERSION not expanded by using script to 'exec java ...'
 CMD ["java", "-Dgc.jni.version=geoclient-jni-${GC_VERSION}", "-jar", "/app/geoclient.jar"]
