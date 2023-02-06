@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM gradle:jdk17 AS builder
+FROM gradle:jdk17 AS build
 
 ARG GC_VERSION
 ENV GC_VERSION="${GC_VERSION:-2.0.0-rc.9}"
@@ -15,8 +15,6 @@ RUN set -ex \
      g++ \
      libc6-dev \
   && rm -rf /var/lib/apt/lists/*
-
-#WORKDIR "${GEOSUPPORT_BASEDIR}"
 
 COPY --from=mlipper/geosupport-docker:2.0.6-dist "/dist/geosupport.tgz" "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
 
@@ -35,24 +33,32 @@ ENV GS_BIN_PATH="${GEOSUPPORT_BASEDIR}/current/bin"
 ENV GS_LIBRARY_PATH="${GEOSUPPORT_BASEDIR}/current/lib"
 ENV GS_INCLUDE_PATH="${GEOSUPPORT_BASEDIR}/current/include"
 
-COPY . /app
+WORKDIR /workspace/app
 
-WORKDIR /app
+COPY . /workspace/app
 
-RUN set -ex \
-    && gradle clean build bootJar \
-    && cp -v "/app/geoclient-service/build/libs/geoclient-service-${GC_VERSION}.jar" /app/geoclient.jar
+RUN --mount=type=cache,target=/root/.gradle ./gradlew clean build bootJar
+
+RUN set -eux \
+    && mkdir -p build/dependency \
+    && JARFILE=$(find /workspace/app/geoclient-service/build/libs/geoclient-service-${GC_VERSION}.jar) \
+    && [ -f "${JARFILE}" ] || exit 1 \
+    && (cd build/dependency; jar -xf ${JARFILE})
+
+RUN [ -d ./BOOT-INF/lib ] || exit 1
+RUN [ -d ./META-INF ] || exit 1
+RUN [ -d ./BOOT-INF/classes ] || exit 1
 
 ### Run
 FROM eclipse-temurin:17-jdk-jammy AS runner
 
 ARG GC_VERSION
-ENV GC_VERSION="${GC_VERSION:-2.0.0-rc.9}"
+ENV GC_VERSION="${GC_VERSION:-2.0.0}"
 
 ARG GEOSUPPORT_BASEDIR
 ENV GEOSUPPORT_BASEDIR="${GEOSUPPORT_BASEDIR:-/opt/geosupport}"
 
-COPY --from=builder "${GEOSUPPORT_BASEDIR}" "${GEOSUPPORT_BASEDIR}"
+COPY --from=build "${GEOSUPPORT_BASEDIR}" "${GEOSUPPORT_BASEDIR}"
 
 ENV GEOSUPPORT_HOME="${GEOSUPPORT_BASEDIR}/current"
 ENV GEOFILES="${GEOSUPPORT_BASEDIR}/current/fls/"
@@ -60,13 +66,12 @@ ENV GEOFILES="${GEOSUPPORT_BASEDIR}/current/fls/"
 RUN set -eux \
   && "${GEOSUPPORT_HOME}/bin/geosupport" install
 
-WORKDIR /app
+VOLUME /tmp
 
-COPY --from=builder /app/geoclient.jar /app/geoclient.jar
+ARG DEPENDENCY=/workspace/app/build/dependency
 
-# TODO implement an optimization strategy from https://spring.io/guides/topicals/spring-boot-docker
-# TODO use only '8080' and document use of '-p 8080' with docker run
-EXPOSE 8080:8080
+COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
+COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
-# TODO fix GC_VERSION not expanded by using script to 'exec java ...'
-CMD ["java", "-Dgc.jni.version=geoclient-jni-${GC_VERSION}", "-jar", "/app/geoclient.jar"]
+ENTRYPOINT ["java","-Dgc.jni.version=geoclient-jni-${GC_VERSION}","-cp","app:app/lib/*","gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication"]
