@@ -27,7 +27,7 @@ class GeosupportExtension extends AbstractExtension {
 
     static final boolean isWindows = Os.isFamily(Os.FAMILY_WINDOWS)
 
-    static final String DEFAULT_GS_LINUX_HOME = "/opt/geosupport";
+    static final String DEFAULT_GS_LINUX_HOME = "/opt/geosupport/current";
     static final String DEFAULT_GS_WINDOWS_HOME = "c:/lib/geosupport/current";
     static final String DEFAULT_GS_HOME = isWindows ? DEFAULT_GS_WINDOWS_HOME : DEFAULT_GS_LINUX_HOME;
     static final String DEFAULT_GS_GEOFILES = DEFAULT_GS_HOME + "/fls/"; // Trailing slash required!
