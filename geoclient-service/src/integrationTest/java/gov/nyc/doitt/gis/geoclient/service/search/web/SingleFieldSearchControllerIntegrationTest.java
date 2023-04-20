@@ -43,6 +43,7 @@ public class SingleFieldSearchControllerIntegrationTest extends WebContainerInte
 
     private final Logger logger = LoggerFactory.getLogger(SingleFieldSearchController.class);
 
+    @SuppressWarnings("null")
     @Test
     public void testSearch() {
         UriComponents uriComponents = UriComponentsBuilder.fromPath("/search.json").queryParam("input", "120 broadway")

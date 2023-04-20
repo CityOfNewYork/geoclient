@@ -29,6 +29,7 @@ public class SpecBuilder
     private final XStream xStream;
     private final UnparsedSpecs unparsedTokenSpecs;
 
+    @SuppressWarnings("null")
     public SpecBuilder()
     {
         xStream = new XStream(new DomDriver());
