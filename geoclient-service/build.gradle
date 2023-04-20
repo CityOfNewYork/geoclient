@@ -25,7 +25,7 @@ dependencies {
 
 tasks.register('writeVersionProperties', WriteProperties) {
     properties(['jni.version': project.version, 'core.version': project.version, 'parser.version': project.version, 'service.version': project.version])
-    outputFile new File(sourceSets.main.output.resourcesDir, 'version.properties')
+    destinationFile = file(new File(sourceSets.main.output.resourcesDir, 'version.properties'))
 }
 
 tasks.register('copyRuntimeDiagram', Copy) {
