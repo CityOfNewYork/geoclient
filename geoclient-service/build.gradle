@@ -1,6 +1,6 @@
 plugins {
     id 'war' // Required when building an executable war file
-    id 'org.springframework.boot' version '2.7.5'
+    id 'org.springframework.boot' version '2.7.11' // Must be in sync with buildSrc/src/main/groovy/geoclient.java-library.conventions.gradle
     id 'geoclient.java-conventions'
     id 'geoclient.test-conventions'
 }
@@ -20,7 +20,7 @@ dependencies {
     implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}")
     //implementation('joda-time:joda-time')
     testImplementation('org.apache.httpcomponents:httpclient') // formerly 4.5.10
-    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat:2.7.5')
+    providedRuntime('org.springframework.boot:spring-boot-starter-tomcat:2.7.11')
 }
 
 tasks.register('writeVersionProperties', WriteProperties) {
