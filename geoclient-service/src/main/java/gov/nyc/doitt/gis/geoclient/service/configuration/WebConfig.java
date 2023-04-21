@@ -15,14 +15,15 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.configuration;
 
-//import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.thoughtworks.xstream.converters.ConverterMatcher;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,22 +49,32 @@ import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResultConve
 import gov.nyc.doitt.gis.geoclient.service.web.ViewHelper;
 import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
 
-// See https://www.baeldung.com/spring-mvc-content-negotiation-json-xml
-
-// Spring Boot configures common Spring MVC defaults described in the
-// reference docs section "Spring MVC Auto-configuration". This happens
-// when a class has the @Configuration annotation and implements
-// WebMvcConfigurer.
-// To prevent Boot from configuring any defaults, add @EnableWebMvc.
-// NOTE: A Spring MVC application can only have one class with this annotation.
-// @EnableWebMvc
-//
-// Configuration of the ResourceHandlerRegistry and
+/**
+ * Customizes the default web configuration by implementing the Spring
+ * {@link WebMvcConfigurer} interface.
+ *
+ * Some of the configuration is done to support legacy Spring MVC
+ * content negotiation which is not generally a good idea.
+ *
+ * Once Geoclient doesn't have to support legacy functionality like
+ * controller dispatch based on file type extensions, the legacy stuff
+ * should be removed.
+ *
+ * NOTE: Spring Boot configures common Spring MVC defaults described in the
+ * reference docs section "Spring MVC Auto-configuration". This happens
+ * when a class has the @Configuration annotation and implements
+ * WebMvcConfigurer.
+ *
+ * See https://www.baeldung.com/spring-mvc-content-negotiation-json-xml
+*/
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    /*
-     * TODO Fixme! I am insecure.
+    private static final Logger LOGGER = org.slf4j.LoggerFactory.getLogger(WebConfig.class);
+
+    /**
+     * Implements part of the legacy content negotiation/path matching
+     * strategy that will eventually be deprecated since it is insecure.
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -75,17 +86,9 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addConverter(searchResultConverter());
     }
 
-    //@Override
-    //public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    //    // Default strategy configured by Spring Boot is SimpleUrlHandlerMapping?:
-    //    //   ResourceHttpRequestHandler
-    //    //    [classpath [META-INF/resources/], classpath [resources/], classpath [static/], classpath [public/], ServletContext [/]]
-    //    registry.addResourceHandler("/resources/**")
-    //            .addResourceLocations("classpath:/static/")
-    //            .setCacheControl(CacheControl.maxAge(Duration.ofDays(365)));
-    //}
-
-    /*
+    /**
+     * Implements part of the legacy content negotiation/path matching
+     * strategy that will eventually be deprecated since it is insecure.
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureContentNegotiation(org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer)
      */
     @Override
@@ -110,7 +113,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     /**
-     * Added JSON and XML message converters
+     * Adds JSON and XML message converters.
      */
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -167,9 +170,37 @@ public class WebConfig implements WebMvcConfigurer {
         return new MarshallingHttpMessageConverter(marshaller());
     }
 
+    /**
+     * Tomcat 8.5 before 8.5.44 and 9 before 9.0.23 do not have a certain API
+     * that Spring assumes is there and so removing the
+     * "tomcatWebServerFactoryCustomizer" is necessary to prevent a
+     * NoSuchMethodError.
+     *
+     * However, since this bean isn't actually used when deploying a war file
+     * to a container so it's safe to remove.
+     *
+     * Following an upgrade from spring-boot 2.7.5 to 2.7.11, this method
+     * caused a NoSuchBeanDefinitionException in mock test
+     * SingleFieldSearchControllerTest because this bean isn't there to begin
+     * with.
+     *
+     * Adding a try/catch and ignoring the exception fixes the issue. Once
+     * the affected versions of Tomcat are no longer in use, this method can
+     * be removed.
+     *
+     * See https://github.com/spring-projects/spring-boot/issues/19308
+     */
     @Bean
     public static BeanFactoryPostProcessor removeTomcatWebServerCustomizer() {
-        return (beanFactory) ->
-            ((DefaultListableBeanFactory)beanFactory).removeBeanDefinition("tomcatWebServerFactoryCustomizer");
+        return new BeanFactoryPostProcessor() {
+            public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+                if (((DefaultListableBeanFactory)beanFactory).containsBeanDefinition("tomcatWebServerFactoryCustomizer")) {
+                    ((DefaultListableBeanFactory)beanFactory).removeBeanDefinition("tomcatWebServerFactoryCustomizer");
+                    LOGGER.info("Removed bean \"tomcatWebServerFactoryCustomizer\".");
+                } else {
+                    LOGGER.info("Bean \"tomcatWebServerFactoryCustomizer not found\": assuming recent version(s) of Tomcat/Spring Boot.");
+                }
+            }
+        };
     }
 }

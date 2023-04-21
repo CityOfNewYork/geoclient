@@ -33,7 +33,7 @@ ext {
 
     // Dependency version used by multiple subprojects. Should move to
     // a Gradle platform definition eventually.
-    xstreamVersion = '1.4.19'
+    xstreamVersion = '1.4.20'
 }
 
 repositories {
@@ -42,7 +42,7 @@ repositories {
 
 dependencies {
     // TODO switch back to new Gradle BOM support when spring-boot gradle-plugin can work correctly
-    implementation platform('org.springframework.boot:spring-boot-dependencies:2.7.5') // Must be in sync with geoclient-service/build.gradle
+    implementation platform('org.springframework.boot:spring-boot-dependencies:2.7.11') // Must be in sync with geoclient-service/build.gradle
     implementation 'org.springframework.boot:spring-boot-starter-logging'
     testImplementation ('org.springframework.boot:spring-boot-starter-test')
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
