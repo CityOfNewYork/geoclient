@@ -3,7 +3,10 @@ plugins {
     id 'gov.nyc.doitt.gis.geoclient.gradle.integration-test'
 }
 
+String GEOFILES_PATH = '/opt/geosupport/current/fls/'
+
 integrationTest {
+    environment('GEOFILES', GEOFILES_PATH)
     useJUnitPlatform()
     testLogging {
         // options for log level LIFECYCLE
@@ -25,6 +28,7 @@ integrationTest {
 }
 
 test {
+    environment('GEOFILES', GEOFILES_PATH)
     useJUnitPlatform()
     testLogging {
         displayGranularity = 2
