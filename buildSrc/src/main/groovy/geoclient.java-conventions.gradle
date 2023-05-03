@@ -33,7 +33,7 @@ ext {
 
     // Dependency version used by multiple subprojects. Should move to
     // a Gradle platform definition eventually.
-    xstreamVersion = '1.4.19'
+    xstreamVersion = '1.4.20'
 }
 
 repositories {
