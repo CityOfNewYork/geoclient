@@ -33,7 +33,7 @@
 		}
 	},
 	"mounts": [
-		"source=geosupport,target=/opt/geosupport,type=volume"
+		"source=geosupport-23b_23.2,target=/opt/geosupport,type=volume"
 	],
 	"onCreateCommand": "apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get -y install --no-install-recommends gcc g++ libc6-dev ;",
 	"postCreateCommand": "/opt/geosupport/current/bin/geosupport install",
