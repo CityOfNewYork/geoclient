@@ -3,7 +3,7 @@
 FROM gradle:jdk17 AS builder
 
 ARG GC_VERSION
-ENV GC_VERSION="${GC_VERSION:-2.0.0-rc.9}"
+ENV GC_VERSION="${GC_VERSION:-2.0.1-alpha}"
 
 ARG GEOSUPPORT_BASEDIR
 ENV GEOSUPPORT_BASEDIR="${GEOSUPPORT_BASEDIR:-/opt/geosupport}"
@@ -18,7 +18,7 @@ RUN set -ex \
 
 #WORKDIR "${GEOSUPPORT_BASEDIR}"
 
-COPY --from=mlipper/geosupport-docker:2.0.6-dist "/dist/geosupport.tgz" "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
+COPY --from=mlipper/geosupport-docker:2.0.9-dist "/dist/geosupport.tgz" "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
 
 RUN set -eux \
   && tar xzvf "${GEOSUPPORT_BASEDIR}/geosupport.tgz" -C "${GEOSUPPORT_BASEDIR}" \
@@ -47,7 +47,7 @@ RUN set -ex \
 FROM eclipse-temurin:17-jdk-jammy AS runner
 
 ARG GC_VERSION
-ENV GC_VERSION="${GC_VERSION:-2.0.0-rc.9}"
+ENV GC_VERSION="${GC_VERSION:-2.0.1-alpha}"
 
 ARG GEOSUPPORT_BASEDIR
 ENV GEOSUPPORT_BASEDIR="${GEOSUPPORT_BASEDIR:-/opt/geosupport}"
