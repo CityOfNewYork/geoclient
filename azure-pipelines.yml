@@ -4,6 +4,7 @@
 
 trigger:
 - ci
+- pipeline
 
 resources:
 - repo: self
