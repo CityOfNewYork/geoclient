@@ -30,6 +30,7 @@ stages:
           $(tag)
     - task: PublishTestResults@2
       inputs:
+        mergeTestResults: true
         testRunner: JUnit
         testResultsFiles: '**/TEST-*.xml'
         failTaskOnFailedTests: true
