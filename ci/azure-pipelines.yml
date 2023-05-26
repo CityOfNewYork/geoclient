@@ -25,7 +25,6 @@ stages:
       displayName: Build an image
       inputs:
         command: build
-        arguments: --target builder
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile.build'
         tags: |
           $(tag)
