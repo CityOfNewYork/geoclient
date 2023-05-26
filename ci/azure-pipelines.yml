@@ -26,7 +26,7 @@ stages:
       inputs:
         command: build
         arguments: --target builder
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile.build'
         tags: |
           $(tag)
     - task: PublishTestResults@2
