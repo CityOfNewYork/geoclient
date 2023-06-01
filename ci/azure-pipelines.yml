@@ -9,6 +9,7 @@ resources:
 - repo: self
 
 variables:
+  srcdir: '$(Build.SourcesDirectory)'
   tag: '$(Build.BuildId)'
   group: geosupport-environment
 
@@ -21,16 +22,16 @@ stages:
     pool:
       vmImage: ubuntu-latest
     steps:
-    - task: Docker@2
-      displayName: Build an image
-      inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile.build'
-        tags: |
-          $(tag)
-    - task: PublishTestResults@2
-      inputs:
-        mergeTestResults: true
-        testRunner: JUnit
-        testResultsFiles: '**/TEST-*.xml'
-        failTaskOnFailedTests: true
+      - script: |
+          docker build -f Dockerfile.build -t mlipper/geoclient:$(tag) .
+          docker run --name geoclient --rm -d mlipper/geoclient:$(tag)
+          docker cp geoclient:app/test-results $(System.DefaultWorkingDirectory)
+          docker cp geoclient:app/geoclient.jar $(System.DefaultWorkingDirectory)
+          docker stop geoclient
+
+      - task: PublishTestResults@2
+        inputs:
+          mergeTestResults: true
+          testRunner: JUnit
+          testResultsFiles: '**/TEST-*.xml'
+          failTaskOnFailedTests: true
