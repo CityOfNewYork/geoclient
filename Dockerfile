@@ -16,8 +16,6 @@ RUN set -ex \
      libc6-dev \
   && rm -rf /var/lib/apt/lists/*
 
-#WORKDIR "${GEOSUPPORT_BASEDIR}"
-
 COPY --from=mlipper/geosupport-docker:2.0.9-dist "/dist/geosupport.tgz" "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
 
 RUN set -eux \
