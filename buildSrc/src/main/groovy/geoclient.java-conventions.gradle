@@ -42,18 +42,20 @@ repositories {
 
 dependencies {
     // TODO switch back to new Gradle BOM support when spring-boot gradle-plugin can work correctly
-    implementation platform('org.springframework.boot:spring-boot-dependencies:2.7.11') // Must be in sync with geoclient-service/build.gradle
+    implementation platform('org.springframework.boot:spring-boot-dependencies:2.7.12') // Must be in sync with geoclient-service/build.gradle
     implementation 'org.springframework.boot:spring-boot-starter-logging'
-    testImplementation ('org.springframework.boot:spring-boot-starter-test')
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter-api'
     testImplementation 'org.junit.jupiter:junit-jupiter-params'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 }
 
-// Java build configuration
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+//    sourceCompatibility = JavaVersion.VERSION_1_8
+//    targetCompatibility = JavaVersion.VERSION_1_8
 //    withJavadocJar()
     withSourcesJar()
 }
