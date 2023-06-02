@@ -1,6 +1,9 @@
 # syntax=docker/dockerfile:1
 FROM gradle:jdk17 AS builder
 
+ARG GC_VERSION
+ENV GC_VERSION="${GC_VERSION:-2.0.1-SNAPSHOT}"
+
 ENV GEOSUPPORT_BASEDIR=/opt/geosupport
 
 RUN set -ex \
@@ -37,7 +40,7 @@ RUN set -ex \
     && gradle bootJar build
 
 RUN set -eux \
-  && JAR=$(find /app/geoclient-service/build/libs/geoclient-service-2.0.1-alpha.jar) \
+  && JAR="/app/geoclient-service/build/libs/geoclient-service-${GC_VERSION}.jar" \
   && [ -f "${JAR}" ] || exit 1 \
   && /bin/bash -c set -eux && cp -v "${JAR}" /app/geoclient.jar
 

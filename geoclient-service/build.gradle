@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.7.11' // Must be in sync with buildSrc/src/main/groovy/geoclient.java-library.conventions.gradle
+    id 'org.springframework.boot' version '2.7.12' // Must be in sync with buildSrc/src/main/groovy/geoclient.java-library.conventions.gradle
     id 'geoclient.java-conventions'
     id 'geoclient.test-conventions'
 }
@@ -16,7 +16,6 @@ dependencies {
     implementation('org.springframework:spring-oxm') { exclude(module: 'commons-lang') }
     implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}")
     testImplementation('org.apache.httpcomponents:httpclient')
-    //providedRuntime('org.springframework.boot:spring-boot-starter-tomcat:2.7.11') // Must be in sync with buildSrc/src/main/groovy/geoclient.java-library.conventions.gradle
 }
 
 tasks.register('writeVersionProperties', WriteProperties) {
@@ -41,7 +40,6 @@ springBoot {
 }
 
 tasks.named('bootJar') {
-    archiveClassifier = "boot"
     requiresUnpack "**/geoclient-jni-*.jar"
     manifest {
         from project.sharedManifest
