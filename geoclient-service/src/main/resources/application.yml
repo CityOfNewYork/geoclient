@@ -1,25 +1,14 @@
 spring:
     mvc:
-        # The following is currently done in WebConfig.java:
-        #contentnegotiation:
-        #    favor-path-extension: true
-        #    favor-parameter: false
-        #    ignore-accept-header: true
-        #    use-jaf: false
         pathmatch:
             use-suffix-pattern: true
             matching-strategy: ant-path-matcher
-#           use-registered-suffix-pattern: false
     thymeleaf:
         enable-spring-el-compiler: true
 
 server:
     servlet:
         context-path: "/geoclient/v2"
-        # As of spring-boot v2.4, DefaultServlet not registered by default. See:
-        # https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.4-Release-Notes#default-servlet-registration
-        # TODO: Investigate why this is required for geoclient-service
-        #register-default-servlet: true
 
 logging:
     group:
@@ -53,12 +42,6 @@ logging:
 
     level:
         root: "WARN"
-        #spring-all: "INFO"
-        #spring-boot: "INFO"
-        #spring-web: "INFO"
-        #thymeleaf: "INFO"
-        #thymeleaf-trace: "TRACE"
-        #tomcat: "INFO"
         geoclient-all: "INFO"
         ## Log native C runtime and JNI configuration at startup
         #geoclient-jni: "DEBUG"
@@ -76,6 +59,20 @@ management:
 #
 # Command line for using this profile with the gradle bootRun task:
 #
+# ./gradlew -Dgc.jni.version=geoclient-jni-2 bootRun --args='--spring.profiles.active=quiet'
+#
+spring:
+    config:
+        activate:
+            on-profile: "quiet"
+
+logging:
+    level:
+        geoclient-all: "ERROR"
+---
+#
+# Command line for using this profile with the gradle bootRun task:
+#
 # ./gradlew -Dgc.jni.version=geoclient-jni-2 bootRun --args='--spring.profiles.active=bootRun'
 #
 spring:
@@ -89,10 +86,7 @@ server:
     tomcat:
       basedir: "build/bootrun"
       accesslog:
-          directory: logs
           enabled: true
-          pattern: "%t %a \"%r\" %s (%D ms)"
-          prefix: access_
 
 logging:
     level:
