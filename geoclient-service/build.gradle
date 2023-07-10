@@ -35,7 +35,6 @@ processResources {
 }
 
 springBoot {
-    buildInfo()
     mainClass = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
 }
 

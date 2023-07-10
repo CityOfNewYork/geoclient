@@ -3,7 +3,9 @@ plugins {
     id 'gov.nyc.doitt.gis.geoclient.gradle.integration-test'
 }
 
-String GEOFILES_PATH = '/opt/geosupport/current/fls/'
+ext {
+    GEOFILES_PATH = '/opt/geosupport/current/fls/'
+}
 
 integrationTest {
     environment('GEOFILES', GEOFILES_PATH)
