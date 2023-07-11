@@ -54,8 +54,6 @@ java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
-//    sourceCompatibility = JavaVersion.VERSION_1_8
-//    targetCompatibility = JavaVersion.VERSION_1_8
 //    withJavadocJar()
     withSourcesJar()
 }
@@ -68,7 +66,6 @@ tasks.named('sourcesJar') {
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
-    //options.compilerArgs = ["-Werror", "-Xlint:unchecked", "-Xlint:deprecation", "-Xlint:rawtypes", "-Xlint:varargs"]
 }
 
 normalization {
@@ -84,14 +81,6 @@ javadoc {
     options.author = true
     options.encoding = 'UTF-8'
     options.header = project.name
-    // TODO debug slowness when uncommented: network, parse, etc...
-    //options.links = [
-    //    'https://docs.oracle.com/javase/8/docs/api/',
-    //    'https://fasterxml.github.io/jackson-core/javadoc/2.10/',
-    //    'https://fasterxml.github.io/jackson-databind/javadoc/2.10/',
-    //    'https://fasterxml.github.io/jackson-dataformat-xml/javadoc/2.10/',
-    //    'https://junit.org/junit5/docs/5.5.2/api/'
-    //] as String[]
     options.memberLevel = JavadocMemberLevel.PROTECTED
     options.noTimestamp = true
     options.use = true
