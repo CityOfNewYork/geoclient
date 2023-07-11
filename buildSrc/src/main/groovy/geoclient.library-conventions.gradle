@@ -4,8 +4,6 @@ plugins {
     id 'geoclient.java-conventions'
 }
 
-//group = 'com.example'
-
 publishing {
     publications {
         library(MavenPublication) {
