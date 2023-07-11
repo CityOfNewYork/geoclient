@@ -18,8 +18,6 @@ package gov.nyc.doitt.gis.geoclient.service.web;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +38,8 @@ import gov.nyc.doitt.gis.geoclient.service.domain.BadRequest;
 import gov.nyc.doitt.gis.geoclient.service.domain.ServiceType;
 import gov.nyc.doitt.gis.geoclient.service.domain.Version;
 import gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * Handles RESTful requests for Geosupport data.

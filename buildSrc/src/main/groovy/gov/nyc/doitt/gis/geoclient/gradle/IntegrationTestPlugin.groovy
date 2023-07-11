@@ -6,9 +6,9 @@ import org.gradle.api.logging.Logging
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPlugin
-import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.plugins.PluginManager
 import org.gradle.api.tasks.SourceSet
+import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.testing.Test
 
 // Based on com.bmuschko.gradle.docker.IntegrationTestPlugin
@@ -58,7 +58,7 @@ class IntegrationTestPlugin<Project> implements Plugin<Project> {
         logger.info("{}.hasPlugin(JavaPlugin) == {}", project.name, project.getPlugins().hasPlugin(JavaPlugin))
         logger.info("--------------------------------------------")
         if(project.getPlugins().hasPlugin(JavaPlugin)) {
-            def sourceSets = project.convention.getPlugin(JavaPluginConvention).getSourceSets()
+            def sourceSets = project.extensions.getByType(SourceSetContainer)
             def testRuntimeClasspath = project.configurations.testRuntimeClasspath
             def compileClasspath = project.configurations.compileClasspath
             def integrationTestSourceSet = sourceSets.create(SOURCE_SET_NAME, new Action<SourceSet>(){

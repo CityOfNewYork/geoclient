@@ -38,7 +38,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import gov.nyc.doitt.gis.geoclient.service.search.Fixtures;
+import gov.nyc.doitt.gis.geoclient.parser.Input;
+import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
+import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 import gov.nyc.doitt.gis.geoclient.service.search.SingleFieldSearchHandler;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
@@ -50,7 +52,7 @@ import gov.nyc.doitt.gis.geoclient.service.search.web.response.Status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class SingleFieldSearchControllerTest
+public class SingleFieldSearchControllerMvcIntegrationTest
 {
     @Autowired
     private MockMvc mockMvc;
@@ -61,13 +63,15 @@ public class SingleFieldSearchControllerTest
     @Mock
     private SingleFieldSearchHandler searchHandlerMock;
 
-    private Fixtures fix;
+    private LocationTokens fix;
 
     @BeforeEach
     public void setUp() throws Exception
     {
         MockitoAnnotations.openMocks(this);
-        this.fix = new Fixtures();
+        Input input = new Input("1-junit-test","59 Maiden Lane, Manhattan");
+        List<Chunk> chunks = new ArrayList<>();
+        this.fix = new LocationTokens(input, chunks);
     }
 
     @Test
@@ -76,7 +80,7 @@ public class SingleFieldSearchControllerTest
         final String input = "59 Maiden Ln";
         final SearchParameters expectedParams = new SearchParameters(input);
         final SearchPolicy expectedSearchPolicy = expectedParams.buildSearchPolicy();
-        final SearchResult expectedSearchResult = new SearchResult(expectedSearchPolicy, fix.locationTokens);
+        final SearchResult expectedSearchResult = new SearchResult(expectedSearchPolicy, fix);
         final SearchResponse expectedJsonResponse = new SearchResponse();
         expectedJsonResponse.setId(expectedSearchResult.getId());
         expectedJsonResponse.setStatus(Status.OK);
@@ -105,7 +109,7 @@ public class SingleFieldSearchControllerTest
         final String input = "59 Maiden Ln";
         final SearchParameters expectedParams = new SearchParameters(input);
         final SearchPolicy expectedSearchPolicy = expectedParams.buildSearchPolicy();
-        final SearchResult expectedSearchResult = new SearchResult(expectedSearchPolicy, fix.locationTokens);
+        final SearchResult expectedSearchResult = new SearchResult(expectedSearchPolicy, fix);
         final SearchSummary searchSummary = new SearchSummary();
         searchSummary.setLevel("1");
         searchSummary.setStatus(MatchStatus.POSSIBLE_MATCH);

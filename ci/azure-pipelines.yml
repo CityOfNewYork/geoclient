@@ -1,0 +1,37 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- pipeline
+
+resources:
+- repo: self
+
+variables:
+  srcdir: '$(Build.SourcesDirectory)'
+  tag: '$(Build.BuildId)'
+  group: geosupport-environment
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - script: |
+          docker build -f Dockerfile.build -t mlipper/geoclient:$(tag) .
+          docker run --name geoclient --rm -d mlipper/geoclient:$(tag)
+          docker cp geoclient:app/test-results $(System.DefaultWorkingDirectory)
+          docker cp geoclient:app/geoclient.jar $(System.DefaultWorkingDirectory)
+          docker stop geoclient
+
+      - task: PublishTestResults@2
+        inputs:
+          mergeTestResults: true
+          testRunner: JUnit
+          testResultsFiles: '**/TEST-*.xml'
+          failTaskOnFailedTests: true

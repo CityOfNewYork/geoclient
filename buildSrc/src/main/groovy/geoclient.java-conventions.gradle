@@ -33,7 +33,7 @@ ext {
 
     // Dependency version used by multiple subprojects. Should move to
     // a Gradle platform definition eventually.
-    xstreamVersion = '1.4.19'
+    xstreamVersion = '1.4.20'
 }
 
 repositories {
@@ -41,19 +41,17 @@ repositories {
 }
 
 dependencies {
-    // TODO switch back to new Gradle BOM support when spring-boot gradle-plugin can work correctly
-    implementation platform('org.springframework.boot:spring-boot-dependencies:2.7.5') // Must be in sync with geoclient-service/build.gradle
+    implementation platform('org.springframework.boot:spring-boot-dependencies:3.1.1') // Must be in sync with geoclient-service/build.gradle
     implementation 'org.springframework.boot:spring-boot-starter-logging'
-    testImplementation ('org.springframework.boot:spring-boot-starter-test')
-    testImplementation 'org.junit.jupiter:junit-jupiter-api'
-    testImplementation 'org.junit.jupiter:junit-jupiter-params'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
-// Java build configuration
 java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 //    withJavadocJar()
     withSourcesJar()
 }
@@ -66,7 +64,6 @@ tasks.named('sourcesJar') {
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
-    //options.compilerArgs = ["-Werror", "-Xlint:unchecked", "-Xlint:deprecation", "-Xlint:rawtypes", "-Xlint:varargs"]
 }
 
 normalization {
@@ -82,14 +79,6 @@ javadoc {
     options.author = true
     options.encoding = 'UTF-8'
     options.header = project.name
-    // TODO debug slowness when uncommented: network, parse, etc...
-    //options.links = [
-    //    'https://docs.oracle.com/javase/8/docs/api/',
-    //    'https://fasterxml.github.io/jackson-core/javadoc/2.10/',
-    //    'https://fasterxml.github.io/jackson-databind/javadoc/2.10/',
-    //    'https://fasterxml.github.io/jackson-dataformat-xml/javadoc/2.10/',
-    //    'https://junit.org/junit5/docs/5.5.2/api/'
-    //] as String[]
     options.memberLevel = JavadocMemberLevel.PROTECTED
     options.noTimestamp = true
     options.use = true
@@ -117,4 +106,20 @@ spotless {
         licenseHeaderFile rootProject.file('src/spotless/apache-license-2.0.java')
     }
     groovyGradle {}
+}
+
+task printSourceSets(){
+
+    doLast{
+        sourceSets.each { srcSet ->
+            println "["+srcSet.name+"]"
+            print "-->Source directories: "+srcSet.allJava.srcDirs+"\n"
+            print "-->Output directories: "+srcSet.output.classesDirs.files+"\n"
+            print "-->Compile classpath:\n"
+            srcSet.compileClasspath.files.each {
+                print "  "+it.path+"\n"
+            }
+            println ""
+        }
+    }
 }

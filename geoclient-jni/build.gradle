@@ -23,6 +23,17 @@ spotless.java {
 // created dynamically by SharedLibraryBinarySpec
 task syncJniLib(type: Sync)
 
+tasks.register('showSourceSets') {
+    doLast {
+        plugins.pluginManager.withPlugin('c') { p ->
+            logger.lifecycle("Plugin: ${p.class.name}.")
+        }
+        //configurations.all { conf ->
+        //    logger.lifecycle("Found ${conf.name}.")
+        //}
+    }
+}
+
 // High-level build definitions
 model {
 

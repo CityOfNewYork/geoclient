@@ -3,11 +3,16 @@ plugins {
     id 'gov.nyc.doitt.gis.geoclient.gradle.integration-test'
 }
 
+ext {
+    GEOFILES_PATH = '/opt/geosupport/current/fls/'
+}
+
 integrationTest {
+    environment('GEOFILES', GEOFILES_PATH)
     useJUnitPlatform()
     testLogging {
         // options for log level LIFECYCLE
-        events "failed"
+        events "failed", "skipped", "passed"
         exceptionFormat "short"
 
         // options for log level DEBUG
@@ -18,19 +23,23 @@ integrationTest {
             showStandardStreams = true
         }
 
+        // options for log level INFO
+        info {
         // remove standard output/error logging from --info builds
         // by assigning only 'failed' and 'skipped' events
-        info.events = ["failed", "skipped"]
+            events "failed", "skipped", "passed"
+        }
     }
 }
 
 test {
+    environment('GEOFILES', GEOFILES_PATH)
     useJUnitPlatform()
     testLogging {
-        displayGranularity = 2
+        //displayGranularity = 2
         events "failed", "skipped", "passed"
-        exceptionFormat "full"
-        showStandardStreams = true
+        exceptionFormat "short"
+        //showStandardStreams = true
         // TODO filter warning from org.apiguardian.api.API.Status.STABLE
     }
 }

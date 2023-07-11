@@ -200,6 +200,7 @@ public class RestControllerTest {
         assertSame(version, this.restController.version());
     }
 
+    @SuppressWarnings("null")
     @Test
     public void testHandleMissingRequestParameter() {
         MockHttpServletRequest req = new MockHttpServletRequest();

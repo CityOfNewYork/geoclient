@@ -1,12 +1,10 @@
 # syntax=docker/dockerfile:1
-
 FROM gradle:jdk17 AS builder
 
 ARG GC_VERSION
 ENV GC_VERSION="${GC_VERSION:-2.0.1-SNAPSHOT}"
 
-ARG GEOSUPPORT_BASEDIR
-ENV GEOSUPPORT_BASEDIR="${GEOSUPPORT_BASEDIR:-/opt/geosupport}"
+ENV GEOSUPPORT_BASEDIR=/opt/geosupport
 
 RUN set -ex \
   && apt-get update \
@@ -38,22 +36,28 @@ COPY . /app
 WORKDIR /app
 
 RUN set -ex \
-    && gradle clean build bootJar \
-    && cp -v "/app/geoclient-service/build/libs/geoclient-service-${GC_VERSION}.jar" /app/geoclient.jar
+    && gradle clean assemble \
+    && gradle bootJar build
+
+RUN set -eux \
+  && JAR="/app/geoclient-service/build/libs/geoclient-service-${GC_VERSION}.jar" \
+  && [ -f "${JAR}" ] || exit 1 \
+  && /bin/bash -c set -eux && cp -v "${JAR}" /app/geoclient.jar
+
+RUN set -ex \
+  && mkdir -p /app/test-results \
+  && find /app -path '*/build/*' \
+       -type f -regex '.*\/TEST-.*\.xml' \
+       -exec echo '{}' \; | xargs -n 1 -I{} bash -c 'FILE={} && cp -v -p $FILE /app/test-results/$(basename $FILE)'
 
 ### Run
 FROM eclipse-temurin:17-jdk-jammy AS runner
 
-ARG GC_VERSION
-ENV GC_VERSION="${GC_VERSION:-2.0.1-alpha}"
-
-ARG GEOSUPPORT_BASEDIR
-ENV GEOSUPPORT_BASEDIR="${GEOSUPPORT_BASEDIR:-/opt/geosupport}"
-
-COPY --from=builder "${GEOSUPPORT_BASEDIR}" "${GEOSUPPORT_BASEDIR}"
-
+ENV GEOSUPPORT_BASEDIR=/opt/geosupport
 ENV GEOSUPPORT_HOME="${GEOSUPPORT_BASEDIR}/current"
 ENV GEOFILES="${GEOSUPPORT_BASEDIR}/current/fls/"
+
+COPY --from=builder "${GEOSUPPORT_BASEDIR}" "${GEOSUPPORT_BASEDIR}"
 
 RUN set -eux \
   && "${GEOSUPPORT_HOME}/bin/geosupport" install
@@ -61,10 +65,8 @@ RUN set -eux \
 WORKDIR /app
 
 COPY --from=builder /app/geoclient.jar /app/geoclient.jar
+COPY --from=builder /app/test-results /app/test-results
 
-# TODO implement an optimization strategy from https://spring.io/guides/topicals/spring-boot-docker
-# TODO use only '8080' and document use of '-p 8080' with docker run
-EXPOSE 8080:8080
+EXPOSE 8080
 
-# TODO fix GC_VERSION not expanded by using script to 'exec java ...'
-CMD ["java", "-Dgc.jni.version=geoclient-jni-${GC_VERSION}", "-jar", "/app/geoclient.jar"]
+ENTRYPOINT ["java", "-Dgc.jni.version=geoclient-jni-2", "-Dspring.profiles.active=default", "-Xmx2048m", "-jar", "/app/geoclient.jar"]

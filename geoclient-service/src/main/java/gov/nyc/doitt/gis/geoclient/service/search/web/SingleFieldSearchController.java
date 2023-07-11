@@ -15,8 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.web;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,6 +28,8 @@ import gov.nyc.doitt.gis.geoclient.service.search.SingleFieldSearchHandler;
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.ParamsAndResult;
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchParameters;
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResponse;
+
+import jakarta.validation.Valid;
 
 @CrossOrigin
 @RestController
