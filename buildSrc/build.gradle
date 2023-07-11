@@ -20,5 +20,5 @@ gradlePlugin {
 dependencies {
     compileOnly gradleApi()
     implementation 'com.diffplug.spotless:spotless-plugin-gradle:6.19.0'
-    implementation 'com.github.ben-manes:gradle-versions-plugin:0.42.0'
+    implementation 'com.github.ben-manes:gradle-versions-plugin:0.47.0'
 }
