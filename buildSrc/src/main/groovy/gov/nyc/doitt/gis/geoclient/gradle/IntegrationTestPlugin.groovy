@@ -5,7 +5,6 @@ import org.gradle.api.logging.Logger
 import org.gradle.api.logging.Logging
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.plugins.JavaPlugin
 import org.gradle.api.plugins.PluginManager
 import org.gradle.api.tasks.SourceSet
 import org.gradle.api.tasks.SourceSetContainer
@@ -55,9 +54,7 @@ class IntegrationTestPlugin<Project> implements Plugin<Project> {
     }
 
     void maybeCreateIntegrationTest(Project project, GeoclientExtension geoclient, GeosupportExtension geosupport) {
-        logger.info("{}.hasPlugin(JavaPlugin) == {}", project.name, project.getPlugins().hasPlugin(JavaPlugin))
-        logger.info("--------------------------------------------")
-        if(project.getPlugins().hasPlugin(JavaPlugin)) {
+        if(project.getPluginManager().hasPlugin('java')) {
             def sourceSets = project.extensions.getByType(SourceSetContainer)
             def testRuntimeClasspath = project.configurations.testRuntimeClasspath
             def compileClasspath = project.configurations.compileClasspath
