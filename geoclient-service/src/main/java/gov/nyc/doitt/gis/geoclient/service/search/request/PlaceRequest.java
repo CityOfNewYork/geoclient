@@ -62,7 +62,6 @@ public class PlaceRequest extends CountyRequest
         return super.containsAssignedValue() || isAssigned(streetInputValue);
     }
 
-    // TODO TESTME
     @Override
     public String summarize()
     {

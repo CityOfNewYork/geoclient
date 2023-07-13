@@ -88,7 +88,6 @@ public class DefaultInitialSearchTaskBuilder extends TaskBuilderSupport implemen
                 }
             } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException
                     | InstantiationException e) {
-                // TODO Need a more meaningful exception here
                 throw new RuntimeException(e.getCause());
             }
         }
