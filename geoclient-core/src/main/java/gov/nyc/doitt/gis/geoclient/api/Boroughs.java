@@ -35,8 +35,8 @@ public class Boroughs {
     public static final List<Borough> THE_FIVE_BOROUGHS = Arrays.asList(MANHATTAN, BRONX, BROOKLYN, QUEENS,
             STATEN_ISLAND);
 
-    // TODO Decide if this method should trim whitespace (currently, does not)
     public static final Borough fromCode(String code) {
+        // TODO Decide if this method should trim whitespace (currently, does not)
         return findFirst((Borough b) -> b.getCode().equalsIgnoreCase(code));
     }
 
