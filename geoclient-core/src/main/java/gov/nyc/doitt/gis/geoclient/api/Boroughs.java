@@ -36,7 +36,7 @@ public class Boroughs {
             STATEN_ISLAND);
 
     public static final Borough fromCode(String code) {
-        // TODO Decide if this method should trim whitespace (currently, does not)
+        // Note: this equality test does not consider whitespace.
         return findFirst((Borough b) -> b.getCode().equalsIgnoreCase(code));
     }
 
@@ -47,7 +47,6 @@ public class Boroughs {
     // Originally from gov.nyc.doitt.gis.geoclient.service.domain.Borough in the geoclient-service project.
     public static int parseInt(String boroughCodeOrName)
     {
-        // TODO revisit this logic?
         // If argument is a parse-able integer, return it regardless of validity as an actual borough code
         if (NumberUtils.isParsable(boroughCodeOrName))
         {
