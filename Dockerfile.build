@@ -14,7 +14,7 @@ RUN set -ex \
      libc6-dev \
   && rm -rf /var/lib/apt/lists/*
 
-COPY --from=mlipper/geosupport-docker:2.0.9-dist "/dist/geosupport.tgz" "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
+COPY --from=mlipper/geosupport-docker:2.0.12-dist "/dist/geosupport.tgz" "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
 
 RUN set -eux \
   && tar xzvf "${GEOSUPPORT_BASEDIR}/geosupport.tgz" -C "${GEOSUPPORT_BASEDIR}" \
