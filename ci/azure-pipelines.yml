@@ -35,3 +35,8 @@ stages:
           testRunner: JUnit
           testResultsFiles: '**/TEST-*.xml'
           failTaskOnFailedTests: true
+
+      - task: PublishPipelineArtifact@1
+        inputs:
+          targetPath: '$(System.DefaultWorkingDirectory)/geoclient.jar'
+          publishLocation: 'pipeline'
