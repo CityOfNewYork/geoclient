@@ -46,6 +46,11 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    // Avoids log warning generated because of JUnit dependency on apiguardian:
+    // 'warning: unknown enum constant Status.STABLE'
+    // This was supposed to have been fixed in JUnit 5.1.x, but still happens,
+    // possibly because gradle platform or spring BOM.
+    testRuntimeOnly('org.apiguardian:apiguardian-api:1.1.2')
 }
 
 java {
