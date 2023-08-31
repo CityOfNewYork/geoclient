@@ -5,8 +5,7 @@ FROM gradle:jdk17 AS builder
 ARG GC_VERSION
 ENV GC_VERSION="${GC_VERSION:-2.0.1-SNAPSHOT}"
 
-ARG GEOSUPPORT_BASEDIR
-ENV GEOSUPPORT_BASEDIR="${GEOSUPPORT_BASEDIR:-/opt/geosupport}"
+ENV GEOSUPPORT_BASEDIR=/opt/geosupport
 
 RUN set -ex \
   && apt-get update \
@@ -16,7 +15,7 @@ RUN set -ex \
      libc6-dev \
   && rm -rf /var/lib/apt/lists/*
 
-COPY --from=mlipper/geosupport-docker:2.0.9-dist "/dist/geosupport.tgz" "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
+COPY --from=mlipper/geosupport-docker:2.0.12-dist "/dist/geosupport.tgz" "${GEOSUPPORT_BASEDIR}/geosupport.tgz"
 
 RUN set -eux \
   && tar xzvf "${GEOSUPPORT_BASEDIR}/geosupport.tgz" -C "${GEOSUPPORT_BASEDIR}" \
