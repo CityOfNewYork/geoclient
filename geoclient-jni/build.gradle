@@ -5,7 +5,7 @@ plugins {
 }
 
 def basePackagePath = "gov/nyc/doitt/gis/geoclient/jni"
-def generatedResources = "${project.buildDir}/generated-resources/main"
+def generatedResources = "${layout.buildDirectory}/generated-resources/main"
 def libPath = geosupport.libraryPath.getOrNull()
 
 sourceSets {
