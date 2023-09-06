@@ -22,6 +22,7 @@ class GeoclientExtension extends AbstractExtension {
     }
 
     void resolveConventions() {
+        //println "[GeoclientExtension] resolveConvention(${GC_JNI_VERSION_GRADLE}, ${GC_JNI_VERSION_SYSTEM}, ${GC_JNI_VERSION_ENVVAR}, ${jniVersion}, ${project.version})"
         resolveConvention(GC_JNI_VERSION_GRADLE, GC_JNI_VERSION_SYSTEM, GC_JNI_VERSION_ENVVAR, jniVersion, project.version)
     }
 

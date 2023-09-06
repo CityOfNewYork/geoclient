@@ -18,25 +18,30 @@ abstract class AbstractExtension {
     abstract Map<String, Object> getSystemProperties()
 
     void resolveConvention(String gradleName, String systemName, String envName, Property<String> property, String defaultValue) {
+        //println "[AbstractExtension] resolveConvention(gradleName:${gradleName}, systemName:${systemName}, envName:${envName}, property:${property}, defaultValue:${defaultValue})"
         Object value = gradleProperty(gradleName)
         if(value) {
+            //println "[AbstractExtension] Found Gradle property ${gradleName}: ${value}"
             property.convention(value.toString())
             return
         }
         String stringValue = systemProperty(systemName)
         if(stringValue) {
+            //println "[AbstractExtension] Found System property ${systemName}: ${stringValue}"
             property.convention(stringValue)
             project.ext.gradleName = stringValue
             return
         }
         stringValue = environmentVariable(envName)
         if(stringValue) {
+            //println "[AbstractExtension] Found environment variable ${envName}: ${stringValue}"
             property.convention(stringValue)
             project.ext.gradleName = stringValue
             return
         }
         property.convention(defaultValue)
         project.ext.gradleName = defaultValue
+        //println "[AbstractExtension] Using default value for project.ext.${gradleName}: ${defaultValue}"
     }
 
     Object gradleProperty(String name) {
