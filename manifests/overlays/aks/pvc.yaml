@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-geosupport
+spec:
+  accessModes:
+  - ReadWriteOnce
+  # This should be resizable according to:
+  # https://learn.microsoft.com/en-us/azure/aks/azure-disk-csi
+  # Verified by running:
+  #   kubctl get sc managed-premium
+  #   NAME              PROVISIONER          RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+  #   managed-premium   disk.csi.azure.com   Delete          WaitForFirstConsumer   true                   253d
+  storageClassName: managed-premium
+  resources:
+    requests:
+      storage: 20Gi

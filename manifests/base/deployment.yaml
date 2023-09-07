@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: DEPLOYMENT_NAME-COLOR
+spec:
+  # Prefer enabling HPA to configuring replicas directly in Deployments.
+  # See https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#migrating-deployments-and-statefulsets-to-horizontal-autoscaling
+  #replicas: 0 # MIN_REPLICAS
+  selector:
+    matchLabels:
+      app: DEPLOYMENT_NAME
+      col: COLOR
+  template:
+    metadata:
+      labels:
+        app: DEPLOYMENT_NAME
+        col: COLOR
+    spec:
+      volumes:
+        - name: geosupport-volume
+          persistentVolumeClaim:
+            claimName: pvc-geosupport
+      containers:
+        - name: DEPLOYMENT_NAME-COLOR
+          image: docker.io/mlipper/geoclient:2.0.1
+          imagePullPolicy: IfNotPresent
+          envFrom:
+          - configMapRef:
+              name: runtime-environment
+          volumeMounts:
+            - name: geosupport-volume
+              mountPath: /opt/geosupport
+          ports:
+            - containerPort: -1 # HTTP_LISTEN_PORT
+          livenessProbe:
+            httpGet:
+              path: /geoclient/v2/version.json?app_id=liveness_probe
+              port: -1 # HTTP_LISTEN_PORT
+            initialDelaySeconds: 3
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /geoclient/v2/search.json?input=150%20broadway&app_id=readiness_probe
+              port: -1 # HTTP_LISTEN_PORT
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: 2Gi
+              cpu: 2
+            limits:
+              memory: 4Gi
+              cpu: 4
+          #pre-stop hook preventing broken connections
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - "-c"
+                  - "sleep 5"
+      initContainers:
+        - name: init-geosupport-volume
+          command:
+          - sh
+          - -c
+          - cp -v -r /opt/geosupport/* /mnt/repo
+          image: docker.io/mlipper/geosupport-docker:2.0.12
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: geosupport-volume
+              mountPath: /mnt/repo
