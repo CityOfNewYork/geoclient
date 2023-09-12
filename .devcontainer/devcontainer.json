@@ -1,6 +1,6 @@
 {
 	"name": "geoclient",
-	"image": "mcr.microsoft.com/devcontainers/java:0-17",
+	"image": "mcr.microsoft.com/devcontainers/java:17",
 	"forwardPorts": ["8080:8080", "8000:8000","5005:5005"],
 	"containerEnv": {
 		"GEOFILES": "/opt/geosupport/current/fls/"
