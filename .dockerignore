@@ -1,2 +1,14 @@
-Dockerfile
-Dockerfile.*
+**/.DS_Store
+**/.dockerignore
+# **/.env
+# **/.git
+# **/.gitignore
+**/.gradle
+**/.local
+# **/.vscode
+**/bin
+**/build
+**/images
+**/docker-compose*
+**/compose*
+**/Dockerfile*

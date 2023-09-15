@@ -4,7 +4,10 @@ FROM gradle:jdk17 AS builder
 
 ARG GC_VERSION
 ENV GC_VERSION="${GC_VERSION:-2.0.1-SNAPSHOT}"
-
+ARG JARFILE
+# Default value for the path to the jar file assumes that the
+# Docker context is the root project directory.
+ENV JARFILE="${JARFILE:-./geoclient-service/build/libs/geoclient-service-${GC_VERSION}.jar}"
 ENV GEOSUPPORT_BASEDIR=/opt/geosupport
 
 RUN set -ex \
@@ -37,22 +40,20 @@ COPY . /app
 WORKDIR /app
 
 RUN set -ex \
-    && gradle clean assemble \
-    && gradle bootJar build
+    && gradle clean build
 
 RUN set -eux \
-  && JAR="/app/geoclient-service/build/libs/geoclient-service-${GC_VERSION}.jar" \
-  && [ -f "${JAR}" ] || exit 1 \
-  && /bin/bash -c set -eux && cp -v "${JAR}" /app/geoclient.jar
+  && [ -f "${JARFILE}" ] || exit 1 \
+  && /bin/bash -c set -eux && cp -v "${JARFILE}" ./geoclient.jar
 
 RUN set -ex \
-  && mkdir -p /app/test-results \
-  && find /app -path '*/build/*' \
+  && mkdir -p ./test-results \
+  && find . -path '*/build/*' \
        -type f -regex '.*\/TEST-.*\.xml' \
-       -exec echo '{}' \; | xargs -n 1 -I{} bash -c 'FILE={} && cp -v -p $FILE /app/test-results/$(basename $FILE)'
+       -exec echo '{}' \; | xargs -n 1 -I{} bash -c 'FILE={} && cp -v -p $FILE ./test-results/$(basename $FILE)'
 
 ### Run
-FROM eclipse-temurin:17-jdk-jammy AS runner
+FROM eclipse-temurin:17-jre-jammy AS runner
 
 ENV GEOSUPPORT_BASEDIR=/opt/geosupport
 ENV GEOSUPPORT_HOME="${GEOSUPPORT_BASEDIR}/current"
@@ -65,8 +66,8 @@ RUN set -eux \
 
 WORKDIR /app
 
-COPY --from=builder /app/geoclient.jar /app/geoclient.jar
-COPY --from=builder /app/test-results /app/test-results
+COPY --from=builder /app/geoclient.jar ./geoclient.jar
+COPY --from=builder /app/test-results ./test-results
 
 EXPOSE 8080
 

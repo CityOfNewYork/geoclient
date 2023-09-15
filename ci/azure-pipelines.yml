@@ -23,7 +23,7 @@ stages:
       vmImage: ubuntu-latest
     steps:
       - script: |
-          docker build -f Dockerfile.build -t mlipper/geoclient:$(tag) .
+          docker build -f ./ci/Dockerfile -t mlipper/geoclient:$(tag) .
           docker run --name geoclient --rm -d mlipper/geoclient:$(tag)
           docker cp geoclient:app/test-results $(System.DefaultWorkingDirectory)
           docker cp geoclient:app/geoclient.jar $(System.DefaultWorkingDirectory)

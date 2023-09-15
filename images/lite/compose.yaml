@@ -1,0 +1,18 @@
+services:
+  geoclient:
+    image: mlipper/geoclient:2.0.1-beta-lite
+    container_name: geoclient
+    ports:
+      - 8080:8080
+    volumes:
+      - geosupport-data:/opt/geosupport
+    environment:
+      - GEOSUPPORT_BASE=/opt/geosupport
+      - GEOSUPPORT_HOME=/opt/geosupport/current
+      - GEOFILES=/opt/geosupport/current/fls/
+volumes:
+  geosupport-data:
+  # Assumes .env file or environment variable is defined with name of existing
+  # Geosupport volume.
+    name: ${GEOSUPPORT_VOLUME}
+
