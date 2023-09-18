@@ -3,7 +3,7 @@
 FROM eclipse-temurin:17-jre-jammy AS runner
 
 ARG GC_VERSION
-ENV GC_VERSION="${GC_VERSION:-2.0.1-SNAPSHOT}"
+ENV GC_VERSION="${GC_VERSION:-2.0.1-beta}"
 ARG JARFILE
 # Default value for the path to the jar file assumes that the
 # Docker context is the root project directory.
