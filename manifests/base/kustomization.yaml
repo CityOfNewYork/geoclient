@@ -8,6 +8,9 @@ resources:
   - deployment.yaml
 #generatorOptions:
 #  disableNameSuffixHash: true
+images:
+- name: docker.io/mlipper/geosupport-docker
+  newTag: 2.0.13
 configMapGenerator:
 - name: pipeline-variables
   envs:

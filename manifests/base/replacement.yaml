@@ -44,3 +44,12 @@
     - spec.template.spec.containers.0.ports.0.containerPort
     - spec.template.spec.containers.0.livenessProbe.httpGet.port
     - spec.template.spec.containers.0.readinessProbe.httpGet.port
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.PVC_NAME
+  targets:
+  - select:
+      kind: Deployment
+    fieldPaths:
+    - spec.template.spec.volumes.0.persistentVolumeClaim.claimName

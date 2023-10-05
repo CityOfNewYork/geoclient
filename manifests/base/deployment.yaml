@@ -18,6 +18,13 @@ spec:
     spec:
       volumes:
         - name: geosupport-volume
+          # NOTE: The pvc is not created by Kustomize.
+          # The static/pvc.yml file can be used, but the
+          # metadata.name must be changed if an existing pvc
+          # with that name already exists.
+          # The pvc must be created prior to deployment and
+          # the metadata.name must match the value of
+          # PVC_NAME defined in base/pipeline.env.
           persistentVolumeClaim:
             claimName: pvc-geosupport
       containers:
@@ -47,10 +54,10 @@ spec:
           resources:
             requests:
               memory: 2Gi
-              cpu: 2
+              cpu: 1
             limits:
               memory: 4Gi
-              cpu: 4
+              cpu: 2
           #pre-stop hook preventing broken connections
           lifecycle:
             preStop:
@@ -65,6 +72,8 @@ spec:
           - sh
           - -c
           - cp -v -r /opt/geosupport/* /mnt/repo
+          # NOTE: The image version is set by Kustomize in the
+          # base/kustomization.yml file.
           image: docker.io/mlipper/geosupport-docker:2.0.12
           imagePullPolicy: IfNotPresent
           volumeMounts:
