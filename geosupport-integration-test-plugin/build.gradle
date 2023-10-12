@@ -1,0 +1,82 @@
+plugins {
+    id 'groovy'
+    id 'java-gradle-plugin'
+}
+
+repositories {
+    gradlePluginPortal()
+}
+
+//def functionalTest = sourceSets.create('functionalTest')
+sourceSets {
+    functionalTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
+}
+
+configurations {
+    functionalTestImplementation.extendsFrom implementation
+    functionalTestRuntimeOnly.extendsFrom runtimeOnly
+}
+
+def functionalTestTask = tasks.register('functionalTest', Test) {
+    group = 'verification'
+    description 'Runs functional tests for the GeosupportIntegrationTestPlugin.'
+    testClassesDirs = sourceSets.functionalTest.output.classesDirs
+    classpath = sourceSets.functionalTest.runtimeClasspath
+    useJUnitPlatform()
+}
+
+tasks.named("check") {
+    dependsOn functionalTestTask
+}
+
+gradlePlugin {
+    testSourceSets sourceSets.functionalTest
+    plugins {
+        geosupportIntegrationTestPlugin {
+            id = 'com.digitalclash.geoclient.gradle.geosupport-integration-test'
+            implementationClass = 'com.digitalclash.geoclient.gradle.GeosupportIntegrationTestPlugin'
+        }
+    }
+}
+
+dependencies {
+    //compileOnly gradleApi()
+
+    //
+    // This config is based on the Gradle documentation 'Testing Plugins',
+    // section 'Configuring a test framework':
+    // https://docs.gradle.org/current/userguide/testing_gradle_plugins.html
+    //
+    //testImplementation platform("org.spockframework:spock-bom:2.2-groovy-3.0")
+    //testImplementation 'org.spockframework:spock-core'
+    //testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    //functionalTestImplementation gradleTestKit()
+    //
+    // This config is based on the Gradle documentation 'Testing Build Logic with TestKit',
+    // section 'Example: Automatically injecting the code under test classes into test builds':
+    // https://docs.gradle.org/current/userguide/test_kit.html#example_automatically_injecting_the_code_under_test_classes_into_test_builds
+    //
+    functionalTestImplementation('org.spockframework:spock-core:2.2-groovy-3.0') {
+        exclude group: 'org.codehaus.groovy'
+    }
+    functionalTestRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+task printSourceSets(){
+
+    doLast{
+        sourceSets.each { srcSet ->
+            println "["+srcSet.name+"]"
+            print "-->Source directories: "+srcSet.allJava.srcDirs+"\n"
+            print "-->Output directories: "+srcSet.output.classesDirs.files+"\n"
+            print "-->Compile classpath:\n"
+            srcSet.compileClasspath.files.each {
+                print "  "+it.path+"\n"
+            }
+            println ""
+        }
+    }
+}

@@ -10,7 +10,7 @@ repositories {
 
 gradlePlugin {
     plugins {
-        geosupportIntegrationTestPlugin {
+        integrationTestPlugin {
             id = 'gov.nyc.doitt.gis.geoclient.gradle.integration-test'
             implementationClass = 'gov.nyc.doitt.gis.geoclient.gradle.IntegrationTestPlugin'
         }
