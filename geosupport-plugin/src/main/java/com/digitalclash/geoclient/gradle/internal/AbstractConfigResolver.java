@@ -21,7 +21,7 @@ public abstract class AbstractConfigResolver {
         return new File(path).exists();
     }
 
-    static boolean isWindows() {
+    boolean isWindows() {
         return System.getProperty("os.name").toLowerCase().contains("win");
     }
 

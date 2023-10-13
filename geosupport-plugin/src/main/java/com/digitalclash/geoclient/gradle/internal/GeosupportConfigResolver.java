@@ -2,11 +2,10 @@ package com.digitalclash.geoclient.gradle.internal;
 
 import java.io.File;
 
-import static com.digitalclash.geoclient.gradle.internal.AbstractConfigResolver.isWindows;
-
 public class GeosupportConfigResolver extends AbstractConfigResolver {
 
-    public static final String DEFAULT_HOME = isWindows() ? "c:/opt/geosupport/current" : "/opt/geosupport/current";
+    public static final String DEFAULT_HOME_LINUX = "/opt/geosupport/current";
+    public static final String DEFAULT_HOME_WINDOWS = "c:" + DEFAULT_HOME_LINUX;
 
     static final String GS_GEOFILES_ENVVAR = "GEOFILES";
     static final String GS_GEOFILES_SYSTEM = "gs.geofiles";
@@ -37,7 +36,7 @@ public class GeosupportConfigResolver extends AbstractConfigResolver {
         if (this.includePath != null) {
             return this.includePath;
         }
-        return getHome() + "/include";
+        return new File(getHome(), "/include");
     }
 
     public String getLibraryPath() {
@@ -77,6 +76,9 @@ public class GeosupportConfigResolver extends AbstractConfigResolver {
         if (geosupportHome != null) {
             return geosupportHome;
         }
-        return DEFAULT_HOME;
+        if (isWindows()) {
+           return DEFAULT_HOME_WINDOWS;
+        }
+        return DEFAULT_HOME_LINUX;
     }
 }

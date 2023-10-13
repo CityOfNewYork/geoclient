@@ -28,6 +28,17 @@ def functionalTestTask = tasks.register('functionalTest', Test) {
     useJUnitPlatform()
 }
 
+tasks.withType(Test).configureEach {
+    // Using JUnitPlatform for running tests
+    useJUnitPlatform()
+    testLogging {
+        info {
+            events "failed", "skipped", "passed"
+            showStandardStreams = true
+        }
+    }
+}
+
 tasks.named("check") {
     dependsOn functionalTestTask
 }
@@ -50,9 +61,12 @@ dependencies {
     // section 'Configuring a test framework':
     // https://docs.gradle.org/current/userguide/testing_gradle_plugins.html
     //
-    //testImplementation platform("org.spockframework:spock-bom:2.2-groovy-3.0")
-    //testImplementation 'org.spockframework:spock-core'
-    //testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation platform("org.spockframework:spock-bom:2.2-groovy-3.0")
+    testImplementation('org.spockframework:spock-core') {
+        exclude group: 'org.codehaus.groovy'
+    }
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testRuntimeOnly 'net.bytebuddy:byte-buddy:1.14.9'
 
     //functionalTestImplementation gradleTestKit()
     //
@@ -60,7 +74,8 @@ dependencies {
     // section 'Example: Automatically injecting the code under test classes into test builds':
     // https://docs.gradle.org/current/userguide/test_kit.html#example_automatically_injecting_the_code_under_test_classes_into_test_builds
     //
-    functionalTestImplementation('org.spockframework:spock-core:2.2-groovy-3.0') {
+    functionalTestImplementation platform("org.spockframework:spock-bom:2.2-groovy-3.0")
+    functionalTestImplementation('org.spockframework:spock-core') {
         exclude group: 'org.codehaus.groovy'
     }
     functionalTestRuntimeOnly 'org.junit.platform:junit-platform-launcher'
