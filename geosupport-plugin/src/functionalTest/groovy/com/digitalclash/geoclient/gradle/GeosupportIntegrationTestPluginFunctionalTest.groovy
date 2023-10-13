@@ -5,7 +5,7 @@ import static org.gradle.testkit.runner.TaskOutcome.*
 import spock.lang.TempDir
 import spock.lang.Specification
 
-import static com.digitalclash.geoclient.gradle.GeoclientExtension.DEFAULT_JNI_VERSION
+import static com.digitalclash.geoclient.gradle.internal.GeoclientConfigResolver.DEFAULT_JNI_VERSION
 
 class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
     @TempDir File testProjectDir

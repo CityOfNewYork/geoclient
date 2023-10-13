@@ -2,7 +2,7 @@ pluginManagement {
     repositories {
         gradlePluginPortal()
     }
-    includeBuild './geosupport-integration-test-plugin'
+    includeBuild './geosupport-plugin'
 }
 
 rootProject.name = 'geoclient'

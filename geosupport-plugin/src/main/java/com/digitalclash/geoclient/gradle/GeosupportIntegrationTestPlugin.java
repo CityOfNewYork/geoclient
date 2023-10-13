@@ -3,6 +3,8 @@ package com.digitalclash.geoclient.gradle;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 
+import com.digitalclash.geoclient.gradle.internal.GeoclientConfigResolver;
+
 public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
 
 
@@ -14,7 +16,7 @@ public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
 
     private GeoclientExtension createGeoclientExtension(final Project project) {
         GeoclientExtension geoclient = project.getExtensions().create("geoclient", GeoclientExtension.class);
-        geoclient.getJniVersion().convention(GeoclientExtension.DEFAULT_JNI_VERSION);
+        geoclient.getJniVersion().convention(new GeoclientConfigResolver().getJniVersion());
         return geoclient;
     }
 
