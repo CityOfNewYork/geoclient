@@ -1,9 +1,14 @@
 package com.digitalclash.geoclient.gradle;
 
+import java.io.File;
+
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.api.file.DirectoryProperty;
+import org.gradle.api.model.ObjectFactory;
 
 import com.digitalclash.geoclient.gradle.internal.GeoclientConfigResolver;
+import com.digitalclash.geoclient.gradle.internal.GeosupportConfigResolver;
 
 public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
 
@@ -23,6 +28,15 @@ public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
     private GeosupportExtension createGeosupportExtension(final Project project) {
         GeosupportExtension geosupport = project.getExtensions().create("geosupport", GeosupportExtension.class);
         //rootProject.layout.getProjectDirectory
+        GeosupportConfigResolver config = new GeosupportConfigResolver();
+        geosupport.getHome().convention(config.getHome());
+        File includePathFile = project.file(config.getIncludePath());
+        if(includePathFile != null) {
+            ObjectFactory objectFactory = project.getObjects();
+            geosupport.getIncludePath().convention(objectFactory.directoryProperty().fileValue(includePathFile));
+        }
+        geosupport.getLibraryPath().convention(config.getLibraryPath());
+        geosupport.getGeofiles().convention(config.getGeofiles());
         return geosupport;
     }
 }
