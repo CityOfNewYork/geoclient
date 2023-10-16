@@ -1,7 +1,19 @@
 package com.digitalclash.geoclient.gradle.internal;
 
-import java.io.File;
-
+/**
+ * Resolves Geosupport configuration values, providing defaults if necessary.
+ * Order of precedence (the first available source is used):
+ * <ol>
+ * <li>Include path: set via constructor argument.</li>
+ * <li>All (except include path if set by 1): Java System properties.</li>
+ * <li>All (except include path if set by 1): Environment variables.</li>
+ * <li>All (when 1, 2, and 3 are not set): Geosupport home used for base path.</li>
+ * </ol>
+ * <p>
+ * Note that Geosupport home is used as a base path by other defaulted properties
+ * whether or not it has itself been defaulted.
+ * </p>
+ */
 public class GeosupportConfigResolver extends AbstractConfigResolver {
 
     public static final String DEFAULT_HOME_LINUX = "/opt/geosupport/current";
@@ -16,27 +28,16 @@ public class GeosupportConfigResolver extends AbstractConfigResolver {
     static final String GS_LIBRARY_PATH_ENVVAR = "GS_LIBRARY_PATH";
     static final String GS_LIBRARY_PATH_SYSTEM = "gs.library.path";
 
-    private final File geosupportHome;
-    private final File includePath;
-
-    public GeosupportConfigResolver(File geosupportHome, File includePath) {
-        this.geosupportHome = geosupportHome;
-        this.includePath = includePath;
-    }
-
-    public GeosupportConfigResolver(File geosupportHome) {
-        this(geosupportHome, null);
-    }
-
-    public GeosupportConfigResolver() {
-        this(null, null);
-    }
-
-    public File getIncludePath() {
-        if (this.includePath != null) {
-            return this.includePath;
+    public String getIncludePath() {
+        String includePath = getSystemProperty(GS_INCLUDE_PATH_SYSTEM);
+        if (includePath != null) {
+            return includePath;
         }
-        return new File(getHome(), "/include");
+        includePath = getEnv(GS_INCLUDE_PATH_ENVVAR);
+        if (includePath != null) {
+            return includePath;
+        }
+        return getHome() + "/include";
     }
 
     public String getLibraryPath() {
@@ -65,9 +66,6 @@ public class GeosupportConfigResolver extends AbstractConfigResolver {
     }
 
     public String getHome() {
-        if (this.geosupportHome != null) {
-            return this.geosupportHome.getAbsolutePath();
-        }
         String geosupportHome = getSystemProperty(GS_HOME_SYSTEM);
         if (geosupportHome != null) {
             return geosupportHome;
