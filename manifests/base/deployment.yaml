@@ -74,7 +74,7 @@ spec:
           - cp -v -r /opt/geosupport/* /mnt/repo
           # NOTE: The image version is set by Kustomize in the
           # base/kustomization.yml file.
-          image: docker.io/mlipper/geosupport-docker:2.0.12
+          image: docker.io/mlipper/geosupport-docker:2.0.13
           imagePullPolicy: IfNotPresent
           volumeMounts:
             - name: geosupport-volume

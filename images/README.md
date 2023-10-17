@@ -80,14 +80,14 @@ Runs geoclient using the exploded contents of the [spring-boot](https://docs.spr
 1. Create a local volume containing a Geosupport installation, using the default `GEOSUPPORT_BASE` path of `/opt/geosupport`. This example shows how to do this using the [geosupport-docker](https://github.com/mlipper/geosupport-docker) project.
 
    ```sh
-   docker volume create geosupport-23c_23.3
-   docker run --rm --mount source=geosupport-23c_23.3,target=/opt/geosupport  mlipper/geosupport-docker:2.0.12 /bin/true
+   docker volume create geosupport-23c1_23.3.1
+   docker run --rm --mount source=geosupport-23c1_23.3.1,target=/opt/geosupport  mlipper/geosupport-docker:2.0.13 /bin/true
    ```
 
-1. Run a temporary container, mounting the local `geosupport-23c_23.3` volume into the container file system at `/opt/geosupport`.
+1. Run a temporary container, mounting the local `geosupport-23c1_23.3.1` volume into the container file system at `/opt/geosupport`.
 
     ```sh
-    docker run --rm -d --mount source=geosupport-23c_23.3,target=/opt/geosupport -p 8080:8080 "mlipper/geoclient:${GC_VERSION}-lite"
+    docker run --rm -d --mount source=geosupport-23c1_23.3.1,target=/opt/geosupport -p 8080:8080 "mlipper/geoclient:${GC_VERSION}-lite"
     ```
 
 ## About geosupport-docker
