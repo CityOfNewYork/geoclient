@@ -22,6 +22,8 @@ logging:
             - "gov.nyc.doitt.gis.geoclient.config"
             - "gov.nyc.doitt.gis.geoclient.function"
             - "gov.nyc.doitt.gis.geoclient.util"
+        geoclient-parser:
+            - "gov.nyc.doitt.gis.geoclient.parser"
         geoclient-service:
             - "gov.nyc.doitt.gis.geoclient.service"
         spring-all:
