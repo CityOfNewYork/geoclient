@@ -13,18 +13,22 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
     @TempDir File testProjectDir
     File settingsFile
     File buildFile
+    File integrationTestSrcDir
+    File goatTestFile
     String defaultGeosupportHome
 
     def setup() {
         settingsFile = new File(testProjectDir, 'settings.gradle')
         buildFile = new File(testProjectDir, 'build.gradle')
+        integrationTestSrcDir = new File(testProjectDir, 'geosupportIntegrationTest/java/com/example')
+        integrationTestSrcDir.mkdirs()
+        goatTestFile = new File(integrationTestSrcDir, 'GoatTest.java')
         defaultGeosupportHome = DEFAULT_HOME_LINUX
         if(System.getProperty("os.name").toLowerCase().contains("win")) {
             defaultGeosupportHome = DEFAULT_HOME_WINDOWS
         }
     }
-
-    def "geoclient extension defaults are set"() {
+    def "geosupport test environment is configured"() {
         given:
         settingsFile << "rootProject.name = 'goat-farm'"
         buildFile << """
@@ -32,87 +36,43 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
                 id 'com.digitalclash.geoclient.gradle.geosupport-integration-test'
             }
 
-            task showGeoclientExtensionDefaults {
-                doLast {
-                    println(geoclient.jniVersion.get())
-                }
+            geosupport {
+                geofiles = "/usr/local/fls/"
             }
+
+            geosupportIntegrationTest {
+                useJUnitPlatform()
+            }
+
+            dependencies {
+                geosupportIntegrationTestImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
+                geosupportIntegrationTestRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+            }
+        """
+        goatTestFile << """
+        package com.example;
+
+        import org.junit.jupiter.api.Test;
+        import static org.junit.jupiter.api.Assertions.assertEquals;
+
+        public class GoatTest {
+            @Test
+            public void testEnvironment() {
+                assertEquals("/usr/local/fls/", System.getenv("GEOFILES"));
+            }
+        }
         """
 
         when:
         def result = GradleRunner.create()
             .withProjectDir(testProjectDir)
-            .withArguments('showGeoclientExtensionDefaults')
+            .withArguments('geosupportIntegrationTest')
             .withPluginClasspath()
             .forwardOutput()
             .build()
 
         then:
-        result.output.contains(DEFAULT_JNI_VERSION)
-        result.task(":showGeoclientExtensionDefaults").outcome == SUCCESS
-    }
-
-    def "geoclient extension uses jniVersion"() {
-        given:
-        settingsFile << "rootProject.name = 'goat-farm'"
-        buildFile << """
-            plugins {
-                id 'com.digitalclash.geoclient.gradle.geosupport-integration-test'
-            }
-            geoclient {
-                jniVersion = 'geoclient-jni-2.1'
-            }
-            task showGeoclientExtensionSettings {
-                doLast {
-                    println(geoclient.jniVersion.get())
-                }
-            }
-        """
-
-        when:
-        def result = GradleRunner.create()
-            .withProjectDir(testProjectDir)
-            .withArguments('showGeoclientExtensionSettings')
-            .withPluginClasspath()
-            .forwardOutput()
-            .build()
-
-        then:
-        result.output.contains('geoclient-jni-2.1')
-        result.task(":showGeoclientExtensionSettings").outcome == SUCCESS
-    }
-
-    def "geosupport extension defaults are set"() {
-        given:
-        settingsFile << "rootProject.name = 'goat-farm'"
-        buildFile << """
-            plugins {
-                id 'com.digitalclash.geoclient.gradle.geosupport-integration-test'
-            }
-
-            task showGeosupportExtensionDefaults {
-                doLast {
-                    println("geosupport_home: \${geosupport.home.get()}")
-                    println("geosupport_include_path: \${geosupport.includePath.get()}")
-                    println("geosupport_library_path: \${geosupport.libraryPath.get()}")
-                    println("geosupport_geofiles: \${geosupport.geofiles.get()}")
-                }
-            }
-        """
-
-        when:
-        def result = GradleRunner.create()
-            .withProjectDir(testProjectDir)
-            .withArguments('showGeosupportExtensionDefaults')
-            .withPluginClasspath()
-            .forwardOutput()
-            .build()
-
-        then:
-        result.output.contains("geosupport_home: ${defaultGeosupportHome}")
-        result.output.contains("geosupport_include_path: ${defaultGeosupportHome}/include")
-        result.output.contains("geosupport_library_path: ${defaultGeosupportHome}/lib")
-        result.output.contains("geosupport_geofiles: ${defaultGeosupportHome}/fls/")
-        result.task(":showGeosupportExtensionDefaults").outcome == SUCCESS
+        result.task(":geosupportIntegrationTest").outcome == SUCCESS
     }
 }

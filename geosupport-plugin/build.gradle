@@ -46,6 +46,10 @@ tasks.named("check") {
 gradlePlugin {
     testSourceSets sourceSets.functionalTest
     plugins {
+        geosupportPlugin {
+            id = 'com.digitalclash.geoclient.gradle.geosupport'
+            implementationClass = 'com.digitalclash.geoclient.gradle.GeosupportPlugin'
+        }
         geosupportIntegrationTestPlugin {
             id = 'com.digitalclash.geoclient.gradle.geosupport-integration-test'
             implementationClass = 'com.digitalclash.geoclient.gradle.GeosupportIntegrationTestPlugin'
