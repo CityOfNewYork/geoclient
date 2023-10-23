@@ -13,6 +13,7 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
     @TempDir File testProjectDir
     File settingsFile
     File buildFile
+    //File javaSrcDir
     File integrationTestSrcDir
     File goatTestFile
     String defaultGeosupportHome
@@ -20,8 +21,10 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
     def setup() {
         settingsFile = new File(testProjectDir, 'settings.gradle')
         buildFile = new File(testProjectDir, 'build.gradle')
-        integrationTestSrcDir = new File(testProjectDir, 'geosupportIntegrationTest/java/com/example')
+        integrationTestSrcDir = new File(testProjectDir, 'src/geosupportIntegrationTest/java/com/example')
         integrationTestSrcDir.mkdirs()
+        //javaSrcDir = new File(testProjectDir, 'main/java/com/example')
+        //javaSrcDir.mkdirs()
         goatTestFile = new File(integrationTestSrcDir, 'GoatTest.java')
         defaultGeosupportHome = DEFAULT_HOME_LINUX
         if(System.getProperty("os.name").toLowerCase().contains("win")) {
@@ -33,6 +36,7 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
         settingsFile << "rootProject.name = 'goat-farm'"
         buildFile << """
             plugins {
+                id 'java-library'
                 id 'com.digitalclash.geoclient.gradle.geosupport-integration-test'
             }
 
@@ -42,6 +46,16 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
 
             geosupportIntegrationTest {
                 useJUnitPlatform()
+                testLogging {
+                    info {
+                        events "failed", "skipped", "passed"
+                        showStandardStreams = true
+                    }
+                }
+            }
+
+            repositories {
+                mavenCentral()
             }
 
             dependencies {
@@ -59,6 +73,7 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
         public class GoatTest {
             @Test
             public void testEnvironment() {
+                System.out.println("GEOFILES: " + System.getenv("GEOFILES"));
                 assertEquals("/usr/local/fls/", System.getenv("GEOFILES"));
             }
         }

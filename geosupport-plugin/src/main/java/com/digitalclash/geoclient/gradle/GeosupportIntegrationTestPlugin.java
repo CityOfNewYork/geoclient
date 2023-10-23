@@ -43,7 +43,7 @@ public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
                     test.setTestClassesDirs(sourceSet.getOutput().getClassesDirs());
                     test.setClasspath(sourceSet.getRuntimeClasspath());
                     test.shouldRunAfter(project.getTasks().named("test"));
-                    test.environment("GEOFILES", geosupportExtension.getGeofiles());
+                    test.environment("GEOFILES", geosupportExtension.getGeofiles().get());
                 }
             });
             TaskProvider<Task> checkTask = project.getTasks().named("check");
