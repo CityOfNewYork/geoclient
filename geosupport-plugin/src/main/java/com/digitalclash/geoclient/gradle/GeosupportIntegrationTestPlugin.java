@@ -13,7 +13,7 @@ import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.testing.Test;
 
-import com.digitalclash.geoclient.gradle.tasks.GeosupportIntegrationTest;
+import com.digitalclash.geoclient.gradle.tasks.GeosupportIntegrationTestOptions;
 
 public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
     static final String TEST_NAME = "geosupportIntegrationTest";
