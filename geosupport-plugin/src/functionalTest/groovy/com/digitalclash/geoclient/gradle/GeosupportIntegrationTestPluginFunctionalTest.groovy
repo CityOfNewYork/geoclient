@@ -40,8 +40,10 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
                 id 'com.digitalclash.geoclient.gradle.geosupport-integration-test'
             }
 
-            geosupport {
-                geofiles = "/usr/local/fls/"
+            geosupportApplication {
+                geosupport {
+                    geofiles = "/usr/local/fls/"
+                }
             }
 
             geosupportIntegrationTest {

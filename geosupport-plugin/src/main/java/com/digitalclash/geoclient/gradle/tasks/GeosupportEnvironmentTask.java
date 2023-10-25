@@ -1,5 +1,6 @@
 package com.digitalclash.geoclient.gradle.tasks;
 
+import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
@@ -10,10 +11,37 @@ import org.gradle.api.tasks.PathSensitive;
 import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.TaskAction;
 
-public abstract class GeosupportEnvironmentTask extends DefaultTask {
+import com.digitalclash.geoclient.gradle.GeosupportApplication;
+import com.digitalclash.geoclient.gradle.GeosupportExtension;
+import com.digitalclash.geoclient.gradle.GeosupportIntegrationTestOptions;
 
-    private final Property<Boolean> validateBuildtime = getProject().getObjects().property(Boolean.class);
-    private final Property<Boolean> validateRuntime = getProject().getObjects().property(Boolean.class);
+public abstract class GeosupportEnvironmentTask extends DefaultTask implements GeosupportApplicationAware {
+
+    private final GeosupportApplication geosupportApplication;
+    private final Property<Boolean> validateBuildtime;
+    private final Property<Boolean> validateRuntime;
+
+    public GeosupportEnvironmentTask() {
+        geosupportApplication = getProject().getObjects().newInstance(GeosupportApplication.class);
+        validateBuildtime = getProject().getObjects().property(Boolean.class);
+        validateRuntime = getProject().getObjects().property(Boolean.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void geosupportApplication(Action<? super GeosupportApplication> action) {
+        action.execute(geosupportApplication);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public final GeosupportApplication getGeosupportApplication() {
+        return geosupportApplication;
+    }
 
     /**
      * Validate build time configuration. Defaults to false.
@@ -25,7 +53,7 @@ public abstract class GeosupportEnvironmentTask extends DefaultTask {
      */
     @Input
     @Optional
-    public final Property<Boolean> isValidateBuildtime() {
+    public final Property<Boolean> getValidateBuildtime() {
         return validateBuildtime;
     }
 
@@ -39,7 +67,7 @@ public abstract class GeosupportEnvironmentTask extends DefaultTask {
      */
     @Input
     @Optional
-    public final Property<Boolean> isValidateRuntime() {
+    public final Property<Boolean> getValidateRuntime() {
         return validateRuntime;
     }
 }

@@ -13,7 +13,7 @@ import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.testing.Test;
 
-import com.digitalclash.geoclient.gradle.tasks.GeosupportIntegrationTestOptions;
+import com.digitalclash.geoclient.gradle.tasks.GeosupportApplicationAware;
 
 public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
     static final String TEST_NAME = "geosupportIntegrationTest";
@@ -24,19 +24,22 @@ public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
     @Override
     public void apply(final Project project) {
         project.getPlugins().apply(GeosupportPlugin.class);
-        GeosupportExtension geosupportExtension = project.getExtensions().getByType(GeosupportExtension.class);
-        GeoclientExtension geoclientExtension = project.getExtensions().getByType(GeoclientExtension.class);
+
+        GeosupportApplication geosupportApplication = project.getExtensions().getByType(GeosupportApplication.class);
+        GeosupportExtension geosupportExtension = geosupportApplication.getGeosupport();
+        GeosupportIntegrationTestOptions integrationTestOptions = geosupportApplication.getIntegrationTestOptions();
+
         project.getPlugins().withType(JavaPlugin.class).configureEach(javaPlugin -> {
             SourceSetContainer sourceSets = project.getExtensions().getByType(SourceSetContainer.class);
-            SourceSet sourceSet = sourceSets.create(SOURCE_SET_NAME);
-            sourceSet.getJava().srcDir(JAVA_SOURCE_SET_DIR);
-            sourceSet.getResources().srcDir(JAVA_RESOURCES_SOURCE_SET_DIR);
+            SourceSet sourceSet = sourceSets.create(integrationTestOptions.getSourceSetName().get());
+            sourceSet.getJava().srcDir(integrationTestOptions.getJavaSourceDir());
+            sourceSet.getResources().srcDir(integrationTestOptions.getResourcesSourceDir());
             sourceSet.getCompileClasspath().plus(sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME).getOutput());
             sourceSet.getRuntimeClasspath().plus(sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME).getOutput());
             Configuration implementation = project.getConfigurations().getByName(sourceSet.getImplementationConfigurationName());
             implementation.extendsFrom(project.getConfigurations().getByName(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME));
             Configuration runtimeOnly = project.getConfigurations().getByName(sourceSet.getRuntimeOnlyConfigurationName());
-            TaskProvider<Test> test = project.getTasks().register(TEST_NAME, Test.class, new Action<Test>(){
+            TaskProvider<Test> test = project.getTasks().register(integrationTestOptions.getTestName().get(), Test.class, new Action<Test>(){
                 public void execute(Test test){
                     test.setDescription("Runs tests which call Geosupport native code using JNI.");
                     test.setGroup("verification");
