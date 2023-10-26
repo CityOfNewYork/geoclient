@@ -31,7 +31,7 @@ import gov.nyc.doitt.gis.geoclient.jni.util.Platform;
  */
 public class NativeLibraryLoader {
 
-    final Logger logger = LoggerFactory.getLogger(NativeLibraryLocator.class);
+    final Logger logger = LoggerFactory.getLogger(NativeLibraryLoader.class);
 
     private final String baseLibraryName;
 
