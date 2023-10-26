@@ -1,6 +1,8 @@
 plugins {
     id 'groovy'
     id 'java-gradle-plugin'
+    id 'com.gradle.plugin-publish' version '1.1.0'
+    id 'com.diffplug.spotless' version '6.22.0'
 }
 
 repositories {
@@ -83,6 +85,34 @@ dependencies {
         exclude group: 'org.codehaus.groovy'
     }
     functionalTestRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'localPluginRepository'
+            url = '../../local-plugin-repository'
+        }
+    }
+}
+
+spotless {
+    ratchetFrom 'origin/main'
+    format 'misc', {
+            target '*.gradle', '*.md', '.gitignore'
+            endWithNewline()
+            indentWithSpaces()
+            trimTrailingWhitespace()
+    }
+    java {
+        endWithNewline()
+        //eclipse()
+        importOrderFile(rootProject.file('src/spotless/eclipse.importorder'))
+        indentWithSpaces()
+        licenseHeaderFile(rootProject.file('src/spotless/apache-license-2.0.java'))
+        toggleOffOn()
+        trimTrailingWhitespace()
+    }
 }
 
 task printSourceSets(){
