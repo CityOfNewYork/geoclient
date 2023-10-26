@@ -15,7 +15,6 @@ integrationTest {
         events "failed", "skipped", "passed"
         exceptionFormat "short"
 
-        // options for log level DEBUG
         debug {
         // displayGranularity = 2
             events "failed", "skipped", "passed"
@@ -23,7 +22,6 @@ integrationTest {
             showStandardStreams = true
         }
 
-        // options for log level INFO
         info {
         // remove standard output/error logging from --info builds
         // by assigning only 'failed' and 'skipped' events
@@ -39,7 +37,5 @@ test {
         //displayGranularity = 2
         events "failed", "skipped", "passed"
         exceptionFormat "short"
-        //showStandardStreams = true
-        // TODO filter warning from org.apiguardian.api.API.Status.STABLE
     }
 }
