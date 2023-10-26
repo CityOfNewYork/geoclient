@@ -20,11 +20,9 @@ import java.io.File;
 import com.digitalclash.geoclient.gradle.internal.ExtensionUtils;
 import com.digitalclash.geoclient.gradle.internal.GeoclientConfigResolver;
 import com.digitalclash.geoclient.gradle.internal.GeosupportConfigResolver;
-import com.digitalclash.geoclient.gradle.tasks.GeosupportApplicationAware;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
-import org.gradle.api.file.DirectoryProperty;
 import org.gradle.api.model.ObjectFactory;
 
 /**

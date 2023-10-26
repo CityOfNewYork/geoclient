@@ -1,0 +1,8 @@
+<!DOCTYPE suppressions PUBLIC "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN" "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+<suppressions>
+    <!--
+    <suppress  checks="JavadocPackage" files="geoclient-jni[\\/]src[\\/]main[\\/]java[\\/]gov[\\/]nyc[\\/]doitt[\\/]gis[\\/]geoclient[\\/]jni[\\/]*"/>
+    -->
+    <suppress files="[\\/]src[\\/]integrationTest[\\/]java[\\/]" checks="Javadoc*" />
+    <suppress files="[\\/]src[\\/]test[\\/]java[\\/]" checks="Javadoc*" />
+</suppressions>

@@ -15,15 +15,11 @@
  */
 package com.digitalclash.geoclient.gradle;
 
-import com.digitalclash.geoclient.gradle.tasks.GeosupportApplicationAware;
-
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.artifacts.Configuration;
-import org.gradle.api.file.SourceDirectorySet;
-import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.SourceSetContainer;
