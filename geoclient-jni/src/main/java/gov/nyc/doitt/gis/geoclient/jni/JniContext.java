@@ -22,6 +22,7 @@ public class JniContext {
 
     static final Logger logger = LoggerFactory.getLogger(JniContext.class);
 
+    public static final String DEFAULT_GC_JNI_VERSION = "geoclient-jni-2";
     private static final String GC_SHAREDLIB_BASENAME = "geoclientjni";
     private static final String GC_PACKAGE_PATH = JniContext.class.getPackage().getName().replaceAll("\\.", "\\/");
 
@@ -46,21 +47,30 @@ public class JniContext {
 
     }
 
-    private static String getSystemProperty(SystemProperty sysProp) {
-        logger.info("Retrieving System property using {}", sysProp);
-        return System.getProperty(sysProp.key());
+    private static String getSystemProperty(SystemProperty sysProp, String defaultValue) {
+        String value = System.getProperty(sysProp.key());
+        if (value != null) {
+            logger.info("Using Java system property {} with value {}.", sysProp, value);
+            return value;
+        }
+        if (defaultValue != null) {
+            logger.info("Java system property {} is not set. Using default value {}.", sysProp, defaultValue);
+            return defaultValue;
+        }
+        logger.warn("Java system property {} is not set and has no default value.", sysProp);
+        return null;
     }
 
     public static String getGeoclientJniVersion() {
-        return JniContext.getSystemProperty(SystemProperty.GC_JNI_VERSION);
+        return JniContext.getSystemProperty(SystemProperty.GC_JNI_VERSION, DEFAULT_GC_JNI_VERSION);
     }
 
     public static String getJvmTempDir() {
-        return JniContext.getSystemProperty(SystemProperty.JAVA_IO_TMPDIR);
+        return JniContext.getSystemProperty(SystemProperty.JAVA_IO_TMPDIR, null);
     }
 
     public static String getJvmLibraryPath() {
-        return JniContext.getSystemProperty(SystemProperty.JAVA_LIBRARY_PATH);
+        return JniContext.getSystemProperty(SystemProperty.JAVA_LIBRARY_PATH, null);
     }
 
     public static String getSharedLibraryBaseName() {
