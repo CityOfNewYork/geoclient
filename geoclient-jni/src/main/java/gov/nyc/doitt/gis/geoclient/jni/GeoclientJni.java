@@ -150,11 +150,11 @@ public class GeoclientJni implements Geoclient {
         String libBaseName = JniContext.getSharedLibraryBaseName();
         String jvmTempDir = JniContext.getJvmTempDir();
         try {
-            new NativeLibraryLoader(libBaseName)
-                    .loadLibrary(jvmTempDir);
-                        logger.info(
-                            "Successfully loaded {} library from {}:",
-                            libBaseName, jvmTempDir);
+            logger.info("Attempting to load {} library from java.io.tmpdir {}.",
+                    libBaseName, jvmTempDir);
+            new NativeLibraryLoader(libBaseName).loadLibrary(jvmTempDir);
+            logger.info("Successfully loaded {} library from java.io.tmpdir {}.",
+                    libBaseName, jvmTempDir);
         }
         catch (IOException ioe) {
             logger.error("Error loading {} library from {}:", libBaseName, jvmTempDir);
