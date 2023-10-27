@@ -48,14 +48,23 @@ tasks.named("check") {
 
 gradlePlugin {
     testSourceSets sourceSets.functionalTest
+
+    website = 'https://github.com/mlipper/geoclient'
+    vcsUrl = 'https://github.com/mlipper/geoclient'
     plugins {
         geosupportPlugin {
             id = 'com.digitalclash.geoclient.gradle.geosupport'
             implementationClass = 'com.digitalclash.geoclient.gradle.GeosupportPlugin'
+            displayName = 'Geosupport plugin'
+            description = 'Gradle plugin allowing JVM-based projects to configure and validate Geosupport environment.'
+            tags.set(['geoclient', 'geosupport', 'geocoding', 'nyc', 'jni'])
         }
         geosupportIntegrationTestPlugin {
             id = 'com.digitalclash.geoclient.gradle.geosupport-integration-test'
             implementationClass = 'com.digitalclash.geoclient.gradle.GeosupportIntegrationTestPlugin'
+            displayName = 'Geosupport integration test plugin'
+            description = 'Gradle plugin that adds the ability to declare and configure JVM integration tests which use JNI to call Geosupport functions.'
+            tags.set(['geoclient', 'geosupport', 'testing', 'integration testing', 'geocoding', 'nyc', 'jni'])
         }
     }
 }
@@ -90,26 +99,22 @@ dependencies {
 
 javadoc {
     description = 'Generates project-level javadoc for use in -javadoc jar'
-
     options.addStringOption('Xdoclint:none', '-quiet')
     options.author = true
     options.encoding = 'UTF-8'
     options.header = project.name
-    options.memberLevel = JavadocMemberLevel.PROTECTED
+    options.memberLevel = JavadocMemberLevel.PUBLIC
     options.noTimestamp = true
     options.use = true
-
-    // Suppress warnings due to cross-module @see and @link references.
-    // Note that global "api" task does display all warnings.
-    logging.captureStandardError LogLevel.INFO
-    logging.captureStandardOutput LogLevel.INFO  // suppress "## warnings" message
+    //logging.captureStandardError LogLevel.INFO
+    //logging.captureStandardOutput LogLevel.INFO
 }
 
 publishing {
     repositories {
         maven {
-            name = 'localPluginRepository'
-            url = '../../local-plugin-repository'
+            name = 'localPlugins'
+            url = '../../local-plugins'
         }
     }
 }
