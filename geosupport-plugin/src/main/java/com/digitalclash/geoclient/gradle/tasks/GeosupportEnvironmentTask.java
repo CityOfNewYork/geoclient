@@ -16,15 +16,11 @@
 package com.digitalclash.geoclient.gradle.tasks;
 
 import com.digitalclash.geoclient.gradle.GeosupportApplication;
-//import com.digitalclash.geoclient.gradle.GeosupportExtension;
-//import com.digitalclash.geoclient.gradle.GeosupportIntegrationTestOptions;
 
 import org.gradle.api.Action;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
-//import org.gradle.api.tasks.InputDirectory;
-//import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
 //import org.gradle.api.tasks.PathSensitive;
 //import org.gradle.api.tasks.PathSensitivity;

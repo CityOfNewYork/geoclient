@@ -31,8 +31,9 @@ package com.digitalclash.geoclient.gradle.internal;
  */
 public class GeosupportConfigResolver extends AbstractConfigResolver {
 
+    public static final String DEFAULT_WINDOWS_DRIVE_LETTER = "c:";
     public static final String DEFAULT_HOME_LINUX = "/opt/geosupport/current";
-    public static final String DEFAULT_HOME_WINDOWS = "c:" + DEFAULT_HOME_LINUX;
+    public static final String DEFAULT_HOME_WINDOWS = DEFAULT_WINDOWS_DRIVE_LETTER + DEFAULT_HOME_LINUX;
 
     static final String GS_GEOFILES_ENVVAR = "GEOFILES";
     static final String GS_GEOFILES_SYSTEM = "gs.geofiles";

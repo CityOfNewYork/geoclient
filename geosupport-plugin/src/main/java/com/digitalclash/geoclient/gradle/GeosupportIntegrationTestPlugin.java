@@ -27,10 +27,6 @@ import org.gradle.api.tasks.TaskProvider;
 import org.gradle.api.tasks.testing.Test;
 
 public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
-    static final String TEST_NAME = "geosupportIntegrationTest";
-    static final String SOURCE_SET_NAME = "geosupportIntegrationTest";
-    static final String JAVA_SOURCE_SET_DIR = String.format("src/%s/java", SOURCE_SET_NAME);
-    static final String JAVA_RESOURCES_SOURCE_SET_DIR = String.format("src/%s/resources", SOURCE_SET_NAME);
 
     @Override
     public void apply(final Project project) {
