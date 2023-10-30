@@ -16,27 +16,37 @@
 package com.digitalclash.geoclient.gradle;
 
 import com.digitalclash.geoclient.gradle.GeosupportExtension;
-import com.digitalclash.geoclient.gradle.GeosupportIntegrationTestOptions;
+//import com.digitalclash.geoclient.gradle.GeosupportIntegrationTestOptions;
 
 import org.gradle.api.Action;
-import org.gradle.api.tasks.Nested;
+import org.gradle.api.model.ObjectFactory;
 
 /**
  * Top-level extension container for nesting other Geosupport extensions.
  */
-abstract public class GeosupportApplication {
+public class GeosupportApplication {
 
-    @Nested
-    abstract public GeosupportExtension getGeosupport();
+    private final GeosupportExtension geosupport;
+    //private final GeosupportIntegrationTestOptions integrationTestOptions;
 
-    @Nested
-    abstract public GeosupportIntegrationTestOptions getIntegrationTestOptions();
+    public final GeosupportExtension getGeosupport() {
+        return geosupport;
+    }
+
+    //public final GeosupportIntegrationTestOptions getIntegrationTestOptions() {
+    //    return integrationTestOptions;
+    //}
+
+    public GeosupportApplication (ObjectFactory objectFactory) {
+        geosupport = objectFactory.newInstance(GeosupportExtension.class, objectFactory);
+        //integrationTestOptions = objectFactory.newInstance(GeosupportIntegrationTestOptions.class, objectFactory);
+    }
 
     public void geosupport(Action<? super GeosupportExtension> action) {
         action.execute(getGeosupport());
     }
 
-    public void integrationTestOptions(Action<? super GeosupportIntegrationTestOptions> action) {
-        action.execute(getIntegrationTestOptions());
-    }
+    //public void integrationTestOptions(Action<? super GeosupportIntegrationTestOptions> action) {
+    //    action.execute(getIntegrationTestOptions());
+    //}
 }

@@ -20,6 +20,9 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.Task;
 import org.gradle.api.artifacts.Configuration;
+import org.gradle.api.logging.Logger;
+import org.gradle.api.logging.Logging;
+import org.gradle.api.plugins.ExtensionAware;
 import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.SourceSetContainer;
@@ -28,13 +31,17 @@ import org.gradle.api.tasks.testing.Test;
 
 public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
 
+    public static final String INTEGRATION_TEST_OPTIONS_EXTENSION_NAME = "integrationTest";
+
+    private Logger logger = Logging.getLogger(GeosupportIntegrationTestPlugin.class);
+
     @Override
     public void apply(final Project project) {
         project.getPlugins().apply(GeosupportPlugin.class);
-
         GeosupportApplication geosupportApplication = project.getExtensions().getByType(GeosupportApplication.class);
-        GeosupportExtension geosupportExtension = geosupportApplication.getGeosupport();
-        GeosupportIntegrationTestOptions integrationTestOptions = geosupportApplication.getIntegrationTestOptions();
+        GeosupportIntegrationTestOptions integrationTestOptions = ((ExtensionAware)geosupportApplication).getExtensions().create(INTEGRATION_TEST_OPTIONS_EXTENSION_NAME, GeosupportIntegrationTestOptions.class, project.getObjects());
+        final GeosupportExtension geosupportExtension = geosupportApplication.getGeosupport();
+        logger.quiet("[ITEST] integrationTestOptions: {}.", integrationTestOptions);
 
         project.getPlugins().withType(JavaPlugin.class).configureEach(javaPlugin -> {
             SourceSetContainer sourceSets = project.getExtensions().getByType(SourceSetContainer.class);

@@ -57,7 +57,7 @@ public class ExtensionUtils {
                     @Override
                     public void execute(GeosupportApplication target) {
                         target.geosupport(ExtensionUtils.conventionsFrom(extension.getGeosupport()));
-                        target.integrationTestOptions(ExtensionUtils.conventionsFrom(extension.getIntegrationTestOptions()));
+                        //target.integrationTestOptions(ExtensionUtils.conventionsFrom(extension.getIntegrationTestOptions()));
                     }
         };
     }

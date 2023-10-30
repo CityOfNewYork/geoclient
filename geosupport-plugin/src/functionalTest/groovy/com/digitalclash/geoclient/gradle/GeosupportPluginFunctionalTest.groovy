@@ -43,14 +43,14 @@ class GeosupportPluginFunctionalTest extends Specification {
                     println("geosupport.home=\${geosupportExtension.home.get()}")
                     println("geosupport.includePath=\${geosupportExtension.includePath.get()}")
                     println("geosupport.libraryPath=\${geosupportExtension.libraryPath.get()}")
-                    def integrationTestOpts = geosupportApplication.integrationTestOptions
-                    println("integrationTestOptions.testName=\${integrationTestOpts.testName.get()}")
-                    println("integrationTestOptions.sourceSetName=\${integrationTestOpts.sourceSetName.get()}")
-                    println("integrationTestOptions.javaSourceDir=\${integrationTestOpts.javaSourceDir.get()}")
-                    println("integrationTestOptions.resourcesSourceDir=\${integrationTestOpts.resourcesSourceDir.get()}")
-                    println("integrationTestOptions.validate=\${integrationTestOpts.validate.get()}")
-                    println("integrationTestOptions.useJavaLibraryPath=\${integrationTestOpts.useJavaLibraryPath.get()}")
-                    println("integrationTestOptions.exportLdLibraryPath=\${integrationTestOpts.exportLdLibraryPath.get()}")
+                    //def integrationTestOpts = geosupportApplication.integrationTestOptions
+                    //println("integrationTestOptions.testName=\${integrationTestOpts.testName.get()}")
+                    //println("integrationTestOptions.sourceSetName=\${integrationTestOpts.sourceSetName.get()}")
+                    //println("integrationTestOptions.javaSourceDir=\${integrationTestOpts.javaSourceDir.get()}")
+                    //println("integrationTestOptions.resourcesSourceDir=\${integrationTestOpts.resourcesSourceDir.get()}")
+                    //println("integrationTestOptions.validate=\${integrationTestOpts.validate.get()}")
+                    //println("integrationTestOptions.useJavaLibraryPath=\${integrationTestOpts.useJavaLibraryPath.get()}")
+                    //println("integrationTestOptions.exportLdLibraryPath=\${integrationTestOpts.exportLdLibraryPath.get()}")
 
                 }
             }
@@ -69,13 +69,13 @@ class GeosupportPluginFunctionalTest extends Specification {
         result.output.contains("geosupport.home=${defaultGeosupportHome}")
         result.output.contains("geosupport.includePath=${defaultGeosupportHome}/include")
         result.output.contains("geosupport.libraryPath=${defaultGeosupportHome}/lib")
-        result.output.contains("integrationTestOptions.testName=${DEFAULT_INTEGRATION_TEST_NAME}")
-        result.output.contains("integrationTestOptions.sourceSetName=${DEFAULT_INTEGRATION_TEST_SOURCE_SET_NAME}")
-        result.output.contains("integrationTestOptions.javaSourceDir=${testProjectDir}/${DEFAULT_INTEGRATION_TEST_JAVA_SOURCE_DIR}")
-        result.output.contains("integrationTestOptions.resourcesSourceDir=${testProjectDir}/${DEFAULT_INTEGRATION_TEST_RESOURCES_SOURCE_DIR}")
-        result.output.contains("integrationTestOptions.validate=false")
-        result.output.contains("integrationTestOptions.useJavaLibraryPath=false")
-        result.output.contains("integrationTestOptions.exportLdLibraryPath=false")
+        //result.output.contains("integrationTestOptions.testName=${DEFAULT_INTEGRATION_TEST_NAME}")
+        //result.output.contains("integrationTestOptions.sourceSetName=${DEFAULT_INTEGRATION_TEST_SOURCE_SET_NAME}")
+        //result.output.contains("integrationTestOptions.javaSourceDir=${testProjectDir}/${DEFAULT_INTEGRATION_TEST_JAVA_SOURCE_DIR}")
+        //result.output.contains("integrationTestOptions.resourcesSourceDir=${testProjectDir}/${DEFAULT_INTEGRATION_TEST_RESOURCES_SOURCE_DIR}")
+        //result.output.contains("integrationTestOptions.validate=false")
+        //result.output.contains("integrationTestOptions.useJavaLibraryPath=false")
+        //result.output.contains("integrationTestOptions.exportLdLibraryPath=false")
 
         result.task(":showGeosupportApplicationDefaults").outcome == SUCCESS
     }
@@ -124,60 +124,60 @@ class GeosupportPluginFunctionalTest extends Specification {
         result.task(":showCustomGeosupportExtension").outcome == SUCCESS
     }
 
-    def "integrationTestOptions can be customized"() {
-        given:
-        settingsFile << "rootProject.name = 'goat-farm'"
-        buildFile << """
-            plugins {
-                id 'com.digitalclash.geoclient.gradle.geosupport'
-            }
+    //def "integrationTestOptions can be customized"() {
+    //    given:
+    //    settingsFile << "rootProject.name = 'goat-farm'"
+    //    buildFile << """
+    //        plugins {
+    //            id 'com.digitalclash.geoclient.gradle.geosupport'
+    //        }
 
-            geosupportApplication {
-                integrationTestOptions {
-                    testName = 'goatTest'
-                    sourceSetName = 'goatee'
-                    javaSourceDir = layout.projectDirectory.dir('src/iTest/java')
-                    resourcesSourceDir = layout.projectDirectory.dir('src/intTest/resources')
-                    validate = true
-                    useJavaLibraryPath = true
-                    exportLdLibraryPath = true
-                }
-            }
+    //        geosupportApplication {
+    //            integrationTestOptions {
+    //                testName = 'goatTest'
+    //                sourceSetName = 'goatee'
+    //                javaSourceDir = layout.projectDirectory.dir('src/iTest/java')
+    //                resourcesSourceDir = layout.projectDirectory.dir('src/intTest/resources')
+    //                validate = true
+    //                useJavaLibraryPath = true
+    //                exportLdLibraryPath = true
+    //            }
+    //        }
 
-            task showCustomIntegrationTestOptions {
-                doLast {
-                    def integrationTestOpts = geosupportApplication.integrationTestOptions
-                    println("integrationTestOptions.testName=\${integrationTestOpts.testName.get()}")
-                    println("integrationTestOptions.sourceSetName=\${integrationTestOpts.sourceSetName.get()}")
-                    println("integrationTestOptions.javaSourceDir=\${integrationTestOpts.javaSourceDir.get()}")
-                    println("integrationTestOptions.resourcesSourceDir=\${integrationTestOpts.resourcesSourceDir.get()}")
-                    println("integrationTestOptions.validate=\${integrationTestOpts.validate.get()}")
-                    println("integrationTestOptions.useJavaLibraryPath=\${integrationTestOpts.useJavaLibraryPath.get()}")
-                    println("integrationTestOptions.exportLdLibraryPath=\${integrationTestOpts.exportLdLibraryPath.get()}")
+    //        task showCustomIntegrationTestOptions {
+    //            doLast {
+    //                def integrationTestOpts = geosupportApplication.integrationTestOptions
+    //                println("integrationTestOptions.testName=\${integrationTestOpts.testName.get()}")
+    //                println("integrationTestOptions.sourceSetName=\${integrationTestOpts.sourceSetName.get()}")
+    //                println("integrationTestOptions.javaSourceDir=\${integrationTestOpts.javaSourceDir.get()}")
+    //                println("integrationTestOptions.resourcesSourceDir=\${integrationTestOpts.resourcesSourceDir.get()}")
+    //                println("integrationTestOptions.validate=\${integrationTestOpts.validate.get()}")
+    //                println("integrationTestOptions.useJavaLibraryPath=\${integrationTestOpts.useJavaLibraryPath.get()}")
+    //                println("integrationTestOptions.exportLdLibraryPath=\${integrationTestOpts.exportLdLibraryPath.get()}")
 
-                }
-            }
-        """
+    //            }
+    //        }
+    //    """
 
-        when:
-        def result = GradleRunner.create()
-            .withProjectDir(testProjectDir)
-            .withArguments('showCustomIntegrationTestOptions')
-            .withPluginClasspath()
-            .forwardOutput()
-            .build()
+    //    when:
+    //    def result = GradleRunner.create()
+    //        .withProjectDir(testProjectDir)
+    //        .withArguments('showCustomIntegrationTestOptions')
+    //        .withPluginClasspath()
+    //        .forwardOutput()
+    //        .build()
 
-        then:
-        result.output.contains("integrationTestOptions.testName=goatTest")
-        result.output.contains("integrationTestOptions.sourceSetName=goatee")
-        result.output.contains("integrationTestOptions.javaSourceDir=${testProjectDir}/src/iTest/java")
-        result.output.contains("integrationTestOptions.resourcesSourceDir=${testProjectDir}/src/intTest/resources")
-        result.output.contains("integrationTestOptions.validate=true")
-        result.output.contains("integrationTestOptions.useJavaLibraryPath=true")
-        result.output.contains("integrationTestOptions.exportLdLibraryPath=true")
+    //    then:
+    //    result.output.contains("integrationTestOptions.testName=goatTest")
+    //    result.output.contains("integrationTestOptions.sourceSetName=goatee")
+    //    result.output.contains("integrationTestOptions.javaSourceDir=${testProjectDir}/src/iTest/java")
+    //    result.output.contains("integrationTestOptions.resourcesSourceDir=${testProjectDir}/src/intTest/resources")
+    //    result.output.contains("integrationTestOptions.validate=true")
+    //    result.output.contains("integrationTestOptions.useJavaLibraryPath=true")
+    //    result.output.contains("integrationTestOptions.exportLdLibraryPath=true")
 
-        result.task(":showCustomIntegrationTestOptions").outcome == SUCCESS
-    }
+    //    result.task(":showCustomIntegrationTestOptions").outcome == SUCCESS
+    //}
 
     def "geoclientExtension defaults are set"() {
         given:

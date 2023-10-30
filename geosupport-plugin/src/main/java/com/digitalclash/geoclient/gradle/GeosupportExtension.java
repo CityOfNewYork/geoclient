@@ -15,24 +15,74 @@
  */
 package com.digitalclash.geoclient.gradle;
 
+import java.io.File;
+import javax.inject.Inject;
+
 import org.gradle.api.file.DirectoryProperty;
+import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
 import org.gradle.api.tasks.Optional;
 
-public abstract class GeosupportExtension {
+import com.digitalclash.geoclient.gradle.internal.GeosupportConfigResolver;
+
+public class GeosupportExtension {
+
+    private final Property<String> geofiles;
+    private final Property<String> home;
+    private final DirectoryProperty includePath;
+    private final Property<String> libraryPath;
+
+    @Input
+    public final Property<String> getGeofiles() {
+        return geofiles;
+    }
 
     @Input
     @Optional
-    abstract public Property<String> getGeofiles();
-    @Input
-    @Optional
-    abstract public Property<String> getHome();
+    public final Property<String> getHome() {
+        return home;
+    }
+
     @InputDirectory
     @Optional
-    abstract public DirectoryProperty getIncludePath();
+    public final DirectoryProperty getIncludePath() {
+        return includePath;
+    }
+
     @Input
     @Optional
-    abstract public Property<String> getLibraryPath();
+    public final Property<String> getLibraryPath() {
+        return libraryPath;
+    }
+
+    @Inject
+    public GeosupportExtension(ObjectFactory objectFactory) {
+        GeosupportConfigResolver config = new GeosupportConfigResolver();
+        geofiles = objectFactory.property(String.class);
+        geofiles.convention(config.getGeofiles());
+        home = objectFactory.property(String.class);
+        home.convention(config.getHome());
+        includePath = objectFactory.directoryProperty();
+        includePath.convention(objectFactory.directoryProperty().fileValue(new File(config.getIncludePath())));
+        libraryPath = objectFactory.property(String.class);
+        libraryPath.convention(config.getLibraryPath());
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append("GeosupportExtension [ ");
+        sb.append("home: ");
+        sb.append(this.getHome().getOrNull());
+        sb.append(", geofiles: ");
+        sb.append(this.getGeofiles().getOrNull());
+        sb.append(", includePath: ");
+        sb.append(this.getIncludePath().getOrNull());
+        sb.append(", libraryPath: ");
+        sb.append(this.getLibraryPath().getOrNull());
+        sb.append(" ]");
+        return sb.toString();
+    }
 }

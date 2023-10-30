@@ -15,32 +15,105 @@
  */
 package com.digitalclash.geoclient.gradle;
 
+import java.io.File;
+import javax.inject.Inject;
+
 import org.gradle.api.file.DirectoryProperty;
+import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
-import org.gradle.api.tasks.Optional;
+//import org.gradle.api.tasks.Optional;
 
-public abstract class GeosupportIntegrationTestOptions {
+public class GeosupportIntegrationTestOptions {
+
+    static final String DEFAULT_INTEGRATION_TEST_NAME = "geosupportIntegrationTest";
+    static final String DEFAULT_INTEGRATION_TEST_SOURCE_SET_NAME = "geosupportIntegrationTest";
+    static final String DEFAULT_INTEGRATION_TEST_JAVA_SOURCE_DIR = String.format("src/%s/java", DEFAULT_INTEGRATION_TEST_SOURCE_SET_NAME);
+    static final String DEFAULT_INTEGRATION_TEST_RESOURCES_SOURCE_DIR = String.format("src/%s/resources", DEFAULT_INTEGRATION_TEST_SOURCE_SET_NAME);
+
+    private final Property<String> testName;
+    private final Property<String> sourceSetName;
+    private final DirectoryProperty javaSourceDir;
+    private final DirectoryProperty resourcesSourceDir;
+    private final Property<Boolean> validate;
+    private final Property<Boolean> useJavaLibraryPath;
+    private final Property<Boolean> exportLdLibraryPath;
+
     @Input
-    @Optional
-    abstract public Property<String> getTestName();
+    public final Property<String> getTestName() {
+        return testName;
+    }
+
     @Input
-    @Optional
-    abstract public Property<String> getSourceSetName();
+    public final Property<String> getSourceSetName(){
+        return sourceSetName;
+    }
+
     @InputDirectory
-    @Optional
-    abstract public DirectoryProperty getJavaSourceDir();
+    public final DirectoryProperty getJavaSourceDir() {
+        return javaSourceDir;
+    }
+
     @InputDirectory
-    @Optional
-    abstract public DirectoryProperty getResourcesSourceDir();
+    public final DirectoryProperty getResourcesSourceDir(){
+        return resourcesSourceDir;
+    }
+
     @Input
-    @Optional
-    abstract public Property<Boolean> getValidate();
+    public final Property<Boolean> getValidate() {
+        return validate;
+    }
+
     @Input
-    @Optional
-    abstract public Property<Boolean> getUseJavaLibraryPath();
+    public final Property<Boolean> getUseJavaLibraryPath(){
+        return useJavaLibraryPath;
+    }
+
     @Input
-    @Optional
-    abstract public Property<Boolean> getExportLdLibraryPath();
+    public final Property<Boolean> getExportLdLibraryPath() {
+        return exportLdLibraryPath;
+    }
+
+    @Inject
+    public GeosupportIntegrationTestOptions(ObjectFactory objectFactory) {
+        testName = objectFactory.property(String.class);
+        testName.convention(DEFAULT_INTEGRATION_TEST_NAME);
+        sourceSetName = objectFactory.property(String.class);
+        sourceSetName.convention(DEFAULT_INTEGRATION_TEST_SOURCE_SET_NAME);
+        javaSourceDir = objectFactory.directoryProperty();
+        javaSourceDir.convention(objectFactory.directoryProperty().fileValue(new File(DEFAULT_INTEGRATION_TEST_JAVA_SOURCE_DIR)));
+        resourcesSourceDir = objectFactory.directoryProperty();
+        resourcesSourceDir.convention(objectFactory.directoryProperty().fileValue(new File(DEFAULT_INTEGRATION_TEST_RESOURCES_SOURCE_DIR)));
+        validate = objectFactory.property(Boolean.class);
+        validate.convention(false);
+        useJavaLibraryPath = objectFactory.property(Boolean.class);
+        useJavaLibraryPath.convention(false);
+        exportLdLibraryPath = objectFactory.property(Boolean.class);
+        exportLdLibraryPath.convention(false);
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer sb =new StringBuffer();
+        sb.append("GeosupportIntegrationTestOptions [ ");
+        sb.append("testName: ");
+        sb.append(this.getTestName().getOrNull());
+        sb.append(", sourceSetName: ");
+        sb.append(this.getSourceSetName().getOrNull());
+        sb.append(", javaSourceDir: ");
+        sb.append(this.getJavaSourceDir().getOrNull());
+        sb.append(", resourcesSourceDir: ");
+        sb.append(this.getResourcesSourceDir().getOrNull());
+        sb.append(", validate:");
+        sb.append(this.getValidate().getOrNull());
+        sb.append(", useJavaLibraryPath: ");
+        sb.append(this.getUseJavaLibraryPath().getOrNull());
+        sb.append(", exportLdLibraryPath: ");
+        sb.append(this.getExportLdLibraryPath().getOrNull());
+        sb.append(" ]");
+        return sb.toString();
+    }
+
+
 }

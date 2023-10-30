@@ -13,27 +13,22 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
     @TempDir File testProjectDir
     File settingsFile
     File buildFile
-    //File javaSrcDir
-    File integrationTestSrcDir
-    File goatTestFile
     String defaultGeosupportHome
 
     def setup() {
         settingsFile = new File(testProjectDir, 'settings.gradle')
         buildFile = new File(testProjectDir, 'build.gradle')
-        integrationTestSrcDir = new File(testProjectDir, 'src/geosupportIntegrationTest/java/com/example')
-        integrationTestSrcDir.mkdirs()
-        //javaSrcDir = new File(testProjectDir, 'main/java/com/example')
-        //javaSrcDir.mkdirs()
-        goatTestFile = new File(integrationTestSrcDir, 'GoatTest.java')
         defaultGeosupportHome = DEFAULT_HOME_LINUX
         if(System.getProperty("os.name").toLowerCase().contains("win")) {
             defaultGeosupportHome = DEFAULT_HOME_WINDOWS
         }
     }
-    def "geosupport test environment is configured"() {
-        given:
+
+    def createIntegrationTestSources(sourceSetName, dslString, expectedGeofilesValue) {
         settingsFile << "rootProject.name = 'goat-farm'"
+        if (dslString == null) {
+            dslString = ""
+        }
         buildFile << """
             plugins {
                 id 'java-library'
@@ -41,8 +36,11 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
             }
 
             geosupportApplication {
+                integrationTestOptions {
+                    ${dslString}
+                }
                 geosupport {
-                    geofiles = "/usr/local/fls/"
+                    geofiles = ${expectedGeofilesValue}
                 }
             }
 
@@ -66,7 +64,11 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
 
             }
         """
-        goatTestFile << """
+        println(buildFile)
+        File iTestJavaSrcDir = new File(testProjectDir, "src/${sourceSetName}/java/com/example")
+        iTestJavaSrcDir.mkdirs()
+        File junitSrcFile = new File(iTestJavaSrcDir, 'GoatTest.java')
+        junitSrcFile << """
         package com.example;
 
         import org.junit.jupiter.api.Test;
@@ -75,11 +77,34 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
         public class GoatTest {
             @Test
             public void testEnvironment() {
-                System.out.println("GEOFILES: " + System.getenv("GEOFILES"));
-                assertEquals("/usr/local/fls/", System.getenv("GEOFILES"));
+                System.out.println(String.format("GEOFILES: %s", System.getenv("GEOFILES")));
+                assertEquals("${expectedGeofilesValue}", System.getenv("GEOFILES"));
             }
         }
         """
+    }
+
+    def "default geosupportIntegrationTest configures a passing JUnit test"() {
+        given:
+        //createIntegrationTestSources('geosupportIntegrationTest', null, String.format("%s/fls/", defaultGeosupportHome))
+        createIntegrationTestSources('geosupportIntegrationTest', null, String.format("%s/fls/", '/usr/local'))
+
+        when:
+        def result = GradleRunner.create()
+            .withProjectDir(testProjectDir)
+            .withArguments('geosupportIntegrationTest')
+            .withPluginClasspath()
+            .forwardOutput()
+            .build()
+
+        then:
+        result.task(":geosupportIntegrationTest").outcome == SUCCESS
+    }
+
+    def "custom geosupportIntegrationTest configures a passing JUnit test"() {
+        given:
+        String customSourceSet = 'integrationTest'
+        createIntegrationTestSources(customSourceSet, "sourceSetName = '${customSourceSet}'", String.format("%s/fls/", defaultGeosupportHome))
 
         when:
         def result = GradleRunner.create()
