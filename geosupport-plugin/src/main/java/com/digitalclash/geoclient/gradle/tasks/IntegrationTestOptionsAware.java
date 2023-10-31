@@ -15,7 +15,7 @@
  */
 package com.digitalclash.geoclient.gradle.tasks;
 
-import com.digitalclash.geoclient.gradle.GeosupportIntegrationTestOptions;
+import com.digitalclash.geoclient.gradle.IntegrationTestOptions;
 
 import org.gradle.api.Action;
 import org.gradle.api.Task;
@@ -29,12 +29,12 @@ public interface IntegrationTestOptionsAware extends Task {
     * The target IntegrationTestOptions to be used by the task.
     */
     @Nested
-    GeosupportIntegrationTestOptions getIntegrationTestOptions();
+    IntegrationTestOptions getIntegrationTestOptions();
 
     /**
      * Configures the target IntegrationTestOptions that the task will use.
      *
      * @param action The action to run on the IntegrationTestOptions instance.
      */
-    void integrationTestOptions(Action<? super GeosupportIntegrationTestOptions> action);
+    void integrationTestOptions(Action<? super IntegrationTestOptions> action);
 }

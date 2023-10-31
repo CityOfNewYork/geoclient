@@ -26,7 +26,7 @@ import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
 //import org.gradle.api.tasks.Optional;
 
-public class GeosupportIntegrationTestOptions {
+public class IntegrationTestOptions {
 
     static final String DEFAULT_INTEGRATION_TEST_NAME = "geosupportIntegrationTest";
     static final String DEFAULT_INTEGRATION_TEST_SOURCE_SET_NAME = "geosupportIntegrationTest";
@@ -77,7 +77,7 @@ public class GeosupportIntegrationTestOptions {
     }
 
     @Inject
-    public GeosupportIntegrationTestOptions(ObjectFactory objectFactory) {
+    public IntegrationTestOptions(ObjectFactory objectFactory) {
         testName = objectFactory.property(String.class);
         testName.convention(DEFAULT_INTEGRATION_TEST_NAME);
         sourceSetName = objectFactory.property(String.class);

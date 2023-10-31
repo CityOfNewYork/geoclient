@@ -41,7 +41,7 @@ public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
     public void apply(final Project project) {
         project.getPlugins().apply(GeosupportPlugin.class);
         GeosupportApplication geosupportApplication = project.getExtensions().getByType(GeosupportApplication.class);
-        final GeosupportIntegrationTestOptions integrationTestOptions = ((ExtensionAware)geosupportApplication).getExtensions().create(INTEGRATION_TEST_OPTIONS_EXTENSION_NAME, GeosupportIntegrationTestOptions.class, project.getObjects());
+        final IntegrationTestOptions integrationTestOptions = ((ExtensionAware)geosupportApplication).getExtensions().create(INTEGRATION_TEST_OPTIONS_EXTENSION_NAME, IntegrationTestOptions.class, project.getObjects());
         configureIntegrationTestOptionsAwareTasks(project, integrationTestOptions, logger);
 
         final GeosupportExtension geosupportExtension = geosupportApplication.getGeosupport();
@@ -75,7 +75,7 @@ public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
     //
     // Based on https://github.com/bmuschko/gradle-docker-plugin/blob/master/src/main/java/com/bmuschko/gradle/docker/DockerRemoteApiPlugin.java
     //
-    private void configureIntegrationTestOptionsAwareTasks(Project project, final GeosupportIntegrationTestOptions integrationTestOptions, final Logger logger) {
+    private void configureIntegrationTestOptionsAwareTasks(Project project, final IntegrationTestOptions integrationTestOptions, final Logger logger) {
         project.getTasks().withType(IntegrationTestOptionsAware.class).configureEach(new Action<IntegrationTestOptionsAware>() {
             @Override
             public void execute(IntegrationTestOptionsAware task) {

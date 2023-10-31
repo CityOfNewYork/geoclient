@@ -17,7 +17,7 @@ package com.digitalclash.geoclient.gradle.internal;
 
 import com.digitalclash.geoclient.gradle.GeosupportApplication;
 import com.digitalclash.geoclient.gradle.GeosupportExtension;
-import com.digitalclash.geoclient.gradle.GeosupportIntegrationTestOptions;
+import com.digitalclash.geoclient.gradle.IntegrationTestOptions;
 
 import org.gradle.api.Action;
 
@@ -37,10 +37,10 @@ public class ExtensionUtils {
         };
     }
 
-    public static Action<GeosupportIntegrationTestOptions> conventionsFrom(final GeosupportIntegrationTestOptions extension) {
-        return new Action<GeosupportIntegrationTestOptions>() {
+    public static Action<IntegrationTestOptions> conventionsFrom(final IntegrationTestOptions extension) {
+        return new Action<IntegrationTestOptions>() {
                     @Override
-                    public void execute(GeosupportIntegrationTestOptions target) {
+                    public void execute(IntegrationTestOptions target) {
                         target.getTestName().convention(extension.getTestName().get());
                         target.getSourceSetName().convention(extension.getSourceSetName().get());
                         target.getJavaSourceDir().convention(extension.getJavaSourceDir().get());

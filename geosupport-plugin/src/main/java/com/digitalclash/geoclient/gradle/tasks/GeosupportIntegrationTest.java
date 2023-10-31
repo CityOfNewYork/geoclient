@@ -16,7 +16,7 @@
 package com.digitalclash.geoclient.gradle.tasks;
 
 import com.digitalclash.geoclient.gradle.GeosupportExtension;
-import com.digitalclash.geoclient.gradle.GeosupportIntegrationTestOptions;
+import com.digitalclash.geoclient.gradle.IntegrationTestOptions;
 
 import org.gradle.api.Action;
 import org.gradle.api.tasks.testing.Test;
@@ -24,12 +24,12 @@ import org.gradle.api.tasks.testing.Test;
 public abstract class GeosupportIntegrationTest extends Test implements GeosupportExtensionAware, IntegrationTestOptionsAware {
 
     private final GeosupportExtension geosupport;
-    private final GeosupportIntegrationTestOptions integrationTestOptions;
+    private final IntegrationTestOptions integrationTestOptions;
 
     public GeosupportIntegrationTest() {
         super();
         geosupport = getProject().getObjects().newInstance(GeosupportExtension.class, getProject().getObjects());
-        integrationTestOptions = getProject().getObjects().newInstance(GeosupportIntegrationTestOptions.class, getProject().getObjects());
+        integrationTestOptions = getProject().getObjects().newInstance(IntegrationTestOptions.class, getProject().getObjects());
     }
 
     /**
@@ -52,7 +52,7 @@ public abstract class GeosupportIntegrationTest extends Test implements Geosuppo
      * {@inheritDoc}
      */
     //@Override
-    public final GeosupportIntegrationTestOptions getIntegrationTestOptions() {
+    public final IntegrationTestOptions getIntegrationTestOptions() {
         return integrationTestOptions;
     }
 
@@ -60,7 +60,7 @@ public abstract class GeosupportIntegrationTest extends Test implements Geosuppo
      * {@inheritDoc}
      */
     @Override
-    public void integrationTestOptions(Action<? super GeosupportIntegrationTestOptions> action) {
+    public void integrationTestOptions(Action<? super IntegrationTestOptions> action) {
         action.execute(integrationTestOptions);
     }
 
