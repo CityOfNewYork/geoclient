@@ -279,9 +279,18 @@ var getParameterByName = function (name) {
   return results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 };
 
+//
+// TODO Remove jquery and use fetch. E.g.:
+// fetch('@protocol@://@host@:@port@/@endpoint@?QUERY_STRING_GOES_HERE', {
+//       method: 'GET',
+//       headers: {
+//           'Cache-Control': 'no-cache',
+//           'Ocp-Apim-Subscription-Key': '@subscriptionKey@',}
+//   }).then(response=>response.json().then(json=>console.warn(json)))
+//
+
 // JQuery event handler for when the document is loaded
 $(document).ready(function() {
-
   // Register event handler for form submission
   $("#addressform1").submit(function (event) {
     var formInput = getFormInput();
@@ -292,7 +301,7 @@ $(document).ready(function() {
           url : "@protocol@://@host@:@port@/@endpoint@",
           data : formInput,
           type : "GET",
-          dataType : "jsonp",
+          //dataType : "jsonp",
           success : successCallback,
           error : handleCallError,
           complete : function(xhr, status) {}
