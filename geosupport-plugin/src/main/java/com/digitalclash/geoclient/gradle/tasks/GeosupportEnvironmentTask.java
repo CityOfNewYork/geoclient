@@ -15,7 +15,6 @@
  */
 package com.digitalclash.geoclient.gradle.tasks;
 
-import com.digitalclash.geoclient.gradle.GeosupportApplication;
 import com.digitalclash.geoclient.gradle.GeosupportExtension;
 
 import org.gradle.api.Action;
@@ -29,12 +28,12 @@ import org.gradle.api.tasks.Optional;
 
 public abstract class GeosupportEnvironmentTask extends DefaultTask implements GeosupportExtensionAware {
 
-    private final GeosupportApplication geosupportApplication;
+    private final GeosupportExtension geosupport;
     private final Property<Boolean> validateBuildtime;
     private final Property<Boolean> validateRuntime;
 
     public GeosupportEnvironmentTask() {
-        geosupportApplication = getProject().getObjects().newInstance(GeosupportApplication.class);
+        geosupport= getProject().getObjects().newInstance(GeosupportExtension.class);
         validateBuildtime = getProject().getObjects().property(Boolean.class);
         validateRuntime = getProject().getObjects().property(Boolean.class);
     }
@@ -44,7 +43,7 @@ public abstract class GeosupportEnvironmentTask extends DefaultTask implements G
      */
     @Override
     public void geosupport(Action<? super GeosupportExtension> action) {
-        action.execute(geosupportApplication.getGeosupport());
+        action.execute(geosupport);
     }
 
     /**
@@ -52,7 +51,7 @@ public abstract class GeosupportEnvironmentTask extends DefaultTask implements G
      */
     @Override
     public GeosupportExtension getGeosupport() {
-        return geosupportApplication.getGeosupport();
+        return geosupport;
     }
 
     /**

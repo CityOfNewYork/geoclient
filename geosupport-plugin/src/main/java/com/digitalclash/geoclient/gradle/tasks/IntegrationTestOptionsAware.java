@@ -15,7 +15,7 @@
  */
 package com.digitalclash.geoclient.gradle.tasks;
 
-import com.digitalclash.geoclient.gradle.GeosupportExtension;
+import com.digitalclash.geoclient.gradle.GeosupportIntegrationTestOptions;
 
 import org.gradle.api.Action;
 import org.gradle.api.Task;
@@ -24,18 +24,17 @@ import org.gradle.api.tasks.Nested;
 /*
  * Based on https://github.com/bmuschko/gradle-docker-plugin/blob/master/src/main/java/com/bmuschko/gradle/docker/tasks/RegistryCredentialsAware.java
  */
-public interface GeosupportExtensionAware extends Task {
+public interface IntegrationTestOptionsAware extends Task {
    /**
-    * The target GeosupportExtension to be used by the task.
+    * The target IntegrationTestOptions to be used by the task.
     */
     @Nested
-    GeosupportExtension getGeosupport();
+    GeosupportIntegrationTestOptions getIntegrationTestOptions();
 
     /**
-     * Configures the target GeosupportExtension that the task will use.
+     * Configures the target IntegrationTestOptions that the task will use.
      *
-     * @param action The action to run on the GeosupportExtension instance.
+     * @param action The action to run on the IntegrationTestOptions instance.
      */
-    void geosupport(Action<? super GeosupportExtension> action);
-
+    void integrationTestOptions(Action<? super GeosupportIntegrationTestOptions> action);
 }

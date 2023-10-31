@@ -43,7 +43,7 @@ public class GeosupportApplication {
     }
 
     public void geosupport(Action<? super GeosupportExtension> action) {
-        action.execute(getGeosupport());
+        action.execute(geosupport);
     }
 
     //public void integrationTestOptions(Action<? super GeosupportIntegrationTestOptions> action) {

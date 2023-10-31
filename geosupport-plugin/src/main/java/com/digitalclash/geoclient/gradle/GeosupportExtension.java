@@ -34,6 +34,10 @@ public class GeosupportExtension {
     private final DirectoryProperty includePath;
     private final Property<String> libraryPath;
 
+    /*
+     * TODO Use of org.gradle.api.tasks.PathSensitive and org.gradle.api.tasks.PathSensitivity?
+     */
+
     @Input
     public final Property<String> getGeofiles() {
         return geofiles;

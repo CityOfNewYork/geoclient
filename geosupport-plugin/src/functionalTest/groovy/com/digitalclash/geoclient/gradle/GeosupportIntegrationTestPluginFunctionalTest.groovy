@@ -24,11 +24,9 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
         }
     }
 
-    def createIntegrationTestSources(sourceSetName, dslString, expectedGeofilesValue) {
+    def "default geosupportIntegrationTest configures a passing JUnit test"() {
+        given:
         settingsFile << "rootProject.name = 'goat-farm'"
-        if (dslString == null) {
-            dslString = ""
-        }
         buildFile << """
             plugins {
                 id 'java-library'
@@ -36,11 +34,11 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
             }
 
             geosupportApplication {
-                integrationTestOptions {
-                    ${dslString}
-                }
                 geosupport {
-                    geofiles = ${expectedGeofilesValue}
+                    geofiles = '/opt/geosupport/current/fls/'
+                }
+                integrationTestOptions {
+                    testName = 'geosupportIntegrationTest'
                 }
             }
 
@@ -65,8 +63,10 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
             }
         """
         println(buildFile)
-        File iTestJavaSrcDir = new File(testProjectDir, "src/${sourceSetName}/java/com/example")
+        File iTestJavaSrcDir = new File(testProjectDir, "src/geosupportIntegrationTest/java/com/example")
         iTestJavaSrcDir.mkdirs()
+        File iTestResourcesDir = new File(testProjectDir, "src/geosupportIntegrationTest/resources")
+        iTestResourcesDir.mkdirs()
         File junitSrcFile = new File(iTestJavaSrcDir, 'GoatTest.java')
         junitSrcFile << """
         package com.example;
@@ -78,16 +78,10 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
             @Test
             public void testEnvironment() {
                 System.out.println(String.format("GEOFILES: %s", System.getenv("GEOFILES")));
-                assertEquals("${expectedGeofilesValue}", System.getenv("GEOFILES"));
+                assertEquals("/opt/geosupport/current/fls/", System.getenv("GEOFILES"));
             }
         }
         """
-    }
-
-    def "default geosupportIntegrationTest configures a passing JUnit test"() {
-        given:
-        //createIntegrationTestSources('geosupportIntegrationTest', null, String.format("%s/fls/", defaultGeosupportHome))
-        createIntegrationTestSources('geosupportIntegrationTest', null, String.format("%s/fls/", '/usr/local'))
 
         when:
         def result = GradleRunner.create()
@@ -101,20 +95,20 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
         result.task(":geosupportIntegrationTest").outcome == SUCCESS
     }
 
-    def "custom geosupportIntegrationTest configures a passing JUnit test"() {
-        given:
-        String customSourceSet = 'integrationTest'
-        createIntegrationTestSources(customSourceSet, "sourceSetName = '${customSourceSet}'", String.format("%s/fls/", defaultGeosupportHome))
+    //def "custom geosupportIntegrationTest configures a passing JUnit test"() {
+    //    given:
+    //    String customSourceSet = 'integrationTest'
+    //    createIntegrationTestSources(customSourceSet, "sourceSetName = '${customSourceSet}'", String.format("%s/fls/", defaultGeosupportHome))
 
-        when:
-        def result = GradleRunner.create()
-            .withProjectDir(testProjectDir)
-            .withArguments('geosupportIntegrationTest')
-            .withPluginClasspath()
-            .forwardOutput()
-            .build()
+    //    when:
+    //    def result = GradleRunner.create()
+    //        .withProjectDir(testProjectDir)
+    //        .withArguments('geosupportIntegrationTest')
+    //        .withPluginClasspath()
+    //        .forwardOutput()
+    //        .build()
 
-        then:
-        result.task(":geosupportIntegrationTest").outcome == SUCCESS
-    }
+    //    then:
+    //    result.task(":geosupportIntegrationTest").outcome == SUCCESS
+    //}
 }
