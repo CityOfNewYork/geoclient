@@ -15,6 +15,9 @@
  */
 package com.digitalclash.geoclient.gradle;
 
+import com.digitalclash.geoclient.gradle.tasks.GeosupportIntegrationTest;
+import com.digitalclash.geoclient.gradle.tasks.IntegrationTestOptionsAware;
+
 import org.gradle.api.Action;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -27,10 +30,6 @@ import org.gradle.api.plugins.JavaPlugin;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.SourceSetContainer;
 import org.gradle.api.tasks.TaskProvider;
-import org.gradle.api.tasks.testing.Test;
-
-import com.digitalclash.geoclient.gradle.tasks.GeosupportIntegrationTest;
-import com.digitalclash.geoclient.gradle.tasks.IntegrationTestOptionsAware;
 
 public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
 

@@ -15,10 +15,7 @@
  */
 package com.digitalclash.geoclient.gradle;
 
-import java.io.File;
-
 import com.digitalclash.geoclient.gradle.internal.GeoclientConfigResolver;
-import com.digitalclash.geoclient.gradle.internal.GeosupportConfigResolver;
 import com.digitalclash.geoclient.gradle.tasks.GeosupportExtensionAware;
 
 import org.gradle.api.Action;
@@ -26,7 +23,6 @@ import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.logging.Logger;
 import org.gradle.api.logging.Logging;
-import org.gradle.api.model.ObjectFactory;
 
 /**
  * Provides configurable Geosupport build and runtime configuration with

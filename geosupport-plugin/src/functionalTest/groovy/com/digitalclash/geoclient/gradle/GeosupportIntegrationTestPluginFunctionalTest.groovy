@@ -35,7 +35,7 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
 
             geosupportApplication {
                 geosupport {
-                    geofiles = '/opt/geosupport/current/fls/'
+                    geofiles = '${defaultGeosupportHome}/fls/'
                 }
                 integrationTestOptions {
                     testName = 'geosupportIntegrationTest'
@@ -78,7 +78,7 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
             @Test
             public void testEnvironment() {
                 System.out.println(String.format("GEOFILES: %s", System.getenv("GEOFILES")));
-                assertEquals("/opt/geosupport/current/fls/", System.getenv("GEOFILES"));
+                assertEquals("${defaultGeosupportHome}/fls/", System.getenv("GEOFILES"));
             }
         }
         """
