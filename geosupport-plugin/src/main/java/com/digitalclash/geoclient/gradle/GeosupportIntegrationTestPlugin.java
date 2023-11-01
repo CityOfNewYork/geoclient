@@ -56,7 +56,7 @@ public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
             sourceSet.getRuntimeClasspath().plus(sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME).getOutput());
             Configuration implementation = project.getConfigurations().getByName(sourceSet.getImplementationConfigurationName());
             implementation.extendsFrom(project.getConfigurations().getByName(JavaPlugin.IMPLEMENTATION_CONFIGURATION_NAME));
-            Configuration runtimeOnly = project.getConfigurations().getByName(sourceSet.getRuntimeOnlyConfigurationName());
+            //Configuration runtimeOnly = project.getConfigurations().getByName(sourceSet.getRuntimeOnlyConfigurationName());
             TaskProvider<GeosupportIntegrationTest> test = project.getTasks().register(integrationTestOptions.getTestName().get(), GeosupportIntegrationTest.class, new Action<GeosupportIntegrationTest>(){
                 public void execute(GeosupportIntegrationTest test){
                     test.setDescription("Runs tests which call Geosupport native code using JNI.");
@@ -82,8 +82,6 @@ public class GeosupportIntegrationTestPlugin implements Plugin<Project> {
                 logger.quiet("[ITEST] Configuring task {}'s integrationTestOptions conventions using {}.", task.getName(), integrationTestOptions);
                 task.getIntegrationTestOptions().getTestName().convention(integrationTestOptions.getTestName());
                 task.getIntegrationTestOptions().getSourceSetName().convention(integrationTestOptions.getSourceSetName());
-                task.getIntegrationTestOptions().getJavaSourceDir().convention(integrationTestOptions.getJavaSourceDir());
-                task.getIntegrationTestOptions().getResourcesSourceDir().convention(integrationTestOptions.getResourcesSourceDir());
                 task.getIntegrationTestOptions().getValidate().convention(integrationTestOptions.getValidate());
                 task.getIntegrationTestOptions().getUseJavaLibraryPath().convention(integrationTestOptions.getUseJavaLibraryPath());
                 task.getIntegrationTestOptions().getExportLdLibraryPath().convention(integrationTestOptions.getExportLdLibraryPath());

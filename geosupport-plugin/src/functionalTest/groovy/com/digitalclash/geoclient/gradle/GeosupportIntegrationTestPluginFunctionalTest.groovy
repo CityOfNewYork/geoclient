@@ -24,6 +24,7 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
         }
     }
 
+// TEST 1
     def "default geosupportIntegrationTest configures a passing JUnit test"() {
         given:
         settingsFile << "rootProject.name = 'goat-farm'"
@@ -94,21 +95,88 @@ class GeosupportIntegrationTestPluginFunctionalTest extends Specification {
         then:
         result.task(":geosupportIntegrationTest").outcome == SUCCESS
     }
+// TEST 2
+    def "custom geosupportIntegrationTest configures a passing JUnit test"() {
+        given:
+        settingsFile << "rootProject.name = 'goat-farm'"
+        buildFile << """
+            plugins {
+                id 'java-library'
+                id 'com.digitalclash.geoclient.gradle.geosupport-integration-test'
+            }
 
-    //def "custom geosupportIntegrationTest configures a passing JUnit test"() {
-    //    given:
-    //    String customSourceSet = 'integrationTest'
-    //    createIntegrationTestSources(customSourceSet, "sourceSetName = '${customSourceSet}'", String.format("%s/fls/", defaultGeosupportHome))
+            geosupportApplication {
+                integrationTestOptions {
+                    testName = 'geosupportIntegrationTest'
+                    sourceSetName = 'integrationTest'
+                }
+            }
 
-    //    when:
-    //    def result = GradleRunner.create()
-    //        .withProjectDir(testProjectDir)
-    //        .withArguments('geosupportIntegrationTest')
-    //        .withPluginClasspath()
-    //        .forwardOutput()
-    //        .build()
+            geosupportIntegrationTest {
+                useJUnitPlatform()
+                testLogging {
+                    info {
+                        events "failed", "skipped", "passed"
+                        showStandardStreams = true
+                    }
+                }
+            }
 
-    //    then:
-    //    result.task(":geosupportIntegrationTest").outcome == SUCCESS
-    //}
+            task showIntegrationTestOptions {
+                dependsOn tasks.geosupportIntegrationTest
+                doLast {
+                    def integrationTestOpts = geosupportApplication.integrationTestOptions
+                    println("integrationTestOptions.testName=\${integrationTestOpts.testName.get()}")
+                    println("integrationTestOptions.sourceSetName=\${integrationTestOpts.sourceSetName.get()}")
+                    println("integrationTestOptions.javaSourceDir=\${integrationTestOpts.javaSourceDir.get()}")
+                    println("integrationTestOptions.resourcesSourceDir=\${integrationTestOpts.resourcesSourceDir.get()}")
+                    println("integrationTestOptions.validate=\${integrationTestOpts.validate.get()}")
+                    println("integrationTestOptions.useJavaLibraryPath=\${integrationTestOpts.useJavaLibraryPath.get()}")
+                    println("integrationTestOptions.exportLdLibraryPath=\${integrationTestOpts.exportLdLibraryPath.get()}")
+                }
+            }
+
+            repositories {
+                mavenCentral()
+            }
+
+            dependencies {
+                geosupportIntegrationTestImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
+                geosupportIntegrationTestRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+            }
+        """
+        println(buildFile)
+        File iTestJavaSrcDir = new File(testProjectDir, "src/integrationTest/java/com/example")
+        iTestJavaSrcDir.mkdirs()
+        File iTestResourcesDir = new File(testProjectDir, "src/integrationTest/resources")
+        iTestResourcesDir.mkdirs()
+        File junitSrcFile = new File(iTestJavaSrcDir, 'GoatTest.java')
+        junitSrcFile << """
+        package com.example;
+
+        import org.junit.jupiter.api.Test;
+        import static org.junit.jupiter.api.Assertions.assertEquals;
+
+        public class GoatTest {
+            @Test
+            public void testEnvironment() {
+                System.out.println(String.format("GEOFILES: %s", System.getenv("GEOFILES")));
+                assertEquals("${defaultGeosupportHome}/fls/", System.getenv("GEOFILES"));
+            }
+        }
+        """
+
+        when:
+        def result = GradleRunner.create()
+            .withProjectDir(testProjectDir)
+            .withArguments('showIntegrationTestOptions')
+            .withPluginClasspath()
+            .forwardOutput()
+            .build()
+
+        then:
+        result.task(":showIntegrationTestOptions").outcome == SUCCESS
+        result.task(":geosupportIntegrationTest").outcome == SUCCESS
+    }
 }

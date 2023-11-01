@@ -43,8 +43,6 @@ public class ExtensionUtils {
                     public void execute(IntegrationTestOptions target) {
                         target.getTestName().convention(extension.getTestName().get());
                         target.getSourceSetName().convention(extension.getSourceSetName().get());
-                        target.getJavaSourceDir().convention(extension.getJavaSourceDir().get());
-                        target.getResourcesSourceDir().convention(extension.getResourcesSourceDir().get());
                         target.getValidate().convention(extension.getValidate().get());
                         target.getExportLdLibraryPath().convention(extension.getExportLdLibraryPath().get());
                         target.getUseJavaLibraryPath().convention(extension.getUseJavaLibraryPath().get());

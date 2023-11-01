@@ -19,12 +19,13 @@ import java.io.File;
 
 import javax.inject.Inject;
 
-import org.gradle.api.file.DirectoryProperty;
+import org.gradle.api.Transformer;
+import org.gradle.api.file.Directory;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.Property;
+import org.gradle.api.provider.Provider;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputDirectory;
-//import org.gradle.api.tasks.Optional;
 
 public class IntegrationTestOptions {
 
@@ -35,8 +36,8 @@ public class IntegrationTestOptions {
 
     private final Property<String> testName;
     private final Property<String> sourceSetName;
-    private final DirectoryProperty javaSourceDir;
-    private final DirectoryProperty resourcesSourceDir;
+    private final Provider<Directory> javaSourceDir;
+    private final Provider<Directory> resourcesSourceDir;
     private final Property<Boolean> validate;
     private final Property<Boolean> useJavaLibraryPath;
     private final Property<Boolean> exportLdLibraryPath;
@@ -52,12 +53,12 @@ public class IntegrationTestOptions {
     }
 
     @InputDirectory
-    public final DirectoryProperty getJavaSourceDir() {
+    public final Provider<Directory> getJavaSourceDir() {
         return javaSourceDir;
     }
 
     @InputDirectory
-    public final DirectoryProperty getResourcesSourceDir(){
+    public final Provider<Directory> getResourcesSourceDir(){
         return resourcesSourceDir;
     }
 
@@ -82,10 +83,20 @@ public class IntegrationTestOptions {
         testName.convention(DEFAULT_INTEGRATION_TEST_NAME);
         sourceSetName = objectFactory.property(String.class);
         sourceSetName.convention(DEFAULT_INTEGRATION_TEST_SOURCE_SET_NAME);
-        javaSourceDir = objectFactory.directoryProperty();
-        javaSourceDir.convention(objectFactory.directoryProperty().fileValue(new File(DEFAULT_INTEGRATION_TEST_JAVA_SOURCE_DIR)));
-        resourcesSourceDir = objectFactory.directoryProperty();
-        resourcesSourceDir.convention(objectFactory.directoryProperty().fileValue(new File(DEFAULT_INTEGRATION_TEST_RESOURCES_SOURCE_DIR)));
+        javaSourceDir = sourceSetName.flatMap(new Transformer<Provider<Directory>, String>() {
+            @Override
+            public Provider<Directory> transform(String name){
+                String path = String.format("src/%s/java", name);
+                return objectFactory.directoryProperty().fileValue(new File(path));
+            }
+        });
+        resourcesSourceDir = sourceSetName.flatMap(new Transformer<Provider<Directory>, String>() {
+            @Override
+            public Provider<Directory> transform(String name){
+                String path = String.format("src/%s/resources", name);
+                return objectFactory.directoryProperty().fileValue(new File(path));
+            }
+        });
         validate = objectFactory.property(Boolean.class);
         validate.convention(false);
         useJavaLibraryPath = objectFactory.property(Boolean.class);

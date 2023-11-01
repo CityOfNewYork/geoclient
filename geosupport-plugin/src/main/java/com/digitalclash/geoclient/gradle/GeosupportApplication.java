@@ -15,8 +15,6 @@
  */
 package com.digitalclash.geoclient.gradle;
 
-import com.digitalclash.geoclient.gradle.GeosupportExtension;
-
 import org.gradle.api.Action;
 import org.gradle.api.model.ObjectFactory;
 
