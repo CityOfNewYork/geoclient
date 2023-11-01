@@ -1,16 +1,26 @@
 plugins {
+    id 'checkstyle'
     id 'groovy'
     id 'java-gradle-plugin'
-    id 'checkstyle'
+    id 'maven-publish'
     id 'com.gradle.plugin-publish' version '1.2.1'
     id 'com.diffplug.spotless' version '6.22.0'
 }
+
+//
+// NOTE:
+// Use of maven-publish or publish-publish plugins above may prevent the
+// main geoclient build from properly resolving this project via includeBuild
+// in the geoclient settings.gradle file's pluginManagement block.
+//
+// See ../settings.gradle
+// See https://docs.gradle.org/current/userguide/composite_builds.html#included_build_substitution_limitations
+//
 
 repositories {
     gradlePluginPortal()
 }
 
-//def functionalTest = sourceSets.create('functionalTest')
 sourceSets {
     functionalTest {
         compileClasspath += sourceSets.main.output
@@ -32,7 +42,6 @@ def functionalTestTask = tasks.register('functionalTest', Test) {
 }
 
 tasks.withType(Test).configureEach {
-    // Using JUnitPlatform for running tests
     useJUnitPlatform()
     testLogging {
         info {
@@ -70,8 +79,6 @@ gradlePlugin {
 }
 
 dependencies {
-    //compileOnly gradleApi()
-
     //
     // This config is based on the Gradle documentation 'Testing Plugins',
     // section 'Configuring a test framework':
@@ -84,7 +91,6 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     testRuntimeOnly 'net.bytebuddy:byte-buddy:1.14.9'
 
-    //functionalTestImplementation gradleTestKit()
     //
     // This config is based on the Gradle documentation 'Testing Build Logic with TestKit',
     // section 'Example: Automatically injecting the code under test classes into test builds':
@@ -114,7 +120,7 @@ publishing {
     repositories {
         maven {
             name = 'localPlugins'
-            url = '../../local-plugins'
+            url = '../local-plugins'
         }
     }
 }
