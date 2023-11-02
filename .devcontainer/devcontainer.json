@@ -76,5 +76,6 @@
 	],
 	"onCreateCommand": "apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get -y install --no-install-recommends gcc g++ libc6-dev ;",
 	"postCreateCommand": "/opt/geosupport/current/bin/geosupport install",
+	"postStartCommand": "set -o vi && alias ll='ls -l' && alias lla='ls -lsa' && alias c=clear ;",
 	"remoteUser": "root"
 }
