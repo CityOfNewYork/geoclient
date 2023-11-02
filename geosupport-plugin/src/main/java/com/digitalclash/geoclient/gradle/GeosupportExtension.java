@@ -53,17 +53,17 @@ public class GeosupportExtension {
 
     /**
      * Value to use for required Geosupport runtime enviroment
-     * variable, <code>GEOFILES</code>. This should be the absolute path
+     * variable, {@code GEOFILES}. This should be the absolute path
      * to the Geosupport data files directory, typically:
-     * <code>$GEOSUPPORT_HOME/fls/</code>.
+     * {@code $GEOSUPPORT_HOME/fls/}.
      * <p>
      * <strong>IMPORTANT</strong>: Geosupport <em>requires</em> that this
-     * path end with a trailing slash (<code>java.file.separator</code>).
+     * path end with a trailing slash ({@code java.file.separator}).
      * <p>
      * Defaults to:
      * <ul>
-     * <li><code>/opt/geosupport/current/fls/</code> on Linux/Unix</li>
-     * <li><code>c:/opt/geosupport/current/fls/</code> on Windows</li>
+     * <li>{@code /opt/geosupport/current/fls/} on Linux/Unix</li>
+     * <li>{@code c:/opt/geosupport/current/fls/} on Windows</li>
      * </ul>
      */
     @Input
@@ -72,14 +72,14 @@ public class GeosupportExtension {
     }
 
     /**
-     * Value to use for the optional <code>GEOSUPPORT_HOME</code> enviroment
+     * Value to use for the optional {@code GEOSUPPORT_HOME} enviroment
      * variable. This variable is not used directly by Geosupport but is
      * often useful for configuring client application runtimes and deployments.
      * <p>
      * Defaults to:
      * <ul>
-     * <li><code>/opt/geosupport/current</code> on Linux/Unix</li>
-     * <li><code>c:/opt/geosupport/current</code> on Windows</li>
+     * <li>{@code /opt/geosupport/current} on Linux/Unix</li>
+     * <li>{@code c:/opt/geosupport/current} on Windows</li>
      * </ul>
      */
     @Input
@@ -101,8 +101,8 @@ public class GeosupportExtension {
      * <p>
      * Defaults to:
      * <ul>
-     * <li><code>/opt/geosupport/current/include</code> on Linux/Unix</li>
-     * <li><code>c:/opt/geosupport/current/include</code> on Windows</li>
+     * <li>{@code /opt/geosupport/current/include} on Linux/Unix</li>
+     * <li>{@code c:/opt/geosupport/current/include} on Windows</li>
      * </ul>
      */
     @InputDirectory
@@ -116,12 +116,12 @@ public class GeosupportExtension {
      * The path to the directory containing Geosupport's C shared libraries.
      * This property is not used directly by Geosupport but is
      * often useful for configuring client application runtimes for things
-     * like <code>LD_LIBRARY_PATH</code> and <code>java.library.path</code>.
+     * like {@code LD_LIBRARY_PATH} and {@code java.library.path}.
      * <p>
      * Defaults to:
      * <ul>
-     * <li><code>/opt/geosupport/current/lib</code> on Linux/Unix</li>
-     * <li><code>c:/opt/geosupport/current/lib</code> on Windows</li>
+     * <li>{@code /opt/geosupport/current/lib} on Linux/Unix</li>
+     * <li>{@code c:/opt/geosupport/current/lib} on Windows</li>
      * </ul>
      */
     @Input

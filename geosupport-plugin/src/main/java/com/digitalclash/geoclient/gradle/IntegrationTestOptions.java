@@ -60,16 +60,47 @@ public class IntegrationTestOptions {
         return resourcesSourceDir;
     }
 
+    /**
+     * Whether to validate the values for the other properties on this
+     * extension.
+     * <p>
+     * If set to {@code true}, and an invalid property is configured
+     * an {@code GeosupportPropertyValidationException} will be thrown.
+     * <p>
+     * Defaults to {@code false}.
+     */
     @Input
     public final Property<Boolean> getValidate() {
         return validate;
     }
 
+    /**
+     * Whether the Java system property {@code java.library.path}
+     * should be set for the JVM that executes the tests.
+     * <p>
+     * If set to {@code true}, the value from
+     * {@link GeosupportExtension#getLibraryPath()} is used.
+     * <p>
+     * Defaults to {@code false}.
+     *
+     * @see https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/System.html#getProperties()
+     */
     @Input
     public final Property<Boolean> getUseJavaLibraryPath(){
         return useJavaLibraryPath;
     }
 
+    /**
+     * Whether to append the Geosupport shared library directory to the
+     * environment variable {@code LD_LIBRARY_PATH} on Linux/Unix
+     * (or the {@code PATH} variable on Windows) for the JVM that executes
+     * the tests.
+     * <p>
+     * If set to {@code true}, the value from {@link GeosupportExtension#getLibraryPath()} is appended.
+     * <p>
+     * Defaults to {@code false}.
+     *
+     */
     @Input
     public final Property<Boolean> getExportLdLibraryPath() {
         return exportLdLibraryPath;
