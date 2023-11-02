@@ -31,8 +31,6 @@ public class IntegrationTestOptions {
 
     static final String DEFAULT_INTEGRATION_TEST_NAME = "geosupportIntegrationTest";
     static final String DEFAULT_INTEGRATION_TEST_SOURCE_SET_NAME = "geosupportIntegrationTest";
-    static final String DEFAULT_INTEGRATION_TEST_JAVA_SOURCE_DIR = String.format("src/%s/java", DEFAULT_INTEGRATION_TEST_SOURCE_SET_NAME);
-    static final String DEFAULT_INTEGRATION_TEST_RESOURCES_SOURCE_DIR = String.format("src/%s/resources", DEFAULT_INTEGRATION_TEST_SOURCE_SET_NAME);
 
     private final Property<String> testName;
     private final Property<String> sourceSetName;
