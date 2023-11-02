@@ -22,11 +22,11 @@ import org.gradle.api.DefaultTask;
 import org.gradle.api.provider.Property;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.Optional;
-//import org.gradle.api.tasks.PathSensitive;
-//import org.gradle.api.tasks.PathSensitivity;
-//import org.gradle.api.tasks.TaskAction;
 
-public abstract class GeosupportEnvironmentTask extends DefaultTask implements GeosupportExtensionAware {
+/**
+ * Task to show and optionally validate Geosupport configuration.
+ */
+public class GeosupportEnvironmentTask extends DefaultTask implements GeosupportExtensionAware {
 
     private final GeosupportExtension geosupport;
     private final Property<Boolean> validateBuildtime;
@@ -50,7 +50,7 @@ public abstract class GeosupportEnvironmentTask extends DefaultTask implements G
      * {@inheritDoc}
      */
     @Override
-    public GeosupportExtension getGeosupport() {
+    public final GeosupportExtension getGeosupport() {
         return geosupport;
     }
 
