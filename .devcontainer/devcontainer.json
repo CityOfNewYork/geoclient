@@ -1,7 +1,10 @@
 {
 	"name": "geoclient",
-	"image": "mcr.microsoft.com/devcontainers/java:17",
-	"forwardPorts": ["8080:8080", "8000:8000","5005:5005"],
+	//"image": "mcr.microsoft.com/devcontainers/java:17",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+	"forwardPorts": ["8080:8080","8000:8000","5005:5005"],
 	"containerEnv": {
 		"GEOFILES": "/opt/geosupport/current/fls/"
 	},
@@ -72,10 +75,9 @@
 		}
 	},
 	"mounts": [
-		"source=geosupport-23c1_23.3.1,target=/opt/geosupport,type=volume"
+		"source=geosupport-23d_23.4,target=/opt/geosupport,type=volume"
 	],
-	"onCreateCommand": "apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get -y install --no-install-recommends gcc g++ libc6-dev ;",
+	//"onCreateCommand": "apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get -y install --no-install-recommends gcc g++ libc6-dev ;",
 	"postCreateCommand": "/opt/geosupport/current/bin/geosupport install",
-	"postStartCommand": "set -o vi && alias ll='ls -l' && alias lla='ls -lsa' && alias c=clear ;",
 	"remoteUser": "root"
 }
