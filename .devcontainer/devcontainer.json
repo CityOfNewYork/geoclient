@@ -1,9 +1,9 @@
 {
 	"name": "geoclient",
-	//"image": "mcr.microsoft.com/devcontainers/java:17",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+	"image": "mcr.microsoft.com/devcontainers/java:17",
+  //"build": {
+  //  "dockerfile": "Dockerfile"
+  //},
 	"forwardPorts": ["8080:8080","8000:8000","5005:5005"],
 	"containerEnv": {
 		"GEOFILES": "/opt/geosupport/current/fls/"
@@ -32,7 +32,7 @@
 			},
 			"extensions": [
                           "42Crunch.vscode-openapi",
-                          "aaron-bond.better-comments",
+                          //"aaron-bond.better-comments",
                           "DavidAnson.vscode-markdownlint",
                           "donjayamanne.githistory",
                           "DotJoshJohnson.xml",
@@ -40,8 +40,8 @@
                           "foxundermoon.shell-format",
                           "GitHub.github-vscode-theme",
                           "GitHub.vscode-pull-request-github",
-                          "humao.rest-client",
-                          "joaompinto.vscode-graphviz",
+                          //"humao.rest-client",
+                          //"joaompinto.vscode-graphviz",
                           "mechatroner.rainbow-csv",
                           "mhutchie.git-graph",
                           "ms-azure-devops.azure-pipelines",
@@ -54,9 +54,9 @@
                           "redhat.vscode-xml",
                           "redhat.vscode-yaml",
                           "richardwillis.vscode-gradle-extension-pack",
-                          "richardwillis.vscode-spotless-gradle",
+                          //"richardwillis.vscode-spotless-gradle",
                           "shd101wyy.markdown-preview-enhanced",
-                          "spmeesseman.vscode-taskexplorer",
+                          //"spmeesseman.vscode-taskexplorer",
                           "VisualStudioExptTeam.intellicode-api-usage-examples",
                           "VisualStudioExptTeam.vscodeintellicode",
                           "vmware.vscode-boot-dev-pack",
@@ -75,9 +75,12 @@
 		}
 	},
 	"mounts": [
+    "source=profile,target=/root,type=volume",
+    "target=/root/.vscode-server,type=volume",
 		"source=geosupport-23d_23.4,target=/opt/geosupport,type=volume"
 	],
-	//"onCreateCommand": "apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get -y install --no-install-recommends gcc g++ libc6-dev ;",
-	"postCreateCommand": "/opt/geosupport/current/bin/geosupport install",
+	"onCreateCommand": "apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get -y install --no-install-recommends gcc g++ libc6-dev ;",
+	"postCreateCommand": "bash .devcontainer/postcreate.sh",
+	//"postCreateCommand": "/opt/geosupport/current/bin/geosupport install",
 	"remoteUser": "root"
 }
