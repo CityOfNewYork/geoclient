@@ -2,6 +2,8 @@ plugins {
     id 'java'
     id 'checkstyle'
     id 'com.diffplug.spotless'
+    // Note: usage of versions plugin dependencyUpdates task emits
+    // deprecation warnings.
     id 'com.github.ben-manes.versions'
 }
 
@@ -11,16 +13,17 @@ ext {
     // Declared here because geoclient-service does not apply the
     // geoclient.library-conventions plugin but does apply this one.
 
-    // Java manifest configuration
-    sharedManifest = manifest {
-           attributes(
-               'Implementation-Title': project.name,
-               'Implementation-Version': project.version,
-               'Automatic-Module-Name': project.name.replace('-', '.'),  // for Jigsaw
-               "Built-By": "${System.getProperty("user.name")}",
-               "Created-By": "${System.getProperty("java.version")} (${System.getProperty("java.specification.vendor")})",
-               'Built-Gradle': gradle.gradleVersion)
-    }
+    //// Java manifest configuration
+    //sharedManifest = manifest {
+    //       attributes(
+    //           'Implementation-Title': project.name,
+    //           'Implementation-Version': project.version,
+    //           'Automatic-Module-Name': project.name.replace('-', '.'),  // for Jigsaw
+    //           "Built-By": "${System.getProperty("user.name")}",
+    //           "Created-By": "${System.getProperty("java.version")} (${System.getProperty("java.specification.vendor")})",
+    //           'Built-Gradle': gradle.gradleVersion)
+    //}
+
     // License
     licenseFilesSpec = copySpec {
         from("${project.rootDir}/src/dist") {
@@ -41,15 +44,18 @@ repositories {
 }
 
 dependencies {
+    // Platforms
     implementation platform('org.springframework.boot:spring-boot-dependencies:3.1.5') // Must be in sync with geoclient-service/build.gradle
-    implementation 'org.springframework.boot:spring-boot-starter-logging'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    // Avoids log warning generated because of JUnit dependency on apiguardian:
-    // 'warning: unknown enum constant Status.STABLE'
-    // This was supposed to have been fixed in JUnit 5.1.x, but still happens,
-    // possibly because gradle platform or spring BOM.
+    testImplementation(platform('org.junit:junit-bom:5.9.3'))
+    // Dependencies
+    implementation('org.springframework.boot:spring-boot-starter-logging')
+    testImplementation('org.springframework.boot:spring-boot-starter-test')
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher')
+    //// Avoids log warning generated because of JUnit dependency on apiguardian:
+    //// 'warning: unknown enum constant Status.STABLE'
+    //// This was supposed to have been fixed in JUnit 5.1.x, but still happens,
+    //// possibly because gradle platform or spring BOM.
     testRuntimeOnly('org.apiguardian:apiguardian-api:1.1.2')
 }
 
@@ -61,20 +67,8 @@ java {
     withSourcesJar()
 }
 
-// TODO Remove this hack which fixes :geoclient-service:sourcesJar failure.
-// See https://github.com/gradle/gradle/issues/12451
-tasks.named('sourcesJar') {
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-}
-
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
-}
-
-normalization {
-    runtimeClasspath {
-        ignore 'META-INF/MANIFEST.MF'
-    }
 }
 
 javadoc {
@@ -111,20 +105,4 @@ spotless {
         licenseHeaderFile rootProject.file('src/spotless/apache-license-2.0.java')
     }
     groovyGradle {}
-}
-
-task printSourceSets(){
-
-    doLast{
-        sourceSets.each { srcSet ->
-            println "["+srcSet.name+"]"
-            print "-->Source directories: "+srcSet.allJava.srcDirs+"\n"
-            print "-->Output directories: "+srcSet.output.classesDirs.files+"\n"
-            print "-->Compile classpath:\n"
-            srcSet.compileClasspath.files.each {
-                print "  "+it.path+"\n"
-            }
-            println ""
-        }
-    }
 }

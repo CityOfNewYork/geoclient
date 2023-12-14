@@ -19,9 +19,9 @@ publishing {
 }
 
 jar {
-    manifest {
-        from project.sharedManifest
-    }
+//    manifest {
+//        from project.sharedManifest
+//    }
     with(project.licenseFilesSpec)
 }
 
@@ -30,16 +30,16 @@ jar {
 //    }
 //}
 
-tasks.register('publications') {
-    group = 'Help'
-    description 'Lists publications from all java-library projects.'
-    doLast {
-        publishing.publications.each {
-            logger.quiet("[{}] {}:{}", it.name, it.artifactId, it.version)
-            it.artifacts.each { a ->
-                String padding = " ".multiply(it.name.length() - a.extension.length())
-                logger.quiet("{}[{}] {}", padding, a.extension, a.file.absolutePath)
-            }
-        }
-    }
-}
+//tasks.register('publications') {
+//    group = 'Help'
+//    description 'Lists publications from all java-library projects.'
+//    doLast {
+//        publishing.publications.each {
+//            logger.quiet("[{}] {}:{}", it.name, it.artifactId, it.version)
+//            it.artifacts.each { a ->
+//                String padding = " ".multiply(it.name.length() - a.extension.length())
+//                logger.quiet("{}[{}] {}", padding, a.extension, a.file.absolutePath)
+//            }
+//        }
+//    }
+//}

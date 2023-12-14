@@ -6,7 +6,7 @@ plugins {
 
 Provider<Directory> buildDirectory = layout.buildDirectory.dir("generated-resources/main")
 File generatedResources = buildDirectory.get().asFile
-def libPath = geosupport.libraryPath.getOrNull()
+def libPath = file('/opt/geosupport/current/lib')
 
 sourceSets {
   main {
@@ -22,17 +22,6 @@ spotless.java {
 // Must be configured lazily because 'from' and 'destinationDir' properties are
 // created dynamically by SharedLibraryBinarySpec
 task syncJniLib(type: Sync)
-
-tasks.register('showSourceSets') {
-    doLast {
-        plugins.pluginManager.withPlugin('c') { p ->
-            logger.lifecycle("Plugin: ${p.class.name}.")
-        }
-        //configurations.all { conf ->
-        //    logger.lifecycle("Found ${conf.name}.")
-        //}
-    }
-}
 
 // High-level build definitions
 model {
@@ -166,7 +155,8 @@ model {
     repositories {
         libs(PrebuiltLibraries) {
             libgeo {
-                headers.srcDir(geosupport.includePath.getAsFile())
+                //headers.srcDir(geosupport.includePath.getAsFile())
+                headers.srcDir(project.file('lib/geosupport/headers'))
                 binaries.withType(SharedLibraryBinary) {
                     sharedLibraryFile = new File("${libPath}/NYCgeo.dll")
                     sharedLibraryLinkFile = new File("${libPath}/NYCgeo.lib")

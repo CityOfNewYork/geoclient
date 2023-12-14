@@ -39,10 +39,10 @@ springBoot {
 
 tasks.named('bootJar') {
     requiresUnpack "**/geoclient-jni-*.jar"
-    manifest {
-        from project.sharedManifest
-        attributes 'Start-Class': 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
-    }
+//    manifest {
+//        from project.sharedManifest
+//        attributes 'Start-Class': 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
+//    }
     with(project.licenseFilesSpec)
 }
 
