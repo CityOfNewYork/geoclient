@@ -1,0 +1,32 @@
+plugins {
+    id 'geoclient.java-conventions'
+    id 'jvm-test-suite'
+}
+
+testing {
+    suites {
+       configureEach {
+            useJUnitJupiter()
+        }
+        integrationTest(JvmTestSuite) {
+            dependencies {
+                implementation(project())
+                implementation platform('org.springframework.boot:spring-boot-dependencies:3.1.5') // Must be in sync with geoclient-service/build.gradle
+                implementation('org.springframework.boot:spring-boot-starter-logging')
+                implementation('org.springframework.boot:spring-boot-starter-test')
+            }
+            targets {
+                all {
+                    testTask.configure {
+                        environment("GEOFILES", '/opt/geosupport/current/fls/')
+                        shouldRunAfter(test)
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.named('check') {
+    dependsOn(testing.suites.integrationTest)
+}
