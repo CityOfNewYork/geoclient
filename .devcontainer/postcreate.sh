@@ -13,4 +13,10 @@ if ! egrep -q "${add_cmds}" "${HOME}/.bashrc"; then
     echo "${add_cmds}" >> "${HOME}/.bashrc"
 fi
 
+#export GCBASE="/workspaces/geoclient"
+#export GCJNI="${GCBASE}/geoclient-jni"
+#export GCCORE="${GCBASE}/geoclient-core"
+#export GCPARSER="${GCBASE}/geoclient-parser"
+#export GCSERVICE="${GCBASE}/geoclient-service"
+
 /opt/geosupport/current/bin/geosupport install
