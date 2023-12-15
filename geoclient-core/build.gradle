@@ -6,7 +6,7 @@ plugins {
 dependencies {
     implementation(project(":geoclient-jni"))
     implementation("org.apache.commons:commons-lang3")
-    implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}") {
+    implementation(libs.xstream) {
         exclude group: "xpp3", module: "xpp3_min"
         exclude group: "xmlpull", module: "xmlpull"
     }

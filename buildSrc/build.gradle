@@ -7,6 +7,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.diffplug.spotless:spotless-plugin-gradle:6.19.0'
-    implementation 'com.github.ben-manes:gradle-versions-plugin:0.50.0'
+    implementation libs.spotless.plugin
+    implementation libs.gradle.versions.plugin
 }

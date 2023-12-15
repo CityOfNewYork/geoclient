@@ -39,9 +39,6 @@ ext {
             expand(copyright: new Date().format('yyyy'), version: project.version)
         }
     }
-    // Dependency version used by multiple subprojects. Should move to
-    // a Gradle platform definition eventually.
-    xstreamVersion = '1.4.20'
 }
 
 repositories {
@@ -50,8 +47,8 @@ repositories {
 
 dependencies {
     // Platforms
-    implementation platform('org.springframework.boot:spring-boot-dependencies:3.1.5') // Must be in sync with geoclient-service/build.gradle
-    testImplementation(platform('org.junit:junit-bom:5.9.3'))
+    implementation(platform(libs.spring.boot.dependencies))
+    testImplementation(platform(libs.junit.bom))
     // Dependencies
     implementation('org.springframework.boot:spring-boot-starter-logging')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
@@ -61,7 +58,7 @@ dependencies {
     //// 'warning: unknown enum constant Status.STABLE'
     //// This was supposed to have been fixed in JUnit 5.1.x, but still happens,
     //// possibly because gradle platform or spring BOM.
-    testRuntimeOnly('org.apiguardian:apiguardian-api:1.1.2')
+    testRuntimeOnly(libs.apiguardian.api)
 }
 
 java {
