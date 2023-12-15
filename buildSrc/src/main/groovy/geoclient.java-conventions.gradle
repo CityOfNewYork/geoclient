@@ -7,24 +7,30 @@ plugins {
     id 'com.github.ben-manes.versions'
 }
 
+
 ext {
-    // Files included in all published Java binary artifacts:
-    // library jars, bootJar, bootWar.
+    // Default Manifest for Jar tasks. Referenced by the default Jar task
+    // configuration defined in the geoclient.library-conventions script.
     // Declared here because geoclient-service does not apply the
     // geoclient.library-conventions plugin but does apply this one.
-
-    //// Java manifest configuration
-    //sharedManifest = manifest {
-    //       attributes(
-    //           'Implementation-Title': project.name,
-    //           'Implementation-Version': project.version,
-    //           'Automatic-Module-Name': project.name.replace('-', '.'),  // for Jigsaw
-    //           "Built-By": "${System.getProperty("user.name")}",
-    //           "Created-By": "${System.getProperty("java.version")} (${System.getProperty("java.specification.vendor")})",
-    //           'Built-Gradle': gradle.gradleVersion)
-    //}
-
-    // License
+    // This allows the bootJar task to merge this manifest with the one
+    // created by the Sping Boot plugin.
+    // Note:
+    // 'Automatic-Module-Name' is for Jigsaw.
+    // 'Include-Resource' refers to files in licenseFileSpec below.
+    sharedManifest = java.manifest {
+           attributes(
+               'Implementation-Title': project.name,
+               'Implementation-Version': project.version,
+               'Automatic-Module-Name': project.name.replace('-', '.'),
+               'Build-Jdk-Spec': "${System.getProperty("java.specification.version")}",
+               'Built-Gradle': gradle.gradleVersion,
+               'Include-Resource': 'META-INF/notice.txt=notice.txt,META-INF/license.txt=license.txt')
+    }
+    // License for published artifacts.
+    // Note:
+    // The spotless plugin is responsible for adding the license as a
+    // comment to java source files.
     licenseFilesSpec = copySpec {
         from("${project.rootDir}/src/dist") {
             include 'license.txt'
@@ -33,7 +39,6 @@ ext {
             expand(copyright: new Date().format('yyyy'), version: project.version)
         }
     }
-
     // Dependency version used by multiple subprojects. Should move to
     // a Gradle platform definition eventually.
     xstreamVersion = '1.4.20'

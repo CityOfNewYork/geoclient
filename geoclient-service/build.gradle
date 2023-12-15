@@ -39,14 +39,24 @@ springBoot {
 
 tasks.named('bootJar') {
     requiresUnpack "**/geoclient-jni-*.jar"
-//    manifest {
-//        from project.sharedManifest
-//        attributes 'Start-Class': 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
-//    }
+    manifest {
+        from(project.sharedManifest) {
+            eachEntry { details ->
+                //println("key: ${details.key}, baseValue: ${details.baseValue}, mergeValue: ${mergeValue}")
+                if(details.baseValue && details.baseValue != details.mergeValue) {
+                    //println("Values differ for key ${details.key}: [baseValue: ${details.baseValue}, mergeValue: ${mergeValue}]")
+                    //println("Using baseValue: ${details.baseValue} for key ${details.key}")
+                    // Do not overwrite spring-boot's value if both
+                    // manifests contain the same key.
+                    details.value = details.baseValue
+                }
+            }
+        }
+    }
     with(project.licenseFilesSpec)
 }
 
 bootRun {
     args '--spring.profiles.active=bootRun'
-    systemProperties = [ 'gc.jni.version': 'geoclient-jni-2' ]
+    systemProperties = [ 'gc.jni.version': 'geoclient-jni-2-bootrun' ]
 }

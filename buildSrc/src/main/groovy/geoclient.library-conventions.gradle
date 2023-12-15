@@ -18,16 +18,15 @@ publishing {
     }
 }
 
-jar {
-//    manifest {
-//        from project.sharedManifest
-//    }
+tasks.named("jar") {
+    manifest = java.manifest {
+        from project.sharedManifest
+    }
     with(project.licenseFilesSpec)
 }
 
-//    signing {
-//        sign publishing.publications.mavenJava
-//    }
+//signing {
+//    sign publishing.publications.mavenJava
 //}
 
 //tasks.register('publications') {
