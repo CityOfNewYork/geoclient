@@ -18,7 +18,11 @@ publishing {
     }
 }
 
-tasks.named("jar") {
+def jarTaskCollection = tasks.withType(Jar).matching {
+    it.name in ['jar', 'javadocJar', 'sourcesJar']
+}
+
+jarTaskCollection.all {
     manifest = java.manifest {
         from project.sharedManifest
     }
