@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: geoclient-v2
+    col: COLOR
+    environment: ENVIRONMENT
+  name: geoclient-v2 # Append -COLOR
+  #namespace: gis-apps
+spec:
+  # Replicas configured by HPA.
+  selector:
+    matchLabels:
+      app: geoclient-v2
+      col: COLOR
+  template:
+    metadata:
+      labels:
+        app: geoclient-v2
+        col: COLOR
+    spec:
+      containers:
+        - envFrom:
+          - configMapRef:
+              name: runtime-environment
+          image: gis02.azurecr.io/ghack:1.0.6
+          imagePullPolicy: IfNotPresent
+          lifecycle:
+            # Prevent broken connections
+            preStop:
+              exec:
+                command:
+                  - sh
+                  - -c
+                  - sleep 5
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /geoclient/v1/version.json?app_id=liveness_probe
+              port: -1 # SVC_TARGET_PORT
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          name: geoclient-v2 # Append -COLOR
+          ports:
+            - containerPort: -1 # SVC_TARGET_PORT
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /geoclient/v1/search.json?input=150%20broadway&app_id=readiness_probe
+              port: -1 # SVC_TARGET_PORT
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            limits:
+              cpu: "2"
+              memory: 4Gi
+            requests:
+              cpu: "1"
+              memory: 2Gi
+          volumeMounts:
+          - name: geosupport-volume
+            mountPath: /opt/geosupport
+      initContainers:
+        - command:
+          - sh
+          - -c
+          - cp -v -r /opt/geosupport/* /mnt/repo
+          # NOTE: The image version is set by Kustomize in the
+          # base/kustomization.yml file.
+          image: docker.io/mlipper/geosupport-docker
+          imagePullPolicy: IfNotPresent
+          name: init-geosupport-volume
+          volumeMounts:
+            - mountPath: /mnt/repo
+              name: geosupport-volume
+      volumes:
+        - name: geosupport-volume
+          # NOTE: PVC_NAME is replaced by Kustomize using
+          # the value specified in base/pipeline.env.
+          persistentVolumeClaim:
+            claimName: PVC_NAME

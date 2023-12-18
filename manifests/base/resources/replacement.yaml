@@ -1,0 +1,131 @@
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.COLOR
+  targets:
+  - select:
+      kind: Deployment
+    fieldPaths:
+    # The following need to be done separately because "options" applies
+    # all "fieldPaths" and the value for these becomes "COLOR-blue".
+    #- spec.selector.matchLabels.col
+    #- spec.template.metadata.labels.col
+    - metadata.name
+    - spec.template.spec.containers.0.name
+    options:
+      delimiter: '-'
+      index: 16 # Use index greater than the length to create suffix
+  - select:
+      kind: HorizontalPodAutoscaler
+    fieldPaths:
+    - metadata.name
+    - spec.scaleTargetRef.name
+    options:
+      delimiter: '-'
+      index: 16 # Use index greater than the length to create suffix
+  - select:
+      kind: Service
+    fieldPaths:
+    - metadata.name
+    options:
+      delimiter: '-'
+      index: 16 # Use index greater than the length to create suffix
+  - select:
+      kind: Service
+    fieldPaths:
+    - spec.selector.col
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.COLOR
+  targets:
+  - select:
+      kind: Deployment
+    fieldPaths:
+    - spec.selector.matchLabels.col
+    - spec.template.metadata.labels.col
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.SVC_TARGET_PORT
+  targets:
+  - select:
+      kind: Deployment
+    fieldPaths:
+    - spec.template.spec.containers.0.ports.0.containerPort
+    - spec.template.spec.containers.0.livenessProbe.httpGet.port
+    - spec.template.spec.containers.0.readinessProbe.httpGet.port
+  - select:
+      kind: Service
+    fieldPaths:
+    - spec.ports.0.targetPort
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.PVC_NAME
+  targets:
+  - select:
+      kind: Deployment
+    fieldPaths:
+    - spec.template.spec.volumes.0.persistentVolumeClaim.claimName
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.HPA_MIN_REPLICAS
+  targets:
+  - select:
+      kind: HorizontalPodAutoscaler
+    fieldPaths:
+    - spec.minReplicas
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.HPA_MAX_REPLICAS
+  targets:
+  - select:
+      kind: HorizontalPodAutoscaler
+    fieldPaths:
+    - spec.maxReplicas
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.SVC_PORT
+  targets:
+  - select:
+      kind: Service
+    fieldPaths:
+    - spec.ports.0.port
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.SVC_TARGET_PORT
+  targets:
+  - select:
+      kind: Service
+    fieldPaths:
+    - spec.ports.0.targetPort
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.ENVIRONMENT
+  targets:
+  - select:
+      kind: Deployment
+    fieldPaths:
+    - metadata.labels.environment
+  - select:
+      kind: HorizontalPodAutoscaler
+    fieldPaths:
+    - metadata.labels.environment
+  - select:
+      kind: Ingress
+    fieldPaths:
+    - metadata.labels.environment
+  - select:
+      kind: PersistentVolumeClaim
+    fieldPaths:
+    - metadata.labels.environment
+  - select:
+      kind: Service
+    fieldPaths:
+    - metadata.labels.environment
