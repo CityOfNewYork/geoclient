@@ -42,3 +42,4 @@
 **/.DS_Store
 **/temp
 **/local-plugins
+**/manifests/release

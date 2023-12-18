@@ -23,7 +23,7 @@ spec:
         - envFrom:
           - configMapRef:
               name: runtime-environment
-          image: gis02.azurecr.io/ghack:1.0.6
+          image: docker.io/mlipper/geoclient:2.0.1
           imagePullPolicy: IfNotPresent
           lifecycle:
             # Prevent broken connections
