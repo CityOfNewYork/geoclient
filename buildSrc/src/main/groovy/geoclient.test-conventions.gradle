@@ -1,45 +1,62 @@
 plugins {
-    id 'geoclient.java-conventions'
-    id 'gov.nyc.doitt.gis.geoclient.gradle.integration-test'
+    id('java')
 }
 
-ext {
-    GEOFILES_PATH = '/opt/geosupport/current/fls/'
+sourceSets {
+    integrationTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
 }
 
-integrationTest {
-    environment('GEOFILES', GEOFILES_PATH)
+configurations {
+    integrationTestImplementation.extendsFrom(implementation, testImplementation)
+    integrationTestRuntimeOnly.extendsFrom(runtimeOnly, testRuntimeOnly)
+}
+
+dependencies {
+    integrationTestImplementation 'org.junit.jupiter:junit-jupiter'
+    integrationTestRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+tasks.named('test', Test) {
     useJUnitPlatform()
     testLogging {
+        events "failed", "skipped"
+        exceptionFormat "short"
+    }
+}
+
+tasks.register('integrationTest', Test) {
+    description = 'Runs integration tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+
+    shouldRunAfter(tasks.named('test'))
+
+    useJUnitPlatform()
+
+    environment("GEOFILES", '/opt/geosupport/current/fls/');
+    testLogging {
         // options for log level LIFECYCLE
-        events "failed", "skipped", "passed"
+        events "failed", "skipped"
         exceptionFormat "short"
 
-        // options for log level DEBUG
         debug {
-        // displayGranularity = 2
             events "failed", "skipped", "passed"
             exceptionFormat "full"
             showStandardStreams = true
         }
 
-        // options for log level INFO
         info {
-        // remove standard output/error logging from --info builds
-        // by assigning only 'failed' and 'skipped' events
             events "failed", "skipped", "passed"
+            showStandardStreams = true
         }
     }
 }
 
-test {
-    environment('GEOFILES', GEOFILES_PATH)
-    useJUnitPlatform()
-    testLogging {
-        //displayGranularity = 2
-        events "failed", "skipped", "passed"
-        exceptionFormat "short"
-        //showStandardStreams = true
-        // TODO filter warning from org.apiguardian.api.API.Status.STABLE
-    }
+tasks.named('check') {
+    dependsOn(integrationTest)
 }

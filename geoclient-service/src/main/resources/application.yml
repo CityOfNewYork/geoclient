@@ -22,6 +22,8 @@ logging:
             - "gov.nyc.doitt.gis.geoclient.config"
             - "gov.nyc.doitt.gis.geoclient.function"
             - "gov.nyc.doitt.gis.geoclient.util"
+        geoclient-parser:
+            - "gov.nyc.doitt.gis.geoclient.parser"
         geoclient-service:
             - "gov.nyc.doitt.gis.geoclient.service"
         spring-all:
@@ -84,15 +86,19 @@ spring:
 
 server:
     tomcat:
-      basedir: "build/bootrun"
+      basedir: "tomcat" # Relative to system temp directory
       accesslog:
+          check-exists: true
+          directory: "logs" # Relative to basedir
           enabled: true
+          suffix: ".log"
 
 logging:
     level:
         spring-all: "INFO"
-        spring-web: "INFO"
+        #spring-boot: "DEBUG"
         geoclient-service: "INFO"
+        #tomcat: "DEBUG"
     file:
         name: "build/bootrun/logs/geoclient.log"
 

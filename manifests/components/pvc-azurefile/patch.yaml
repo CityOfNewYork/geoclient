@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    environment: foo
+  name: geoclient-v2
+  namespace: gis-apps

@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2022 the original author or authors.
+ * Copyright 2013-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -150,11 +150,11 @@ public class GeoclientJni implements Geoclient {
         String libBaseName = JniContext.getSharedLibraryBaseName();
         String jvmTempDir = JniContext.getJvmTempDir();
         try {
-            new NativeLibraryLoader(libBaseName)
-                    .loadLibrary(jvmTempDir);
-                        logger.info(
-                            "Successfully loaded {} library from {}:",
-                            libBaseName, jvmTempDir);
+            logger.info("Attempting to load {} library from java.io.tmpdir {}.",
+                    libBaseName, jvmTempDir);
+            new NativeLibraryLoader(libBaseName).loadLibrary(jvmTempDir);
+            logger.info("Successfully loaded {} library from java.io.tmpdir {}.",
+                    libBaseName, jvmTempDir);
         }
         catch (IOException ioe) {
             logger.error("Error loading {} library from {}:", libBaseName, jvmTempDir);

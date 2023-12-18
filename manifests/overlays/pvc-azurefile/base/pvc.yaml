@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    release-scope: pvc-only
+  labels:
+    app: geoclient-v2
+    # Do not use col since claim may be used in blue and green releases.
+    # col: COLOR
+    environment: all
+  name: PVC_NAME
+spec:
+  accessModes:
+  - ReadWriteMany
+  resources:
+    requests:
+      storage: 100Gi
+  storageClassName: azurefile-csi-premium
+  volumeMode: Filesystem

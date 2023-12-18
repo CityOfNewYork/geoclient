@@ -1,7 +1,23 @@
 pluginManagement {
     repositories {
+//
+// Possible workaround for the issue descirbed in the note below:
+//
+//      maven {
+//          url './local-plugins'
+//      }
+//
         gradlePluginPortal()
     }
+//
+// NOTE:
+// If the nested geosupport-plugin project is configured to use either
+// maven-publish or publish-publish plugins, this includeBuild statement
+// may not work.
+// See ./geosupport-plugin/build.gradle
+// See https://docs.gradle.org/current/userguide/composite_builds.html#included_build_substitution_limitations
+//
+    includeBuild './geosupport-plugin'
 }
 
 rootProject.name = 'geoclient'

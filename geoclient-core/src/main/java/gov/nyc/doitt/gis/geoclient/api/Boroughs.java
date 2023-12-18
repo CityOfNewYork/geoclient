@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2022 the original author or authors.
+ * Copyright 2013-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,8 +35,8 @@ public class Boroughs {
     public static final List<Borough> THE_FIVE_BOROUGHS = Arrays.asList(MANHATTAN, BRONX, BROOKLYN, QUEENS,
             STATEN_ISLAND);
 
-    // TODO Decide if this method should trim whitespace (currently, does not)
     public static final Borough fromCode(String code) {
+        // Note: this equality test does not consider whitespace.
         return findFirst((Borough b) -> b.getCode().equalsIgnoreCase(code));
     }
 
@@ -47,7 +47,6 @@ public class Boroughs {
     // Originally from gov.nyc.doitt.gis.geoclient.service.domain.Borough in the geoclient-service project.
     public static int parseInt(String boroughCodeOrName)
     {
-        // TODO revisit this logic?
         // If argument is a parse-able integer, return it regardless of validity as an actual borough code
         if (NumberUtils.isParsable(boroughCodeOrName))
         {

@@ -32,7 +32,7 @@
  *
  *     void callgeo(char *  work_area1, char *  work_area2)
  *
- * located in file geoclient.c and imported above using geosupport.h.
+ * located in file geoclient.c and imported above using geoclient.h.
  *
  * Geoclient separates C sources into those that deal with the JNI API
  * (i.e., this file) and those that actually call the Geosupport C API. This

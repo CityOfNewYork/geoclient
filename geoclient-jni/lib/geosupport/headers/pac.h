@@ -5,6 +5,11 @@ extern "C" {
 #endif
  /*********************************************************************/
  /*                                                                   */
+ /*  SPO added puma_2020 to C_WA2_F1EX                   02/2023 V23.2*/
+ /*  SPO added left and right puma_2020 to C_WA2_F3X     02/2023 V23.2*/
+ /*  SPO added left and right puma_2020 to C_WA2_F3E     02/2023 V23.2*/
+ /*  NS added Commercial Waste Zone for DSNY             09/2022 V22.3*/
+ /*  YNL add PGB flag for DOT                            05/2022 V22.2*/
  /*  YNL add 2020 census data: tract, block nta cdta     05/2021 V21.3*/
  /*  Add new 1 byte field 'truck_route_type'   in functions:          */
  /*  1/1E (Extended),1B, 3X, 3CX, 3E, 3CE            YNL 07/2019 V19.3*/
@@ -60,84 +65,85 @@ typedef struct {
 
 
 typedef struct {
-                 char func_code[2];      /* Function Code            */
-                 char hse_nbr_disp[16];  /* House nbr in Disp form   */
-                 char hse_nbr_hns[11];   /* House nbr in Sort form   */
-                 char lohse_nbr_disp[16];/* Lo House nbr in Disp form*/
-                 char lohse_nbr_hns[11]; /* Lo House nbr in Sort form*/
-                 STREET sti[3];          /* Street Information       */
-                 BBL bbli;               /* Borough-Block-Lot        */
-                 char filler01;          /* Filler-Tax Lot Version # */
-                 char bld_id[7];         /* Building Id Number (BIN) */
-                 char comp_direction;    /* Compass Direction        */
-                 char comp_direction2;   /* Compass Direction-Fn 3S  */
-                 char node[7];           /* Node input for Fn2       */
-                 char platform_ind;      /* Must be equal to 'C'     */
-                 char zipin[5];          /* Input Zip Code           */
-                 char unit[UNIT_SIZE];   /* Input unit          V16.4*/
-                 char filler03[82];      /* Future Use               */
+     char func_code[2];      /* Function Code            */
+     char hse_nbr_disp[16];  /* House nbr in Disp form   */
+     char hse_nbr_hns[11];   /* House nbr in Sort form   */
+     char lohse_nbr_disp[16];/* Lo House nbr in Disp form*/
+     char lohse_nbr_hns[11]; /* Lo House nbr in Sort form*/
+     STREET sti[3];          /* Street Information       */
+     BBL bbli;               /* Borough-Block-Lot        */
+     char filler01;          /* Filler-Tax Lot Version # */
+     char bld_id[7];         /* Building Id Number (BIN) */
+     char comp_direction;    /* Compass Direction        */
+     char comp_direction2;   /* Compass Direction-Fn 3S  */
+     char node[7];           /* Node input for Fn2       */
+     char platform_ind;      /* Must be equal to 'C'     */
+     char zipin[5];          /* Input Zip Code           */
+     char unit[UNIT_SIZE];   /* Input unit          V16.4*/
+     char filler03[82];      /* Future Use               */
 
-                        /* Flags that influence processing */
+            /* Flags that influence processing */
 
-                 char long_WA_flag;      /* Long Work Area 2 Flag     */
-                                         /* Next 2 fields not impl    */
-                 char hse_nbr_justify;   /* Hse Nbr Justification Flg */
-                 char hnl[2];            /* Hse Nbr Normalization len */
-                 char hse_nbr_over_flag; /* Reserved for GSS Use      */
-                 char snl[2];            /* Street Name Norm Length   */
-                 char st_name_norm;      /* Street Name Normalization */
-                                         /*   Format Flag             */
-                 char expanded_format;   /* Expanded Format Flag      */
-                 char roadbedrequest;    /* Roadbed Request Switch    */
-                 char res_01;            /* Reserved for Internal Use */
-                 char segaux_switch;     /* Request Auxiliary Segment */
-                                         /* Information               */
-                 char browse_flag;       /* Determines if browse      */
-                                         /* displays all or some names*/
-                 char real_street_only;  /* Display real streets only */
-                 char tpad_switch;       /* TPAD read for PAD process */
-                 char mode_switch;       /* Mode Flag                 */
-                                         /* X = Extended WA2          */
-                 char wto_switch;        /* WTOs Switch N = No WTOs  */
-                                         /*   should be issued       */
-                 char filler04[29];      /* Future Use                */
-                } INWA1;
+     char long_WA_flag;      /* Long Work Area 2 Flag     */
+                             /* Next 2 fields not impl    */
+     char hse_nbr_justify;   /* Hse Nbr Justification Flg */
+     char hnl[2];            /* Hse Nbr Normalization len */
+     char hse_nbr_over_flag; /* Reserved for GSS Use      */
+     char snl[2];            /* Street Name Norm Length   */
+     char st_name_norm;      /* Street Name Normalization */
+                             /*   Format Flag             */
+     char expanded_format;   /* Expanded Format Flag      */
+     char roadbedrequest;    /* Roadbed Request Switch    */
+     char res_01;            /* Reserved for Internal Use */
+     char segaux_switch;     /* Request Auxiliary Segment */
+                             /* Information               */
+     char browse_flag;       /* Determines if browse      */
+                             /* displays all or some names*/
+     char real_street_only;  /* Display real streets only */
+     char tpad_switch;       /* TPAD read for PAD process */
+     char mode_switch;       /* Mode Flag                 */
+                             /* X = Extended WA2          */
+     char wto_switch;        /* WTOs Switch N = No WTOs  */
+                             /*   should be issued       */
+     char filler04[29];      /* Future Use                */
+} INWA1;
 
 typedef struct {
-                 char boro_name[9];      /* Boro Name of First Street*/
-                 char hse_nbr_disp[16];  /* House nbr in Normalized  */
-                                         /* Display form             */
-                 char hse_nbr_hns[11];   /* House number in Sort Form*/
-                 STREET sto[3];          /* Street Information       */
-                 BBL bblo;               /* Boro(len=1), Block(len=5)*/
-                                         /* and Lot (len=4)-Normalizd*/
-                 char filler05;          /* Filler-Tax Lot Version # */
-                 char lo_hse_nbr_disp[16]; /* low Hse nbr - display  */
-                 char lo_hse_nbr_hns[11]; /* low Hse nbr - sort form */
-                 char bin[7];            /* Building Id Number       */
-                 char attrbytes[3];      /* NAP Identification Number*/
-                 char reason_code_2;     /* 2nd Reason Code          */
-                 char reason_code_qual_2;/* 2nd Reason Code Qualifier*/
-             //  char filler08_2;        /* Future Use               */
-                 char warn_code_2[2];    /* 2nd Warning Return Code  */
-                 char ret_code_2[2];     /* 2nd GeoSupport Return Cod*/
-                 char msg_2[80];         /* 2nd GeoSupport Message   */
-                 char node[7];           /* Node output for Fn 2     */
-                 UNIT units;             /* Output unit Sort    V16.4*/
-                 char unitd[UNIT_SIZE];  /* Output unit Display V16.4*/
-                 char filler07[11];      /* Future Use               */
-                 char nap_id_nbr[6];     /* NAP Id Nbr - Not Impl.   */
-                 char int_use1;          /* Internal Use Only        */
-                 char reason_code;       /* Reason Code              */
-                 char reason_code_qual;  /* Reason Code Qualifier    */
-             //  char filler08;          /* Future Use               */
-                 char warn_code[2];      /* Warning Ret. Code-NotImpl*/
-                 char ret_code[2];       /* GeoSupport Return Code   */
-                 char msg[80];           /* GeoSupport Message       */
-                 char nbr_names[2];      /* Nbr of Sreet Names       */
-                 char B_7SC[10][8];      /* 10 Boro+7-digit st codes */
-                 char st_names[10][32];  /* Up to 10 Street Names    */
-               } OUTWA1;
+     char boro_name[9];      /* Boro Name of First Street*/
+     char hse_nbr_disp[16];  /* House nbr in Normalized  */
+                             /* Display form             */
+     char hse_nbr_hns[11];   /* House number in Sort Form*/
+     STREET sto[3];          /* Street Information       */
+     BBL bblo;               /* Boro(len=1), Block(len=5)*/
+                             /* and Lot (len=4)-Normalizd*/
+     char filler05;          /* Filler-Tax Lot Version # */
+     char lo_hse_nbr_disp[16]; /* low Hse nbr - display  */
+     char lo_hse_nbr_hns[11]; /* low Hse nbr - sort form */
+     char bin[7];            /* Building Id Number       */
+     char attrbytes[3];      /* NAP Identification Number*/
+     char reason_code_2;     /* 2nd Reason Code          */
+     char reason_code_qual_2;/* 2nd Reason Code Qualifier*/
+ //  char filler08_2;        /* Future Use               */
+     char warn_code_2[2];    /* 2nd Warning Return Code  */
+     char ret_code_2[2];     /* 2nd GeoSupport Return Cod*/
+     char msg_2[80];         /* 2nd GeoSupport Message   */
+     char node[7];           /* Node output for Fn 2     */
+     UNIT units;             /* Output unit Sort    V16.4*/
+     char unitd[UNIT_SIZE];  /* Output unit Display V16.4*/
+     char filler07[11];      /* Future Use               */
+     char nap_id_nbr[6];     /* NAP Id Nbr - Not Impl.   */
+     char int_use1;          /* Internal Use Only        */
+     char reason_code;       /* Reason Code              */
+     char reason_code_qual;  /* Reason Code Qualifier    */
+ //  char filler08;          /* Future Use               */
+     char warn_code[2];      /* Warning Ret. Code-NotImpl*/
+     char ret_code[2];       /* GeoSupport Return Code   */
+     char msg[80];           /* GeoSupport Message       */
+     char nbr_names[2];      /* Nbr of Sreet Names       */
+     char B_7SC[10][8];      /* 10 Boro+7-digit st codes */
+     char st_names[10][32];  /* Up to 10 Street Names    */
+
+} OUTWA1;
 
  /*********************************************************************/
  /*                                                                   */
@@ -290,43 +296,44 @@ typedef struct {    // for b7sc grid3 v19.3
 //char filler04[24];                     /* Future Use               */
 } SEGSIDEB7, *PSEGSIDEB7;
 
-typedef struct { char com_dist[3];       /* Community District       */
-                 char lo_hse_nbr[16];    /* Low House Nbr-Disply form*/
-                 char hi_hse_nbr[16];    /* Hi House Nbr-Display form*/
-                 char filler01[32];      /* Future Use               */
-                 char iaei;              /* Interim Ass'tance Elig   */
-                                         /* Indicator                */
-                 char zip_code[5];       /* Zip code for Street seg. */
-                 char health_area[4];    /* Health Area        */
-                 char police_boro_com;   /* Police Patrl Boro Command*/
-                 char police_pre[3];     /* Police Precinct          */
-                 char fire_divisn[2];    /* Fire Division            */
-                 char fire_bat[2];       /* Fire Battalion           */
-                 char fire_co_type;      /* Fire Company Type        */
-                 char fire_co_nbr[3];    /* Fire Company Number      */
-                 char com_schl_dist[2];  /* Community School District*/
-                 char dynam_blk[3];      /* Atomic Polygon           */
-                                         /* (was Dynamic Block)      */
-                 char ED[3];             /* ED                       */
-                 char AD[2];             /* AD                       */
-                 char police_pat_boro[2];/* Police Patrol Borough    */
-           //    char instruc_div[2];    /* Instructional Division   */
-                 char filler02;          /* Future Use               */
-                 char boro;              /* Used for the NTA name    */
-                 char cen_tract_90[6];   /* 1990 Census Tract        */
-                 char cen_tract_10[6];   /* 2010 Census Tract        */
-                 char cen_blk_10[4];     /* 2010 Census Block        */
-                 char cen_blk_10_sufx;   /* 2010 Census Block Suffix */
-                                         /* 2010 Suffix Not Implement*/
-                 char cen_tract_2000[6]; /* 2000 Census Tract        */
-                 char cen_blk_2000[4];   /* 2000 Census Block        */
-                 char cen_blk_2000_sufx; /* 2000 Census Block Suffix */
-            //   char blockface_id[7];   /* "Blockface ID" became    */
-                 char filler03[7];       /* filler   V16.1           */
-                 char nta[4];            /* Neighborhood Tabulation  */
-                                         /* Area                     */
-                 char filler04[8];       /* Future Use               */
-               } SEGSIDE;
+typedef struct {
+     char com_dist[3];       /* Community District       */
+     char lo_hse_nbr[16];    /* Low House Nbr-Disply form*/
+     char hi_hse_nbr[16];    /* Hi House Nbr-Display form*/
+     char filler01[32];      /* Future Use               */
+     char iaei;              /* Interim Ass'tance Elig   */
+                             /* Indicator                */
+     char zip_code[5];       /* Zip code for Street seg. */
+     char health_area[4];    /* Health Area        */
+     char police_boro_com;   /* Police Patrl Boro Command*/
+     char police_pre[3];     /* Police Precinct          */
+     char fire_divisn[2];    /* Fire Division            */
+     char fire_bat[2];       /* Fire Battalion           */
+     char fire_co_type;      /* Fire Company Type        */
+     char fire_co_nbr[3];    /* Fire Company Number      */
+     char com_schl_dist[2];  /* Community School District*/
+     char dynam_blk[3];      /* Atomic Polygon           */
+                             /* (was Dynamic Block)      */
+     char ED[3];             /* ED                       */
+     char AD[2];             /* AD                       */
+     char police_pat_boro[2];/* Police Patrol Borough    */
+    //    char instruc_div[2];    /* Instructional Division   */
+     char filler02;          /* Future Use               */
+     char boro;              /* Used for the NTA name    */
+     char cen_tract_90[6];   /* 1990 Census Tract        */
+     char cen_tract_10[6];   /* 2010 Census Tract        */
+     char cen_blk_10[4];     /* 2010 Census Block        */
+     char cen_blk_10_sufx;   /* 2010 Census Block Suffix */
+                             /* 2010 Suffix Not Implement*/
+     char cen_tract_2000[6]; /* 2000 Census Tract        */
+     char cen_blk_2000[4];   /* 2000 Census Block        */
+     char cen_blk_2000_sufx; /* 2000 Census Block Suffix */
+    //   char blockface_id[7];   /* "Blockface ID" became    */
+     char filler03[7];       /* filler   V16.1           */
+     char nta[4];            /* Neighborhood Tabulation  */
+                             /* Area                     */
+     char filler04[8];       /* Future Use               */
+} SEGSIDE;
 
 typedef struct { char mh_ri_flag;        /* Marble Hill/Rikers Island*/
                                          /* Alternative Boro flag    */
@@ -347,96 +354,98 @@ typedef struct { char mh_ri_flag;        /* Marble Hill/Rikers Island*/
  /*                                                                  */
  /********************************************************************/
 
-typedef struct { char filler01[21];
-                 char cont_parity_ind;   /* Continuous Parity Ind.   */
+typedef struct {
+   char filler01[21];
+   char cont_parity_ind;                 /* Continuous Parity Ind.   */
                                          /* or Duplicate Address Ind.*/
-                 char lo_hse_nbr[11];    /* Lo House nbr in Sort form*/
-                 char hi_hse_nbr[11];    /* Hi House Nbr in Sort form*/
-                 char lgc[2];            /* DCP or BOE Preferred LGC */
-                 St_list st[2];          /* 1=Low and 2=High         */
+   char lo_hse_nbr[11];                  /* Lo House nbr in Sort form*/
+   char hi_hse_nbr[11];                  /* Hi House Nbr in Sort form*/
+   char lgc[2];                          /* DCP or BOE Preferred LGC */
+   St_list st[2];                        /* 1=Low and 2=High         */
                                          /* Nbr of cross streets at  */
                                          /* low house nbr end of st  */
                                          /* B5SCs of lo end cross st */
-                 LION key;               /* LION Key - 10 Characters */
-                 char sagr_flag;         /* Special Address Generated*/
+   LION key;                             /* LION Key - 10 characters */
+   char sagr_flag;                       /* Special Address Generated*/
                                          /* Record flag              */
-                 char sos_ind;           /* Side of Street Indicator */
-                 char seg_len[5];        /* Segment Length in Feet   */
-                 char coord[3][7];       /* 1 = X coordinate,        */
+   char sos_ind;                         /* Side of Street Indicator */
+   char seg_len[5];                      /* Segment Length in Feet   */
+   char coord[3][7];                     /* 1 = X coordinate,        */
                                          /* 2 = Y coordinate,        */
                                          /* 3 = Z coordinate, Not Imp*/
-                 char iaei;              /* Interim Ass'tance Elig   */
+   char iaei;                            /* Interim Ass'tance Elig   */
                                          /* Indicator                */
-                 char mh_ri_flag;        /* Marble Hill/Rikers Island*/
+   char mh_ri_flag;                      /* Marble Hill/Rikers Island*/
                                          /* Alternative Borough flag */
-                 char DOT_slca;          /* DOT St Lght Contractr Are*/
-                 char com_dist[3];       /* Community District       */
+   char DOT_slca;                        /* DOT St Lght Contractr Are*/
+   char com_dist[3];                     /* Community District       */
                                          /* Position 0 contains the  */
                                          /* CD Boro Code & Pos 1 & 2,*/
                                          /* the district number      */
-                 char zip_code[5];       /* Zip code for st seg      */
+   char zip_code[5];                     /* Zip code for st seg      */
 
-           /* Following seven fields used for Function 1E only*/
+   /* Following seven fields used for Function 1E only*/
 
-                 char ed[3];             /* Election District        */
-                 char ad[2];             /* Assembly District        */
-                 char sped_flag;         /* Split Elect District Flag*/
-                 char congress_dist[2];  /* Congressional District   */
-                 char state_sen_dist[2]; /* State Senatorial District*/
-                 char civil_court[2];    /* Civil Court District     */
-                 char city_council[2];   /* City Council District    */
-                 char health_cent[2];    /* Health Center Dictr*/
-                 char health_area[4];    /* Health Area        */
-                 char sanit_dist[3];     /* Sanitation District      */
-                 char sanit_sub_sect[2]; /* Sanit Collect Scheduling */
+   char ed[3];                           /* Election District        */
+   char ad[2];                           /* Assembly District        */
+   char sped_flag;                       /* Split Elect District Flag*/
+   char congress_dist[2];                /* Congressional District   */
+   char state_sen_dist[2];               /* State Senatorial District*/
+   char civil_court[2];                  /* Civil Court District     */
+   char city_council[2];                 /* City Council District    */
+   char health_cent[2];                  /* Health Center Dictr*/
+   char health_area[4];                  /* Health Area        */
+   char sanit_dist[3];                   /* Sanitation District      */
+   char sanit_sub_sect[2];               /* Sanit Collect Scheduling */
                                          /* Section and Subsection   */
-                 char sanit_reg_pick_up[5]; /* Regular Pick up       */
-                 char sanit_recycle[3];  /* Recycle pick up          */
-                 char police_boro_com;   /* Police Patrol Boro Commnd*/
-                 char police_pre[3];     /* Police Precinct          */
-                 char fire_divisn[2];    /* Fire Division            */
-                 char fire_bat[2];       /* Fire Battalion           */
-                 char fire_co_type;      /* Fire Company Type        */
-                 char fire_co_nbr[3];    /* Fire Company Number      */
-                 char filler_scsd;       /* Was Split Com School     */
+   char sanit_reg_pick_up[5];            /* Regular Pick up       */
+   char sanit_recycle[3];                /* Recycle pick up          */
+   char police_boro_com;                 /* Police Patrol Boro Commnd*/
+   char police_pre[3];                   /* Police Precinct          */
+   char fire_divisn[2];                  /* Fire Division            */
+   char fire_bat[2];                     /* Fire Battalion           */
+   char fire_co_type;                    /* Fire Company Type        */
+   char fire_co_nbr[3];                  /* Fire Company Number      */
+   char filler_scsd;                     /* Was Split Com School     */
                                          /* District Flag            */
-                 char com_schl_dist[2];  /* Community School District*/
-                 char dynam_blk[3];      /* Atomic Polygon           */
+   char com_schl_dist[2];                /* Community School District*/
+   char dynam_blk[3];                    /* Atomic Polygon           */
                                          /* (was Dynamic Block)      */
-                 char police_pat_boro[2];/* Police Patrol Borough    */
-         //      char filler_indv[2];    /*                          */
-         //      char instruc_div[2];    /* Instructional Division   */
-                 char feature_type;      /* Feature Type Code        */
-                 char segmenttypecode;   /* Segment Type Code        */
-                 char alx;               /* Segment split by Alley(s)*/
+   char police_pat_boro[2];              /* Police Patrol Borough    */
+//    char filler_indv[2];               /*                          */
+//    char instruc_div[2];               /* Instructional Division   */
+   char feature_type;                    /* Feature Type Code        */
+   char segmenttypecode;                 /* Segment Type Code        */
+   char alx;                             /* Segment split by Alley(s)*/
                                          /* A=Split by Alley(s)      */
                                          /* X=Cross Streets Modified */
-                 char coincident_seg_cnt; /* Coincident Segment      */
+   char coincident_seg_cnt;              /* Coincident Segment      */
                                          /*    Counter               */
-                 char filler02[2];       /* Future Use               */
-                 char boro_of_cen_tract; /* boro of Census Tract used*/
-                 char cen_tract_90[6];   /* 1990 Census Tract        */
-                 char cen_tract_10[6];   /* 2010 Census Tract        */
-                 char cen_blk_10[4];     /* 2010 Census Block        */
-                 char cen_blk_10_sufx;   /* 2010 Census Block Suffix */
+   char filler02[2];                     /* Future Use               */
+   char boro_of_cen_tract;               /* boro of Census Tract used*/
+   char cen_tract_90[6];                 /* 1990 Census Tract        */
+   char cen_tract_10[6];                 /* 2010 Census Tract        */
+   char cen_blk_10[4];                   /* 2010 Census Block        */
+   char cen_blk_10_sufx;                 /* 2010 Census Block Suffix */
                                          /* 2010 Suffix Not Implement*/
-                 char cen_tract_2000[6]; /* 2000 Census Tract        */
-                 char cen_blk_2000[4];   /* 2000 Census Block        */
-                 char cen_blk_2000_sufx; /* 2000 Census Block Suffix */
-                 char nta[4];            /* Neighborhood Tabulation  */
+   char cen_tract_2000[6];               /* 2000 Census Tract        */
+   char cen_blk_2000[4];                 /* 2000 Census Block        */
+   char cen_blk_2000_sufx;               /* 2000 Census Block Suffix */
+   char nta[4];                          /* Neighborhood Tabulation  */
                                          /* Area                     */
-                 char sanit_snow_priority;/* Sanitation Street Snow  */
+   char sanit_snow_priority;             /* Sanitation Street Snow  */
                                          /* Priority (P,S,T,V)       */
-                 char sanit_org_pick_up[5];/* Organics Pick up       */
-                 char sanit_bulk_pick_up[5]; /* Bulk Pick Up V16.4   */
-               //char sanit_reserved[5]; /* Reserved for Possible    */
-                 char hurricane_zone[2]; /* Hurricane Evacuation Zone*/
-                 char filler04[11];      /* Future Use               */
-                 char true_hns[11];      /* Underlying HNS           */
-                 char true_b7sc[8];      /* True Boro 7 Street Code  */
-                 char seg_id[7];         /* Segment Identifier       */
-                 char curv_flag;         /* Curve Flag               */
-               } C_WA2_F1;
+   char sanit_org_pick_up[5];            /* Organics Pick up       */
+   char sanit_bulk_pick_up[5];           /* Bulk Pick Up V16.4   */
+//   char sanit_reserved[5];             /* Reserved for Possible    */
+   char hurricane_zone[2];               /* Hurricane Evacuation Zone*/
+   char sanit_commercial_waste_zone[4];  /* Commercial Waste Zone*/
+   char filler04[7];                     /* Future Use               */
+   char true_hns[11];                    /* Underlying HNS           */
+   char true_b7sc[8];                    /* True Boro 7 Street Code  */
+   char seg_id[7];                       /* Segment Identifier       */
+   char curv_flag;                       /* Curve Flag               */
+} C_WA2_F1;
 
  /********************************************************************/
  /*                                                                  */
@@ -528,7 +537,9 @@ typedef struct {                         /* Fn 1E with extra bytes   */
   char cen_blk_20_sufx;                  /* 2020 Census Blk Sfx V21.3*/
   char nta_20[6];                        /* 2020 NTA code       V21.3*/
   char cdta_20[4];                       /* 2020 CDTA           V21.3*/
-  char filler6[218];                     /* Future Use          V21.3*/
+  char puma_2020[5];                     /* 2020 PUMA           V23.2*/
+  char filler6[215];                     /* 2020 PUMA           V23.2*/
+//char filler6[218];                     /* Future Use          V22.3*/
 //char filler6[239];                     /* Future Use          V21.3*/
 //char filler6[240];                     /*                     V18.3*/
 //char filler6[245];                     /*                     V18.1*/
@@ -851,58 +862,59 @@ typedef struct {
  /*                                                                  */
  /********************************************************************/
 
-typedef struct { char filler01[21];
-                 char rep_cnt;           /* Intersection Replication */
-                                         /* Counter*/
-                 char lgc[2][2];         /* Preferred LGCs           */
-                 St_list inter;          /* Number of Intersecting St*/
-                                         /* B5SCs of Intersection St */
-                 char Dup_comp;          /* Duplicate compass Directn*/
-                 char atomic_polygon[3]; /* Atomic Polygon added V131*/
-                 char filler02[2];
-                 char LION_node_nbr[7];  /* LION Node Number         */
-                 char coord[3][7];       /* 1 = X coordinate,        */
-                                         /* 2 = Y coordinate,        */
-                                         /* 3 = Z coordinate, Not Imp*/
-                 SANBORN San[2];         /* Sanborn Information      */
-                 char mh_ri_flag;        /* Marble Hill/Rikers Island*/
-                 char DOT_slca;          /* DOT St Lght Contractr Are*/
-                 char com_dist[3];       /* Community District       */
-                 char zip_code[5];       /* Zip code for st segment  */
-                 char health_area[4];    /* Health Area        */
-                 char police_boro_com;   /* Police Patrol Boro Commnd*/
-                 char police_pre[3];     /* Police Precinct          */
-                 char fire_sector[2];    /* Fire Sector              */
-                 char fire_bat[2];       /* Fire Battalion           */
-                 char fire_co_type;      /* Fire Company Type        */
-                 char fire_co_nbr[3];    /* Fire Company Number      */
-                 char com_schl_dist[2];  /* Community School District*/
-                 char cen_tract_10[6];   /* 2010 Census Tract        */
-                 char cen_tract_90[6];   /* 1990 Census Tract        */
-                 char level_codes [10];  /* Level codes              */
-                 char police_pat_boro[2];/* Police Patrol Borough    */
-         //      char filler_indv[2];    /*                          */
-         //      char instruc_div [2];   /* Instructional Division   */
-                 char ad[2];             /* Assembly District        */
-                 char congress_dist[2];  /* Congressional District   */
-                 char state_sen_dist[2]; /* State Senatorial District*/
-                 char civil_court[2];    /* Civil Court District     */
-                 char city_council[2];   /* City Council District    */
-                 char cd_eligible;       /* CD Eligibility           */
-                 char dup_intersect_distance[5];  /*Distance in Feet */
-                                         /*Betwn Duplicate Intersects*/
-                                         /* not implemented */
-                 char cen_tract_2000[6]; /* 2000 Census Tract        */
-                 char health_cen_dist[2];/* Health Cent Distr*/
-                 char sanit_dist[3];     /* Sanitation District      */
-                 char sanit_sub_sect[2]; /* Sanit Collect Scheduling */
-                                         /* Section and Subsection   */
-                 char police_sector[4];  /* Police Sector V19.2      */
-                 char cen_tract_20[6];   /* 2020 Census Tract        */
-                 char filler03[2];       /* V21.3                    */
-         //      char filler03[8];       /* V21.3                    */
-         //      char filler03[12];      /*                          */
-               } C_WA2_F2;
+typedef struct {
+     char filler01[21];
+     char rep_cnt;           /* Intersection Replication */
+                             /* Counter*/
+     char lgc[2][2];         /* Preferred LGCs           */
+     St_list inter;          /* Number of Intersecting St*/
+                             /* B5SCs of Intersection St */
+     char Dup_comp;          /* Duplicate compass Directn*/
+     char atomic_polygon[3]; /* Atomic Polygon added V131*/
+     char filler02[2];
+     char LION_node_nbr[7];  /* LION Node Number         */
+     char coord[3][7];       /* 1 = X coordinate,        */
+                             /* 2 = Y coordinate,        */
+                             /* 3 = Z coordinate, Not Imp*/
+     SANBORN San[2];         /* Sanborn Information      */
+     char mh_ri_flag;        /* Marble Hill/Rikers Island*/
+     char DOT_slca;          /* DOT St Lght Contractr Are*/
+     char com_dist[3];       /* Community District       */
+     char zip_code[5];       /* Zip code for st segment  */
+     char health_area[4];    /* Health Area        */
+     char police_boro_com;   /* Police Patrol Boro Commnd*/
+     char police_pre[3];     /* Police Precinct          */
+     char fire_sector[2];    /* Fire Sector              */
+     char fire_bat[2];       /* Fire Battalion           */
+     char fire_co_type;      /* Fire Company Type        */
+     char fire_co_nbr[3];    /* Fire Company Number      */
+     char com_schl_dist[2];  /* Community School District*/
+     char cen_tract_10[6];   /* 2010 Census Tract        */
+     char cen_tract_90[6];   /* 1990 Census Tract        */
+     char level_codes [10];  /* Level codes              */
+     char police_pat_boro[2];/* Police Patrol Borough    */
+ //      char filler_indv[2];    /*                          */
+ //      char instruc_div [2];   /* Instructional Division   */
+     char ad[2];             /* Assembly District        */
+     char congress_dist[2];  /* Congressional District   */
+     char state_sen_dist[2]; /* State Senatorial District*/
+     char civil_court[2];    /* Civil Court District     */
+     char city_council[2];   /* City Council District    */
+     char cd_eligible;       /* CD Eligibility           */
+     char dup_intersect_distance[5];  /*Distance in Feet */
+                             /*Betwn Duplicate Intersects*/
+                             /* not implemented */
+     char cen_tract_2000[6]; /* 2000 Census Tract        */
+     char health_cen_dist[2];/* Health Cent Distr*/
+     char sanit_dist[3];     /* Sanitation District      */
+     char sanit_sub_sect[2]; /* Sanit Collect Scheduling */
+                             /* Section and Subsection   */
+     char police_sector[4];  /* Police Sector V19.2      */
+     char cen_tract_20[6];   /* 2020 Census Tract        */
+     char filler03[2];       /* V21.3                    */
+ //      char filler03[8];       /* V21.3                    */
+ //      char filler03[12];      /*                          */
+ } C_WA2_F2;
 
  /********************************************************************/
  /*                                                                  */
@@ -940,41 +952,44 @@ typedef struct {                         /* Fn 2 - 200 Bytes         */
  /*                                                                  */
  /********************************************************************/
 
-typedef struct { char filler01[21];
-                 char dup_key_flag;      /* Duplicate Key Flag or    */
-                                         /* Continuous Parity Flag   */
-                 char loc_stat_seg;      /* Locational Status of Seg */
-                 char cnty_bnd_ind;      /* County Boundary Indicat  */
-                 char lgc[3][2];         /* Preferred LGCs           */
-                 St_list st[2];          /* 1=Low and 2=High         */
-                                         /* Nbr of cross sts at low  */
-                                         /* house nbr end of street  */
-                                         /* B5SCs of lo end X sts    */
-                 char x_street_reversal_flag; /* X St Reversal Flag  */
-                 LION key;               /* LION Key                 */
-                 char genr_flag;         /* Generated Record Flag    */
-                 char seg_len[5];        /* Segment Length in Feet   */
-                 char seg_azm[3];        /* Segment Azimuth          */
-                 char seg_orient;        /* Segment Orientation      */
-                 char mh_ri_flag;        /* Marble Hill/Rikers Island*/
-                                         /* Alternative Boro flag    */
-                 char from_node[7];      /* From node                */
-                 char to_node[7];        /* To node                  */
-                 char sanit_snow_priority;/* Sanitation Street Snow  */
-                                         /* Priority (P,S,T,V)       */
-                 char filler02[4];       /* Future use               */
-                 char seg_id[7];         /* Segment Identifier       */
-                 char DOT_slca;          /* DOT St Lght Contractr Are*/
-                 char curve_flag;        /* Curve Flag               */
-                 char dog_leg;           /* Dog leg flag             */
-                 char feature_type;      /* Feature Type Code        */
-                 char segmenttypecode;   /* Segment Type Code        */
-                 char coincident_seg_cnt; /* Coincident Segment      */
-                                         /*    Counter               */
-                 char filler03[4];
-                 SEGSIDE side[2];        /* 1 = Left Side of street  */
-                                         /* 2 = Right Side of street */
-               } C_WA2_F3;
+typedef struct {
+     char filler01[21];
+     char dup_key_flag;      /* Duplicate Key Flag or    */
+                             /* Continuous Parity Flag   */
+     char loc_stat_seg;      /* Locational Status of Seg */
+     char cnty_bnd_ind;      /* County Boundary Indicat  */
+     char lgc[3][2];         /* Preferred LGCs           */
+     St_list st[2];          /* 1=Low and 2=High         */
+                             /* Nbr of cross sts at low  */
+                             /* house nbr end of street  */
+                             /* B5SCs of lo end X sts    */
+     char x_street_reversal_flag; /* X St Reversal Flag  */
+     LION key;               /* LION Key                 */
+     char genr_flag;         /* Generated Record Flag    */
+     char seg_len[5];        /* Segment Length in Feet   */
+     char seg_azm[3];        /* Segment Azimuth          */
+     char seg_orient;        /* Segment Orientation      */
+     char mh_ri_flag;        /* Marble Hill/Rikers Island*/
+                             /* Alternative Boro flag    */
+     char from_node[7];      /* From node                */
+     char to_node[7];        /* To node                  */
+     char sanit_snow_priority;/* Sanitation Street Snow  */
+                             /* Priority (P,S,T,V)       */
+     char filler02[4];       /* Future use               */
+     char seg_id[7];         /* Segment Identifier       */
+     char DOT_slca;          /* DOT St Lght Contractr Are*/
+     char curve_flag;        /* Curve Flag               */
+     char dog_leg;           /* Dog leg flag             */
+     char feature_type;      /* Feature Type Code        */
+     char segmenttypecode;   /* Segment Type Code        */
+     char coincident_seg_cnt; /* Coincident Segment      */
+                              /*    Counter              */
+     char PGB_flag[3];        /* For DOT            V22.2*/
+     char filler03;
+
+     SEGSIDE side[2];        /* 1 = Left Side of street  */
+                             /* 2 = Right Side of street */
+   } C_WA2_F3;
 
 typedef struct { C_WA2_F3 cwa2f3;
                  char filler1[6];        /* Future use              */
@@ -1052,7 +1067,10 @@ typedef struct {                        /*  Data from CSCL added     */
   char right_cen_blk_20_sufx;            /* 2020 Census Blk Sfx V21.3*/
   char right_nta_20[6];                  /* 2020 NTA code       V21.3*/
   char right_cdta_20[4];                 /* 2020 CDTA           V21.3*/
-  char filler05[150];                    /* V21.3                    */
+  char left_puma_2020[5];                /* 2020 PUMA           V23.2*/
+  char right_puma_2020[5];               /* 2020 PUMA           V23.2*/
+  char filler05[140];                    /* V23.2                    */
+//char filler05[150];                    /* V21.3                    */
 //char filler05[192];                    /* V21.3                    */
 //char filler05[193];                    // V18.3
 //char filler05[201];                    // V18.1
@@ -1151,7 +1169,13 @@ typedef struct {                         /* Data from CSCL added     */
   char bike_traffic_dir[2];             //V17.1 Bike Traffic Direction
   char speed_limit[2];                   /* Posted Speed Limit  V17.4*/
   char truck_route_type;                 /* Truck Route         V19.3*/
-  char filler05[137];                    /* V19.3                    */
+  char PGB_flag[3];                      /* For DOT             V22.2*/
+  char left_puma_2020[5];                /* 2020 PUMA           V23.2*/
+  char right_puma_2020[5];               /* 2020 PUMA           V23.2*/
+  char filler05[124];                    /* V23.2                    */
+  // char filler05[134];                 /* V22.2                    */
+  // char filler05[137];                 /* V19.3                    */
+
   char reserved_for_sos;                 /* V19.3                    */
   SEGSIDEB7 side[2];                     /* 1 = Left Side of street  */
 
@@ -1175,40 +1199,43 @@ typedef struct {                         /* Fn 3 Wide with Auxiliary */
  /*                                                                  */
  /********************************************************************/
 
-typedef struct { char filler01[21];
-                 char dup_key_flag;      /* Duplicate Key Flag or    */
-                                         /* Continuous Parity Flag   */
-                 char loc_stat_seg;      /* Locational Status of Seg */
-                 char cnty_bnd_ind;      /* County Boundary Indicat  */
-                 char lgc[3][2];         /* Preferred LGCs           */
-                 St_list st[2];          /* 1=Low and 2=High         */
-                                         /* Nbr of cross sts at low  */
-                                         /* house nbr end of street  */
-                                         /* B5SCs of lo end Cross sts*/
-                 char x_street_reversal_flag; /* X St Reversal Flag  */
-                 LION key;               /* LION key                 */
-                 char genr_flag;         /* Generated Record Flag    */
-                 char seg_len[5];        /* Segment Length in Feet   */
-                 char seg_azm[3];        /* Segment Azimuth          */
-                 char seg_orient;        /* Segment Orientation      */
-                 char mh_ri_flag;        /* Marble Hill/Rikers Island*/
-                                         /* Alternative Boro flag    */
-                 char from_node[7];      /* From node                */
-                 char to_node[7];        /* To Node                  */
-                 char sanit_snow_priority;/* Sanitation Street Snow  */
-                                          /* Priority (P,S,T,V)      */
-                 char filler02[4];       /* Future use               */
-                 char seg_id  [7];       /* Segment Identifier       */
-                 char DOT_slca;          /* DOT St Lght Contractr Are*/
-                 char sos_ind;           /* Side of Street Indicator */
-                 char curve_flag;        /* Curve Flag               */
-                 char feature_type;      /* Feature Type Code        */
-                 char segmenttypecode;   /* Segment Type Code        */
-                 char coincident_seg_cnt; /* Coincident Segment      */
-                                          /*    Counter              */
-                 char filler03[4];
-                 SEGSIDE req;           /* Geographic Information for*/
-              } C_WA2_F3C;
+typedef struct {
+     char filler01[21];
+     char dup_key_flag;      /* Duplicate Key Flag or    */
+                             /* Continuous Parity Flag   */
+     char loc_stat_seg;      /* Locational Status of Seg */
+     char cnty_bnd_ind;      /* County Boundary Indicat  */
+     char lgc[3][2];         /* Preferred LGCs           */
+     St_list st[2];          /* 1=Low and 2=High         */
+                             /* Nbr of cross sts at low  */
+                             /* house nbr end of street  */
+                             /* B5SCs of lo end Cross sts*/
+     char x_street_reversal_flag; /* X St Reversal Flag  */
+     LION key;               /* LION key                 */
+     char genr_flag;         /* Generated Record Flag    */
+     char seg_len[5];        /* Segment Length in Feet   */
+     char seg_azm[3];        /* Segment Azimuth          */
+     char seg_orient;        /* Segment Orientation      */
+     char mh_ri_flag;        /* Marble Hill/Rikers Island*/
+                             /* Alternative Boro flag    */
+     char from_node[7];      /* From node                */
+     char to_node[7];        /* To Node                  */
+     char sanit_snow_priority;/* Sanitation Street Snow  */
+                              /* Priority (P,S,T,V)      */
+     char filler02[4];       /* Future use               */
+     char seg_id  [7];       /* Segment Identifier       */
+     char DOT_slca;          /* DOT St Lght Contractr Are*/
+     char sos_ind;           /* Side of Street Indicator */
+     char curve_flag;        /* Curve Flag               */
+     char feature_type;      /* Feature Type Code        */
+     char segmenttypecode;   /* Segment Type Code        */
+     char coincident_seg_cnt;/* Coincident Segment       */
+                             /*    Counter               */
+     char PGB_flag[3];       /* For DOT             V22.2*/
+     char filler03;
+
+     SEGSIDE req;           /* Geographic Information for*/
+} C_WA2_F3C;
 
 typedef struct { C_WA2_F3C cwa2f3c;
                  char filler1[6];        /* Future use              */
@@ -1275,7 +1302,9 @@ typedef struct {                         /* Data from CSCL added     */
   char cen_blk_20_sufx;                  /* 2020 Census Blk Sfx V21.3*/
   char nta_20[6];                        /* 2020 NTA code       V21.3*/
   char cdta_20[4];                       /* 2020 CDTA           V21.3*/
-  char filler05[265];                    /*                    V21.3 */
+  char puma_2020[5];                     /* 2020 PUMA           V23.2*/
+  char filler05[255];                    /*                    V21.3 */
+//char filler05[261];                    /*                    V21.3 */
 //char filler05[286];                    /*                    V21.3 */
 //char filler05[287];                    // V18.3
 //char filler05[291];                    // V18.1
@@ -1368,7 +1397,11 @@ typedef struct {                         /* Data from CSCL added     */
   char bike_traffic_dir[2];             //V17.1 Bike Traffic Direction
   char speed_limit[2];                   /* Posted Speed Limit  V17.4*/
   char truck_route_type;                 /* Truck Route         V19.3*/
-  char filler02[137];                    /* V19.3                    */
+  char PGB_flag[3];                      /* For DOT             V22.2*/
+  char puma_2020[5];                     /* 2020 PUMA           V23.2*/
+  char filler02[129];                    /* V23.2                    */
+  // char filler02[134];                 /* V22.2                    */
+
   char sos_ind;                          /* Side of Street Indicator */
   SEGSIDEB7 req;                         /*Geographic Information for*/
   char filler03[104];                    /*                    V18.4 */
