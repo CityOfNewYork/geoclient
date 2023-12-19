@@ -108,19 +108,3 @@ spotless {
     }
     groovyGradle {}
 }
-
-task printSourceSets(){
-
-    doLast{
-        sourceSets.each { srcSet ->
-            println "["+srcSet.name+"]"
-            print "-->Source directories: "+srcSet.allJava.srcDirs+"\n"
-            print "-->Output directories: "+srcSet.output.classesDirs.files+"\n"
-            print "-->Compile classpath:\n"
-            srcSet.compileClasspath.files.each {
-                print "  "+it.path+"\n"
-            }
-            println ""
-        }
-    }
-}
