@@ -1,0 +1,19 @@
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.PVC_NAME
+  targets:
+  - select:
+      kind: PersistentVolumeClaim
+    fieldPaths:
+    - metadata.name
+
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.ENVIRONMENT
+  targets:
+  - select:
+      kind: PersistentVolumeClaim
+    fieldPaths:
+    - metadata.labels.environment

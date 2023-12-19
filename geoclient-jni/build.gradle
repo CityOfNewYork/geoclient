@@ -4,9 +4,9 @@ plugins {
     id 'geoclient.test-conventions'
 }
 
-def basePackagePath = "gov/nyc/doitt/gis/geoclient/jni"
-def generatedResources = "${project.buildDir}/generated-resources/main"
-def libPath = geosupport.libraryPath.getOrNull()
+Provider<Directory> buildDirectory = layout.buildDirectory.dir("generated-resources/main")
+File generatedResources = buildDirectory.get().asFile
+def libPath = file('/opt/geosupport/current/lib')
 
 sourceSets {
   main {
@@ -142,7 +142,7 @@ model {
                 }
 
                 def variantName = targetPlatform.name.replace('_', '-')
-                def syncDir = project.file("${generatedResources}/${basePackagePath}/${variantName}")
+                def syncDir = project.file("${generatedResources}/gov/nyc/doitt/gis/geoclient/jni/${variantName}")
                 binary.tasks.withType(LinkSharedLibrary) { builderTask ->
                     def jniLib = builderTask.linkedFile
                     logger.info("Syncing JNI shared library file\n  from: ${jniLib?.getAsFile()?.get()}\n    to: ${syncDir}")
@@ -166,7 +166,8 @@ model {
     repositories {
         libs(PrebuiltLibraries) {
             libgeo {
-                headers.srcDir(geosupport.includePath.getAsFile())
+                //headers.srcDir(geosupport.includePath.getAsFile())
+                headers.srcDir(project.file('lib/geosupport/headers'))
                 binaries.withType(SharedLibraryBinary) {
                     sharedLibraryFile = new File("${libPath}/NYCgeo.dll")
                     sharedLibraryLinkFile = new File("${libPath}/NYCgeo.lib")

@@ -1,0 +1,22 @@
+[versions]
+apiguardian-api = "1.1.2"
+commons-text = "1.11.0"
+diffutils = "1.3.0"
+junit-bom = "5.10.1"
+spotless-plugin = "6.19.0"
+spring-boot = "3.2.0"
+versions-plugin = "0.50.0"
+xstream = "1.4.20"
+
+[plugins]
+boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+
+[libraries]
+apiguardian-api = { module = "org.apiguardian:apiguardian-api", version.ref = "apiguardian-api" }
+commons-text = { module = "org.apache.commons:commons-text", version.ref = "commons-text" }
+diffutils = { module = "com.googlecode.java-diff-utils:diffutils", version.ref = "diffutils" }
+junit-bom = { module = "org.junit:junit-bom", version.ref = "junit-bom" }
+spotless-plugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless-plugin" }
+spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
+gradle-versions-plugin = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "versions-plugin" }
+xstream = { module = "com.thoughtworks.xstream:xstream", version.ref = "xstream" }

@@ -1,0 +1,57 @@
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.COLOR
+  targets:
+  - select:
+      kind: Ingress
+    fieldPaths:
+    - spec.rules.0.http.paths.0.backend.service.name
+    - spec.rules.0.http.paths.1.backend.service.name
+    options:
+      delimiter: '-'
+      index: 16
+
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.SVC_PORT
+  targets:
+  - select:
+      kind: Ingress
+    fieldPaths:
+    - spec.rules.0.http.paths.0.backend.service.port.number
+    - spec.rules.0.http.paths.1.backend.service.port.number
+
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.ING_HOST
+  targets:
+  - select:
+      kind: Ingress
+    fieldPaths:
+    - spec.rules.0.host
+    - spec.tls.0.hosts
+
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.ING_HOST
+  targets:
+  - select:
+      kind: Ingress
+    fieldPaths:
+    - spec.tls.0.secretName
+    options:
+      delimiter: '-'
+
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.ENVIRONMENT
+  targets:
+  - select:
+      kind: Ingress
+    fieldPaths:
+    - metadata.labels.environment

@@ -1,20 +1,20 @@
 plugins {
-    id 'org.springframework.boot' version '3.1.1' // Must be in sync with buildSrc/src/main/groovy/geoclient.java-library.conventions.gradle
     id 'geoclient.java-conventions'
     id 'geoclient.test-conventions'
+    alias(libs.plugins.boot)
 }
 
 dependencies {
     implementation project(':geoclient-jni')
     implementation project(':geoclient-core')
     implementation project(':geoclient-parser')
-    implementation('org.apache.commons:commons-text:1.10.0')
+    implementation(libs.commons.text)
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-starter-thymeleaf')
     implementation('org.springframework.boot:spring-boot-starter-validation')
     implementation('org.springframework.boot:spring-boot-starter-actuator')
     implementation('org.springframework:spring-oxm') { exclude(module: 'commons-lang') }
-    implementation("com.thoughtworks.xstream:xstream:${xstreamVersion}")
+    implementation(libs.xstream)
 }
 
 tasks.register('writeVersionProperties', WriteProperties) {
@@ -40,13 +40,23 @@ springBoot {
 tasks.named('bootJar') {
     requiresUnpack "**/geoclient-jni-*.jar"
     manifest {
-        from project.sharedManifest
-        attributes 'Start-Class': 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
+        from(project.sharedManifest) {
+            eachEntry { details ->
+                //println("key: ${details.key}, baseValue: ${details.baseValue}, mergeValue: ${mergeValue}")
+                if(details.baseValue && details.baseValue != details.mergeValue) {
+                    //println("Values differ for key ${details.key}: [baseValue: ${details.baseValue}, mergeValue: ${mergeValue}]")
+                    //println("Using baseValue: ${details.baseValue} for key ${details.key}")
+                    // Do not overwrite spring-boot's value if both
+                    // manifests contain the same key.
+                    details.value = details.baseValue
+                }
+            }
+        }
     }
     with(project.licenseFilesSpec)
 }
 
 bootRun {
     args '--spring.profiles.active=bootRun'
-    systemProperties = [ 'gc.jni.version': 'geoclient-jni-2' ]
+    systemProperties = [ 'gc.jni.version': 'geoclient-jni-2-bootrun' ]
 }

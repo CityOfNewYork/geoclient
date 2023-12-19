@@ -18,7 +18,6 @@ package gov.nyc.doitt.gis.geoclient.service.search.web;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,9 +25,9 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -37,7 +36,6 @@ import gov.nyc.doitt.gis.geoclient.service.search.web.response.SearchResponse;
 import gov.nyc.doitt.gis.geoclient.service.search.web.response.Status;
 import gov.nyc.doitt.gis.geoclient.service.test.WebContainerIntegrationTest;
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class SingleFieldSearchControllerIntegrationTest extends WebContainerIntegrationTest {
 
@@ -52,7 +50,7 @@ public class SingleFieldSearchControllerIntegrationTest extends WebContainerInte
                 getRequest(), SearchResponse.class);
         SearchResponse searchResponse = httpResponse.getBody();
         logger.debug("Response: {}", searchResponse);
-        assertThat(httpResponse.getStatusCodeValue() == 200);
+        assertThat(httpResponse.getStatusCode() == HttpStatusCode.valueOf(200));
         Status status = searchResponse.getStatus();
         assertThat(status.equals(Status.OK));
         assertThat(

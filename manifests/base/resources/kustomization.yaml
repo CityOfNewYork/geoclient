@@ -1,0 +1,35 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../properties
+  - deployment.yaml
+  - service.yaml
+  - hpa.yaml
+
+configMapGenerator:
+- name: pipeline-variables
+  envs:
+  - pipeline.env
+  behavior: merge
+- name: runtime-environment
+  envs:
+  - runtime.env
+
+images:
+- name: docker.io/mlipper/geosupport-docker
+  newTag: 2.0.14
+
+namespace: gis-apps
+
+labels:
+  - pairs:
+      app: geoclient-v2
+      # The value of col label must match value of COLOR
+      # in pipeline-variables ConfigMap
+      col: blue
+    includeSelectors: true
+    includeTemplates: true
+
+replacements:
+  - path: replacement.yaml

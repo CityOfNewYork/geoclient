@@ -27,6 +27,7 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
 import gov.nyc.doitt.gis.geoclient.service.domain.Version;
@@ -47,7 +48,7 @@ public class VersionIntegrationTest extends WebContainerIntegrationTest {
   public void testVersion() throws IOException {
       ResponseEntity<Version> httpResponse = restTemplate().exchange(uri, HttpMethod.GET,
               jsonRequest(), Version.class);
-      assertThat(httpResponse.getStatusCodeValue() == 200);
+      assertThat(httpResponse.getStatusCode() == HttpStatusCode.valueOf(200));
       Version actual = httpResponse.getBody();
       LOGGER.info("{} -> {}", uri.toASCIIString(), actual);
       //versionContent.assertThat().
