@@ -25,6 +25,8 @@ import org.slf4j.Logger;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.boot.actuate.web.exchanges.HttpExchangeRepository;
+import org.springframework.boot.actuate.web.exchanges.InMemoryHttpExchangeRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
@@ -132,6 +134,11 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    public HttpExchangeRepository httpExchangeRepository() {
+        return new InMemoryHttpExchangeRepository();
+    }
+
+    @Bean
     public XStreamMarshaller marshaller() {
         XStreamMarshaller marshaller = new XStreamMarshaller();
         marshaller.setConverters(new ConverterMatcher[] { new MapConverter() });
@@ -195,10 +202,11 @@ public class WebConfig implements WebMvcConfigurer {
         return new BeanFactoryPostProcessor() {
             public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
                 if (((DefaultListableBeanFactory)beanFactory).containsBeanDefinition("tomcatWebServerFactoryCustomizer")) {
-                    ((DefaultListableBeanFactory)beanFactory).removeBeanDefinition("tomcatWebServerFactoryCustomizer");
-                    LOGGER.info("Removed bean \"tomcatWebServerFactoryCustomizer\".");
+                    //((DefaultListableBeanFactory)beanFactory).removeBeanDefinition("tomcatWebServerFactoryCustomizer");
+                    //LOGGER.info("Removed bean \"tomcatWebServerFactoryCustomizer\".");
+                    LOGGER.info("Bean \"tomcatWebServerFactoryCustomizer\" found: NOT removing it due to use of recent versions of Tomcat/Spring Boot.");
                 } else {
-                    LOGGER.info("Bean \"tomcatWebServerFactoryCustomizer not found\": assuming recent version(s) of Tomcat/Spring Boot.");
+                    LOGGER.info("Bean \"tomcatWebServerFactoryCustomizer\" not found: assuming recent versions of Tomcat/Spring Boot.");
                 }
             }
         };
