@@ -1,3 +1,83 @@
+#
+# This file is used to configure the application via spring-boot.
+#
+# The comments here are very brief. For complete documentation, see:
+# https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle
+# https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.external-config
+# https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles
+#
+# The default profile is specified first and active unless overridden.
+# Optional profiles are demarcated by lines beginning with "--"
+# and can add new functionality or override default properties.
+#
+# NOTE: "bootRun" profile
+# When using gradle to run the "bootRun" tasks provided by the spring-boot
+# plugin, the following syntax is used to specify active profiles and/or
+# override specific application properties managed by spring-boot. For example,
+# ./gradlew bootRun --args='--spring.profiles.active=bootRun,accesslog --server.tomcat.basedir=/var/log'
+# WARNING: This profile should NOT be used in production environments because it
+# specifies a permissive configuration of spring actuator.
+#
+# NOTE: Although no longer required, the Java system property 'gc.jni.version'
+# can be provided on any command line. This sets the name of the subfolder in
+# java.tmpdir where the native libraries in the geoclient-jni jar will be unpacked.
+# For example, with the gradle bootRun task:
+# ./gradlew -Dgc.jni.version=geoclient-jni-2 ...
+#
+# NOTE: The following <logging.level>s can be added to any profile,
+# including the default, for logging specific functionality.
+#
+# Native C runtime and JNI configuration at startup:
+# geoclient-jni: "DEBUG"
+#
+# XML deserialization into WorkArea fields at startup:
+# gov.nyc.doitt.gis.geoclient.config.xml: "DEBUG"
+#
+# Raw character buffer values from geosupport requests/repsonses
+# gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
+#
+# Request/response HashMaps before/after geosupport call
+# gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl: "DEBUG"
+#
+# NOTE: "accesslog" profile
+# This profile enables HTTP request logging from the embedded
+# tomcat servlet container.
+#
+# By default the log is written to:
+# /workspaces/tomcat/logs/access.log
+#
+# <server.tomcat.basedir> = /workspaces/tomcat
+# <server.tomcat.accesslog.directory> = logs
+# <server.tomcat.suffix> = .log
+#
+# The <basedir> property is relative to the system
+# temp directory if not given as an absolute path.
+# The <accesslog.directory> is always relative to
+# <basedir>.
+#
+# Properties can be overridden at invocation:
+# --server.tomcat.basedir=...
+# --server.tomcat...etc.
+#
+# If experiencing issues, insure the "tomcat-access"
+# logging group is defined above and set to "TRACE"
+# below. Also, try creating the target directory
+# if it does not exist before starting the app.
+#
+# TODO Define kubernetes-specific profile.
+# management:
+#   endpoint:
+#     health:
+#       group:
+#         readiness:
+#           include: "readinessState"
+#         liveliness:
+#           etc...
+#
+# See: https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#actuator.endpoints.kubernetes-probes
+#
+
+# Default profile
 spring:
     mvc:
         pathmatch:
@@ -38,73 +118,60 @@ logging:
             - "org.thymeleaf.TemplateEngine.CONFIG"
             - "org.thymeleaf.TemplateEngine.TIMER"
             - "org.thymeleaf.TemplateEngine.cache.TEMPLATE_CACHE"
+        tomcat-access:
+            - "java.util.logging.ConsoleHandler.level"
+            - "org.apache.catalina.session.level"
         tomcat:
-            - "org.apache.catalina, org.apache.coyote"
+            - "org.apache.catalina"
+            - "org.apache.coyote"
             - "org.apache.tomcat"
-
     level:
         root: "WARN"
         geoclient-all: "INFO"
-        ## Log native C runtime and JNI configuration at startup
-        #geoclient-jni: "DEBUG"
-        ## Log XML deserialization into workarea fields at startup
-        #gov.nyc.doitt.gis.geoclient.config.xml: "DEBUG"
-        ## Log character buffer values from geosupport requests/repsonses
-        #gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE"
-        ## Log request/response HashMaps before/after geosupport call
-        #gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl: "DEBUG"
 
 management:
     endpoints:
         enabled-by-default: false
 ---
-#
-# Command line for using this profile with the gradle bootRun task:
-#
-# ./gradlew -Dgc.jni.version=geoclient-jni-2 bootRun --args='--spring.profiles.active=quiet'
-#
+spring:
+    config:
+        activate:
+            on-profile: "accesslog"
+logging:
+    level:
+        tomcat-access: "TRACE"
+server:
+    tomcat:
+      basedir: "/workspaces/tomcat"
+      accesslog:
+          check-exists: true
+          directory: "logs"
+          enabled: true
+          suffix: ".log"
+---
 spring:
     config:
         activate:
             on-profile: "quiet"
-
 logging:
     level:
         geoclient-all: "ERROR"
 ---
-#
-# Command line for using this profile with the gradle bootRun task:
-#
-# ./gradlew -Dgc.jni.version=geoclient-jni-2 bootRun --args='--spring.profiles.active=bootRun'
-#
 spring:
     config:
         activate:
             on-profile: "bootRun"
     mvc:
         log-request-details: true
-
-server:
-    tomcat:
-      basedir: "tomcat" # Relative to system temp directory
-      accesslog:
-          check-exists: true
-          directory: "logs" # Relative to basedir
-          enabled: true
-          suffix: ".log"
-
 logging:
     level:
         spring-all: "INFO"
-        #spring-boot: "DEBUG"
         geoclient-service: "INFO"
-        #tomcat: "DEBUG"
     file:
         name: "build/bootrun/logs/geoclient.log"
-
 management:
-    endpoints:
-        enabled-by-default: true
-        web:
-            exposure:
-                include: "*"
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
