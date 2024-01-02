@@ -9,10 +9,15 @@
 		"GEOFILES": "/opt/geosupport/current/fls/"
 	},
 	"features": {
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {
+      "moby": false,
+      "dockerDashComposeVersion": "v2"
+    },
 		"ghcr.io/devcontainers/features/java:1": {
 			"version": "17",
 			"installMaven": "true",
-			"installGradle": "true"
+			"installGradle": "true",
+      "jdkDistro": "tem" // Use Temurin JDK instead of Microsoft default.
 		},
 		"ghcr.io/devcontainers/features/node:1": {
 			"version": "none"
