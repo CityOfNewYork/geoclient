@@ -1,6 +1,6 @@
 services:
   geoclient:
-    image: mlipper/geoclient:2.0.1-beta-lite
+    image: mlipper/geoclient:latest-run
     container_name: geoclient
     ports:
       - 8080:8080
@@ -12,7 +12,7 @@ services:
       - GEOFILES=/opt/geosupport/current/fls/
 volumes:
   geosupport-data:
-  # Assumes .env file or environment variable is defined with name of existing
-  # Geosupport volume.
+  # Assumes .env file or environment variable is defined with name of an
+  # existing Docker volume prep-populated with Geosupport.
     name: ${GEOSUPPORT_VOLUME}
 
