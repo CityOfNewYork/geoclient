@@ -12,3 +12,6 @@
 **/docker-compose*
 **/compose*
 **/Dockerfile*
+**/*Dockerfile*
+**/secrets.dev.yaml
+**/values.dev.yaml
