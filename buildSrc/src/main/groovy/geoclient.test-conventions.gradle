@@ -1,5 +1,6 @@
 plugins {
     id('java')
+    id('jacoco')
 }
 
 sourceSets {
@@ -59,4 +60,42 @@ tasks.register('integrationTest', Test) {
 
 tasks.named('check') {
     dependsOn(integrationTest)
+}
+
+tasks.named('jacocoTestReport') {
+    dependsOn test, integrationTest
+    reports {
+        xml.required = true
+    }
+}
+
+tasks.register('aggregateTestResults', Copy) {
+    from tasks.test
+    from tasks.integrationTest
+    into rootProject.layout.buildDirectory.dir('ci/test-results')
+    include '*.xml'
+    duplicatesStrategy = DuplicatesStrategy.FAIL
+}
+
+tasks.register('aggregateCoverageResults', Copy) {
+    dependsOn tasks.jacocoTestReport
+    from layout.buildDirectory.file('reports/jacoco/test/jacocoTestReport.xml')
+    into rootProject.layout.buildDirectory.dir('ci/coverage')
+    rename { String fileName ->
+        "${project.name}-jacocoTestReport.xml"
+    }
+    duplicatesStrategy = DuplicatesStrategy.FAIL
+}
+
+// TODO fix Tar task
+//tasks.register('testMetrics', Tar) {
+//    dependsOn test, integrationTest, tasks.jacocoTestReport, tasks.aggregateTestResults, tasks.aggregateCoverageResults
+//    from rootProject.layout.buildDirectory.dir('ci')
+//    archiveFileName = 'geoclient-test-metrics.tgz'
+//    compression = Compression.GZIP
+//    destinationDirectory = rootProject.layout.buildDirectory
+//}
+
+tasks.register('testMetrics') {
+    dependsOn tasks.aggregateTestResults, tasks.aggregateCoverageResults
 }
