@@ -25,8 +25,8 @@ stages:
       - script: |
           docker build -f ./ci/Dockerfile -t mlipper/geoclient:$(tag) .
           docker run --name geoclient --rm -d mlipper/geoclient:$(tag)
-          docker cp geoclient:app/dist/ci $(System.DefaultWorkingDirectory)/ci
-          docker cp geoclient:app/dist/geoclient.jar $(System.DefaultWorkingDirectory)
+          docker cp geoclient:app/ci $(System.DefaultWorkingDirectory)/ci
+          docker cp geoclient:app/geoclient.jar $(System.DefaultWorkingDirectory)
           docker stop geoclient
 
       - task: PublishTestResults@2
