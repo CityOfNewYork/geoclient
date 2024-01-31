@@ -3,7 +3,7 @@
 FROM gradle:jdk17 AS builder
 
 ARG GC_VERSION
-ENV GC_VERSION="${GC_VERSION:-2.0.1-beta}"
+ENV GC_VERSION="${GC_VERSION:-latest}"
 
 # Default for JARFILE assumes Docker context is the root project directory.
 ARG JARFILE
@@ -41,39 +41,26 @@ ENV GS_LIBRARY_PATH="${GEOSUPPORT_BASEDIR}/current/lib"
 ENV GS_INCLUDE_PATH="${GEOSUPPORT_BASEDIR}/current/include"
 
 RUN set -ex \
-    && gradle clean build testMetrics
+    && gradle clean build tarCiReports
 
-RUN set -eux \
-  && [ -f "${JARFILE}" ] || exit 1 \
-  && /bin/bash -c set -eux \
-  && cp -v "${JARFILE}" ./geoclient.jar
+RUN <<EOF
+#!/usr/bin/env bash
 
-RUN set -eux \
-  && [ -d build/ci ] || exit 1 \
-  && /bin/bash -c set -eux \
-  && tar czvf ./geoclient-test-metrics.tgz -C build/ci .
-
-#RUN set -ex \
-#  && mkdir -p ./test-results \
-#  && find . -path '*/build/*' \
-#       -type f -regex '.*\/TEST-.*\.xml' \
-#       -exec echo '{}' \; | xargs -n 1 -I{} bash -c 'FILE={} && cp -v -p $FILE ./test-results/$(basename $FILE)'
-#
-#RUN <<EOF
-##!/usr/bin/env bash
-#set -ex
-#prj_name() {
-#    local path="$1"
-#    path="$(dirname $path)"
-#    path="$(echo "$path" | sed 's|\./||')"
-#    echo "${path%%/*}"
-#}
-#export -f prj_name
-#mkdir -p ./coverage
-#find . -path '*/build/*' \
-#       -type f -regex '.*\/jacocoTestReport\.xml' \
-#       -exec bash -c 'echo "{} ./coverage/jacocoTestReport-$(prj_name {}).xml"' \; | xargs -n 2 -I{} cp -v -p {} 2>/dev/null
-#EOF
+set -eux -o pipefail
+tmp_dir=$(mktemp -d)
+mkdir -p ./dist
+if ! [ -f "${JARFILE}" ]; then
+  JARFILE=$(find ./geoclient-service/build/libs -type f \
+      -not -name '*-javadoc.jar' \
+      -a -not -name '*-sources.jar' \
+      -a -not -name '*-plain.jar')
+fi
+[ -f "${JARFILE}" ] || exit 1
+cp -v "${JARFILE}" ./dist/geoclient.jar
+find . -path '**/build/*' -type f -name '*-ci-reports.tgz' | xargs -I% tar xzvf % -C "${tmp_dir}"
+tar czvf ./dist/geoclient-ci-reports.tgz -C "${tmp_dir}" .
+rm -rf "${tmp_dir}"
+EOF
 
 ### Run
 FROM eclipse-temurin:17-jre-jammy AS runner
@@ -89,11 +76,13 @@ RUN set -eux \
 
 WORKDIR /app
 
-COPY --from=builder /app/geoclient.jar ./geoclient.jar
-COPY --from=builder /app/geoclient-test-metrics.tgz ./geoclient-test-metrics.tgz
+COPY --from=builder /app/dist/geoclient.jar ./geoclient.jar
+COPY --from=builder /app/dist/geoclient-ci-reports.tgz ./geoclient-ci-reports.tgz
 
 RUN set -ex \
-  && tar xzvf ./geoclient-test-metrics.tgz
+  && mkdir -p ./ci \
+  && tar xzvf ./geoclient-ci-reports.tgz -C ./ci \
+  && rm -f ./geoclient-ci-reports.tgz
 
 EXPOSE 8080
 

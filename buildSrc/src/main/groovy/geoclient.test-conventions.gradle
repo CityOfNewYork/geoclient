@@ -63,39 +63,34 @@ tasks.named('check') {
 }
 
 tasks.named('jacocoTestReport') {
-    dependsOn test, integrationTest
+    dependsOn check
+    // Will include test.exec and integrationTest.exec so integration
+    // tests contribute to coverage statistics.
+    executionData fileTree(project.buildDir.absolutePath).include("jacoco/*.exec")
+    classDirectories.setFrom files(project.sourceSets.main.output)
+    sourceDirectories.setFrom files(project.sourceSets.main.allSource.srcDirs)
     reports {
         xml.required = true
+        xml.outputLocation = layout.buildDirectory.file("reports/jacoco/test/${project.name}-coverage.xml")
     }
 }
 
-tasks.register('aggregateTestResults', Copy) {
-    from tasks.test
-    from tasks.integrationTest
-    into rootProject.layout.buildDirectory.dir('ci/test-results')
-    include '*.xml'
-    duplicatesStrategy = DuplicatesStrategy.FAIL
-}
-
-tasks.register('aggregateCoverageResults', Copy) {
-    dependsOn tasks.jacocoTestReport
-    from layout.buildDirectory.file('reports/jacoco/test/jacocoTestReport.xml')
-    into rootProject.layout.buildDirectory.dir('ci/coverage')
-    rename { String fileName ->
-        "${project.name}-jacocoTestReport.xml"
+tasks.register('tarCiReports', Tar) {
+    into('src') {
+        from sourceSets.main.allJava.srcDirs
     }
-    duplicatesStrategy = DuplicatesStrategy.FAIL
-}
-
-// TODO fix Tar task
-//tasks.register('testMetrics', Tar) {
-//    dependsOn test, integrationTest, tasks.jacocoTestReport, tasks.aggregateTestResults, tasks.aggregateCoverageResults
-//    from rootProject.layout.buildDirectory.dir('ci')
-//    archiveFileName = 'geoclient-test-metrics.tgz'
-//    compression = Compression.GZIP
-//    destinationDirectory = rootProject.layout.buildDirectory
-//}
-
-tasks.register('testMetrics') {
-    dependsOn tasks.aggregateTestResults, tasks.aggregateCoverageResults
+    into('test-results') {
+        //from tasks.named('copyJunitXmlReports')
+        from tasks.named('test').map { it.outputs.files }
+        from tasks.named('integrationTest').map { it.outputs.files }
+        include 'TEST-*.xml'
+    }
+    into('coverage') {
+        //from tasks.named('copyJacocoTestReports')
+        from tasks.named('jacocoTestReport').map { it.outputs.files }
+        include '*-coverage.xml'
+    }
+    archiveFileName = "${project.name}-ci-reports.tgz"
+    compression = Compression.GZIP
+    destinationDirectory = layout.buildDirectory
 }

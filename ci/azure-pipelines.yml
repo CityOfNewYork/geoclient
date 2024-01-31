@@ -25,21 +25,21 @@ stages:
       - script: |
           docker build -f ./ci/Dockerfile -t mlipper/geoclient:$(tag) .
           docker run --name geoclient --rm -d mlipper/geoclient:$(tag)
-          docker cp geoclient:app/test-results $(System.DefaultWorkingDirectory)
-          docker cp geoclient:app/geoclient.jar $(System.DefaultWorkingDirectory)
+          docker cp geoclient:app/dist/ci $(System.DefaultWorkingDirectory)/ci
+          docker cp geoclient:app/dist/geoclient.jar $(System.DefaultWorkingDirectory)
           docker stop geoclient
 
       - task: PublishTestResults@2
         inputs:
           mergeTestResults: true
           testRunner: JUnit
-          testResultsFiles: '**/TEST-*.xml'
+          testResultsFiles: '$(System.DefaultWorkingDirectory)/ci/test-results/TEST-*.xml'
           failTaskOnFailedTests: true
 
-      - task: PublishCodeCoverageResults@1
+      - task: PublishCodeCoverageResults@2
         inputs:
-          codeCoverageTool: 'JaCoCo'
-          summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/*-jacocoTestReport.xml'
+          summaryFileLocation: '$(System.DefaultWorkingDirectory)/ci/coverage/*-coverage.xml'
+          pathToSources: '$(System.DefaultWorkingDirectory)/ci/src/'
           failIfCoverageEmpty: true
       - task: PublishPipelineArtifact@1
         inputs:
