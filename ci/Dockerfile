@@ -56,9 +56,9 @@ if ! [ -f "${JARFILE}" ]; then
       -a -not -name '*-plain.jar')
 fi
 [ -f "${JARFILE}" ] || exit 1
-cp -v "${JARFILE}" ./dist/geoclient.jar
+cp -v "${JARFILE}" /app/dist/geoclient.jar
 find . -path '**/build/*' -type f -name '*-ci-reports.tgz' | xargs -I% tar xzvf % -C "${tmp_dir}"
-tar czvf ./dist/geoclient-ci-reports.tgz -C "${tmp_dir}" .
+tar czvf /app/dist/geoclient-ci-reports.tgz -C "${tmp_dir}" .
 rm -rf "${tmp_dir}"
 EOF
 
@@ -76,13 +76,22 @@ RUN set -eux \
 
 WORKDIR /app
 
-COPY --from=builder /app/dist/geoclient.jar ./geoclient.jar
-COPY --from=builder /app/dist/geoclient-ci-reports.tgz ./geoclient-ci-reports.tgz
+ENV CI_DIR=/app/ci
+ENV CI_TGZ=/app/geoclient-ci-reports.tgz
+ENV JARFILE=/app/geoclient.jar
+
+COPY --from=builder /app/dist/geoclient.jar ${JARFILE}
+COPY --from=builder /app/dist/geoclient-ci-reports.tgz ${CI_TGZ}
 
 RUN set -ex \
-  && mkdir -p ./ci \
-  && tar xzvf ./geoclient-ci-reports.tgz -C ./ci \
-  && rm -f ./geoclient-ci-reports.tgz
+  && mkdir -p ${CI_DIR} \
+  && tar xzvf ${CI_TGZ} -C ${CI_DIR} \
+  && rm -f ${CI_TGZ} \
+  && [ -f ${JARFILE} ] || (echo "ERROR: ${JARFILE} does not exist."; exit 1) \
+  && [ -d ${CI_DIR} ] || (echo "ERROR: ${CI_DIR} does not exist."; exit 1) \
+  && [ -d ${CI_DIR}/coverage ] || (echo "ERROR: ${CI_DIR}/coverage does not exist."; exit 1) \
+  && [ -d ${CI_DIR}/src ] || (echo "ERROR: ${CI_DIR}/src does not exist."; exit 1) \
+  && [ -d ${CI_DIR}/test-results ] || (echo "ERROR: ${CI_DIR}/test-results does not exist."; exit 1)
 
 EXPOSE 8080
 
