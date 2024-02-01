@@ -28,7 +28,6 @@ import static org.junit.jupiter.api.condition.OS.WINDOWS;
 
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
@@ -119,20 +118,6 @@ class PlatformTest {
         assertEquals(currentOs, p.getOperatingSystem());
         assertEquals(currentArch, p.getArchitecture());
         assertEquals(actualCurrentPlatform, p);
-    }
-
-    // TODO Implement with mock
-    @Disabled
-    @Test
-    @DisplayName("Default constructor throws UnsupportedPlatformException if System.getProperty for 'os.name' or 'os.arch' returns null")
-    @EnabledIfSystemProperty(named="os.arch", matches = ".*64.*")
-    @EnabledOnOs({LINUX, WINDOWS})
-    void testDefaultConstructorThrowsExceptionOnMissingSystemProperties() {
-        //String currentOs = mock(System.getProperty("os.name")).returns("Windows 7");
-        //String currentArch = mock(System.getProperty("os.arch")).returns("amd32");
-        // Default constructor derives OS and arch from Java system properties
-        Throwable exception = assertThrows(UnsupportedPlatformException.class, () -> { new Platform(); });
-        assertEquals("Unsupported JNI platform: OS='Windows 7' ARCH='amd32'", exception.getMessage());
     }
 
     @Test
