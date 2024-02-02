@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'checkstyle'
+    id 'project-report'
     id 'com.diffplug.spotless'
     // Note: usage of versions plugin dependencyUpdates task emits
     // deprecation warnings.
