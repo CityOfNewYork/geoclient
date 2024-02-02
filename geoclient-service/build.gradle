@@ -35,6 +35,9 @@ processResources {
 
 springBoot {
     mainClass = 'gov.nyc.doitt.gis.geoclient.service.GeoclientBootApplication'
+    buildInfo() {
+        excludes = ['time']
+    }
 }
 
 tasks.named('bootJar') {
