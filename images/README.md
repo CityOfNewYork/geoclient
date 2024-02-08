@@ -3,7 +3,7 @@
 This section explains the two most common ways to build and run `geoclient` using Docker:
 
 * [latest-build](#the-build-image): builds the project from and then runs `geoclient-service`.
-* [latest-run](#the-run-image): runs `geoclient-service` using the `geoclient-service-<version>.jar` and a local, named Docker `Volume` pre-populated with a recent Geosupport installation.
+* [latest-run](#the-run-image): runs `geoclient-service` using the `geoclient.jar` built by the `geoclient-service` subproject and a local, named Docker `Volume` pre-populated with a recent Geosupport installation.
 
 ## Assumptions
 
@@ -72,10 +72,10 @@ Runs geoclient using the exploded contents of the [spring-boot](https://docs.spr
     docker build -t geoclient:latest-run -f images/run.Dockerfile .
     ```
 
-   This assumes you are using the main `geoclient-service` jar artifact produced by this project's Gradle `build` task. If the `geoclient-service` jar is somewhere else, add a Docker build argument with the path to jar file:
+   This assumes you are using the `geoclient.jar` jar artifact produced by the `geoclient/geoclient-service` subproject's Gradle `build` task. If the the default geoclient-service bootJar artifact `<root project>/geoclient-service/libs/geoclient.jar` is somewhere else, add a Docker build argument with the path to jar file:
 
     ```sh
-    docker build --build-arg JARFILE=/path/to/geoclient-service-jar.jar -t geoclient:latest-run -f images/run.Dockerfile .
+    docker build --build-arg JARFILE=/path/to/geoclient-service.jar -t geoclient:latest-run -f images/run.Dockerfile .
     ```
 
 1. Follow the steps [below](#creating-a-named-geosupport-volume) to create a local volume named `geosupport-latest`, pre-populated with the uncompressed Geosupport distribution.
@@ -98,6 +98,27 @@ Create a local, named volume containing a Geosupport installation, using the [ge
    ```
 
 > *See the [`README`](https://github.com/mlipper/geosupport-docker/blob/main/README.md) for [geosupport-docker](#about-geosupport-docker) for a more detailed example.*
+
+## Docker Compose
+
+This section assumes you've followed the instructions in [The Run Image](#the-run-image) and [Creating a Named Geosupport Volume](#creating-a-named-geosupport-volume) above. The following objects should be available from your local Docker registry/installation:
+
+* The `geoclient:latest-run` image.
+* The `geosupport-latest` volume.
+
+Note that the `GEOCLIENT_IMAGE` and `GEOSUPPORT_VOLUME` environment variables are defaulted to `geoclient:latest-run` and `geosupport-latest`, respectively by the `images/.env` file.
+
+To start the service, run the following from the geoclient project root directory:
+
+```sh
+docker compose -f images/compose.yaml up
+```
+
+To shut down the service, run:
+
+```sh
+docker compose -f images/compose.yaml down
+```
 
 ## Testing the container
 
