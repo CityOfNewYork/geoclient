@@ -1,7 +1,9 @@
 # Install Geosupport
+
 ## Linux
 
 ## Windows
+
 `C:\Program Files\Geosupport Desktop Edition`
 
 ```ascii
