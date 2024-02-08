@@ -9,6 +9,7 @@
 **/bin
 **/build
 !**/build/libs/geoclient-service-*
+!**/build/libs/geoclient.jar
 **/build/libs/*-javadoc.jar
 **/build/libs/*-plain.jar
 **/build/libs/*-sources.jar

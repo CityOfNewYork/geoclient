@@ -2,12 +2,9 @@
 
 FROM gradle:jdk17 AS builder
 
-ARG GC_VERSION
-ENV GC_VERSION="${GC_VERSION:-2.0.1-beta}"
-
 # Default for JARFILE assumes Docker context is the root project directory.
 ARG JARFILE
-ENV JARFILE="${JARFILE:-./geoclient-service/build/libs/geoclient-service-${GC_VERSION}.jar}"
+ENV JARFILE="${JARFILE:-./geoclient-service/build/libs/geoclient.jar}"
 
 ENV GEOSUPPORT_BASEDIR=/opt/geosupport
 
@@ -43,9 +40,8 @@ ENV GS_INCLUDE_PATH="${GEOSUPPORT_BASEDIR}/current/include"
 RUN set -ex \
     && gradle clean build
 
-RUN set -eux \
+RUN set -ex \
   && [ -f "${JARFILE}" ] || exit 1 \
-  && /bin/bash -c set -eux \
   && cp -v "${JARFILE}" ./geoclient.jar \
   && java -Djarmode=layertools -jar ./geoclient.jar extract
 
@@ -62,12 +58,10 @@ RUN set -eux \
   && "${GEOSUPPORT_HOME}/bin/geosupport" install
 
 WORKDIR /app
-
 COPY --from=builder /app/dependencies/ ./
 COPY --from=builder /app/spring-boot-loader/ ./
 COPY --from=builder /app/snapshot-dependencies/ ./
 COPY --from=builder /app/application/ ./
 
-EXPOSE 8080
-
 ENTRYPOINT ["java", "-Dgc.jni.version=geoclient-jni-2", "-Dspring.profiles.active=default", "-Xmx2048m", "org.springframework.boot.loader.launch.JarLauncher"]
+EXPOSE 8080
