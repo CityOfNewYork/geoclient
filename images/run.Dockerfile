@@ -2,16 +2,16 @@
 
 FROM eclipse-temurin:17-jre as builder
 
-ARG GC_VERSION
-ENV GC_VERSION=${GC_VERSION:-2.0.1-beta}
 # Default for JARFILE assumes Docker context is the root project directory.
 ARG JARFILE
-ENV JARFILE=${JARFILE:-geoclient-service/build/libs/geoclient-service-${GC_VERSION}.jar}
+ENV JARFILE="${JARFILE:-./geoclient-service/build/libs/geoclient.jar}"
 
 WORKDIR /app
+COPY "${JARFILE}" .
 COPY --chmod=755 images/run.sh .
-COPY "${JARFILE}" geoclient.jar
-RUN java -Djarmode=layertools -jar geoclient.jar extract
+
+RUN set -ex \
+  && java -Djarmode=layertools -jar ./geoclient.jar extract
 
 FROM eclipse-temurin:17-jre
 
