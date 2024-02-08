@@ -1,6 +1,8 @@
 services:
   geoclient:
-    image: mlipper/geoclient:latest-run
+  # Assumes run.Dockerfile has been built, tagged and pushed to
+  # an accessible registry.
+    image: ${GEOCLIENT_IMAGE}
     container_name: geoclient
     ports:
       - 8080:8080
