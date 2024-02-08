@@ -2,12 +2,9 @@
 
 FROM gradle:jdk17 AS builder
 
-ARG GC_VERSION
-ENV GC_VERSION="${GC_VERSION:-latest}"
-
 # Default for JARFILE assumes Docker context is the root project directory.
 ARG JARFILE
-ENV JARFILE="${JARFILE:-./geoclient-service/build/libs/geoclient-service-${GC_VERSION}.jar}"
+ENV JARFILE="${JARFILE:-./geoclient-service/build/libs/geoclient.jar}"
 
 ENV GEOSUPPORT_BASEDIR=/opt/geosupport
 
@@ -45,16 +42,9 @@ RUN set -ex \
 
 RUN <<EOF
 #!/usr/bin/env bash
-
 set -eux -o pipefail
 tmp_dir=$(mktemp -d)
 mkdir -p ./dist
-if ! [ -f "${JARFILE}" ]; then
-  JARFILE=$(find ./geoclient-service/build/libs -type f \
-      -not -name '*-javadoc.jar' \
-      -a -not -name '*-sources.jar' \
-      -a -not -name '*-plain.jar')
-fi
 [ -f "${JARFILE}" ] || exit 1
 cp -v "${JARFILE}" /app/dist/geoclient.jar
 find . -path '**/build/*' -type f -name '*-ci-reports.tgz' | xargs -I% tar xzvf % -C "${tmp_dir}"
@@ -93,6 +83,5 @@ RUN set -ex \
   && [ -d ${CI_DIR}/src ] || (echo "ERROR: ${CI_DIR}/src does not exist."; exit 1) \
   && [ -d ${CI_DIR}/test-results ] || (echo "ERROR: ${CI_DIR}/test-results does not exist."; exit 1)
 
-EXPOSE 8080
-
 ENTRYPOINT ["java", "-Dgc.jni.version=geoclient-jni-2", "-Dspring.profiles.active=default", "-Xmx2048m", "-jar", "/app/geoclient.jar"]
+EXPOSE 8080

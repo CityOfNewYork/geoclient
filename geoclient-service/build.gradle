@@ -59,7 +59,20 @@ tasks.named('bootJar') {
     with(project.licenseFilesSpec)
 }
 
-bootRun {
+def jarArchiveFileProvider = tasks.named('bootJar') { it.archiveFile }
+
+tasks.register('dockerJar', Copy) {
+    dependsOn tasks.named('bootJar')
+    from jarArchiveFileProvider
+    into layout.buildDirectory.dir('libs')
+    rename { 'geoclient.jar' }
+}
+
+tasks.named('build') {
+    finalizedBy tasks.named('dockerJar')
+}
+
+tasks.named('bootRun') {
     args '--spring.profiles.active=bootRun'
     systemProperties = [ 'gc.jni.version': 'geoclient-jni-2-bootrun' ]
 }
