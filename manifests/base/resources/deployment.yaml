@@ -36,7 +36,7 @@ spec:
           livenessProbe:
             failureThreshold: 3
             httpGet:
-              path: /geoclient/v1/version.json?app_id=liveness_probe
+              path: /geoclient/v2/version.json?app_id=liveness_probe
               port: -1 # SVC_TARGET_PORT
             initialDelaySeconds: 3
             periodSeconds: 5
@@ -48,7 +48,7 @@ spec:
           readinessProbe:
             failureThreshold: 3
             httpGet:
-              path: /geoclient/v1/search.json?input=150%20broadway&app_id=readiness_probe
+              path: /geoclient/v2/search.json?input=150%20broadway&app_id=readiness_probe
               port: -1 # SVC_TARGET_PORT
             initialDelaySeconds: 5
             periodSeconds: 5
@@ -56,8 +56,8 @@ spec:
             timeoutSeconds: 1
           resources:
             limits:
-              cpu: "2"
-              memory: 4Gi
+              cpu: "3"
+              memory: 2Gi
             requests:
               cpu: "1"
               memory: 2Gi
