@@ -16,6 +16,7 @@
 package gov.nyc.doitt.gis.geoclient.service.street.web;
 
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.lang.NonNull;
 
 import gov.nyc.doitt.gis.geoclient.api.StreetCode;
 
@@ -29,7 +30,7 @@ import gov.nyc.doitt.gis.geoclient.api.StreetCode;
 public class StreetCodeConverter implements Converter<String, StreetCode> {
 
     @Override
-    public StreetCode convert(String source) {
+    public StreetCode convert(@NonNull String source) {
         return null;
     }
 

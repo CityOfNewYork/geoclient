@@ -23,6 +23,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.lang.NonNull;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -35,6 +36,7 @@ public abstract class  WebContainerIntegrationTest {
         return this.restTemplate;
     }
 
+    @SuppressWarnings("null")
     protected HttpEntity<?> jsonRequest() {
         return new HttpEntity<>(jsonHeaders());
     }
@@ -48,7 +50,8 @@ public abstract class  WebContainerIntegrationTest {
     protected URI jsonResource(String pathWithoutMediaType) {
         return uriComponentsBuilder(pathWithoutMediaType + ".json").build().toUri();
     }
-    protected UriComponentsBuilder uriComponentsBuilder(String path) {
+
+    protected UriComponentsBuilder uriComponentsBuilder(@NonNull String path) {
         return UriComponentsBuilder.fromPath(path);
     }
 }
