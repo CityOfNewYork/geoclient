@@ -71,6 +71,15 @@
 - source:
     kind: ConfigMap
     name: pipeline-variables
+    fieldPath: data.HPA_AVG_UTILIZATION
+  targets:
+  - select:
+      kind: HorizontalPodAutoscaler
+    fieldPaths:
+    - spec.metrics.0.resource.target.averageUtilization
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
     fieldPath: data.HPA_MIN_REPLICAS
   targets:
   - select:

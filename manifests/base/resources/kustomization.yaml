@@ -26,7 +26,7 @@ labels:
   - pairs:
       app: geoclient-v2
       # The value of col label must match value of COLOR
-      # in pipeline-variables ConfigMap
+      # in base/properties/pipeline.env
       col: blue
     includeSelectors: true
     includeTemplates: true

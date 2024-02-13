@@ -42,7 +42,6 @@ get_objs() {
 }
 
 write_yaml() {
-    if [[ 'configmap' == "$obj_type" ]]; then
     local obj_type="$1"
     local pattern="$2"
     local names=( $(kubectl get "$obj_type" | egrep $pattern | cut -d' ' -f1) )
@@ -50,7 +49,6 @@ write_yaml() {
         kubectl get "$obj_type" "${name}" -o yaml > "${BKDIR}/${obj_type}-${name}.yaml"
     done
     printf '%s (%i written)\n' "$obj_type" "${#names[@]}"
-    fi
 }
 
 main() {

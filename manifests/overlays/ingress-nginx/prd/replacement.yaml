@@ -32,7 +32,7 @@
       kind: Ingress
     fieldPaths:
     - spec.rules.0.host
-    - spec.tls.0.hosts
+    - spec.tls.0.hosts.0
 
 - source:
     kind: ConfigMap
