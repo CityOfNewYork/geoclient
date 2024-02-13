@@ -36,14 +36,14 @@ import gov.nyc.doitt.gis.geoclient.jni.test.ByteBufferUtils;
 import gov.nyc.doitt.gis.geoclient.jni.test.TestConfig;
 import gov.nyc.doitt.gis.geoclient.jni.test.TestFileParser;
 
-class GeoclientJniTest {
-    final static Logger logger = LoggerFactory.getLogger(GeoclientJniTest.class);
+class GeoclientJniIntegrationTest {
+    final static Logger logger = LoggerFactory.getLogger(GeoclientJniIntegrationTest.class);
 
     private GeoclientJni geoclientJni = new GeoclientJni();
 
     static Stream<TestConfig> getFixtures() throws FileNotFoundException, IOException {
         TestFileParser parser = new TestFileParser();
-        URL url = GeoclientJniTest.class.getResource("/jni-test.conf");
+        URL url = GeoclientJniIntegrationTest.class.getResource("/jni-test.conf");
         List<TestConfig> configs = parser.parse(url);
         return configs.stream();
     }
