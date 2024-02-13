@@ -27,7 +27,6 @@ import java.nio.charset.CharacterCodingException;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.slf4j.Logger;
@@ -56,7 +55,6 @@ class GeoclientJniTest {
         ByteBuffer wa1 = conf.getWorkAreaOne();
         logByteBuffer("1", wa1);
         ByteBuffer wa2 = ByteBuffer.allocate(conf.getLengthOfWorkAreaTwo());
-        // conf.getWorkAreaTwo();
         logByteBuffer("2", wa2);
         geoclientJni.callgeo(wa1, wa2);
         String actualW1 = ByteBufferUtils.decode(wa1);
@@ -67,15 +65,12 @@ class GeoclientJniTest {
         logReturnCode(conf, "ByteBuffer", returnCode);
         logByteBuffer("1", wa1);
         logByteBuffer("2", wa2);
-        // wa1.clear();
-        // wa2.clear();
         assertNotNull(actualW2);
         assertFalse(actualW2.isEmpty());
         assertTrue(ByteBufferUtils.isSuccess(returnCode),
                 String.format("Return code from function {} should indicate success", conf.getFunctionName()));
     }
 
-    @Disabled
     @ParameterizedTest
     @MethodSource("getFixtures")
     void testCallgeoWithByteArrays(TestConfig conf) {
