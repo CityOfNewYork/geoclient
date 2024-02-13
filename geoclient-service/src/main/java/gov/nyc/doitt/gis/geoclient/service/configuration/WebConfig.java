@@ -34,6 +34,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.http.converter.xml.MarshallingHttpMessageConverter;
+import org.springframework.lang.NonNull;
 import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
@@ -79,12 +80,13 @@ public class WebConfig implements WebMvcConfigurer {
      * strategy that will eventually be deprecated since it is insecure.
      */
     @Override
-    public void addCorsMappings(CorsRegistry registry) {
+    public void addCorsMappings(@NonNull CorsRegistry registry) {
         registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET");
     }
 
     @Override
-    public void addFormatters(FormatterRegistry registry) {
+    @SuppressWarnings("null")
+    public void addFormatters(@NonNull FormatterRegistry registry) {
         registry.addConverter(searchResultConverter());
     }
 
@@ -94,8 +96,8 @@ public class WebConfig implements WebMvcConfigurer {
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureContentNegotiation(org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer)
      */
     @Override
-    @SuppressWarnings("deprecation")
-    public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
+    @SuppressWarnings(value = { "deprecation", "null" })
+    public void configureContentNegotiation(@NonNull ContentNegotiationConfigurer configurer) {
         configurer.favorPathExtension(true).
         favorParameter(false).
         //parameterName("format").
@@ -110,7 +112,7 @@ public class WebConfig implements WebMvcConfigurer {
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureDefaultServletHandling(org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer)
      */
     @Override
-    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+    public void configureDefaultServletHandling(@NonNull DefaultServletHandlerConfigurer configurer) {
         configurer.enable("geoclientDispatcherServlet");
     }
 
@@ -118,7 +120,7 @@ public class WebConfig implements WebMvcConfigurer {
      * Adds JSON and XML message converters.
      */
     @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+    public void configureMessageConverters(@NonNull List<HttpMessageConverter<?>> converters) {
         converters.add(jsonMessageConverter());
         converters.add(xmlMessageConverter());
     }
@@ -157,7 +159,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @SuppressWarnings("deprecation")
     @Override
-    public void configurePathMatch(PathMatchConfigurer configurer) {
+    public void configurePathMatch(@NonNull PathMatchConfigurer configurer) {
         configurer.setUseSuffixPatternMatch(true);
         configurer.setPathMatcher(new AntPathMatcher());
     }
@@ -173,6 +175,7 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    @SuppressWarnings("null")
     public HttpMessageConverter<?> xmlMessageConverter() {
         return new MarshallingHttpMessageConverter(marshaller());
     }
@@ -200,7 +203,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Bean
     public static BeanFactoryPostProcessor removeTomcatWebServerCustomizer() {
         return new BeanFactoryPostProcessor() {
-            public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+            public void postProcessBeanFactory(@NonNull ConfigurableListableBeanFactory beanFactory) {
                 if (((DefaultListableBeanFactory)beanFactory).containsBeanDefinition("tomcatWebServerFactoryCustomizer")) {
                     //((DefaultListableBeanFactory)beanFactory).removeBeanDefinition("tomcatWebServerFactoryCustomizer");
                     //LOGGER.info("Removed bean \"tomcatWebServerFactoryCustomizer\".");
