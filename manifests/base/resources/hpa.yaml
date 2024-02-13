@@ -13,7 +13,7 @@ spec:
   - resource:
       name: cpu
       target:
-        averageUtilization: 50
+        averageUtilization: -1 # HPA_AVG_UTILIZATION
         type: Utilization
     type: Resource
   minReplicas: -1 # HPA_MIN_REPLICAS
