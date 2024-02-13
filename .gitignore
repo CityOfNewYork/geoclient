@@ -37,6 +37,7 @@
 
 # User-specific stuff
 **/.env
+!images/.env
 **/.local
 **/notes
 **/.DS_Store
