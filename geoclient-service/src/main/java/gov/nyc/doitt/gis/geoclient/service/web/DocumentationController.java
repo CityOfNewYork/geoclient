@@ -39,10 +39,10 @@ public class DocumentationController {
     private GeosupportService geosupportService;
 
 
+    @SuppressWarnings("null")
     @RequestMapping(value = DOC_URI, method = RequestMethod.GET)
     public String doc(ModelMap modelMap)
     {
-        //modelMap.put(DOC_OBJ, this.geosupportService.getDocumentation());
         Version version = this.geosupportService.version();
         modelMap.addAttribute(VERSION_OBJ, version);
         logger.debug("Returning Version instance {} to view named {}", version, DOC_VIEW_NAME);
