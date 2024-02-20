@@ -1,0 +1,31 @@
+[[user-guide]]
+= Geoclient User Guide
+:last-update-label!:
+
+include::attributes.adoc[]
+
+== Endpoints
+
+=== /version
+
+Request:
+
+[source,shell,indent=0]
+```
+curl -k -q https://maps.nyc.gov/geoclient/v2/version.json
+```
+
+Response:
+
+[source,json,indent=0]
+----
+include::samples/version.jsonc[tags=user_guide]
+----
+
+include::sections/docker.adoc[]
+
+include::sections/kustomize.adoc[]
+
+== Samples
+
+include::sections/simple-js.adoc[]

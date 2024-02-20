@@ -22,7 +22,7 @@ pluginManagement {
 
 rootProject.name = 'geoclient'
 
-//include 'geoclient-test'
+include 'documentation'
 include 'geoclient-jni'
 include 'geoclient-core'
 include 'geoclient-parser'
