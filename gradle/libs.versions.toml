@@ -1,5 +1,7 @@
 [versions]
 apiguardian-api = "1.1.2"
+asciidoctorj-pdf = "2.3.12"
+asciidoctor-plugins = "4.0.2"
 commons-text = "1.11.0"
 diffutils = "1.3.0"
 junit-bom = "5.10.1"
@@ -10,6 +12,8 @@ xstream = "1.4.20"
 
 [plugins]
 boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
+asciidoctorConvert = { id = "org.asciidoctor.jvm.convert", version.ref = "asciidoctor-plugins" }
+asciidoctorPdf = { id = "org.asciidoctor.jvm.pdf", version.ref = "asciidoctor-plugins" }
 
 [libraries]
 apiguardian-api = { module = "org.apiguardian:apiguardian-api", version.ref = "apiguardian-api" }

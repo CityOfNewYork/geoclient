@@ -1,0 +1,47 @@
+plugins {
+    id 'geoclient.library-conventions'
+	alias(libs.plugins.asciidoctorConvert)
+	alias(libs.plugins.asciidoctorPdf)
+}
+
+tasks.named('asciidoctor') {
+    group 'documentation'
+    description 'Build Asciidoctor documentation'
+
+    baseDirFollowsSourceDir()
+
+    sourceDir file('src/docs/asciidoc')
+
+    sources {
+        include 'index.adoc'
+    }
+
+    resources {
+        from(sourceDir) {
+            include 'images/**'
+        }
+    }
+
+    attributes toc: 'left',
+               toclevels: 2,
+               sectnums: '',
+               setanchors: true,
+               idprefix: '',
+               idseparator: '-',
+               'source-highlighter': 'rouge',
+               'rouge-style': 'monokai'
+
+    // Temporary workaround for https://github.com/asciidoctor/asciidoctor-gradle-plugin/issues/599
+    inputs.dir(sourceDir).withPropertyName("sourceDir").withPathSensitivity(PathSensitivity.RELATIVE)
+
+    jvm {
+        // To avoid warning, see https://github.com/asciidoctor/asciidoctor-gradle-plugin/issues/597
+        jvmArgs(
+            "--add-opens", "java.base/sun.nio.ch=ALL-UNNAMED",
+            "--add-opens", "java.base/java.io=ALL-UNNAMED"
+        )
+    }
+
+    notCompatibleWithConfigurationCache("https://github.com/asciidoctor/asciidoctor-gradle-plugin/issues/564")
+
+}

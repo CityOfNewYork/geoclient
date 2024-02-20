@@ -1,0 +1,6 @@
+//Base Links
+:dcp-geosupport:                  https://www.nyc.gov/site/planning/data-maps/open-data.page#geocoding_application
+:dcp-goat:                        https://a030-goat.nyc.gov/goat
+:dcp-upg:                         https://nycplanning.github.io/Geosupport-UPG
+:geoclient-repo:                  https://github.com/mlipper/geoclient
+:geoclient-nyc-repo:              https://github.com/CityOfNewYork/geoclient
