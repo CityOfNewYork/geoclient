@@ -4,6 +4,8 @@
 
 include::attributes.adoc[]
 
+include::parts/intro.adoc[]
+
 == Endpoints
 
 === /version
