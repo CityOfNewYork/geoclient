@@ -18,16 +18,19 @@ tasks.named('asciidoctor') {
 
     resources {
         from(sourceDir) {
-            include 'images/**'
+            include 'images/**', 'js/**'
         }
     }
 
-    attributes toc: 'left',
-               toclevels: 2,
-               sectnums: '',
-               setanchors: true,
+    attributes docinfo: 'shared',
                idprefix: '',
                idseparator: '-',
+               imagesdir: './images',
+               sectnums: '',
+               setanchors: true,
+               toc: 'left',
+               toclevels: 2,
+               'docinfo1': '',
                'source-highlighter': 'rouge',
                'rouge-style': 'monokai'
 
