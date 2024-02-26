@@ -1,0 +1,59 @@
+== Geoclient
+
+Geoclient is software which provides developer-friendly API's for geocoding New York City location information by proxying requests to Geosupport which is the City's official geocoder of record.
+
+Although, the names are similar, Geoclient and Geosupport are completely different systems built and maintained by two different teams:
+
+* Geoclient (this project) is maintained by the {geoclient-repo}[geoclient project] on GitHub.
+* Geosupport is maintained by the {dcp-site}[Department of City Planning].
+
+The Geoclient service provides the following endpoints:
+
+[cols=",,",]
+|===
+|Type | Description | Geosupport Function
+
+|Address
+|Given a valid address, provides blockface-level, property-level, and political information ({dcp-goat}/Function1B[source]).
+|1B{empty}footnote:1B[See {dcp-upg-cows}#work-area-2-cow-function-1b[1B]]
+
+|Address Point
+|"Function AP finds the address point for a given address. Address points are point locations located approximately five feet inside the building along the corresponding street frontage. Address points do not exist for all administrative address ranges assigned to a building, but usually only reflect the posted address." ({dcp-goat}/FunctionAP[source])
+|AP{empty}footnote:AP[See {dcp-upg-cows}#work-area-2-cow-function-ap[AP]]
+
+|BBL
+|Given a valid borough, block, and lot provides property-level information. ({dcp-goat}/FunctionBL[source])
+|BL{empty}footnote:BL[See {dcp-upg-cows}#work-area-2-cow-function-1a-bl-bn-extended[BL]]
+
+|BIN
+|Given a valid building identification number provides property-level information. ({dcp-goat}/FunctionBN[source])
+|BN{empty}footnote:BN[See {dcp-upg-cows}#work-area-2-cow-function-1a-bl-bn-extended[BN]]
+
+|Blockface
+|Given a valid borough, "on street" and cross streets provides blockface-level information. ({dcp-goat}/Function3[source])
+|3{empty}footnote:3[See {dcp-upg-cows}#work-area-2-cow-function-3[3]], 3X{empty}footnote:3X[See {dcp-upg-cows}#work-area-2-cow-function-3-extended[3X]]
+
+|Intersection
+|Given a valid borough and cross streets returns information for the point defined by the two streets. ({dcp-goat}/Function2[source])
+|2{empty}footnote:2[See {dcp-upg-cows}#work-area-2-cow-function-2[2]], 2W{empty}footnote:2W[See {dcp-upg-cows}#work-area-2-cow-function-2w-wide[2W]]
+
+|Place
+|Same as 'Address' above using well-known NYC place name for input (instead of a house number and street).
+|1B{empty}footnote:1B[]
+
+|Search
+|Provides parsing and search algorithm customization for several of the other endpoints listed in this section. Typically used for geocoding unstructured text to support "single-field" user searches. See link:#section-1.3[Section 1.3] for details.
+|Address, BBL, BIN, Blockface, Intersection, Place
+
+|Streetcode
+|Translates a Geosupport street code (`B5SC`, `B7SC`, or `B10SC`) to a street name and `B10SC`. ({dcp-goat}/FunctionD[source])
+|D,DG,DN{empty}footnote:D-DG-DN[See {dcp-upg-cows}#character-only-work-area-1-cow-all-functions[D, DG, DN]]
+
+|Normalize
+|Normalizes a street name (but does *not* verify that it actually exists. {dcp-goat}/FunctionN[source])
+|N{empty}footnote:N[See {dcp-upg-cows}#character-only-work-area-1-cow-all-functions[N]]
+
+|Version
+|Provides software version information about the Geoclient endpoint itself and Geosupport version/release info directly from the Geosupport instance this endpoint is currently using.
+|HR (undocumented Geosupport metadata function)
+|===
