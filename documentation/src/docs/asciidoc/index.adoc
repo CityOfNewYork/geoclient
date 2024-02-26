@@ -17,15 +17,19 @@ curl -k -q https://maps.nyc.gov/geoclient/v2/version.json
 
 Response:
 
+.Show JSON
+[%collapsible]
+====
 [source,json,indent=0]
 ----
 include::samples/version.jsonc[tags=user_guide]
 ----
+====
 
-include::sections/docker.adoc[]
+include::parts/docker.adoc[]
 
-include::sections/kustomize.adoc[]
+include::parts/kustomize.adoc[]
 
 == Samples
 
-include::sections/simple-js.adoc[]
+include::parts/simple-js.adoc[]
