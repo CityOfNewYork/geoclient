@@ -1,15 +1,13 @@
-== Geoclient
+== REST API
 
-Geoclient is software which provides developer-friendly API's for geocoding New York City location information by proxying requests to Geosupport which is the City's official geocoder of record.
+This section documents how to call the Geoclient REST API and provides example requests and responses.
 
-Although, the names are similar, Geoclient and Geosupport are completely different systems built and maintained by two different teams:
-
-* Geoclient (this project) is maintained by the {geoclient-repo}[geoclient project] on GitHub.
-* Geosupport is maintained by the {dcp-site}[Department of City Planning].
+'''
 
 The Geoclient service provides the following endpoints:
 
-[cols=",,",]
+.Endpoints
+[cols="1,2,1"]
 |===
 |Type | Description | Geosupport Function
 
@@ -57,3 +55,34 @@ The Geoclient service provides the following endpoints:
 |Provides software version information about the Geoclient endpoint itself and Geosupport version/release info directly from the Geosupport instance this endpoint is currently using.
 |HR (undocumented Geosupport metadata function)
 |===
+
+=== Calling the Geoclient API
+
+Blah, blah, blah...
+
+=== Understanding Geoclient Return Codes
+
+There are two ways in which the Geoclient service communicates call status information: HTTP status codes and Geosupport API return codes. The former will always be provided; the only time in which latter will not be available is when the service itself is down or system error prevents the application from returning data to the client.
+
+HTTP return codes vs. Geosupport (application-level) return codes.
+
+=== Endpoints
+
+==== Version
+
+Request:
+
+....
+/geoclient/v2/version.json
+....
+
+Response:
+
+.Show JSON
+[%collapsible]
+====
+[source,json,indent=0]
+----
+include::../samples/version.jsonc[tags=user_guide]
+----
+====
