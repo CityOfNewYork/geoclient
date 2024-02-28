@@ -1,0 +1,14 @@
+== Concepts
+
+This section describes the purpose and high-level design of this project.
+
+'''
+
+Once upon a time, the developers at DoITT/DMI/GIS found themselves repeatedly copying a fairly large amount of platform-specific Java/JNI and C client code between their own projects which depended on Geosupport for geocoding services.
+
+Geoclient was built to provide a simplified service API for interacting with Geosupport from any runtime capable of making simple HTTP GET requests. In other words, Geoclient is just a proxy API for calling Geosupport which works dilligently behind the scenes doing the actual geocoding with its own data carefully researched and maintained by the Department of City Planning.
+
+Geoclient itself contains no additional spatial logic or reference data and by design tries only to make it easier for applications to call Geosupport. The one exception is the /search endpoint which adds NYC location-aware, natural language parsing functionality appropriate for user-driven, "single-field search" e.g., via Ajax calls from an web page. See Section 1.3 for details.
+
+.The Big Picture
+image::geoclient-runtime.png[Runtime]

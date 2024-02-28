@@ -1,11 +1,19 @@
-== Docker
+== Development
+
+This section documents building Geoclient from source, the project's core architecture and several development use cases.
+
+'''
+
+=== Building from source
+
+=== Docker
 
 This section explains the two most common ways to build and run `geoclient` using Docker:
 
 * <<the-build-image,latest-build>>: builds the project from and then runs `geoclient-service`.
 * <<the-run-image,latest-run>>: runs `geoclient-service` using the `geoclient.jar` built by the `geoclient-service` subproject and a local, named Docker `Volume` pre-populated with a recent Geosupport installation.
 
-=== Assumptions
+==== Assumptions
 
 * All examples assume you have a local clone of the `geoclient` GitHub https://github.com/mlipper/geoclient.git[repository] and are running commands from the root project directory.
 +
@@ -14,7 +22,7 @@ See <<building-a-docker-image-from-source,Building Docker Images>> below for det
 * Containers built from these images expect that Geosupport (`GEOSUPPORT_BASE`) is installed in `/opt/geosupport` at runtime.
 * These examples start containers in the foregroung with the `-t` switch. To run `geoclient` in the background, use the `-d` switch instead.
 
-=== Requirements
+==== Requirements
 
 * The `geoclient` REST service (`geoclient-service`) *requires* a Geosupport installation to work.
 * The examples here require the Geosupport distribution packaged by the https://github.com/mlipper/geosupport-docker[geosupport-docker] project:
@@ -24,7 +32,7 @@ See <<building-a-docker-image-from-source,Building Docker Images>> below for det
 
 _NOTE: geoclient can use the official Linux distribution of Geosupport available from New York City's https://www.nyc.gov/site/planning/index.page[Department of City Planning]. However, additional installation and configuration steps are required._
 
-=== Building a Docker image from source
+==== Building a Docker image from source
 
 Clone the `geoclient` from GitHub and change to the project's *root* directory.
 
@@ -44,7 +52,7 @@ Clone the `geoclient` from GitHub and change to the project's *root* directory.
   cd geoclient
 ----
 
-=== The `build` image
+==== The `build` image
 
 This image installs Geosupport, builds the project from source using https://gradle.org/[Gradle], and runs geoclient.
 
@@ -66,7 +74,7 @@ A complete Geosupport installation is approximately 2.3 GB in size and adding it
 
 . <<testing-the-container,Test the container>>.
 
-=== The `run` image
+==== The `run` image
 
 Runs geoclient using the exploded contents of the https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/[spring-boot]-packaged jar built from the `geoclient-service` subproject.
 
@@ -94,7 +102,7 @@ This assumes you are using the `geoclient.jar` jar artifact produced by the `geo
 
 . <<testing-the-container,Test the container>>.
 
-=== Creating a named Geosupport volume
+==== Creating a named Geosupport volume
 
 Create a local, named volume containing a Geosupport installation, using the https://github.com/mlipper/geosupport-docker[geosupport-docker] project. Use the default `GEOSUPPORT_BASE` path of `/opt/geosupport`.
 
@@ -106,7 +114,7 @@ Create a local, named volume containing a Geosupport installation, using the htt
 
 _See the https://github.com/mlipper/geosupport-docker/blob/main/README.md[`README`] for <<about-geosupport-docker,geosupport-docker>> for a more detailed example._
 
-=== Docker Compose
+==== Docker Compose
 
 This section assumes you've followed the instructions in <<the-run-image,The Run Image>> and <<creating-a-named-geosupport-volume,Creating a Named Geosupport Volume>> above. The following objects should be available from your local Docker registry/installation:
 
@@ -129,7 +137,7 @@ To shut down the service, run:
 docker compose -f images/compose.yaml down
 ----
 
-=== Testing the container
+==== Testing the container
 
 Using the tool of your choice, geocode a NYC intersection. E.g., "east 53 street and 3rd avenue".
 
@@ -142,8 +150,89 @@ Using the tool of your choice, geocode a NYC intersection. E.g., "east 53 street
 
 * Or use a browser to open http://localhost:8080/geoclient/v2/search?input=east%2053%20street%20and%203rd%20avenue[this URL].
 
-=== About geosupport-docker
+==== About geosupport-docker
 
 The https://github.com/mlipper/geosupport-docker[geosupport-docker] provides an opinionated, re-packaged version of the official Linux distribution of Geosupport available from New York City's https://www.nyc.gov/site/planning/index.page[Department of City Planning]. This project's Docker images depend upon ``geosupport-docker``'s CLI scripts and patched `C` header files for installation, system configuration and native compilation tasks.
 
 Although the `geoclient` runtime only requires that Geosupport's shared libraries are accessible to the `JVM` (via `ldconfig`, `java.library.path`, `LD_LIBRARY_PATH`, etc.) and that the `GEOFILES` environment variable is set to the absolute path (_with an appended '/' character_) of Geosupport's data files, use of `geosupport-docker`, greatly simplifies the effort of installing and managing Geosupport.
+
+
+=== Kubernetes
+
+==== Kustomize
+
+* `build.sh`: runs kustomize and optionally parses out individual object manifests.
+* `cluster-state.sh`: generates backup of existing object YAML definitions.
+
+==== Overlays
+
+===== Main Overlays
+
+|===
+| Path | Component | Generated Objects
+
+| ./overlays/app/dev/no-pvc
+| development
+| deployment, hpa, service
+
+| ./overlays/app/dev/pvc
+| development
+| deployment, hpa, service, pvc
+
+| ./overlays/app/prd/no-pvc
+| production
+| deployment, hpa, service
+
+| ./overlays/app/prd/pvc
+| production
+| deployment, hpa, service, pvc
+|===
+
+===== Ingress Overlays
+
+|===
+| Path | Component | Generated Objects
+
+| ./overlays/ingress-nginx/dev
+| development
+| ingress
+
+| ./overlays/ingress-nginx/prd
+| production
+| ingress
+|===
+
+===== PVC Overlays
+
+|===
+| Path | Component | Generated Objects
+
+| ./overlays/pvc-azurefile/dev
+| development
+| pvc
+
+| ./overlays/pvc-azurefile/prd
+| production
+| pvc
+|===
+
+[,sh]
+----
+overlays/
+├── app
+│   ├── dev
+│   │   ├── no-pvc
+│   │   └── pvc
+│   └── prd
+│       ├── no-pvc
+│       └── pvc
+├── ingress-nginx
+│   ├── base
+│   ├── dev
+│   └── prd
+├── minikube
+└── pvc-azurefile
+    ├── base
+    ├── dev
+    └── prd
+----

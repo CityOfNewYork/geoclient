@@ -1,4 +1,10 @@
-=== Geoclient Simple JS Example
+== Samples
+
+This section documents code samples that are included in the Geoclient source tree.
+
+'''
+
+=== Simple JavaScript Example
 
 This sample provides a minimal example of calling the geoclient service using https://en.wikipedia.org/wiki/Cross-origin_resource_sharing[`CORS`].
 
