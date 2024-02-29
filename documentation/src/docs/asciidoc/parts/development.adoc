@@ -6,6 +6,8 @@ This section documents building Geoclient from source, the project's core archit
 
 === Building from source
 
+==== Project structure
+
 === Docker
 
 This section explains the two most common ways to build and run `geoclient` using Docker:
@@ -171,19 +173,19 @@ Although the `geoclient` runtime only requires that Geosupport's shared librarie
 |===
 | Path | Component | Generated Objects
 
-| ./overlays/app/dev/no-pvc
+| overlays/app/dev/no-pvc
 | development
 | deployment, hpa, service
 
-| ./overlays/app/dev/pvc
+| overlays/app/dev/pvc
 | development
 | deployment, hpa, service, pvc
 
-| ./overlays/app/prd/no-pvc
+| overlays/app/prd/no-pvc
 | production
 | deployment, hpa, service
 
-| ./overlays/app/prd/pvc
+| overlays/app/prd/pvc
 | production
 | deployment, hpa, service, pvc
 |===
@@ -193,11 +195,11 @@ Although the `geoclient` runtime only requires that Geosupport's shared librarie
 |===
 | Path | Component | Generated Objects
 
-| ./overlays/ingress-nginx/dev
+| overlays/ingress-nginx/dev
 | development
 | ingress
 
-| ./overlays/ingress-nginx/prd
+| overlays/ingress-nginx/prd
 | production
 | ingress
 |===
@@ -207,11 +209,11 @@ Although the `geoclient` runtime only requires that Geosupport's shared librarie
 |===
 | Path | Component | Generated Objects
 
-| ./overlays/pvc-azurefile/dev
+| overlays/pvc-azurefile/dev
 | development
 | pvc
 
-| ./overlays/pvc-azurefile/prd
+| overlays/pvc-azurefile/prd
 | production
 | pvc
 |===
