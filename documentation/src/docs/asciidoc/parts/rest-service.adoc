@@ -56,9 +56,75 @@ The Geoclient service provides the following endpoints:
 |HR (undocumented Geosupport metadata function)
 |===
 
+[#calling-the-geoclient-api]
 === Calling the Geoclient API
 
-Blah, blah, blah...
+==== Requests
+
+All requests are made as simple `HTTP GET` requests with input arguments specified as URL query string and/or request parameters. The service returns the `JSON` (`application/json`) media type by default unless a `Content-Type` header or the `.xml` file extension is appended as a request parameter to the endpoint function.
+
+----
+/search?input=100%20centre%20street%20manhattan <1>
+
+/search.json?input=100%20centre%20street%20manhattan <2>
+       ^^^^^
+
+/search.xml?input=100%20centre%20street%20manhattan <3>
+       ^^^^
+----
+<1> Returns 'JSON' (default)
+<2> Returns 'JSON'
+<3> Returns 'XML'
+
+WARNING: In the example above, (2) and (3) use file extensions as request (path) parameters. This functionality is deprecated and will eventually be removed from Geoclient. In future versions, use of the `Content-Type` header will be the way to request a non-default media type.
+
+==== Responses
+
+Any response from Geoclient is composed almost entirely from the results of the proxied Geosupport function call. This documentation no longer attempts to provide in-depth information about these functions. Instead, links are provided to the Department of City Planning's detailed documentation about their geocoding logic and return data.
+
+Here's some high-level guidelines that will allow your code to remain loosely coupled with this API:
+
+* By default, Geoclient does not serialize fields returned from Geosupport with NULL values in order to reduce unecessary network I/O.
+The responses shown below are for example purposes only and do not include all possible fields that may be returned.
+* Even for successfully recognized input, certain data attributes may not be available for some locations. Similarly, some attributes only make sense for certain input types.
+* Although the examples are "pretty-printed" in this document, calling applications should not depend on any particular formatting of responses.
+* The order of returned data elements is unspecified.
+* Client code which parses the structured text of a Geoclient response should not rely upon significant whitespace or element/attribute ordering.
+* _However_, the field values returned by Geosupport **__sometimes do contain significant whitespace or formatting__** which Geoclient _intentionally_ leaves unchanged.
+* Occasionally, Geosupport fails to recognize a valid location or there is a bug in the Geoclient code. See Section FIXME for information on when and how to contact the appropriate team.
+
+[#auth]
+=== Authentication/Authorization
+
+Geoclient does not perform any kind of authentication or authorization. However, most hosted instances of the service run behind some kind API gateway that requires access credentials.
+
+.Historical documentation of access API's
+****
+Previous versions of this document described accessing protected Geoclient servers that were hosted by the City of New York. However, since that time, more hosted endpoints using different authentication schemes have become available.
+
+Although it is beyond the scope of this document, here's a brief summary of access methods still in use at this time:
+
+* API authorization provided as:
+** `HTTP` header:
+*** `Ocp-Apim-Subscription-Key`
+** `HTTP` query string parameters:
+*** `app_id`
+*** `app_key`
+
+Contact your provider for signup and access instructions.
+****
+
+[#common-request]
+=== Common query string and request parameters
+
+The following request parameters are required for all operations (except where noted):
+
+* borough (required2,3,4) parameter - must be one of the following (case-insensitive):
+** Manhattan
+** Bronx
+** Brooklyn
+** Queens
+** Staten Island
 
 === Understanding Geoclient Return Codes
 
