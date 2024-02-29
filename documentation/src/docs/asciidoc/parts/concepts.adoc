@@ -4,11 +4,21 @@ This section describes the purpose and high-level design of this project.
 
 '''
 
-Once upon a time, the developers at DoITT/DMI/GIS found themselves repeatedly copying a fairly large amount of platform-specific Java/JNI and C client code between their own projects which depended on Geosupport for geocoding services.
+[IMPORTANT]
+====
+Although, the names are similar, [.geo]#Geo[.client]##client### and [.geo]#Geo[.support]##support### are completely different applications built and maintained by two different teams:
 
-Geoclient was built to provide a simplified service API for interacting with Geosupport from any runtime capable of making simple HTTP GET requests. In other words, Geoclient is just a proxy API for calling Geosupport which works dilligently behind the scenes doing the actual geocoding with its own data carefully researched and maintained by the Department of City Planning.
+* [.geo]#Geo[.client]##client### (this project) is maintained as an Open Source Software project on {geoclient-repo}[GitHub].
+* [.geo]#Geo[.support]##support### is maintained by the {dcp-site}[Department of City Planning].
 
-Geoclient itself contains no additional spatial logic or reference data and by design tries only to make it easier for applications to call Geosupport. The one exception is the /search endpoint which adds NYC location-aware, natural language parsing functionality appropriate for user-driven, "single-field search" e.g., via Ajax calls from an web page. See Section 1.3 for details.
+It is important to understand that these are distinct software projects because [.geo]#Geo[.client]##client###'s primary purpose is to make it easier to use the [.geo]#Geo[.support]##support### geocoder.
+====
+
+Once upon a time, the developers at the City of New York's OTI/GIS (formerly DoITT/DMI/GIS) found themselves repeatedly copying a fairly large amount of platform-specific Java/JNI and C client code between their own projects which depended on [.geo]#Geo[.support]##support### for geocoding services.
+
+[.geo]#Geo[.client]##client### was built to provide a simplified service API for interacting with [.geo]#Geo[.support]##support### from any runtime capable of making simple HTTP GET requests. In other words, [.geo]#Geo[.client]##client### is just a proxy API for calling [.geo]#Geo[.support]##support### which works dilligently behind the scenes doing the actual geocoding with its own data carefully researched and maintained by the Department of City Planning.
+
+[.geo]#Geo[.client]##client### itself contains no additional spatial logic or reference data and by design tries only to make it easier for applications to call [.geo]#Geo[.support]##support###. The one exception is the /search endpoint which adds NYC location-aware, natural language parsing functionality appropriate for user-driven, "single-field search" e.g., via Ajax calls from an web page. See Section FIXME for details.
 
 .The Big Picture
 image::geoclient-runtime.png[Runtime]

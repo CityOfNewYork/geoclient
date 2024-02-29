@@ -6,14 +6,6 @@ include::attributes.adoc[]
 
 Geoclient is software which provides developer-friendly API's for geocoding New York City location information by proxying requests to Geosupport which is the City's official geocoder of record.
 
-[NOTE]
-====
-Although, the names are similar, Geoclient and Geosupport are completely different systems built and maintained by two different teams:
-
-* Geoclient (this project) is maintained as an Open Source Software project on {geoclient-repo}[GitHub].
-* Geosupport is maintained by the {dcp-site}[Department of City Planning].
-====
-
 include::parts/concepts.adoc[]
 
 include::parts/rest-service.adoc[]
