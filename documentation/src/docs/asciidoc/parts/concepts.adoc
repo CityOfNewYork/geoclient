@@ -4,16 +4,6 @@ This section describes the purpose and high-level design of this project.
 
 '''
 
-[IMPORTANT]
-====
-Although, the names are similar, [.geo]#Geo[.client]##client### and [.geo]#Geo[.support]##support### are completely different applications built and maintained by two different teams:
-
-* [.geo]#Geo[.client]##client### (this project) is maintained as an Open Source Software project on {geoclient-repo}[GitHub].
-* [.geo]#Geo[.support]##support### is maintained by the {dcp-site}[Department of City Planning].
-
-It is important to understand that these are distinct software projects because [.geo]#Geo[.client]##client###'s primary purpose is to make it easier to use the [.geo]#Geo[.support]##support### geocoder.
-====
-
 Once upon a time, the developers at the City of New York's OTI/GIS (formerly DoITT/DMI/GIS) found themselves repeatedly copying a fairly large amount of platform-specific Java/JNI and C client code between their own projects which depended on [.geo]#Geo[.support]##support### for geocoding services.
 
 [.geo]#Geo[.client]##client### was built to provide a simplified service API for interacting with [.geo]#Geo[.support]##support### from any runtime capable of making simple HTTP GET requests. In other words, [.geo]#Geo[.client]##client### is just a proxy API for calling [.geo]#Geo[.support]##support### which works dilligently behind the scenes doing the actual geocoding with its own data carefully researched and maintained by the Department of City Planning.
@@ -22,3 +12,13 @@ Once upon a time, the developers at the City of New York's OTI/GIS (formerly DoI
 
 .The Big Picture
 image::geoclient-runtime.png[Runtime]
+
+[IMPORTANT]
+====
+Although, the names are similar, [.geo]#Geo[.client]##client### and [.geo]#Geo[.support]##support### are completely different applications built and maintained by two different teams:
+
+* [.geo]#Geo[.client]##client### (this project) is maintained as an Open Source Software project on {geoclient-repo}[GitHub].
+* [.geo]#Geo[.support]##support### is maintained by the {dcp-site}[Department of City Planning].
+
+It is important to understand that these are distinct software projects because [.geo]#Geo[.client]##client###'s primary purpose is to make it easier to use the [.geo]#Geo[.support]##support### geocoder. In this way, [.geo]#Geo[.client]##client### presents an intuitive, simplified facade but is not itself a geocoder.
+====
