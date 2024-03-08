@@ -4,7 +4,9 @@ asciidoctorj-pdf = "2.3.12"
 asciidoctor-plugins = "4.0.2"
 commons-text = "1.11.0"
 diffutils = "1.3.0"
+httpclient = "5.2.3"
 junit-bom = "5.10.1"
+rest-assured = "5.4.0"
 spotless-plugin = "6.19.0"
 spring-boot = "3.2.2"
 versions-plugin = "0.50.0"
@@ -19,7 +21,9 @@ asciidoctorPdf = { id = "org.asciidoctor.jvm.pdf", version.ref = "asciidoctor-pl
 apiguardian-api = { module = "org.apiguardian:apiguardian-api", version.ref = "apiguardian-api" }
 commons-text = { module = "org.apache.commons:commons-text", version.ref = "commons-text" }
 diffutils = { module = "com.googlecode.java-diff-utils:diffutils", version.ref = "diffutils" }
+httpclient = { module = "org.apache.httpcomponents.client5:httpclient5", version.ref = "httpclient" }
 junit-bom = { module = "org.junit:junit-bom", version.ref = "junit-bom" }
+rest-assured = { module = "io.rest-assured:rest-assured", version.ref = "rest-assured" }
 spotless-plugin = { module = "com.diffplug.spotless:spotless-plugin-gradle", version.ref = "spotless-plugin" }
 spring-boot-dependencies = { module = "org.springframework.boot:spring-boot-dependencies", version.ref = "spring-boot" }
 gradle-versions-plugin = { module = "com.github.ben-manes:gradle-versions-plugin", version.ref = "versions-plugin" }
