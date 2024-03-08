@@ -71,7 +71,7 @@
 	"mounts": [
     "source=profile,target=/root,type=volume",
     "target=/root/.vscode-server,type=volume",
-		"source=geosupport-24a_24.1,target=/opt/geosupport,type=volume"
+		"source=geosupport-latest,target=/opt/geosupport,type=volume"
 	],
 	"onCreateCommand": "apt-get update && export DEBIAN_FRONTEND=noninteractive && apt-get -y install --no-install-recommends gcc g++ libc6-dev ;",
 	"postCreateCommand": "bash .devcontainer/postcreate.sh",
