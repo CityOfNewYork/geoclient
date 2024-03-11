@@ -27,9 +27,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author mlipper
  */
 @ConfigurationProperties("generator")
-public class GeneratorProperties {
+public class ExternalProperties {
 
-    static final String DEFAULT_GENERATOR_BASEURL = "http://localhost:8080/geoclient/v2";
     private String baseUrl;
     private File outputDir;
 
@@ -39,11 +38,7 @@ public class GeneratorProperties {
      * @return the baseUrl
      */
     public String getBaseUrl() {
-        // TODO test me!
-        if (this.baseUrl != null) {
-            return this.baseUrl;
-        }
-        return DEFAULT_GENERATOR_BASEURL;
+        return this.baseUrl;
     }
 
     /**

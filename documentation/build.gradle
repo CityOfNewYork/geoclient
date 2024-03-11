@@ -95,7 +95,7 @@ tasks.register('ioCheck', Task) {
 
 tasks.named('integrationTest', Test) {
     ext.defaultBaseUrl = "http://localhost:8080/geoclient/v2"
-        ext.defaultOutputDir = Paths.get(tasks.named('asciidoctor').get().getOutputs().getFiles().getAsPath(),'samples')
+    ext.defaultOutputDir = Paths.get(tasks.named('asciidoctor').get().getOutputs().getFiles().getAsPath(),'samples')
     // Environment variable names must match constants set in
     // gov.nyc.doitt.gis.geoclient.docs.GeneratorConfigurationTests.java
     environment('GENERATOR_BASEURL', System.getenv('GENERATOR_BASEURL') ?: ext.defaultBaseUrl)
