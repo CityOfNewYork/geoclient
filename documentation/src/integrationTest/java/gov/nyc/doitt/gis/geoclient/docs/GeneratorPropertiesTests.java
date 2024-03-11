@@ -24,11 +24,12 @@ import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-@EnableConfigurationProperties(GeneratorProperties.class)
+@EnableConfigurationProperties(ExternalProperties.class)
 public class GeneratorPropertiesTests {
 
     private static final Logger logger = LoggerFactory.getLogger(SampleGeneratorApplication.class);
@@ -38,7 +39,8 @@ public class GeneratorPropertiesTests {
     public static String OUTPUTDIR_ENV_VARIABLE = "GENERATOR_OUTPUTDIR";
 
     @Autowired
-    private GeneratorProperties props;
+    @Qualifier("generator-gov.nyc.doitt.gis.geoclient.docs.ExternalProperties")
+    private ExternalProperties props;
 
     @BeforeAll
     public static void setUpAll() {

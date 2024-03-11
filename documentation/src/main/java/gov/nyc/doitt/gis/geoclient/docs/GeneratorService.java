@@ -17,7 +17,6 @@ package gov.nyc.doitt.gis.geoclient.docs;
 
 import java.io.File;
 
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 /**
@@ -26,9 +25,8 @@ import org.springframework.web.client.RestClient;
  *
  * @author mlipper
  */
-@Service
 public class GeneratorService {
-    private File outputDirectory;
+    private File outputDir;
     private RestClient restClient;
 
     /**
@@ -36,14 +34,14 @@ public class GeneratorService {
      *
      * @param properties GeneratorProperties
      */
-    public GeneratorService(GeneratorProperties properties) {
-        this.outputDirectory = properties.getOutputDir();
-        this.restClient = RestClient.builder().baseUrl(properties.getBaseUrl()).build();
+    public GeneratorService(RestClient restClient, File outputDir) {
+        this.restClient = restClient;
+        this.outputDir = outputDir;
     }
 
     public void write() {
         System.out.println("Calling " + this.restClient.get().uri("version").retrieve().toEntity(String.class));
-        System.out.println("Writing to " + this.outputDirectory.getAbsolutePath());
+        System.out.println("Writing to " + this.outputDir.getAbsolutePath());
     }
 
 }
