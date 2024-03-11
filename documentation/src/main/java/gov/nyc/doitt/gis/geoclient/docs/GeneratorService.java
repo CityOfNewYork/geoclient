@@ -38,9 +38,7 @@ public class GeneratorService {
      */
     public GeneratorService(GeneratorProperties properties) {
         this.outputDirectory = properties.getOutputDir();
-        String baseUrl = properties.getBaseUrl();
-        baseUrl = baseUrl != null ? baseUrl : "http://localhost:8080/geoclient/v2";
-        this.restClient = RestClient.builder().baseUrl(baseUrl).build();
+        this.restClient = RestClient.builder().baseUrl(properties.getBaseUrl()).build();
     }
 
     public void write() {
