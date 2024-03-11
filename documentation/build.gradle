@@ -9,11 +9,7 @@ plugins {
 }
 
 dependencies {
-    //implementation project(':geoclient-service')
-    //integrationTestImplementation(libs.commons.io)
-    //integrationTestImplementation(libs.rest.assured)
     implementation(libs.httpclient)
-    implementation(libs.jakarta.validation)
     implementation('org.springframework.boot:spring-boot-starter-web')
 }
 
@@ -99,9 +95,9 @@ tasks.register('ioCheck', Task) {
 
 tasks.named('integrationTest', Test) {
     ext.defaultBaseUrl = "http://localhost:8080/geoclient/v2"
-    ext.defaultOutputDir = Paths.get(tasks.named('asciidoctor').get().getOutputs().getFiles().getAsPath(),'samples')
+        ext.defaultOutputDir = Paths.get(tasks.named('asciidoctor').get().getOutputs().getFiles().getAsPath(),'samples')
     // Environment variable names must match constants set in
     // gov.nyc.doitt.gis.geoclient.docs.GeneratorConfigurationTests.java
     environment('GENERATOR_BASEURL', System.getenv('GENERATOR_BASEURL') ?: ext.defaultBaseUrl)
-    environment('GENERATOR_OUTPUTDIR', System.getenv('GENERATOR_OUTPUTDIR') ?: ext.defaultOutputDir)
+        environment('GENERATOR_OUTPUTDIR', System.getenv('GENERATOR_OUTPUTDIR') ?: ext.defaultOutputDir)
 }
