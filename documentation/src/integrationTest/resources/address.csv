@@ -1,0 +1,3 @@
+id ,houseNumber ,street   ,borough   ,zip   ,description
+ 1 ,        314 ,w 100 st ,manhattan ,""    ,address with borough
+ 2 ,        314 ,w 100 st ,""        ,10025 ,address with zip
