@@ -1,3 +1,3 @@
-id ,input                  ,description
- 1 ,314 w 100 st manhattan ,search address with borough
- 2 ,314 w 100 st 10025     ,search address with zip
+id, endpoint, description, input, returnTokens, returnRejections, returnPossiblesWithExactMatch, returnPolicy
+ 1, search, address with borough, 314 w 100 st manhattan, "", "", "", ""
+ 2, search, address with zip, 314 w 100 st 10025, "", "", "", ""

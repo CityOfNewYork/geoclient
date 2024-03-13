@@ -1,0 +1,2 @@
+id, endpoint, description, onStreet, crossStreetOne, crossStreetTwo, borough, boroughCrossStreetOne, boroughCrossStreetTwo, compassDirection
+1, blockface, basic usage, broadway, w 100 st, w 101 st, manhattan, "", "", ""

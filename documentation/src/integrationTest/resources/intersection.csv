@@ -1,0 +1,2 @@
+id, endpoint, description, crossStreetOne, crossStreetTwo, borough, boroughCrossStreetTwo, compassDirection
+1, intersection, basic usage, broadway, w 100 st, manhattan, "", ""

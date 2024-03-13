@@ -15,9 +15,13 @@
  */
 package gov.nyc.doitt.gis.geoclient.docs;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,18 +29,15 @@ import org.slf4j.LoggerFactory;
 public class GeneratorServiceTests {
     private static final Logger logger = LoggerFactory.getLogger(GeneratorServiceTests.class);
 
-    @ParameterizedTest
+    @DisplayName("Generate address samples")
+    @ParameterizedTest(name = "{index} ==> ''{0}''")
     @CsvFileSource(resources = "/address.csv", useHeadersInDisplayName = true)
-    void addressExamples(String id, String houseNumber, String street, String borough, String zip, String description) {
-        if (borough != null) {
-            logger.info("{}. {}: {} {}, {}",id, houseNumber, street, borough, description);
-        } else {
-            logger.info("{}. {}: {} {}, {}",id, houseNumber, street, zip, description);
-            assertNotNull(zip);
-        }
-        assertNotNull(id);
-        assertNotNull(description);
-        assertNotNull(houseNumber);
-        assertNotNull(street);
+    void addressExamples(@AggregateWith(SampleAggregator.class) Sample sample) {
+        logger.info("{}", sample);
+        assertNotNull(sample.getId());
+        assertEquals(UriVariable.ADDRESS.toString(), sample.getPathParameter());
+        assertNotNull(sample.getDescription());
+        assertFalse(sample.getQueryString().isEmpty());
+        logger.info("{}", sample.getQueryString());
     }
 }
