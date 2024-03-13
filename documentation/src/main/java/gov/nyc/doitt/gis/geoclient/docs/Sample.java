@@ -24,10 +24,10 @@ public class Sample {
         private String description;
         private UriVariable uriVariable;
         private Map<String, String> queryString = new HashMap<>();
-        public Builder(String id, String description, UriVariable uriVariable) {
+        public Builder(String id, UriVariable uriVariable, String description) {
             this.id = id;
-            this.description = description;
             this.uriVariable = uriVariable;
+            this.description = description;
         }
         public Builder id(String id) {
             this.id = id;
@@ -133,6 +133,14 @@ public class Sample {
      */
     public void setResponse(String response) {
         this.response = response;
+    }
+
+    @Override
+    public String toString() {
+        //return "Sample [id=" + id + ", description=" + description + ", pathParameter=" + pathParameter
+        //        + ", queryString=" + queryString + ", request=" + request + ", response=" + response + "]";
+        return "sample " + id + ". " + pathParameter + " - " + description;
+
     }
 
 }
