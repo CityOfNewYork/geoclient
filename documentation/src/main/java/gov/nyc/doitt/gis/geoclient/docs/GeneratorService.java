@@ -43,10 +43,8 @@ public class GeneratorService {
         this.outputDir = outputDir;
     }
 
-    public void write() {
-        //this.restClient.get().
-        System.out.println("Calling " + this.restClient.get().uri("version").retrieve().toEntity(String.class));
-        System.out.println("Writing to " + this.outputDir.getAbsolutePath());
+    public void write(Sample sample) {
+        logger.info("Writing {} to {}", sample, this.outputDir.getAbsolutePath());
     }
 
 }
