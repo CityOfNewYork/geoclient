@@ -15,8 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.docs;
 
-import static gov.nyc.doitt.gis.geoclient.docs.UriVariable.*;
-
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.aggregator.ArgumentsAggregator;
@@ -27,10 +25,10 @@ public class SampleAggregator implements ArgumentsAggregator {
     @Override
     public Sample aggregateArguments(ArgumentsAccessor arguments, ParameterContext context) {
         String id = arguments.getString(0);
-        UriVariable uriVariable = UriVariable.fromString(arguments.getString(1));
+        PathVariable pathVariable = PathVariable.fromString(arguments.getString(1));
         String description = arguments.getString(2);
-        Builder builder = new Sample.Builder(id, uriVariable, description);
-        switch (uriVariable) {
+        Builder builder = new Sample.Builder(id, pathVariable, description);
+        switch (pathVariable) {
             case ADDRESS:
             case ADDRESS_POINT:
                 builder.queryParam("houseNumber", arguments.getString(3));
@@ -92,7 +90,7 @@ public class SampleAggregator implements ArgumentsAggregator {
                 // Does not accept query parameters
                 break;
             default:
-                throw new IllegalStateException(String.format("Unrecognized UriVariable: {}", uriVariable));
+                throw new IllegalStateException(String.format("Unrecognized PathVariable: {}", pathVariable));
         }
         return builder.build();
     }
