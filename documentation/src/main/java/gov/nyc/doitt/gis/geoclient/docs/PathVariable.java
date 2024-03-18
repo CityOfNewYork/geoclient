@@ -18,7 +18,12 @@ package gov.nyc.doitt.gis.geoclient.docs;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum UriVariable {
+/**
+ * Provides constants for path variables and their associated endpoints.
+ *
+ * @author mlipper
+ */
+public enum PathVariable {
 
     ADDRESS("address"),
     ADDRESS_POINT("addresspoint"),
@@ -32,21 +37,21 @@ public enum UriVariable {
     NORMALIZE("normalize"),
     VERSION("version");
 
-    private static final Map<String, UriVariable> BY_PATH_STRING = new HashMap<>();
+    private static final Map<String, PathVariable> BY_PATH_STRING = new HashMap<>();
 
     static {
-        for(UriVariable uv : values()) {
+        for(PathVariable uv : values()) {
             BY_PATH_STRING.put(uv.pathString, uv);
         }
     }
 
     private final String pathString;
 
-    private UriVariable(String pathString){
+    private PathVariable(String pathString){
         this.pathString = pathString;
     }
 
-    public static UriVariable fromString(String string) {
+    public static PathVariable fromString(String string) {
         if(!BY_PATH_STRING.containsKey(string)) {
             throw new IllegalArgumentException(String.format("Unrecognized UriVariable#pathString: %s", string));
         }
