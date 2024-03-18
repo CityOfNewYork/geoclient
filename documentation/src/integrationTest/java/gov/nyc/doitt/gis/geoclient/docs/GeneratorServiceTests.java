@@ -35,7 +35,7 @@ public class GeneratorServiceTests {
     void addressExamples(@AggregateWith(SampleAggregator.class) Sample sample) {
         logger.info("{}", sample);
         assertNotNull(sample.getId());
-        assertEquals(UriVariable.ADDRESS.toString(), sample.getPathParameter());
+        assertEquals(PathVariable.ADDRESS.toString(), sample.getPathVariable());
         assertNotNull(sample.getDescription());
         assertFalse(sample.getQueryString().isEmpty());
         logger.info("{}", sample.getQueryString());

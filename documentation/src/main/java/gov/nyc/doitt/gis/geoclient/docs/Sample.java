@@ -22,11 +22,11 @@ public class Sample {
     public static class Builder {
         private String id;
         private String description;
-        private UriVariable uriVariable;
+        private PathVariable pathVariable;
         private Map<String, String> queryString = new HashMap<>();
-        public Builder(String id, UriVariable uriVariable, String description) {
+        public Builder(String id, PathVariable pathVariable, String description) {
             this.id = id;
-            this.uriVariable = uriVariable;
+            this.pathVariable = pathVariable;
             this.description = description;
         }
         public Builder id(String id) {
@@ -37,12 +37,12 @@ public class Sample {
             this.description = description;
             return this;
         }
-        public Builder uriVariable(UriVariable uriVariable) {
-            this.uriVariable = uriVariable;
+        public Builder pathVariable(PathVariable pathVariable) {
+            this.pathVariable = pathVariable;
             return this;
         }
-        public Builder uriVariable(String uriVariable) {
-            this.uriVariable = UriVariable.fromString(uriVariable);
+        public Builder pathVariable(String pathVariable) {
+            this.pathVariable = PathVariable.fromString(pathVariable);
             return this;
         }
         public Builder queryParam(String name, String value) {
@@ -67,7 +67,7 @@ public class Sample {
 
     private String id;
     private String description;
-    private String pathParameter;
+    private String pathVariable;
     private Map<String, String> queryString;
     private String request;
     private String response;
@@ -75,7 +75,7 @@ public class Sample {
     private Sample(Builder builder) {
         this.id = builder.id;
         this.description = builder.description;
-        this.pathParameter = builder.uriVariable.toString();
+        this.pathVariable = builder.pathVariable.toString();
         this.queryString = builder.queryString;
     }
 
@@ -96,8 +96,8 @@ public class Sample {
     /**
      * @return the pathParameter
      */
-    public String getPathParameter() {
-        return pathParameter;
+    public String getPathVariable() {
+        return pathVariable;
     }
 
     /**
@@ -139,7 +139,7 @@ public class Sample {
     public String toString() {
         //return "Sample [id=" + id + ", description=" + description + ", pathParameter=" + pathParameter
         //        + ", queryString=" + queryString + ", request=" + request + ", response=" + response + "]";
-        return "sample " + id + ". " + pathParameter + " - " + description;
+        return "sample " + id + ". " + pathVariable + " - " + description;
 
     }
 
