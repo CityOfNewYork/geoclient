@@ -76,3 +76,19 @@ tasks.named('bootRun') {
     args '--spring.profiles.active=bootRun'
     systemProperties = [ 'gc.jni.version': 'geoclient-jni-2-bootrun' ]
 }
+
+// Uses simple sharing strategy. See:
+// https://docs.gradle.org/current/userguide/cross_project_publications.html#cross_project_publications
+configurations {
+    internalServer {
+        canBeConsumed = true
+        canBeResolved = false
+        //extendsFrom implementation, runtimeOnly
+    }
+}
+
+artifacts {
+    internalServer(bootJar.archiveFile) {
+        builtBy(bootJar)
+    }
+}
