@@ -127,7 +127,8 @@ logging:
             - "org.apache.tomcat"
     level:
         root: "WARN"
-        geoclient-all: "INFO"
+        geoclient-all: "WARN"
+        spring-all: "WARN"
 
 management:
     endpoints:
@@ -139,6 +140,8 @@ spring:
             on-profile: "accesslog"
 logging:
     level:
+        geoclient-all: "INFO"
+        spring-all: "INFO"
         tomcat-access: "TRACE"
 server:
     tomcat:
@@ -155,6 +158,7 @@ spring:
             on-profile: "quiet"
 logging:
     level:
+        spring-all: "ERROR"
         geoclient-all: "ERROR"
 ---
 spring:
@@ -170,6 +174,28 @@ logging:
     file:
         name: "build/bootrun/logs/geoclient.log"
 management:
+  endpoints:
+    enabled-by-default: true
+    web:
+      exposure:
+        include: "*"
+---
+spring:
+    config:
+        activate:
+            on-profile: "docsamples"
+    mvc:
+        log-request-details: true
+logging:
+    level:
+        spring-all: "INFO"
+        geoclient-service: "INFO"
+    file:
+        name: "build/docsamples/logs/geoclient.log"
+management:
+  endpoint:
+    shutdown:
+        enabled: true
   endpoints:
     enabled-by-default: true
     web:
