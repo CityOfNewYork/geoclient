@@ -25,9 +25,17 @@ import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.test.context.SpringBootTest;
 
-public class GeneratorServiceTests {
-    private static final Logger logger = LoggerFactory.getLogger(GeneratorServiceTests.class);
+@SpringBootTest
+@EnableConfigurationProperties(ExternalProperties.class)
+public class GeneratorServiceIntegrationTests {
+    private static final Logger logger = LoggerFactory.getLogger(GeneratorServiceIntegrationTests.class);
+
+    @Autowired
+    private GeneratorService service;
 
     @DisplayName("Generate address samples")
     @ParameterizedTest(name = "{index} ==> ''{0}''")
@@ -39,5 +47,6 @@ public class GeneratorServiceTests {
         assertNotNull(sample.getDescription());
         assertFalse(sample.getQueryString().isEmpty());
         logger.info("{}", sample.getQueryString());
+        this.service.generate(sample);
     }
 }

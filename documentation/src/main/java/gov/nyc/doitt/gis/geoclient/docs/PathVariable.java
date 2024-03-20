@@ -17,6 +17,7 @@ package gov.nyc.doitt.gis.geoclient.docs;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Provides constants for path variables and their associated endpoints.
@@ -57,6 +58,11 @@ public enum PathVariable {
         }
         return BY_PATH_STRING.get(string);
     }
+
+    public static Set<String> stringValues() {
+        return BY_PATH_STRING.keySet();
+    }
+
     @Override
     public String toString() {
         return this.pathString;
