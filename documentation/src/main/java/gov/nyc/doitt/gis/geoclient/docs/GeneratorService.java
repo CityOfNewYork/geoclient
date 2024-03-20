@@ -15,11 +15,8 @@
  */
 package gov.nyc.doitt.gis.geoclient.docs;
 
-import java.io.File;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.client.RestClient;
 
 /**
  * The service that calls {@code geoclient-service} and writes the requests and
@@ -28,23 +25,24 @@ import org.springframework.web.client.RestClient;
  * @author mlipper
  */
 public class GeneratorService {
-    private static final Logger logger = LoggerFactory.getLogger(SampleGeneratorApplication.class);
-    private File outputDir;
-    private RestClient restClient;
+    private static final Logger logger = LoggerFactory.getLogger(GeneratorService.class);
+    private ServiceClient serviceClient;
+    private ResponseWriter responseWriter;
 
     /**
      * The generation service that is autowired by Spring.
      *
-     * @param restClient the RestClient to use
-     * @param outputDir the directory to write output files
+     * @param serviceClient the ServiceClient to use
+     * @param responseWriter  the directory to write output files
      */
-    public GeneratorService(RestClient restClient, File outputDir) {
-        this.restClient = restClient;
-        this.outputDir = outputDir;
+    public GeneratorService(ServiceClient serviceClient, ResponseWriter responseWriter) {
+        this.serviceClient = serviceClient;
+        this.responseWriter = responseWriter;
     }
 
-    public void write(Sample sample) {
-        logger.info("Writing {} to {}", sample, this.outputDir.getAbsolutePath());
+    public void generate(Sample sample) {
+        Response response = this.serviceClient.get(sample);
+        logger.info(response.toString());
+        this.responseWriter.write(sample, response);
     }
-
 }

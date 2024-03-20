@@ -18,7 +18,6 @@ package gov.nyc.doitt.gis.geoclient.docs;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestClient;
 
 @org.springframework.context.annotation.Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(ExternalProperties.class)
@@ -31,12 +30,17 @@ public class Configuration {
     }
 
     @Bean
-    public RestClient restClient() {
-        return RestClient.create(externalProperties().getBaseUrl());
+    public ServiceClient serviceClient() {
+        return new ServiceClient(externalProperties().getBaseUrl());
     }
 
     @Bean
     public GeneratorService generatorService () {
-        return new GeneratorService(restClient(), externalProperties().getOutputDir());
+        return new GeneratorService(serviceClient(), responseWriter());
+    }
+
+    @Bean
+    public ResponseWriter responseWriter() {
+        return new ResponseWriter(externalProperties().getOutputDir());
     }
 }

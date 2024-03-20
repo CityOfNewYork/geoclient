@@ -62,22 +62,10 @@ tasks.named('asciidoctor') {
     }
 
     notCompatibleWithConfigurationCache("https://github.com/asciidoctor/asciidoctor-gradle-plugin/issues/564")
-    //doLast {
-    //    println("Hello my name is ${name}.")
-    //    println("I'm in the ${getClass()} class.")
-    //}
 }
 
-//project.ext.docOutputDir = null
-//
-//tasks.named('asciidoctor') { tprovider ->
-//    println("tprovider.class = ${tprovider.class}")
-//    def t = tprovider.get()
-//    println("t.class = ${t.class}")
-//    ext.docOutputDir = t.getOutputs().getFiles().getAsPath()
-//    println("task output path: ${ext.docOutputDir}")
-//}
 def bootJarFile = project.configurations.internalServerClasspath.resolvedConfiguration.getFiles().toArray()[0]
+
 tasks.register('startService', JavaExec) {
    classpath = files(bootJarFile)
    args '--spring.profiles.active=docsamples'
@@ -87,33 +75,31 @@ tasks.register('stopService', Exec) {
     commandLine '/bin/bash', '-c', '/usr/bin/curl -X POST http://localhost:8080/geoclient/v2/actuator/shutdown'
 }
 
-tasks.register('serverInfo', Task) {
-    doLast {
-        //File file = layout.projectDirectory.getAsFile()
-        ////println("File: ${file}")
-        //String fileString = file.getPath()
-        ////println("File.getPath() -> String: ${fileString}")
-        //URI fileUri = file.toURI()
-        //Path projectPath = Paths.get(fileUri)
-        ////println("projectPath: ${projectPath}")
-        //URI buildDirUri = layout.buildDirectory.getAsFile().get().toURI()
-        //Path buildPath = Paths.get(buildDirUri)
-        //println("asciidoctor.outputs: ${tasks.named('asciidoctor').get().getOutputs().getFiles().getAsPath()}")
-        ////println("buildPath: ${buildPath}")
-        ////println("projectPath.resolve(buildPath): ${projectPath.resolve(buildPath)}")
-        ////println("buildPath.resolve(projectPath): ${buildPath.resolve(projectPath)}")
-        ////println("projectPath.relativize(buildPath): ${projectPath.relativize(buildPath)}")
-        ////println("buildPath.relativize(projectPath): ${buildPath.relativize(projectPath)}")
-        ////println("asciidoctor task output path: ${ext.docOutputDir}")
-        println bootJarFile
-    }
-}
-
-tasks.named('integrationTest', Test) {
+// TODO clean up test configuration.
+tasks.named('test', Test) {
     ext.defaultBaseUrl = "http://localhost:8080/geoclient/v2"
     ext.defaultOutputDir = Paths.get(tasks.named('asciidoctor').get().getOutputs().getFiles().getAsPath(),'samples')
     // Environment variable names must match constants set in
     // gov.nyc.doitt.gis.geoclient.docs.GeneratorConfigurationTests.java
     environment('GENERATOR_BASEURL', System.getenv('GENERATOR_BASEURL') ?: ext.defaultBaseUrl)
     environment('GENERATOR_OUTPUTDIR', System.getenv('GENERATOR_OUTPUTDIR') ?: ext.defaultOutputDir)
+
+    testLogging {
+        showStandardStreams = true
+    }
+}
+
+tasks.named('integrationTest', Test) {
+    //dependsOn('startService')
+    //finalizedBy('stopService')
+    ext.defaultBaseUrl = "http://localhost:8080/geoclient/v2"
+    ext.defaultOutputDir = Paths.get(tasks.named('asciidoctor').get().getOutputs().getFiles().getAsPath(),'samples')
+    // Environment variable names must match constants set in
+    // gov.nyc.doitt.gis.geoclient.docs.GeneratorConfigurationTests.java
+    environment('GENERATOR_BASEURL', System.getenv('GENERATOR_BASEURL') ?: ext.defaultBaseUrl)
+    environment('GENERATOR_OUTPUTDIR', System.getenv('GENERATOR_OUTPUTDIR') ?: ext.defaultOutputDir)
+
+    testLogging {
+        showStandardStreams = true
+    }
 }
