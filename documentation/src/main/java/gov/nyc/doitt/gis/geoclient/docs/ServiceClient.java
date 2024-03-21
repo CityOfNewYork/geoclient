@@ -16,6 +16,7 @@
 package gov.nyc.doitt.gis.geoclient.docs;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 /**
@@ -39,15 +41,19 @@ import org.springframework.web.util.UriComponentsBuilder;
 public class ServiceClient {
 
     private static final Logger logger = LoggerFactory.getLogger(ServiceClient.class);
-    private final String baseUri;
+    private final String baseUrl;
 
     /**
      * Creates a new builder with a common base URI.
      *
-     * @param baseUri the common base URI
+     * @param baseUrl the common base URI
      */
-    public ServiceClient(String baseUri) {
-        this.baseUri = baseUri;
+    public ServiceClient(String baseUrl) {
+        if (baseUrl == null) {
+            throw new IllegalArgumentException("Constructor argument baseUrl cannot be null.");
+        }
+        logger.info("Using baseUrl: {}", baseUrl);
+        this.baseUrl = baseUrl;
     }
 
     public Response get(Sample sample) {
@@ -58,7 +64,13 @@ public class ServiceClient {
     }
 
     URI buildUri(Sample sample) {
-        return UriComponentsBuilder.fromPath(getPath(sample)).queryParams(queryParams(sample)).build().toUri();
+        URI uri = getUri(sample);
+        logger.debug("URI w/out query string: {}", uri);
+        UriComponents components = UriComponentsBuilder.fromUri(uri).queryParams(queryParams(sample)).build();
+        logger.info("UriComponents.toUriString(): {}", components.toUriString());
+        URI builtUri = components.toUri();
+        logger.info("UriComponents.toUri()      : {}", builtUri);
+        return builtUri;
     }
 
     private Response createResponse(URI uri, ResponseEntity<String> httpResponse) {
@@ -71,8 +83,14 @@ public class ServiceClient {
         return params;
     }
 
-    private String getPath(Sample sample) {
-        return String.format("{}/{}.json", this.baseUri, sample.getPathVariable());
+    private URI getUri(Sample sample) {
+        String uriString = this.baseUrl + "/" + sample.getPathVariable();
+        try {
+            return new URI(uriString);
+        } catch (URISyntaxException e) {
+            logger.error("Exception creating URI from String: " + uriString, e);
+            throw new RuntimeException(e);
+        }
     }
 
     private RestTemplate restTemplate() {
