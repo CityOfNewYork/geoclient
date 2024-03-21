@@ -77,7 +77,7 @@ tasks.register('stopService', Exec) {
 
 // TODO clean up test configuration.
 tasks.named('test', Test) {
-    ext.defaultBaseUrl = "http://localhost:8080/geoclient/v2"
+    ext.defaultBaseUrl = 'http://localhost:8080/geoclient/v2'
     ext.defaultOutputDir = Paths.get(tasks.named('asciidoctor').get().getOutputs().getFiles().getAsPath(),'samples')
     // Environment variable names must match constants set in
     // gov.nyc.doitt.gis.geoclient.docs.GeneratorConfigurationTests.java
@@ -92,7 +92,7 @@ tasks.named('test', Test) {
 tasks.named('integrationTest', Test) {
     //dependsOn('startService')
     //finalizedBy('stopService')
-    ext.defaultBaseUrl = "http://localhost:8080/geoclient/v2"
+    ext.defaultBaseUrl = 'http://localhost:8080/geoclient/v2'
     ext.defaultOutputDir = Paths.get(tasks.named('asciidoctor').get().getOutputs().getFiles().getAsPath(),'samples')
     // Environment variable names must match constants set in
     // gov.nyc.doitt.gis.geoclient.docs.GeneratorConfigurationTests.java
@@ -101,5 +101,8 @@ tasks.named('integrationTest', Test) {
 
     testLogging {
         showStandardStreams = true
+        info {
+            showStandardStreams = true
+        }
     }
 }
