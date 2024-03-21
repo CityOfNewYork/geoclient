@@ -15,7 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.docs;
 
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 
@@ -23,15 +23,12 @@ import org.springframework.context.annotation.Bean;
 @EnableConfigurationProperties(ExternalProperties.class)
 public class Configuration {
 
-    @Bean(name = "externalProperties")
-    @ConfigurationProperties
-    public ExternalProperties externalProperties() {
-        return new ExternalProperties();
-    }
+    @Autowired
+    private ExternalProperties externalProperties;
 
     @Bean
     public ServiceClient serviceClient() {
-        return new ServiceClient(externalProperties().getBaseUrl());
+        return new ServiceClient(externalProperties.getBaseUrl());
     }
 
     @Bean
@@ -41,6 +38,6 @@ public class Configuration {
 
     @Bean
     public ResponseWriter responseWriter() {
-        return new ResponseWriter(externalProperties().getOutputDir());
+        return new ResponseWriter(externalProperties.getOutputDir());
     }
 }
