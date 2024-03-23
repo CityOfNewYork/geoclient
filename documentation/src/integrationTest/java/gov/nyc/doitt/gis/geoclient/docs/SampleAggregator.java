@@ -15,13 +15,24 @@
  */
 package gov.nyc.doitt.gis.geoclient.docs;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.util.StringUtils.hasText;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.params.aggregator.ArgumentsAccessor;
 import org.junit.jupiter.params.aggregator.ArgumentsAggregator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.docs.Sample.Builder;
 
 public class SampleAggregator implements ArgumentsAggregator {
+
+    private static final Logger logger = LoggerFactory.getLogger(SampleAggregator.class);
+
     @Override
     public Sample aggregateArguments(ArgumentsAccessor arguments, ParameterContext context) {
         String id = arguments.getString(0);
@@ -31,60 +42,69 @@ public class SampleAggregator implements ArgumentsAggregator {
         switch (pathVariable) {
             case ADDRESS:
             case ADDRESS_POINT:
-                builder.queryParam("houseNumber", arguments.getString(3));
-                builder.queryParam("street", arguments.getString(4));
-                builder.queryParam("borough", arguments.getString(5));
-                builder.queryParam("zip", arguments.getString(6));
+                addParamIfNotNull(
+                    Arrays.asList("houseNumber", "street", "borough", "zip"),
+                    Arrays.asList(3,4,5,6),
+                    arguments,
+                    builder);
                 break;
             case BBL:
-                builder.queryParam("borough", arguments.getString(3));
-                builder.queryParam("block", arguments.getString(4));
-                builder.queryParam("lot", arguments.getString(5));
+                addParamIfNotNull(
+                    Arrays.asList("borough", "block", "lot"),
+                    Arrays.asList(3,4,5),
+                    arguments,
+                    builder);
                 break;
             case BIN:
-                builder.queryParam("bin", arguments.getString(3));
+                addParamIfNotNull(
+                    Arrays.asList("bin"),
+                    Arrays.asList(3),
+                    arguments,
+                    builder);
                 break;
             case BLOCKFACE:
-                builder.queryParam("onStreet", arguments.getString(3));
-                builder.queryParam("crossStreetOne", arguments.getString(4));
-                builder.queryParam("crossStreetTwo", arguments.getString(5));
-                builder.queryParam("borough", arguments.getString(6));
-                builder.queryParam("boroughCrossStreetOne", arguments.getString(7));
-                builder.queryParam("boroughCrossStreetTwo", arguments.getString(8));
-                builder.queryParam("compassDirection", arguments.getString(9));
+                addParamIfNotNull(
+                    Arrays.asList("onStreet", "crossStreetOne", "crossStreetTwo", "borough", "boroughCrossStreetOne", "boroughCrossStreetTwo", "compassDirection"),
+                    Arrays.asList(3,4,5,6,7,8,9),
+                    arguments,
+                    builder);
                 break;
             case INTERSECTION:
-                builder.queryParam("crossStreetOne", arguments.getString(3));
-                builder.queryParam("crossStreetTwo", arguments.getString(4));
-                builder.queryParam("borough", arguments.getString(5));
-                builder.queryParam("boroughCrossStreetTwo", arguments.getString(6));
-                builder.queryParam("compassDirection", arguments.getString(7));
+                addParamIfNotNull(
+                    Arrays.asList("crossStreetOne", "crossStreetTwo", "borough", "boroughCrossStreetTwo", "compassDirection"),
+                    Arrays.asList(3,4,5,6,7),
+                    arguments,
+                    builder);
                 break;
             case PLACE:
-                builder.queryParam("name", arguments.getString(3));
-                builder.queryParam("borough", arguments.getString(4));
-                builder.queryParam("zip", arguments.getString(5));
+                addParamIfNotNull(
+                    Arrays.asList("name", "borough", "zip"),
+                    Arrays.asList(3,4,5),
+                    arguments,
+                    builder);
                 break;
             case SEARCH:
-                builder.queryParam("input", arguments.getString(3));
-                builder.queryParam("returnTokens", arguments.getString(4));
-                builder.queryParam("returnRejections", arguments.getString(5));
-                builder.queryParam("returnPossiblesWithExactMatch", arguments.getString(6));
-                builder.queryParam("returnPolicy", arguments.getString(7));
+                addParamIfNotNull(
+                    Arrays.asList("input", "returnTokens", "returnRejections", "returnPossiblesWithExactMatch", "returnPolicy"),
+                    Arrays.asList(3,4,5,6,7),
+                    arguments,
+                    builder);
                 // Not implemented yet (they use default values):
                 // exactMatchMaxLevel, exactMatchForSingleSuccess, maxDepth, similarNamesDistance
                 break;
             case STREETCODE:
-                builder.queryParam("streetCode", arguments.getString(3));
-                builder.queryParam("streetCodeTwo", arguments.getString(4));
-                builder.queryParam("streetCodeThree", arguments.getString(5));
-                builder.queryParam("length", arguments.getString(6));
-                builder.queryParam("format", arguments.getString(7));
+                addParamIfNotNull(
+                    Arrays.asList("streetCode", "streetCodeTwo", "streetCodeThree", "length", "format"),
+                    Arrays.asList(3,4,5,6,7),
+                    arguments,
+                    builder);
                 break;
             case NORMALIZE:
-                builder.queryParam("name", arguments.getString(3));
-                builder.queryParam("length", arguments.getString(4));
-                builder.queryParam("format", arguments.getString(5));
+                addParamIfNotNull(
+                    Arrays.asList("name", "length", "format"),
+                    Arrays.asList(3,4,5),
+                    arguments,
+                    builder);
                 break;
             case VERSION:
                 // Does not accept query parameters
@@ -95,4 +115,18 @@ public class SampleAggregator implements ArgumentsAggregator {
         return builder.build();
     }
 
+    private void addParamIfNotNull(List<String> names, List<Integer> indices, ArgumentsAccessor arguments, Sample.Builder builder) {
+        logger.info("Checking arguments {}.", arguments);
+        assertEquals(names.size(), indices.size());
+        int i = names.size();
+        for (int j = 0; j < i; j++) {
+            String name = names.get(j);
+            int argIndex = indices.get(j);
+            String value = arguments.getString(argIndex);
+            if (hasText(value)) {
+                builder.queryParam(name, value);
+                logger.info("Added query parameter {}:{}", name, value);
+            }
+        }
+    }
 }
