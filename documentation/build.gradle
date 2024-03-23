@@ -75,12 +75,19 @@ tasks.register('stopService', Exec) {
     commandLine '/bin/bash', '-c', '/usr/bin/curl -X POST http://localhost:8080/geoclient/v2/actuator/shutdown'
 }
 
-// TODO clean up test configuration.
+def generatedSamplesDir = Paths.get(layout.buildDirectory.dir('samples').get().getAsFile().getPath())
+
+tasks.register('ensureSamplesDir') {
+    //def generatedSamplesDir = Paths.get(tasks.named('asciidoctor').get().getOutputs().getFiles().getAsPath(),'samples')
+    doLast {
+        Files.createDirectories(generatedSamplesDir)
+    }
+}
+
 tasks.named('test', Test) {
+    dependsOn('ensureSamplesDir')
     ext.defaultBaseUrl = 'http://localhost:8080/geoclient/v2'
-    ext.defaultOutputDir = Paths.get(tasks.named('asciidoctor').get().getOutputs().getFiles().getAsPath(),'samples')
-    // Environment variable names must match constants set in
-    // gov.nyc.doitt.gis.geoclient.docs.GeneratorConfigurationTests.java
+    ext.defaultOutputDir = generatedSamplesDir
     environment('GENERATOR_BASEURL', System.getenv('GENERATOR_BASEURL') ?: ext.defaultBaseUrl)
     environment('GENERATOR_OUTPUTDIR', System.getenv('GENERATOR_OUTPUTDIR') ?: ext.defaultOutputDir)
 
@@ -90,19 +97,15 @@ tasks.named('test', Test) {
 }
 
 tasks.named('integrationTest', Test) {
+    dependsOn('ensureSamplesDir')
     //dependsOn('startService')
     //finalizedBy('stopService')
     ext.defaultBaseUrl = 'http://localhost:8080/geoclient/v2'
-    ext.defaultOutputDir = Paths.get(tasks.named('asciidoctor').get().getOutputs().getFiles().getAsPath(),'samples')
-    // Environment variable names must match constants set in
-    // gov.nyc.doitt.gis.geoclient.docs.GeneratorConfigurationTests.java
+    ext.defaultOutputDir = generatedSamplesDir
     environment('GENERATOR_BASEURL', System.getenv('GENERATOR_BASEURL') ?: ext.defaultBaseUrl)
     environment('GENERATOR_OUTPUTDIR', System.getenv('GENERATOR_OUTPUTDIR') ?: ext.defaultOutputDir)
 
     testLogging {
         showStandardStreams = true
-        info {
-            showStandardStreams = true
-        }
     }
 }

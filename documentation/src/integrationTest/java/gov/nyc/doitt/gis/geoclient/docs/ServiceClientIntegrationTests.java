@@ -29,13 +29,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @EnableConfigurationProperties(ExternalProperties.class)
 public class ServiceClientIntegrationTests {
 
-	private static final Pattern URI_WITHOUT_QUERY_PATTERN = Pattern.compile("([^?]+)(.*)");
-	private static final Pattern QUERY_PARAM_PATTERN = Pattern.compile("([^&=]+)(=?)([^&]+)?");
+    private static final Pattern URI_WITHOUT_QUERY_PATTERN = Pattern.compile("([^?]+)(.*)");
+    private static final Pattern QUERY_PARAM_PATTERN = Pattern.compile("([^&=]+)(=?)([^&]+)?");
 
     @Autowired
     private ServiceClient client;
@@ -45,6 +46,12 @@ public class ServiceClientIntegrationTests {
     @BeforeEach
     public void setUp() {
         assertNotNull(this.client);
+    }
+
+    @Test
+    public void test_search() {
+        Sample sample = new Sample.Builder("1", PathVariable.SEARCH, "search test").withQueryString("input", "120 Broadway").build();
+        this.client.get(sample);
     }
 
     @Test
@@ -67,25 +74,25 @@ public class ServiceClientIntegrationTests {
 
     private Map<String, String> queryStringToMap(String query) {
         Map<String, String> result = new HashMap<>();
-		if (query != null) {
-			Matcher matcher = QUERY_PARAM_PATTERN.matcher(query);
-			while (matcher.find()) {
-				String name = matcher.group(1);
-				String value = matcher.group(3);
+        if (query != null) {
+            Matcher matcher = QUERY_PARAM_PATTERN.matcher(query);
+            while (matcher.find()) {
+                String name = matcher.group(1);
+                String value = matcher.group(3);
                 result.put(name, value);
-			}
-		}
+            }
+        }
         return result;
     }
 
     private String uriWithoutQueryString(String uriString) {
         String result = null;
-		if (uriString != null) {
-			Matcher matcher = URI_WITHOUT_QUERY_PATTERN.matcher(uriString);
-			while (matcher.find()) {
-				result = matcher.group(1);
-			}
-		}
+        if (uriString != null) {
+            Matcher matcher = URI_WITHOUT_QUERY_PATTERN.matcher(uriString);
+            while (matcher.find()) {
+                result = matcher.group(1);
+            }
+        }
         return result;
     }
 }
