@@ -46,6 +46,6 @@ public class ResponseWriter {
     }
 
     Path outputFile(Sample sample) {
-        return Paths.get(this.outputDir.getAbsolutePath(), sample.getPathVariable() + ".json");
+        return Paths.get(this.outputDir.getAbsolutePath(), sample.getPathVariable() + "-" + sample.getId() + ".json");
     }
 }
