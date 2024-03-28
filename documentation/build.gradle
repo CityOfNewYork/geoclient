@@ -15,7 +15,7 @@ configurations {
 }
 dependencies {
     implementation(libs.httpclient)
-    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-starter-json')
     internalServerClasspath(project(path: ':geoclient-service', configuration: 'internalServer'))
 }
 
@@ -64,7 +64,12 @@ tasks.named('asciidoctor') {
     notCompatibleWithConfigurationCache("https://github.com/asciidoctor/asciidoctor-gradle-plugin/issues/564")
 }
 
+// java.io.File
 def bootJarFile = project.configurations.internalServerClasspath.resolvedConfiguration.getFiles().toArray()[0]
+
+//tasks.register('startService', Exec) {
+//    commandLine '/bin/bash', '-c', "java -jar ${bootJarFile} --spring.profiles.active=docsamples &"
+//}
 
 tasks.register('startService', JavaExec) {
    classpath = files(bootJarFile)

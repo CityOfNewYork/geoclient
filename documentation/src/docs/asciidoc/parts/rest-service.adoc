@@ -134,6 +134,23 @@ HTTP return codes vs. Geosupport (application-level) return codes.
 
 === Endpoints
 
+==== Address
+
+Request:
+
+....
+/geoclient/v2/address?houseNumber=120&street&Broadway&borough=Manhattan
+....
+
+.Show JSON
+[%collapsible]
+====
+[source,json,indent=0]
+----
+include::../samples/address-1.jsonc[tags=user_guide]
+----
+====
+
 ==== Version
 
 Request:
