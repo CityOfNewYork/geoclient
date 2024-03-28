@@ -52,13 +52,13 @@ public class ServiceClient {
         if (baseUrl == null) {
             throw new IllegalArgumentException("Constructor argument baseUrl cannot be null.");
         }
-        logger.info("Using baseUrl: {}", baseUrl);
+        logger.debug("Using baseUrl: {}", baseUrl);
         this.baseUrl = baseUrl;
     }
 
     public Response get(Sample sample) {
         URI uri = buildUri(sample);
-        logger.info("Calling uri {}", uri);
+        logger.debug("Calling uri {}", uri);
         ResponseEntity<String> httpResponse = restTemplate().exchange(uri, HttpMethod.GET, httpRequest(), String.class);
         return createResponse(uri, httpResponse);
     }
@@ -67,9 +67,9 @@ public class ServiceClient {
         URI uri = getUri(sample);
         logger.debug("URI w/out query string: {}", uri);
         UriComponents components = UriComponentsBuilder.fromUri(uri).queryParams(queryParams(sample)).build();
-        logger.info("UriComponents.toUriString(): {}", components.toUriString());
+        logger.debug("UriComponents.toUriString(): {}", components.toUriString());
         URI builtUri = components.toUri();
-        logger.info("UriComponents.toUri()      : {}", builtUri);
+        logger.debug("UriComponents.toUri()      : {}", builtUri);
         return builtUri;
     }
 
