@@ -18,7 +18,7 @@ configMapGenerator:
 
 images:
 - name: docker.io/mlipper/geosupport-docker
-  newTag: 2.0.14
+  newTag: 2.0.17
 
 namespace: gis-apps
 
