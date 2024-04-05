@@ -11,14 +11,20 @@ this_file="$(basename "$0")"
 
 cd "${this_dir}"
 
+echo "RELEASE_DIR=${RELEASE_DIR:-NULL}"
 #
 # Globals
 #
+
+# Used by compare.sh to be able to generate overlays for a different
+# project revision checked out in a different local directory.
+OVERLAY_BASE=${OVERLAY_BASE:-${this_dir}}
 OVERLAY_DIR=
-RELEASE_DIR="${this_dir}/release"
+RELEASE_DIR="${RELEASE_DIR:-${this_dir}/release}"
 RELEASE_FILE="release.yaml"
 SPLIT=
 
+echo "RELEASE_DIR=${RELEASE_DIR}"
 #
 # Functions
 #
@@ -47,8 +53,13 @@ die() {
 }
 
 build() {
-    printf ' -> kustomize build \\\n -> \t%s \\\n -> \t%s\n' "$OVERLAY_DIR" "-o ${RELEASE_DIR}/${RELEASE_FILE}"
-    kustomize build "$OVERLAY_DIR" -o "${RELEASE_DIR}/${RELEASE_FILE}"
+    local resolved_overlay_dir="${OVERLAY_DIR}"
+    if [[ ! "${resolved_overlay_dir:0:1}" = "/" ]]; then
+        # Prepend OVERLAY_BASE if OVERLAY_DIR is not an absolute path
+        resolved_overlay_dir="${OVERLAY_BASE}/${OVERLAY_DIR}"
+    fi
+    printf ' -> kustomize build \\\n -> \t%s \\\n -> \t%s\n' "${resolved_overlay_dir}" "-o ${RELEASE_DIR}/${RELEASE_FILE}"
+    kustomize build "${resolved_overlay_dir}" -o "${RELEASE_DIR}/${RELEASE_FILE}"
     if [[ ! -z "$SPLIT" ]]; then
         pushd "$RELEASE_DIR" > /dev/null
         cat "$RELEASE_FILE" | csplit - -f obj --suppress-matched  "/---/" "{*}"
@@ -141,6 +152,21 @@ Usage: ${this_file} [OPTIONS] <directory>
             Builds kubernetes manifests by invoking kustomize with the
             given overlay <directory>.
 
+            The overlay <directory> can be specified as an absolute or
+            relative path. However, when running this script from anywhere
+            other than the directory where this file
+            is located, the value given MUST be relative to this file.
+
+    Examples:
+
+            # Using an absolute path from sibling of <project_root>:
+            ../<project_root>/mainfests/${this_file}  \\
+                /opt/<project_root>/manifests/overlays/app/dev/no-pvc
+
+            # Using a relative path from this project's root directory:
+            ./manifests/build.sh overlays/app/dev/no-pvc
+
+
             WARNING: The RELEASE_DIR will be _deleted_ if it exists.
 
   Options:
@@ -148,7 +174,9 @@ Usage: ${this_file} [OPTIONS] <directory>
     -r<dir>, --release=<dir> (optional)
 
             Name of the <dir> where generated manifest files should
-            be created. If not given, defaults to ${RELEASE_DIR}.
+            be created. If not given, defaults to:
+
+            <project_root>/manifests/release
 
             WARNING: This directory will be _deleted_ if it exists.
 

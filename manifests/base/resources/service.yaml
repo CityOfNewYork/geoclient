@@ -14,4 +14,4 @@ spec:
   selector:
     app: geoclient-v2
     col: COLOR
-  type: ClusterIP
+  type: SVC_TYPE

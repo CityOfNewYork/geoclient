@@ -68,7 +68,7 @@ spec:
         - command:
           - sh
           - -c
-          - cp -v -r /opt/geosupport/* /mnt/repo
+          - sleep 10 && cp -v -r /opt/geosupport/* /mnt/repo && /mnt/repo/version-*/checklist || exit 1
           # NOTE: The image version is set by Kustomize in the
           # base/kustomization.yml file.
           image: docker.io/mlipper/geosupport-docker
