@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1alpha1
+kind: Component
+
+configMapGenerator:
+- name: pipeline-variables
+  behavior: merge
+  envs:
+  - pipeline.env
+
+namespace: gis-apps
+
+replacements:
+  - path: replacement.yaml

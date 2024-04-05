@@ -138,3 +138,12 @@
       kind: Service
     fieldPaths:
     - metadata.labels.environment
+- source:
+    kind: ConfigMap
+    name: pipeline-variables
+    fieldPath: data.SVC_TYPE
+  targets:
+  - select:
+      kind: Service
+    fieldPaths:
+    - spec.type
