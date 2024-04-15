@@ -184,6 +184,9 @@ spring:
     config:
         activate:
             on-profile: "docsamples"
+    jackson:
+        serialization:
+            INDENT_OUTPUT: true
     mvc:
         log-request-details: true
 logging:
