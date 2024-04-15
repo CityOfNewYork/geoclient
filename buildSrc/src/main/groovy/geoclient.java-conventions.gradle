@@ -72,6 +72,7 @@ java {
 
 tasks.withType(JavaCompile) {
     options.encoding = "UTF-8"
+    options.compilerArgs.addAll("-Werror", "-Xlint:unchecked", "-Xlint:deprecation", "-Xlint:rawtypes","-Xlint:varargs")
 }
 
 javadoc {
