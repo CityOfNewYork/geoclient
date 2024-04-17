@@ -23,6 +23,14 @@ import java.util.function.BiConsumer;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
+/**
+ * Allows an external class (e.g., parent class or interface) to use an
+ * object's {@link org.slf4j.Logger} at a given {@link org.slf4j.event.Level}.
+ *
+ * @author mlipper
+ *
+ * @since 2.0
+ */
 public class LogLevelAdapter {
 
     public static <K, V> void logAll(Level level, Logger logger, Map<K, V> map) {
