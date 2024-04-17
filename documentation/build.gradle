@@ -16,6 +16,7 @@ configurations {
 dependencies {
     implementation(libs.httpclient)
     implementation('org.springframework.boot:spring-boot-starter-json')
+    integrationTestImplementation(project(':geoclient-test'))
     internalServerClasspath(project(path: ':geoclient-service', configuration: 'internalServer'))
 }
 
