@@ -1,5 +1,5 @@
 /*
- * Copyright 2013-2022 the original author or authors.
+ * Copyright 2013-2024 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,12 +30,12 @@ import org.junit.jupiter.api.condition.OS;
 /**
  * Composed {@link Annotation} indicating that this type or method invokes a
  * native JNI call to the {@code Geoclient} C runtime and will only be enabled
- * on non-mainframe platforms supported by {@code Geosupport}. At this time, the
+ * on platforms supported by {@code Geosupport}. At this time, the
  * following platforms are supported:
  * <p>
  * <ul>
  * <li>64-bit Linux ({@code libc 6.+})</li>
- * <li>64-bit Windows ({@code MSVC++ 2013, 2015, 2017})</li>
+ * <li>64-bit Windows ({@code MSVC++ 2013, 2015, 2017+})</li>
  * </ul>
  * <p>
  * To enforce the above, this type is composed from the following
