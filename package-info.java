@@ -15,8 +15,8 @@
  */
 
 /**
- * Testing utilities.
+ * Test fixtures for the geoclient-jni project.
  *
  * @author Matthew Lipper
  */
-package gov.nyc.doitt.gis.geoclient.test;
+package gov.nyc.doitt.gis.geoclient.jni.test;
