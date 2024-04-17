@@ -27,6 +27,7 @@ include 'geoclient-jni'
 include 'geoclient-core'
 include 'geoclient-parser'
 include 'geoclient-service'
+include 'geoclient-test'
 
 // Only works when the '--scan' parameter is passed
 //gradleEnterprise {
