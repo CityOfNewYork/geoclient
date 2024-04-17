@@ -29,6 +29,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import gov.nyc.doitt.gis.geoclient.test.RequiresRestService;
+
+@RequiresRestService
 @SpringBootTest
 @EnableConfigurationProperties(ExternalProperties.class)
 public class GeneratorServiceIntegrationTests {
