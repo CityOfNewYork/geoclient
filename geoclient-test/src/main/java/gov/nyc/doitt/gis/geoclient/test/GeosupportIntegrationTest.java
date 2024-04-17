@@ -28,7 +28,7 @@ import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
 /**
- * Composed {@link Annotation} indicating that this type or method invokes a
+ * Composed annotation indicating that this type or method invokes a
  * native JNI call to the {@code Geoclient} C runtime and will only be enabled
  * on platforms supported by {@code Geosupport}. At this time, the
  * following platforms are supported:
@@ -39,7 +39,7 @@ import org.junit.jupiter.api.condition.OS;
  * </ul>
  * <p>
  * To enforce the above, this type is composed from the following
- * {@code JUnit 5} {@link Annotation}s configured as follows:
+ * {@code JUnit 5} annotation's configured as follows:
  * <ul>
  * <li>{@code @EnabledIfEnvironmentVariable(named = "GEOFILES", matches = ".+(/|\\\\)$")}</li>
  * <li>{@code @EnabledIfSystemProperty(named = "os.arch", matches = ".*64.*")}</li>
