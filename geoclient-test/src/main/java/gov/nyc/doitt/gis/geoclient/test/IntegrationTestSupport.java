@@ -27,6 +27,13 @@ import java.util.TreeMap;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
+/**
+ * Provides default convenience methods for integration tests.
+ *
+ * @author mlipper
+ *
+ * @since 2.0
+ */
 public interface IntegrationTestSupport {
 
     default String getJavaLibraryPath() {
