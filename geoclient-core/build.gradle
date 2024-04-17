@@ -10,4 +10,5 @@ dependencies {
         exclude group: "xpp3", module: "xpp3_min"
         exclude group: "xmlpull", module: "xmlpull"
     }
+    testImplementation(testFixtures(project(":geoclient-jni")))
 }
