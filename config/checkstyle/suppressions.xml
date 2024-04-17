@@ -5,4 +5,5 @@
     -->
     <suppress files="[\\/]src[\\/]integrationTest[\\/]java[\\/]" checks="Javadoc*" />
     <suppress files="[\\/]src[\\/]test[\\/]java[\\/]" checks="Javadoc*" />
+    <suppress files="[\\/]src[\\/]testFixtures[\\/]java[\\/]" checks="Javadoc*" />
 </suppressions>
