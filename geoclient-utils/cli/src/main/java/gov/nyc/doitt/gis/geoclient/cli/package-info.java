@@ -15,8 +15,11 @@
  */
 
 /**
- * Classes and utilities for testing the geoclient-jni project.
+ * Java application for testing the {@code geoclient-jni} project from
+ * the command line.
  *
  * @author Matthew Lipper
+ *
+ * @since 1.0
  */
-package gov.nyc.doitt.gis.geoclient.jni.test;
+package gov.nyc.doitt.gis.geoclient.cli;
