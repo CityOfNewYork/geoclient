@@ -21,10 +21,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -33,8 +31,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.jni.test.ByteBufferUtils;
+import gov.nyc.doitt.gis.geoclient.jni.test.ConfigInitializer;
 import gov.nyc.doitt.gis.geoclient.jni.test.TestConfig;
-import gov.nyc.doitt.gis.geoclient.jni.test.TestFileParser;
 
 class GeoclientJniIntegrationTest {
     final static Logger logger = LoggerFactory.getLogger(GeoclientJniIntegrationTest.class);
@@ -42,10 +40,7 @@ class GeoclientJniIntegrationTest {
     private GeoclientJni geoclientJni = new GeoclientJni();
 
     static Stream<TestConfig> getFixtures() throws FileNotFoundException, IOException {
-        TestFileParser parser = new TestFileParser();
-        URL url = GeoclientJniIntegrationTest.class.getResource("/jni-test.conf");
-        List<TestConfig> configs = parser.parse(url);
-        return configs.stream();
+        return ConfigInitializer.defaultTestConfigs().stream();
     }
 
     @ParameterizedTest

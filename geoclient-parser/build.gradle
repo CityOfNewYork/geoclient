@@ -9,4 +9,3 @@ dependencies {
     testImplementation(libs.xstream)
     testImplementation(libs.diffutils)
 }
-
