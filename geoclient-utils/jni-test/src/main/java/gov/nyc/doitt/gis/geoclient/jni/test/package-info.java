@@ -15,8 +15,12 @@
  */
 
 /**
- * Test fixtures for the geoclient-jni project.
+ * Classes and utilities for creating function calls (WA1) from a
+ * configuration file. Useful for testing the the {@code geoclient-jni}
+ * project directly.
  *
  * @author Matthew Lipper
+ *
+ * @since 1.0
  */
 package gov.nyc.doitt.gis.geoclient.jni.test;

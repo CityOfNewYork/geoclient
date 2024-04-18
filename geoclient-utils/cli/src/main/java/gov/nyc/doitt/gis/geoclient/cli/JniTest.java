@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package gov.nyc.doitt.gis.geoclient.jni.test;
+package gov.nyc.doitt.gis.geoclient.cli;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,6 +29,9 @@ import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 import gov.nyc.doitt.gis.geoclient.jni.GeoclientJni;
+import gov.nyc.doitt.gis.geoclient.jni.test.ByteBufferUtils;
+import gov.nyc.doitt.gis.geoclient.jni.test.TestConfig;
+import gov.nyc.doitt.gis.geoclient.jni.test.TestFileParser;
 
 // TODO When rewriting this class see the following for some ideas:
 // https://github.com/gradle/gradle/tree/master/subprojects/docs/src/samples/java-library/multiproject
