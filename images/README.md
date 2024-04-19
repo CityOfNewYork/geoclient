@@ -2,7 +2,7 @@
 
 This section explains the two most common ways to build and run `geoclient` using Docker:
 
-* [latest-build](#the-build-image): builds the project from and then runs `geoclient-service`.
+* [latest-build](#the-build-image): builds the project from source and then runs `geoclient-service`.
 * [latest-run](#the-run-image): runs `geoclient-service` using the `geoclient.jar` built by the `geoclient-service` subproject and a local, named Docker `Volume` pre-populated with a recent Geosupport installation.
 
 ## Assumptions
