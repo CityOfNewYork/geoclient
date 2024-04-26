@@ -139,7 +139,7 @@ HTTP return codes vs. Geosupport (application-level) return codes.
 Request:
 
 ....
-/geoclient/v2/address?houseNumber=120&street&Broadway&borough=Manhattan
+/geoclient/v2/address?houseNumber=314&street=w%20100%20st&borough=manhattan
 ....
 
 .Show JSON
@@ -148,6 +148,40 @@ Request:
 [source,json,indent=0]
 ----
 include::../samples/address-1.jsonc[tags=user_guide]
+----
+====
+
+==== Address Point
+
+Request:
+
+....
+/geoclient/v2/addresspoint?houseNumber=314&street=w%20100%20st&borough=manhattan
+....
+
+.Show JSON
+[%collapsible]
+====
+[source,json,indent=0]
+----
+include::../samples/addresspoint-1.jsonc[tags=user_guide]
+----
+====
+
+==== BBL
+
+Request:
+
+....
+/geoclient/v2/bbl?borough=manhattan&block=67&lot=1
+....
+
+.Show JSON
+[%collapsible]
+====
+[source,json,indent=0]
+----
+include::../samples/bbl-1.jsonc[tags=user_guide]
 ----
 ====
 
@@ -166,6 +200,6 @@ Response:
 ====
 [source,json,indent=0]
 ----
-include::../samples/version.jsonc[tags=user_guide]
+include::../samples/version-1.jsonc[tags=user_guide]
 ----
 ====
