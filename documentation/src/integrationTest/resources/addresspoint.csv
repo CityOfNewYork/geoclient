@@ -1,0 +1,3 @@
+id, endpoint, description, houseNumber, street, borough, zip
+1, addresspoint, with borough, 314, w 100 st, manhattan, ""
+2, addresspoint, with zip, 314, w 100 st, "", 10025
