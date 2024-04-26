@@ -18,6 +18,7 @@ package gov.nyc.doitt.gis.geoclient.docs;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -49,6 +50,97 @@ public class GeneratorServiceIntegrationTests {
         assertEquals(PathVariable.ADDRESS.toString(), sample.getPathVariable());
         assertNotNull(sample.getDescription());
         assertFalse(sample.getQueryString().isEmpty());
+        logger.info("{}", sample.getQueryString());
+        this.service.generate(sample);
+    }
+
+    @DisplayName("Generate addresspoint samples")
+    @ParameterizedTest(name = "{index} ==> ''{0}''")
+    @CsvFileSource(resources = "/addresspoint.csv", useHeadersInDisplayName = true)
+    void addresspointExamples(@AggregateWith(SampleAggregator.class) Sample sample) {
+        logger.info("{}", sample);
+        assertNotNull(sample.getId());
+        assertEquals(PathVariable.ADDRESS_POINT.toString(), sample.getPathVariable());
+        assertNotNull(sample.getDescription());
+        assertFalse(sample.getQueryString().isEmpty());
+        logger.info("{}", sample.getQueryString());
+        this.service.generate(sample);
+    }
+
+    @DisplayName("Generate bbl samples")
+    @ParameterizedTest(name = "{index} ==> ''{0}''")
+    @CsvFileSource(resources = "/bbl.csv", useHeadersInDisplayName = true)
+    void bblExamples(@AggregateWith(SampleAggregator.class) Sample sample) {
+        logger.info("{}", sample);
+        assertNotNull(sample.getId());
+        assertEquals(PathVariable.BBL.toString(), sample.getPathVariable());
+        assertNotNull(sample.getDescription());
+        assertFalse(sample.getQueryString().isEmpty());
+        logger.info("{}", sample.getQueryString());
+        this.service.generate(sample);
+    }
+
+    @DisplayName("Generate bin samples")
+    @ParameterizedTest(name = "{index} ==> ''{0}''")
+    @CsvFileSource(resources = "/bin.csv", useHeadersInDisplayName = true)
+    void binExamples(@AggregateWith(SampleAggregator.class) Sample sample) {
+        logger.info("{}", sample);
+        assertNotNull(sample.getId());
+        assertEquals(PathVariable.BIN.toString(), sample.getPathVariable());
+        assertNotNull(sample.getDescription());
+        assertFalse(sample.getQueryString().isEmpty());
+        logger.info("{}", sample.getQueryString());
+        this.service.generate(sample);
+    }
+
+    @DisplayName("Generate blockface samples")
+    @ParameterizedTest(name = "{index} ==> ''{0}''")
+    @CsvFileSource(resources = "/blockface.csv", useHeadersInDisplayName = true)
+    void blockfaceExamples(@AggregateWith(SampleAggregator.class) Sample sample) {
+        logger.info("{}", sample);
+        assertNotNull(sample.getId());
+        assertEquals(PathVariable.BLOCKFACE.toString(), sample.getPathVariable());
+        assertNotNull(sample.getDescription());
+        assertFalse(sample.getQueryString().isEmpty());
+        logger.info("{}", sample.getQueryString());
+        this.service.generate(sample);
+    }
+
+    @DisplayName("Generate intersection samples")
+    @ParameterizedTest(name = "{index} ==> ''{0}''")
+    @CsvFileSource(resources = "/intersection.csv", useHeadersInDisplayName = true)
+    void intersectionExamples(@AggregateWith(SampleAggregator.class) Sample sample) {
+        logger.info("{}", sample);
+        assertNotNull(sample.getId());
+        assertEquals(PathVariable.INTERSECTION.toString(), sample.getPathVariable());
+        assertNotNull(sample.getDescription());
+        assertFalse(sample.getQueryString().isEmpty());
+        logger.info("{}", sample.getQueryString());
+        this.service.generate(sample);
+    }
+
+    @DisplayName("Generate search samples")
+    @ParameterizedTest(name = "{index} ==> ''{0}''")
+    @CsvFileSource(resources = "/search.csv", useHeadersInDisplayName = true)
+    void searchExamples(@AggregateWith(SampleAggregator.class) Sample sample) {
+        logger.info("{}", sample);
+        assertNotNull(sample.getId());
+        assertEquals(PathVariable.SEARCH.toString(), sample.getPathVariable());
+        assertNotNull(sample.getDescription());
+        assertFalse(sample.getQueryString().isEmpty());
+        logger.info("{}", sample.getQueryString());
+        this.service.generate(sample);
+    }
+
+    @DisplayName("Generate version samples")
+    @ParameterizedTest(name = "/version")
+    @CsvFileSource(resources = "/version.csv", useHeadersInDisplayName = true)
+    void versionExamples(@AggregateWith(SampleAggregator.class) Sample sample) {
+        logger.info("{}", sample);
+        assertNotNull(sample.getId());
+        assertEquals(PathVariable.VERSION.toString(), sample.getPathVariable());
+        assertNotNull(sample.getDescription());
+        assertTrue(sample.getQueryString().isEmpty());
         logger.info("{}", sample.getQueryString());
         this.service.generate(sample);
     }

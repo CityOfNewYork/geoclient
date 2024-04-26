@@ -111,6 +111,9 @@ tasks.named('integrationTest', Test) {
     environment('GENERATOR_BASEURL', System.getenv('GENERATOR_BASEURL') ?: ext.defaultBaseUrl)
     environment('GENERATOR_OUTPUTDIR', System.getenv('GENERATOR_OUTPUTDIR') ?: ext.defaultOutputDir)
 
+    environment('GEOCLIENT_SERVICE_STATUS', System.getenv('GEOCLIENT_SERVICE_STATUS'))
+    systemProperties(['geoclient.service.status': System.getProperty('geoclient.service.status', '')])
+
     testLogging {
         showStandardStreams = true
     }
