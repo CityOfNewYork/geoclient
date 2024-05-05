@@ -1,5 +1,6 @@
 plugins {
     id 'groovy-gradle-plugin'
+    id 'java-gradle-plugin'
 }
 
 repositories {
@@ -9,4 +10,13 @@ repositories {
 dependencies {
     implementation libs.spotless.plugin
     implementation libs.gradle.versions.plugin
+}
+
+gradlePlugin {
+    plugins {
+        documentationPlugin {
+            id = 'geoclientbuild-docs'
+            implementationClass = 'geoclientbuild.docs.DocumentationPlugin'
+        }
+    }
 }
