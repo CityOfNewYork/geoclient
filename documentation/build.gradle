@@ -115,6 +115,17 @@ tasks.named('integrationTest', Test) {
     systemProperties(['geoclient.service.status': System.getProperty('geoclient.service.status', '')])
 
     testLogging {
+        events "failed", "skipped"
         showStandardStreams = true
+        debug {
+            events "failed", "skipped"
+            exceptionFormat "full"
+            showStandardStreams = true
+        }
+
+        info {
+            events "failed", "skipped"
+            showStandardStreams = true
+        }
     }
 }

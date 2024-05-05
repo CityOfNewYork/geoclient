@@ -21,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.condition.EnabledIf;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.aggregator.AggregateWith;
 import org.junit.jupiter.params.provider.CsvFileSource;
@@ -30,9 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import gov.nyc.doitt.gis.geoclient.test.RequiresRestService;
-
-@RequiresRestService
+@EnabledIf("gov.nyc.doitt.gis.geoclient.test.RequiresRestServiceCustomCondtion#restServiceRunning")
 @SpringBootTest
 @EnableConfigurationProperties(ExternalProperties.class)
 public class GeneratorServiceIntegrationTests {
