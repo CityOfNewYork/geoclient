@@ -26,14 +26,13 @@ import java.util.regex.Pattern;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIf;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 
-import gov.nyc.doitt.gis.geoclient.test.RequiresRestService;
-
-@RequiresRestService
+@EnabledIf("gov.nyc.doitt.gis.geoclient.test.RequiresRestServiceCustomCondtion#restServiceRunning")
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
 @EnableConfigurationProperties(ExternalProperties.class)
 public class ServiceClientIntegrationTests {
