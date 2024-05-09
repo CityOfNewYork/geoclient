@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package gov.nyc.doitt.gis.geoclient.parser.token;
+package gov.nyc.doitt.gis.geoclient.parser.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

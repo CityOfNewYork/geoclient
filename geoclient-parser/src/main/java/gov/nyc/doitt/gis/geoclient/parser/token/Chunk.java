@@ -18,6 +18,8 @@ package gov.nyc.doitt.gis.geoclient.parser.token;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.nyc.doitt.gis.geoclient.parser.util.TextUtils;
+
 public class Chunk
 {
     private final String text;
