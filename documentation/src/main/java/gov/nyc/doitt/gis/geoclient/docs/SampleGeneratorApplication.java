@@ -22,8 +22,8 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
-@SpringBootApplication
-@ConfigurationPropertiesScan
+@SpringBootApplication(proxyBeanMethods = false)
+@ConfigurationPropertiesScan(basePackageClasses = SampleGeneratorApplication.class)
 public class SampleGeneratorApplication {
     private static final Logger logger = LoggerFactory.getLogger(SampleGeneratorApplication.class);
 
