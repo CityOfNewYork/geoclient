@@ -185,6 +185,74 @@ include::../samples/bbl-1.jsonc[tags=user_guide]
 ----
 ====
 
+==== BIN
+
+Request:
+
+....
+/geoclient/v2/bin?bin=1079043
+....
+
+.Show JSON
+[%collapsible]
+====
+[source,json,indent=0]
+----
+include::../samples/bin-1.jsonc[tags=user_guide]
+----
+====
+
+==== Blockface
+
+Request:
+
+....
+/geoclient/v2/blockface?onStreet=broadway&crossStreetOne=w%20100%20st&crossStreetTwo=w%20101%st&borough=manhattan
+....
+
+.Show JSON
+[%collapsible]
+====
+[source,json,indent=0]
+----
+include::../samples/blockface-1.jsonc[tags=user_guide]
+----
+====
+
+==== Intersection
+
+Request:
+
+....
+/geoclient/v2/intersection?crossStreetOne=broadway&crossStreetOne=w%20100%20st&borough=manhattan
+....
+
+.Show JSON
+[%collapsible]
+====
+[source,json,indent=0]
+----
+include::../samples/intersection-1.jsonc[tags=user_guide]
+----
+====
+
+==== Search
+
+Request:
+
+....
+/geoclient/v2/search?input=314%20w%20100%20st%20manhattan
+....
+
+.Show JSON
+[%collapsible]
+====
+[source,json,indent=0]
+----
+include::../samples/search-1.jsonc[tags=user_guide]
+----
+====
+
 ==== Version
 
 Request:
