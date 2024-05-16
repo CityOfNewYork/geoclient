@@ -6,7 +6,122 @@ This section documents building Geoclient from source, the project's core archit
 
 === Building from source
 
-==== Project structure
+=== Projects
+
+```txt
+.
+`-- geoclient
+    |-- buildSrc
+    |-- ci
+    |-- config
+    |   `-- checkstyle
+    |-- documentation
+    |-- geoclient-core
+    |-- geoclient-jni
+    |-- geoclient-parser
+    |-- geoclient-service
+    |-- geoclient-test
+    |-- geoclient-utils
+    |   |-- cli
+    |   `-- jni-test
+    |-- gradle
+    |-- images
+    |-- manifests
+    `-- src
+        |-- scripts
+        `-- spotless
+```
+
+==== geoclient-service
+
+The `geoclient-service` project uses Spring Boot for dependency-injection
+and to minimize the need boiler-plate code and configuration.
+The `geoclient-service/src/main/resources/application.yaml` file is used
+to configure the runtime environment and properties for different profiles.
+
+For complete documentation of Spring Boot and the functionality configured in `application.yaml`, see:
+
+* https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle
+* https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.external-config
+* https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.profiles
+
+The default profile is specified first and active unless overridden.
+Optional profiles are demarcated by lines beginning with "--"
+and can add new functionality or override default properties.
+
+NOTE: When using gradle to run the `bootRun` task provided by the `spring-boot`
+plugin, the following syntax is used to specify active profiles and/or
+override specific application properties managed by `spring-boot`.
+
+For example,
+
+[source, bash]
+----
+./gradlew bootRun --args='--spring.profiles.active=bootRun,accesslog --server.tomcat.basedir=/var/log'
+----
+
+WARNING: This profile should NOT be used in production environments because it
+specifies a permissive configuration of Spring Actuator.
+
+NOTE: Although no longer required, the Java system property `gc.jni.version`
+can be provided on any command line. This sets the name of the subfolder in
+`java.tmpdir` where the native libraries in the `geoclient-jni` jar will be unpacked.
+
+For example, with the Gradle `bootRun` task:
+
+[source, bash]
+----
+  ./gradlew -Dgc.jni.version=geoclient-jni-2 ...
+----
+
+NOTE: The following logging levels can be added to any profile,
+including the default, for logging specific functionality.
+
+geoclient-jni: "DEBUG":: Native C runtime and JNI configuration at startup.
+gov.nyc.doitt.gis.geoclient.config.xml: "DEBUG":: XML deserialization into WorkArea fields at startup.
+gov.nyc.doitt.gis.geoclient.function.GeosupportFunction: "TRACE":: Raw character buffer values from geosupport requests/repsonses.
+gov.nyc.doitt.gis.geoclient.service.invoker.GeosupportServiceImpl: "DEBUG":: Request/response HashMaps before/after geosupport call.
+
+NOTE: The `accesslog` profile enables HTTP request logging from the embedded Tomcat Servlet container. By default the log is written to: `/workspaces/tomcat/logs/access.log`
+
+[source, properties]
+----
+<server.tomcat.basedir> = /workspaces/tomcat
+<server.tomcat.accesslog.directory> = logs
+<server.tomcat.suffix> = .log
+----
+
+The `<basedir>` property is relative to the system
+temp directory if not given as an absolute path.
+The `<accesslog.directory>` is always relative to
+`<basedir>`.
+
+Properties can be overridden at invocation time:
+
+[source, bash]
+----
+--server.tomcat.basedir=...
+--server.tomcat...etc.
+----
+
+If experiencing issues, insure the `tomcat-access`
+logging group is defined above and set to `TRACE`
+below. Also, try creating the target directory
+if it does not exist before starting the app.
+
+TODO: Define kubernetes-specific profile (https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#actuator.endpoints.kubernetes-probes).
+
+[source, yaml]
+----
+management:
+  endpoint:
+    health:
+      group:
+        readiness:
+          include: "readinessState"
+        liveliness:
+          etc...
+----
 
 === Docker
 
