@@ -39,7 +39,6 @@ public class DocumentationController {
     private GeosupportService geosupportService;
 
 
-    @SuppressWarnings("null")
     @RequestMapping(value = DOC_URI, method = RequestMethod.GET)
     public String doc(ModelMap modelMap)
     {

@@ -44,7 +44,7 @@ public abstract class AbstractParameterMapper<T> implements Mapper<T> {
     public abstract Map<String, Object> toParameters(T source, Map<String, Object> destination)
             throws MappingException;
 
-    @SuppressWarnings({"null", "unchecked"})
+    @SuppressWarnings("unchecked")
     protected T newInstance(Class<T> clazz) throws MappingException {
         try {
 
