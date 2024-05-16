@@ -2,7 +2,6 @@
 spring:
     mvc:
         pathmatch:
-            use-suffix-pattern: true
             matching-strategy: ant-path-matcher
     thymeleaf:
         enable-spring-el-compiler: true
