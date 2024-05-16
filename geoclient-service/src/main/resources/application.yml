@@ -186,7 +186,7 @@ spring:
             on-profile: "docsamples"
     jackson:
         serialization:
-            INDENT_OUTPUT: true
+            indent-output: true
     mvc:
         log-request-details: true
 logging:
