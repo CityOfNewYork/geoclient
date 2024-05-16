@@ -36,7 +36,6 @@ public abstract class  WebContainerIntegrationTest {
         return this.restTemplate;
     }
 
-    @SuppressWarnings("null")
     protected HttpEntity<?> jsonRequest() {
         return new HttpEntity<>(jsonHeaders());
     }

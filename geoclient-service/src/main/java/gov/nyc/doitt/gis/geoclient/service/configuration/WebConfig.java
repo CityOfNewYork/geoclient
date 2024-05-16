@@ -85,7 +85,6 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Override
-    @SuppressWarnings("null")
     public void addFormatters(@NonNull FormatterRegistry registry) {
         registry.addConverter(searchResultConverter());
     }
@@ -96,7 +95,7 @@ public class WebConfig implements WebMvcConfigurer {
      * @see org.springframework.web.servlet.config.annotation.WebMvcConfigurer#configureContentNegotiation(org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer)
      */
     @Override
-    @SuppressWarnings(value = { "deprecation", "null" })
+    @SuppressWarnings("deprecation")
     public void configureContentNegotiation(@NonNull ContentNegotiationConfigurer configurer) {
         configurer.favorPathExtension(true).
         favorParameter(false).
@@ -175,7 +174,6 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    @SuppressWarnings("null")
     public HttpMessageConverter<?> xmlMessageConverter() {
         return new MarshallingHttpMessageConverter(marshaller());
     }
