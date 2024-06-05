@@ -5,7 +5,7 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /geoclient/v$1/$2
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
-    release-scope: ingress-only
+    # release-scope: ingress-only
   labels:
     app: geoclient-v2
     environment: ENVIRONMENT
@@ -16,13 +16,6 @@ spec:
   - host: ING_HOST
     http:
       paths:
-      - backend:
-          service:
-            name: geoclient-v2
-            port:
-              number: -1 # SVC_PORT
-        path: /geoclient/v(1)/(.*)
-        pathType: Prefix
       - backend:
           service:
             name: geoclient-v2
