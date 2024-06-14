@@ -14,7 +14,7 @@ servers:
     description: Production (kubernetes)
   - url: https://geoclient-dev.nyc.gov/geoclient/v2
     description: Non-production (kubernetes)
-  - url: http://localhost:8080/geoclient/v2
+  - url: http://localhost:8081/geoclient/v2
     description: Development (local)
 paths:
   /address:
