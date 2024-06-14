@@ -21,7 +21,7 @@ paths:
     get:
       description: Returns street centerline-based and/or property-level data about an address
       responses:
-        200:
+        '200':
           description: OK
       parameters:
         - name: houseNumber
@@ -51,7 +51,7 @@ paths:
     get:
       description: Returns address point data
       responses:
-        200:
+        '200':
           description: OK
       parameters:
         - name: houseNumber
@@ -81,7 +81,7 @@ paths:
     get:
       description: Returns property-level data associated with a BBL
       responses:
-        200:
+        '200':
           description: OK
       parameters:
         - name: borough
@@ -107,7 +107,7 @@ paths:
     get:
       description: Returns property-level data associated with a BIN
       responses:
-        200:
+        '200':
           description: OK
       parameters:
         - name: bin
@@ -120,7 +120,7 @@ paths:
     get:
       description: Returns information about a street segment
       responses:
-        200:
+        '200':
           description: OK
       parameters:
         - name: onStreet
@@ -173,13 +173,13 @@ paths:
     get:
       description: Geoclient HTML documentation
       responses:
-        200:
+        '200':
           description: OK
   /intersection:
     get:
       description: Returns information about an intersection
       responses:
-        200:
+        '200':
           description: OK
       parameters:
         - name: crossStreetOne
@@ -219,7 +219,7 @@ paths:
     get:
       description: Normalizes a street name
       responses:
-        200:
+        '200':
           description: OK
       parameters:
         - name: name
@@ -232,7 +232,7 @@ paths:
     get:
       description: Returns street centerline-based and/or property-level data about a well-known place name
       responses:
-        200:
+        '200':
           description: OK
       parameters:
         - name: name
@@ -258,7 +258,7 @@ paths:
     get:
       description: Single-field search for address, bbl, bin, blockface, intersection or place locations
       responses:
-        200:
+        '200':
           description: OK
       parameters:
         - name: input
@@ -271,7 +271,7 @@ paths:
     get:
       description: Find the the street name for a B5SC, B7SC, or B10SC street code
       responses:
-        200:
+        '200':
           description: OK
       parameters:
         - name: streetCode
@@ -302,5 +302,20 @@ paths:
     get:
       description: Geoclient and Geosupport version information
       responses:
-        200:
+        '200':
           description: Version information for this service
+#
+#components:
+#  responses:
+#    '200':
+#      description: OK
+#    '400':
+#      description: Bad Request
+#    '401':
+#      description: Unauthorized
+#    '403':
+#      description: Forbidden
+#    '404':
+#      description: Not Found
+#    '5XX':
+#      description: Internal Server Error
