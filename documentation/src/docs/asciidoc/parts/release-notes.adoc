@@ -1,0 +1,19 @@
+== Release Notes
+
+=== 2.0.1
+
+==== Potential Breaking Changes
+
+* Project `geoclient-service`
+  * The `addresspoint` endpoint now returns `latitude` and `longitude` as double precision JSON numbers instead of strings.
+
+==== New Features
+
+==== Bug Fixes
+
+* Project `geoclient-service`
+  * For the `addresspoint` endpoint (Geosupport function `AP`), return `latitude` and `longitude` as double precision JSON numbers instead of strings to be consistent with other endpoints.
+
+==== Documentation
+
+* New documentation site:
