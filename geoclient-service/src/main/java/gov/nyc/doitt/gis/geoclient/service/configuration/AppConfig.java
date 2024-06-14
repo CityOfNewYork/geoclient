@@ -82,6 +82,7 @@ public class AppConfig {
         // Self-encapsulate by using instance methods instead of Function
         // constants directly to prevent having two places where function
         // id needs to stay consistent.
+        conversions.add(new FieldSet("F" + functionAP().getId(), new String[]{"latitude", "longitude"}));
         conversions.add(new FieldSet("F" + function1B().getId(), new String[]{"latitude", "longitude", "latitudeInternalLabel", "longitudeInternalLabel"}));
         conversions.add(new FieldSet("F" + functionBL().getId(), new String[]{"latitudeInternalLabel", "longitudeInternalLabel"}));
         conversions.add(new FieldSet("F" + functionBN().getId(), new String[]{"latitudeInternalLabel", "longitudeInternalLabel"}));
