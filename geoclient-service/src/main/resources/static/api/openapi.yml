@@ -1,71 +1,28 @@
 openapi: 3.0.3
 info:
   title: Geoclient API
-  version: "2.0"
+  version: 2.0.1
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
+externalDocs:
+  url: https://maps.nyc.gov/geoclient/v2/doc
 servers:
   - url: https://maps.nyc.gov/geoclient/v2
-    description: Production server
-  - url: "{scheme}://{host}:{port}/geoclient/{version}"
-    description: Development server
-    variables:
-      scheme:
-        enum:
-          - http
-          - https
-        default: http
-      host:
-        default: localhost
-      port:
-        enum:
-          - "8081"
-          - "443"
-          - "80"
-          - "84"
-        default: "8081"
-      version:
-        enum:
-          - v2
-          - v1
-        default: v2
-components:
-  parameters:
-    appIdParam:
-      name: app_id
-      in: query
-      description: Assigned application id
-      schema:
-        type: string
-    appKeyParam:
-      name: app_key
-      in: query
-      description: Assigned application key
-      schema:
-        type: string
-  securitySchemes:
-    apiIdAuth:
-      name: app_id
-      type: apiKey
-      in: query
-    apiKeyAuth:
-      name: app_key
-      type: apiKey
-      in: query
-security:
-  - apiIdAuth:  []
-    apiKeyAuth: []   # <-- no leading dash (-)
+    description: Production server (legacy)
+  - url: https://geoclient.nyc.gov/geoclient/v2
+    description: Production (kubernetes)
+  - url: https://geoclient-dev.nyc.gov/geoclient/v2
+    description: Non-production (kubernetes)
+  - url: http://localhost:8080/geoclient/v2
+    description: Development (local)
 paths:
   /address:
     get:
       description: Returns street centerline-based and/or property-level data about an address
       responses:
-        "200":
+        200:
           description: OK
-      security:
-        - apiIdAuth: []
-          apiKeyAuth:  []
       parameters:
         - name: houseNumber
           in: query
@@ -94,7 +51,7 @@ paths:
     get:
       description: Returns address point data
       responses:
-        "200":
+        200:
           description: OK
       parameters:
         - name: houseNumber
@@ -124,11 +81,8 @@ paths:
     get:
       description: Returns property-level data associated with a BBL
       responses:
-        "200":
+        200:
           description: OK
-      security:
-        - apiIdAuth: []
-          apiKeyAuth:  []
       parameters:
         - name: borough
           description: Borough of NYC
@@ -153,11 +107,8 @@ paths:
     get:
       description: Returns property-level data associated with a BIN
       responses:
-        "200":
+        200:
           description: OK
-      security:
-        - apiIdAuth: []
-          apiKeyAuth:  []
       parameters:
         - name: bin
           in: query
@@ -169,11 +120,8 @@ paths:
     get:
       description: Returns information about a street segment
       responses:
-        "200":
+        200:
           description: OK
-      security:
-        - apiIdAuth: []
-          apiKeyAuth:  []
       parameters:
         - name: onStreet
           in: query
@@ -225,17 +173,14 @@ paths:
     get:
       description: Geoclient HTML documentation
       responses:
-        "200":
+        200:
           description: OK
   /intersection:
     get:
       description: Returns information about an intersection
       responses:
-        "200":
+        200:
           description: OK
-      security:
-        - apiIdAuth: []
-          apiKeyAuth:  []
       parameters:
         - name: crossStreetOne
           in: query
@@ -274,11 +219,8 @@ paths:
     get:
       description: Normalizes a street name
       responses:
-        "200":
+        200:
           description: OK
-      security:
-        - apiIdAuth: []
-          apiKeyAuth:  []
       parameters:
         - name: name
           description: Name of a (possibly non-existant) street
@@ -290,11 +232,8 @@ paths:
     get:
       description: Returns street centerline-based and/or property-level data about a well-known place name
       responses:
-        "200":
+        200:
           description: OK
-      security:
-        - apiIdAuth: []
-          apiKeyAuth:  []
       parameters:
         - name: name
           description: Well-known NYC place name (e.g., "Empire State Building" in Manhattan)
@@ -319,11 +258,8 @@ paths:
     get:
       description: Single-field search for address, bbl, bin, blockface, intersection or place locations
       responses:
-        "200":
+        200:
           description: OK
-      security:
-        - apiIdAuth: []
-          apiKeyAuth:  []
       parameters:
         - name: input
           in: query
@@ -335,11 +271,8 @@ paths:
     get:
       description: Find the the street name for a B5SC, B7SC, or B10SC street code
       responses:
-        "200":
+        200:
           description: OK
-      security:
-        - apiIdAuth: []
-          apiKeyAuth:  []
       parameters:
         - name: streetCode
           in: query
@@ -369,8 +302,5 @@ paths:
     get:
       description: Geoclient and Geosupport version information
       responses:
-        "200":
+        200:
           description: Version information for this service
-      security:
-        - apiIdAuth: []
-          apiKeyAuth:  []
