@@ -17,7 +17,7 @@ pluginManagement {
 // See ./geosupport-plugin/build.gradle
 // See https://docs.gradle.org/current/userguide/composite_builds.html#included_build_substitution_limitations
 //
-    includeBuild './geosupport-plugin'
+//    includeBuild './geosupport-plugin'
 }
 
 rootProject.name = 'geoclient'
