@@ -136,7 +136,7 @@ public class GeoclientCoreIntegrationTest {
         parameters.putAll(function.getConfiguration().requiredArguments());
         parameters.put(InputParam.STREET_NAME, "Broadway");
         parameters.put(InputParam.STREET_NAME2, "W 144 ST");
-        parameters.put(InputParam.STREET_NAME3,"W 143 ST");
+        parameters.put(InputParam.STREET_NAME3, "W 143 ST");
         parameters.put(InputParam.BOROUGH_CODE, "1");
         Map<String, Object> result = function.call(parameters);
         assertTrue(succeeded(GEOSUPPORT_RETURN_CODE, result));

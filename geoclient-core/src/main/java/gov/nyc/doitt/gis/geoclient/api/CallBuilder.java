@@ -58,11 +58,11 @@ public class CallBuilder {
     protected static abstract class Builder {
         protected final Arguments arguments = new Arguments();
         protected final NumberedParamNames boroughCodeParams = new NumberedParamNames(InputParam.BOROUGH_CODE,
-                InputParam.BOROUGH_CODE2, InputParam.BOROUGH_CODE3);
+            InputParam.BOROUGH_CODE2, InputParam.BOROUGH_CODE3);
         protected final NumberedParamNames streetCodeParams = new NumberedParamNames(InputParam.STREET_CODE,
-                InputParam.STREET_CODE2, InputParam.STREET_CODE3);
+            InputParam.STREET_CODE2, InputParam.STREET_CODE3);
         protected final NumberedParamNames streetNameParams = new NumberedParamNames(InputParam.STREET_NAME,
-                InputParam.STREET_NAME2, InputParam.STREET_NAME3);
+            InputParam.STREET_NAME2, InputParam.STREET_NAME3);
 
         Builder(Function function) {
             this.arguments.args(function.getConfiguration().requiredArguments());
@@ -164,9 +164,11 @@ public class CallBuilder {
             if (street.getName() != null) {
                 // Prefer using street name, if available
                 addStreetName(street.getName(), number);
-            } else if (street.getCode() != null) {
+            }
+            else if (street.getCode() != null) {
                 addStreetCode(street.getCode(), number);
-            } else {
+            }
+            else {
                 throw new IllegalArgumentException("Street argument's code and name fields cannot both be null");
             }
         }

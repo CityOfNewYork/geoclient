@@ -63,7 +63,7 @@ class GeoclientJniIntegrationTest {
         assertNotNull(actualW2);
         assertFalse(actualW2.isEmpty());
         assertTrue(ByteBufferUtils.isSuccess(returnCode),
-                String.format("Return code from function {} should indicate success", conf.getFunctionName()));
+            String.format("Return code from function {} should indicate success", conf.getFunctionName()));
     }
 
     @ParameterizedTest
@@ -82,7 +82,7 @@ class GeoclientJniIntegrationTest {
         assertNotNull(actualW2);
         assertFalse(actualW2.isEmpty());
         assertTrue(ByteBufferUtils.isSuccess(returnCode),
-                String.format("Return code from function {} should indicate success", conf.getFunctionName()));
+            String.format("Return code from function {} should indicate success", conf.getFunctionName()));
     }
 
     private String lpad(String s) {
@@ -111,6 +111,6 @@ class GeoclientJniIntegrationTest {
 
     private void logByteBuffer(String workAreaName, ByteBuffer buffer) {
         logger.trace("[WA{}]: ByteBuffer[capacity: {}, position: {}, limit: {}]", workAreaName, buffer.capacity(),
-                buffer.position(), buffer.limit());
+            buffer.position(), buffer.limit());
     }
 }

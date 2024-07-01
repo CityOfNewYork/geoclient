@@ -19,18 +19,15 @@ import java.util.List;
 
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 
-public class ParseTree
-{
+public class ParseTree {
 
     private List<Chunk> chunks;
 
-    public List<Chunk> getChunks()
-    {
+    public List<Chunk> getChunks() {
         return chunks;
     }
 
-    public void setChunks(List<Chunk> chunks)
-    {
+    public void setChunks(List<Chunk> chunks) {
         this.chunks = chunks;
     }
 

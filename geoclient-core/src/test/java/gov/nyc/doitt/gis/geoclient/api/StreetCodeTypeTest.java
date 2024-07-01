@@ -93,9 +93,12 @@ public class StreetCodeTypeTest {
 
     @Test
     public void testIsValidNoBorough() {
-        assertTrue(StreetCodeType.isValidNoBorough(valid5SC), String.format("%s is a valid 5-digit street code", valid5SC));
-        assertTrue(StreetCodeType.isValidNoBorough(valid7SC), String.format("%s is a valid 7-digit street code", valid7SC));
-        assertTrue(StreetCodeType.isValidNoBorough(valid10SC), String.format("%s is a valid 10-digit street code", valid10SC));
+        assertTrue(StreetCodeType.isValidNoBorough(valid5SC),
+            String.format("%s is a valid 5-digit street code", valid5SC));
+        assertTrue(StreetCodeType.isValidNoBorough(valid7SC),
+            String.format("%s is a valid 7-digit street code", valid7SC));
+        assertTrue(StreetCodeType.isValidNoBorough(valid10SC),
+            String.format("%s is a valid 10-digit street code", valid10SC));
     }
 
     @Test
@@ -107,15 +110,29 @@ public class StreetCodeTypeTest {
 
     @Test
     public void testFromCode() {
-        assertSame(_5SC,StreetCodeType.fromCode(valid5SC), String.format("StreetCodeType %s resolves to the same instance as the type derived from 5-digit street code literal %s",_5SC, valid5SC));
-        assertSame(_7SC,StreetCodeType.fromCode(valid7SC), String.format("StreetCodeType %s resolves to the same instance as the type derived from 7-digit street code literal %s",_7SC, valid7SC));
-        assertSame(_10SC,StreetCodeType.fromCode(valid10SC), String.format("StreetCodeType %s resolves to the same instance as the type derived from 10-digit street code literal %s",_10SC, valid10SC));
+        assertSame(_5SC, StreetCodeType.fromCode(valid5SC), String.format(
+            "StreetCodeType %s resolves to the same instance as the type derived from 5-digit street code literal %s",
+            _5SC, valid5SC));
+        assertSame(_7SC, StreetCodeType.fromCode(valid7SC), String.format(
+            "StreetCodeType %s resolves to the same instance as the type derived from 7-digit street code literal %s",
+            _7SC, valid7SC));
+        assertSame(_10SC, StreetCodeType.fromCode(valid10SC), String.format(
+            "StreetCodeType %s resolves to the same instance as the type derived from 10-digit street code literal %s",
+            _10SC, valid10SC));
 
-        assertSame(B5SC,StreetCodeType.fromCode(validB5SC),  String.format("StreetCodeType %s resolves to the same instance as the type derived from B5SC literal %s",B5SC, validB5SC));
-        assertSame(B7SC,StreetCodeType.fromCode(validB7SC),  String.format("StreetCodeType %s resolves to the same instance as the type derived from B7SC literal %s",B7SC, validB7SC));
-        assertSame(B10SC,StreetCodeType.fromCode(validB10SC), String.format("StreetCodeType %s resolves to the same instance as the type derived from B10SC literal %s",B10SC, validB10SC));
+        assertSame(B5SC, StreetCodeType.fromCode(validB5SC),
+            String.format("StreetCodeType %s resolves to the same instance as the type derived from B5SC literal %s",
+                B5SC, validB5SC));
+        assertSame(B7SC, StreetCodeType.fromCode(validB7SC),
+            String.format("StreetCodeType %s resolves to the same instance as the type derived from B7SC literal %s",
+                B7SC, validB7SC));
+        assertSame(B10SC, StreetCodeType.fromCode(validB10SC),
+            String.format("StreetCodeType %s resolves to the same instance as the type derived from B10SC literal %s",
+                B10SC, validB10SC));
 
-        assertSame(UNRECOGNIZED,StreetCodeType.fromCode("1212"), String.format("StreetCodeType %s resolves to the same instance as the type derived from invalid literal %s",UNRECOGNIZED, "1212"));
+        assertSame(UNRECOGNIZED, StreetCodeType.fromCode("1212"),
+            String.format("StreetCodeType %s resolves to the same instance as the type derived from invalid literal %s",
+                UNRECOGNIZED, "1212"));
     }
 
     public static class StreetCodeFixture {
@@ -139,19 +156,19 @@ public class StreetCodeTypeTest {
         }
 
         public String getRandomBoroughCode() {
-            return String.valueOf(getRandomNumberInRange(1,5));
+            return String.valueOf(getRandomNumberInRange(1, 5));
         }
 
         public String getValid5SC() {
-            return lpad(5, getRandomNumberInRange(0,99999));
+            return lpad(5, getRandomNumberInRange(0, 99999));
         }
 
         public String getValid7SC() {
-            return lpad(7, getRandomNumberInRange(0,9999999));
+            return lpad(7, getRandomNumberInRange(0, 9999999));
         }
 
         public String getValid10SC() {
-            return lpad(10, getRandomNumberInRange(0,99999999));
+            return lpad(10, getRandomNumberInRange(0, 99999999));
         }
 
         public String getValidB5SC() {

@@ -25,7 +25,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 
-
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 public class DocumentationControllerIntegrationTest {
 
@@ -37,7 +36,7 @@ public class DocumentationControllerIntegrationTest {
     @Test
     public void testDoc() {
         String body = this.restTemplate.getForObject("/doc", String.class);
-        LOGGER.debug("/doc response body: {}",body);
+        LOGGER.debug("/doc response body: {}", body);
         assertThat(body.contains("geosupportVersion"));
         assertThat(body.contains("geosupportRelease"));
     }

@@ -66,8 +66,8 @@ public class ChunkSpecParser {
 
         if (splits.length != 2) {
             throw new TestConfigurationException(String.format(
-                    "Parameter 'unparsedString(\"%s\")' cannot be split into exactly two strings on token '='.",
-                    expectationText));
+                "Parameter 'unparsedString(\"%s\")' cannot be split into exactly two strings on token '='.",
+                expectationText));
         }
         List<MutableToken> untypedTokens = parseBracketValues(splits[0]);
         ChunkSpec chunkSpec = new ChunkSpec(id, splits[0], parseChunkSpec(splits[1], splits[0], untypedTokens));
@@ -83,7 +83,7 @@ public class ChunkSpecParser {
      */
     protected ChunkSpec createDefaultChunkSpec(String id, String delimitedTokenText) {
         return new ChunkSpec(id, delimitedTokenText,
-                Arrays.asList(new Chunk[] { new Chunk(ChunkType.ORIGINAL_INPUT, removeBrackets(delimitedTokenText)) }));
+            Arrays.asList(new Chunk[] { new Chunk(ChunkType.ORIGINAL_INPUT, removeBrackets(delimitedTokenText)) }));
     }
 
     /**
@@ -182,13 +182,13 @@ public class ChunkSpecParser {
         Matcher matcher = CHUNK_DEFINITION_BODY_PATTERN.matcher(chunkDefinition);
         if (!matcher.matches()) {
             throw new TestConfigurationException(
-                    String.format("Could not parse chunk definition from input '%s' using pattern '%s'",
-                            chunkDefinition, CHUNK_DEFINITION_BODY_PATTERN.pattern()));
+                String.format("Could not parse chunk definition from input '%s' using pattern '%s'", chunkDefinition,
+                    CHUNK_DEFINITION_BODY_PATTERN.pattern()));
         }
         String chunkDefinitionBody = matcher.group(1);
         if (chunkDefinitionBody == null) {
             throw new TestConfigurationException(
-                    String.format("Did not find chunk definition body in input '%s'", chunkDefinition));
+                String.format("Did not find chunk definition body in input '%s'", chunkDefinition));
         }
         // Must exist: splits[0] == '0-24'
         // Might exist: splits[1] == 'HOUSE_NUMBER,STREET_NAME'
@@ -196,8 +196,8 @@ public class ChunkSpecParser {
         int splitsLength = splits.length;
         if (splitsLength < 1 || splitsLength > 2) {
             throw new TestConfigurationException(
-                    String.format("Expected format '2-12:TYPE1{2},TYPE2{1}' for chunk definition body but found '%s'.",
-                            chunkDefinitionBody));
+                String.format("Expected format '2-12:TYPE1{2},TYPE2{1}' for chunk definition body but found '%s'.",
+                    chunkDefinitionBody));
         }
         LOGGER.debug("Parsing Chunk definition '{}'", chunkDefinition);
         ChunkType chunkType = parseChunkType(chunkDefinition);
@@ -213,8 +213,8 @@ public class ChunkSpecParser {
             TokenTypeOccurrence typeOccurrence = parseTokenTypeOccurrence(tokenTypeNameAndPositions[i]);
             if (typeOccurrence.occurrence() > untypedTokens.size()) {
                 throw new TestConfigurationException(
-                        String.format("TokenType specified for value %d but there are only %d Token values.",
-                                typeOccurrence.occurrence(), untypedTokens.size()));
+                    String.format("TokenType specified for value %d but there are only %d Token values.",
+                        typeOccurrence.occurrence(), untypedTokens.size()));
             }
             MutableToken untypedToken = untypedTokens.get(typeOccurrence.zeroIndexOccurrence());
             untypedToken.setTokenType(typeOccurrence.tokenType());
@@ -233,7 +233,7 @@ public class ChunkSpecParser {
         Matcher matcher = TOKEN_TYPE_OCCURRENCE_PATTERN.matcher(tokenTypeNameAndPosition);
         if (!matcher.matches()) {
             throw new TestConfigurationException(
-                    String.format("Could not parse TokenTypeOccurrence from input '%s'", tokenTypeNameAndPosition));
+                String.format("Could not parse TokenTypeOccurrence from input '%s'", tokenTypeNameAndPosition));
         }
         return new TokenTypeOccurrence(TokenType.valueOf(matcher.group(1)), Integer.valueOf(matcher.group(2)));
     }
@@ -251,7 +251,7 @@ public class ChunkSpecParser {
         String[] splits = string.split("-");
         if (splits.length != 2) {
             throw new TestConfigurationException(
-                    String.format("Expected format '2-12' for chunk range but was '%s'.", string));
+                String.format("Expected format '2-12' for chunk range but was '%s'.", string));
         }
         return new Range(Integer.parseInt(splits[0]), Integer.parseInt(splits[1]));
     }
@@ -408,8 +408,8 @@ public class ChunkSpecParser {
         public String substring(String string) {
             if (string.length() < start || string.length() < end) {
                 throw new TestConfigurationException(String.format(
-                        "substring(%d,%d) specifies invalid index(s) for \"%s\" which is only %d characters long",
-                        start, end, string, string.length()));
+                    "substring(%d,%d) specifies invalid index(s) for \"%s\" which is only %d characters long", start,
+                    end, string, string.length()));
             }
             return string.substring(start, end);
         }

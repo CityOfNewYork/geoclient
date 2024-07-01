@@ -15,27 +15,22 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.domain;
 
-public enum StreetNameFormat
-{
+public enum StreetNameFormat {
 
-    SORT("S"),
-    COMPACT("C");
+    SORT("S"), COMPACT("C");
 
     private final String elementName;
 
-    private StreetNameFormat(String elementName)
-    {
+    private StreetNameFormat(String elementName) {
         this.elementName = elementName;
     }
 
-    public String elementName()
-    {
+    public String elementName() {
         return this.elementName;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.elementName;
     }
 

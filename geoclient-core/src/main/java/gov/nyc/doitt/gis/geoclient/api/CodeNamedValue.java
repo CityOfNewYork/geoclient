@@ -83,12 +83,14 @@ public class CodeNamedValue implements Named, Coded {
         if (c == null) {
             if (other.codeForHashCodeAndEquals() != null)
                 return false;
-        } else if (!c.equals(other.codeForHashCodeAndEquals()))
+        }
+        else if (!c.equals(other.codeForHashCodeAndEquals()))
             return false;
         if (n == null) {
             if (other.nameForHashCodeAndEquals() != null)
                 return false;
-        } else if (!n.equals(other.nameForHashCodeAndEquals()))
+        }
+        else if (!n.equals(other.nameForHashCodeAndEquals()))
             return false;
         return true;
     }

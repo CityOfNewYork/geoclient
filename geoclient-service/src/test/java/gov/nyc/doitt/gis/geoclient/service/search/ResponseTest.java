@@ -54,8 +54,8 @@ public class ResponseTest {
     @Test
     public void testIsCompassDirectionRequired() {
         assertFalse(response.isCompassDirectionRequired());
-        response.getResponseStatus().getGeosupportReturnCode()
-                .setReturnCode(ReturnCodeValue.COMPASS_DIRECTION_REQUIRED.value());
+        response.getResponseStatus().getGeosupportReturnCode().setReturnCode(
+            ReturnCodeValue.COMPASS_DIRECTION_REQUIRED.value());
         assertTrue(response.isCompassDirectionRequired());
         response.getResponseStatus().getGeosupportReturnCode().setReturnCode(null);
         assertFalse(response.isCompassDirectionRequired());

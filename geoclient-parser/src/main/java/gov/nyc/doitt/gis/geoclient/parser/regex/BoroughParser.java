@@ -25,14 +25,12 @@ import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
-public class BoroughParser extends AbstractRegexParser
-{
+public class BoroughParser extends AbstractRegexParser {
     private final Pattern boroughPattern;
     private final Pattern boroughAndNycPattern;
     private final Pattern boroughAndStatePattern;
 
-    public BoroughParser(Set<String> boroughNames)
-    {
+    public BoroughParser(Set<String> boroughNames) {
         super();
         boroughAndNycPattern = buildEndsWithBoroughAndNycPattern(boroughNames);
         boroughAndStatePattern = buildEndsWithBoroughAndStatePattern(boroughNames);
@@ -40,89 +38,68 @@ public class BoroughParser extends AbstractRegexParser
     }
 
     @Override
-    public void parse(ParseContext parseContext)
-    {
+    public void parse(ParseContext parseContext) {
         boolean found = parseBoroughAndNyc(parseContext);
-        if(!found)
-        {
+        if (!found) {
             found = parseBoroughAndState(parseContext);
         }
-        if(!found)
-        {
+        if (!found) {
             parseBorough(parseContext);
         }
     }
-    protected Pattern buildEndsWithBoroughAndNycPattern(Set<String> boroughNames)
-    {
+
+    protected Pattern buildEndsWithBoroughAndNycPattern(Set<String> boroughNames) {
         String literals = PatternUtils.literalMatchGroup(boroughNames);
-        return Pattern.compile(String.format("(?:.*)%s(?:\\s|,)+%s(?:\\s|,)*$",literals, ParserConfig.NY_CITY), Pattern.CASE_INSENSITIVE);
+        return Pattern.compile(String.format("(?:.*)%s(?:\\s|,)+%s(?:\\s|,)*$", literals, ParserConfig.NY_CITY),
+            Pattern.CASE_INSENSITIVE);
     }
 
-    protected Pattern buildEndsWithBoroughAndStatePattern(Set<String> boroughNames)
-    {
+    protected Pattern buildEndsWithBoroughAndStatePattern(Set<String> boroughNames) {
         String literals = PatternUtils.literalMatchGroup(boroughNames);
-        return Pattern.compile(String.format("(?:.*)%s(?:\\s|,)+%s(?:\\s|,)*$",literals, ParserConfig.STATES), Pattern.CASE_INSENSITIVE);
+        return Pattern.compile(String.format("(?:.*)%s(?:\\s|,)+%s(?:\\s|,)*$", literals, ParserConfig.STATES),
+            Pattern.CASE_INSENSITIVE);
     }
 
-    protected Pattern buildEndsWithBoroughPattern(Set<String> boroughNames)
-    {
+    protected Pattern buildEndsWithBoroughPattern(Set<String> boroughNames) {
         String literals = PatternUtils.literalMatchGroup(boroughNames);
-        return Pattern.compile(String.format("(?:.*)%s(?:\\s|,)*$",literals), Pattern.CASE_INSENSITIVE);
+        return Pattern.compile(String.format("(?:.*)%s(?:\\s|,)*$", literals), Pattern.CASE_INSENSITIVE);
     }
 
-
-    private boolean parseBoroughAndNyc(ParseContext parseContext)
-    {
+    private boolean parseBoroughAndNyc(ParseContext parseContext) {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = boroughAndNycPattern.matcher(currentChunk.getText());
-        if(!matcher.matches())
-        {
+        if (!matcher.matches()) {
             patternNotMatched(parseContext, boroughAndNycPattern);
             return false;
         }
-        MatchBuilder builder = new MatchBuilder()
-            .add(parseContext)
-            .add(MatchType.END_OF_INPUT)
-            .add(matcher)
-            .add(boroughAndNycPattern, 1, TokenType.BOROUGH_NAME)
-            .add(boroughAndNycPattern, 2, TokenType.CITY_NAME);
+        MatchBuilder builder = new MatchBuilder().add(parseContext).add(MatchType.END_OF_INPUT).add(matcher).add(
+            boroughAndNycPattern, 1, TokenType.BOROUGH_NAME).add(boroughAndNycPattern, 2, TokenType.CITY_NAME);
         handleMatch(builder.build(), ChunkType.COUNTY);
         return true;
     }
 
-    private boolean parseBoroughAndState(ParseContext parseContext)
-    {
+    private boolean parseBoroughAndState(ParseContext parseContext) {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = boroughAndStatePattern.matcher(currentChunk.getText());
-        if(!matcher.matches())
-        {
+        if (!matcher.matches()) {
             patternNotMatched(parseContext, boroughAndStatePattern);
             return false;
         }
-        MatchBuilder builder = new MatchBuilder()
-            .add(parseContext)
-            .add(MatchType.END_OF_INPUT)
-            .add(matcher)
-            .add(boroughAndStatePattern,1, TokenType.BOROUGH_NAME)
-            .add(boroughAndStatePattern,2, TokenType.STATE);
+        MatchBuilder builder = new MatchBuilder().add(parseContext).add(MatchType.END_OF_INPUT).add(matcher).add(
+            boroughAndStatePattern, 1, TokenType.BOROUGH_NAME).add(boroughAndStatePattern, 2, TokenType.STATE);
         handleMatch(builder.build(), ChunkType.COUNTY);
         return true;
     }
 
-    private boolean parseBorough(ParseContext parseContext)
-    {
+    private boolean parseBorough(ParseContext parseContext) {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = boroughPattern.matcher(currentChunk.getText());
-        if(!matcher.matches())
-        {
+        if (!matcher.matches()) {
             patternNotMatched(parseContext, boroughPattern);
             return false;
         }
-        MatchBuilder builder = new MatchBuilder()
-            .add(parseContext)
-            .add(MatchType.END_OF_INPUT)
-            .add(matcher)
-            .add(boroughPattern, 1, TokenType.BOROUGH_NAME);
+        MatchBuilder builder = new MatchBuilder().add(parseContext).add(MatchType.END_OF_INPUT).add(matcher).add(
+            boroughPattern, 1, TokenType.BOROUGH_NAME);
         handleMatch(builder.build(), ChunkType.COUNTY);
         return true;
     }

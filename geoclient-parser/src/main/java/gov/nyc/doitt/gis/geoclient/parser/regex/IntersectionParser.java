@@ -23,29 +23,23 @@ import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
-public class IntersectionParser extends AbstractRegexParser
-{
-    private static final Pattern INTERSECTION = Pattern.compile("^\\s*(.+)\\s+(AND|\\&|\\&\\&)\\s+(.+)\\s*$",Pattern.CASE_INSENSITIVE);
+public class IntersectionParser extends AbstractRegexParser {
+    private static final Pattern INTERSECTION = Pattern.compile("^\\s*(.+)\\s+(AND|\\&|\\&\\&)\\s+(.+)\\s*$",
+        Pattern.CASE_INSENSITIVE);
 
     @Override
-    public void parse(ParseContext parseContext)
-    {
+    public void parse(ParseContext parseContext) {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = INTERSECTION.matcher(currentChunk.getText());
 
-        if(!matcher.matches())
-        {
-            patternNotMatched(parseContext,INTERSECTION);
+        if (!matcher.matches()) {
+            patternNotMatched(parseContext, INTERSECTION);
             return;
         }
 
-        MatchBuilder builder = new MatchBuilder()
-        .add(matcher)
-        .add(MatchType.COMPLETE)
-        .add(parseContext)
-        .add(INTERSECTION, 1, TokenType.CROSS_STREET_ONE)
-        .add(INTERSECTION, 2, TokenType.AND)
-        .add(INTERSECTION, 3, TokenType.CROSS_STREET_TWO);
+        MatchBuilder builder = new MatchBuilder().add(matcher).add(MatchType.COMPLETE).add(parseContext).add(
+            INTERSECTION, 1, TokenType.CROSS_STREET_ONE).add(INTERSECTION, 2, TokenType.AND).add(INTERSECTION, 3,
+                TokenType.CROSS_STREET_TWO);
 
         handleMatch(builder.build(), ChunkType.INTERSECTION);
     }

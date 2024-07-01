@@ -17,57 +17,46 @@ package gov.nyc.doitt.gis.geoclient.service.search.request;
 
 import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 
-
-public abstract class CountyRequest extends Request
-{
+public abstract class CountyRequest extends Request {
     private InputValue boroughInputValue;
     private InputValue zipInputValue;
 
-    public CountyRequest()
-    {
+    public CountyRequest() {
         super();
     }
 
-    public CountyRequest(int level, InputValue borough, InputValue zip)
-    {
+    public CountyRequest(int level, InputValue borough, InputValue zip) {
         super(level);
         this.boroughInputValue = borough;
         this.zipInputValue = zip;
     }
 
-    public String getBorough()
-    {
+    public String getBorough() {
         return stringValueOrNull(boroughInputValue);
     }
 
-    public String getZip()
-    {
+    public String getZip() {
         return stringValueOrNull(zipInputValue);
     }
 
-    public InputValue getBoroughInputValue()
-    {
+    public InputValue getBoroughInputValue() {
         return boroughInputValue;
     }
 
-    public void setBoroughInputValue(InputValue boroughInputValue)
-    {
+    public void setBoroughInputValue(InputValue boroughInputValue) {
         this.boroughInputValue = boroughInputValue;
     }
 
-    public InputValue getZipInputValue()
-    {
+    public InputValue getZipInputValue() {
         return zipInputValue;
     }
 
-    public void setZipInputValue(InputValue zipInputValue)
-    {
+    public void setZipInputValue(InputValue zipInputValue) {
         this.zipInputValue = zipInputValue;
     }
 
     @Override
-    public boolean containsAssignedValue()
-    {
+    public boolean containsAssignedValue() {
         return isAssigned(boroughInputValue) || isAssigned(zipInputValue);
     }
 

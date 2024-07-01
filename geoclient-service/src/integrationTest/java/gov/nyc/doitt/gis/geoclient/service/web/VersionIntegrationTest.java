@@ -15,7 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.web;
 
-
 import static gov.nyc.doitt.gis.geoclient.service.web.RestController.VERSION_URI;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -44,14 +43,14 @@ public class VersionIntegrationTest extends WebContainerIntegrationTest {
         uri = jsonResource(VERSION_URI);
     }
 
-  @Test
-  public void testVersion() throws IOException {
-      ResponseEntity<Version> httpResponse = restTemplate().exchange(uri, HttpMethod.GET,
-              jsonRequest(), Version.class);
-      assertThat(httpResponse.getStatusCode() == HttpStatusCode.valueOf(200));
-      Version actual = httpResponse.getBody();
-      LOGGER.info("{} -> {}", uri.toASCIIString(), actual);
-      //versionContent.assertThat().
-  }
+    @Test
+    public void testVersion() throws IOException {
+        ResponseEntity<Version> httpResponse = restTemplate().exchange(uri, HttpMethod.GET, jsonRequest(),
+            Version.class);
+        assertThat(httpResponse.getStatusCode() == HttpStatusCode.valueOf(200));
+        Version actual = httpResponse.getBody();
+        LOGGER.info("{} -> {}", uri.toASCIIString(), actual);
+        //versionContent.assertThat().
+    }
 
 }

@@ -32,64 +32,62 @@ import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 //
 //@JsonRootName("searchResponse") // json root name
 @XStreamAlias("searchResponse") // xml root element
-public class SearchResponse
-{
+public class SearchResponse {
     @XStreamAsAttribute
     private String id;
     private Status status;
     private String input;
-    @XStreamImplicit(itemFieldName="result")
+    @XStreamImplicit(itemFieldName = "result")
     private List<SearchSummary> results;
     @XStreamAlias("parseTree")
     private List<Chunk> parseTree;
-    @XStreamImplicit(itemFieldName="policy")
+    @XStreamImplicit(itemFieldName = "policy")
     private List<PolicySummary> policy;
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
-    public void setId(String id)
-    {
+
+    public void setId(String id) {
         this.id = id;
     }
-    public Status getStatus()
-    {
+
+    public Status getStatus() {
         return status;
     }
-    public void setStatus(Status status)
-    {
+
+    public void setStatus(Status status) {
         this.status = status;
     }
-    public String getInput()
-    {
+
+    public String getInput() {
         return input;
     }
-    public void setInput(String input)
-    {
+
+    public void setInput(String input) {
         this.input = input;
     }
-    public List<Chunk> getParseTree()
-    {
+
+    public List<Chunk> getParseTree() {
         return parseTree;
     }
-    public void setParseTree(List<Chunk> parseTree)
-    {
+
+    public void setParseTree(List<Chunk> parseTree) {
         this.parseTree = parseTree;
     }
-    public List<PolicySummary> getPolicy()
-    {
+
+    public List<PolicySummary> getPolicy() {
         return policy;
     }
-    public void setPolicy(List<PolicySummary> policy)
-    {
+
+    public void setPolicy(List<PolicySummary> policy) {
         this.policy = policy;
     }
-    public List<SearchSummary> getResults()
-    {
+
+    public List<SearchSummary> getResults() {
         return results;
     }
-    public void setResults(List<SearchSummary> results)
-    {
+
+    public void setResults(List<SearchSummary> results) {
         this.results = results;
     }
 

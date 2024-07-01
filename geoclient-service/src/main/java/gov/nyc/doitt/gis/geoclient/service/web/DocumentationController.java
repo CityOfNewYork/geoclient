@@ -38,18 +38,15 @@ public class DocumentationController {
     @Autowired
     private GeosupportService geosupportService;
 
-
     @RequestMapping(value = DOC_URI, method = RequestMethod.GET)
-    public String doc(ModelMap modelMap)
-    {
+    public String doc(ModelMap modelMap) {
         Version version = this.geosupportService.version();
         modelMap.addAttribute(VERSION_OBJ, version);
         logger.debug("Returning Version instance {} to view named {}", version, DOC_VIEW_NAME);
         return DOC_VIEW_NAME;
     }
 
-    public void setGeosupportService(GeosupportService geosupportService)
-    {
+    public void setGeosupportService(GeosupportService geosupportService) {
         this.geosupportService = geosupportService;
     }
 

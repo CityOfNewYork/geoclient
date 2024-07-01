@@ -19,16 +19,11 @@ import java.util.Collection;
 
 import gov.nyc.doitt.gis.geoclient.parser.util.Assert;
 
-
-
-public class PatternUtils
-{
-    public static String literalMatchGroup(Collection<String> strings)
-    {
+public class PatternUtils {
+    public static String literalMatchGroup(Collection<String> strings) {
         Assert.notEmpty(strings, "Collection of strings argument cannot be empty or null");
         StringBuffer buff = new StringBuffer("(");
-        for (String s : strings)
-        {
+        for (String s : strings) {
             buff.append(s);
             buff.append("|");
         }
@@ -36,6 +31,5 @@ public class PatternUtils
         buff.append(")");
         return buff.toString();
     }
-
 
 }

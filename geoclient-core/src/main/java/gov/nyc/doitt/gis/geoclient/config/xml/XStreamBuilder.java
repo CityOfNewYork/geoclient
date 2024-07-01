@@ -52,8 +52,7 @@ import com.thoughtworks.xstream.security.TypePermission;
  * @author mlipper
  *
  */
-public class XStreamBuilder
-{
+public class XStreamBuilder {
     private XStream xstream;
     private List<Package> packages;
 
@@ -63,8 +62,7 @@ public class XStreamBuilder
      *
      * @see DomDriver
      */
-    public XStreamBuilder()
-    {
+    public XStreamBuilder() {
         this(new DomDriver());
     }
 
@@ -75,8 +73,7 @@ public class XStreamBuilder
      *
      * @param driver {@code HierarchicalStreamDriver} instance to use
      */
-    public XStreamBuilder(HierarchicalStreamDriver driver)
-    {
+    public XStreamBuilder(HierarchicalStreamDriver driver) {
         this.xstream = new XStream(driver);
         this.packages = new ArrayList<>();
         // For now, make this call automatically. If this builder needs to be
@@ -91,10 +88,8 @@ public class XStreamBuilder
      *
      * @return {@code XStream} instance
      */
-    public XStream build()
-    {
-        for (Package p : packages)
-        {
+    public XStream build() {
+        for (Package p : packages) {
             xstream.allowTypesByWildcard(new String[] { p.getName() + ".*" });
         }
         return this.xstream;
@@ -109,8 +104,7 @@ public class XStreamBuilder
      * @param p Java {@code java.lang.Package}
      * @return {@code XStreamBuilder} instance
      */
-    public XStreamBuilder addPackage(Package p)
-    {
+    public XStreamBuilder addPackage(Package p) {
         this.packages.add(p);
         return this;
     }
@@ -123,8 +117,7 @@ public class XStreamBuilder
      * @return {@code XStreamBuilder} instance
      * @see #addPackage(Package)
      */
-    public XStreamBuilder addAllClassesInSamePackageAs(Class<?> type)
-    {
+    public XStreamBuilder addAllClassesInSamePackageAs(Class<?> type) {
         return this.addPackage(type.getPackage());
     }
 
@@ -190,13 +183,12 @@ public class XStreamBuilder
      * @return {@code XStreamBuilder}
      */
     public XStreamBuilder registerToStringConverter(Class<?> type) {
-        try
-        {
+        try {
             registerConverter(new ToStringConverter(type));
-        } catch (NoSuchMethodException e)
-        {
-            throw new XmlConfigurationException("Could not create ToStringConverter for class "
-                    + type.getCanonicalName() + ": " + e.getMessage());
+        }
+        catch (NoSuchMethodException e) {
+            throw new XmlConfigurationException(
+                "Could not create ToStringConverter for class " + type.getCanonicalName() + ": " + e.getMessage());
         }
         return this;
     }
@@ -245,8 +237,7 @@ public class XStreamBuilder
      *
      * @return {@link XStreamBuilder}
      */
-    protected XStreamBuilder addDefaultPermissions()
-    {
+    protected XStreamBuilder addDefaultPermissions() {
         // Clear out any existing permissions and reset as follows
         xstream.addPermission(NoTypePermission.NONE);
         xstream.addPermission(NullPermission.NULL);

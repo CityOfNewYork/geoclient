@@ -31,7 +31,7 @@ import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@EnabledOnOs({LINUX, WINDOWS})
+@EnabledOnOs({ LINUX, WINDOWS })
 class NativeLibraryLocatorTest {
 
     final Logger logger = LoggerFactory.getLogger(NativeLibraryLocatorTest.class);
@@ -56,7 +56,7 @@ class NativeLibraryLocatorTest {
     @AfterEach
     void afterEach() {
         // Restore actual java.io.tmpdir System property
-        System.setProperty(tmpDirProperty,backup);
+        System.setProperty(tmpDirProperty, backup);
     }
 
     @Test
@@ -73,7 +73,7 @@ class NativeLibraryLocatorTest {
 
     private File getTempDir() throws IOException {
         URL url = getClass().getClassLoader().getResource(".");
-        File root = new File(String.format("%s/../tmplib",url.getPath()));
+        File root = new File(String.format("%s/../tmplib", url.getPath()));
         return root;
     }
 }

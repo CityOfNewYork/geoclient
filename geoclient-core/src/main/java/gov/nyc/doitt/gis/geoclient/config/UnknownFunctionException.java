@@ -15,13 +15,11 @@
  */
 package gov.nyc.doitt.gis.geoclient.config;
 
-public class UnknownFunctionException extends ConfigurationException
-{
+public class UnknownFunctionException extends ConfigurationException {
 
     private static final long serialVersionUID = 1L;
 
-    public UnknownFunctionException(String functionId)
-    {
+    public UnknownFunctionException(String functionId) {
         super(String.format("Unknown function id '%s'", functionId));
     }
 

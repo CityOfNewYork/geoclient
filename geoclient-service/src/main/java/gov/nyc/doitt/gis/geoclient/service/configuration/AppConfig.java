@@ -61,7 +61,8 @@ import gov.nyc.doitt.gis.geoclient.service.search.task.SpawnedSearchTaskBuilder;
  */
 @Configuration
 @PropertySource(value = "classpath:version.properties")
-@ComponentScan(basePackages = { "gov.nyc.doitt.gis.geoclient.service", "gov.nyc.doitt.gis.geoclient.parser.configuration" })
+@ComponentScan(basePackages = { "gov.nyc.doitt.gis.geoclient.service",
+        "gov.nyc.doitt.gis.geoclient.parser.configuration" })
 public class AppConfig {
 
     @Autowired
@@ -82,11 +83,14 @@ public class AppConfig {
         // Self-encapsulate by using instance methods instead of Function
         // constants directly to prevent having two places where function
         // id needs to stay consistent.
-        conversions.add(new FieldSet("F" + functionAP().getId(), new String[]{"latitude", "longitude"}));
-        conversions.add(new FieldSet("F" + function1B().getId(), new String[]{"latitude", "longitude", "latitudeInternalLabel", "longitudeInternalLabel"}));
-        conversions.add(new FieldSet("F" + functionBL().getId(), new String[]{"latitudeInternalLabel", "longitudeInternalLabel"}));
-        conversions.add(new FieldSet("F" + functionBN().getId(), new String[]{"latitudeInternalLabel", "longitudeInternalLabel"}));
-        conversions.add(new FieldSet("F" + function2W().getId(), new String[]{"latitude", "longitude"}));
+        conversions.add(new FieldSet("F" + functionAP().getId(), new String[] { "latitude", "longitude" }));
+        conversions.add(new FieldSet("F" + function1B().getId(),
+            new String[] { "latitude", "longitude", "latitudeInternalLabel", "longitudeInternalLabel" }));
+        conversions.add(new FieldSet("F" + functionBL().getId(),
+            new String[] { "latitudeInternalLabel", "longitudeInternalLabel" }));
+        conversions.add(new FieldSet("F" + functionBN().getId(),
+            new String[] { "latitudeInternalLabel", "longitudeInternalLabel" }));
+        conversions.add(new FieldSet("F" + function2W().getId(), new String[] { "latitude", "longitude" }));
         return conversions;
     }
 
@@ -129,7 +133,8 @@ public class AppConfig {
     public String hostname() {
         try {
             return InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
+        }
+        catch (UnknownHostException e) {
             return "UnknownHost";
         }
     }
@@ -207,7 +212,7 @@ public class AppConfig {
     public Version version(Map<String, Object> functionHrData) {
 
         Version version = new Version();
-        version.setGeosupportVersion( geosupportVersionMapper().fromParameters(functionHrData, new GeosupportVersion()));
+        version.setGeosupportVersion(geosupportVersionMapper().fromParameters(functionHrData, new GeosupportVersion()));
         // Uses version.properties file created by geoclient-service gradle build
         version.setGeoclientJniVersion(env.getProperty("jni.version", "UNKNOWN"));
         version.setGeoclientVersion(env.getProperty("core.version", "UNKNOWN"));

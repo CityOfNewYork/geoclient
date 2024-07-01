@@ -26,7 +26,8 @@ public class TaskBuilderSupport {
     protected final GeosupportService geosupportService;
     protected final Mapper<ResponseStatus> mapper;
 
-    public TaskBuilderSupport(CountyResolver countyResolver, GeosupportService geosupportService, Mapper<ResponseStatus> mapper) {
+    public TaskBuilderSupport(CountyResolver countyResolver, GeosupportService geosupportService,
+            Mapper<ResponseStatus> mapper) {
         super();
         this.countyResolver = countyResolver;
         this.geosupportService = geosupportService;

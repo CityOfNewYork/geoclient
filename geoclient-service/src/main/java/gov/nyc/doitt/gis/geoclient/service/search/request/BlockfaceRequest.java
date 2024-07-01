@@ -17,91 +17,75 @@ package gov.nyc.doitt.gis.geoclient.service.search.request;
 
 import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 
-public class BlockfaceRequest extends CountyRequest
-{
+public class BlockfaceRequest extends CountyRequest {
     private InputValue onStreetInputValue;
     private InputValue crossStreetOneInputValue;
     private InputValue crossStreetTwoInputValue;
 
-    public BlockfaceRequest()
-    {
+    public BlockfaceRequest() {
         super();
     }
 
-    public BlockfaceRequest(BlockfaceRequest anotherRequest)
-    {
+    public BlockfaceRequest(BlockfaceRequest anotherRequest) {
         super(anotherRequest.getLevel(), anotherRequest.getBoroughInputValue(), anotherRequest.getZipInputValue());
         this.onStreetInputValue = anotherRequest.getOnStreetInputValue();
         this.crossStreetOneInputValue = anotherRequest.getCrossStreetOneInputValue();
         this.crossStreetTwoInputValue = anotherRequest.getCrossStreetTwoInputValue();
     }
 
-    public String getOnStreet()
-    {
+    public String getOnStreet() {
         return stringValueOrNull(onStreetInputValue);
     }
 
-    public String getCrossStreetOne()
-    {
+    public String getCrossStreetOne() {
         return stringValueOrNull(crossStreetOneInputValue);
     }
 
-    public String getCrossStreetTwo()
-    {
+    public String getCrossStreetTwo() {
         return stringValueOrNull(crossStreetTwoInputValue);
     }
 
-    public InputValue getOnStreetInputValue()
-    {
+    public InputValue getOnStreetInputValue() {
         return onStreetInputValue;
     }
 
-    public void setOnStreetInputValue(InputValue onStreetInputValue)
-    {
+    public void setOnStreetInputValue(InputValue onStreetInputValue) {
         this.onStreetInputValue = onStreetInputValue;
     }
 
-    public InputValue getCrossStreetOneInputValue()
-    {
+    public InputValue getCrossStreetOneInputValue() {
         return crossStreetOneInputValue;
     }
 
-    public void setCrossStreetOneInputValue(InputValue crossStreetOneInputValue)
-    {
+    public void setCrossStreetOneInputValue(InputValue crossStreetOneInputValue) {
         this.crossStreetOneInputValue = crossStreetOneInputValue;
     }
 
-    public InputValue getCrossStreetTwoInputValue()
-    {
+    public InputValue getCrossStreetTwoInputValue() {
         return crossStreetTwoInputValue;
     }
 
-    public void setCrossStreetTwoInputValue(InputValue crossStreetTwoInputValue)
-    {
+    public void setCrossStreetTwoInputValue(InputValue crossStreetTwoInputValue) {
         this.crossStreetTwoInputValue = crossStreetTwoInputValue;
     }
 
     @Override
-    public String toString()
-    {
-        return "BlockfaceRequest [level= " + getLevel() + ", onStreet=" + getOnStreet() + ", crossStreetOne=" + getCrossStreetOne()
-                + ", crossStreetTwo=" + getCrossStreetTwo() + ", borough=" + getBorough() + ", zip="
-                + getZip() + "]";
+    public String toString() {
+        return "BlockfaceRequest [level= " + getLevel() + ", onStreet=" + getOnStreet() + ", crossStreetOne="
+                + getCrossStreetOne() + ", crossStreetTwo=" + getCrossStreetTwo() + ", borough=" + getBorough()
+                + ", zip=" + getZip() + "]";
     }
 
     @Override
-    public boolean containsAssignedValue()
-    {
-        return super.containsAssignedValue() ||
-                isAssigned(onStreetInputValue) ||
-                isAssigned(crossStreetOneInputValue) ||
-                isAssigned(crossStreetTwoInputValue);
+    public boolean containsAssignedValue() {
+        return super.containsAssignedValue() || isAssigned(onStreetInputValue) || isAssigned(crossStreetOneInputValue)
+                || isAssigned(crossStreetTwoInputValue);
     }
 
     @Override
-    public String summarize()
-    {
-        return String.format("blockface [onStreet=%s, crossStreetOne=%s, crossStreetTwo=%s, borough=%s]", getOnStreet(), getCrossStreetOne(), getCrossStreetTwo(), getBorough());
+    public String summarize() {
+        return String.format("blockface [onStreet=%s, crossStreetOne=%s, crossStreetTwo=%s, borough=%s]", getOnStreet(),
+            getCrossStreetOne(), getCrossStreetTwo(), getBorough());
     }
 
 }

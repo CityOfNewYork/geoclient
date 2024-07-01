@@ -39,18 +39,16 @@ import org.junit.jupiter.params.provider.MethodSource;
 class PlatformTest {
 
     static Stream<Arguments> expectedPlatformAndVaildConstructorArgsProvider() {
-        return Stream.of(
-                Arguments.of(SUPPORTED_LINUX_PLATFORM, "LINUX dammit", "X64"),
-                Arguments.of(SUPPORTED_LINUX_PLATFORM, "lInux", "64"),
-                Arguments.of(SUPPORTED_WINDOWS_PLATFORM, "closeallwindows", "x86_64"),
-                Arguments.of(SUPPORTED_WINDOWS_PLATFORM, "  windows 56 ", "x86_64   ")
-        );
+        return Stream.of(Arguments.of(SUPPORTED_LINUX_PLATFORM, "LINUX dammit", "X64"),
+            Arguments.of(SUPPORTED_LINUX_PLATFORM, "lInux", "64"),
+            Arguments.of(SUPPORTED_WINDOWS_PLATFORM, "closeallwindows", "x86_64"),
+            Arguments.of(SUPPORTED_WINDOWS_PLATFORM, "  windows 56 ", "x86_64   "));
     }
 
     @Test
     @DisplayName("Constructor recognizes supported Linux platform given funky args")
     void testConstructorRecognizesSupportedLinuxPlatform() {
-        Platform p = new Platform("Linux","12323646");
+        Platform p = new Platform("Linux", "12323646");
         assertEquals(SUPPORTED_LINUX_PLATFORM.getName(), p.getName());
         assertNotEquals(SUPPORTED_LINUX_PLATFORM.getName(), p.getOperatingSystem());
         assertNotEquals(SUPPORTED_LINUX_PLATFORM.getArchitecture(), p.getOperatingSystem());
@@ -59,7 +57,7 @@ class PlatformTest {
     @Test
     @DisplayName("Constructor recognizes supported Windows platform given funky args")
     void testConstructorRecognizesSupportedWindowsPlatform() {
-        Platform p = new Platform("WINDOWS 46","amd64");
+        Platform p = new Platform("WINDOWS 46", "amd64");
         assertEquals(SUPPORTED_WINDOWS_PLATFORM.getName(), p.getName());
         assertNotEquals(SUPPORTED_WINDOWS_PLATFORM.getOperatingSystem(), p.getOperatingSystem());
         assertNotEquals(SUPPORTED_WINDOWS_PLATFORM.getArchitecture(), p.getOperatingSystem());
@@ -69,13 +67,19 @@ class PlatformTest {
     @DisplayName("Constructor throws UnsupportedPlatformException for invalid arguments")
     void testConstructorThrowsExceptionOnInvalidArguments() {
 
-        Throwable exception = assertThrows(UnsupportedPlatformException.class, () -> { new Platform("Windows 7","amd32"); });
+        Throwable exception = assertThrows(UnsupportedPlatformException.class, () -> {
+            new Platform("Windows 7", "amd32");
+        });
         assertEquals("Unsupported JNI platform: OS='Windows 7' ARCH='amd32'", exception.getMessage());
 
-        exception = assertThrows(IllegalArgumentException.class, () -> { new Platform(null,"amd32"); });
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            new Platform(null, "amd32");
+        });
         assertEquals("Argument 'operatingSystem' cannot be null", exception.getMessage());
 
-        exception = assertThrows(IllegalArgumentException.class, () -> { new Platform("Windows 10",null); });
+        exception = assertThrows(IllegalArgumentException.class, () -> {
+            new Platform("Windows 10", null);
+        });
         assertEquals("Argument 'architecture' cannot be null", exception.getMessage());
     }
 
@@ -90,15 +94,16 @@ class PlatformTest {
 
     @Test
     @DisplayName("Default constructor creates Platform in expected state")
-    @EnabledOnOs({LINUX, WINDOWS})
-    @EnabledIfSystemProperty(named="os.arch", matches = ".*64.*")
+    @EnabledOnOs({ LINUX, WINDOWS })
+    @EnabledIfSystemProperty(named = "os.arch", matches = ".*64.*")
     void testDefaultConstructorCreatesPlatformInExpectedState() {
-        Platform p =new Platform();
+        Platform p = new Platform();
         assertTrue(new Platform().is64Bit());
-        if(System.getProperty("os.name").toLowerCase().contains(LINUX_OS_FAMILY)) {
+        if (System.getProperty("os.name").toLowerCase().contains(LINUX_OS_FAMILY)) {
             assertTrue(p.isLinux());
             assertFalse(p.isWindows());
-        } else {
+        }
+        else {
             assertTrue(p.isWindows());
             assertFalse(p.isLinux());
         }
@@ -106,15 +111,15 @@ class PlatformTest {
 
     @Test
     @DisplayName("Default constructor recognizes current platform")
-    @EnabledIfSystemProperty(named="os.arch", matches = ".*64.*")
-    @EnabledOnOs({LINUX, WINDOWS})
+    @EnabledIfSystemProperty(named = "os.arch", matches = ".*64.*")
+    @EnabledOnOs({ LINUX, WINDOWS })
     void testDefaultConstructorRecognizesCurrentPlatform() {
         String currentOs = System.getProperty("os.name");
         String currentArch = System.getProperty("os.arch");
         // Default constructor derives OS and arch from Java system properties
         Platform actualCurrentPlatform = new Platform();
 
-        Platform p = new Platform(currentOs,currentArch);
+        Platform p = new Platform(currentOs, currentArch);
         assertEquals(currentOs, p.getOperatingSystem());
         assertEquals(currentArch, p.getArchitecture());
         assertEquals(actualCurrentPlatform, p);
@@ -122,8 +127,8 @@ class PlatformTest {
 
     @Test
     void testGetSharedLibraryFileName() {
-        assertEquals("libwoof.so",SUPPORTED_LINUX_PLATFORM.getSharedLibraryFileName("woof"));
-        assertEquals("Meow.dll",SUPPORTED_WINDOWS_PLATFORM.getSharedLibraryFileName("Meow"));
+        assertEquals("libwoof.so", SUPPORTED_LINUX_PLATFORM.getSharedLibraryFileName("woof"));
+        assertEquals("Meow.dll", SUPPORTED_WINDOWS_PLATFORM.getSharedLibraryFileName("Meow"));
     }
 
     @ParameterizedTest
@@ -132,7 +137,8 @@ class PlatformTest {
     void testPlatformNameCorrespondsToEquality(Platform platform, String operatingSystem, String architecture) {
         assertEquals(platform, new Platform(operatingSystem, architecture));
         assertEquals(platform.getName(), new Platform(operatingSystem, architecture).getName());
-        assertNotEquals(platform.getOperatingSystem(), new Platform(operatingSystem, architecture).getOperatingSystem());
+        assertNotEquals(platform.getOperatingSystem(),
+            new Platform(operatingSystem, architecture).getOperatingSystem());
         assertNotEquals(platform.getArchitecture(), new Platform(operatingSystem, architecture).getArchitecture());
     }
 

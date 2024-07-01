@@ -45,6 +45,6 @@ public class MappingContext {
             return this.mappers.get(clazz);
         }
         throw new IllegalArgumentException(
-                String.format("No Mapper configured for Class<%s>", clazz.getCanonicalName()));
+            String.format("No Mapper configured for Class<%s>", clazz.getCanonicalName()));
     }
 }

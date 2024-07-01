@@ -30,35 +30,28 @@ import gov.nyc.doitt.gis.geoclient.function.Configuration;
 import gov.nyc.doitt.gis.geoclient.function.DefaultConfiguration;
 import gov.nyc.doitt.gis.geoclient.test.Fixtures;
 
-public class ConfigurationConverterTest
-{
+public class ConfigurationConverterTest {
 
     private ConfigurationConverter.Metadata metadata;
     private ConfigurationConverter converter;
     private XStream xstream;
 
     @BeforeEach
-    public void setUp()
-    {
+    public void setUp() {
         metadata = new Fixtures().configurationConverterMetadata();
         converter = new ConfigurationConverter(metadata);
-        xstream = new XStreamBuilder()
-                    .addAllClassesInSamePackageAs(DefaultConfiguration.class)
-                    .registerConverter(converter)
-                    .alias("configuration", DefaultConfiguration.class)
-                    .build();
+        xstream = new XStreamBuilder().addAllClassesInSamePackageAs(DefaultConfiguration.class).registerConverter(
+            converter).alias("configuration", DefaultConfiguration.class).build();
     }
 
     @Test
-    public void testCanConvert()
-    {
+    public void testCanConvert() {
         assertTrue(this.converter.canConvert(DefaultConfiguration.class));
         assertFalse(this.converter.canConvert(Configuration.class));
     }
 
     @Test
-    public void testUnmarshalEmpty()
-    {
+    public void testUnmarshalEmpty() {
         DefaultConfiguration result = (DefaultConfiguration) xstream.fromXML("<configuration></configuration>");
         assertNotNull(result);
         assertNotNull(result.requiredArguments());
@@ -66,11 +59,10 @@ public class ConfigurationConverterTest
     }
 
     @Test
-    public void testUnmarshal()
-    {
-        DefaultConfiguration result = (DefaultConfiguration) xstream
-                .fromXML("<configuration>" + "<requiredArgument name=\"arg1\" value=\"val1\"/>"
-                        + "<requiredArgument name=\"arg2\" value=\"val2\"/>" + "</configuration>");
+    public void testUnmarshal() {
+        DefaultConfiguration result = (DefaultConfiguration) xstream.fromXML(
+            "<configuration>" + "<requiredArgument name=\"arg1\" value=\"val1\"/>"
+                    + "<requiredArgument name=\"arg2\" value=\"val2\"/>" + "</configuration>");
         assertNotNull(result);
         assertNotNull(result.requiredArguments());
         assertEquals("val1", result.requiredArguments().get("arg1"));
@@ -78,11 +70,10 @@ public class ConfigurationConverterTest
     }
 
     @Test
-    public void testMarshal()
-    {
-assertThrows(UnsupportedOperationException.class, () -> {
-        this.converter.marshal(new DefaultConfiguration(), null, null);
-});
+    public void testMarshal() {
+        assertThrows(UnsupportedOperationException.class, () -> {
+            this.converter.marshal(new DefaultConfiguration(), null, null);
+        });
     }
 
 }

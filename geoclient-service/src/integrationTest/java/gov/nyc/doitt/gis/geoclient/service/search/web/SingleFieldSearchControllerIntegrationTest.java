@@ -44,17 +44,17 @@ public class SingleFieldSearchControllerIntegrationTest extends WebContainerInte
 
     @Test
     public void testSearch() {
-        UriComponents uriComponents = UriComponentsBuilder.fromPath("/search.json").queryParam("input", "120 broadway")
-                .build();
+        UriComponents uriComponents = UriComponentsBuilder.fromPath("/search.json").queryParam("input",
+            "120 broadway").build();
         ResponseEntity<SearchResponse> httpResponse = restTemplate().exchange(uriComponents.toUri(), HttpMethod.GET,
-                getRequest(), SearchResponse.class);
+            getRequest(), SearchResponse.class);
         SearchResponse searchResponse = httpResponse.getBody();
         logger.debug("Response: {}", searchResponse);
         assertThat(httpResponse.getStatusCode() == HttpStatusCode.valueOf(200));
         Status status = searchResponse.getStatus();
         assertThat(status.equals(Status.OK));
         assertThat(
-                searchResponse.getResults().stream().anyMatch(s -> s.getStatus().equals(MatchStatus.POSSIBLE_MATCH)));
+            searchResponse.getResults().stream().anyMatch(s -> s.getStatus().equals(MatchStatus.POSSIBLE_MATCH)));
     }
 
     private HttpEntity<?> getRequest() {

@@ -29,34 +29,11 @@ import gov.nyc.doitt.gis.geoclient.service.domain.ThinFileInfo;
 
 public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportVersion> {
 
-    static final String[] FILE_INFO_OBJ_PROPERTY_NAMES = new String[]{
-        "Tag",
-        "Date",
-        "RecordType",
-        "RecordCount"
-    };
-    static final String[] SIMPLE_FIELD_NAMES = new String[] {
-        "geofilesDirectory"
-    };
-    static final String[] SCALAR_FILE_FIELD_PREFIXES = new String[] {
-        "ap",
-        "apequiv",
-        "auxseg",
-        "grid1R",
-        "sneq",
-        "stat",
-        "stat1",
-        "stat1A",
-        "stat2",
-        "stat3",
-        "stat3S",
-        "statAP",
-        "statBL",
-        "statBN",
-        "statD",
-        "tpad",
-        "upad"
-    };
+    static final String[] FILE_INFO_OBJ_PROPERTY_NAMES = new String[] { "Tag", "Date", "RecordType", "RecordCount" };
+    static final String[] SIMPLE_FIELD_NAMES = new String[] { "geofilesDirectory" };
+    static final String[] SCALAR_FILE_FIELD_PREFIXES = new String[] { "ap", "apequiv", "auxseg", "grid1R", "sneq",
+            "stat", "stat1", "stat1A", "stat2", "stat3", "stat3S", "statAP", "statBL", "statBN", "statD", "tpad",
+            "upad" };
     static final int DSNAMES_NBR = 26;
     static final int GEO_FILES_NBR = 9;
     static final int THIN_FILE_RECORD_TYPES_NBR = 3;
@@ -120,7 +97,7 @@ public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportV
         // 1-based loop
         for (int i = 1; i < (THIN_FILE_RECORD_TYPES_NBR + 1); i++) {
             String recordType = get(String.format("thinFileRecordType%d", i), source);
-            if(recordType !=null){
+            if (recordType != null) {
                 recordTypes.add(recordType);
             }
         }
@@ -144,22 +121,22 @@ public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportV
         return new FileInfo(recordType, tag, date, release, recordCount);
     }
 
-    private String get(String name, Map<String, Object> map){
-       if(map.containsKey(name)){
-           Object value = map.get(name);
-           if(value != null){
-               return value.toString();
-           }
-       }
-       return null;
+    private String get(String name, Map<String, Object> map) {
+        if (map.containsKey(name)) {
+            Object value = map.get(name);
+            if (value != null) {
+                return value.toString();
+            }
+        }
+        return null;
     }
 
     List<String> dsNameFieldNames() {
-        return IntStream.rangeClosed(1, DSNAMES_NBR).mapToObj(
-            (element) -> String.format("dsName%d", element)).collect(Collectors.toList());
+        return IntStream.rangeClosed(1, DSNAMES_NBR).mapToObj((element) -> String.format("dsName%d", element)).collect(
+            Collectors.toList());
     }
 
-    List<String> simpleFileFieldNames(){
+    List<String> simpleFileFieldNames() {
         List<String> props = Arrays.asList(FILE_INFO_OBJ_PROPERTY_NAMES);
         List<String> fields = Arrays.asList(SCALAR_FILE_FIELD_PREFIXES);
         List<String> results = new ArrayList<>();
@@ -170,6 +147,7 @@ public class GeosupportVersionMapper extends AbstractParameterMapper<GeosupportV
     List<String> geoFileFieldNames() {
         Stream<String> props = Stream.of(FILE_INFO_OBJ_PROPERTY_NAMES);
         IntStream nbr = IntStream.rangeClosed(1, GEO_FILES_NBR);
-        return props.flatMap(name -> nbr.mapToObj(i -> String.format("geoFile%s%d", name, i))).collect(Collectors.toList());
+        return props.flatMap(name -> nbr.mapToObj(i -> String.format("geoFile%s%d", name, i))).collect(
+            Collectors.toList());
     }
 }

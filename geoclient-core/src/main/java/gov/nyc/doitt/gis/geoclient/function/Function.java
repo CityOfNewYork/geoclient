@@ -37,7 +37,6 @@ public interface Function {
     public static final String FHR = "HR";
     public static final String FN = "N";
 
-
     public Map<String, Object> call(Map<String, Object> parameters);
 
     public Configuration getConfiguration();

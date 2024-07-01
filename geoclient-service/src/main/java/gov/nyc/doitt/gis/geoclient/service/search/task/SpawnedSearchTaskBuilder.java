@@ -19,7 +19,6 @@ import java.util.List;
 
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 
-public interface SpawnedSearchTaskBuilder
-{
-  List<SearchTask> getSearchTasks(SearchResult searchResult);
+public interface SpawnedSearchTaskBuilder {
+    List<SearchTask> getSearchTasks(SearchResult searchResult);
 }

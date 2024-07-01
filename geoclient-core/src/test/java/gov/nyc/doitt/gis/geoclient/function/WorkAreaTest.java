@@ -33,8 +33,7 @@ import java.util.TreeSet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class WorkAreaTest
-{
+public class WorkAreaTest {
     private SortedSet<Field> fields;
     private Field fieldOne;
     private Field fieldTwo;
@@ -48,20 +47,19 @@ public class WorkAreaTest
     private WorkArea workAreaWithFilters;
 
     @BeforeEach
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         //     non-composite work area bytes: 122333445555
         //         composite work area bytes: _CCCCC______  (fieldComposite)
         //             input work area bytes: 1CCCCC44____
         //            output work area bytes: ________5555  (fieldFive)
         // ignored duplicate work area bytes: ______II____  (fieldFourDuplicate)
-        fieldOne = new Field("fieldOne", 0, 1,false,true,"aliasForFieldOne");
-        fieldTwo = new Field("fieldTwo", 1, 2,false,true,null);
-        fieldComposite = new Field("fieldComposite", 1, 5,true,true,"aliasForFieldComposite");
-        fieldThree = new Field("fieldThree", 3, 3,false,true,"aliasForFieldThree");
-        fieldFour = new Field("fieldFour", 6, 2,false,true,null);
-        fieldFourDuplicate = new Field("fieldFourDuplicate", 6, 2,false,true,null);
-        fieldFive = new Field("fieldFive", 8, 4,false,false,"aliasForFieldFive");
+        fieldOne = new Field("fieldOne", 0, 1, false, true, "aliasForFieldOne");
+        fieldTwo = new Field("fieldTwo", 1, 2, false, true, null);
+        fieldComposite = new Field("fieldComposite", 1, 5, true, true, "aliasForFieldComposite");
+        fieldThree = new Field("fieldThree", 3, 3, false, true, "aliasForFieldThree");
+        fieldFour = new Field("fieldFour", 6, 2, false, true, null);
+        fieldFourDuplicate = new Field("fieldFourDuplicate", 6, 2, false, true, null);
+        fieldFive = new Field("fieldFive", 8, 4, false, false, "aliasForFieldFive");
         fields = new TreeSet<Field>();
         fields.add(fieldOne);
         fields.add(fieldTwo);
@@ -72,7 +70,7 @@ public class WorkAreaTest
         fields.add(fieldFive);
         // Make sure the set didn't exclude anything besides duplicate
         assertEquals(6, fields.size());
-        workArea = new WorkArea("MyWorkArea",fields);
+        workArea = new WorkArea("MyWorkArea", fields);
         this.outputFilters = new ArrayList<Filter>();
         this.outputFilters.add(new Filter(fieldOne.getId()));
         this.outputFilters.add(new Filter(fieldThree.getId()));
@@ -80,8 +78,7 @@ public class WorkAreaTest
     }
 
     @Test
-    public void testIsFiltered() throws Exception
-    {
+    public void testIsFiltered() throws Exception {
         assertFalse(workArea.isFiltered(fieldOne));
         assertFalse(workArea.isFiltered(fieldTwo));
         assertFalse(workArea.isFiltered(fieldThree));
@@ -91,41 +88,41 @@ public class WorkAreaTest
     }
 
     @Test
-    public void testResolveInputValue() throws Exception
-    {
+    public void testResolveInputValue() throws Exception {
         Map<String, Object> params = new HashMap<String, Object>();
         assertNull(workArea.resolveInputValue(params, fieldOne));
         params.put(fieldOne.getId(), "X");
-        assertEquals("X",workArea.resolveInputValue(params, fieldOne));
+        assertEquals("X", workArea.resolveInputValue(params, fieldOne));
         params.put(fieldOne.getAlias(), "Y");
-        assertEquals("Y",workArea.resolveInputValue(params, fieldOne));
+        assertEquals("Y", workArea.resolveInputValue(params, fieldOne));
         params.clear();
-        params.put(fieldFive.getId(),"Q");
+        params.put(fieldFive.getId(), "Q");
         assertFalse(fieldFive.isInput());
         assertNull(workArea.resolveInputValue(params, fieldFive));
     }
 
     @Test
-    public void testGetFieldIds_default()
-    {
-        assertEquals(Arrays.asList("fieldTwo","fieldComposite","fieldFour","fieldFive"), workAreaWithFilters.getFieldIds());
-        assertEquals(workAreaWithFilters.getFieldIds(null,false,true), workAreaWithFilters.getFieldIds());
-        assertEquals(workAreaWithFilters.getFieldIds(Field.DEFAULT_SORT,false,true), workAreaWithFilters.getFieldIds());
+    public void testGetFieldIds_default() {
+        assertEquals(Arrays.asList("fieldTwo", "fieldComposite", "fieldFour", "fieldFive"),
+            workAreaWithFilters.getFieldIds());
+        assertEquals(workAreaWithFilters.getFieldIds(null, false, true), workAreaWithFilters.getFieldIds());
+        assertEquals(workAreaWithFilters.getFieldIds(Field.DEFAULT_SORT, false, true),
+            workAreaWithFilters.getFieldIds());
     }
 
     @Test
-    public void testGetFieldIds_withComparator()
-    {
-        assertEquals(Arrays.asList("fieldComposite","fieldFive","fieldFour","fieldOne","fieldThree","fieldTwo"), workAreaWithFilters.getFieldIds(Field.NAME_SORT,true, true));
-        assertEquals(Arrays.asList("fieldFive"), workAreaWithFilters.getFieldIds(Field.NAME_SORT,true, false));
-        assertEquals(Arrays.asList("fieldComposite","fieldFive","fieldFour","fieldTwo"), workAreaWithFilters.getFieldIds(Field.NAME_SORT,false, true));
-        assertEquals(Arrays.asList("fieldFive"), workAreaWithFilters.getFieldIds(Field.NAME_SORT,false, false));
+    public void testGetFieldIds_withComparator() {
+        assertEquals(Arrays.asList("fieldComposite", "fieldFive", "fieldFour", "fieldOne", "fieldThree", "fieldTwo"),
+            workAreaWithFilters.getFieldIds(Field.NAME_SORT, true, true));
+        assertEquals(Arrays.asList("fieldFive"), workAreaWithFilters.getFieldIds(Field.NAME_SORT, true, false));
+        assertEquals(Arrays.asList("fieldComposite", "fieldFive", "fieldFour", "fieldTwo"),
+            workAreaWithFilters.getFieldIds(Field.NAME_SORT, false, true));
+        assertEquals(Arrays.asList("fieldFive"), workAreaWithFilters.getFieldIds(Field.NAME_SORT, false, false));
     }
 
     @Test
-    public void testConstructorAndFindField()
-    {
-        assertEquals("MyWorkArea",workArea.getId());
+    public void testConstructorAndFindField() {
+        assertEquals("MyWorkArea", workArea.getId());
         assertSame(fieldOne, workArea.findField(fieldOne.getId()));
         assertSame(fieldTwo, workArea.findField(fieldTwo.getId()));
         assertSame(fieldThree, workArea.findField(fieldThree.getId()));
@@ -133,8 +130,7 @@ public class WorkAreaTest
     }
 
     @Test
-    public void testCreateBuffer_withParamsNoAliasesInInput()
-    {
+    public void testCreateBuffer_withParamsNoAliasesInInput() {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("random", "xxxxxx");
         params.put(fieldOne.getId(), generateValue(fieldOne, "1", 0));
@@ -149,8 +145,7 @@ public class WorkAreaTest
     }
 
     @Test
-    public void testCreateBuffer_withParamsAliasesInInput()
-    {
+    public void testCreateBuffer_withParamsAliasesInInput() {
         Map<String, Object> params = new HashMap<String, Object>();
         // Put paramters for both fieldOne's id and alias; alias should
         // take precedence
@@ -168,15 +163,13 @@ public class WorkAreaTest
     }
 
     @Test
-    public void testCreateBuffer_withoutParams()
-    {
+    public void testCreateBuffer_withoutParams() {
         ByteBuffer buffer = workArea.createBuffer();
         assertCreateBuffer(buffer, "            ");
     }
 
     @Test
-    public void testParseResults()
-    {
+    public void testParseResults() {
         String inputString = "abcdefghijklmnopq";
         ByteBuffer buffer = ByteBuffer.allocate(inputString.length());
         buffer.put(inputString.getBytes());
@@ -189,8 +182,7 @@ public class WorkAreaTest
     }
 
     @Test
-    public void testParseResults_withFilters()
-    {
+    public void testParseResults_withFilters() {
         String inputString = "abcdefghijklmnopq";
         ByteBuffer buffer = ByteBuffer.allocate(inputString.length());
         buffer.put(inputString.getBytes());
@@ -202,21 +194,15 @@ public class WorkAreaTest
         assertEquals("bcdef", result.get(fieldComposite.getId()));
     }
 
-
     @Test
-    public void testLength()
-    {
+    public void testLength() {
         // Excludes fieldComposite and fieldFourDuplicate
-        assertEquals(
-                (fieldOne.getLength() +
-                 fieldTwo.getLength() +
-                 fieldThree.getLength() +
-                 fieldFour.getLength() +
-                 fieldFive.getLength()), workArea.length());
+        assertEquals((fieldOne.getLength() + fieldTwo.getLength() + fieldThree.getLength() + fieldFour.getLength()
+                + fieldFive.getLength()),
+            workArea.length());
     }
 
-    private void assertCreateBuffer(ByteBuffer buffer, String expectedValue)
-    {
+    private void assertCreateBuffer(ByteBuffer buffer, String expectedValue) {
         int bufferLength = workArea.length();
         // Buffer capacity should equal workArea length
         assertEquals(bufferLength, buffer.capacity());
@@ -230,12 +216,10 @@ public class WorkAreaTest
 
     }
 
-    private String generateValue(Field field, String value, int extra)
-    {
+    private String generateValue(Field field, String value, int extra) {
         StringBuffer buffer = new StringBuffer();
         int size = field.getLength() + extra;
-        for (int i = 0; i < size; i++)
-        {
+        for (int i = 0; i < size; i++) {
             buffer.append(value);
         }
         return buffer.toString();

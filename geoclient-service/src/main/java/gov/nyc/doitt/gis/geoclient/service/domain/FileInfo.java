@@ -38,8 +38,8 @@ public class FileInfo extends BaseFileInfo {
 
     @Override
     public String toString() {
-        return "FileInfo [recordType=" + recordType + ", tag=" + tag + ", date=" + date + ", release="
-                + release + ", recordCount=" + recordCount + "]";
+        return "FileInfo [recordType=" + recordType + ", tag=" + tag + ", date=" + date + ", release=" + release
+                + ", recordCount=" + recordCount + "]";
     }
 
     @Override
@@ -70,35 +70,40 @@ public class FileInfo extends BaseFileInfo {
             if (other.recordType != null) {
                 return false;
             }
-        } else if (!recordType.equals(other.recordType)) {
+        }
+        else if (!recordType.equals(other.recordType)) {
             return false;
         }
         if (date == null) {
             if (other.date != null) {
                 return false;
             }
-        } else if (!date.equals(other.date)) {
+        }
+        else if (!date.equals(other.date)) {
             return false;
         }
         if (recordCount == null) {
             if (other.recordCount != null) {
                 return false;
             }
-        } else if (!recordCount.equals(other.recordCount)) {
+        }
+        else if (!recordCount.equals(other.recordCount)) {
             return false;
         }
         if (release == null) {
-            if (other.release != null){
+            if (other.release != null) {
                 return false;
             }
-        } else if (!release.equals(other.release)) {
+        }
+        else if (!release.equals(other.release)) {
             return false;
         }
         if (tag == null) {
-            if (other.tag != null){
+            if (other.tag != null) {
                 return false;
             }
-        } else if (!tag.equals(other.tag)) {
+        }
+        else if (!tag.equals(other.tag)) {
             return false;
         }
         return true;

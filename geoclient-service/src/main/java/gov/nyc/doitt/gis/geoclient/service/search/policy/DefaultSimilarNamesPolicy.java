@@ -17,8 +17,7 @@ package gov.nyc.doitt.gis.geoclient.service.search.policy;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
 
-public class DefaultSimilarNamesPolicy extends AbstractPolicy implements SimilarNamesPolicy
-{
+public class DefaultSimilarNamesPolicy extends AbstractPolicy implements SimilarNamesPolicy {
     public static final int DEFAULT_SIMILAR_NAMES_DISTANCE = 8;
 
     /**
@@ -29,13 +28,11 @@ public class DefaultSimilarNamesPolicy extends AbstractPolicy implements Similar
 
     private LevenshteinDistance levenshteinDistance = new LevenshteinDistance(DEFAULT_SIMILAR_NAMES_DISTANCE);
 
-    public int getSimilarNamesDistance()
-    {
+    public int getSimilarNamesDistance() {
         return similarNamesDistance;
     }
 
-    public void setSimilarNamesDistance(int similarNamesDistance)
-    {
+    public void setSimilarNamesDistance(int similarNamesDistance) {
         synchronized (levenshteinDistance) {
             if (this.levenshteinDistance.getThreshold() != similarNamesDistance) {
                 this.levenshteinDistance = new LevenshteinDistance(similarNamesDistance);
@@ -45,21 +42,18 @@ public class DefaultSimilarNamesPolicy extends AbstractPolicy implements Similar
     }
 
     @Override
-    public boolean isSimilarName(String original, String proposed)
-    {
+    public boolean isSimilarName(String original, String proposed) {
         return this.levenshteinDistance.apply(clean(original), clean(proposed)) >= 0;
     }
 
     @Override
-    public String getDescription()
-    {
+    public String getDescription() {
         return String.format(
-                "Street name suggestion from Geosupport is considered a similar name if it is within a Levenshtein distance of %d when compared to the input street.",
-                this.similarNamesDistance);
+            "Street name suggestion from Geosupport is considered a similar name if it is within a Levenshtein distance of %d when compared to the input street.",
+            this.similarNamesDistance);
     }
 
-    String clean(String string)
-    {
+    String clean(String string) {
         String clean = string.toUpperCase();
         // TODO need more stuff!
         clean = clean.replaceAll("(\\bSTREET\\b|\\bST\\b)", "");
@@ -77,8 +71,7 @@ public class DefaultSimilarNamesPolicy extends AbstractPolicy implements Similar
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + similarNamesDistance;
@@ -86,8 +79,7 @@ public class DefaultSimilarNamesPolicy extends AbstractPolicy implements Similar
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

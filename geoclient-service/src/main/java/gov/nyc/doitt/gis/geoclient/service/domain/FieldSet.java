@@ -40,11 +40,11 @@ public class FieldSet {
      * @throws IllegalArgumentException if either functionId or fieldNames arguments are null.
      */
     public FieldSet(String functionId, String... fieldNames) {
-        if(null == functionId) {
+        if (null == functionId) {
             throw new IllegalArgumentException("functionId argument cannot be null.");
         }
         this.functionId = functionId;
-        if(null == fieldNames) {
+        if (null == fieldNames) {
             throw new IllegalArgumentException("fieldNames argument cannot be null.");
         }
         this.fieldNames = new HashSet<>(Arrays.asList(fieldNames));
@@ -79,12 +79,14 @@ public class FieldSet {
         if (fieldNames == null) {
             if (other.fieldNames != null)
                 return false;
-        } else if (!fieldNames.equals(other.fieldNames))
+        }
+        else if (!fieldNames.equals(other.fieldNames))
             return false;
         if (functionId == null) {
             if (other.functionId != null)
                 return false;
-        } else if (!functionId.equals(other.functionId))
+        }
+        else if (!functionId.equals(other.functionId))
             return false;
         return true;
     }

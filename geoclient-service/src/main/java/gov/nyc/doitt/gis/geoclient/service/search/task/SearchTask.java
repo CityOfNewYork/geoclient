@@ -46,7 +46,7 @@ public abstract class SearchTask implements Callable<Search> {
     public Search call() throws Exception {
         Map<String, Object> actualResult = doCall();
         LOGGER.debug("Results from doCall(): {}", actualResult);
-        ResponseStatus responseStatus =  this.mapper.fromParameters(actualResult, ResponseStatus.class);
+        ResponseStatus responseStatus = this.mapper.fromParameters(actualResult, ResponseStatus.class);
         return new Search(request, new Response(responseStatus, actualResult));
     }
 

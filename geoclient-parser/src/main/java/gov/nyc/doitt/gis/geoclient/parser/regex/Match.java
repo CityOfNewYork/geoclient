@@ -23,16 +23,14 @@ import gov.nyc.doitt.gis.geoclient.parser.ParseContext;
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.parser.util.Assert;
 
-public class Match
-{
+public class Match {
 
     private final ParseContext parseContext;
     private final MatchType matchType;
     private final Matcher matcher;
     private final List<RegexTokenGroup> matchGroups;
 
-    public Match(ParseContext parseContext, MatchType matchType, Matcher matcher, List<RegexTokenGroup> matchGroups)
-    {
+    public Match(ParseContext parseContext, MatchType matchType, Matcher matcher, List<RegexTokenGroup> matchGroups) {
         super();
         Assert.notNull(parseContext, "ParseContext argument cannot be null.");
         this.parseContext = parseContext;
@@ -44,44 +42,35 @@ public class Match
         this.matchGroups = matchGroups;
     }
 
-    public boolean matches()
-    {
+    public boolean matches() {
         return this.matcher.matches();
     }
 
-    public MatchType getMatchType()
-    {
+    public MatchType getMatchType() {
         return matchType;
     }
 
-    public Chunk currentChunk()
-    {
+    public Chunk currentChunk() {
         return this.parseContext.getCurrent();
     }
 
-    public MatchResult matchResult()
-    {
+    public MatchResult matchResult() {
         return this.matcher;
     }
 
-    public List<RegexTokenGroup> matchGroups()
-    {
+    public List<RegexTokenGroup> matchGroups() {
         return this.matchGroups;
     }
 
-    public ParseContext parseContext()
-    {
+    public ParseContext parseContext() {
         return this.parseContext;
     }
 
-    public int firstMatchingGroupStart()
-    {
+    public int firstMatchingGroupStart() {
         int leftMostGroupStart = matcher.group().length();
-        for (RegexTokenGroup matchGroup : matchGroups)
-        {
+        for (RegexTokenGroup matchGroup : matchGroups) {
             int start = matcher.start(matchGroup.getGroup());
-            if(start != -1)
-            {
+            if (start != -1) {
                 leftMostGroupStart = start < leftMostGroupStart ? start : leftMostGroupStart;
             }
         }

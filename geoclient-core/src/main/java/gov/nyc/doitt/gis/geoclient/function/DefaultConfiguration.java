@@ -18,24 +18,19 @@ package gov.nyc.doitt.gis.geoclient.function;
 import java.util.Collections;
 import java.util.Map;
 
-public class DefaultConfiguration implements Configuration
-{
+public class DefaultConfiguration implements Configuration {
     private Map<String, Object> requiredArguments;
 
     @Override
-    public Map<String, Object> requiredArguments()
-    {
-        if(requiredArguments == null)
-        {
+    public Map<String, Object> requiredArguments() {
+        if (requiredArguments == null) {
             return null;
         }
         return Collections.unmodifiableMap(this.requiredArguments);
     }
 
-    public void setRequiredArguments(Map<String, Object> requiredArguments)
-    {
+    public void setRequiredArguments(Map<String, Object> requiredArguments) {
         this.requiredArguments = requiredArguments;
     }
-
 
 }

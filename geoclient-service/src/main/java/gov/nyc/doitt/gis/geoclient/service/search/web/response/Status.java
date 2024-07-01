@@ -16,6 +16,5 @@
 package gov.nyc.doitt.gis.geoclient.service.search.web.response;
 
 public enum Status {
-    OK,
-    REJECTED
+    OK, REJECTED
 }

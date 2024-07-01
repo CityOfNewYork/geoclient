@@ -19,56 +19,49 @@ import java.util.List;
 
 import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
-public class Search
-{
+public class Search {
     private final Request request;
     private final Response response;
-    public Search(Request request, Response response)
-    {
+    public Search(Request request, Response response) {
         super();
         this.request = request;
         this.response = response;
     }
-    public Request getRequest()
-    {
+
+    public Request getRequest() {
         return request;
     }
-    public Response getResponse()
-    {
+
+    public Response getResponse() {
         return response;
     }
 
-    public boolean isRejected()
-    {
+    public boolean isRejected() {
         return response.isRejected();
     }
 
-    public List<String> getSimilarNames()
-    {
+    public List<String> getSimilarNames() {
         return response.getSimilarNames();
     }
 
-    public boolean responseMessageAppliesTo(String streetName)
-    {
+    public boolean responseMessageAppliesTo(String streetName) {
         return this.response.messageAppliesTo(streetName);
     }
 
-    public ResponseStatus getResponseStatus()
-    {
+    public ResponseStatus getResponseStatus() {
         return response.getResponseStatus();
     }
-    public int getLevel()
-    {
+
+    public int getLevel() {
         return request.getLevel();
     }
-    public boolean lessThanOrEqualTo(int level)
-    {
+
+    public boolean lessThanOrEqualTo(int level) {
         return getLevel() <= level;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Search [request=" + request + ", responseIsRejected? " + response.isRejected() + "]";
     }
 }

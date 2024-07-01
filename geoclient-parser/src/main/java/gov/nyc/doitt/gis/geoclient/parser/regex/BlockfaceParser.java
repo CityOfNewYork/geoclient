@@ -23,8 +23,7 @@ import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
-public class BlockfaceParser extends AbstractRegexParser
-{
+public class BlockfaceParser extends AbstractRegexParser {
     /**
      * Group 1: 'ON'
      * Group 2: on street
@@ -33,30 +32,23 @@ public class BlockfaceParser extends AbstractRegexParser
      * Group 5: 'AND|...'
      * Group 6: cross street 2
      */
-    private static final Pattern BLOCKFACE = Pattern.compile("^(?:(ON)\\s+)?(.+)\\s+(BETWEEN|BET|BW|B/W|BTWN|BTWN\\.)\\s+(.+)\\s+(AND|\\&|\\&\\&)\\s+(.+)\\s*$",Pattern.CASE_INSENSITIVE);
-
+    private static final Pattern BLOCKFACE = Pattern.compile(
+        "^(?:(ON)\\s+)?(.+)\\s+(BETWEEN|BET|BW|B/W|BTWN|BTWN\\.)\\s+(.+)\\s+(AND|\\&|\\&\\&)\\s+(.+)\\s*$",
+        Pattern.CASE_INSENSITIVE);
 
     @Override
-    public void parse(ParseContext parseContext)
-    {
+    public void parse(ParseContext parseContext) {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = BLOCKFACE.matcher(currentChunk.getText());
 
-        if(!matcher.matches())
-        {
-            patternNotMatched(parseContext,BLOCKFACE);
+        if (!matcher.matches()) {
+            patternNotMatched(parseContext, BLOCKFACE);
             return;
         }
-        MatchBuilder builder = new MatchBuilder()
-        .add(matcher)
-        .add(MatchType.COMPLETE)
-        .add(parseContext)
-        .add(BLOCKFACE, 1, TokenType.ON)
-        .add(BLOCKFACE, 2, TokenType.ON_STREET)
-        .add(BLOCKFACE, 3, TokenType.BETWEEN)
-        .add(BLOCKFACE, 4, TokenType.CROSS_STREET_ONE)
-        .add(BLOCKFACE, 5, TokenType.AND)
-        .add(BLOCKFACE, 6, TokenType.CROSS_STREET_TWO);
+        MatchBuilder builder = new MatchBuilder().add(matcher).add(MatchType.COMPLETE).add(parseContext).add(BLOCKFACE,
+            1, TokenType.ON).add(BLOCKFACE, 2, TokenType.ON_STREET).add(BLOCKFACE, 3, TokenType.BETWEEN).add(BLOCKFACE,
+                4, TokenType.CROSS_STREET_ONE).add(BLOCKFACE, 5, TokenType.AND).add(BLOCKFACE, 6,
+                    TokenType.CROSS_STREET_TWO);
         handleMatch(builder.build(), ChunkType.BLOCKFACE);
     }
 

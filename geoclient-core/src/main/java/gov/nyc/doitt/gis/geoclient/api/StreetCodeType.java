@@ -35,21 +35,21 @@ public enum StreetCodeType {
     private StreetCodeType(int length) {
         this.length = length;
         switch (this.length) {
-        case -1:
-            this.pattern = null;
-            break;
-        case 5:
-        case 7:
-        case 10:
-            this.pattern = Pattern.compile("[0-9]{" + this.length + "}");
-            break;
-        case 6:
-        case 8:
-        case 11:
-            this.pattern = Pattern.compile("[1-5][0-9]{" + (this.length - 1) + "}");
-            break;
-        default:
-            throw new IllegalArgumentException("Invalid street code length: " + this.length);
+            case -1:
+                this.pattern = null;
+                break;
+            case 5:
+            case 7:
+            case 10:
+                this.pattern = Pattern.compile("[0-9]{" + this.length + "}");
+                break;
+            case 6:
+            case 8:
+            case 11:
+                this.pattern = Pattern.compile("[1-5][0-9]{" + (this.length - 1) + "}");
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid street code length: " + this.length);
         }
     }
 
@@ -77,12 +77,10 @@ public enum StreetCodeType {
             return false;
         }
 
-        return B5SC.isValid(streetCode) || B7SC.isValid(streetCode)
-                || B10SC.isValid(streetCode);
+        return B5SC.isValid(streetCode) || B7SC.isValid(streetCode) || B10SC.isValid(streetCode);
     }
 
-    public static StreetCodeType fromCode(String streetCode)
-            throws NullPointerException {
+    public static StreetCodeType fromCode(String streetCode) throws NullPointerException {
         if (streetCode == null) {
             throw new NullPointerException("street code argument cannot be null");
         }

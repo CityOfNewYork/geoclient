@@ -27,6 +27,7 @@ import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.api.condition.EnabledOnOs;
 import org.junit.jupiter.api.condition.OS;
+
 /**
  * Composed annotation indicating that this type or method invokes a
  * native JNI call to the {@code Geoclient} C runtime and will only be enabled

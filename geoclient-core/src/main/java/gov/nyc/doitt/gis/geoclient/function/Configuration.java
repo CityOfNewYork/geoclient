@@ -23,7 +23,6 @@ import java.util.Map;
  * @author mlipper
  *
  */
-public interface Configuration
-{
+public interface Configuration {
     Map<String, Object> requiredArguments();
 }

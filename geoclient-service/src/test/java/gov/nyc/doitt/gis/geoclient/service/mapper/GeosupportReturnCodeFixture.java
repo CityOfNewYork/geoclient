@@ -79,7 +79,8 @@ public class GeosupportReturnCodeFixture {
         reset();
         if (this.isOne()) {
             returnCode(mapWrap.getReturnCode1()).reasonCode(mapWrap.getReasonCode1()).message(mapWrap.getMessage1());
-        } else {
+        }
+        else {
             returnCode(mapWrap.getReturnCode2()).reasonCode(mapWrap.getReasonCode2()).message(mapWrap.getMessage2());
         }
     }

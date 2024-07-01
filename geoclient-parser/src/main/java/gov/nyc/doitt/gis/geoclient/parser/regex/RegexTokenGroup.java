@@ -19,31 +19,27 @@ import java.util.regex.Pattern;
 
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
-
-public class RegexTokenGroup
-{
+public class RegexTokenGroup {
     private final Pattern pattern;
     private final int group;
     private final TokenType tokenType;
 
-    public RegexTokenGroup(Pattern pattern, int group, TokenType tokenType)
-    {
+    public RegexTokenGroup(Pattern pattern, int group, TokenType tokenType) {
         super();
         this.pattern = pattern;
         this.group = group;
         this.tokenType = tokenType;
     }
 
-    public Pattern getPattern()
-    {
+    public Pattern getPattern() {
         return pattern;
     }
-    public TokenType getTokenType()
-    {
+
+    public TokenType getTokenType() {
         return tokenType;
     }
-    public int getGroup()
-    {
+
+    public int getGroup() {
         return group;
     }
 }

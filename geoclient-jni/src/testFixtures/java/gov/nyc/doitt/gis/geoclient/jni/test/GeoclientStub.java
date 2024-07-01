@@ -28,8 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 
-public class GeoclientStub implements Geoclient
-{
+public class GeoclientStub implements Geoclient {
     final Logger logger = LoggerFactory.getLogger(GeoclientStub.class);
     private static final Charset CHARSET = Charset.forName("UTF-8");
     private static final CharsetDecoder DECODER = CHARSET.newDecoder();
@@ -41,30 +40,27 @@ public class GeoclientStub implements Geoclient
     }
 
     @Override
-    public void callgeo(ByteBuffer work_area1, ByteBuffer work_area2)
-    {
-        try
-        {
+    public void callgeo(ByteBuffer work_area1, ByteBuffer work_area2) {
+        try {
             String functionId = extractFunctionId(work_area1);
-            logger.debug(String.format("Calling function %s",functionId));
+            logger.debug(String.format("Calling function %s", functionId));
             display(work_area1);
             display(work_area2);
-        } catch (Exception e)
-        {
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void callgeo(byte[] work_area1, int work_area1_offset, byte[] work_area2, int work_area2_offset)
-    {
+    public void callgeo(byte[] work_area1, int work_area1_offset, byte[] work_area2, int work_area2_offset) {
     }
 
     public TestConfig add(TestConfig config) {
         return db.put(config.getFunctionName(), config);
     }
-    private void display(ByteBuffer buffer) throws Exception
-    {
+
+    private void display(ByteBuffer buffer) throws Exception {
         int position = buffer.position();
         CharBuffer charBuffer = DECODER.decode(buffer);
         logger.debug(String.format("-->%s<--", charBuffer.toString()));
@@ -77,7 +73,7 @@ public class GeoclientStub implements Geoclient
         ByteBuffer buffer = byteBuffer.duplicate();
         int position = buffer.position();
         CharBuffer charBuffer = DECODER.decode(buffer);
-        char [] chars = new char[2];
+        char[] chars = new char[2];
         charBuffer.get(chars, 0, 2);
         buffer.position(position);
         String result = String.copyValueOf(chars);

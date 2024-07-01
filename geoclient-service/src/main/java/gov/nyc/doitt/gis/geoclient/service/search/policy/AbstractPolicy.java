@@ -15,13 +15,11 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.search.policy;
 
-public abstract class AbstractPolicy implements Policy
-{
+public abstract class AbstractPolicy implements Policy {
 
     // TODO TESTME
     @Override
-    public String getName()
-    {
+    public String getName() {
         return getClass().getSimpleName();
     }
 

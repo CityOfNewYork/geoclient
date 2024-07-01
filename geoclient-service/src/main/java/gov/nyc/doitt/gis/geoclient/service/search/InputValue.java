@@ -42,8 +42,7 @@ import gov.nyc.doitt.gis.geoclient.util.Assert;
  * @author mlipper
  *
  */
-public class InputValue
-{
+public class InputValue {
     private final String originalValue;
     private final String mappedValue;
     private final TokenType tokenType;
@@ -58,8 +57,7 @@ public class InputValue
      * @param assignedValue
      *            value
      */
-    public InputValue(TokenType tokenType, String assignedValue)
-    {
+    public InputValue(TokenType tokenType, String assignedValue) {
         super();
         Assert.notNull(tokenType, "tokenType argument cannot be null.");
         this.tokenType = tokenType;
@@ -76,8 +74,7 @@ public class InputValue
      * @param token
      *            unmodified Token from the parser
      */
-    public InputValue(Token token)
-    {
+    public InputValue(Token token) {
         Assert.notNull(token, "token argument cannot be null.");
         this.originalValue = token.getValue();
         this.mappedValue = null;
@@ -95,8 +92,7 @@ public class InputValue
      * @param mappedValue
      *            value mapped to this Token
      */
-    public InputValue(Token token, String mappedValue)
-    {
+    public InputValue(Token token, String mappedValue) {
         Assert.notNull(token, "token argument cannot be null.");
         this.originalValue = token.getValue();
         this.mappedValue = mappedValue;
@@ -104,63 +100,51 @@ public class InputValue
         this.valueSource = ValueSource.MAPPED;
     }
 
-    public boolean isResolved()
-    {
-        if (!this.isMapped())
-        {
+    public boolean isResolved() {
+        if (!this.isMapped()) {
             return true;
         }
         return this.mappedValue != null;
     }
 
-    public boolean isParsed()
-    {
+    public boolean isParsed() {
         return ValueSource.PARSED.equals(this.valueSource);
     }
 
-    public boolean isMapped()
-    {
+    public boolean isMapped() {
         return ValueSource.MAPPED.equals(this.valueSource);
     }
 
-    public boolean isAssigned()
-    {
+    public boolean isAssigned() {
         return ValueSource.ASSIGNED.equals(this.valueSource);
     }
 
-    public String getValue()
-    {
+    public String getValue() {
         return mappedValue != null ? mappedValue : originalValue;
     }
 
-    public String getOriginalValue()
-    {
+    public String getOriginalValue() {
         return originalValue;
     }
 
-    public TokenType getTokenType()
-    {
+    public TokenType getTokenType() {
         return tokenType;
     }
 
-    public ValueSource getValueSource()
-    {
+    public ValueSource getValueSource() {
         return valueSource;
     }
 
-    public String description()
-    {
-        if (!isMapped())
-        {
+    public String description() {
+        if (!isMapped()) {
             return String.format("Token type %s with value '%s'", this.tokenType, this.originalValue);
         }
         return String.format("Token type %s with value '%s' mapped to value %s", this.tokenType, this.originalValue,
-                this.mappedValue);
+            this.mappedValue);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "InputValue [originalValue=" + originalValue + ", mappedValue=" + mappedValue + ", tokenType="
                 + tokenType + ", valueSource=" + valueSource + "]";
     }

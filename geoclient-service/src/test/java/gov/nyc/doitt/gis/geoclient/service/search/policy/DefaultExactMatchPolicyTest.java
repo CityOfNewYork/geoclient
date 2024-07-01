@@ -35,8 +35,8 @@ public class DefaultExactMatchPolicyTest {
 
     @Test
     public void testDefaultPolicySettings() {
-        assertThat(policy.isExactMatchForSingleSuccess())
-                .isEqualTo(DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_FOR_SINGLE_SUCCESS);
+        assertThat(policy.isExactMatchForSingleSuccess()).isEqualTo(
+            DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_FOR_SINGLE_SUCCESS);
         assertThat(policy.getExactMatchMaxLevel()).isEqualTo(DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_MAX_LEVEL);
     }
 

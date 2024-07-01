@@ -28,8 +28,8 @@ public class PlaceRequestTest {
         PlaceRequest request = new PlaceRequest();
         assertThat(request.summarize()).isEqualTo("place [name=null, borough=null, zip=null]");
         request.setStreetInputValue(new InputValue(TokenType.STREET_NAME, "Empire State Building"));
-        request.setBoroughInputValue(new InputValue(TokenType.BOROUGH_NAME,"manhattan"));
-        request.setZipInputValue(new InputValue(TokenType.ZIP,"10118"));
+        request.setBoroughInputValue(new InputValue(TokenType.BOROUGH_NAME, "manhattan"));
+        request.setZipInputValue(new InputValue(TokenType.ZIP, "10118"));
         assertThat(request.summarize()).isEqualTo("place [name=Empire State Building, borough=manhattan, zip=10118]");
     }
 }

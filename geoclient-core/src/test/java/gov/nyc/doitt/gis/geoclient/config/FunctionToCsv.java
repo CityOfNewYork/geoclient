@@ -26,8 +26,7 @@ import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 import gov.nyc.doitt.gis.geoclient.jni.test.GeoclientStub;
 
-public class FunctionToCsv
-{
+public class FunctionToCsv {
     private static Logger log = LoggerFactory.getLogger(FunctionToCsv.class);
 
     private final GeosupportConfig config;
@@ -49,7 +48,7 @@ public class FunctionToCsv
         // been logged.
         //
         // WorkAreaOne definition
-        WorkArea workAreaOne =  config.getWorkAreaOne();
+        WorkArea workAreaOne = config.getWorkAreaOne();
         logFields("All", workAreaOne, Field.NAME_SORT, true, true);
 
         // NOTE: Functions 1, 1A, 1AX, 1E and 2 are not reported below because
@@ -60,7 +59,7 @@ public class FunctionToCsv
         logWorkAreaTwoFields(config.getFunction(Function.F1B), comparator);
         logWorkAreaTwoFields(config.getFunction(Function.FAP), comparator);
         logWorkAreaTwoFields(config.getFunction(Function.F2W), comparator);
-        logWorkAreaTwoFields(config.getFunction(Function.F3),  comparator);
+        logWorkAreaTwoFields(config.getFunction(Function.F3), comparator);
         logWorkAreaTwoFields(config.getFunction(Function.FBL), comparator);
         logWorkAreaTwoFields(config.getFunction(Function.FBN), comparator);
         logWorkAreaTwoFields(config.getFunction(Function.FHR), comparator);
@@ -70,52 +69,40 @@ public class FunctionToCsv
         logFields(function.getId(), function.getWorkAreaTwo(), comparator, true, false);
     }
 
-    private void logFields(String functionId, WorkArea workArea, Comparator<Field> comparator, boolean includeFiltered, boolean includeInputFields)
-    {
+    private void logFields(String functionId, WorkArea workArea, Comparator<Field> comparator, boolean includeFiltered,
+            boolean includeInputFields) {
         // Write rows
-        for (Field field : workArea.getFields(comparator, includeFiltered, includeInputFields))
-        {
+        for (Field field : workArea.getFields(comparator, includeFiltered, includeInputFields)) {
             String fieldId = field.getId();
             int startPosition = field.getStart();
-            int endPosition = startPosition+ field.getLength();
+            int endPosition = startPosition + field.getLength();
             String alias = "";
-            if(field.isAliased()) {
+            if (field.isAliased()) {
                 alias = field.getAlias();
             }
             String composite = "";
-            if(field.isComposite()) {
+            if (field.isComposite()) {
                 composite = "composite";
             }
             String filtered = "";
-            if(workArea.isFiltered(field)){
+            if (workArea.isFiltered(field)) {
                 filtered = "filtered";
             }
             String input = "";
             // Hack alert!
-            if(includeInputFields && startPosition >= 360) {
-               input = "input";
+            if (includeInputFields && startPosition >= 360) {
+                input = "input";
             }
             String whitespace = "";
-            if(field.isWhitespaceSignificant()){
+            if (field.isWhitespaceSignificant()) {
                 whitespace = "significant";
             }
-            log.info("{},{},{},{},{},{},{},{},{},{},{}",
-                fieldId,
-                functionId,
-                workArea.getId(),
-                input,
-                field.getStart(),
-                endPosition,
-                field.getLength(),
-                filtered,
-                alias,
-                composite,
-                whitespace);
+            log.info("{},{},{},{},{},{},{},{},{},{},{}", fieldId, functionId, workArea.getId(), input, field.getStart(),
+                endPosition, field.getLength(), filtered, alias, composite, whitespace);
         }
     }
 
-    public static void main(String[] args) throws Exception
-    {
+    public static void main(String[] args) throws Exception {
         new FunctionToCsv().generateReport();
     }
 }

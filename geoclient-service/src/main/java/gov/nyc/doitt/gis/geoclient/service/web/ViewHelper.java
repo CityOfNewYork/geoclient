@@ -15,26 +15,21 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.web;
 
-public class ViewHelper
-{
+public class ViewHelper {
 
-    public String sectionAnchor(int section, int subsection)
-    {
+    public String sectionAnchor(int section, int subsection) {
         return String.format("section-%s", sectionNumber(section, subsection));
     }
 
-    public String sectionNumber(int section, int subsection)
-    {
+    public String sectionNumber(int section, int subsection) {
         return String.format("%d.%d", section, subsection);
     }
 
-    public String href(String id)
-    {
-      if(id != null && id.toLowerCase().matches("^https?://.*"))
-      {
-        return id;
-      }
-        return String.format("#%s",id);
+    public String href(String id) {
+        if (id != null && id.toLowerCase().matches("^https?://.*")) {
+            return id;
+        }
+        return String.format("#%s", id);
     }
 
 }

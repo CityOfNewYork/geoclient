@@ -39,18 +39,14 @@ class JniLibraryTest {
         this.version = "2.0.0-RELEASE";
 
         this.builder = JniLibrary.builder();
-        this.jniLibrary = this.builder.platform(this.platform)
-                            .name(this.name)
-                            .version(this.version)
-                            .build();
+        this.jniLibrary = this.builder.platform(this.platform).name(this.name).version(this.version).build();
     }
 
     @Test
     void testBuild() {
-        assertAll("JniLibrary.builder",
-                ()-> assertSame(this.platform, this.jniLibrary.getPlatform()),
-                ()-> assertEquals(this.name, this.jniLibrary.getName()),
-                ()-> assertEquals(this.version, this.jniLibrary.getVersion()));
+        assertAll("JniLibrary.builder", () -> assertSame(this.platform, this.jniLibrary.getPlatform()),
+            () -> assertEquals(this.name, this.jniLibrary.getName()),
+            () -> assertEquals(this.version, this.jniLibrary.getVersion()));
     }
 
     @Test
@@ -72,10 +68,9 @@ class JniLibraryTest {
     @Test
     void testBuildDefaultsVersion() {
         this.jniLibrary = this.builder.version(null).build();
-        assertAll("JniLibrary.builder",
-                ()-> assertSame(this.platform, this.jniLibrary.getPlatform()),
-                ()-> assertEquals(this.name, this.jniLibrary.getName()),
-                ()-> assertEquals("UNKNOWN", this.jniLibrary.getVersion()));
+        assertAll("JniLibrary.builder", () -> assertSame(this.platform, this.jniLibrary.getPlatform()),
+            () -> assertEquals(this.name, this.jniLibrary.getName()),
+            () -> assertEquals("UNKNOWN", this.jniLibrary.getVersion()));
     }
 
     @Test
@@ -90,7 +85,8 @@ class JniLibraryTest {
 
     @Test
     void testGetResourceName() {
-        String expectedResourceName = String.format("%s/%s", this.jniLibrary.getPlatformDirName(), this.jniLibrary.getLibraryFileName());
+        String expectedResourceName = String.format("%s/%s", this.jniLibrary.getPlatformDirName(),
+            this.jniLibrary.getLibraryFileName());
         assertEquals(expectedResourceName, this.jniLibrary.getResourceName());
     }
 }

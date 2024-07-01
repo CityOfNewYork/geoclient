@@ -19,4 +19,5 @@
  *
  * @author Matthew Lipper
  */
+
 package gov.nyc.doitt.gis.geoclient.service.search.request;

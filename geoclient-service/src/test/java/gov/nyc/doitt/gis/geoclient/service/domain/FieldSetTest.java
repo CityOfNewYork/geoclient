@@ -41,33 +41,32 @@ public class FieldSetTest {
         }
         FieldSet equalFs = new FieldSet(functionId, fieldNames);
         FieldSet anotherEqualFs = new FieldSet(functionId, fieldNames);
-        assertAll("equals and hashCode",
-                () -> {
-                    // equals is reflexive
-                    assertEquals(fs, fs);
-                    // hashCode is consistent
-                    assertEquals(fs.hashCode(), fs.hashCode());
-                    // equals is symetric
-                    assertEquals(fs, equalFs);
-                    assertEquals(equalFs, fs);
-                    // hashCode is consistent
-                    assertEquals(fs.hashCode(), equalFs.hashCode());
-                    // equals is transitive
-                    assertEquals(fs, anotherEqualFs);
-                    assertEquals(anotherEqualFs, equalFs);
-                    // hashCode is consistent
-                    assertEquals(fs.hashCode(), anotherEqualFs.hashCode());
-                    assertEquals(anotherEqualFs.hashCode(), equalFs.hashCode());
-                    // Null is not equal
-                    assertFalse(fs.equals(null));
-                    // Unequal
-                    assertFalse(fs.equals(new FieldSet("blah", fieldNames)));
-                    assertFalse(fs.equals(new FieldSet(functionId, new String[] {})));
-                });
-                // Null fieldNames causes NullPointerException
-                String[] nullArray = null;
-                assertThrows(IllegalArgumentException.class, () -> fs.equals(new FieldSet(functionId, nullArray)));
-                // Null functionId causes NullPointerException
-                assertThrows(IllegalArgumentException.class, () -> fs.equals(new FieldSet(null, fieldNames)));
+        assertAll("equals and hashCode", () -> {
+            // equals is reflexive
+            assertEquals(fs, fs);
+            // hashCode is consistent
+            assertEquals(fs.hashCode(), fs.hashCode());
+            // equals is symetric
+            assertEquals(fs, equalFs);
+            assertEquals(equalFs, fs);
+            // hashCode is consistent
+            assertEquals(fs.hashCode(), equalFs.hashCode());
+            // equals is transitive
+            assertEquals(fs, anotherEqualFs);
+            assertEquals(anotherEqualFs, equalFs);
+            // hashCode is consistent
+            assertEquals(fs.hashCode(), anotherEqualFs.hashCode());
+            assertEquals(anotherEqualFs.hashCode(), equalFs.hashCode());
+            // Null is not equal
+            assertFalse(fs.equals(null));
+            // Unequal
+            assertFalse(fs.equals(new FieldSet("blah", fieldNames)));
+            assertFalse(fs.equals(new FieldSet(functionId, new String[] {})));
+        });
+        // Null fieldNames causes NullPointerException
+        String[] nullArray = null;
+        assertThrows(IllegalArgumentException.class, () -> fs.equals(new FieldSet(functionId, nullArray)));
+        // Null functionId causes NullPointerException
+        assertThrows(IllegalArgumentException.class, () -> fs.equals(new FieldSet(null, fieldNames)));
     }
 }

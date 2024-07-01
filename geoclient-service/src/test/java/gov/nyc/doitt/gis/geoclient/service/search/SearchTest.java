@@ -69,12 +69,12 @@ public class SearchTest {
     @Test
     public void testResponseMessageAppliesTo() {
         String streetName = "FOO";
-        assertThat(search.responseMessageAppliesTo(streetName))
-                .isEqualTo(search.getResponse().messageAppliesTo(streetName));
+        assertThat(search.responseMessageAppliesTo(streetName)).isEqualTo(
+            search.getResponse().messageAppliesTo(streetName));
         assertFalse(search.responseMessageAppliesTo(streetName));
         search.getResponse().getResponseStatus().getGeosupportReturnCode().setMessage(streetName);
-        assertThat(search.responseMessageAppliesTo(streetName))
-                .isEqualTo(search.getResponse().messageAppliesTo(streetName));
+        assertThat(search.responseMessageAppliesTo(streetName)).isEqualTo(
+            search.getResponse().messageAppliesTo(streetName));
         assertTrue(search.responseMessageAppliesTo(streetName));
     }
 

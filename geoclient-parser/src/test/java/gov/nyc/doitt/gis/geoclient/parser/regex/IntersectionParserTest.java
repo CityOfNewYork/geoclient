@@ -22,20 +22,17 @@ import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.parser.AbstractSpecTest;
 
-public class IntersectionParserTest extends AbstractSpecTest
-{
+public class IntersectionParserTest extends AbstractSpecTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(IntersectionParserTest.class);
     private IntersectionParser parser;
 
     @BeforeEach
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         parser = new IntersectionParser();
     }
 
     @Test
-    public void testParse()
-    {
+    public void testParse() {
         testParser(this.parser, LOGGER);
     }
 
