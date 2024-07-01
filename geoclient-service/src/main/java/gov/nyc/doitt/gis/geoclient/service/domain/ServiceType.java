@@ -15,8 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.domain;
 
-public enum ServiceType
-{
+public enum ServiceType {
 
     ADDRESS("address"),
     ADDRESSPOINT("addresspoint"),
@@ -33,19 +32,16 @@ public enum ServiceType
 
     private final String elementName;
 
-    private ServiceType(String elementName)
-    {
+    private ServiceType(String elementName) {
         this.elementName = elementName;
     }
 
-    public String elementName()
-    {
+    public String elementName() {
         return this.elementName;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return this.elementName;
     }
 

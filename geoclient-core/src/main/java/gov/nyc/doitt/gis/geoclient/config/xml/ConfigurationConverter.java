@@ -29,18 +29,15 @@ import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.function.DefaultConfiguration;
 
-
-public class ConfigurationConverter implements Converter
-{
+public class ConfigurationConverter implements Converter {
     private static final Logger log = LoggerFactory.getLogger(ConfigurationConverter.class);
 
     public static class Metadata {
         public final String xmlRequiredArgumentAttributeName;
         public final String xmlRequiredArgumentAttributeValue;
         public final String xmlRequiredArgumentElement;
-        public Metadata(String xmlRequiredArgumentAttributeName,
-                String xmlRequiredArgumentAttributeValue, String xmlRequiredArgumentElement)
-        {
+        public Metadata(String xmlRequiredArgumentAttributeName, String xmlRequiredArgumentAttributeValue,
+                String xmlRequiredArgumentElement) {
             super();
             this.xmlRequiredArgumentAttributeName = xmlRequiredArgumentAttributeName;
             this.xmlRequiredArgumentAttributeValue = xmlRequiredArgumentAttributeValue;
@@ -50,34 +47,30 @@ public class ConfigurationConverter implements Converter
 
     private final Metadata metadata;
 
-    public ConfigurationConverter(Metadata metadata)
-    {
+    public ConfigurationConverter(Metadata metadata) {
         super();
         this.metadata = metadata;
     }
 
     @Override
-    public boolean canConvert(@SuppressWarnings("rawtypes") Class type)
-    {
+    public boolean canConvert(@SuppressWarnings("rawtypes") Class type) {
         return DefaultConfiguration.class.isAssignableFrom(type);
     }
 
     @Override
-    public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context)
-    {
+    public void marshal(Object source, HierarchicalStreamWriter writer, MarshallingContext context) {
         throw new UnsupportedOperationException("Marshalling back to XML is not implemented");
     }
 
     @Override
-    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context)
-    {
+    public Object unmarshal(HierarchicalStreamReader reader, UnmarshallingContext context) {
         DefaultConfiguration configuration = new DefaultConfiguration();
         Map<String, Object> requiredArguments = new HashMap<String, Object>();
-        while(reader.hasMoreChildren()) {
+        while (reader.hasMoreChildren()) {
             reader.moveDown();
-            if(metadata.xmlRequiredArgumentElement.equals(reader.getNodeName()))
-            {
-                requiredArguments.put(reader.getAttribute(metadata.xmlRequiredArgumentAttributeName), reader.getAttribute(metadata.xmlRequiredArgumentAttributeValue));
+            if (metadata.xmlRequiredArgumentElement.equals(reader.getNodeName())) {
+                requiredArguments.put(reader.getAttribute(metadata.xmlRequiredArgumentAttributeName),
+                    reader.getAttribute(metadata.xmlRequiredArgumentAttributeValue));
             }
             reader.moveUp();
         }

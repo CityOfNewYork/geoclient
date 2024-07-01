@@ -15,9 +15,7 @@
  */
 package gov.nyc.doitt.gis.geoclient.api;
 
-
-public class InputParam
-{
+public class InputParam {
     public static final String BBL_BOROUGH_CODE = "bblBoroughCode";
     public static final String BBL_TAX_BLOCK = "bblTaxBlock";
     public static final String BBL_TAX_LOT = "bblTaxLot";
@@ -49,5 +47,6 @@ public class InputParam
     public static final String WORK_AREA_FORMAT_INDICATOR = "workAreaFormatIndicator";
     public static final String WORK_AREA_FORMAT_INDICATOR_VALUE = "C";
     public static final String ZIP_CODE = "zipCode";
-    private InputParam(){}
+    private InputParam() {
+    }
 }

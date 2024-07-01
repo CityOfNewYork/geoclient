@@ -97,14 +97,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     @SuppressWarnings("deprecation")
     public void configureContentNegotiation(@NonNull ContentNegotiationConfigurer configurer) {
-        configurer.favorPathExtension(true).
-        favorParameter(false).
+        configurer.favorPathExtension(true).favorParameter(false).
         //parameterName("format").
-        ignoreAcceptHeader(true).
-        useJaf(false).
-        defaultContentType(MediaType.APPLICATION_JSON).
-        mediaType("xml", MediaType.APPLICATION_XML).
-        mediaType("json", MediaType.APPLICATION_JSON);
+                ignoreAcceptHeader(true).useJaf(false).defaultContentType(MediaType.APPLICATION_JSON).mediaType("xml",
+                    MediaType.APPLICATION_XML).mediaType("json", MediaType.APPLICATION_JSON);
     }
 
     /*
@@ -144,7 +140,7 @@ public class WebConfig implements WebMvcConfigurer {
         XStreamMarshaller marshaller = new XStreamMarshaller();
         marshaller.setConverters(new ConverterMatcher[] { new MapConverter() });
         Map<String, Class<?>> aliases = new HashMap<String, Class<?>>();
-        aliases.put("geosupportResponse", Map.class);       // -> <geosupportResult class="tree-map">
+        aliases.put("geosupportResponse", Map.class); // -> <geosupportResult class="tree-map">
         //aliases.put("geosupportResponse", TreeMap.class); // -> <geosupportResult class="geosupportResult">
         aliases.put("version", Version.class);
         aliases.put("fileInfo", FileInfo.class);
@@ -202,12 +198,16 @@ public class WebConfig implements WebMvcConfigurer {
     public static BeanFactoryPostProcessor removeTomcatWebServerCustomizer() {
         return new BeanFactoryPostProcessor() {
             public void postProcessBeanFactory(@NonNull ConfigurableListableBeanFactory beanFactory) {
-                if (((DefaultListableBeanFactory)beanFactory).containsBeanDefinition("tomcatWebServerFactoryCustomizer")) {
+                if (((DefaultListableBeanFactory) beanFactory).containsBeanDefinition(
+                    "tomcatWebServerFactoryCustomizer")) {
                     //((DefaultListableBeanFactory)beanFactory).removeBeanDefinition("tomcatWebServerFactoryCustomizer");
                     //LOGGER.info("Removed bean \"tomcatWebServerFactoryCustomizer\".");
-                    LOGGER.info("Bean \"tomcatWebServerFactoryCustomizer\" found: NOT removing it due to use of recent versions of Tomcat/Spring Boot.");
-                } else {
-                    LOGGER.info("Bean \"tomcatWebServerFactoryCustomizer\" not found: assuming recent versions of Tomcat/Spring Boot.");
+                    LOGGER.info(
+                        "Bean \"tomcatWebServerFactoryCustomizer\" found: NOT removing it due to use of recent versions of Tomcat/Spring Boot.");
+                }
+                else {
+                    LOGGER.info(
+                        "Bean \"tomcatWebServerFactoryCustomizer\" not found: assuming recent versions of Tomcat/Spring Boot.");
                 }
             }
         };

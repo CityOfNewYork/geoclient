@@ -48,7 +48,7 @@ public class WorkAreaConfigTest {
         this.outputFilters = new ArrayList<Filter>();
         this.outputFilters.add(new Filter(TestData.fieldOne.getId()));
         this.workAreaConfig = new WorkAreaConfig(this.id, this.length, this.isWorkAreaOne, this.fields,
-                this.outputFilters);
+            this.outputFilters);
     }
 
     @Test

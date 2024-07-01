@@ -25,18 +25,15 @@ public enum ReturnCodeValue {
 
     private final String value;
 
-    private ReturnCodeValue(String value)
-    {
+    private ReturnCodeValue(String value) {
         this.value = value;
     }
 
-    public String value()
-    {
+    public String value() {
         return this.value;
     }
 
-    public boolean is(String string)
-    {
+    public boolean is(String string) {
         return this.value.equals(string);
     }
 

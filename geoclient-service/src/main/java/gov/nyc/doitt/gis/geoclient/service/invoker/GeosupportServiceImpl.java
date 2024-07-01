@@ -137,21 +137,21 @@ public class GeosupportServiceImpl implements GeosupportService {
         return new Call(serviceConfiguration.functionAP(), serviceConfiguration.latLongFieldSetConverter()) {
             @Override
             public Map<String, Object> userArguments() {
-            Map<String, Object> params = newMap();
-            if (houseNumber != null) {
-                params.put(HOUSE_NUMBER, houseNumber);
-            }
+                Map<String, Object> params = newMap();
+                if (houseNumber != null) {
+                    params.put(HOUSE_NUMBER, houseNumber);
+                }
 
-            params.put(STREET_NAME, street);
+                params.put(STREET_NAME, street);
 
-            if (borough != null) {
-                params.put(BOROUGH_CODE, Boroughs.parseInt(borough));
-            }
+                if (borough != null) {
+                    params.put(BOROUGH_CODE, Boroughs.parseInt(borough));
+                }
 
-            if (zip != null) {
-                params.put(ZIP_CODE, zip);
-            }
-            return params;
+                if (zip != null) {
+                    params.put(ZIP_CODE, zip);
+                }
+                return params;
             }
         }.execute();
     }
@@ -266,8 +266,8 @@ public class GeosupportServiceImpl implements GeosupportService {
 
     @Override
     public Map<String, Object> callGeosupport(final Map<String, Object> clientParams) {
-        final Function function = serviceConfiguration
-                .geosupportFunction(clientParams.get(GEOSUPPORT_FUNCTION_CODE).toString());
+        final Function function = serviceConfiguration.geosupportFunction(
+            clientParams.get(GEOSUPPORT_FUNCTION_CODE).toString());
         return new Call(function, serviceConfiguration.latLongFieldSetConverter()) {
             @Override
             public Map<String, Object> userArguments() {
@@ -304,27 +304,33 @@ public class GeosupportServiceImpl implements GeosupportService {
         }
         try {
             return new StreetCode(code);
-        } catch (NullPointerException | InvalidStreetCodeException e) {
+        }
+        catch (NullPointerException | InvalidStreetCodeException e) {
             LOGGER.warn("Invalid borough + street code: %s", code);
             return null;
         }
     }
 
     @Override
-    public Map<String, Object> callStreetNameFunction(String codeOne, String codeTwo, String codeThree, Integer length, String format) {
+    public Map<String, Object> callStreetNameFunction(String codeOne, String codeTwo, String codeThree, Integer length,
+            String format) {
         Assert.notNull(codeOne, STREET_CODE + " argument cannot be null");
         StreetCode streetCodeOne = getStreetCodeOrNull(codeOne);
         StreetCode streetCodeTwo = getStreetCodeOrNull(codeTwo);
         StreetCode streetCodeThree = getStreetCodeOrNull(codeThree);
         switch (streetCodeOne.getStreetCodeType()) {
             case B5SC:
-                return populateStreetNameCall(serviceConfiguration.functionD(), streetCodeOne, streetCodeTwo, streetCodeThree, length, format).execute();
+                return populateStreetNameCall(serviceConfiguration.functionD(), streetCodeOne, streetCodeTwo,
+                    streetCodeThree, length, format).execute();
             case B7SC:
-                return populateStreetNameCall(serviceConfiguration.functionDG(), streetCodeOne, streetCodeTwo, streetCodeThree, length, format).execute();
+                return populateStreetNameCall(serviceConfiguration.functionDG(), streetCodeOne, streetCodeTwo,
+                    streetCodeThree, length, format).execute();
             case B10SC:
-                return populateStreetNameCall(serviceConfiguration.functionDN(), streetCodeOne, streetCodeTwo, streetCodeThree, length, format).execute();
+                return populateStreetNameCall(serviceConfiguration.functionDN(), streetCodeOne, streetCodeTwo,
+                    streetCodeThree, length, format).execute();
             default:
-                throw new InvalidStreetCodeException(codeOne, "Valid street code formats: B5SC (6 chars), B7SC (8 chars), or B10SC (11 chars)");
+                throw new InvalidStreetCodeException(codeOne,
+                    "Valid street code formats: B5SC (6 chars), B7SC (8 chars), or B10SC (11 chars)");
         }
     }
 
@@ -380,7 +386,8 @@ public class GeosupportServiceImpl implements GeosupportService {
     }
 
     private boolean isValidNormalizationFormat(String format) {
-        return format != null && (NORMALIZATION_FORMAT_SORT_VALUE.equals(format) || NORMALIZATION_FORMAT_COMPACT_VALUE.equals(format));
+        return format != null && (NORMALIZATION_FORMAT_SORT_VALUE.equals(format)
+                || NORMALIZATION_FORMAT_COMPACT_VALUE.equals(format));
     }
 
     @Override

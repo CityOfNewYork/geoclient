@@ -21,25 +21,21 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
-public class OperatingSystemUtilsTest
-{
+public class OperatingSystemUtilsTest {
     private static final String osName = System.getProperty("os.name");
 
     @Test
-    public void testIsWindows()
-    {
-        if(osName.contains("Windows"))
-        {
+    public void testIsWindows() {
+        if (osName.contains("Windows")) {
             assertTrue(OperatingSystemUtils.isWindows());
-        }else
-        {
+        }
+        else {
             assertFalse(OperatingSystemUtils.isWindows());
         }
     }
 
     @Test
-    public void testUName()
-    {
+    public void testUName() {
         assertEquals(osName, OperatingSystemUtils.uname());
     }
 

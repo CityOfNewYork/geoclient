@@ -21,8 +21,7 @@ import java.util.List;
 import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
 
-public class SearchResult
-{
+public class SearchResult {
     private final SearchPolicy searchPolicy;
     private final LocationTokens locationTokens;
     private final List<Search> searches = new ArrayList<>();
@@ -30,133 +29,105 @@ public class SearchResult
     private int currentLevel = 0;
 
     // TODO TESTME!!!
-    public SearchResult(SearchPolicy searchPolicy, LocationTokens locationTokens)
-    {
+    public SearchResult(SearchPolicy searchPolicy, LocationTokens locationTokens) {
         super();
         this.searchPolicy = searchPolicy;
         this.locationTokens = locationTokens;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return this.locationTokens.getInput().getId();
     }
 
-    public String getInputString()
-    {
+    public String getInputString() {
         return this.locationTokens.getInput().getUnsanitizedValue();
     }
 
-    public void add(Search search)
-    {
-        if(currentLevel<search.getLevel())
-        {
+    public void add(Search search) {
+        if (currentLevel < search.getLevel()) {
             currentLevel = search.getLevel();
         }
         this.searches.add(search);
     }
 
-    public int getCurrentLevel()
-    {
+    public int getCurrentLevel() {
         return currentLevel;
     }
 
-    public SearchPolicy getSearchPolicy()
-    {
+    public SearchPolicy getSearchPolicy() {
         return searchPolicy;
     }
 
-    public Search getExactMatch()
-    {
-        if (!isExactMatch())
-        {
+    public Search getExactMatch() {
+        if (!isExactMatch()) {
             return null;
         }
         return this.searches.get(exactMatchIndex);
     }
 
-    public boolean isExactMatch()
-    {
+    public boolean isExactMatch() {
         markExactMatch(searchPolicy.findExactMatch(this));
         return this.exactMatchIndex >= 0;
     }
 
-    public List<Search> getSearches()
-    {
+    public List<Search> getSearches() {
         return searches;
     }
 
-    public List<Search> getSuccessfulSearches()
-    {
+    public List<Search> getSuccessfulSearches() {
         List<Search> successfulSearches = new ArrayList<>();
-        for (Search search : this.searches)
-        {
-            if (!search.isRejected())
-            {
+        for (Search search : this.searches) {
+            if (!search.isRejected()) {
                 successfulSearches.add(search);
             }
         }
         return successfulSearches;
     }
 
-    public List<Search> getRejectedSearches()
-    {
+    public List<Search> getRejectedSearches() {
         List<Search> rejectedSearches = new ArrayList<>();
-        for (Search search : this.searches)
-        {
-            if (search.isRejected())
-            {
+        for (Search search : this.searches) {
+            if (search.isRejected()) {
                 rejectedSearches.add(search);
             }
         }
         return rejectedSearches;
     }
 
-    public LocationTokens getLocationTokens()
-    {
+    public LocationTokens getLocationTokens() {
         return locationTokens;
     }
 
-    public int successCount()
-    {
+    public int successCount() {
         int i = 0;
-        for (Search search : this.searches)
-        {
-            if (!search.isRejected())
-            {
+        for (Search search : this.searches) {
+            if (!search.isRejected()) {
                 i++;
             }
         }
         return i;
     }
 
-    public List<Search> inputForSubSearches()
-    {
+    public List<Search> inputForSubSearches() {
         return this.searchPolicy.inputForSubSearches(this);
     }
 
-    public List<Search> successfulSearchesEqualOrLessThan(int level)
-    {
+    public List<Search> successfulSearchesEqualOrLessThan(int level) {
         List<Search> matchingSearches = new ArrayList<>();
-        for (Search search : this.searches)
-        {
-            if (!search.isRejected() && search.lessThanOrEqualTo(level))
-            {
+        for (Search search : this.searches) {
+            if (!search.isRejected() && search.lessThanOrEqualTo(level)) {
                 matchingSearches.add(search);
             }
         }
         return matchingSearches;
     }
 
-    private void markExactMatch(Search search)
-    {
-        if (search != null)
-        {
+    private void markExactMatch(Search search) {
+        if (search != null) {
             int index = this.searches.indexOf(search);
-            if (index < 0 || index + 1 > this.searches.size())
-            {
-                throw new IllegalArgumentException(String.format(
-                        "Give index %d is out of range for the search list whose size is %d.", index,
+            if (index < 0 || index + 1 > this.searches.size()) {
+                throw new IllegalArgumentException(
+                    String.format("Give index %d is out of range for the search list whose size is %d.", index,
                         this.searches.size()));
             }
             this.exactMatchIndex = index;
@@ -164,10 +135,9 @@ public class SearchResult
     }
 
     @Override
-    public String toString()
-    {
-        return "SearchResult [searches=" + searches.size() + ", locationTokens=" + locationTokens
-                + ", exactMatchIndex=" + exactMatchIndex + "]";
+    public String toString() {
+        return "SearchResult [searches=" + searches.size() + ", locationTokens=" + locationTokens + ", exactMatchIndex="
+                + exactMatchIndex + "]";
     }
 
 }

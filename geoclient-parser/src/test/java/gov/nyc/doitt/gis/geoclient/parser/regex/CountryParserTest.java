@@ -53,8 +53,8 @@ public class CountryParserTest extends AbstractSpecTest {
         parser.parse(context);
         assertThat(context.isParsed()).isFalse().as("ParseContext.isParsed should be");
         assertThat(initialChunk.getType()).isEqualTo(ChunkType.COUNTY).as("Chunk.Type of initial Chunk:");
-        assertThat(initialChunk.contains(new Token(TokenType.COUNTRY, "U.S.A.", 29, 35))).isTrue()
-                .as("Initial Chunk contains:");
+        assertThat(initialChunk.contains(new Token(TokenType.COUNTRY, "U.S.A.", 29, 35))).isTrue().as(
+            "Initial Chunk contains:");
         assertThat(initialChunk.tokenCount()).isEqualTo(1).as("Initial Chunk token count:");
         Chunk actualChunk = context.getCurrent();
         assertThat(actualChunk.getType()).isEqualTo(ChunkType.SUBSTRING);

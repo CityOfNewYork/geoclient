@@ -127,8 +127,7 @@ public class GeosupportVersionMapperTest {
 
     @Test
     void testToParameters() {
-        assertThrows(MappingException.class, () -> mapper.toParameters(
-                new GeosupportVersion(), new HashMap<>()));
+        assertThrows(MappingException.class, () -> mapper.toParameters(new GeosupportVersion(), new HashMap<>()));
     }
 
     private List<FileInfo> geoFileInfoFixture() {

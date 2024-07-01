@@ -50,20 +50,20 @@ public class DefaultInitialSearchTaskBuilder extends TaskBuilderSupport implemen
         List<SearchTask> searches = new ArrayList<>();
         for (Chunk chunk : locationTokens.getChunks()) {
             switch (chunk.getType()) {
-            case ADDRESS:
-                return initialSearchTasks(AddressRequest.class, AddressSearchTask.class, locationTokens);
-            case BBL:
-                return initialSearchTasks(BblRequest.class, BblSearchTask.class, locationTokens);
-            case BIN:
-                return initialSearchTasks(BinRequest.class, BinSearchTask.class, locationTokens);
-            case BLOCKFACE:
-                return initialSearchTasks(BlockfaceRequest.class, BlockfaceSearchTask.class, locationTokens);
-            case INTERSECTION:
-                return initialSearchTasks(IntersectionRequest.class, IntersectionSearchTask.class, locationTokens);
-            case UNRECOGNIZED:
-                return initialSearchTasks(PlaceRequest.class, PlaceSearchTask.class, locationTokens);
-            default:
-                break;
+                case ADDRESS:
+                    return initialSearchTasks(AddressRequest.class, AddressSearchTask.class, locationTokens);
+                case BBL:
+                    return initialSearchTasks(BblRequest.class, BblSearchTask.class, locationTokens);
+                case BIN:
+                    return initialSearchTasks(BinRequest.class, BinSearchTask.class, locationTokens);
+                case BLOCKFACE:
+                    return initialSearchTasks(BlockfaceRequest.class, BlockfaceSearchTask.class, locationTokens);
+                case INTERSECTION:
+                    return initialSearchTasks(IntersectionRequest.class, IntersectionSearchTask.class, locationTokens);
+                case UNRECOGNIZED:
+                    return initialSearchTasks(PlaceRequest.class, PlaceSearchTask.class, locationTokens);
+                default:
+                    break;
             }
         }
         return searches;
@@ -75,18 +75,20 @@ public class DefaultInitialSearchTaskBuilder extends TaskBuilderSupport implemen
         if (requestType.equals(BinRequest.class)) {
             // BIN request which does not require a borough
             tasks.add(new BinSearchTask(RequestUtils.initialRequest(requestType, locationTokens, null),
-                    geosupportService, mapper));
+                geosupportService, mapper));
 
-        } else {
+        }
+        else {
             // All other requests
             try {
                 ValueResolution countyResolution = this.countyResolver.resolve(locationTokens);
                 for (InputValue countyInputValue : countyResolution.resolved()) {
                     tasks.add(ConstructorUtils.invokeConstructor(taskType,
-                            RequestUtils.initialRequest(requestType, locationTokens, countyInputValue),
-                            geosupportService, mapper));
+                        RequestUtils.initialRequest(requestType, locationTokens, countyInputValue), geosupportService,
+                        mapper));
                 }
-            } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException
+            }
+            catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException
                     | InstantiationException e) {
                 throw new RuntimeException(e.getCause());
             }

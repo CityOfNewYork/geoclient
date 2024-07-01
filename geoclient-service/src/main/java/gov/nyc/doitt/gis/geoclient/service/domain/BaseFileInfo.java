@@ -45,7 +45,8 @@ class BaseFileInfo {
     String applyFormat(String dateString) {
         try {
             return DATE_TO_STRING.format(STRING_TO_DATE.parse(dateString));
-        } catch (Exception ignored) {
+        }
+        catch (Exception ignored) {
             return dateString;
         }
     }

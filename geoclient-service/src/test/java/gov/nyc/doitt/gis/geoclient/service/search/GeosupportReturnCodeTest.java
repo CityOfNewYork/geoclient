@@ -23,26 +23,23 @@ import org.junit.jupiter.api.Test;
 
 import gov.nyc.doitt.gis.geoclient.api.ReturnCodeValue;
 
-public class GeosupportReturnCodeTest
-{
+public class GeosupportReturnCodeTest {
     private GeosupportReturnCode grc;
 
     @BeforeEach
-    public void setUp()
-    {
+    public void setUp() {
         this.grc = new GeosupportReturnCode();
     }
+
     @Test
-    public void testIsCompassDirectionRequired()
-    {
+    public void testIsCompassDirectionRequired() {
         assertFalse(this.grc.isCompassDirectionRequired());
         this.grc.setReturnCode(ReturnCodeValue.COMPASS_DIRECTION_REQUIRED.value());
         assertTrue(this.grc.isCompassDirectionRequired());
     }
 
     @Test
-    public void testHasSimilarNames()
-    {
+    public void testHasSimilarNames() {
         assertFalse(this.grc.hasSimilarNames());
         this.grc.setReturnCode(ReturnCodeValue.NOT_RECOGNIZED_WITH_SIMILAR_NAMES.value());
         assertTrue(this.grc.hasSimilarNames());
@@ -51,8 +48,7 @@ public class GeosupportReturnCodeTest
     }
 
     @Test
-    public void testIsRejected()
-    {
+    public void testIsRejected() {
         assertTrue(this.grc.isRejected());
         this.grc.setReturnCode("00");
         assertFalse(this.grc.isRejected());
@@ -63,16 +59,14 @@ public class GeosupportReturnCodeTest
     }
 
     @Test
-    public void testHasReasonCode()
-    {
+    public void testHasReasonCode() {
         assertFalse(this.grc.hasReasonCode());
         this.grc.setReasonCode("V");
         assertTrue(this.grc.hasReasonCode());
     }
 
     @Test
-    public void testHasMessage()
-    {
+    public void testHasMessage() {
         assertFalse(this.grc.hasMessage());
         this.grc.setMessage("Hello");
         assertTrue(this.grc.hasMessage());

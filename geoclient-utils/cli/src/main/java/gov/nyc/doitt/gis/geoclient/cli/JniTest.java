@@ -78,7 +78,8 @@ public class JniTest {
                 String string = args[i];
                 if (OPTION_DEBUG_LONG.equalsIgnoreCase(string) || OPTION_DEBUG_SHORT.equalsIgnoreCase(string)) {
                     debugOption = true;
-                } else if (OPTION_HELP_LONG.equalsIgnoreCase(string) || OPTION_HELP_SHORT.equalsIgnoreCase(string)) {
+                }
+                else if (OPTION_HELP_LONG.equalsIgnoreCase(string) || OPTION_HELP_SHORT.equalsIgnoreCase(string)) {
                     String myName = JniTest.class.getCanonicalName();
                     logger.info("");
                     logger.info("");
@@ -90,28 +91,29 @@ public class JniTest {
                     logger.info("  -d,--debug            Enables debug logging");
                     logger.info("");
                     logger.info(
-                            "  --file=<path to file> Specifies the file containing test data and config to use for running tests.");
+                        "  --file=<path to file> Specifies the file containing test data and config to use for running tests.");
                     logger.info(
-                            "                        The file path can be either full, relative or, if prefixed with '"
-                                    + CLASSPATH_FLAG + "',");
+                        "                        The file path can be either full, relative or, if prefixed with '"
+                                + CLASSPATH_FLAG + "',");
                     logger.info("                        relative to the classpath.");
                     logger.info("");
                     logger.info(
-                            "                        If this argument is not given, the program will attempt to find a file named '"
-                                    + DEFAULT_FILE + "'");
+                        "                        If this argument is not given, the program will attempt to find a file named '"
+                                + DEFAULT_FILE + "'");
                     logger.info(
-                            "                        at the root of the CLASSPATH (by default, the geoclient-jni jar includes such a file).");
+                        "                        at the root of the CLASSPATH (by default, the geoclient-jni jar includes such a file).");
                     logger.info(
-                            "                        If the default test case file cannot be found, the built-in test cases are used.");
+                        "                        If the default test case file cannot be found, the built-in test cases are used.");
                     logger.info("");
                     logger.info("  -h,--help             Show this message");
                     logger.info("");
                     logger.info(
-                            "  NOTE: In addition to the above, the Geosupport and Geoclient libraries must also be on the LD_LIBRARY_PATH ");
+                        "  NOTE: In addition to the above, the Geosupport and Geoclient libraries must also be on the LD_LIBRARY_PATH ");
                     logger.info("        (for Linux) or the PATH (for Windows)");
                     logger.info("");
                     return;
-                } else if (string.startsWith(OPTION_FILE)) {
+                }
+                else if (string.startsWith(OPTION_FILE)) {
                     fileOption = string.substring((OPTION_FILE + "=").length());
                 }
             }
@@ -146,12 +148,14 @@ public class JniTest {
             }
             logger.debug("Tests will be run with default test case file '" + defaultFile + "' found on the CLASSPATH");
 
-        } else {
+        }
+        else {
             // User supplied a file
             if (fileOption.startsWith(CLASSPATH_FLAG)) {
                 // User specified to use CLASSPATH resolution
                 fileStream = getClasspathResource(fileOption.substring(CLASSPATH_FLAG.length()));
-            } else {
+            }
+            else {
                 // Regular File resource
                 fileStream = getFilePathResource(fileOption);
             }
@@ -180,7 +184,8 @@ public class JniTest {
         URL url = JniTest.class.getResource(classpathFile);
         if (url == null) {
             logger.debug(msg + "false");
-        } else {
+        }
+        else {
             logger.debug(msg + "true");
             return url.openStream();
         }
@@ -201,9 +206,10 @@ public class JniTest {
 
         if (file.isAbsolute()) {
             logger.debug("Checking for file using absolute file path: " + fileOption);
-        } else {
-            logger.debug("Checking for file " + fileOption + " as relative path to user.dir="
-                    + System.getProperty("user.dir"));
+        }
+        else {
+            logger.debug(
+                "Checking for file " + fileOption + " as relative path to user.dir=" + System.getProperty("user.dir"));
         }
         if (!file.exists()) {
             return null;
@@ -217,7 +223,8 @@ public class JniTest {
         for (TestConfig conf : testConfigs) {
             try {
                 failures = failures + (callgeo(conf) ? 0 : 1);
-            } catch (Throwable t) {
+            }
+            catch (Throwable t) {
                 t.printStackTrace();
                 errors++;
             }
@@ -226,7 +233,8 @@ public class JniTest {
         String msg = String.format("Tests run: %d, Failures: %d, Errors: %d", testConfigs.size(), failures, errors);
         if (exitCode > 0) {
             logger.error(msg);
-        } else {
+        }
+        else {
             logger.info(msg);
         }
         return exitCode;
@@ -250,7 +258,8 @@ public class JniTest {
             logger.debug(wa1Result);
             logger.debug(wa2Msg);
             logger.debug(wa2Result);
-        } else {
+        }
+        else {
             logger.error(message);
             logger.error(wa1Msg);
             logger.error(wa1Result);

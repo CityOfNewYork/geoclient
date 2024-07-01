@@ -30,15 +30,13 @@ import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 
-public class RegistryTest
-{
+public class RegistryTest {
     private static final String WA_NAME = "WA1";
     private WorkArea workArea = new WorkArea(WA_NAME, new TreeSet<Field>());
     private String functionId = Function.F1B;
 
     @Test
-    public void testWorkAreaRegistry()
-    {
+    public void testWorkAreaRegistry() {
         Registry.clearWorkAreas();
         assertFalse(Registry.containsWorkArea(WA_NAME));
         assertNull(Registry.getWorkArea(WA_NAME));
@@ -51,23 +49,38 @@ public class RegistryTest
     }
 
     @Test
-    public void testFunctionRegistry()
-    {
+    public void testFunctionRegistry() {
         Registry.clearFunctions();
-        Function function = new Function()
-        {
+        Function function = new Function() {
             @Override
-            public String getId() { return functionId; }
+            public String getId() {
+                return functionId;
+            }
+
             @Override
-            public Map<String, Object> call(Map<String, Object> parameters){ return null; }
+            public Map<String, Object> call(Map<String, Object> parameters) {
+                return null;
+            }
+
             @Override
-            public WorkArea getWorkAreaOne(){ return null; }
+            public WorkArea getWorkAreaOne() {
+                return null;
+            }
+
             @Override
-            public WorkArea getWorkAreaTwo() { return null; }
+            public WorkArea getWorkAreaTwo() {
+                return null;
+            }
+
             @Override
-            public boolean isTwoWorkAreas() { return false; }
+            public boolean isTwoWorkAreas() {
+                return false;
+            }
+
             @Override
-            public Configuration getConfiguration(){ return null; }
+            public Configuration getConfiguration() {
+                return null;
+            }
         };
         assertFalse(Registry.containsFunction(functionId));
         assertNull(Registry.getFunction(functionId));

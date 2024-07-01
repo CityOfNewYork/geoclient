@@ -21,13 +21,11 @@ public enum Profiles {
 
     private final String value;
 
-    private Profiles(String value)
-    {
+    private Profiles(String value) {
         this.value = value;
     }
 
-    public String value()
-    {
+    public String value() {
         return this.value;
     }
 

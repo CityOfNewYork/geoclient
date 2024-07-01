@@ -25,7 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.parser.util.TextUtils;
-
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 
@@ -47,12 +46,8 @@ public class SanitizeParametersRequestWrapper extends HttpServletRequestWrapper 
         super(request);
         logger.info("Sanitizing request {}.", request.getRequestId());
         sanitizedMap = Collections.unmodifiableMap(
-                request.getParameterMap().entrySet().stream()
-                        .collect(Collectors.toMap(
-                                Map.Entry::getKey,
-                                entry -> Arrays.stream(entry.getValue())
-                                        .map(TextUtils::sanitize)
-                                        .toArray(String[]::new))));
+            request.getParameterMap().entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey,
+                entry -> Arrays.stream(entry.getValue()).map(TextUtils::sanitize).toArray(String[]::new))));
 
         logger.info("Request {} sanitized.", request.getRequestId());
     }
@@ -64,15 +59,12 @@ public class SanitizeParametersRequestWrapper extends HttpServletRequestWrapper 
 
     @Override
     public String[] getParameterValues(String name) {
-        return Optional.ofNullable(getParameterMap().get(name))
-                .map(values -> Arrays.copyOf(values, values.length))
-                .orElse(null);
+        return Optional.ofNullable(getParameterMap().get(name)).map(
+            values -> Arrays.copyOf(values, values.length)).orElse(null);
     }
 
     @Override
     public String getParameter(String name) {
-        return Optional.ofNullable(getParameterValues(name))
-                .map(values -> values[0])
-                .orElse(null);
+        return Optional.ofNullable(getParameterValues(name)).map(values -> values[0]).orElse(null);
     }
 }

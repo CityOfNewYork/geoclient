@@ -27,18 +27,15 @@ import gov.nyc.doitt.gis.geoclient.parser.AbstractSpecTest;
 import gov.nyc.doitt.gis.geoclient.parser.configuration.ParserConfig;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ParserConfig.class})
-public class BoroughParserTest extends AbstractSpecTest
-{
+@ContextConfiguration(classes = { ParserConfig.class })
+public class BoroughParserTest extends AbstractSpecTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(BoroughParserTest.class);
 
     @Autowired
     private BoroughParser parser;
 
-
     @Test
-    public void testParse()
-    {
+    public void testParse() {
         testParser(parser, LOGGER);
     }
 

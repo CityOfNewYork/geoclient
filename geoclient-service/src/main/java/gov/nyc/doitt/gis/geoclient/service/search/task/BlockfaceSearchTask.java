@@ -39,9 +39,9 @@ public class BlockfaceSearchTask extends SearchTask {
         BlockfaceRequest blockfaceRequest = (BlockfaceRequest) this.request;
         LOGGER.debug("Calling {} with {}.", Function.F3, blockfaceRequest);
         return this.geosupportService.callFunction3(blockfaceRequest.getOnStreet(), blockfaceRequest.getBorough(),
-                blockfaceRequest.getCrossStreetOne(), null, // borough cross street one
-                blockfaceRequest.getCrossStreetTwo(), null, // borough cross street two
-                null // compass direction
+            blockfaceRequest.getCrossStreetOne(), null, // borough cross street one
+            blockfaceRequest.getCrossStreetTwo(), null, // borough cross street two
+            null // compass direction
         );
     }
 

@@ -18,7 +18,6 @@ package gov.nyc.doitt.gis.geoclient.service.search.policy;
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 
-public interface ExactMatchPolicy extends Policy
-{
+public interface ExactMatchPolicy extends Policy {
     Search findExactMatch(SearchResult searchResult);
 }

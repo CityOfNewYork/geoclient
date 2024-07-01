@@ -32,8 +32,7 @@ import org.mockito.Mockito;
 
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 
-public class GeosupportFunctionTest
-{
+public class GeosupportFunctionTest {
     private WorkArea workAreaOneMock;
     private WorkArea workAreaTwoMock;
     private Geoclient geoclientMock;
@@ -41,8 +40,7 @@ public class GeosupportFunctionTest
     private GeosupportFunction function_twoWorkAreas;
 
     @BeforeEach
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         this.workAreaOneMock = Mockito.mock(WorkArea.class);
         Mockito.when(this.workAreaOneMock.getFieldIds()).thenReturn(Arrays.asList("uno"));
         this.workAreaTwoMock = Mockito.mock(WorkArea.class);
@@ -53,25 +51,23 @@ public class GeosupportFunctionTest
     }
 
     @Test
-    public void testIsTwoWorkAreas()
-    {
+    public void testIsTwoWorkAreas() {
         assertTrue(function_twoWorkAreas.isTwoWorkAreas());
         assertFalse(function_oneWorkArea.isTwoWorkAreas());
     }
 
     @Test
-    public void testConstructor_twoWorkAreas()
-    {
+    public void testConstructor_twoWorkAreas() {
         assertEquals("Testy", this.function_twoWorkAreas.getId());
         assertSame(workAreaOneMock, function_twoWorkAreas.getWorkAreaOne());
         assertSame(workAreaTwoMock, function_twoWorkAreas.getWorkAreaTwo());
     }
 
     @Test
-    public void testConstructor_twoWorkAreasAndConfiguration()
-    {
+    public void testConstructor_twoWorkAreasAndConfiguration() {
         DefaultConfiguration config = new DefaultConfiguration();
-        GeosupportFunction function = new GeosupportFunction("Testy", workAreaOneMock, workAreaTwoMock,geoclientMock,config);
+        GeosupportFunction function = new GeosupportFunction("Testy", workAreaOneMock, workAreaTwoMock, geoclientMock,
+            config);
         assertEquals("Testy", this.function_twoWorkAreas.getId());
         assertSame(workAreaOneMock, function_twoWorkAreas.getWorkAreaOne());
         assertSame(workAreaTwoMock, function_twoWorkAreas.getWorkAreaTwo());
@@ -79,16 +75,14 @@ public class GeosupportFunctionTest
     }
 
     @Test
-    public void testConstructor_oneWorkArea()
-    {
+    public void testConstructor_oneWorkArea() {
         assertEquals("Zesty", this.function_oneWorkArea.getId());
         assertSame(workAreaOneMock, function_oneWorkArea.getWorkAreaOne());
         assertNull(function_oneWorkArea.getWorkAreaTwo());
     }
 
     @Test
-    public void testCall_twoWorkAreas()
-    {
+    public void testCall_twoWorkAreas() {
         Map<String, Object> params = new HashMap<String, Object>();
         Map<String, Object> result1 = new HashMap<String, Object>();
         result1.put("one", "1");
@@ -112,8 +106,7 @@ public class GeosupportFunctionTest
     }
 
     @Test
-    public void testCall_oneWorkArea()
-    {
+    public void testCall_oneWorkArea() {
         Map<String, Object> params = new HashMap<String, Object>();
         Map<String, Object> result1 = new HashMap<String, Object>();
         result1.put("one", "1");

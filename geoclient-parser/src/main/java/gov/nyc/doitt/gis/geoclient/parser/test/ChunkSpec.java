@@ -21,78 +21,66 @@ import gov.nyc.doitt.gis.geoclient.parser.Input;
 import gov.nyc.doitt.gis.geoclient.parser.ParseContext;
 import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 
-public class ChunkSpec
-{
+public class ChunkSpec {
     private final String id;
     private final String delimitedTokenValues;
     private final List<Chunk> chunks;
-    public ChunkSpec(String id,String delimitedTokenValues, List<Chunk> chunks)
-    {
+    public ChunkSpec(String id, String delimitedTokenValues, List<Chunk> chunks) {
         super();
         this.id = id;
         this.delimitedTokenValues = delimitedTokenValues;
         this.chunks = chunks;
     }
 
-    public Input input()
-    {
+    public Input input() {
         return new Input(this.id, plainText());
     }
 
-    public String plainText()
-    {
+    public String plainText() {
         return this.delimitedTokenValues.replaceAll("[\\[\\]]", "");
     }
-    public String delimitedText()
-    {
+
+    public String delimitedText() {
         return this.delimitedTokenValues;
     }
-    public String getId()
-    {
+
+    public String getId() {
         return id;
     }
-    public List<Chunk> getChunks()
-    {
+
+    public List<Chunk> getChunks() {
         return chunks;
     }
 
-    public int chunkCount()
-    {
+    public int chunkCount() {
         return this.chunks == null ? 0 : this.chunks.size();
     }
 
-    public Chunk firstChunk()
-    {
-        if(this.chunkCount() == 0)
-        {
+    public Chunk firstChunk() {
+        if (this.chunkCount() == 0) {
             throw new IllegalStateException("There are zero Chunks.");
         }
         return this.chunks.get(0);
     }
 
-    public Chunk secondChunk()
-    {
-        if(this.chunkCount() < 2)
-        {
+    public Chunk secondChunk() {
+        if (this.chunkCount() < 2) {
             throw new IllegalStateException("There are less than two Chunks.");
         }
         return this.chunks.get(1);
     }
 
-    public boolean matchesStateOf(ParseContext parseContext)
-    {
+    public boolean matchesStateOf(ParseContext parseContext) {
         return this.chunks.equals(parseContext.getChunks());
     }
 
-    public String chunkTypeNames()
-    {
+    public String chunkTypeNames() {
         StringBuffer buff = new StringBuffer();
-        for (Chunk chunk : this.chunks)
-        {
+        for (Chunk chunk : this.chunks) {
             buff.append(chunk.getType());
             buff.append(",");
         }
-        String chunkTypes = buff.substring(0, buff.length()-1);
+        String chunkTypes = buff.substring(0, buff.length() - 1);
         return chunkTypes;
     }
 

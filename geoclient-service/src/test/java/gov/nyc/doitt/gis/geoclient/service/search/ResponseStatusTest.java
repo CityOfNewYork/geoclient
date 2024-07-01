@@ -24,27 +24,23 @@ import org.junit.jupiter.api.Test;
 
 import gov.nyc.doitt.gis.geoclient.api.ReturnCodeValue;
 
-public class ResponseStatusTest
-{
+public class ResponseStatusTest {
     private ResponseStatus responseStatus;
 
     @BeforeEach
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         this.responseStatus = new ResponseStatus();
     }
 
     @Test
-    public void testIsCompassDirectionRequired()
-    {
+    public void testIsCompassDirectionRequired() {
         assertFalse(this.responseStatus.isCompassDirectionRequired());
         this.responseStatus.getGeosupportReturnCode().setReturnCode(ReturnCodeValue.COMPASS_DIRECTION_REQUIRED.value());
         assertTrue(this.responseStatus.isCompassDirectionRequired());
     }
 
     @Test
-    public void testIsRejected()
-    {
+    public void testIsRejected() {
         assertThat(this.responseStatus.isRejected()).isTrue();
         GeosupportReturnCode grc1 = this.responseStatus.getGeosupportReturnCode();
         grc1.setReturnCode("00");
@@ -68,8 +64,7 @@ public class ResponseStatusTest
     }
 
     @Test
-    public void testSimilarNamesCount()
-    {
+    public void testSimilarNamesCount() {
         assertThat(this.responseStatus.similarNamesCount()).isEqualTo(0);
         this.responseStatus.getSimilarNames().add("abc");
         assertThat(this.responseStatus.similarNamesCount()).isEqualTo(1);

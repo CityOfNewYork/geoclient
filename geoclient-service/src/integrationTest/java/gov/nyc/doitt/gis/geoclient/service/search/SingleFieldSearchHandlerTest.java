@@ -133,8 +133,8 @@ public class SingleFieldSearchHandlerTest {
 
     @Test
     public void testFindLocationDefaultPolicy_blockfaceExactMatch() {
-        SearchResult searchResult = this.singleFieldSearchHandler
-                .findLocation("broadway between w 100 st and w 101 st, manhattan");
+        SearchResult searchResult = this.singleFieldSearchHandler.findLocation(
+            "broadway between w 100 st and w 101 st, manhattan");
         assertThat(searchResult.isExactMatch()).isTrue();
         assertThat(searchResult.getExactMatch()).isNotNull();
         assertThat(searchResult.getSearches().size()).isEqualTo(1);
@@ -143,8 +143,8 @@ public class SingleFieldSearchHandlerTest {
 
     @Test
     public void testFindLocationDefaultPolicy_blockfaceOnStreetValidSimilarName() {
-        SearchResult searchResult = this.singleFieldSearchHandler
-                .findLocation("bro between w 100 st and w 101 st, manhattan");
+        SearchResult searchResult = this.singleFieldSearchHandler.findLocation(
+            "bro between w 100 st and w 101 st, manhattan");
         assertThat(searchResult.isExactMatch()).isFalse();
         assertTrue(searchResult.getSearches().size() > 2);
         assertThat(searchResult.successCount()).isEqualTo(1);
@@ -152,8 +152,8 @@ public class SingleFieldSearchHandlerTest {
 
     @Test
     public void testFindLocationDefaultPolicy_blockfaceCrossStreetOneValidSimilarName() {
-        SearchResult searchResult = this.singleFieldSearchHandler
-                .findLocation("maiden ln between nassau and broadway, manhattan");
+        SearchResult searchResult = this.singleFieldSearchHandler.findLocation(
+            "maiden ln between nassau and broadway, manhattan");
         assertThat(searchResult.isExactMatch()).isFalse();
         assertTrue(searchResult.getSearches().size() > 1);
         assertThat(searchResult.successCount()).isEqualTo(1);
@@ -161,8 +161,8 @@ public class SingleFieldSearchHandlerTest {
 
     @Test
     public void testFindLocationDefaultPolicy_blockfaceCrossStreetTwoValidSimilarName() {
-        SearchResult searchResult = this.singleFieldSearchHandler
-                .findLocation("maiden ln between broadway & nassau, manhattan");
+        SearchResult searchResult = this.singleFieldSearchHandler.findLocation(
+            "maiden ln between broadway & nassau, manhattan");
         assertThat(searchResult.isExactMatch()).isFalse();
         assertTrue(searchResult.getSearches().size() > 1);
         assertThat(searchResult.successCount()).isEqualTo(1);
@@ -188,8 +188,8 @@ public class SingleFieldSearchHandlerTest {
     @Test
     public void testFindLocationDefaultPolicy_intersectionWithCompassDirectionRequired() {
         // 2015-04-22: "w 97 st & rsd manhattan" no longer requires a compass direction!
-        SearchResult searchResult = this.singleFieldSearchHandler
-                .findLocation("Cromwell Crescent and Alderton Street queens");
+        SearchResult searchResult = this.singleFieldSearchHandler.findLocation(
+            "Cromwell Crescent and Alderton Street queens");
         assertThat(searchResult.isExactMatch()).isFalse();
         assertThat(searchResult.getSearches().size()).isEqualTo(5);
         // Yup! All four compassDirections can be geocoded.

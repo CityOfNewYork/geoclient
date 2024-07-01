@@ -28,8 +28,7 @@ import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.function.Filter;
 import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 
-public class WorkAreaConfig
-{
+public class WorkAreaConfig {
     private static final Logger log = LoggerFactory.getLogger(WorkAreaConfig.class);
     private String id;
     private int length;
@@ -37,13 +36,12 @@ public class WorkAreaConfig
     private List<Field> fields;
     private List<Filter> outputFilters;
 
-    public WorkAreaConfig()
-    {
+    public WorkAreaConfig() {
         super();
     }
 
-    public WorkAreaConfig(String id, int length, boolean isWorkAreaOne, List<Field> fields, List<Filter> outputFilters)
-    {
+    public WorkAreaConfig(String id, int length, boolean isWorkAreaOne, List<Field> fields,
+            List<Filter> outputFilters) {
         super();
         this.id = id;
         this.length = length;
@@ -52,103 +50,85 @@ public class WorkAreaConfig
         this.outputFilters = outputFilters;
     }
 
-    public WorkArea createWorkArea()
-    {
-        if(Registry.containsWorkArea(this.id))
-        {
+    public WorkArea createWorkArea() {
+        if (Registry.containsWorkArea(this.id)) {
             return Registry.getWorkArea(this.id);
         }
         SortedSet<Field> uniqueSet = new TreeSet<Field>();
         validate(this.fields, uniqueSet);
-        List<Filter> oFilters = this.outputFilters != null ? this.outputFilters : Collections.<Filter>emptyList();
+        List<Filter> oFilters = this.outputFilters != null ? this.outputFilters : Collections.<Filter> emptyList();
         WorkArea workArea = new WorkArea(this.id, uniqueSet, oFilters);
         validate(workArea);
         Registry.addWorkArea(workArea);
         return workArea;
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public int getLength()
-    {
+    public int getLength() {
         return length;
     }
 
-    public void setLength(int length)
-    {
+    public void setLength(int length) {
         this.length = length;
     }
 
-    public boolean isWorkAreaOne()
-    {
+    public boolean isWorkAreaOne() {
         return isWorkAreaOne;
     }
 
-    public void setWorkAreaOne(boolean isWorkAreaOne)
-    {
+    public void setWorkAreaOne(boolean isWorkAreaOne) {
         this.isWorkAreaOne = isWorkAreaOne;
     }
 
-    public List<Field> getFields()
-    {
+    public List<Field> getFields() {
         return fields;
     }
 
-    public void setFields(List<Field> fields)
-    {
+    public void setFields(List<Field> fields) {
         this.fields = fields;
     }
 
-    public List<Filter> getOutputFilters()
-    {
+    public List<Filter> getOutputFilters() {
         return outputFilters;
     }
 
-    public void setOutputFilters(List<Filter> outputFilters)
-    {
+    public void setOutputFilters(List<Filter> outputFilters) {
         this.outputFilters = outputFilters;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "WorkAreaConfig [id=" + this.id + ", length=" + length + ", isWorkAreaOne=" + isWorkAreaOne + "]";
     }
 
-    protected List<Field> validate(List<Field> configuredFields, SortedSet<Field> uniqueSet)
-    {
+    protected List<Field> validate(List<Field> configuredFields, SortedSet<Field> uniqueSet) {
         List<Field> duplicates = new ArrayList<Field>();
-        for (Field field : configuredFields)
-        {
-            if(!uniqueSet.add(field))
-            {
+        for (Field field : configuredFields) {
+            if (!uniqueSet.add(field)) {
                 Field fieldAlreadyInTheSet = findDuplicate(field, uniqueSet);
-                log.debug("Field [id={}] has a duplicate start and length of Field [id={}] and will NOT be added to WorkArea[id={}]", field.getId(), fieldAlreadyInTheSet.getId(), this.id);
+                log.debug(
+                    "Field [id={}] has a duplicate start and length of Field [id={}] and will NOT be added to WorkArea[id={}]",
+                    field.getId(), fieldAlreadyInTheSet.getId(), this.id);
                 duplicates.add(field);
             }
         }
         return duplicates;
     }
 
-    private Field findDuplicate(Field field, SortedSet<Field> uniqueSet)
-    {
-        for (Field possibleMatch : uniqueSet)
-        {
-            if(field.compareTo(possibleMatch)==0 || field.equals(possibleMatch))
-            {
+    private Field findDuplicate(Field field, SortedSet<Field> uniqueSet) {
+        for (Field possibleMatch : uniqueSet) {
+            if (field.compareTo(possibleMatch) == 0 || field.equals(possibleMatch)) {
                 return possibleMatch;
             }
         }
         return null;
     }
 
-    private void validate(WorkArea workArea)
-    {
-        if (workArea.length() != this.length)
-        {
+    private void validate(WorkArea workArea) {
+        if (workArea.length() != this.length) {
             InvalidWorkAreaLengthException e = new InvalidWorkAreaLengthException(workArea, this.length);
             log.error(e.getMessage());
             throw e;

@@ -27,23 +27,17 @@ public class BblParser extends AbstractRegexParser {
     private static final Pattern BBL_TEN_DIGIT = Pattern.compile("^(?:\\s*)([1-5])(\\d{5})(\\d{4})\\s*$");
 
     @Override
-    public void parse(ParseContext parseContext)
-    {
+    public void parse(ParseContext parseContext) {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = BblParser.BBL_TEN_DIGIT.matcher(currentChunk.getText());
 
-        if(!matcher.matches())
-        {
-            patternNotMatched(parseContext,BBL_TEN_DIGIT);
+        if (!matcher.matches()) {
+            patternNotMatched(parseContext, BBL_TEN_DIGIT);
             return;
         }
-        MatchBuilder builder = new MatchBuilder()
-            .add(matcher)
-            .add(MatchType.COMPLETE)
-            .add(parseContext)
-            .add(BBL_TEN_DIGIT, 1, TokenType.BOROUGH_CODE)
-            .add(BBL_TEN_DIGIT, 2, TokenType.BLOCK)
-            .add(BBL_TEN_DIGIT, 3, TokenType.LOT);
+        MatchBuilder builder = new MatchBuilder().add(matcher).add(MatchType.COMPLETE).add(parseContext).add(
+            BBL_TEN_DIGIT, 1, TokenType.BOROUGH_CODE).add(BBL_TEN_DIGIT, 2, TokenType.BLOCK).add(BBL_TEN_DIGIT, 3,
+                TokenType.LOT);
         handleMatch(builder.build(), ChunkType.BBL);
     }
 

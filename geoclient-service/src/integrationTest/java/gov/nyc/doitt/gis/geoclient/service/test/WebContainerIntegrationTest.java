@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package gov.nyc.doitt.gis.geoclient.service.test;
+
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public abstract class  WebContainerIntegrationTest {
+public abstract class WebContainerIntegrationTest {
 
     @Autowired
     private TestRestTemplate restTemplate;

@@ -78,7 +78,8 @@ public class TestFileParser {
             if (isComment(line)) {
                 // Do nothing
                 log("comment: " + line);
-            } else if (isConfigLine(line)) {
+            }
+            else if (isConfigLine(line)) {
                 try (Scanner scanner = new Scanner(line);) {
                     log("config line: " + line);
                     scanner.findInLine(CONF_PATTERN);
@@ -88,7 +89,8 @@ public class TestFileParser {
                     length = Integer.parseInt(match.group(2));
                     log("parsed config length: " + length);
                 }
-            } else {
+            }
+            else {
                 // Input (workAreaOne) line
                 String input = parseInputLine(line, INPUT_LENGTH);
                 log("parsed input line: " + input);

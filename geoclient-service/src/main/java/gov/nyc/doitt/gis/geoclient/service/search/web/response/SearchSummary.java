@@ -23,8 +23,7 @@ import com.thoughtworks.xstream.annotations.XStreamConverter;
 
 import gov.nyc.doitt.gis.geoclient.service.xstream.MapConverter;
 
-public class SearchSummary
-{
+public class SearchSummary {
     @XStreamAsAttribute
     private String level;
     @XStreamAsAttribute
@@ -35,36 +34,35 @@ public class SearchSummary
     @XStreamConverter(MapConverter.class)
     private Map<String, Object> response;
 
-    public MatchStatus getStatus()
-    {
+    public MatchStatus getStatus() {
         return status;
     }
-    public void setStatus(MatchStatus status)
-    {
+
+    public void setStatus(MatchStatus status) {
         this.status = status;
     }
-    public String getRequest()
-    {
+
+    public String getRequest() {
         return request;
     }
-    public void setRequest(String request)
-    {
+
+    public void setRequest(String request) {
         this.request = request;
     }
-    public Map<String, Object> getResponse()
-    {
+
+    public Map<String, Object> getResponse() {
         return response;
     }
-    public void setResponse(Map<String, Object> response)
-    {
+
+    public void setResponse(Map<String, Object> response) {
         this.response = response;
     }
-    public String getLevel()
-    {
+
+    public String getLevel() {
         return level;
     }
-    public void setLevel(String level)
-    {
+
+    public void setLevel(String level) {
         this.level = level;
     }
 }

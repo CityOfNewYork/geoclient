@@ -33,13 +33,13 @@ import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
 import gov.nyc.doitt.gis.geoclient.parser.token.Token;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
-public class CountyResolverTest
-{
+public class CountyResolverTest {
     @SuppressWarnings("serial")
-    private Map<String, String> boroughNames = new HashMap<String, String>()
-    {{
-        put("Bk","BROOKLYN");
-    }};
+    private Map<String, String> boroughNames = new HashMap<String, String>() {
+        {
+            put("Bk", "BROOKLYN");
+        }
+    };
 
     private CountyResolver boroughResolver;
     private LocationTokens locationTokens;
@@ -48,20 +48,18 @@ public class CountyResolverTest
     private Token unresolvableBoroughNameToken;
 
     @BeforeEach
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         boroughResolver = new CountyResolver(boroughNames);
         chunk = new Chunk(ChunkType.COUNTY, "countyChunk");
         List<Chunk> chunks = new ArrayList<>();
         chunks.add(chunk);
-        locationTokens = new LocationTokens(new Input("abc","def"), chunks);
+        locationTokens = new LocationTokens(new Input("abc", "def"), chunks);
         resolvableBoroughNameToken = new Token(TokenType.BOROUGH_NAME, "BK", 4, 6);
         unresolvableBoroughNameToken = new Token(TokenType.BOROUGH_NAME, "foo", 0, 3);
     }
 
     @Test
-    public void testResolve_emptyLocationTokensContainsFiveBoroughs()
-    {
+    public void testResolve_emptyLocationTokensContainsFiveBoroughs() {
         ValueResolution res = boroughResolver.resolve(locationTokens);
         assertThat(res).isNotNull();
         assertThat(res.unresolvedCount()).isEqualTo(0);
@@ -75,8 +73,7 @@ public class CountyResolverTest
     }
 
     @Test
-    public void testResolve_doesNotCreateDefaultBoroughsWhenZipIsAvailable()
-    {
+    public void testResolve_doesNotCreateDefaultBoroughsWhenZipIsAvailable() {
         Chunk zipChunk = new Chunk(ChunkType.COUNTY, "10025");
         zipChunk.add(new Token(TokenType.ZIP, "10025", 0, 5));
         locationTokens.getChunks().add(zipChunk);
@@ -88,8 +85,7 @@ public class CountyResolverTest
     }
 
     @Test
-    public void testResolve_containsCorrectResolutionCount()
-    {
+    public void testResolve_containsCorrectResolutionCount() {
         chunk.add(resolvableBoroughNameToken);
         chunk.add(unresolvableBoroughNameToken);
         ValueResolution res = boroughResolver.resolve(locationTokens);

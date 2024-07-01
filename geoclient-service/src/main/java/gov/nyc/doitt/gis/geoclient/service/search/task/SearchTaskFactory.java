@@ -21,28 +21,22 @@ import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
 
+public class SearchTaskFactory {
+    private final InitialSearchTaskBuilder initialSearchTaskBuilder;
+    private final SpawnedSearchTaskBuilder spawnedSearchTaskBuilder;
 
-public class SearchTaskFactory
-{
-  private final InitialSearchTaskBuilder initialSearchTaskBuilder;
-  private final SpawnedSearchTaskBuilder spawnedSearchTaskBuilder;
+    public SearchTaskFactory(InitialSearchTaskBuilder initialSearchTaskBuilder,
+            SpawnedSearchTaskBuilder spawnedSearchTaskBuilder) {
+        super();
+        this.initialSearchTaskBuilder = initialSearchTaskBuilder;
+        this.spawnedSearchTaskBuilder = spawnedSearchTaskBuilder;
+    }
 
-  public SearchTaskFactory(InitialSearchTaskBuilder initialSearchTaskBuilder,
-      SpawnedSearchTaskBuilder spawnedSearchTaskBuilder)
-  {
-    super();
-    this.initialSearchTaskBuilder = initialSearchTaskBuilder;
-    this.spawnedSearchTaskBuilder = spawnedSearchTaskBuilder;
-  }
+    public List<SearchTask> buildInitialSearchTasks(SearchPolicy searchPolicy, LocationTokens locationTokens) {
+        return this.initialSearchTaskBuilder.getSearchTasks(searchPolicy, locationTokens);
+    }
 
-  public List<SearchTask> buildInitialSearchTasks(SearchPolicy searchPolicy, LocationTokens locationTokens)
-  {
-    return this.initialSearchTaskBuilder.getSearchTasks(searchPolicy, locationTokens);
-  }
-
-
-  public List<SearchTask> buildSubsearchTasks(SearchResult searchResult)
-  {
-    return this.spawnedSearchTaskBuilder.getSearchTasks(searchResult);
-  }
+    public List<SearchTask> buildSubsearchTasks(SearchResult searchResult) {
+        return this.spawnedSearchTaskBuilder.getSearchTasks(searchResult);
+    }
 }

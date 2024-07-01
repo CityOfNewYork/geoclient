@@ -59,12 +59,8 @@ public class SanitizeParametersRequestWrapperTest {
 
     @Test
     void testGetParameterValues() throws Exception {
-        standaloneSetup(new TestRestController())
-            .addFilter(new SanitizeParametersFilter())
-            .build()
-            .perform(get(URI)
-            .queryParam(PARAM_NAME, DIRTY_VALUE))
-            .andExpect(content().string(CLEAN_VALUE));
+        standaloneSetup(new TestRestController()).addFilter(new SanitizeParametersFilter()).build().perform(
+            get(URI).queryParam(PARAM_NAME, DIRTY_VALUE)).andExpect(content().string(CLEAN_VALUE));
     }
 
     @Controller

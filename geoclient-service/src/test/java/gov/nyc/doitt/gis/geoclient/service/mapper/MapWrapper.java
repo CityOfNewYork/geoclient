@@ -118,35 +118,35 @@ public class MapWrapper {
             throw new NullPointerException("This function requires 1 to 6 string arguments but none were given");
         }
         if (strings.length < 1 || strings.length > 6) {
-            throw new NullPointerException(String
-                    .format("This function requires 1 to 6 string arguments but %d were given", strings.length));
+            throw new NullPointerException(
+                String.format("This function requires 1 to 6 string arguments but %d were given", strings.length));
         }
         MapWrapper result = new MapWrapper(new HashMap<>());
         for (int i = 0; i < strings.length; i++) {
             String string = strings[i];
             int arg = i + 1;
             switch (arg) {
-            case 1:
-                result.setReturnCode1(string);
-                break;
-            case 2:
-                result.setReasonCode1(string);
-                break;
-            case 3:
-                result.setMessage1(string);
-                break;
-            case 4:
-                result.setReturnCode2(string);
-                break;
-            case 5:
-                result.setReasonCode2(string);
-                break;
-            case 6:
-                result.setMessage2(string);
-                break;
+                case 1:
+                    result.setReturnCode1(string);
+                    break;
+                case 2:
+                    result.setReasonCode1(string);
+                    break;
+                case 3:
+                    result.setMessage1(string);
+                    break;
+                case 4:
+                    result.setReturnCode2(string);
+                    break;
+                case 5:
+                    result.setReasonCode2(string);
+                    break;
+                case 6:
+                    result.setMessage2(string);
+                    break;
 
-            default:
-                throw new IllegalStateException();
+                default:
+                    throw new IllegalStateException();
             }
         }
         return result;

@@ -15,67 +15,63 @@
  */
 package gov.nyc.doitt.gis.geoclient.service.domain;
 
-
-
-public class Version
-{
+public class Version {
     private String geoclientJniVersion;
     private String geoclientVersion;
     private String geoclientParserVersion;
     private String geoclientServiceVersion;
     private GeosupportVersion geosupportVersion;
     private String accessMethod;
-    public String getAccessMethod()
-    {
+    public String getAccessMethod() {
         return accessMethod;
     }
-    public void setAccessMethod(String accessMethod)
-    {
+
+    public void setAccessMethod(String accessMethod) {
         this.accessMethod = accessMethod;
     }
-    public GeosupportVersion getGeosupportVersion()
-    {
+
+    public GeosupportVersion getGeosupportVersion() {
         return geosupportVersion;
     }
-    public void setGeosupportVersion(GeosupportVersion geosupportVersion)
-    {
+
+    public void setGeosupportVersion(GeosupportVersion geosupportVersion) {
         this.geosupportVersion = geosupportVersion;
     }
-    public String getGeoclientVersion()
-    {
+
+    public String getGeoclientVersion() {
         return geoclientVersion;
     }
-    public void setGeoclientVersion(String geoclientVersion)
-    {
+
+    public void setGeoclientVersion(String geoclientVersion) {
         this.geoclientVersion = geoclientVersion;
     }
-    public String getGeoclientJniVersion()
-    {
+
+    public String getGeoclientJniVersion() {
         return geoclientJniVersion;
     }
-    public void setGeoclientJniVersion(String geoclientJniVersion)
-    {
+
+    public void setGeoclientJniVersion(String geoclientJniVersion) {
         this.geoclientJniVersion = geoclientJniVersion;
     }
-    public String getGeoclientServiceVersion()
-    {
+
+    public String getGeoclientServiceVersion() {
         return geoclientServiceVersion;
     }
-    public void setGeoclientServiceVersion(String geoclientServiceVersion)
-    {
+
+    public void setGeoclientServiceVersion(String geoclientServiceVersion) {
         this.geoclientServiceVersion = geoclientServiceVersion;
     }
-    public String getGeoclientParserVersion()
-    {
+
+    public String getGeoclientParserVersion() {
         return geoclientParserVersion;
     }
-    public void setGeoclientParserVersion(String geoclientParserVersion)
-    {
+
+    public void setGeoclientParserVersion(String geoclientParserVersion) {
         this.geoclientParserVersion = geoclientParserVersion;
     }
+
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Version [geoclientJniVersion=" + geoclientJniVersion + ", geoclientVersion=" + geoclientVersion
                 + ", geoclientServiceVersion=" + geoclientServiceVersion + ", geosupportVersion=" + geosupportVersion
                 + "]";

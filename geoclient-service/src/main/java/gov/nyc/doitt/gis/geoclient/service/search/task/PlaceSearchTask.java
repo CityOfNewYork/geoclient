@@ -39,7 +39,7 @@ public class PlaceSearchTask extends SearchTask {
         PlaceRequest placeRequest = (PlaceRequest) this.request;
         LOGGER.debug("Calling {} with {}.", Function.F1B, placeRequest);
         return this.geosupportService.callFunction1B(null, // house number
-                placeRequest.getStreet(), placeRequest.getBorough(), placeRequest.getZip());
+            placeRequest.getStreet(), placeRequest.getBorough(), placeRequest.getZip());
     }
 
 }

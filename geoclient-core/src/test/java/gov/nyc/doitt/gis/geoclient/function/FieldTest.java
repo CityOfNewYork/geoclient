@@ -25,93 +25,83 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class FieldTest
-{
+public class FieldTest {
     private ByteBuffer buffer;
     private Field field;
 
     @BeforeEach
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         this.buffer = ByteBuffer.allocate(8);
         this.field = new Field("Frank", 2, 4);
     }
 
     @AfterEach
-    public void tearDown() throws Exception
-    {
+    public void tearDown() throws Exception {
         this.buffer.clear();
     }
 
     @Test
-    public void testRead_withSignificantWhitespaceButEmptyWithSpaces()
-    {
-        Field aField = new Field("abc", 2, 6, false,false,null,true);
+    public void testRead_withSignificantWhitespaceButEmptyWithSpaces() {
+        Field aField = new Field("abc", 2, 6, false, false, null, true);
         this.buffer.position(0);
         //String s = "12 456  ";
-        byte[] bytes = new byte[]{'1','2',' ',' ',' ',' ',' ',' '};
+        byte[] bytes = new byte[] { '1', '2', ' ', ' ', ' ', ' ', ' ', ' ' };
         this.buffer.put(bytes);
         String result = aField.read(this.buffer);
-        assertEquals("",result);
+        assertEquals("", result);
     }
 
     @Test
-    public void testRead_withSignificantWhitespaceButEmptyWithNull()
-    {
-        Field aField = new Field("abc", 2, 6, false,false,null,true);
+    public void testRead_withSignificantWhitespaceButEmptyWithNull() {
+        Field aField = new Field("abc", 2, 6, false, false, null, true);
         this.buffer.position(0);
         //String s = "12 456  ";
-        byte[] bytes = new byte[]{'1','2','\u0000','\u0000','\u0000','\u0000','\u0000','\u0000'};
+        byte[] bytes = new byte[] { '1', '2', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000', '\u0000' };
         this.buffer.put(bytes);
         String result = aField.read(this.buffer);
-        assertEquals("",result);
+        assertEquals("", result);
     }
 
     @Test
-    public void testRead_withSignificantWhitespace()
-    {
-        Field aField = new Field("abc", 2, 6, false,false,null,true);
+    public void testRead_withSignificantWhitespace() {
+        Field aField = new Field("abc", 2, 6, false, false, null, true);
         this.buffer.position(0);
         String s = "12 456  ";
         this.buffer.put(s.getBytes());
         String result = aField.read(this.buffer);
-        assertEquals(" 456  ",result);
+        assertEquals(" 456  ", result);
     }
 
     @Test
-    public void testRead_withoutSignificantWhitespace()
-    {
+    public void testRead_withoutSignificantWhitespace() {
         Field aField = new Field("abc", 2, 6);
         this.buffer.position(0);
         String s = "12 456  ";
         this.buffer.put(s.getBytes());
         String result = aField.read(this.buffer);
-        assertEquals("456",result);
+        assertEquals("456", result);
     }
 
     @Test
-    public void testRead_notEmpty()
-    {
+    public void testRead_notEmpty() {
         this.buffer.position(0);
         String s = "12345678";
         this.buffer.put(s.getBytes());
         String result = this.field.read(this.buffer);
-        assertEquals("3456",result);
+        assertEquals("3456", result);
     }
 
     @Test
-    public void testRead_empty()
-    {
+    public void testRead_empty() {
         this.buffer.position(0);
         String s = "        ";
         this.buffer.put(s.getBytes());
         String result = this.field.read(this.buffer);
-        assertEquals("",result);
+        assertEquals("", result);
     }
 
     @Test
-    public void testConstructor_idStartLength()
-    {
+    public void testConstructor_idStartLength() {
         assertEquals("Frank", this.field.getId());
         assertEquals(2, this.field.getStart());
         assertEquals(4, this.field.getLength());
@@ -123,8 +113,7 @@ public class FieldTest
     }
 
     @Test
-    public void testConstructor_idStartLengthComposite()
-    {
+    public void testConstructor_idStartLengthComposite() {
         Field compositeField = new Field("Frank", 2, 4, true);
         assertEquals("Frank", compositeField.getId());
         assertEquals(2, compositeField.getStart());
@@ -137,9 +126,8 @@ public class FieldTest
     }
 
     @Test
-    public void testConstructor_idStartLengthCompositeInputAlias()
-    {
-        Field aField = new Field("Frank", 2, 4, false,true,"Doug");
+    public void testConstructor_idStartLengthCompositeInputAlias() {
+        Field aField = new Field("Frank", 2, 4, false, true, "Doug");
         assertEquals("Frank", aField.getId());
         assertEquals(2, aField.getStart());
         assertEquals(4, aField.getLength());
@@ -152,9 +140,8 @@ public class FieldTest
     }
 
     @Test
-    public void testConstructor_idStartLengthCompositeInputAliasWhitespace()
-    {
-        Field aField = new Field("Frank", 2, 4, false,true,"Doug",true);
+    public void testConstructor_idStartLengthCompositeInputAliasWhitespace() {
+        Field aField = new Field("Frank", 2, 4, false, true, "Doug", true);
         assertEquals("Frank", aField.getId());
         assertEquals(2, aField.getStart());
         assertEquals(4, aField.getLength());
@@ -167,9 +154,8 @@ public class FieldTest
     }
 
     @Test
-    public void testConstructor_idStartLengthCompositeInputAliasWhitespaceOutputAlias()
-    {
-        Field aField = new Field("Frank", 2, 4, false,true,"Doug",true, "Fraunk");
+    public void testConstructor_idStartLengthCompositeInputAliasWhitespaceOutputAlias() {
+        Field aField = new Field("Frank", 2, 4, false, true, "Doug", true, "Fraunk");
         assertEquals("Frank", aField.getId());
         assertEquals(2, aField.getStart());
         assertEquals(4, aField.getLength());
@@ -182,11 +168,8 @@ public class FieldTest
         assertEquals("Fraunk", aField.getOutputAlias());
     }
 
-
-
     @Test
-    public void testWrite_withParams() throws Exception
-    {
+    public void testWrite_withParams() throws Exception {
         this.field.write("abc", this.buffer);
         byte[] expectedBytes = new byte[8];
         expectedBytes[0] = (byte) '\u0000';
@@ -204,8 +187,7 @@ public class FieldTest
     }
 
     @Test
-    public void testWrite_withoutParams()
-    {
+    public void testWrite_withoutParams() {
         this.field.write(this.buffer);
         byte[] expectedBytes = new byte[8];
         expectedBytes[0] = (byte) '\u0000';
@@ -223,8 +205,7 @@ public class FieldTest
     }
 
     @Test
-    public void testGetBytes_inputWithExtraChars()
-    {
+    public void testGetBytes_inputWithExtraChars() {
         // input > field length
         byte[] actualBytes = this.field.getBytes("abcdefg");
         assertEquals("abcd", new String(actualBytes));
@@ -237,49 +218,46 @@ public class FieldTest
     }
 
     @Test
-    public void testGetBytes_null()
-    {
+    public void testGetBytes_null() {
         byte[] actualBytes = this.field.getBytes(null);
         assertEquals("    ", new String(actualBytes));
     }
 
     @Test
-    public void testGetBytes_emptyString()
-    {
+    public void testGetBytes_emptyString() {
         byte[] actualBytes = this.field.getBytes("");
         assertEquals("    ", new String(actualBytes));
     }
 
     @Test
-    public void testCompareTo()
-    {
+    public void testCompareTo() {
         // field == Field [name='Frank', start=2, length=4]
         String baseName = this.field.getId();
         int baseStart = this.field.getStart();
         int baseLength = this.field.getLength();
         Field fieldIsEqual = new Field(baseName, baseStart, baseLength);
-        assertTrue(this.field.compareTo(fieldIsEqual)==0);
-        assertTrue(fieldIsEqual.compareTo(this.field)==0);
-        assertTrue(this.field.compareTo(this.field)==0);
+        assertTrue(this.field.compareTo(fieldIsEqual) == 0);
+        assertTrue(fieldIsEqual.compareTo(this.field) == 0);
+        assertTrue(this.field.compareTo(this.field) == 0);
 
         Field startIsLess = new Field(baseName, baseStart - 1, baseLength);
-        assertTrue(this.field.compareTo(startIsLess)>0);
-        assertTrue(startIsLess.compareTo(this.field)<0);
+        assertTrue(this.field.compareTo(startIsLess) > 0);
+        assertTrue(startIsLess.compareTo(this.field) < 0);
 
         Field startIsMore = new Field(baseName, baseStart + 1, baseLength);
-        assertTrue(this.field.compareTo(startIsMore)<0);
-        assertTrue(startIsMore.compareTo(this.field)>0);
+        assertTrue(this.field.compareTo(startIsMore) < 0);
+        assertTrue(startIsMore.compareTo(this.field) > 0);
 
         Field lengthIsLess = new Field(baseName, baseStart, baseLength - 1);
-        assertTrue(this.field.compareTo(lengthIsLess)>0);
-        assertTrue(lengthIsLess.compareTo(this.field)<0);
+        assertTrue(this.field.compareTo(lengthIsLess) > 0);
+        assertTrue(lengthIsLess.compareTo(this.field) < 0);
 
         Field lengthIsMore = new Field(baseName, baseStart, baseLength + 1);
-        assertTrue(this.field.compareTo(lengthIsMore)<0);
-        assertTrue(lengthIsMore.compareTo(this.field)>0);
+        assertTrue(this.field.compareTo(lengthIsMore) < 0);
+        assertTrue(lengthIsMore.compareTo(this.field) > 0);
 
-        Field onlyNameIsDifferent = new Field("A"+baseName, baseStart, baseLength);
-        assertTrue(this.field.compareTo(onlyNameIsDifferent)==0);
+        Field onlyNameIsDifferent = new Field("A" + baseName, baseStart, baseLength);
+        assertTrue(this.field.compareTo(onlyNameIsDifferent) == 0);
     }
 
 }

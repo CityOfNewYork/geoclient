@@ -19,18 +19,16 @@ import gov.nyc.doitt.gis.geoclient.service.search.policy.DefaultExactMatchPolicy
 import gov.nyc.doitt.gis.geoclient.service.search.policy.DefaultSearchDepthPolicy;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.DefaultSimilarNamesPolicy;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
-
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 
-public class SearchParameters
-{
+public class SearchParameters {
     public static final int MAX_CONFIGURABLE_DEPTH = 6;
     @NotEmpty
     private String input;
-    @Min(value=0)
-    @Max(value=MAX_CONFIGURABLE_DEPTH)
+    @Min(value = 0)
+    @Max(value = MAX_CONFIGURABLE_DEPTH)
     private int maxDepth = DefaultSearchDepthPolicy.DEFAULT_MAX_DEPTH;
     private int similarNamesDistance = DefaultSimilarNamesPolicy.DEFAULT_SIMILAR_NAMES_DISTANCE;
     private int exactMatchMaxLevel = DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_MAX_LEVEL;
@@ -40,89 +38,72 @@ public class SearchParameters
     private boolean returnRejections = false;
     private boolean returnPossiblesWithExactMatch = false;
 
-    public SearchParameters()
-    {
+    public SearchParameters() {
         super();
     }
 
-    public SearchParameters(String input)
-    {
+    public SearchParameters(String input) {
         super();
         this.input = input;
     }
 
-    public int getMaxDepth()
-    {
+    public int getMaxDepth() {
         return maxDepth;
     }
 
-    public void setMaxDepth(int maxDepth)
-    {
+    public void setMaxDepth(int maxDepth) {
         this.maxDepth = maxDepth;
     }
 
-    public int getSimilarNamesDistance()
-    {
+    public int getSimilarNamesDistance() {
         return similarNamesDistance;
     }
 
-    public void setSimilarNamesDistance(int similarNamesDistance)
-    {
+    public void setSimilarNamesDistance(int similarNamesDistance) {
         this.similarNamesDistance = similarNamesDistance;
     }
 
-    public int getExactMatchMaxLevel()
-    {
+    public int getExactMatchMaxLevel() {
         return exactMatchMaxLevel;
     }
 
-    public void setExactMatchMaxLevel(int exactMatchMaxLevel)
-    {
+    public void setExactMatchMaxLevel(int exactMatchMaxLevel) {
         this.exactMatchMaxLevel = exactMatchMaxLevel;
     }
 
-    public boolean isExactMatchForSingleSuccess()
-    {
+    public boolean isExactMatchForSingleSuccess() {
         return exactMatchForSingleSuccess;
     }
 
-    public void setExactMatchForSingleSuccess(boolean exactMatchForSingleSuccess)
-    {
+    public void setExactMatchForSingleSuccess(boolean exactMatchForSingleSuccess) {
         this.exactMatchForSingleSuccess = exactMatchForSingleSuccess;
     }
 
-    public String getInput()
-    {
+    public String getInput() {
         return input;
     }
 
-    public void setInput(String input)
-    {
+    public void setInput(String input) {
         this.input = input;
     }
 
-    public boolean isReturnTokens()
-    {
+    public boolean isReturnTokens() {
         return returnTokens;
     }
 
-    public void setReturnTokens(boolean returnTokens)
-    {
+    public void setReturnTokens(boolean returnTokens) {
         this.returnTokens = returnTokens;
     }
 
-    public boolean isReturnPolicy()
-    {
+    public boolean isReturnPolicy() {
         return returnPolicy;
     }
 
-    public void setReturnPolicy(boolean returnPolicy)
-    {
+    public void setReturnPolicy(boolean returnPolicy) {
         this.returnPolicy = returnPolicy;
     }
 
-    public SearchPolicy buildSearchPolicy()
-    {
+    public SearchPolicy buildSearchPolicy() {
         SearchPolicy policy = new SearchPolicy();
         configure((DefaultExactMatchPolicy) policy.getExactMatchPolicy());
         configure((DefaultSearchDepthPolicy) policy.getSearchDepthPolicy());
@@ -130,25 +111,21 @@ public class SearchParameters
         return policy;
     }
 
-    private void configure(DefaultExactMatchPolicy policy)
-    {
+    private void configure(DefaultExactMatchPolicy policy) {
         policy.setExactMatchForSingleSuccess(isExactMatchForSingleSuccess());
         policy.setExactMatchMaxLevel(getExactMatchMaxLevel());
     }
 
-    private void configure(DefaultSearchDepthPolicy policy)
-    {
+    private void configure(DefaultSearchDepthPolicy policy) {
         policy.setMaximumDepth(getMaxDepth());
     }
 
-    private void configure(DefaultSimilarNamesPolicy policy)
-    {
+    private void configure(DefaultSimilarNamesPolicy policy) {
         policy.setSimilarNamesDistance(getSimilarNamesDistance());
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + (exactMatchForSingleSuccess ? 1231 : 1237);
@@ -162,8 +139,7 @@ public class SearchParameters
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -175,11 +151,11 @@ public class SearchParameters
             return false;
         if (exactMatchMaxLevel != other.exactMatchMaxLevel)
             return false;
-        if (input == null)
-        {
+        if (input == null) {
             if (other.input != null)
                 return false;
-        } else if (!input.equals(other.input))
+        }
+        else if (!input.equals(other.input))
             return false;
         if (maxDepth != other.maxDepth)
             return false;
@@ -192,23 +168,19 @@ public class SearchParameters
         return true;
     }
 
-    public boolean isReturnRejections()
-    {
+    public boolean isReturnRejections() {
         return returnRejections;
     }
 
-    public void setReturnRejections(boolean returnRejections)
-    {
+    public void setReturnRejections(boolean returnRejections) {
         this.returnRejections = returnRejections;
     }
 
-    public boolean isReturnPossiblesWithExactMatch()
-    {
+    public boolean isReturnPossiblesWithExactMatch() {
         return returnPossiblesWithExactMatch;
     }
 
-    public void setReturnPossiblesWithExactMatch(boolean returnPossiblesWithExactMatch)
-    {
+    public void setReturnPossiblesWithExactMatch(boolean returnPossiblesWithExactMatch) {
         this.returnPossiblesWithExactMatch = returnPossiblesWithExactMatch;
     }
 }

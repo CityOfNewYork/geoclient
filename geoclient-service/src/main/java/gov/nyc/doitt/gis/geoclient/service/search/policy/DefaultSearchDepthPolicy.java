@@ -23,8 +23,7 @@ import gov.nyc.doitt.gis.geoclient.service.search.Search;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 
-public class DefaultSearchDepthPolicy extends AbstractPolicy implements SearchDepthPolicy
-{
+public class DefaultSearchDepthPolicy extends AbstractPolicy implements SearchDepthPolicy {
     public static final boolean DEFAULT_ASSIGNED_VALUE_REQUESTS_CAN_SPAWN_SUBSEARCH = false;
     public static final int DEFAULT_MAX_DEPTH = 3;
 
@@ -43,25 +42,20 @@ public class DefaultSearchDepthPolicy extends AbstractPolicy implements SearchDe
      */
     private int maximumDepth = DEFAULT_MAX_DEPTH;
 
-    public boolean continueSearch(SearchResult searchResult)
-    {
+    public boolean continueSearch(SearchResult searchResult) {
         return !inputForSubSearches(searchResult).isEmpty();
     }
 
-    public int getMaximumDepth()
-    {
+    public int getMaximumDepth() {
         return maximumDepth;
     }
 
     @Override
-    public List<Search> inputForSubSearches(SearchResult searchResult)
-    {
+    public List<Search> inputForSubSearches(SearchResult searchResult) {
         List<Search> subSearchable = new ArrayList<>();
         int currentLevel = searchResult.getCurrentLevel();
-        for (Search search : searchResult.getSearches())
-        {
-            if (search.getLevel() == currentLevel && search.isRejected() && nextLevelEnabled(search.getRequest()))
-            {
+        for (Search search : searchResult.getSearches()) {
+            if (search.getLevel() == currentLevel && search.isRejected() && nextLevelEnabled(search.getRequest())) {
                 subSearchable.add(search);
             }
         }
@@ -71,47 +65,41 @@ public class DefaultSearchDepthPolicy extends AbstractPolicy implements SearchDe
 
     // TODO TESTME
     @Override
-    public String getDescription()
-    {
+    public String getDescription() {
         String s = this.maximumDepth == 1 ? "" : "s";
-        StringBuffer buff = new StringBuffer(String.format("A rejected search can spawn %d sub-search level%s.", this.maximumDepth,s));
+        StringBuffer buff = new StringBuffer(
+            String.format("A rejected search can spawn %d sub-search level%s.", this.maximumDepth, s));
         String not = this.assignedValueRequestsCanSpawnSubsearch ? "" : "not";
-        buff.append(String.format(" Rejected searches built using an assigned (guessed) value can%s spawn sub-searches.", not));
+        buff.append(
+            String.format(" Rejected searches built using an assigned (guessed) value can%s spawn sub-searches.", not));
         return buff.toString();
     }
 
-    public boolean levelEnabled(int level)
-    {
+    public boolean levelEnabled(int level) {
         return this.maximumDepth >= level;
     }
 
-    public boolean nextLevelEnabled(Request request)
-    {
-        if(!isAssignedValueRequestsCanSpawnSubsearch() && request.containsAssignedValue())
-        {
+    public boolean nextLevelEnabled(Request request) {
+        if (!isAssignedValueRequestsCanSpawnSubsearch() && request.containsAssignedValue()) {
             return false;
         }
         return levelEnabled(request.getLevel() + 1);
     }
 
-    public void setMaximumDepth(int maximumDepth)
-    {
+    public void setMaximumDepth(int maximumDepth) {
         this.maximumDepth = maximumDepth;
     }
 
-    public boolean isAssignedValueRequestsCanSpawnSubsearch()
-    {
+    public boolean isAssignedValueRequestsCanSpawnSubsearch() {
         return assignedValueRequestsCanSpawnSubsearch;
     }
 
-    public void setAssignedValueRequestsCanSpawnSubsearch(boolean assignedValueRequestsCanSpawnSubsearch)
-    {
+    public void setAssignedValueRequestsCanSpawnSubsearch(boolean assignedValueRequestsCanSpawnSubsearch) {
         this.assignedValueRequestsCanSpawnSubsearch = assignedValueRequestsCanSpawnSubsearch;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + (assignedValueRequestsCanSpawnSubsearch ? 1231 : 1237);
@@ -120,8 +108,7 @@ public class DefaultSearchDepthPolicy extends AbstractPolicy implements SearchDe
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

@@ -32,19 +32,19 @@ class AssertTest {
     @Test
     void testHasText_null() {
         assertThrows(IllegalArgumentException.class,
-                () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.hasText((String)null, "bar"), "bar");
+            () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.hasText((String) null, "bar"), "bar");
     }
 
     @Test
     void testHasText_empty() {
         assertThrows(IllegalArgumentException.class,
-                () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.hasText("", "bar"), "bar");
+            () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.hasText("", "bar"), "bar");
     }
 
     @Test
     void testHasText_whitespaceOnly() {
         assertThrows(IllegalArgumentException.class,
-                () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.hasText("  ", "bar"), "bar");
+            () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.hasText("  ", "bar"), "bar");
     }
 
     @Test
@@ -55,7 +55,7 @@ class AssertTest {
     @Test
     void testIsTrue_false() {
         assertThrows(IllegalArgumentException.class,
-                () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.isTrue(1 > 1, "bar"), "bar");
+            () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.isTrue(1 > 1, "bar"), "bar");
     }
 
     @Test
@@ -69,7 +69,7 @@ class AssertTest {
     void testNotEmpty_null() {
         Collection<String> collection = null;
         assertThrows(IllegalArgumentException.class,
-                () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.notEmpty(collection, "bar"), "bar");
+            () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.notEmpty(collection, "bar"), "bar");
 
     }
 
@@ -77,7 +77,7 @@ class AssertTest {
     void testNotEmpty_empty() {
         Collection<String> collection = new ArrayList<>();
         assertThrows(IllegalArgumentException.class,
-                () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.notEmpty(collection, "bar"), "bar");
+            () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.notEmpty(collection, "bar"), "bar");
     }
 
     @Test
@@ -88,7 +88,7 @@ class AssertTest {
     @Test
     void testNotNull_null() {
         assertThrows(IllegalArgumentException.class,
-                () ->  gov.nyc.doitt.gis.geoclient.parser.util.Assert.notNull((Object)null, "bar"), "bar");
+            () -> gov.nyc.doitt.gis.geoclient.parser.util.Assert.notNull((Object) null, "bar"), "bar");
     }
 
 }

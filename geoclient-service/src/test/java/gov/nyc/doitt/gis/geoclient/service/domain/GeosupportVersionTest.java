@@ -23,21 +23,18 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GeosupportVersionTest
-{
+public class GeosupportVersionTest {
 
     private GeosupportVersion geosupportVersion;
     private List<FileInfo> fileInfoList;
 
     @BeforeEach
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         this.geosupportVersion = new GeosupportVersion();
         this.fileInfoList = new ArrayList<>();
     }
 
-    private void addTag(String tag, String release)
-    {
+    private void addTag(String tag, String release) {
         FileInfo f = new FileInfo();
         f.setTag(tag);
         f.setRelease(release);
@@ -46,24 +43,21 @@ public class GeosupportVersionTest
     }
 
     @Test
-    public void testGetVersion()
-    {
-        assertEquals(GeosupportVersion.VERSION_NOT_AVAILABLE,this.geosupportVersion.getVersion());
+    public void testGetVersion() {
+        assertEquals(GeosupportVersion.VERSION_NOT_AVAILABLE, this.geosupportVersion.getVersion());
         addTag(GeosupportVersion.GEO_FILE_TAG, "0132");
         assertEquals("13.2", geosupportVersion.getVersion());
     }
 
     @Test
-    public void testGetRelease()
-    {
-        assertEquals(GeosupportVersion.RELEASE_NOT_AVAILABLE,this.geosupportVersion.getRelease());
+    public void testGetRelease() {
+        assertEquals(GeosupportVersion.RELEASE_NOT_AVAILABLE, this.geosupportVersion.getRelease());
         addTag(GeosupportVersion.PAD_FILE_TAG, "13X");
         assertEquals("13X", geosupportVersion.getRelease());
     }
 
     @Test
-    public void testFormatVersion()
-    {
+    public void testFormatVersion() {
         assertEquals(GeosupportVersion.VERSION_NOT_AVAILABLE, geosupportVersion.formatVersion(""));
         assertEquals(GeosupportVersion.VERSION_NOT_AVAILABLE, geosupportVersion.formatVersion("0000"));
         assertEquals("1", geosupportVersion.formatVersion("00001"));
@@ -73,8 +67,7 @@ public class GeosupportVersionTest
     }
 
     @Test
-    public void testFormatRelease()
-    {
+    public void testFormatRelease() {
         assertEquals("13X", geosupportVersion.formatRelease("13X"));
     }
 

@@ -281,13 +281,13 @@ public class GeosupportVersion {
     public String toString() {
         return "GeosupportVersion [apFileInfo=" + apFileInfo + ", apequivFileInfo=" + apequivFileInfo
                 + ", auxsegFileInfo=" + auxsegFileInfo + ", dsNames=" + dsNames + ", geofilesDirectory="
-                + geofilesDirectory + ", geoFileInfo=" + geoFileInfo
-                + ", grid1RFileInfo=" + grid1RFileInfo + ", sneqFileInfo=" + sneqFileInfo + ", stat1AFileInfo="
-                + stat1AFileInfo + ", stat1FileInfo=" + stat1FileInfo + ", stat2FileInfo=" + stat2FileInfo
-                + ", stat3FileInfo=" + stat3FileInfo + ", stat3SFileInfo=" + stat3SFileInfo + ", statAPFileInfo="
-                + statAPFileInfo + ", statBLFileInfo=" + statBLFileInfo + ", statBNFileInfo=" + statBNFileInfo
-                + ", statDFileInfo=" + statDFileInfo + ", statFileInfo=" + statFileInfo + ", thinFileInfo="
-                + thinFileInfo + ", tpadFileInfo=" + tpadFileInfo + ", upadFileInfo=" + upadFileInfo + "]";
+                + geofilesDirectory + ", geoFileInfo=" + geoFileInfo + ", grid1RFileInfo=" + grid1RFileInfo
+                + ", sneqFileInfo=" + sneqFileInfo + ", stat1AFileInfo=" + stat1AFileInfo + ", stat1FileInfo="
+                + stat1FileInfo + ", stat2FileInfo=" + stat2FileInfo + ", stat3FileInfo=" + stat3FileInfo
+                + ", stat3SFileInfo=" + stat3SFileInfo + ", statAPFileInfo=" + statAPFileInfo + ", statBLFileInfo="
+                + statBLFileInfo + ", statBNFileInfo=" + statBNFileInfo + ", statDFileInfo=" + statDFileInfo
+                + ", statFileInfo=" + statFileInfo + ", thinFileInfo=" + thinFileInfo + ", tpadFileInfo=" + tpadFileInfo
+                + ", upadFileInfo=" + upadFileInfo + "]";
     }
 
 }

@@ -15,13 +15,11 @@
  */
 package gov.nyc.doitt.gis.geoclient.config;
 
-public abstract class ConfigurationException extends RuntimeException
-{
+public abstract class ConfigurationException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public ConfigurationException(String message)
-    {
+    public ConfigurationException(String message) {
         super(message);
     }
 

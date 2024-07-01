@@ -17,26 +17,20 @@ package gov.nyc.doitt.gis.geoclient.parser;
 
 import java.util.List;
 
-
-public class SingleFieldSearchParser implements LocationTokenizer
-{
+public class SingleFieldSearchParser implements LocationTokenizer {
     private List<Parser> parsers;
 
-    public SingleFieldSearchParser(List<Parser> parsers)
-    {
+    public SingleFieldSearchParser(List<Parser> parsers) {
         super();
         this.parsers = parsers;
     }
 
     @Override
-    public LocationTokens parse(Input input)
-    {
+    public LocationTokens parse(Input input) {
         ParseContext parseContext = new ParseContext(input);
-        for (Parser parser : this.parsers)
-        {
+        for (Parser parser : this.parsers) {
             parser.parse(parseContext);
-            if(parseContext.isParsed())
-            {
+            if (parseContext.isParsed()) {
                 break;
             }
         }

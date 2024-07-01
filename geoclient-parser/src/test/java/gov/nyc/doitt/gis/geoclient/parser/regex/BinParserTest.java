@@ -21,15 +21,12 @@ import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.parser.AbstractSpecTest;
 
-public class BinParserTest extends AbstractSpecTest
-{
+public class BinParserTest extends AbstractSpecTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(BinParserTest.class);
 
     @Test
-    public void testBblParser()
-    {
+    public void testBblParser() {
         testParser(new BinParser(), LOGGER);
     }
-
 
 }

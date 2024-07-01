@@ -18,20 +18,17 @@ package gov.nyc.doitt.gis.geoclient.service.search;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
 
-public class SearchId
-{
+public class SearchId {
     private final String prefix;
     private final AtomicLong sequence;
 
-    public SearchId(String prefix)
-    {
+    public SearchId(String prefix) {
         super();
         this.prefix = prefix;
         this.sequence = new AtomicLong(0);
     }
 
-    public String next()
-    {
+    public String next() {
         return String.format("%s-%d-%d", prefix, sequence.incrementAndGet(), new Date().getTime());
     }
 }

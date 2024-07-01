@@ -15,9 +15,6 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.regex;
 
-public enum MatchType
-{
-    COMPLETE,
-    END_OF_INPUT,
-    START_OF_INPUT
+public enum MatchType {
+    COMPLETE, END_OF_INPUT, START_OF_INPUT
 }

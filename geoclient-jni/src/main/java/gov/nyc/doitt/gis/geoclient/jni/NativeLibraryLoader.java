@@ -49,8 +49,8 @@ public class NativeLibraryLoader {
     }
 
     protected JniLibrary getJniLibrary() {
-        return JniLibrary.builder().name(this.baseLibraryName).platform(new Platform())
-                .version(JniContext.getGeoclientJniVersion()).build();
+        return JniLibrary.builder().name(this.baseLibraryName).platform(new Platform()).version(
+            JniContext.getGeoclientJniVersion()).build();
     }
 
 }

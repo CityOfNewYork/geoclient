@@ -92,6 +92,10 @@ javadoc {
     logging.captureStandardOutput LogLevel.INFO  // suppress "## warnings" message
 }
 
+checkstyle {
+    configDirectory = rootProject.layout.projectDirectory.dir("gradle/config/checkstyle")
+}
+
 def isNonStable = { String version ->
     def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { it -> version.toUpperCase().contains(it) }
     def regex = /^[0-9,.v-]+(-r)?$/
@@ -108,19 +112,18 @@ tasks.named("dependencyUpdates").configure {
 
 spotless {
     java {
-        // based on JUnit5 project's spotless config (commit 3a2f7a342747dd504d70daf89a0db53145e94608)
-        // eclipse().configFile rootProject.file('src/spotless/geoclient-eclipse-formatter-settings.xml')
-        // endWithNewline()
-        importOrderFile(rootProject.file('src/spotless/geoclient-eclipse.importorder'))
+        // Based on JUnit5 project's spotless config
+        eclipse().configFile rootProject.file('gradle/config/eclipse/geoclient-eclipse-formatter-settings.xml')
+        importOrderFile(rootProject.file('gradle/config/eclipse/geoclient-eclipse.importorder'))
         indentWithSpaces()
-        licenseHeaderFile(rootProject.file('src/spotless/apache-license-2.0.java'))
+        licenseHeaderFile(rootProject.file('gradle/config/spotless/apache-license-2.0.java'))
         trimTrailingWhitespace()
         toggleOffOn()
     }
     groovy {
         target '**/*.groovy'
         targetExclude '**/build/**'
-        licenseHeaderFile rootProject.file('src/spotless/apache-license-2.0.java')
+        licenseHeaderFile rootProject.file('gradle/config/spotless/apache-license-2.0.java')
     }
     groovyGradle {}
 }

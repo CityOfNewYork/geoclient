@@ -17,79 +17,64 @@ package gov.nyc.doitt.gis.geoclient.service.search.request;
 
 import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 
-
-
-public class BblRequest extends CountyRequest
-{
+public class BblRequest extends CountyRequest {
     private InputValue blockInputValue;
     private InputValue lotInputValue;
 
-    public BblRequest()
-    {
+    public BblRequest() {
         super();
     }
 
     // Copy constructor
-    public BblRequest(BblRequest anotherRequest)
-    {
+    public BblRequest(BblRequest anotherRequest) {
         super(anotherRequest.getLevel(), anotherRequest.getBoroughInputValue(), null);
         this.blockInputValue = anotherRequest.getBlockInputValue();
         this.lotInputValue = anotherRequest.getLotInputValue();
     }
 
-    public String getBlock()
-    {
+    public String getBlock() {
         return stringValueOrNull(blockInputValue);
     }
 
-    public String getLot()
-    {
+    public String getLot() {
         return stringValueOrNull(lotInputValue);
     }
 
-    public InputValue getBlockInputValue()
-    {
+    public InputValue getBlockInputValue() {
         return blockInputValue;
     }
 
-    public void setBlockInputValue(InputValue blockInputValue)
-    {
+    public void setBlockInputValue(InputValue blockInputValue) {
         this.blockInputValue = blockInputValue;
     }
 
-    public InputValue getLotInputValue()
-    {
+    public InputValue getLotInputValue() {
         return lotInputValue;
     }
 
-    public void setLotInputValue(InputValue lotInputValue)
-    {
+    public void setLotInputValue(InputValue lotInputValue) {
         this.lotInputValue = lotInputValue;
     }
 
     @Override
-    public void setZipInputValue(InputValue zipInputValue)
-    {
+    public void setZipInputValue(InputValue zipInputValue) {
         throw new UnsupportedOperationException(getClass().getSimpleName() + " does not support zip input.");
     }
 
     @Override
-    public String toString()
-    {
-        return "BblRequest [level= " + getLevel() + ", borough=" + getBorough() + ", block=" + getBlock() + ", lot=" + getLot() + "]";
+    public String toString() {
+        return "BblRequest [level= " + getLevel() + ", borough=" + getBorough() + ", block=" + getBlock() + ", lot="
+                + getLot() + "]";
     }
 
     @Override
-    public boolean containsAssignedValue()
-    {
-        return super.containsAssignedValue() ||
-                isAssigned(blockInputValue) || isAssigned(lotInputValue);
+    public boolean containsAssignedValue() {
+        return super.containsAssignedValue() || isAssigned(blockInputValue) || isAssigned(lotInputValue);
     }
 
     // TODO TESTME
     @Override
-    public String summarize()
-    {
+    public String summarize() {
         return String.format("bbl [borough=%s, block=%s, lot=%s]", getBorough(), getBlock(), getLot());
     }
 

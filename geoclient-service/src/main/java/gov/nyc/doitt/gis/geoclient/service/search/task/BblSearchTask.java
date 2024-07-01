@@ -38,7 +38,7 @@ public class BblSearchTask extends SearchTask {
         BblRequest bblRequest = (BblRequest) this.request;
         LOGGER.debug("Calling FBL with {}.", bblRequest);
         return this.geosupportService.callFunctionBL(bblRequest.getBorough(), bblRequest.getBlock(),
-                bblRequest.getLot());
+            bblRequest.getLot());
     }
 
 }

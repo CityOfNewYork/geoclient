@@ -90,17 +90,20 @@ public class ResponseStatus {
         if (geosupportReturnCode == null) {
             if (other.geosupportReturnCode != null)
                 return false;
-        } else if (!geosupportReturnCode.equals(other.geosupportReturnCode))
+        }
+        else if (!geosupportReturnCode.equals(other.geosupportReturnCode))
             return false;
         if (geosupportReturnCode2 == null) {
             if (other.geosupportReturnCode2 != null)
                 return false;
-        } else if (!geosupportReturnCode2.equals(other.geosupportReturnCode2))
+        }
+        else if (!geosupportReturnCode2.equals(other.geosupportReturnCode2))
             return false;
         if (similarNames == null) {
             if (other.similarNames != null)
                 return false;
-        } else if (!similarNames.equals(other.similarNames))
+        }
+        else if (!similarNames.equals(other.similarNames))
             return false;
         return true;
     }

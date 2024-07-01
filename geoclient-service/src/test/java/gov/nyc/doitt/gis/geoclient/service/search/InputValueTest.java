@@ -23,13 +23,11 @@ import org.junit.jupiter.api.Test;
 import gov.nyc.doitt.gis.geoclient.parser.token.Token;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
-public class InputValueTest
-{
+public class InputValueTest {
 
     @Test
-    public void testInputValue_tokenAndMappedValueArg()
-    {
-        InputValue res = new InputValue(new Token(TokenType.CITY_NAME, "LIC",0,3),"QUEENS");
+    public void testInputValue_tokenAndMappedValueArg() {
+        InputValue res = new InputValue(new Token(TokenType.CITY_NAME, "LIC", 0, 3), "QUEENS");
         assertThat(res.getOriginalValue()).isEqualTo("LIC");
         assertThat(res.getTokenType()).isEqualTo(TokenType.CITY_NAME);
         assertThat(res.getValue()).isEqualTo("QUEENS");
@@ -40,9 +38,8 @@ public class InputValueTest
     }
 
     @Test
-    public void testTokenMapping_tokenAndNullMappedValue()
-    {
-        InputValue res = new InputValue(new Token(TokenType.CITY_NAME, "LIC",0,3),null);
+    public void testTokenMapping_tokenAndNullMappedValue() {
+        InputValue res = new InputValue(new Token(TokenType.CITY_NAME, "LIC", 0, 3), null);
         assertThat(res.getOriginalValue()).isEqualTo("LIC");
         assertThat(res.getTokenType()).isEqualTo(TokenType.CITY_NAME);
         assertThat(res.getValue()).isEqualTo("LIC");
@@ -53,18 +50,16 @@ public class InputValueTest
     }
 
     @Test
-    public void testTokenMapping_nullTokenAndMappedValueArg()
-    {
+    public void testTokenMapping_nullTokenAndMappedValueArg() {
         Token nullToken = null;
         assertThrows(IllegalArgumentException.class, () -> {
-            new InputValue(nullToken,"duh");
+            new InputValue(nullToken, "duh");
         });
     }
 
     @Test
-    public void testInputValue_tokenArg()
-    {
-        InputValue res = new InputValue(new Token(TokenType.CITY_NAME, "LIC",0,3));
+    public void testInputValue_tokenArg() {
+        InputValue res = new InputValue(new Token(TokenType.CITY_NAME, "LIC", 0, 3));
         assertThat(res.getOriginalValue()).isEqualTo("LIC");
         assertThat(res.getTokenType()).isEqualTo(TokenType.CITY_NAME);
         assertThat(res.getValue()).isEqualTo("LIC");
@@ -75,8 +70,7 @@ public class InputValueTest
     }
 
     @Test
-    public void testTokenMapping_nullTokenArg()
-    {
+    public void testTokenMapping_nullTokenArg() {
         Token nullToken = null;
         assertThrows(IllegalArgumentException.class, () -> {
             new InputValue(nullToken);
@@ -84,9 +78,8 @@ public class InputValueTest
     }
 
     @Test
-    public void testInputValue_tokenTypeAndAssignedValueArg()
-    {
-        InputValue res = new InputValue(TokenType.CITY_NAME,"QUEENS");
+    public void testInputValue_tokenTypeAndAssignedValueArg() {
+        InputValue res = new InputValue(TokenType.CITY_NAME, "QUEENS");
         assertThat(res.getOriginalValue()).isEqualTo("QUEENS");
         assertThat(res.getTokenType()).isEqualTo(TokenType.CITY_NAME);
         assertThat(res.getValue()).isEqualTo("QUEENS");
@@ -97,19 +90,17 @@ public class InputValueTest
     }
 
     @Test
-    public void testTokenMapping_nullTokenTypeAndAssignedValueArg()
-    {
+    public void testTokenMapping_nullTokenTypeAndAssignedValueArg() {
         TokenType nullTokenType = null;
         assertThrows(IllegalArgumentException.class, () -> {
-            new InputValue(nullTokenType,"duh");
+            new InputValue(nullTokenType, "duh");
         });
     }
 
     @Test
-    public void testTokenMapping_tokenTypeAndNullAssignedValueArg()
-    {
+    public void testTokenMapping_tokenTypeAndNullAssignedValueArg() {
         assertThrows(IllegalArgumentException.class, () -> {
-            new InputValue(TokenType.BIN,null);
+            new InputValue(TokenType.BIN, null);
         });
     }
 }

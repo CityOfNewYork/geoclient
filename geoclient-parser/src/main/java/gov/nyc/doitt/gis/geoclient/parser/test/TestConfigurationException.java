@@ -15,18 +15,15 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.test;
 
-public class TestConfigurationException extends RuntimeException
-{
+public class TestConfigurationException extends RuntimeException {
 
     private static final long serialVersionUID = 5574362457850309141L;
 
-    public TestConfigurationException(String message)
-    {
+    public TestConfigurationException(String message) {
         super(message);
     }
 
-    public TestConfigurationException(String message, Throwable cause)
-    {
+    public TestConfigurationException(String message, Throwable cause) {
         super(message, cause);
     }
 }

@@ -20,8 +20,7 @@ import java.util.List;
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 
-public class DefaultExactMatchPolicy extends AbstractPolicy implements ExactMatchPolicy
-{
+public class DefaultExactMatchPolicy extends AbstractPolicy implements ExactMatchPolicy {
     public static final int DEFAULT_EXACT_MATCH_MAX_LEVEL = 0;
     public static final boolean DEFAULT_EXACT_MATCH_FOR_SINGLE_SUCCESS = false;
 
@@ -41,43 +40,34 @@ public class DefaultExactMatchPolicy extends AbstractPolicy implements ExactMatc
      */
     private boolean exactMatchForSingleSuccess = DEFAULT_EXACT_MATCH_FOR_SINGLE_SUCCESS;
 
-    public int getExactMatchMaxLevel()
-    {
+    public int getExactMatchMaxLevel() {
         return exactMatchMaxLevel;
     }
 
-    public void setExactMatchMaxLevel(int exactMatchThreshold)
-    {
+    public void setExactMatchMaxLevel(int exactMatchThreshold) {
         this.exactMatchMaxLevel = exactMatchThreshold;
     }
 
-    public boolean isExactMatchForSingleSuccess()
-    {
+    public boolean isExactMatchForSingleSuccess() {
         return exactMatchForSingleSuccess;
     }
 
-    public void setExactMatchForSingleSuccess(boolean exactMatchForSingleSuccess)
-    {
+    public void setExactMatchForSingleSuccess(boolean exactMatchForSingleSuccess) {
         this.exactMatchForSingleSuccess = exactMatchForSingleSuccess;
     }
 
     @Override
-    public Search findExactMatch(SearchResult searchResult)
-    {
-        if(this.isExactMatchForSingleSuccess() && searchResult.successCount() == 1)
-        {
+    public Search findExactMatch(SearchResult searchResult) {
+        if (this.isExactMatchForSingleSuccess() && searchResult.successCount() == 1) {
             List<Search> searches = searchResult.getSearches();
-            for (Search search : searches)
-            {
-                if(!search.isRejected())
-                {
+            for (Search search : searches) {
+                if (!search.isRejected()) {
                     return search;
                 }
             }
         }
         List<Search> searches = searchResult.successfulSearchesEqualOrLessThan(exactMatchMaxLevel);
-        if(!searches.isEmpty())
-        {
+        if (!searches.isEmpty()) {
             // Choose the first one
             return searches.get(0);
         }
@@ -86,21 +76,20 @@ public class DefaultExactMatchPolicy extends AbstractPolicy implements ExactMatc
 
     // TODO TESTME
     @Override
-    public String getDescription()
-    {
-        StringBuffer buff = new StringBuffer(String.format("The first successful search at level %d is considered an exact match", this.exactMatchMaxLevel));
+    public String getDescription() {
+        StringBuffer buff = new StringBuffer(String.format(
+            "The first successful search at level %d is considered an exact match", this.exactMatchMaxLevel));
 
-        if(this.exactMatchForSingleSuccess)
-        {
-            buff.append(" If there is only one successful search, it is considered an exact match regardless of its level.");
+        if (this.exactMatchForSingleSuccess) {
+            buff.append(
+                " If there is only one successful search, it is considered an exact match regardless of its level.");
         }
 
         return buff.toString();
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + (exactMatchForSingleSuccess ? 1231 : 1237);
@@ -109,8 +98,7 @@ public class DefaultExactMatchPolicy extends AbstractPolicy implements ExactMatc
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)

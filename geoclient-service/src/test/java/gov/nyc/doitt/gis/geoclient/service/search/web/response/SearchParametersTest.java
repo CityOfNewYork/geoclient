@@ -53,17 +53,19 @@ public class SearchParametersTest {
         SearchPolicy searchPolicy = params.buildSearchPolicy();
         assertThat(searchPolicy).isNotNull();
         assertThat(((DefaultSearchDepthPolicy) searchPolicy.getSearchDepthPolicy()).getMaximumDepth()).isEqualTo(5);
-        assertThat(((DefaultSimilarNamesPolicy) searchPolicy.getSimilarNamesPolicy()).getSimilarNamesDistance())
-                .isEqualTo(2);
+        assertThat(
+            ((DefaultSimilarNamesPolicy) searchPolicy.getSimilarNamesPolicy()).getSimilarNamesDistance()).isEqualTo(2);
         assertThat(((DefaultExactMatchPolicy) searchPolicy.getExactMatchPolicy()).getExactMatchMaxLevel()).isEqualTo(3);
-        assertThat(((DefaultExactMatchPolicy) searchPolicy.getExactMatchPolicy()).isExactMatchForSingleSuccess())
-                .isEqualTo(true);
+        assertThat(
+            ((DefaultExactMatchPolicy) searchPolicy.getExactMatchPolicy()).isExactMatchForSingleSuccess()).isEqualTo(
+                true);
     }
 
     private void assertDefaultSettings(String input, SearchParameters searchParams) {
         if (input != null) {
             assertThat(searchParams.getInput()).isEqualTo(input);
-        } else {
+        }
+        else {
             assertThat(searchParams.getInput()).isNull();
         }
 
@@ -72,11 +74,11 @@ public class SearchParametersTest {
         assertFalse(searchParams.isReturnPossiblesWithExactMatch());
         assertFalse(searchParams.isReturnRejections());
         assertThat(searchParams.getMaxDepth()).isEqualTo(DefaultSearchDepthPolicy.DEFAULT_MAX_DEPTH);
-        assertThat(searchParams.getSimilarNamesDistance())
-                .isEqualTo(DefaultSimilarNamesPolicy.DEFAULT_SIMILAR_NAMES_DISTANCE);
-        assertThat(searchParams.isExactMatchForSingleSuccess())
-                .isEqualTo(DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_FOR_SINGLE_SUCCESS);
-        assertThat(searchParams.getExactMatchMaxLevel())
-                .isEqualTo(DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_MAX_LEVEL);
+        assertThat(searchParams.getSimilarNamesDistance()).isEqualTo(
+            DefaultSimilarNamesPolicy.DEFAULT_SIMILAR_NAMES_DISTANCE);
+        assertThat(searchParams.isExactMatchForSingleSuccess()).isEqualTo(
+            DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_FOR_SINGLE_SUCCESS);
+        assertThat(searchParams.getExactMatchMaxLevel()).isEqualTo(
+            DefaultExactMatchPolicy.DEFAULT_EXACT_MATCH_MAX_LEVEL);
     }
 }

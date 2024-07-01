@@ -17,73 +17,62 @@ package gov.nyc.doitt.gis.geoclient.service.search.request;
 
 import gov.nyc.doitt.gis.geoclient.service.search.InputValue;
 
-
-public class AddressRequest extends PlaceRequest
-{
+public class AddressRequest extends PlaceRequest {
     private InputValue basicHouseNumberInputValue;
     private InputValue houseNumberSuffixInputValue;
 
-    public AddressRequest()
-    {
+    public AddressRequest() {
         super();
     }
 
     // Copy constructor
-    public AddressRequest(AddressRequest anotherRequest)
-    {
+    public AddressRequest(AddressRequest anotherRequest) {
         super(anotherRequest);
         this.basicHouseNumberInputValue = anotherRequest.getBasicHouseNumberInputValue();
         this.houseNumberSuffixInputValue = anotherRequest.getHouseNumberSuffixInputValue();
     }
 
-    public String getHouseNumber()
-    {
+    public String getHouseNumber() {
         String basic = stringValueOrNull(basicHouseNumberInputValue);
         String suffix = stringValueOrNull(houseNumberSuffixInputValue);
-        if(basic == null && suffix == null)
-        {
+        if (basic == null && suffix == null) {
             return null;
         }
         return (basic != null ? basic : "") + (suffix != null ? suffix : "");
     }
 
-    public InputValue getBasicHouseNumberInputValue()
-    {
+    public InputValue getBasicHouseNumberInputValue() {
         return basicHouseNumberInputValue;
     }
 
-    public void setBasicHouseNumberInputValue(InputValue basicHouseNumberInputValue)
-    {
+    public void setBasicHouseNumberInputValue(InputValue basicHouseNumberInputValue) {
         this.basicHouseNumberInputValue = basicHouseNumberInputValue;
     }
 
-    public InputValue getHouseNumberSuffixInputValue()
-    {
+    public InputValue getHouseNumberSuffixInputValue() {
         return houseNumberSuffixInputValue;
     }
 
-    public void setHouseNumberSuffixInputValue(InputValue houseNumberSuffixInputValue)
-    {
+    public void setHouseNumberSuffixInputValue(InputValue houseNumberSuffixInputValue) {
         this.houseNumberSuffixInputValue = houseNumberSuffixInputValue;
     }
 
     @Override
-    public String toString()
-    {
-        return "AddressRequest [level=" + getLevel() + ", houseNumber=" + getHouseNumber() + ", street=" + getStreet() + ", borough=" + getBorough() + ", zip=" + getZip() + "]";
+    public String toString() {
+        return "AddressRequest [level=" + getLevel() + ", houseNumber=" + getHouseNumber() + ", street=" + getStreet()
+                + ", borough=" + getBorough() + ", zip=" + getZip() + "]";
     }
 
     @Override
-    public boolean containsAssignedValue()
-    {
-        return super.containsAssignedValue() ||
-                isAssigned(basicHouseNumberInputValue) || isAssigned(houseNumberSuffixInputValue);
+    public boolean containsAssignedValue() {
+        return super.containsAssignedValue() || isAssigned(basicHouseNumberInputValue)
+                || isAssigned(houseNumberSuffixInputValue);
     }
 
     // TODO TESTME
     @Override
-    public String summarize()
-    {
-        return String.format("address [houseNumber=%s, street=%s, borough=%s, zip=%s]", getHouseNumber(), getStreet(), getBorough(), getZip());
+    public String summarize() {
+        return String.format("address [houseNumber=%s, street=%s, borough=%s, zip=%s]", getHouseNumber(), getStreet(),
+            getBorough(), getZip());
     }
 }

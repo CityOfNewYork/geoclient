@@ -28,15 +28,13 @@ import gov.nyc.doitt.gis.geoclient.parser.token.Token;
  *
  * @author mlipper
  */
-public class ParseContext
-{
+public class ParseContext {
     private final Input input;
     private final List<Chunk> chunks;
     private final AtomicInteger currentChunkIndex;
     private boolean parsed;
 
-    public ParseContext(Input input)
-    {
+    public ParseContext(Input input) {
         super();
         this.input = input;
         this.chunks = new ArrayList<Chunk>();
@@ -44,47 +42,38 @@ public class ParseContext
         this.currentChunkIndex = new AtomicInteger(0);
     }
 
-    public String currentChunkText()
-    {
+    public String currentChunkText() {
         return getCurrent().getText();
     }
 
-    public boolean isParsed()
-    {
+    public boolean isParsed() {
         return parsed;
     }
 
-    public void setParsed(boolean parsed)
-    {
+    public void setParsed(boolean parsed) {
         this.parsed = parsed;
     }
 
-    public void setCurrent(Chunk chunk)
-    {
+    public void setCurrent(Chunk chunk) {
         this.chunks.add(chunk);
         this.currentChunkIndex.incrementAndGet();
     }
 
-    public Chunk getCurrent()
-    {
+    public Chunk getCurrent() {
         return this.chunks.get(this.currentChunkIndex.intValue());
     }
 
-    public void add(Chunk chunk)
-    {
+    public void add(Chunk chunk) {
         this.chunks.add(chunk);
     }
 
-    public List<Chunk> getChunks()
-    {
+    public List<Chunk> getChunks() {
         return chunks;
     }
 
-    public List<Token> getTokens()
-    {
+    public List<Token> getTokens() {
         List<Token> tokens = new ArrayList<>();
-        for (Chunk chunk : this.chunks)
-        {
+        for (Chunk chunk : this.chunks) {
             tokens.addAll(chunk.getTokens());
         }
         return tokens;

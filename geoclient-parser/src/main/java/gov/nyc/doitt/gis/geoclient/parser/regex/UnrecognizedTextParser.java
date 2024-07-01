@@ -42,9 +42,9 @@ public class UnrecognizedTextParser extends AbstractRegexParser {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = ANYTHING.matcher(currentChunk.getText());
         Assert.isTrue(matcher.matches(), String.format("Pattern %s should match any input but it doesn't match '%s'",
-                ANYTHING.pattern(), currentChunk.getText()));
+            ANYTHING.pattern(), currentChunk.getText()));
         MatchBuilder builder = new MatchBuilder().add(matcher).add(MatchType.COMPLETE).add(parseContext).add(ANYTHING,
-                1, TokenType.UNRECOGNIZED);
+            1, TokenType.UNRECOGNIZED);
         handleMatch(builder.build(), ChunkType.UNRECOGNIZED);
     }
 

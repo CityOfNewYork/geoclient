@@ -17,13 +17,11 @@ package gov.nyc.doitt.gis.geoclient.config.xml;
 
 import gov.nyc.doitt.gis.geoclient.config.ConfigurationException;
 
-public class XmlConfigurationException extends ConfigurationException
-{
+public class XmlConfigurationException extends ConfigurationException {
 
     private static final long serialVersionUID = -3395332933825332949L;
 
-    public XmlConfigurationException(String message)
-    {
+    public XmlConfigurationException(String message) {
         super(message);
     }
 

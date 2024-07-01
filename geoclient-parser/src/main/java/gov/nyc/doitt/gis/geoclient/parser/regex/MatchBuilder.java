@@ -23,34 +23,32 @@ import java.util.regex.Pattern;
 import gov.nyc.doitt.gis.geoclient.parser.ParseContext;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
-public class MatchBuilder
-{
+public class MatchBuilder {
     private ParseContext parseContext;
     private MatchType matchType;
     private Matcher matcher;
     private List<RegexTokenGroup> matchGroups = new ArrayList<>();
 
-    public Match build()
-    {
+    public Match build() {
         return new Match(parseContext, matchType, matcher, matchGroups);
     }
-    public MatchBuilder add(ParseContext parseContext)
-    {
+
+    public MatchBuilder add(ParseContext parseContext) {
         this.parseContext = parseContext;
         return this;
     }
-    public MatchBuilder add(MatchType matchType)
-    {
+
+    public MatchBuilder add(MatchType matchType) {
         this.matchType = matchType;
         return this;
     }
-    public MatchBuilder add(Matcher matcher)
-    {
+
+    public MatchBuilder add(Matcher matcher) {
         this.matcher = matcher;
         return this;
     }
-    public MatchBuilder add(Pattern pattern, int group, TokenType tokenType)
-    {
+
+    public MatchBuilder add(Pattern pattern, int group, TokenType tokenType) {
         this.matchGroups.add(new RegexTokenGroup(pattern, group, tokenType));
         return this;
     }
