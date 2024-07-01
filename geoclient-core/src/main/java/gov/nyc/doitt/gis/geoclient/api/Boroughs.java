@@ -33,7 +33,7 @@ public class Boroughs {
     public static final int UNPARSABLE_BOROUGH_CODE_SENTINEL_VALUE = 0;
 
     public static final List<Borough> THE_FIVE_BOROUGHS = Arrays.asList(MANHATTAN, BRONX, BROOKLYN, QUEENS,
-            STATEN_ISLAND);
+        STATEN_ISLAND);
 
     public static final Borough fromCode(String code) {
         // Note: this equality test does not consider whitespace.
@@ -45,17 +45,15 @@ public class Boroughs {
     }
 
     // Originally from gov.nyc.doitt.gis.geoclient.service.domain.Borough in the geoclient-service project.
-    public static int parseInt(String boroughCodeOrName)
-    {
+    public static int parseInt(String boroughCodeOrName) {
         // If argument is a parse-able integer, return it regardless of validity as an actual borough code
-        if (NumberUtils.isParsable(boroughCodeOrName))
-        {
+        if (NumberUtils.isParsable(boroughCodeOrName)) {
             return Integer.valueOf(boroughCodeOrName);
         }
 
         Borough borough = fromName(boroughCodeOrName);
 
-        if(borough != null) {
+        if (borough != null) {
             return Integer.valueOf(borough.getCode());
         }
 

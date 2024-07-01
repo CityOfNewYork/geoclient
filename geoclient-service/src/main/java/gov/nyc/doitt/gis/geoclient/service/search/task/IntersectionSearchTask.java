@@ -39,9 +39,9 @@ public class IntersectionSearchTask extends SearchTask {
         IntersectionRequest intersectionRequest = (IntersectionRequest) this.request;
         LOGGER.debug("Calling {} with {}.", Function.F2, intersectionRequest);
         return this.geosupportService.callFunction2(intersectionRequest.getCrossStreetOne(),
-                intersectionRequest.getBorough(), intersectionRequest.getCrossStreetTwo(), null, // borough cross street
-                                                                                                 // two
-                intersectionRequest.getCompassDirection());
+            intersectionRequest.getBorough(), intersectionRequest.getCrossStreetTwo(), null, // borough cross street
+            // two
+            intersectionRequest.getCompassDirection());
     }
 
 }

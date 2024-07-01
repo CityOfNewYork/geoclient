@@ -65,7 +65,8 @@ public class GeoclientXmlReaderIntegrationTest {
             if ("WA1".equals(wConfig.getId())) {
                 foundWorkAreaOne = true;
                 assertWorkAreaConfig(wConfig, true);
-            } else {
+            }
+            else {
                 assertWorkAreaConfig(wConfig, false);
             }
         }
@@ -80,9 +81,11 @@ public class GeoclientXmlReaderIntegrationTest {
         String id = fConfig.getId();
         assertNotNull(id);
         assertNotNull(fConfig.getWorkAreaOneConfig());
-        if (!Function.FD.equals(id) && !Function.FDG.equals(id) && !Function.FDN.equals(id) && !Function.FBB.equals(id) && !Function.FBF.equals(id) && !Function.FN.equals(id)) {
+        if (!Function.FD.equals(id) && !Function.FDG.equals(id) && !Function.FDN.equals(id) && !Function.FBB.equals(id)
+                && !Function.FBF.equals(id) && !Function.FN.equals(id)) {
             assertNotNull(fConfig.getWorkAreaTwoConfig());
-        } else {
+        }
+        else {
             assertNull(fConfig.getWorkAreaTwoConfig());
         }
         if (Function.FBL.equals(id)) {
@@ -109,7 +112,8 @@ public class GeoclientXmlReaderIntegrationTest {
             for (Field field : fields) {
                 assertField(field);
             }
-        } else {
+        }
+        else {
             assertFalse(wConfig.isWorkAreaOne());
         }
     }

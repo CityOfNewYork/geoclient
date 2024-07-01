@@ -87,7 +87,7 @@ public class StreetCode extends CodeNamedValue {
     }
 
     public String getBoroughCode() {
-        if(hasBorough()) {
+        if (hasBorough()) {
             return Boroughs.fromCode(getCode().substring(0, 1)).getCode();
         }
         return null;
@@ -98,8 +98,8 @@ public class StreetCode extends CodeNamedValue {
     }
 
     public String getStreetCodeWithoutBorough() {
-        if(hasBorough()) {
-           return getCode().substring(1);
+        if (hasBorough()) {
+            return getCode().substring(1);
         }
         return getCode();
     }

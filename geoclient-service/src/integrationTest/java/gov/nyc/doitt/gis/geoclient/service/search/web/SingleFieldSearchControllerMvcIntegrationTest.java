@@ -52,8 +52,7 @@ import gov.nyc.doitt.gis.geoclient.service.search.web.response.Status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class SingleFieldSearchControllerMvcIntegrationTest
-{
+public class SingleFieldSearchControllerMvcIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
 
@@ -66,17 +65,15 @@ public class SingleFieldSearchControllerMvcIntegrationTest
     private LocationTokens fix;
 
     @BeforeEach
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         MockitoAnnotations.openMocks(this);
-        Input input = new Input("1-junit-test","59 Maiden Lane, Manhattan");
+        Input input = new Input("1-junit-test", "59 Maiden Lane, Manhattan");
         List<Chunk> chunks = new ArrayList<>();
         this.fix = new LocationTokens(input, chunks);
     }
 
     @Test
-    public void testSearch_acceptsJsonWithValidRequestAndDefaultPolicy()throws Exception
-    {
+    public void testSearch_acceptsJsonWithValidRequestAndDefaultPolicy() throws Exception {
         final String input = "59 Maiden Ln";
         final SearchParameters expectedParams = new SearchParameters(input);
         final SearchPolicy expectedSearchPolicy = expectedParams.buildSearchPolicy();
@@ -91,21 +88,14 @@ public class SingleFieldSearchControllerMvcIntegrationTest
         // be qual to the actual instance created at runtime which calls the
         // same method (but returns a different instance of SearchPolicy)
         when(this.searchHandlerMock.findLocation(expectedSearchPolicy, input)).thenReturn(expectedSearchResult);
-        this.mockMvc.perform(
-                get("/search.json")
-                .param("input", input)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.status").value("OK"))
-                .andExpect(jsonPath("$.input").value(input))
-                .andExpect(jsonPath("$.results").exists())
-                .andExpect(status().is(HttpStatus.OK.value()))
-                .andDo(print());
+        this.mockMvc.perform(get("/search.json").param("input", input).accept(MediaType.APPLICATION_JSON)).andExpect(
+            jsonPath("$.id").exists()).andExpect(jsonPath("$.status").value("OK")).andExpect(
+                jsonPath("$.input").value(input)).andExpect(jsonPath("$.results").exists()).andExpect(
+                    status().is(HttpStatus.OK.value())).andDo(print());
     }
 
     @Test
-    public void testSearch_acceptsXmlWithValidRequestAndDefaultPolicy()throws Exception
-    {
+    public void testSearch_acceptsXmlWithValidRequestAndDefaultPolicy() throws Exception {
         final String input = "59 Maiden Ln";
         final SearchParameters expectedParams = new SearchParameters(input);
         final SearchPolicy expectedSearchPolicy = expectedParams.buildSearchPolicy();
@@ -122,22 +112,17 @@ public class SingleFieldSearchControllerMvcIntegrationTest
         expectedXmlResponse.setStatus(Status.OK);
         expectedXmlResponse.setInput(input);
         expectedXmlResponse.setResults(results);
-        this.mockMvc.perform(
-                get("/search.xml")
-                .param("input", input)
-                .accept(MediaType.APPLICATION_XML))
-                .andDo(print())
-                .andExpect(xpath("/searchResponse[@id]").exists())
-                .andExpect(xpath("/searchResponse/status").string("OK"))
-                .andExpect(xpath("/searchResponse/input").string(input))
-                .andExpect(xpath("/searchResponse/result").exists())
-                .andExpect(status().is(HttpStatus.OK.value()));
+        this.mockMvc.perform(get("/search.xml").param("input", input).accept(MediaType.APPLICATION_XML)).andDo(
+            print()).andExpect(xpath("/searchResponse[@id]").exists()).andExpect(
+                xpath("/searchResponse/status").string("OK")).andExpect(
+                    xpath("/searchResponse/input").string(input)).andExpect(
+                        xpath("/searchResponse/result").exists()).andExpect(status().is(HttpStatus.OK.value()));
     }
 
     @Test
-    public void testSearch_acceptsJsonWithMissingInputParameter()throws Exception
-    {
-        this.mockMvc.perform(get("/search").accept(MediaType.APPLICATION_JSON)).andExpect(status().is(HttpStatus.BAD_REQUEST.value())).andDo(print());
+    public void testSearch_acceptsJsonWithMissingInputParameter() throws Exception {
+        this.mockMvc.perform(get("/search").accept(MediaType.APPLICATION_JSON)).andExpect(
+            status().is(HttpStatus.BAD_REQUEST.value())).andDo(print());
     }
 
 }

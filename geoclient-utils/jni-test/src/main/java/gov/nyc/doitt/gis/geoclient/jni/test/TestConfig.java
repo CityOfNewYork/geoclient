@@ -102,8 +102,8 @@ public class TestConfig {
         }
         if (getLengthOfWorkAreaOne() != input.length()) {
             throw new TestConfigurationException(
-                    String.format("Expected length of function input to be %d but instead was %d",
-                            getLengthOfWorkAreaOne(), input.length()));
+                String.format("Expected length of function input to be %d but instead was %d", getLengthOfWorkAreaOne(),
+                    input.length()));
         }
     }
 

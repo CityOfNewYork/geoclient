@@ -168,8 +168,8 @@ public class ReturnCodeData {
 
     private void doTerminalState() throws RuntimeException {
         if (state.isEmpty() || state.size() != 3) {
-            throw new IllegalStateException(String.format(
-                    "Grammar requires state [Change, NoOp, Terminal] when value() called. Instead was %s",
+            throw new IllegalStateException(
+                String.format("Grammar requires state [Change, NoOp, Terminal] when value() called. Instead was %s",
                     state.toString()));
         }
         try {
@@ -184,7 +184,8 @@ public class ReturnCodeData {
             String result = getFieldValue(constName);
             this.values.add(result);
             this.state.clear();
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

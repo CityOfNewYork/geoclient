@@ -41,13 +41,13 @@ public class CompassDirectionTaskBuilder extends TaskBuilderSupport implements S
         for (Search search : searchResult.inputForSubSearches()) {
             if (search.getResponse().isCompassDirectionRequired()) {
                 tasks.add(new IntersectionSearchTask(newIntersectionRequest((IntersectionRequest) search.getRequest(),
-                        InputParam.COMPASS_DIR_NORTH_VALUE), geosupportService, mapper));
+                    InputParam.COMPASS_DIR_NORTH_VALUE), geosupportService, mapper));
                 tasks.add(new IntersectionSearchTask(newIntersectionRequest((IntersectionRequest) search.getRequest(),
-                        InputParam.COMPASS_DIR_SOUTH_VALUE), geosupportService, mapper));
+                    InputParam.COMPASS_DIR_SOUTH_VALUE), geosupportService, mapper));
                 tasks.add(new IntersectionSearchTask(newIntersectionRequest((IntersectionRequest) search.getRequest(),
-                        InputParam.COMPASS_DIR_EAST_VALUE), geosupportService, mapper));
+                    InputParam.COMPASS_DIR_EAST_VALUE), geosupportService, mapper));
                 tasks.add(new IntersectionSearchTask(newIntersectionRequest((IntersectionRequest) search.getRequest(),
-                        InputParam.COMPASS_DIR_WEST_VALUE), geosupportService, mapper));
+                    InputParam.COMPASS_DIR_WEST_VALUE), geosupportService, mapper));
             }
         }
         return tasks;

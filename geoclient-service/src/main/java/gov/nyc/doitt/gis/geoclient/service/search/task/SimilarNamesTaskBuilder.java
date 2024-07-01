@@ -39,7 +39,8 @@ import gov.nyc.doitt.gis.geoclient.service.search.request.Request;
 public class SimilarNamesTaskBuilder extends TaskBuilderSupport {
     protected static final Logger LOGGER = LoggerFactory.getLogger(SimilarNamesTaskBuilder.class);
 
-    public SimilarNamesTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService, Mapper<ResponseStatus> mapper) {
+    public SimilarNamesTaskBuilder(CountyResolver countyResolver, GeosupportService geosupportService,
+            Mapper<ResponseStatus> mapper) {
         super(countyResolver, geosupportService, mapper);
     }
 
@@ -60,11 +61,14 @@ public class SimilarNamesTaskBuilder extends TaskBuilderSupport {
             Request req = search.getRequest();
             if (AddressRequest.class.equals(req.getClass())) {
                 task = buildSearchTask(searchPolicy, (AddressRequest) req, similarName);
-            } else if (BlockfaceRequest.class.equals(req.getClass())) {
+            }
+            else if (BlockfaceRequest.class.equals(req.getClass())) {
                 task = buildSearchTask(searchPolicy, search, (BlockfaceRequest) req, similarName);
-            } else if (IntersectionRequest.class.equals(req.getClass())) {
+            }
+            else if (IntersectionRequest.class.equals(req.getClass())) {
                 task = buildSearchTask(searchPolicy, search, (IntersectionRequest) req, similarName);
-            } else if (PlaceRequest.class.equals(req.getClass())) {
+            }
+            else if (PlaceRequest.class.equals(req.getClass())) {
                 task = buildSearchTask(searchPolicy, (PlaceRequest) req, similarName);
             }
 

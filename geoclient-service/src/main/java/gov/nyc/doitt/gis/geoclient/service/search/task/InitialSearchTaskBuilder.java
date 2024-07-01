@@ -20,7 +20,6 @@ import java.util.List;
 import gov.nyc.doitt.gis.geoclient.parser.LocationTokens;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
 
-public interface InitialSearchTaskBuilder
-{
-  List<SearchTask> getSearchTasks(SearchPolicy searchPolicy, LocationTokens locationTokens);
+public interface InitialSearchTaskBuilder {
+    List<SearchTask> getSearchTasks(SearchPolicy searchPolicy, LocationTokens locationTokens);
 }

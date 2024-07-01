@@ -46,21 +46,26 @@ public class LogLevelAdapter {
         BiConsumer<String, Object[]> log = null;
         if (Level.ERROR.equals(level)) {
             log = logger::error;
-        } else if (Level.WARN.equals(level)) {
+        }
+        else if (Level.WARN.equals(level)) {
             log = logger::warn;
-        } else if (Level.INFO.equals(level)) {
+        }
+        else if (Level.INFO.equals(level)) {
             log = logger::info;
-        } else if (Level.DEBUG.equals(level)) {
+        }
+        else if (Level.DEBUG.equals(level)) {
             log = logger::debug;
-        } else if (Level.TRACE.equals(level)) {
+        }
+        else if (Level.TRACE.equals(level)) {
             log = logger::trace;
-        } else {
+        }
+        else {
             // System.out.println(String.format("%s=%s",e.getKey(),e.getValue()));
             // NO-OP
             ;
         }
-        if(log != null) {
-            log.accept(fmt, new Object[] {e.getKey(), e.getValue()});
+        if (log != null) {
+            log.accept(fmt, new Object[] { e.getKey(), e.getValue() });
         }
     }
 

@@ -102,8 +102,10 @@ public class FieldConverterTest {
         Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeType)).thenReturn(typeToUse);
         Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeInput)).thenReturn(this.isInput);
         Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeAlias)).thenReturn(this.alias);
-        Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeWhitespace)).thenReturn(this.whitespace);
-        Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeOutputAlias)).thenReturn(this.outputAlias);
+        Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeWhitespace)).thenReturn(
+            this.whitespace);
+        Mockito.when(this.readerMock.getAttribute(this.metadata.xmlFieldAttributeOutputAlias)).thenReturn(
+            this.outputAlias);
     }
 
     private void assertFieldResult(boolean isComposite, Field field) {

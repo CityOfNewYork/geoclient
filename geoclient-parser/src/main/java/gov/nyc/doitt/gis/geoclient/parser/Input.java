@@ -18,19 +18,16 @@ package gov.nyc.doitt.gis.geoclient.parser;
 import gov.nyc.doitt.gis.geoclient.parser.util.Assert;
 import gov.nyc.doitt.gis.geoclient.parser.util.TextUtils;
 
-
 /**
  * @author mlipper
  *
  */
-public class Input
-{
+public class Input {
     private final String id;
     private final String value;
     private final String unsanitizedValue;
 
-    public Input(String id, String inputString)
-    {
+    public Input(String id, String inputString) {
         super();
         Assert.hasText(id, "id argument cannot be empty or null.");
         this.id = id;
@@ -40,24 +37,20 @@ public class Input
         Assert.hasText(this.value, "inputString cannot be empty or null after sanitization.");
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public String getValue()
-    {
+    public String getValue() {
         return value;
     }
 
-    public String getUnsanitizedValue()
-    {
+    public String getUnsanitizedValue() {
         return unsanitizedValue;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Input [id=" + id + ", value=" + value + "]";
     }
 

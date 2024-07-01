@@ -27,8 +27,7 @@ import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
 import gov.nyc.doitt.gis.geoclient.service.search.request.AddressRequest;
 
-public class Fixtures
-{
+public class Fixtures {
     public final Input input;
     public final List<Chunk> chunks;
     public final LocationTokens locationTokens;
@@ -45,10 +44,9 @@ public class Fixtures
     public final ResponseStatus rejectStatus;
     public final Map<String, Object> geocodes;
 
-    public Fixtures()
-    {
+    public Fixtures() {
         super();
-        this.input = new Input("1-junit-test","59 Maiden Lane, Manhattan");
+        this.input = new Input("1-junit-test", "59 Maiden Lane, Manhattan");
         this.chunks = new ArrayList<>();
         this.searchPolicy = new SearchPolicy();
         this.locationTokens = new LocationTokens(input, chunks);

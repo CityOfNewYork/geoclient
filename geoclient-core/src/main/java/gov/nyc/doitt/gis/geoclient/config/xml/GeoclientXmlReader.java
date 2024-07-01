@@ -26,8 +26,7 @@ import gov.nyc.doitt.gis.geoclient.function.Field;
 import gov.nyc.doitt.gis.geoclient.function.Filter;
 import gov.nyc.doitt.gis.geoclient.util.ClassUtils;
 
-public class GeoclientXmlReader
-{
+public class GeoclientXmlReader {
     // TODO get rid of constants as they are hard to read and use
     static final String CLASS_FILTER_PROPERTY_PATTERN = "pattern";
     static final String CLASS_FUNCTION_PROPERTY_ID = "id";
@@ -65,23 +64,13 @@ public class GeoclientXmlReader
     static final String XML_WORK_AREA_ATTRIBUTE_IS_WA1 = "isWA1";
     static final String XML_WORK_AREA_ELEMENT = "workArea";
 
-    static final ConfigurationConverter.Metadata CONFIGURATION_CONVERTER_METADATA =
-            new ConfigurationConverter.Metadata(
-                    XML_REQUIREDARGUMENT_ATTRIBUTE_NAME,
-                    XML_REQUIREDARGUMENT_ATTRIBUTE_VALUE,
-                    XML_REQUIREDARGUMENT_ELEMENT);
+    static final ConfigurationConverter.Metadata CONFIGURATION_CONVERTER_METADATA = new ConfigurationConverter.Metadata(
+        XML_REQUIREDARGUMENT_ATTRIBUTE_NAME, XML_REQUIREDARGUMENT_ATTRIBUTE_VALUE, XML_REQUIREDARGUMENT_ELEMENT);
 
-    static final FieldConverter.Metadata FIELD_CONVERTER_METADATA =
-            new FieldConverter.Metadata(
-                    XML_FIELD_ATTRIBUTE_ID,
-                    XML_FIELD_ATTRIBUTE_START,
-                    XML_FIELD_ATTRIBUTE_LENGTH,
-                    XML_FIELD_VALUE_COMPOSITE_TYPE,
-                    XML_FIELD_ATTRIBUTE_TYPE,
-                    XML_FIELD_ATTRIBUTE_INPUT,
-                    XML_FIELD_ATTRIBUTE_ALIAS,
-                    XML_FIELD_ATTRIBUTE_WHITESPACE,
-                    XML_FIELD_ATTRIBUTE_OUTPUT_ALIAS);
+    static final FieldConverter.Metadata FIELD_CONVERTER_METADATA = new FieldConverter.Metadata(XML_FIELD_ATTRIBUTE_ID,
+        XML_FIELD_ATTRIBUTE_START, XML_FIELD_ATTRIBUTE_LENGTH, XML_FIELD_VALUE_COMPOSITE_TYPE, XML_FIELD_ATTRIBUTE_TYPE,
+        XML_FIELD_ATTRIBUTE_INPUT, XML_FIELD_ATTRIBUTE_ALIAS, XML_FIELD_ATTRIBUTE_WHITESPACE,
+        XML_FIELD_ATTRIBUTE_OUTPUT_ALIAS);
 
     /**
      * Creates Geoclient configuration from the given XML file path. Currently
@@ -92,13 +81,11 @@ public class GeoclientXmlReader
      *            path to the XML configuration file
      * @return {@link GeoclientXmlReader}
      */
-    public static GeoclientXmlReader fromXml(String configFile)
-    {
+    public static GeoclientXmlReader fromXml(String configFile) {
         XStreamBuilder builder = new XStreamBuilder();
-        builder.addAllClassesInSamePackageAs(Field.class)
-                .addAllClassesInSamePackageAs(FunctionConfig.class)
-                .addAllClassesInSamePackageAs(GeoclientXmlReader.class).setReferenceMode()
-                .alias(XML_ROOT_ELEMENT, GeoclientXmlReader.class) // <geoclient>
+        builder.addAllClassesInSamePackageAs(Field.class).addAllClassesInSamePackageAs(
+            FunctionConfig.class).addAllClassesInSamePackageAs(GeoclientXmlReader.class).setReferenceMode().alias(
+                XML_ROOT_ELEMENT, GeoclientXmlReader.class) // <geoclient>
                 .alias(XML_FILTER_ELEMENT, Filter.class) // <filter>
                 .aliasAttribute(Filter.class, CLASS_FILTER_PROPERTY_PATTERN, XML_FILTER_ATTRIBUTE_PATTERN) // <filter pattern="">
                 .alias(XML_FIELD_ELEMENT, Field.class) // <field>
@@ -111,10 +98,11 @@ public class GeoclientXmlReader
                 .alias(XML_FUNCTION_ELEMENT, FunctionConfig.class) // <function>
                 .aliasAttribute(FunctionConfig.class, CLASS_FUNCTION_PROPERTY_ID, XML_FUNCTION_ATTRIBUTE_ID) // <function id="">
                 .aliasField(XML_FUNCTION_WORKAREAONE_ELEMENT, FunctionConfig.class, CLASS_FUNCTION_PROPERTY_WORKAREAONE) // <function workAreaOne="">
-                .aliasField(XML_FUNCTION_WORKAREATWO_ELEMENT, FunctionConfig.class, CLASS_FUNCTION_PROPERTY_WORKAREATWO); // <function workAreaTwo="">
+                .aliasField(XML_FUNCTION_WORKAREATWO_ELEMENT, FunctionConfig.class,
+                    CLASS_FUNCTION_PROPERTY_WORKAREATWO); // <function workAreaTwo="">
 
-        return (GeoclientXmlReader) builder.build()
-                .fromXML(ClassUtils.getDefaultClassLoader().getResourceAsStream(configFile));
+        return (GeoclientXmlReader) builder.build().fromXML(
+            ClassUtils.getDefaultClassLoader().getResourceAsStream(configFile));
     }
 
     public static FieldConverter.Metadata getFieldConverterMetadata() {
@@ -129,33 +117,27 @@ public class GeoclientXmlReader
     private List<FunctionConfig> functions;
     private List<WorkAreaConfig> workAreas;
 
-    public List<Filter> getFilters()
-    {
+    public List<Filter> getFilters() {
         return filters;
     }
 
-    public List<FunctionConfig> getFunctions()
-    {
+    public List<FunctionConfig> getFunctions() {
         return functions;
     }
 
-    public List<WorkAreaConfig> getWorkAreas()
-    {
+    public List<WorkAreaConfig> getWorkAreas() {
         return workAreas;
     }
 
-    public void setFilters(List<Filter> filters)
-    {
+    public void setFilters(List<Filter> filters) {
         this.filters = filters;
     }
 
-    public void setFunctions(List<FunctionConfig> functions)
-    {
+    public void setFunctions(List<FunctionConfig> functions) {
         this.functions = functions;
     }
 
-    public void setWorkAreas(List<WorkAreaConfig> workAreas)
-    {
+    public void setWorkAreas(List<WorkAreaConfig> workAreas) {
         this.workAreas = workAreas;
     }
 

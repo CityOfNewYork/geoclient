@@ -83,42 +83,48 @@ public class ThinFileInfo extends BaseFileInfo {
             if (other.recordTypes != null) {
                 return false;
             }
-        } else if (!recordTypes.equals(other.recordTypes)) {
+        }
+        else if (!recordTypes.equals(other.recordTypes)) {
             return false;
         }
         if (fillerFields == null) {
             if (other.fillerFields != null) {
                 return false;
             }
-        } else if (!fillerFields.equals(other.fillerFields)) {
+        }
+        else if (!fillerFields.equals(other.fillerFields)) {
             return false;
         }
         if (date == null) {
             if (other.date != null) {
                 return false;
             }
-        } else if (!date.equals(other.date)) {
+        }
+        else if (!date.equals(other.date)) {
             return false;
         }
         if (recordCount == null) {
             if (other.recordCount != null) {
                 return false;
             }
-        } else if (!recordCount.equals(other.recordCount)) {
+        }
+        else if (!recordCount.equals(other.recordCount)) {
             return false;
         }
         if (release == null) {
             if (other.release != null) {
                 return false;
             }
-        } else if (!release.equals(other.release)) {
+        }
+        else if (!release.equals(other.release)) {
             return false;
         }
         if (tag == null) {
             if (other.tag != null) {
                 return false;
             }
-        } else if (!tag.equals(other.tag)) {
+        }
+        else if (!tag.equals(other.tag)) {
             return false;
         }
         return true;

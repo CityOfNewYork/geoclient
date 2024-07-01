@@ -42,7 +42,8 @@ public class FieldConverter implements Converter {
 
         public Metadata(String xmlFieldAttributeId, String xmlFieldAttributeStrart, String xmlFieldAttributeLength,
                 String xmlFieldValueCompositeType, String xmlFieldAttributeType, String xmlFieldAttributeInput,
-                String xmlFieldAttributeAlias, String xmlFieldAttributeWhitespace, String xmlFieldAttributeOutputAlias) {
+                String xmlFieldAttributeAlias, String xmlFieldAttributeWhitespace,
+                String xmlFieldAttributeOutputAlias) {
             super();
             this.xmlFieldAttributeId = xmlFieldAttributeId;
             this.xmlFieldAttributeStart = xmlFieldAttributeStrart;
@@ -80,8 +81,8 @@ public class FieldConverter implements Converter {
         // the Field class which expects a zero-indexed start value.
         int start = Integer.valueOf(reader.getAttribute(metadata.xmlFieldAttributeStart)) - 1;
         int length = Integer.valueOf(reader.getAttribute(metadata.xmlFieldAttributeLength));
-        boolean isComposite = metadata.xmlFieldValueCompositeType
-                .equalsIgnoreCase(reader.getAttribute(metadata.xmlFieldAttributeType));
+        boolean isComposite = metadata.xmlFieldValueCompositeType.equalsIgnoreCase(
+            reader.getAttribute(metadata.xmlFieldAttributeType));
         boolean isInput = "true".equalsIgnoreCase(reader.getAttribute(metadata.xmlFieldAttributeInput));
         String alias = reader.getAttribute(metadata.xmlFieldAttributeAlias);
         boolean whitespace = "true".equalsIgnoreCase(reader.getAttribute(metadata.xmlFieldAttributeWhitespace));

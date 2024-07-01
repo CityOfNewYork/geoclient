@@ -33,7 +33,8 @@ public class InvalidStreetCodeException extends RuntimeException {
      * @param streetCode street code value that is invalid
      */
     public InvalidStreetCodeException(String streetCode) {
-        super(String.format("Invalid street code %s (%d chars)", streetCode, streetCode != null ? streetCode.length() : -1));
+        super(String.format("Invalid street code %s (%d chars)", streetCode,
+            streetCode != null ? streetCode.length() : -1));
     }
 
     /**
@@ -43,6 +44,7 @@ public class InvalidStreetCodeException extends RuntimeException {
      * @param validCodeMessage description of valid code format(s)
      */
     public InvalidStreetCodeException(String streetCode, String validCodeMessage) {
-        super(String.format("Invalid street code: %s (%d chars). %s", streetCode, (streetCode != null ? streetCode.length() : -1), validCodeMessage));
+        super(String.format("Invalid street code: %s (%d chars). %s", streetCode,
+            (streetCode != null ? streetCode.length() : -1), validCodeMessage));
     }
 }

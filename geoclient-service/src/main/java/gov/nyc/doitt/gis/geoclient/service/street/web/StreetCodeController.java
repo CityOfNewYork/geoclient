@@ -52,9 +52,10 @@ public class StreetCodeController {
             @RequestParam(required = false, defaultValue = "32") Integer length,
             @RequestParam(required = false, defaultValue = "S") String format) {
         logger.debug("street[streetCode='{}',streetCodeTwo='{}',streetCodeThree='{}',length='{}',format='{}']",
-                streetCode, streetCodeTwo, streetCodeThree, length, format);
+            streetCode, streetCodeTwo, streetCodeThree, length, format);
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("response", this.geosupportService.callFunctionD(streetCode, streetCodeTwo, streetCodeThree, length, format));
+        resultMap.put("response",
+            this.geosupportService.callFunctionD(streetCode, streetCodeTwo, streetCodeThree, length, format));
         return resultMap;
     }
 }

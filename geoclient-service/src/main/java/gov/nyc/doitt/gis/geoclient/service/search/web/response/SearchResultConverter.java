@@ -26,11 +26,9 @@ import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.Policy;
 import gov.nyc.doitt.gis.geoclient.service.search.policy.SearchPolicy;
 
-public class SearchResultConverter implements Converter<ParamsAndResult, SearchResponse>
-{
+public class SearchResultConverter implements Converter<ParamsAndResult, SearchResponse> {
     @Override
-    public SearchResponse convert(@NonNull ParamsAndResult source)
-    {
+    public SearchResponse convert(@NonNull ParamsAndResult source) {
         SearchResult searchResult = source.getSearchResult();
         SearchResponse target = new SearchResponse();
         target.setInput(searchResult.getInputString());
@@ -42,36 +40,32 @@ public class SearchResultConverter implements Converter<ParamsAndResult, SearchR
         return target;
     }
 
-    private void setStatus(ParamsAndResult source, SearchResponse target)
-    {
-        if(source.getSearchResult().successCount() > 0)
-        {
+    private void setStatus(ParamsAndResult source, SearchResponse target) {
+        if (source.getSearchResult().successCount() > 0) {
             target.setStatus(Status.OK);
-        }else
-        {
+        }
+        else {
             target.setStatus(Status.REJECTED);
         }
     }
 
-    protected void setSearches(ParamsAndResult source, SearchResponse target)
-    {
+    protected void setSearches(ParamsAndResult source, SearchResponse target) {
         SearchParameters searchParameters = source.getSearchParameters();
         SearchResult searchResult = source.getSearchResult();
         List<SearchSummary> results = new ArrayList<>();
 
-        if(!searchParameters.isReturnPossiblesWithExactMatch() && searchResult.isExactMatch())
-        {
+        if (!searchParameters.isReturnPossiblesWithExactMatch() && searchResult.isExactMatch()) {
             // Return exact match only
             results.add(summarize(searchResult.getExactMatch(), MatchStatus.EXACT_MATCH));
-        } else {
+        }
+        else {
             // Either there are successes but no exact match
             // or
             // There is an exact match and return of all successes is requested
             results.addAll(summarize(searchResult, true));
         }
 
-        if(searchParameters.isReturnRejections())
-        {
+        if (searchParameters.isReturnRejections()) {
             results.addAll(summarize(searchResult, false));
         }
 
@@ -79,10 +73,8 @@ public class SearchResultConverter implements Converter<ParamsAndResult, SearchR
 
     }
 
-    protected void setPolicy(ParamsAndResult source, SearchResponse target)
-    {
-        if(source.getSearchParameters().isReturnPolicy())
-        {
+    protected void setPolicy(ParamsAndResult source, SearchResponse target) {
+        if (source.getSearchParameters().isReturnPolicy()) {
             SearchPolicy searchPolicy = source.getSearchResult().getSearchPolicy();
             List<PolicySummary> policy = new ArrayList<>(3);
             policy.add(summarize(searchPolicy.getSearchDepthPolicy()));
@@ -92,25 +84,20 @@ public class SearchResultConverter implements Converter<ParamsAndResult, SearchR
         }
     }
 
-    protected void setParseTree(ParamsAndResult source, SearchResponse target)
-    {
-        if(source.getSearchParameters().isReturnTokens())
-        {
+    protected void setParseTree(ParamsAndResult source, SearchResponse target) {
+        if (source.getSearchParameters().isReturnTokens()) {
             SearchResult searchResult = source.getSearchResult();
             target.setParseTree(searchResult.getLocationTokens().getChunks());
         }
     }
 
-    protected List<SearchSummary> summarize(SearchResult searchResult, boolean success)
-    {
+    protected List<SearchSummary> summarize(SearchResult searchResult, boolean success) {
         List<Search> searches = success ? searchResult.getSuccessfulSearches() : searchResult.getRejectedSearches();
         Search exactMatch = success ? searchResult.getExactMatch() : null;
         List<SearchSummary> summaries = new ArrayList<>(searches.size());
-        for (Search search : searches)
-        {
+        for (Search search : searches) {
             MatchStatus matchStatus = success ? MatchStatus.POSSIBLE_MATCH : MatchStatus.REJECTED;
-            if(exactMatch != null && search.equals(exactMatch))
-            {
+            if (exactMatch != null && search.equals(exactMatch)) {
                 matchStatus = MatchStatus.EXACT_MATCH;
             }
             summaries.add(summarize(search, matchStatus));
@@ -118,18 +105,16 @@ public class SearchResultConverter implements Converter<ParamsAndResult, SearchR
         return summaries;
     }
 
-    protected SearchSummary summarize(Search search, MatchStatus matchStatus)
-    {
+    protected SearchSummary summarize(Search search, MatchStatus matchStatus) {
         SearchSummary summary = new SearchSummary();
-        summary.setLevel(String.format("%d",search.getLevel()));
+        summary.setLevel(String.format("%d", search.getLevel()));
         summary.setRequest(search.getRequest().summarize());
         summary.setResponse(search.getResponse().getGeocodes());
         summary.setStatus(matchStatus);
         return summary;
     }
 
-    protected PolicySummary summarize(Policy policy)
-    {
+    protected PolicySummary summarize(Policy policy) {
         PolicySummary policySummary = new PolicySummary();
         policySummary.setName(policy.getName());
         policySummary.setDescription(policy.getDescription());

@@ -31,27 +31,23 @@ import gov.nyc.doitt.gis.geoclient.parser.configuration.ParserConfig;
 import gov.nyc.doitt.gis.geoclient.parser.test.ChunkSpec;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {ParserConfig.class})
-public class SingleFieldSearchParserTest extends AbstractSpecTest
-{
+@ContextConfiguration(classes = { ParserConfig.class })
+public class SingleFieldSearchParserTest extends AbstractSpecTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(SingleFieldSearchParserTest.class);
 
     @Autowired
     private SingleFieldSearchParser parser;
 
     @Test
-    public void testParse()
-    {
-        List<ChunkSpec> specs =  specBuilder.getSpecs("AllParsers");
+    public void testParse() {
+        List<ChunkSpec> specs = specBuilder.getSpecs("AllParsers");
         assertThat(specs.isEmpty()).isFalse();
-        for (ChunkSpec spec : specs)
-        {
+        for (ChunkSpec spec : specs) {
             logSpecStart(LOGGER, spec);
             Input input = spec.input();
             LocationTokens locationTokens = this.parser.parse(input);
             assertChunksEquals(spec.getId(), spec.getChunks(), locationTokens.getChunks(), LOGGER);
         }
     }
-
 
 }

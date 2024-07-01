@@ -21,64 +21,53 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class Response
-{
+public class Response {
     private final ResponseStatus responseStatus;
     private final Map<String, Object> geocodes;
     private final Instant timestamp;
 
-    public Response(ResponseStatus responseStatus, Map<String, Object> geocodes)
-    {
+    public Response(ResponseStatus responseStatus, Map<String, Object> geocodes) {
         super();
         this.responseStatus = responseStatus;
         this.geocodes = geocodes;
         this.timestamp = Instant.now();
     }
 
-    public boolean messageAppliesTo(String streetName)
-    {
+    public boolean messageAppliesTo(String streetName) {
         GeosupportReturnCode grc = this.responseStatus.getGeosupportReturnCode();
         return StringUtils.containsIgnoreCase(grc.getMessage(), streetName);
     }
 
-    public boolean isCompassDirectionRequired()
-    {
+    public boolean isCompassDirectionRequired() {
         return responseStatus.isCompassDirectionRequired();
     }
 
-    public boolean isRejected()
-    {
+    public boolean isRejected() {
         return this.responseStatus.isRejected();
     }
 
-    public int similarNamesCount()
-    {
+    public int similarNamesCount() {
         return responseStatus.similarNamesCount();
     }
 
-    public List<String> getSimilarNames()
-    {
+    public List<String> getSimilarNames() {
         return responseStatus.getSimilarNames();
     }
 
-    public ResponseStatus getResponseStatus()
-    {
+    public ResponseStatus getResponseStatus() {
         return responseStatus;
     }
 
-    public Map<String, Object> getGeocodes()
-    {
+    public Map<String, Object> getGeocodes() {
         return geocodes;
     }
 
-    public Instant getTimestamp()
-    {
+    public Instant getTimestamp() {
         return timestamp;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Response [responseStatus=" + responseStatus + "]";
     }
 

@@ -16,7 +16,5 @@
 package gov.nyc.doitt.gis.geoclient.service.search.web.response;
 
 public enum MatchStatus {
-    EXACT_MATCH,
-    POSSIBLE_MATCH,
-    REJECTED
+    EXACT_MATCH, POSSIBLE_MATCH, REJECTED
 }

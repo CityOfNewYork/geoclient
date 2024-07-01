@@ -105,7 +105,7 @@ public class FunctionConfig {
             String wa2Id = workAreaTwo.getId();
             log.debug("=====================================================");
             log.debug("== The following field id's are defined in both WorkArea[id={}] and WorkArea[id={}].", wa1Id,
-                    wa2Id);
+                wa2Id);
             for (String id : duplicateIds) {
                 log.debug("== Field [id={}]", id);
             }
@@ -134,7 +134,8 @@ public class FunctionConfig {
         if (id == null) {
             if (other.id != null)
                 return false;
-        } else if (!id.equals(other.id))
+        }
+        else if (!id.equals(other.id))
             return false;
         return true;
     }

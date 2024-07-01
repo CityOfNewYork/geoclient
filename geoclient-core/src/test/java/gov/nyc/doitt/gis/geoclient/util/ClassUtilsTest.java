@@ -19,12 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 
-public class ClassUtilsTest
-{
+public class ClassUtilsTest {
 
     @Test
-    public void testGetDefaultClassLoader()
-    {
+    public void testGetDefaultClassLoader() {
         assertNotNull(ClassUtils.getDefaultClassLoader());
     }
 

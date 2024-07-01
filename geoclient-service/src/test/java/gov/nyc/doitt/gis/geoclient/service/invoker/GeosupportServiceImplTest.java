@@ -85,7 +85,8 @@ public class GeosupportServiceImplTest extends AbstractMockInvokerTests {
         arguments.put(BOROUGH_CODE2, 2);
         arguments.put(COMPASS_DIRECTION, "N");
         mockFunctionCall(F2W, arguments);
-        Map<String, Object> actualResult = geosupportServiceImpl.callFunction2("RSD", "Manhattan","W 100 ST", "BRONX", "N");
+        Map<String, Object> actualResult = geosupportServiceImpl.callFunction2("RSD", "Manhattan", "W 100 ST", "BRONX",
+            "N");
         verifyMocks("F" + F2W, actualResult);
     }
 
@@ -99,7 +100,8 @@ public class GeosupportServiceImplTest extends AbstractMockInvokerTests {
         arguments.put(BOROUGH_CODE2, 2);
         arguments.put(COMPASS_DIRECTION, "N");
         mockFunctionCall(F2W, arguments);
-        Map<String, Object> actualResult = geosupportServiceImpl.callFunction2("RSD", "Manhattan", "W 100 ST", "BRONX", "N");
+        Map<String, Object> actualResult = geosupportServiceImpl.callFunction2("RSD", "Manhattan", "W 100 ST", "BRONX",
+            "N");
         verifyMocks("F" + F2W, actualResult);
 
         // 2nd call without compassDirection
@@ -109,7 +111,8 @@ public class GeosupportServiceImplTest extends AbstractMockInvokerTests {
         arguments2.put(BOROUGH_CODE, 1);
         arguments2.put(BOROUGH_CODE2, 2);
         mockFunctionCall(F2W, arguments2);
-        Map<String, Object> actualResult2 = geosupportServiceImpl.callFunction2("RSD", "Manhattan", "W 100 ST", "BRONX", null);
+        Map<String, Object> actualResult2 = geosupportServiceImpl.callFunction2("RSD", "Manhattan", "W 100 ST", "BRONX",
+            null);
         verifyMocks("F" + F2W, actualResult2);
     }
 
@@ -124,7 +127,8 @@ public class GeosupportServiceImplTest extends AbstractMockInvokerTests {
         arguments.put(BOROUGH_CODE3, 3);
         arguments.put(COMPASS_DIRECTION, "E");
         mockFunctionCall(F3, arguments);
-        Map<String, Object> actualResult = geosupportServiceImpl.callFunction3("RSD", "Manhattan", "W 100 ST", "Bronx", "AMSTERDAM AV", "BROOKLYN", "E");
+        Map<String, Object> actualResult = geosupportServiceImpl.callFunction3("RSD", "Manhattan", "W 100 ST", "Bronx",
+            "AMSTERDAM AV", "BROOKLYN", "E");
         verifyMocks("F" + F3, actualResult);
     }
 
@@ -160,7 +164,8 @@ public class GeosupportServiceImplTest extends AbstractMockInvokerTests {
         arguments.put(NORMALIZATION_FORMAT, NORMALIZATION_FORMAT_COMPACT_VALUE);
         arguments.put(NORMALIZATION_LENGTH, 30);
         mockFunctionCall(FD, arguments);
-        Map<String, Object> actualResult = geosupportServiceImpl.callFunctionD("112345","223456","334567", 30, NORMALIZATION_FORMAT_COMPACT_VALUE);
+        Map<String, Object> actualResult = geosupportServiceImpl.callFunctionD("112345", "223456", "334567", 30,
+            NORMALIZATION_FORMAT_COMPACT_VALUE);
         verifyMocks("F" + FD, actualResult);
     }
 
@@ -176,8 +181,9 @@ public class GeosupportServiceImplTest extends AbstractMockInvokerTests {
         arguments.put(NORMALIZATION_FORMAT, NORMALIZATION_FORMAT_SORT_VALUE);
         arguments.put(NORMALIZATION_LENGTH, 20);
         mockFunctionCall(FDG, arguments);
-        Map<String, Object> actualResult = geosupportServiceImpl.callFunctionDG("11234567","21234567","312        arguments.put(GEOSUPPORT_FUNCTION_CODE, FHR);\n" +
-                "34567", 20, NORMALIZATION_FORMAT_SORT_VALUE);
+        Map<String, Object> actualResult = geosupportServiceImpl.callFunctionDG("11234567", "21234567",
+            "312        arguments.put(GEOSUPPORT_FUNCTION_CODE, FHR);\n" + "34567", 20,
+            NORMALIZATION_FORMAT_SORT_VALUE);
         verifyMocks("F" + FDG, actualResult);
     }
 
@@ -193,7 +199,8 @@ public class GeosupportServiceImplTest extends AbstractMockInvokerTests {
         arguments.put(NORMALIZATION_FORMAT, NORMALIZATION_FORMAT_SORT_VALUE);
         arguments.put(NORMALIZATION_LENGTH, 12);
         mockFunctionCall(FDN, arguments);
-        Map<String, Object> actualResult = geosupportServiceImpl.callFunctionDN("11234567890","21234567890","31234567890", 12, NORMALIZATION_FORMAT_SORT_VALUE);
+        Map<String, Object> actualResult = geosupportServiceImpl.callFunctionDN("11234567890", "21234567890",
+            "31234567890", 12, NORMALIZATION_FORMAT_SORT_VALUE);
         verifyMocks("F" + FDN, actualResult);
     }
 

@@ -34,8 +34,7 @@ import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.jni.test.GeoclientStub;
 
 // TODO Cleanup this test and move FunctionConfig creation into each test case
-public class FunctionConfigTest
-{
+public class FunctionConfigTest {
     private WorkAreaConfig wa1Config;
     private WorkAreaConfig wa2Config;
     private FunctionConfig oneWorkAreaFunction;
@@ -44,10 +43,11 @@ public class FunctionConfigTest
     private DefaultConfiguration configuration;
 
     @BeforeEach
-    public void setUp() throws Exception
-    {
-        this.wa1Config = new WorkAreaConfig("WW1", 12, true, TestData.newFieldList(TestData.fieldOne, TestData.fieldTwo), Collections.<Filter>emptyList());
-        this.wa2Config = new WorkAreaConfig("WW2_F1B", 4, false, TestData.newFieldList(TestData.makeField("pqr", 1, 4)), Collections.<Filter>emptyList());
+    public void setUp() throws Exception {
+        this.wa1Config = new WorkAreaConfig("WW1", 12, true,
+            TestData.newFieldList(TestData.fieldOne, TestData.fieldTwo), Collections.<Filter> emptyList());
+        this.wa2Config = new WorkAreaConfig("WW2_F1B", 4, false, TestData.newFieldList(TestData.makeField("pqr", 1, 4)),
+            Collections.<Filter> emptyList());
         this.configuration = new DefaultConfiguration();
         // Don't use the names of real functions. Previously, using function "1B"
         // was causing the real 1B in GeosupportConfigIntegration test to fail
@@ -57,12 +57,12 @@ public class FunctionConfigTest
         // test was run individually.
         this.oneWorkAreaFunction = new FunctionConfig("EG", this.wa1Config, null);
         this.twoWorkAreaFunction = new FunctionConfig("9B", this.wa1Config, this.wa2Config);
-        this.twoWorkAreaDefaultArgsFunction = new FunctionConfig("12", this.wa1Config, this.wa2Config, this.configuration);
+        this.twoWorkAreaDefaultArgsFunction = new FunctionConfig("12", this.wa1Config, this.wa2Config,
+            this.configuration);
     }
 
     @AfterEach
-    public void tearDown()
-    {
+    public void tearDown() {
         this.wa1Config = null;
         this.wa2Config = null;
         this.oneWorkAreaFunction = null;
@@ -71,40 +71,34 @@ public class FunctionConfigTest
     }
 
     @Test
-    public void testCreateUsesGivenDefaultConfiguration()
-    {
+    public void testCreateUsesGivenDefaultConfiguration() {
         DefaultConfiguration config = new DefaultConfiguration();
-        FunctionConfig functionConfig = new FunctionConfig("XX", this.wa1Config, this.wa2Config,config);
+        FunctionConfig functionConfig = new FunctionConfig("XX", this.wa1Config, this.wa2Config, config);
         Function function = functionConfig.createFunction(new GeoclientStub());
         assertSame(config, function.getConfiguration());
     }
 
     @Test
-    public void testCreateNewDefaultConfigurationEvenIfFieldIsNull()
-    {
+    public void testCreateNewDefaultConfigurationEvenIfFieldIsNull() {
         FunctionConfig functionConfig = new FunctionConfig("XX", this.wa1Config, this.wa2Config);
         Function function = functionConfig.createFunction(new GeoclientStub());
         assertNotNull(function.getConfiguration());
     }
 
-
     @Test
-    public void testCreateOneWorkAreaFunction()
-    {
+    public void testCreateOneWorkAreaFunction() {
         Function function = this.oneWorkAreaFunction.createFunction(new GeoclientStub());
         assertEquals("EG", function.getId());
     }
 
     @Test
-    public void testCreateTwoWorkAreaFunction()
-    {
+    public void testCreateTwoWorkAreaFunction() {
         Function function = this.twoWorkAreaFunction.createFunction(new GeoclientStub());
         assertEquals("9B", function.getId());
     }
 
     @Test
-    public void testOneWorkAreaConstructor()
-    {
+    public void testOneWorkAreaConstructor() {
         assertSame(this.wa1Config, this.oneWorkAreaFunction.getWorkAreaOneConfig());
         assertNull(this.oneWorkAreaFunction.getWorkAreaTwoConfig());
         assertNull(this.oneWorkAreaFunction.getConfiguration());
@@ -113,8 +107,7 @@ public class FunctionConfigTest
     }
 
     @Test
-    public void testTwoWorkAreaConstructor()
-    {
+    public void testTwoWorkAreaConstructor() {
         assertSame(this.wa1Config, this.twoWorkAreaFunction.getWorkAreaOneConfig());
         assertSame(this.wa2Config, this.twoWorkAreaFunction.getWorkAreaTwoConfig());
         assertNull(this.oneWorkAreaFunction.getConfiguration());
@@ -123,8 +116,7 @@ public class FunctionConfigTest
     }
 
     @Test
-    public void testTwoWorkAreaArgumentsConstructor()
-    {
+    public void testTwoWorkAreaArgumentsConstructor() {
         assertSame(this.wa1Config, this.twoWorkAreaDefaultArgsFunction.getWorkAreaOneConfig());
         assertSame(this.wa2Config, this.twoWorkAreaDefaultArgsFunction.getWorkAreaTwoConfig());
         assertSame(this.configuration, this.twoWorkAreaDefaultArgsFunction.getConfiguration());
@@ -132,13 +124,12 @@ public class FunctionConfigTest
         assertTrue(this.twoWorkAreaDefaultArgsFunction.hasDefaultArguments());
     }
 
-    @Test//(expected=DuplicateFieldNameException.class)
-    public void testCreateTwoWorkAreaFunction_duplicateFields()
-    {
-        WorkAreaConfig duplicateFieldWa2 = new WorkAreaConfig("DUP", TestData.fieldDuplicateIdOfOne.getLength(), true, TestData.newFieldList(TestData.fieldDuplicateIdOfOne),Collections.<Filter>emptyList());
+    @Test //(expected=DuplicateFieldNameException.class)
+    public void testCreateTwoWorkAreaFunction_duplicateFields() {
+        WorkAreaConfig duplicateFieldWa2 = new WorkAreaConfig("DUP", TestData.fieldDuplicateIdOfOne.getLength(), true,
+            TestData.newFieldList(TestData.fieldDuplicateIdOfOne), Collections.<Filter> emptyList());
         FunctionConfig badFun = new FunctionConfig("DUP", this.wa1Config, duplicateFieldWa2);
         badFun.createFunction(new GeoclientStub());
     }
-
 
 }

@@ -103,8 +103,8 @@ public class ResponseStatusMapper extends AbstractParameterMapper<ResponseStatus
 
     private String buildIllegalArgumentExceptionMessage(Object source, Object destination) {
         return String.format("Don't know how to convert from {} to {}. Expected source",
-                source.getClass().getCanonicalName(),
-                destination != null ? destination.getClass().getCanonicalName() : "null");
+            source.getClass().getCanonicalName(),
+            destination != null ? destination.getClass().getCanonicalName() : "null");
     }
 
     private void convertToGeosupportReturnCodeOne(Map<String, Object> source, GeosupportReturnCode dest) {

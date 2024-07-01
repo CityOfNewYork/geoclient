@@ -24,12 +24,10 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class GeosupportConfigurationTest
-{
+public class GeosupportConfigurationTest {
 
     @Test
-    public void testRequiredArguments()
-    {
+    public void testRequiredArguments() {
         DefaultConfiguration config = new DefaultConfiguration();
         assertNull(config.requiredArguments());
         Map<String, Object> args = new HashMap<String, Object>();

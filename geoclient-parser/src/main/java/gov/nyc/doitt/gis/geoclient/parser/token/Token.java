@@ -15,21 +15,17 @@
  */
 package gov.nyc.doitt.gis.geoclient.parser.token;
 
-
-
 /**
  * @author mlipper
  *
  */
-public class Token
-{
+public class Token {
     private final String value;
     private final TokenType type;
     private final int start;
     private final int end;
 
-    public Token(TokenType type, String value, int start, int end)
-    {
+    public Token(TokenType type, String value, int start, int end) {
         super();
         this.type = type;
         this.value = value;
@@ -37,35 +33,29 @@ public class Token
         this.end = end;
     }
 
-    public TokenType getType()
-    {
+    public TokenType getType() {
         return type;
     }
 
-    public String getValue()
-    {
+    public String getValue() {
         return value;
     }
 
-    public int start()
-    {
+    public int start() {
         return start;
     }
 
-    public int end()
-    {
+    public int end() {
         return end;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Token [value=" + value + ", type=" + type + ", start=" + start + ", end=" + end + "]";
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + end;
@@ -76,8 +66,7 @@ public class Token
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -91,11 +80,11 @@ public class Token
             return false;
         if (type != other.type)
             return false;
-        if (value == null)
-        {
+        if (value == null) {
             if (other.value != null)
                 return false;
-        } else if (!value.equals(other.value))
+        }
+        else if (!value.equals(other.value))
             return false;
         return true;
     }

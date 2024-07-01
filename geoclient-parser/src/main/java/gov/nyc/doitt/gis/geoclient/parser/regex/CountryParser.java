@@ -23,26 +23,22 @@ import gov.nyc.doitt.gis.geoclient.parser.token.Chunk;
 import gov.nyc.doitt.gis.geoclient.parser.token.ChunkType;
 import gov.nyc.doitt.gis.geoclient.parser.token.TokenType;
 
-public class CountryParser extends AbstractRegexParser
-{
-    private static final Pattern COUNTRY = Pattern.compile("(?:.*)\\b(U\\.?S\\.?A\\.?|U\\.?S\\.?|(?:(?<!UNITED STATES OF )AMERICA)|UNITED STATES OF AMERICA|UNITED STATES)\\s*$",Pattern.CASE_INSENSITIVE);
+public class CountryParser extends AbstractRegexParser {
+    private static final Pattern COUNTRY = Pattern.compile(
+        "(?:.*)\\b(U\\.?S\\.?A\\.?|U\\.?S\\.?|(?:(?<!UNITED STATES OF )AMERICA)|UNITED STATES OF AMERICA|UNITED STATES)\\s*$",
+        Pattern.CASE_INSENSITIVE);
 
     @Override
-    public void parse(ParseContext parseContext)
-    {
+    public void parse(ParseContext parseContext) {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = COUNTRY.matcher(currentChunk.getText());
-        if(!matcher.matches())
-        {
+        if (!matcher.matches()) {
             patternNotMatched(parseContext, COUNTRY);
             return;
         }
 
-        MatchBuilder builder = new MatchBuilder()
-            .add(matcher)
-            .add(MatchType.END_OF_INPUT)
-            .add(parseContext)
-            .add(COUNTRY, 1, TokenType.COUNTRY);
+        MatchBuilder builder = new MatchBuilder().add(matcher).add(MatchType.END_OF_INPUT).add(parseContext).add(
+            COUNTRY, 1, TokenType.COUNTRY);
 
         handleMatch(builder.build(), ChunkType.COUNTY);
     }

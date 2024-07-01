@@ -90,25 +90,35 @@ public abstract class AbstractMockInvokerTests {
         if (Function.F1AX.equals(functionName)) {
             // Special case naming for callGeosupport(...) test. F1AX is used.
             when(serviceConfigurationMock.geosupportFunction(functionName)).thenReturn(functionMock);
-        } else if(Function.F1B.equals(functionName)) {
+        }
+        else if (Function.F1B.equals(functionName)) {
             when(serviceConfigurationMock.function1B()).thenReturn(functionMock);
-        } else if(Function.F2W.equals(functionName)) {
+        }
+        else if (Function.F2W.equals(functionName)) {
             when(serviceConfigurationMock.function2W()).thenReturn(functionMock);
-        } else if(Function.F3.equals(functionName)) {
+        }
+        else if (Function.F3.equals(functionName)) {
             when(serviceConfigurationMock.function3()).thenReturn(functionMock);
-        } else if(Function.FBL.equals(functionName)) {
+        }
+        else if (Function.FBL.equals(functionName)) {
             when(serviceConfigurationMock.functionBL()).thenReturn(functionMock);
-        } else if(Function.FBN.equals(functionName)) {
+        }
+        else if (Function.FBN.equals(functionName)) {
             when(serviceConfigurationMock.functionBN()).thenReturn(functionMock);
-        } else if(Function.FD.equals(functionName)) {
+        }
+        else if (Function.FD.equals(functionName)) {
             when(serviceConfigurationMock.functionD()).thenReturn(functionMock);
-        } else if(Function.FDG.equals(functionName)) {
+        }
+        else if (Function.FDG.equals(functionName)) {
             when(serviceConfigurationMock.functionDG()).thenReturn(functionMock);
-        } else if(Function.FDN.equals(functionName)) {
+        }
+        else if (Function.FDN.equals(functionName)) {
             when(serviceConfigurationMock.functionDN()).thenReturn(functionMock);
-        } else if(Function.FHR.equals(functionName)) {
+        }
+        else if (Function.FHR.equals(functionName)) {
             when(serviceConfigurationMock.functionHR()).thenReturn(functionMock);
-        } else {
+        }
+        else {
             // Unrecognized function name
             throw new IllegalArgumentException("Unrecognized function name: " + functionName);
         }
@@ -121,7 +131,8 @@ public abstract class AbstractMockInvokerTests {
         when(functionConfigurationMock.requiredArguments()).thenReturn(requiredArguments);
     }
 
-    protected void mockFunction(String functionName, Map<String, Object> allArguments, Map<String, Object> expectedFunctionResult) {
+    protected void mockFunction(String functionName, Map<String, Object> allArguments,
+            Map<String, Object> expectedFunctionResult) {
         functionMock = mock(Function.class, mockSettings);
         when(functionMock.getId()).thenReturn(functionName);
         when(functionMock.getConfiguration()).thenReturn(functionConfigurationMock);

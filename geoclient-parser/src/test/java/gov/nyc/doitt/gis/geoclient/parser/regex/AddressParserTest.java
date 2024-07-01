@@ -21,13 +21,11 @@ import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.parser.AbstractSpecTest;
 
-public class AddressParserTest extends AbstractSpecTest
-{
+public class AddressParserTest extends AbstractSpecTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(AddressParserTest.class);
 
     @Test
-    public void testAddressParser()
-    {
+    public void testAddressParser() {
         testParser(new AddressParser(), LOGGER);
     }
 }

@@ -23,8 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import gov.nyc.doitt.gis.geoclient.jni.Geoclient;
 
-public class GeosupportFunction implements Function
-{
+public class GeosupportFunction implements Function {
     private static final Logger log = LoggerFactory.getLogger(GeosupportFunction.class);
     //private static final Logger JNI_BUFFER_LOGGER = LoggerFactory.getLogger("GC_JNI_BUFFER_LOGGER");
     private final String id;
@@ -33,8 +32,8 @@ public class GeosupportFunction implements Function
     private final Geoclient geoclient;
     private final Configuration configuration;
 
-    public GeosupportFunction(String id, WorkArea workAreaOne, WorkArea workAreaTwo, Geoclient geoclient, Configuration configuration)
-    {
+    public GeosupportFunction(String id, WorkArea workAreaOne, WorkArea workAreaTwo, Geoclient geoclient,
+            Configuration configuration) {
         super();
         this.id = id;
         this.workAreaOne = workAreaOne;
@@ -43,13 +42,11 @@ public class GeosupportFunction implements Function
         this.configuration = configuration;
     }
 
-    public GeosupportFunction(String id, WorkArea workAreaOne, WorkArea workAreaTwo, Geoclient geoclient)
-    {
+    public GeosupportFunction(String id, WorkArea workAreaOne, WorkArea workAreaTwo, Geoclient geoclient) {
         this(id, workAreaOne, workAreaTwo, geoclient, null);
     }
 
-    public GeosupportFunction(String id, WorkArea workAreaOne, Geoclient geoclient)
-    {
+    public GeosupportFunction(String id, WorkArea workAreaOne, Geoclient geoclient) {
         this(id, workAreaOne, null, geoclient);
     }
 
@@ -59,38 +56,31 @@ public class GeosupportFunction implements Function
      * @see gov.nyc.doitt.gis.geoclient.function.Function#call(java.util.Map)
      */
     @Override
-    public Map<String, Object> call(Map<String, Object> parameters)
-    {
-        if (isTwoWorkAreas())
-        {
+    public Map<String, Object> call(Map<String, Object> parameters) {
+        if (isTwoWorkAreas()) {
             return doTwoWorkAreaCall(parameters);
         }
         return doOneWorkAreaCall(parameters);
     }
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public WorkArea getWorkAreaOne()
-    {
+    public WorkArea getWorkAreaOne() {
         return workAreaOne;
     }
 
-    public WorkArea getWorkAreaTwo()
-    {
+    public WorkArea getWorkAreaTwo() {
         return workAreaTwo;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "Function [id=" + id + "]";
     }
 
-    private Map<String, Object> doOneWorkAreaCall(Map<String, Object> parameters)
-    {
+    private Map<String, Object> doOneWorkAreaCall(Map<String, Object> parameters) {
         ByteBuffer wa1 = workAreaOne.createBuffer(parameters);
         logFunctionCall();
         logBuffer("WA1", "input", wa1);
@@ -99,8 +89,7 @@ public class GeosupportFunction implements Function
         return this.workAreaOne.parseResults(wa1);
     }
 
-    private Map<String, Object> doTwoWorkAreaCall(Map<String, Object> parameters)
-    {
+    private Map<String, Object> doTwoWorkAreaCall(Map<String, Object> parameters) {
         ByteBuffer wa1 = workAreaOne.createBuffer(parameters);
         ByteBuffer wa2 = workAreaTwo.createBuffer();
         logFunctionCall();
@@ -113,25 +102,22 @@ public class GeosupportFunction implements Function
         return result;
     }
 
-    public boolean isTwoWorkAreas()
-    {
+    public boolean isTwoWorkAreas() {
         return this.workAreaTwo != null;
     }
 
-    public Configuration getConfiguration()
-    {
+    public Configuration getConfiguration() {
         return configuration;
     }
 
-    private void logFunctionCall()
-    {
+    private void logFunctionCall() {
         log.debug("Calling {}", this);
     }
 
-    private void logBuffer(String workArea, String inputOutput, ByteBuffer buffer)
-    {
+    private void logBuffer(String workArea, String inputOutput, ByteBuffer buffer) {
         final String bufferString = new String(buffer.array());
-        log.trace("{}[{}]:'{}'", String.format("F%6s", this.id + "." + workArea), String.format("%6s", inputOutput), bufferString);
+        log.trace("{}[{}]:'{}'", String.format("F%6s", this.id + "." + workArea), String.format("%6s", inputOutput),
+            bufferString);
         //JNI_BUFFER_LOGGER.trace("{}[{}]:'{}'", String.format("F%6s", this.id + "." + workArea), String.format("%6s", inputOutput), bufferString);
     }
 

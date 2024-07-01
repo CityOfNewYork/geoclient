@@ -20,7 +20,6 @@ import java.util.List;
 import gov.nyc.doitt.gis.geoclient.service.search.Search;
 import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
 
-public interface SearchDepthPolicy extends Policy
-{
+public interface SearchDepthPolicy extends Policy {
     List<Search> inputForSubSearches(SearchResult searchResult);
 }

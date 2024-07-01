@@ -51,8 +51,8 @@ public class RestControllerTest {
         String houseNumber = "59";
         String street = "Maiden Ln";
         String borough = "Manhattan";
-        Mockito.when(this.geosupportServiceMock.callFunction1B(houseNumber, street, borough, null))
-                .thenReturn(expectedResult);
+        Mockito.when(this.geosupportServiceMock.callFunction1B(houseNumber, street, borough, null)).thenReturn(
+            expectedResult);
         Map<String, Object> actualResult = this.restController.address(houseNumber, street, borough, null);
         assertSame(expectedResult, actualResult.get(RestController.ADDRESS_OBJ));
     }
@@ -62,8 +62,8 @@ public class RestControllerTest {
         String houseNumber = "59";
         String street = "Maiden Ln";
         String zip = "10038";
-        Mockito.when(this.geosupportServiceMock.callFunction1B(houseNumber, street, null, zip))
-                .thenReturn(expectedResult);
+        Mockito.when(this.geosupportServiceMock.callFunction1B(houseNumber, street, null, zip)).thenReturn(
+            expectedResult);
         Map<String, Object> actualResult = this.restController.address(houseNumber, street, null, zip);
         assertSame(expectedResult, actualResult.get(RestController.ADDRESS_OBJ));
     }
@@ -74,8 +74,8 @@ public class RestControllerTest {
         String street = "Maiden Ln";
         String borough = "Manhattan";
         String zip = "10038";
-        Mockito.when(this.geosupportServiceMock.callFunction1B(houseNumber, street, borough, zip))
-                .thenReturn(expectedResult);
+        Mockito.when(this.geosupportServiceMock.callFunction1B(houseNumber, street, borough, zip)).thenReturn(
+            expectedResult);
         Map<String, Object> actualResult = this.restController.address(houseNumber, street, borough, zip);
         assertSame(expectedResult, actualResult.get(RestController.ADDRESS_OBJ));
     }
@@ -92,8 +92,8 @@ public class RestControllerTest {
         String houseNumber = "59";
         String street = "Maiden Ln";
         String borough = "Manhattan";
-        Mockito.when(this.geosupportServiceMock.callFunctionAP(houseNumber, street, borough, null))
-                .thenReturn(expectedResult);
+        Mockito.when(this.geosupportServiceMock.callFunctionAP(houseNumber, street, borough, null)).thenReturn(
+            expectedResult);
         Map<String, Object> actualResult = this.restController.addresspoint(houseNumber, street, borough, null);
         assertSame(expectedResult, actualResult.get(RestController.ADDRESSPOINT_OBJ));
     }
@@ -141,9 +141,9 @@ public class RestControllerTest {
         String borough2 = "Manhattan";
         String compassDirection = "W";
         Mockito.when(this.geosupportServiceMock.callFunction2(crossStreetOne, borough, crossStreetTwo, borough2,
-                compassDirection)).thenReturn(expectedResult);
+            compassDirection)).thenReturn(expectedResult);
         Map<String, Object> actualResult = this.restController.intersection(crossStreetOne, crossStreetTwo, borough,
-                borough2, compassDirection);
+            borough2, compassDirection);
         assertSame(expectedResult, actualResult.get(RestController.INTERSECTION_OBJ));
     }
 
@@ -158,9 +158,9 @@ public class RestControllerTest {
         String borough3 = "Texas";
         String compassDirection = "W";
         Mockito.when(this.geosupportServiceMock.callFunction3(onStreet, borough, crossStreetOne, borough2,
-                crossStreetTwo, borough3, compassDirection)).thenReturn(expectedResult);
+            crossStreetTwo, borough3, compassDirection)).thenReturn(expectedResult);
         Map<String, Object> actualResult = this.restController.blockface(onStreet, crossStreetOne, crossStreetTwo,
-                borough, borough2, borough3, compassDirection);
+            borough, borough2, borough3, compassDirection);
         assertSame(expectedResult, actualResult.get(RestController.BLOCKFACE_OBJ));
     }
 
@@ -209,7 +209,7 @@ public class RestControllerTest {
         req.setRequestURI(requestUri);
         req.setQueryString(queryString);
         MissingAnyOfOptionalServletRequestParametersException e = new MissingAnyOfOptionalServletRequestParametersException(
-                "dog", "cat");
+            "dog", "cat");
         ResponseEntity<BadRequest> result = this.restController.handleMissingRequestParameter(e, req);
         assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
         assertEquals(String.format("%s?%s", requestUri, queryString), result.getBody().getRequestUri());

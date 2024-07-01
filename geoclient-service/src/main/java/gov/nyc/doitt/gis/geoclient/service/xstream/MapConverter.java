@@ -39,9 +39,11 @@ public class MapConverter implements Converter {
             if (value instanceof Map) {
                 // Recursively map any sub-Maps
                 this.marshal(value, writer, context);
-            } else if (value instanceof Collection<?>) {
+            }
+            else if (value instanceof Collection<?>) {
                 context.convertAnother(value);
-            } else {
+            }
+            else {
                 writer.setValue(value != null ? entry.getValue().toString() : null);
             }
             writer.endNode();

@@ -48,7 +48,7 @@ public class ChunkSpecParserTest {
         buffer.append(makeChunkDefinition(ChunkType.COUNTY, 0, 25, new TokenTypeOccurrence(TokenType.BOROUGH_NAME, 3)));
         buffer.append("|");
         buffer.append(makeChunkDefinition(ChunkType.ADDRESS, 0, 16, new TokenTypeOccurrence(TokenType.HOUSE_NUMBER, 1),
-                new TokenTypeOccurrence(TokenType.STREET_NAME, 2)));
+            new TokenTypeOccurrence(TokenType.STREET_NAME, 2)));
         ChunkSpec actual = this.specParser.parse("testParse-id", buffer.toString());
         assertThat(actual.getId()).isEqualTo("testParse-id");
         assertThat(actual.chunkCount()).isEqualTo(2);
@@ -235,9 +235,9 @@ public class ChunkSpecParserTest {
     @Test
     public void testParseChunk() {
         String chunkDefinition = makeChunkDefinition(ChunkType.COUNTY, 2, 7,
-                new TokenTypeOccurrence(TokenType.BOROUGH_NAME, 1));
+            new TokenTypeOccurrence(TokenType.BOROUGH_NAME, 1));
         Chunk chunk = specParser.parseChunk(chunkDefinition, ", [BRONX]",
-                Arrays.asList(new MutableToken[] { new MutableToken("BRONX", 2, 7) }));
+            Arrays.asList(new MutableToken[] { new MutableToken("BRONX", 2, 7) }));
         assertThat(chunk.getType()).isEqualTo(ChunkType.COUNTY);
         assertThat(chunk.getText()).isEqualTo("BRONX");
         assertThat(chunk.getTokens().get(0)).isEqualTo(new Token(TokenType.BOROUGH_NAME, "BRONX", 2, 7));
@@ -247,8 +247,8 @@ public class ChunkSpecParserTest {
     public void testParseChunk_untypedTokenListSizeLessThanSpecifiedTokenTypesLength() {
         assertThrows(TestConfigurationException.class, () -> {
             specParser.parseChunk(
-                    makeChunkDefinition(ChunkType.COUNTY, 0, 6, new TokenTypeOccurrence(TokenType.BLOCK, 1)),
-                    " [1889] ", Arrays.asList(new MutableToken[] {}));
+                makeChunkDefinition(ChunkType.COUNTY, 0, 6, new TokenTypeOccurrence(TokenType.BLOCK, 1)), " [1889] ",
+                Arrays.asList(new MutableToken[] {}));
         });
     }
 

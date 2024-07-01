@@ -24,70 +24,59 @@ import org.slf4j.LoggerFactory;
 import gov.nyc.doitt.gis.geoclient.function.Function;
 import gov.nyc.doitt.gis.geoclient.function.WorkArea;
 
-public class Registry
-{
+public class Registry {
     private static final Logger log = LoggerFactory.getLogger(Registry.class);
 
     private static final ConcurrentMap<String, Function> functionRegistry = new ConcurrentHashMap<String, Function>();
     private static final ConcurrentMap<String, WorkArea> workAreaRegistry = new ConcurrentHashMap<String, WorkArea>();
 
-    private Registry()
-    {
+    private Registry() {
     }
 
-    public static void addFunction(Function function)
-    {
+    public static void addFunction(Function function) {
         log.debug("add({})", function);
         functionRegistry.putIfAbsent(function.getId(), function);
     }
 
-    public static void addWorkArea(WorkArea workArea)
-    {
+    public static void addWorkArea(WorkArea workArea) {
         log.debug("add({})", workArea);
         workAreaRegistry.putIfAbsent(workArea.getId(), workArea);
     }
 
-    public static void clearAll()
-    {
+    public static void clearAll() {
         clearFunctions();
         clearWorkAreas();
     }
 
-    public static void clearFunctions()
-    {
+    public static void clearFunctions() {
         functionRegistry.clear();
         log.debug("functionRegistry.clear()");
     }
 
-    public static void clearWorkAreas()
-    {
+    public static void clearWorkAreas() {
         workAreaRegistry.clear();
         log.debug("workAreaRegistry.clear()");
     }
 
-    public static boolean containsFunction(String id)
-    {
+    public static boolean containsFunction(String id) {
         boolean contains = functionRegistry.containsKey(id);
         log.debug("functionRegistry.containsKey({})=={}", id, contains);
         return contains;
     }
 
-    public static boolean containsWorkArea(String name)
-    {
+    public static boolean containsWorkArea(String name) {
         boolean contains = workAreaRegistry.containsKey(name);
         log.debug("workAreaRegistry.containsKey({})=={}", name, contains);
         return contains;
     }
 
-    public static Function getFunction(String id)
-    {
+    public static Function getFunction(String id) {
         Function function = functionRegistry.get(id);
         log.debug("functionRegistry.get({})=={}", id, function);
         return function;
     }
 
-    public static WorkArea getWorkArea(String name)
-    {
+    public static WorkArea getWorkArea(String name) {
         WorkArea workArea = workAreaRegistry.get(name);
         log.debug("workAreaRegistry.get({})=={}", name, workArea);
         return workArea;

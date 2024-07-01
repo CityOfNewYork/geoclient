@@ -19,12 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-public class ProfilesTest
-{
+public class ProfilesTest {
 
     @Test
-    public void testValue()
-    {
+    public void testValue() {
         assertEquals("apikey", Profiles.API_KEY.value());
     }
 

@@ -37,12 +37,12 @@ public abstract class AbstractRegexParser implements Parser {
 
     protected void patternNotMatched(ParseContext parseContext, Pattern pattern) {
         LOGGER.debug("{} could not match tokens in chunk '{}' using pattern {}", getName(),
-                parseContext.currentChunkText(), pattern);
+            parseContext.currentChunkText(), pattern);
     }
 
     protected Token newToken(TokenType type, MatchResult matchResult, int groupNumber) {
         Token token = new Token(type, matchResult.group(groupNumber), matchResult.start(groupNumber),
-                matchResult.end(groupNumber));
+            matchResult.end(groupNumber));
         StringBuffer buff = new StringBuffer(matchResult.group());
         buff.insert(token.start(), '[');
         buff.insert(token.end() + 1, ']');
@@ -72,7 +72,7 @@ public abstract class AbstractRegexParser implements Parser {
             if (matchResult.group(groupNumber) != null) {
                 currentChunk.add(newToken(matchGroup.getTokenType(), matchResult, matchGroup.getGroup()));
                 LOGGER.debug("{} found tokens in chunk '{}' using pattern {}", getName(), currentChunk.getText(),
-                        matchGroup.getPattern());
+                    matchGroup.getPattern());
                 // patternMatched(match.parseContext(), matchGroup.getPattern());
             }
         }

@@ -21,31 +21,27 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class FileInfoTest
-{
+public class FileInfoTest {
     private FileInfo fileInfo;
 
     @BeforeEach
-    public void setUp() throws Exception
-    {
+    public void setUp() throws Exception {
         this.fileInfo = new FileInfo();
     }
 
     @Test
-    public void testGetFormattedDate()
-    {
+    public void testGetFormattedDate() {
         String dateString = "021112";
         this.fileInfo.setDate(dateString);
-        assertEquals(this.fileInfo.applyFormat(dateString),this.fileInfo.getFormattedDate());
+        assertEquals(this.fileInfo.applyFormat(dateString), this.fileInfo.getFormattedDate());
     }
 
     @Test
-    public void testApplyFormat()
-    {
+    public void testApplyFormat() {
         assertNull(this.fileInfo.applyFormat(null));
         String badDate = "bad";
-        assertEquals(badDate,this.fileInfo.applyFormat(badDate));
-        assertEquals("2014-01-21",this.fileInfo.applyFormat("140121"));
+        assertEquals(badDate, this.fileInfo.applyFormat(badDate));
+        assertEquals("2014-01-21", this.fileInfo.applyFormat("140121"));
     }
 
 }

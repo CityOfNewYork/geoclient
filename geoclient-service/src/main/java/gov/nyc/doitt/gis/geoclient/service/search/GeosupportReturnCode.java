@@ -97,17 +97,20 @@ public class GeosupportReturnCode {
         if (message == null) {
             if (other.message != null)
                 return false;
-        } else if (!message.equals(other.message))
+        }
+        else if (!message.equals(other.message))
             return false;
         if (reasonCode == null) {
             if (other.reasonCode != null)
                 return false;
-        } else if (!reasonCode.equals(other.reasonCode))
+        }
+        else if (!reasonCode.equals(other.reasonCode))
             return false;
         if (returnCode == null) {
             if (other.returnCode != null)
                 return false;
-        } else if (!returnCode.equals(other.returnCode))
+        }
+        else if (!returnCode.equals(other.returnCode))
             return false;
         return true;
     }

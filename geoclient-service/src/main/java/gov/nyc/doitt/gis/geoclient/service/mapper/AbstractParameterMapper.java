@@ -41,8 +41,7 @@ public abstract class AbstractParameterMapper<T> implements Mapper<T> {
     }
 
     @Override
-    public abstract Map<String, Object> toParameters(T source, Map<String, Object> destination)
-            throws MappingException;
+    public abstract Map<String, Object> toParameters(T source, Map<String, Object> destination) throws MappingException;
 
     @SuppressWarnings("unchecked")
     protected T newInstance(Class<T> clazz) throws MappingException {
@@ -51,18 +50,19 @@ public abstract class AbstractParameterMapper<T> implements Mapper<T> {
             Constructor<?>[] ctors = clazz.getDeclaredConstructors();
             Constructor<?> constructor = null;
             for (Constructor<?> ctor : ctors) {
-                if(ctor.getGenericExceptionTypes().length == 0) {
+                if (ctor.getGenericExceptionTypes().length == 0) {
                     ctor.setAccessible(true);
                     constructor = ctor;
                     break;
                 }
             }
-            return (T)constructor.newInstance();
+            return (T) constructor.newInstance();
 
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+        }
+        catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             String className = clazz.getCanonicalName();
             String msg = String.format("Error creating instance of class %s using Class<%s>#newInstance()", className,
-                    clazz.getSimpleName());
+                clazz.getSimpleName());
             LOGGER.error(e.getMessage());
             throw new MappingException(msg, e);
         }

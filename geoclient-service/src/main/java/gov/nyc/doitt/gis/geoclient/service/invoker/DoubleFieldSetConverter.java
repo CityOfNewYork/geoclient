@@ -62,7 +62,7 @@ public class DoubleFieldSetConverter implements FieldSetConverter {
         if (this.fieldSets.containsKey(functionId)) {
             FieldSet fieldSet = this.fieldSets.get(functionId);
             LOGGER.debug("Converting function {} fields {} from Strings to Doubles...", functionId,
-                    fieldSet.getFieldNames());
+                fieldSet.getFieldNames());
             convert(arguments, fieldSet.getFieldNames());
         }
     }
@@ -84,7 +84,7 @@ public class DoubleFieldSetConverter implements FieldSetConverter {
     }
 
     private Double convert(String coordinateString) {
-        if(coordinateString == null) {
+        if (coordinateString == null) {
             throw new IllegalArgumentException("Coordinate string must not be null");
         }
         String trimmed = coordinateString.trim();

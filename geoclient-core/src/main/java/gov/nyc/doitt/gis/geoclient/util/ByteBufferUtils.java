@@ -21,13 +21,11 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 
-public class ByteBufferUtils
-{
+public class ByteBufferUtils {
     private static final Charset CHARSET = Charset.forName("UTF-8");
     private static final CharsetDecoder DECODER = CHARSET.newDecoder();
 
-    public static String readString(ByteBuffer buffer)throws CharacterCodingException
-    {
+    public static String readString(ByteBuffer buffer) throws CharacterCodingException {
         int position = buffer.position();
         CharBuffer charBuffer = DECODER.decode(buffer);
         buffer.position(position);

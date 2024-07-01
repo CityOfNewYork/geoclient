@@ -28,8 +28,7 @@ import gov.nyc.doitt.gis.geoclient.service.search.SearchResult;
  * @author mlipper
  *
  */
-public class SearchPolicy
-{
+public class SearchPolicy {
     public static final int INITIAL_SEARCH_LEVEL = 0;
 
     /**
@@ -47,54 +46,44 @@ public class SearchPolicy
      */
     private SimilarNamesPolicy similarNamesPolicy = new DefaultSimilarNamesPolicy();
 
-    public Search findExactMatch(SearchResult searchResult)
-    {
+    public Search findExactMatch(SearchResult searchResult) {
         return this.exactMatchPolicy.findExactMatch(searchResult);
     }
 
-    public ExactMatchPolicy getExactMatchPolicy()
-    {
+    public ExactMatchPolicy getExactMatchPolicy() {
         return exactMatchPolicy;
     }
 
-    public SearchDepthPolicy getSearchDepthPolicy()
-    {
+    public SearchDepthPolicy getSearchDepthPolicy() {
         return searchDepthPolicy;
     }
 
-    public SimilarNamesPolicy getSimilarNamesPolicy()
-    {
+    public SimilarNamesPolicy getSimilarNamesPolicy() {
         return similarNamesPolicy;
     }
 
-    public List<Search> inputForSubSearches(SearchResult searchResult)
-    {
+    public List<Search> inputForSubSearches(SearchResult searchResult) {
         return this.searchDepthPolicy.inputForSubSearches(searchResult);
     }
 
-    public boolean isSimilarName(String original, String proposed)
-    {
+    public boolean isSimilarName(String original, String proposed) {
         return this.similarNamesPolicy.isSimilarName(original, proposed);
     }
 
-    public void setExactMatchPolicy(ExactMatchPolicy exactMatchPolicy)
-    {
+    public void setExactMatchPolicy(ExactMatchPolicy exactMatchPolicy) {
         this.exactMatchPolicy = exactMatchPolicy;
     }
 
-    public void setSearchDepthPolicy(SearchDepthPolicy searchDepthPolicy)
-    {
+    public void setSearchDepthPolicy(SearchDepthPolicy searchDepthPolicy) {
         this.searchDepthPolicy = searchDepthPolicy;
     }
 
-    public void setSimilarNamesPolicy(SimilarNamesPolicy similarNamesPolicy)
-    {
+    public void setSimilarNamesPolicy(SimilarNamesPolicy similarNamesPolicy) {
         this.similarNamesPolicy = similarNamesPolicy;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((exactMatchPolicy == null) ? 0 : exactMatchPolicy.hashCode());
@@ -104,8 +93,7 @@ public class SearchPolicy
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj)
             return true;
         if (obj == null)
@@ -113,23 +101,23 @@ public class SearchPolicy
         if (getClass() != obj.getClass())
             return false;
         SearchPolicy other = (SearchPolicy) obj;
-        if (exactMatchPolicy == null)
-        {
+        if (exactMatchPolicy == null) {
             if (other.exactMatchPolicy != null)
                 return false;
-        } else if (!exactMatchPolicy.equals(other.exactMatchPolicy))
+        }
+        else if (!exactMatchPolicy.equals(other.exactMatchPolicy))
             return false;
-        if (searchDepthPolicy == null)
-        {
+        if (searchDepthPolicy == null) {
             if (other.searchDepthPolicy != null)
                 return false;
-        } else if (!searchDepthPolicy.equals(other.searchDepthPolicy))
+        }
+        else if (!searchDepthPolicy.equals(other.searchDepthPolicy))
             return false;
-        if (similarNamesPolicy == null)
-        {
+        if (similarNamesPolicy == null) {
             if (other.similarNamesPolicy != null)
                 return false;
-        } else if (!similarNamesPolicy.equals(other.similarNamesPolicy))
+        }
+        else if (!similarNamesPolicy.equals(other.similarNamesPolicy))
             return false;
         return true;
     }

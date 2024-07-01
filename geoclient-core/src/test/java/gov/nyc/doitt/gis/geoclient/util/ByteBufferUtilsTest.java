@@ -22,17 +22,15 @@ import java.nio.ByteBuffer;
 
 import org.junit.jupiter.api.Test;
 
-public class ByteBufferUtilsTest
-{
+public class ByteBufferUtilsTest {
 
     @Test
-    public void testReadString()throws Exception
-    {
+    public void testReadString() throws Exception {
         String string = "I like cake";
         ByteBuffer buffer = ByteBuffer.wrap(string.getBytes());
         int positionBeforeCall = buffer.position();
         assertEquals(string, ByteBufferUtils.readString(buffer));
-        assertTrue(positionBeforeCall==buffer.position());
+        assertTrue(positionBeforeCall == buffer.position());
     }
 
 }

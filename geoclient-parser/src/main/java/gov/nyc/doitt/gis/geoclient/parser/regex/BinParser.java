@@ -27,21 +27,16 @@ public class BinParser extends AbstractRegexParser {
     private static final Pattern BIN_SEVEN_DIGIT = Pattern.compile("^\\s*([1-5]\\d{6})\\s*$");
 
     @Override
-    public void parse(ParseContext parseContext)
-    {
+    public void parse(ParseContext parseContext) {
         Chunk currentChunk = parseContext.getCurrent();
         Matcher matcher = BIN_SEVEN_DIGIT.matcher(currentChunk.getText());
 
-        if(!matcher.matches())
-        {
-            patternNotMatched(parseContext,BIN_SEVEN_DIGIT);
+        if (!matcher.matches()) {
+            patternNotMatched(parseContext, BIN_SEVEN_DIGIT);
             return;
         }
-        MatchBuilder builder = new MatchBuilder()
-            .add(matcher)
-            .add(MatchType.COMPLETE)
-            .add(parseContext)
-            .add(BIN_SEVEN_DIGIT, 1, TokenType.BIN);
+        MatchBuilder builder = new MatchBuilder().add(matcher).add(MatchType.COMPLETE).add(parseContext).add(
+            BIN_SEVEN_DIGIT, 1, TokenType.BIN);
         handleMatch(builder.build(), ChunkType.BIN);
     }
 
