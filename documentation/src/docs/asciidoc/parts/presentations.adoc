@@ -1,0 +1,12 @@
+== Presentations
+
+Links to past presentations about Geoclient.
+
+'''
+
+Here's some older presentations given about Geoclient:
+
+* NYC School of Data[https://schoolofdata.nyc/] presentation[https://github.com/mlipper/geoclient/blob/main/src/doc/presentations/geoclient-why-bother.pdf]
+* BetaNYC[http://betanyc.us/] presentation[https://github.com/mlipper/geoclient/blob/main/src/doc/presentations/BetaNYC-nyc-doitt-geoclient.pdf]
+* Code4LibNyc[http://code4lib.org/] presentation[https://github.com/mlipper/geoclient/blob/main/src/doc/presentations/Code4LibNYC-geoclient-overview.pdf]
+* GeoNYC[http://www.meetup.com/geonyc] presentation[https://github.com/mlipper/geoclient/blob/main/src/doc/presentations/nyc-geoclient-api.pdf]
