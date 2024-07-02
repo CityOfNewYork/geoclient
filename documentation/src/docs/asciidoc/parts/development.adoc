@@ -4,7 +4,40 @@ This section documents building Geoclient from source, the project's core archit
 
 '''
 
+=== Platforms
+
+Linux x86_64:: Runs on recent kernel versions with `libc6`. Lots of successful production experience with `debian` and `RHEL`-based distros.
+Windows x86_64:: Can run on Windows 10 or 11. Not recommended for production use.
+
 === Building from source
+
+****
+Building Geoclient from source is tricky because of the many combinations of platforms, runtimes, tools, and pre-existing Geosupport binary artifacts.
+
+At this time, the New York City Department of City Planning only distributes binaries for Linux and Windows. The macOS platform is *not* supported.
+
+If you have a choice, prefer building on Linux as more of the standard C/JNI conventions work as expected. It is possible to build and run Geoclient/Geosupport on Windows, but we highly recommend Linux for the best performance.
+
+Finally, always use 64-bit versions of all software. 32-bit versions are *not* supported.
+****
+
+==== Requirements
+
+* 64-bit Geosupport
+* 64-bit JDK 17+ ("Full" JDK required. JRE by itself will *not* build)
+* Gradle 8.7+
+* 64-bit Linux or Windows
+* 64-bit native `C` and `C&#43;&#43;` compilers: `gcc` and `g&#43;&#43;`
+
+==== Gradle Build
+
+.Gradle build from bash
+[source,sh]
+----
+git clone {geoclient-repo}
+cd geoclient
+./gradlew build
+----
 
 === Projects
 
