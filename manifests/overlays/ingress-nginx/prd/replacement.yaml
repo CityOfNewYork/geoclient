@@ -7,7 +7,6 @@
       kind: Ingress
     fieldPaths:
     - spec.rules.0.http.paths.0.backend.service.name
-    - spec.rules.0.http.paths.1.backend.service.name
     options:
       delimiter: '-'
       index: 16
@@ -21,7 +20,6 @@
       kind: Ingress
     fieldPaths:
     - spec.rules.0.http.paths.0.backend.service.port.number
-    - spec.rules.0.http.paths.1.backend.service.port.number
 
 - source:
     kind: ConfigMap
