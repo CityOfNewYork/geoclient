@@ -50,7 +50,6 @@ logging:
     level:
         root: "WARN"
         geoclient-all: "WARN"
-        geoclient-sanitizer: "INFO"
         spring-all: "WARN"
 
 management:
