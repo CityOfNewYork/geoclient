@@ -10,6 +10,12 @@ repositories {
 dependencies {
     implementation libs.spotless.plugin
     implementation libs.gradle.versions.plugin
+    // Platforms
+    implementation(platform(libs.spring.boot.dependencies))
+    // Dependencies
+    implementation('org.springframework.boot:spring-boot-starter-logging')
+    implementation libs.httpclient
+    implementation libs.jackson.databind
 }
 
 gradlePlugin {
