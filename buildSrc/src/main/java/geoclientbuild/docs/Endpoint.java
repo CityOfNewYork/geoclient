@@ -2,6 +2,7 @@ package geoclientbuild.docs;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -30,7 +31,7 @@ public class Endpoint {
         this.baseUri = baseUri;
     }
 
-    public HttpGet httpGetRequest(Map<String, String> parameters) {
+    public HttpGet httpGetRequest(Map<String, String> parameters) throws URISyntaxException {
         return buildHttpGet(parameters);
     }
 
@@ -48,20 +49,15 @@ public class Endpoint {
         return params;
     }
 
-    HttpGet buildHttpGet(Map<String, String> parameters) {
-        HttpGet httpGet = buildUri();
+    HttpGet buildHttpGet(Map<String, String> parameters) throws URISyntaxException {
+        HttpGet httpGet = buildHttpGet();
         URI uri = new URIBuilder(httpGet.getUri()).addParameters(queryParams(parameters)).build();
         httpGet.setUri(uri);
         return httpGet;
     }
 
     HttpGet buildHttpGet() {
-        String uriString = this.baseUri + "/" + this.name;
-        try {
-            return new HttpGet(uriString);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+        return new HttpGet(this.baseUri + "/" + this.name);
     }
 
     @Override
