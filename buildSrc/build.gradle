@@ -1,6 +1,12 @@
 plugins {
     id 'groovy-gradle-plugin'
     id 'java-gradle-plugin'
+    id 'checkstyle'
+    id 'project-report'
+    alias(libs.plugins.spotless)
+    // Note: usage of versions plugin dependencyUpdates task emits
+    // deprecation warnings.
+    alias(libs.plugins.versions)
 }
 
 repositories {
