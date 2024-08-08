@@ -1,3 +1,9 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+
 dependencyResolutionManagement {
     versionCatalogs {
         libs {
@@ -5,5 +11,4 @@ dependencyResolutionManagement {
         }
     }
 }
-
 rootProject.name='geoclient-conventions'
