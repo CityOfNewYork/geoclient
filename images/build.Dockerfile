@@ -46,7 +46,7 @@ RUN set -ex \
   && java -Djarmode=layertools -jar ./geoclient.jar extract
 
 ### Run
-FROM eclipse-temurin:17-jre-jammy AS runner
+FROM eclipse-temurin:17-jre AS runner
 
 ENV GEOSUPPORT_BASEDIR=/opt/geosupport
 ENV GEOSUPPORT_HOME="${GEOSUPPORT_BASEDIR}/current"
