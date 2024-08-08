@@ -16,6 +16,8 @@ xstream = "1.4.20"
 boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 asciidoctorConvert = { id = "org.asciidoctor.jvm.convert", version.ref = "asciidoctor-plugins" }
 asciidoctorPdf = { id = "org.asciidoctor.jvm.pdf", version.ref = "asciidoctor-plugins" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless-plugin" }
+versions = { id = "com.github.ben-manes.versions", version.ref = "versions-plugin" }
 
 [libraries]
 apiguardian-api = { module = "org.apiguardian:apiguardian-api", version.ref = "apiguardian-api" }
