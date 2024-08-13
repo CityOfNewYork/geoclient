@@ -42,68 +42,40 @@ public class SampleAggregator implements ArgumentsAggregator {
         switch (pathVariable) {
             case ADDRESS:
             case ADDRESS_POINT:
-                addParamIfNotNull(
-                    Arrays.asList("houseNumber", "street", "borough", "zip"),
-                    Arrays.asList(3,4,5,6),
-                    arguments,
-                    builder);
+                addParamIfNotNull(Arrays.asList("houseNumber", "street", "borough", "zip"), Arrays.asList(3, 4, 5, 6),
+                    arguments, builder);
                 break;
             case BBL:
-                addParamIfNotNull(
-                    Arrays.asList("borough", "block", "lot"),
-                    Arrays.asList(3,4,5),
-                    arguments,
-                    builder);
+                addParamIfNotNull(Arrays.asList("borough", "block", "lot"), Arrays.asList(3, 4, 5), arguments, builder);
                 break;
             case BIN:
-                addParamIfNotNull(
-                    Arrays.asList("bin"),
-                    Arrays.asList(3),
-                    arguments,
-                    builder);
+                addParamIfNotNull(Arrays.asList("bin"), Arrays.asList(3), arguments, builder);
                 break;
             case BLOCKFACE:
                 addParamIfNotNull(
-                    Arrays.asList("onStreet", "crossStreetOne", "crossStreetTwo", "borough", "boroughCrossStreetOne", "boroughCrossStreetTwo", "compassDirection"),
-                    Arrays.asList(3,4,5,6,7,8,9),
-                    arguments,
-                    builder);
+                    Arrays.asList("onStreet", "crossStreetOne", "crossStreetTwo", "borough", "boroughCrossStreetOne",
+                        "boroughCrossStreetTwo", "compassDirection"),
+                    Arrays.asList(3, 4, 5, 6, 7, 8, 9), arguments, builder);
                 break;
             case INTERSECTION:
-                addParamIfNotNull(
-                    Arrays.asList("crossStreetOne", "crossStreetTwo", "borough", "boroughCrossStreetTwo", "compassDirection"),
-                    Arrays.asList(3,4,5,6,7),
-                    arguments,
-                    builder);
+                addParamIfNotNull(Arrays.asList("crossStreetOne", "crossStreetTwo", "borough", "boroughCrossStreetTwo",
+                    "compassDirection"), Arrays.asList(3, 4, 5, 6, 7), arguments, builder);
                 break;
             case PLACE:
-                addParamIfNotNull(
-                    Arrays.asList("name", "borough", "zip"),
-                    Arrays.asList(3,4,5),
-                    arguments,
-                    builder);
+                addParamIfNotNull(Arrays.asList("name", "borough", "zip"), Arrays.asList(3, 4, 5), arguments, builder);
                 break;
             case SEARCH:
-                addParamIfNotNull(
-                    Arrays.asList("input", "returnTokens", "returnRejections", "returnPossiblesWithExactMatch", "returnPolicy"),
-                    Arrays.asList(3,4,5,6,7),
-                    arguments,
-                    builder);
+                addParamIfNotNull(Arrays.asList("input", "returnTokens", "returnRejections",
+                    "returnPossiblesWithExactMatch", "returnPolicy"), Arrays.asList(3, 4, 5, 6, 7), arguments, builder);
                 // Not implemented yet (they use default values):
                 // exactMatchMaxLevel, exactMatchForSingleSuccess, maxDepth, similarNamesDistance
                 break;
             case STREETCODE:
-                addParamIfNotNull(
-                    Arrays.asList("streetCode", "streetCodeTwo", "streetCodeThree", "length", "format"),
-                    Arrays.asList(3,4,5,6,7),
-                    arguments,
-                    builder);
+                addParamIfNotNull(Arrays.asList("streetCode", "streetCodeTwo", "streetCodeThree", "length", "format"),
+                    Arrays.asList(3, 4, 5, 6, 7), arguments, builder);
                 break;
             case NORMALIZE:
-                addParamIfNotNull(
-                    Arrays.asList("name", "length", "format"),
-                    Arrays.asList(3,4,5),
-                    arguments,
+                addParamIfNotNull(Arrays.asList("name", "length", "format"), Arrays.asList(3, 4, 5), arguments,
                     builder);
                 break;
             case VERSION:
@@ -115,7 +87,8 @@ public class SampleAggregator implements ArgumentsAggregator {
         return builder.build();
     }
 
-    private void addParamIfNotNull(List<String> names, List<Integer> indices, ArgumentsAccessor arguments, Sample.Builder builder) {
+    private void addParamIfNotNull(List<String> names, List<Integer> indices, ArgumentsAccessor arguments,
+            Sample.Builder builder) {
         logger.info("Checking arguments {}.", arguments);
         assertEquals(names.size(), indices.size());
         int i = names.size();

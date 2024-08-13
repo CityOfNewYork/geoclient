@@ -19,7 +19,6 @@ import java.io.File;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-
 /**
  * Bean to hold configuration properties autowired by Spring.
  * Typically configured using environment variables prefixed with <pre>DOCGEN_</pre>.

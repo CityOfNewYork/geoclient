@@ -32,7 +32,7 @@ public class Configuration {
     }
 
     @Bean
-    public GeneratorService generatorService () {
+    public GeneratorService generatorService() {
         return new GeneratorService(serviceClient(), responseWriter());
     }
 
