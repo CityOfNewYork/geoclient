@@ -87,7 +87,8 @@ public class ServiceClient {
         String uriString = this.baseUrl + "/" + sample.getPathVariable();
         try {
             return new URI(uriString);
-        } catch (URISyntaxException e) {
+        }
+        catch (URISyntaxException e) {
             logger.error("Exception creating URI from String: " + uriString, e);
             throw new RuntimeException(e);
         }

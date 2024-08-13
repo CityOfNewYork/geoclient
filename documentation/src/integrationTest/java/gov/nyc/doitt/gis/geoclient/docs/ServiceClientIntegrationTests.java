@@ -52,21 +52,24 @@ public class ServiceClientIntegrationTests {
 
     @Test
     public void test_search() {
-        Sample sample = new Sample.Builder("1", PathVariable.SEARCH, "search test").withQueryString("input", "120 Broadway").build();
+        Sample sample = new Sample.Builder("1", PathVariable.SEARCH, "search test").withQueryString("input",
+            "120 Broadway").build();
         this.client.get(sample);
     }
 
     @Test
     public void testBuildUri_search() {
-        Sample sample = new Sample.Builder("1", PathVariable.SEARCH, "search test").withQueryString("input", "120 Broadway").build();
+        Sample sample = new Sample.Builder("1", PathVariable.SEARCH, "search test").withQueryString("input",
+            "120 Broadway").build();
         URI uri = this.client.buildUri(sample);
         assertEquals(props.getBaseUrl() + "/search?input=120%20Broadway", uri.toString());
     }
 
     @Test
     public void testBuildUri_address() throws Exception {
-        Sample sample = new Sample.Builder("1", PathVariable.ADDRESS, "search test").withQueryString("houseNumber", "120", "street", "Broadway", "borough", "Manhattan").build();
-        Map<String,String> expectedQueryMap = sample.getQueryString();
+        Sample sample = new Sample.Builder("1", PathVariable.ADDRESS, "search test").withQueryString("houseNumber",
+            "120", "street", "Broadway", "borough", "Manhattan").build();
+        Map<String, String> expectedQueryMap = sample.getQueryString();
         URI uri = this.client.buildUri(sample);
         Map<String, String> actualQueryMap = queryStringToMap(uri.getQuery());
         assertEquals(expectedQueryMap, actualQueryMap);

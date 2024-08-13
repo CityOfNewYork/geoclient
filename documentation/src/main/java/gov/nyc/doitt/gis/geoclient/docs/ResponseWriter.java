@@ -39,7 +39,8 @@ public class ResponseWriter {
         logger.info("Sample {} - output file: {}", sample, outputFile);
         try {
             Files.write(outputFile, response.getBody().getBytes());
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             logger.error("Could not write output file for sample " + sample.toString(), e);
             throw new DocumentationException("Exception creating sample " + sample.toString(), e);
         }

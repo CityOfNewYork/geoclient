@@ -29,37 +29,44 @@ public class Sample {
             this.pathVariable = pathVariable;
             this.description = description;
         }
+
         public Builder id(String id) {
             this.id = id;
             return this;
         }
+
         public Builder description(String description) {
             this.description = description;
             return this;
         }
+
         public Builder pathVariable(PathVariable pathVariable) {
             this.pathVariable = pathVariable;
             return this;
         }
+
         public Builder pathVariable(String pathVariable) {
             this.pathVariable = PathVariable.fromString(pathVariable);
             return this;
         }
+
         public Builder queryParam(String name, String value) {
             this.queryString.put(name, value);
             return this;
         }
+
         public Builder withQueryString(String... strings) {
             int len = strings.length;
             if (len == 0 || len % 2 != 0) {
                 throw new IllegalArgumentException(
-                        String.format("An even number of two or more arguments is required: %d given.", len));
+                    String.format("An even number of two or more arguments is required: %d given.", len));
             }
             for (int i = 0; i < strings.length; i = i + 2) {
                 this.queryString.put(strings[i], strings[i + 1]);
             }
             return this;
         }
+
         public Sample build() {
             return new Sample(this);
         }
