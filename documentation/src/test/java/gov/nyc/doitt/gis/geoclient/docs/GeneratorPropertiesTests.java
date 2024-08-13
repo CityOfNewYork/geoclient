@@ -34,7 +34,7 @@ public class GeneratorPropertiesTests {
     private static final Logger logger = LoggerFactory.getLogger(SampleGeneratorApplication.class);
 
     // TODO Temporarily set in build.gradle
-    public static String BASEURL_ENV_VARIABLE =   "GENERATOR_BASEURL";
+    public static String BASEURL_ENV_VARIABLE = "GENERATOR_BASEURL";
     public static String OUTPUTDIR_ENV_VARIABLE = "GENERATOR_OUTPUTDIR";
 
     @Autowired

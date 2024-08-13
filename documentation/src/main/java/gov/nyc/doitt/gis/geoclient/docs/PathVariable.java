@@ -41,19 +41,19 @@ public enum PathVariable {
     private static final Map<String, PathVariable> BY_PATH_STRING = new HashMap<>();
 
     static {
-        for(PathVariable uv : values()) {
+        for (PathVariable uv : values()) {
             BY_PATH_STRING.put(uv.pathString, uv);
         }
     }
 
     private final String pathString;
 
-    private PathVariable(String pathString){
+    private PathVariable(String pathString) {
         this.pathString = pathString;
     }
 
     public static PathVariable fromString(String string) {
-        if(!BY_PATH_STRING.containsKey(string)) {
+        if (!BY_PATH_STRING.containsKey(string)) {
             throw new IllegalArgumentException(String.format("Unrecognized UriVariable#pathString: %s", string));
         }
         return BY_PATH_STRING.get(string);
