@@ -4,6 +4,7 @@ import java.net.URI
 plugins {
     id 'geoclient.library-conventions'
     id 'geoclient.test-conventions'
+    id 'geoclientbuild-docs'
 	alias(libs.plugins.asciidoctorConvert)
 	alias(libs.plugins.asciidoctorPdf)
 }
@@ -19,6 +20,10 @@ dependencies {
     integrationTestImplementation(project(':geoclient-test'))
     internalServerClasspath(project(path: ':geoclient-service', configuration: 'internalServer'))
 }
+
+//tasks.named('generateSamples') {
+//    serviceUrl = System.getenv('GEOCLIENT_SERVICE_URL')
+//}
 
 tasks.named('asciidoctor') {
     group 'documentation'
