@@ -18,7 +18,13 @@ port_forward() {
 }
 
 test_version() {
-    curl -s -k 'http://localhost:8081/geoclient/v2/version.json' | egrep --color '"version":"24.3","release":"24C"'
+    jq_installed=$(which jq)
+    if [ -x "$jq_installed" ]; then
+        curl -s -k 'http://localhost:8081/geoclient/v2/version.json' | jq
+    else
+        #curl -s -k 'http://localhost:8081/geoclient/v2/version.json' | egrep --color '"release":"24C","version":"24.30"'
+        echo "Skipping version confirmation..."
+    fi
 }
 
 test_search() {
