@@ -1,7 +1,0 @@
-plugins {
-    id 'geoclient.library-conventions'
-}
-
-dependencies {
-}
-

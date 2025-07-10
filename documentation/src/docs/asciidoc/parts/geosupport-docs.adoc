@@ -1,7 +1,0 @@
-== Geosupport Documentation
-
-This section provides links to Department of City Planning's documentation for Geosupport.
-
-'''
-
-=== Geosupport Return Codes
