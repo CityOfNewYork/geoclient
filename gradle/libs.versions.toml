@@ -8,7 +8,7 @@ httpclient = "5.2.3"
 jackson-databind = "2.17.1"
 junit-bom = "5.10.3"
 spotless-plugin = "6.25.0"
-spring-boot = "3.3.2"
+spring-boot = "3.3.3"
 versions-plugin = "0.51.0"
 xstream = "1.4.20"
 
